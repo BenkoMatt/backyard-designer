@@ -198,8 +198,26 @@ canvas { display: block; }
 #import-input { display: none; }
 
 /* ===== MOBILE ===== */
+#mobile-lib-toggle { display: none; }
 @media (max-width: 768px) {
   #sidebar { display: none; }
+  #sidebar.mobile-visible { display: flex !important; position: absolute; z-index: 55; width: 200px; }
+  #mobile-lib-toggle {
+    display: block;
+    position: fixed;
+    bottom: 70px;
+    left: 16px;
+    z-index: 60;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
   #properties { position: absolute; right: 0; top: 0; bottom: 0; z-index: 50; width: 240px; }
 }
 </style>
@@ -256,6 +274,8 @@ canvas { display: block; }
     <div class="sidebar-header">Add to Your Yard</div>
     <div id="library"></div>
   </div>
+  <!-- Mobile library toggle button -->
+  <button id="mobile-lib-toggle" title="Show object library" aria-label="Show object library">+</button>
   <div id="viewport">
     <div class="viewport-overlay" id="dim-readout"></div>
     <div class="viewport-overlay" id="safety-warnings"></div>
@@ -1254,6 +1274,18 @@ function initScene() {
   controls.minDistance = 5;
   controls.maxDistance = 300;
 
+  // Update scale bar after camera changes settle (damping means the camera may
+  // still be moving when 'change' fires; debounce so we only redraw once).
+  let scaleBarDebounce = null;
+  controls.addEventListener('change', () => {
+    if (state.viewMode !== '3d') return;
+    if (scaleBarDebounce) clearTimeout(scaleBarDebounce);
+    scaleBarDebounce = setTimeout(() => {
+      updateScaleBar();
+      scaleBarDebounce = null;
+    }, 80);
+  });
+
   // Lights
   const ambient = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambient);
@@ -1572,7 +1604,13 @@ function showProperties(id) {
       const key = e.target.dataset.param;
       let val = e.target.value;
       const paramDef = cat.params.find(p => p.key === key);
-      if (paramDef && paramDef.type === 'number') val = parseFloat(val);
+      if (paramDef && paramDef.type === 'number') {
+        val = parseFloat(val);
+        if (Number.isNaN(val)) val = CATALOG[obj.type].defaults[key];
+        if (paramDef.min !== undefined) val = Math.max(paramDef.min, val);
+        if (paramDef.max !== undefined) val = Math.min(paramDef.max, val);
+        val = Math.min(val, 999);
+      }
       if (paramDef && paramDef.type === 'select' && paramDef.options[0].v !== '') {
         const numOpt = paramDef.options.find(o => typeof o.v === 'number');
         if (numOpt) val = parseFloat(val);
@@ -1607,6 +1645,7 @@ function showProperties(id) {
   // Rotation slider
   const rotSlider = document.getElementById('rot-slider');
   if (rotSlider) {
+    let oldRot = obj.rotation;
     rotSlider.addEventListener('input', e => {
       const deg = parseInt(e.target.value);
       obj.rotation = deg * Math.PI / 180;
@@ -1614,10 +1653,13 @@ function showProperties(id) {
       document.getElementById('rot-val').textContent = deg + '°';
     });
     rotSlider.addEventListener('change', e => {
+      const newRot = parseInt(e.target.value) * Math.PI / 180;
+      const prevRot = oldRot;
       pushCommand({
-        undo: () => { obj.rotation = 0; buildSceneObject(id); showProperties(id); },
-        redo: () => { obj.rotation = parseInt(e.target.value) * Math.PI / 180; buildSceneObject(id); showProperties(id); },
+        undo: () => { obj.rotation = prevRot; buildSceneObject(id); showProperties(id); },
+        redo: () => { obj.rotation = newRot; buildSceneObject(id); showProperties(id); },
       });
+      oldRot = newRot;
     });
   }
 
@@ -1627,7 +1669,10 @@ function showProperties(id) {
   if (posX) {
     posX.addEventListener('change', e => {
       const oldX = obj.position.x;
-      const newX = parseFloat(e.target.value) || 0;
+      let newX = parseFloat(e.target.value);
+      if (Number.isNaN(newX)) newX = 0;
+      const xMax = state.yard.width / 2 - 1, xMin = -state.yard.width / 2 + 1;
+      newX = Math.max(xMin, Math.min(xMax, newX));
       obj.position.x = newX;
       buildSceneObject(id);
       pushCommand({
@@ -1639,7 +1684,10 @@ function showProperties(id) {
   if (posZ) {
     posZ.addEventListener('change', e => {
       const oldZ = obj.position.z;
-      const newZ = parseFloat(e.target.value) || 0;
+      let newZ = parseFloat(e.target.value);
+      if (Number.isNaN(newZ)) newZ = 0;
+      const zMax = state.yard.depth / 2 - 1, zMin = -state.yard.depth / 2 + 1;
+      newZ = Math.max(zMin, Math.min(zMax, newZ));
       obj.position.z = newZ;
       buildSceneObject(id);
       pushCommand({
@@ -1666,6 +1714,7 @@ function showProperties(id) {
       redo: () => { state.objects.set(newObj.id, newObj); buildSceneObject(newObj.id); },
     });
     selectObject(newObj.id);
+    if (state.terrain) updateObjectHeight(newObj.id);
   });
 
   checkSafetyWarnings(obj);
@@ -1697,7 +1746,11 @@ const dimReadout = document.getElementById('dim-readout');
 function showDimReadout(obj) {
   const cat = CATALOG[obj.type];
   const fp = cat.footprint(obj.params);
-  dimReadout.innerHTML = `<strong>${cat.name}</strong> — ${fp.w.toFixed(1)} ft × ${fp.d.toFixed(1)} ft<br>Position: ${obj.position.x.toFixed(1)}, ${obj.position.z.toFixed(1)} ft`;
+  const fw = (Number.isFinite(fp.w) ? fp.w : 0).toFixed(1);
+  const fd = (Number.isFinite(fp.d) ? fp.d : 0).toFixed(1);
+  const px = (Number.isFinite(obj.position.x) ? obj.position.x : 0).toFixed(1);
+  const pz = (Number.isFinite(obj.position.z) ? obj.position.z : 0).toFixed(1);
+  dimReadout.innerHTML = `<strong>${cat.name}</strong> — ${fw} ft × ${fd} ft<br>Position: ${px}, ${pz} ft`;
   dimReadout.classList.add('visible');
 }
 
@@ -1853,7 +1906,31 @@ function saveDesign() {
 }
 
 function loadDesign(data) {
-  if (!data || !data.objects) return;
+  if (!data || !data.objects) {
+    showToast('Invalid design file: no data or objects found.');
+    return;
+  }
+  // Validate data.objects is an array
+  if (!Array.isArray(data.objects)) {
+    showToast('Invalid design file: objects is not an array.');
+    return;
+  }
+  // Validate each object has a valid type and params
+  for (const obj of data.objects) {
+    if (!obj || typeof obj.type !== 'string' || !CATALOG[obj.type]) {
+      showToast(`Invalid design file: unknown or missing object type "${obj?.type}".`);
+      return;
+    }
+    if (!obj.params || typeof obj.params !== 'object') {
+      showToast(`Invalid design file: object "${obj.type}" missing params.`);
+      return;
+    }
+  }
+  // Validate yard has positive width/depth; fallback to current yard if invalid
+  if (data.yard && (typeof data.yard.width !== 'number' || typeof data.yard.depth !== 'number' || data.yard.width <= 0 || data.yard.depth <= 0)) {
+    showToast('Invalid design file: yard has invalid dimensions; using current yard.');
+    data.yard = state.yard;
+  }
   // Clear current scene
   sceneObjects.forEach((_, id) => removeObject(id));
   state.objects.clear();
@@ -1936,10 +2013,17 @@ document.querySelectorAll('#view-toggle button').forEach(btn => {
       camera2D.updateProjectionMatrix();
       // Disable shadows in 2D for cleaner look
       gridHelper.visible = true;
+      // Refresh measurement overlays for 2D view
+      updateScaleBar();
+      updateGridLabels();
     } else {
       activeCamera = camera3D;
       controls.enabled = true;
       gridLabelsEl.classList.remove('visible');
+      // Remove dimension lines when switching to 3D (they are a 2D-only overlay)
+      if (dimLineGroup) { scene.remove(dimLineGroup); disposeGroup(dimLineGroup); dimLineGroup = null; }
+      // Refresh scale bar for 3D view
+      updateScaleBar();
     }
     requestRender();
   });
@@ -1955,6 +2039,9 @@ document.getElementById('vc-zoom-in').addEventListener('click', () => {
   } else {
     camera2D.zoom *= 1.2;
     camera2D.updateProjectionMatrix();
+    // Refresh measurement overlays after 2D zoom (projection changed)
+    updateScaleBar();
+    updateGridLabels();
   }
   requestRender();
 });
@@ -1965,6 +2052,9 @@ document.getElementById('vc-zoom-out').addEventListener('click', () => {
   } else {
     camera2D.zoom *= 0.83;
     camera2D.updateProjectionMatrix();
+    // Refresh measurement overlays after 2D zoom (projection changed)
+    updateScaleBar();
+    updateGridLabels();
   }
   requestRender();
 });
@@ -1977,6 +2067,9 @@ document.getElementById('vc-reset').addEventListener('click', () => {
     camera2D.position.set(0, Math.max(state.yard.width, state.yard.depth) * 1.2, 0);
     camera2D.zoom = 1;
     camera2D.updateProjectionMatrix();
+    // Refresh measurement overlays after 2D view reset
+    updateScaleBar();
+    updateGridLabels();
   }
   requestRender();
 });
@@ -2611,7 +2704,14 @@ function clearTapeMeasure() {
   if (tapeMeasureLine) { scene.remove(tapeMeasureLine); tapeMeasureLine.geometry.dispose(); tapeMeasureLine = null; }
   if (tapeMeasureDot1) { scene.remove(tapeMeasureDot1); tapeMeasureDot1 = null; }
   if (tapeMeasureDot2) { scene.remove(tapeMeasureDot2); tapeMeasureDot2 = null; }
-  if (tapeMeasureLabel) { scene.remove(tapeMeasureLabel); tapeMeasureLabel = null; }
+  if (tapeMeasureLabel) {
+    scene.remove(tapeMeasureLabel);
+    if (tapeMeasureLabel.material) {
+      if (tapeMeasureLabel.material.map) tapeMeasureLabel.material.map.dispose();
+      tapeMeasureLabel.material.dispose();
+    }
+    tapeMeasureLabel = null;
+  }
   tapeMeasureStart = null;
   measureReadoutEl.classList.remove('visible');
   requestRender();
@@ -2789,10 +2889,13 @@ function updateDimensionLines() {
 
 // Update scale bar and grid labels after each render
 const origRequestRender = requestRender;
+let _renderOverlayTimer = null;
 requestRender = function() {
   needsRender = true;
-  // Update overlays after a frame
-  setTimeout(() => {
+  // Debounce overlay updates so they only fire once after changes settle
+  if (_renderOverlayTimer) clearTimeout(_renderOverlayTimer);
+  _renderOverlayTimer = setTimeout(() => {
+    _renderOverlayTimer = null;
     updateScaleBar();
     updateGridLabels();
     updateDimensionLines();
@@ -2802,6 +2905,28 @@ requestRender = function() {
 initScene();
 buildLibrary();
 renderWizard();
+
+// Mobile sidebar library toggle
+(function setupMobileLibToggle() {
+  const toggleBtn = document.getElementById('mobile-lib-toggle');
+  const sidebar = document.getElementById('sidebar');
+  if (!toggleBtn || !sidebar) return;
+  toggleBtn.addEventListener('click', () => {
+    const isVisible = sidebar.classList.toggle('mobile-visible');
+    toggleBtn.textContent = isVisible ? '✕' : '+';
+    toggleBtn.setAttribute('aria-label', isVisible ? 'Hide object library' : 'Show object library');
+    toggleBtn.title = isVisible ? 'Hide object library' : 'Show object library';
+  });
+  // Close the drawer when a library item is clicked (so the canvas is usable again)
+  sidebar.addEventListener('click', (e) => {
+    if (e.target.closest('.lib-item') && sidebar.classList.contains('mobile-visible')) {
+      sidebar.classList.remove('mobile-visible');
+      toggleBtn.textContent = '+';
+      toggleBtn.setAttribute('aria-label', 'Show object library');
+      toggleBtn.title = 'Show object library';
+    }
+  });
+})();
 
 // Try to load autosave
 try {
