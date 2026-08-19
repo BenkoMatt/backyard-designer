@@ -720,17 +720,19 @@ function createPool(params) {
   }
   const poolGeo = new THREE.ExtrudeGeometry(poolShape, { depth: depth, bevelEnabled: false });
   poolGeo.rotateX(-Math.PI / 2);
+  poolGeo.translate(0, 0, -len / 2); // Center the pool on the origin
   const poolShell = new THREE.Mesh(poolGeo, new THREE.MeshLambertMaterial({ color: 0x4a90c2 }));
-  poolShell.position.set(0, 0.1, -len / 2);
+  poolShell.position.set(0, 0.1, 0);
   poolShell.receiveShadow = true;
   group.add(poolShell);
   // Water surface
   const waterGeo = new THREE.ShapeGeometry(poolShape);
   waterGeo.rotateX(-Math.PI / 2);
+  waterGeo.translate(0, 0, -len / 2); // Center the water on the origin
   const water = new THREE.Mesh(waterGeo, new THREE.MeshStandardMaterial({
     color: 0x4682B4, transparent: true, opacity: 0.75, roughness: 0.1, metalness: 0.3,
   }));
-  water.position.set(0, 0.3, -len / 2);
+  water.position.set(0, 0.3, 0);
   group.add(water);
   // Pool deck/border
   const deckShape = new THREE.Shape();
@@ -749,8 +751,9 @@ function createPool(params) {
   deckShape.holes.push(deckHoles);
   const deckGeo2 = new THREE.ShapeGeometry(deckShape);
   deckGeo2.rotateX(-Math.PI / 2);
+  deckGeo2.translate(0, 0, -len / 2); // Center the deck on the origin
   const deck = new THREE.Mesh(deckGeo2, new THREE.MeshLambertMaterial({ color: 0xcccccc }));
-  deck.position.set(0, 0.05, -len / 2);
+  deck.position.set(0, 0.05, 0);
   deck.receiveShadow = true;
   group.add(deck);
   return group;
