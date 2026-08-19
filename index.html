@@ -89,6 +89,25 @@ canvas { display: block; }
 #tape-measure-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 #tape-measure-btn svg { width: 16px; height: 16px; }
 
+/* Terrain editing */
+#terrain-btn { position: absolute; bottom: 16px; left: 330px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; }
+#terrain-btn:hover { border-color: var(--primary); background: white; }
+#terrain-btn.active { background: #8B5E3C; color: white; border-color: #8B5E3C; }
+#terrain-btn svg { width: 16px; height: 16px; }
+
+#terrain-controls { position: absolute; bottom: 56px; left: 330px; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 220px; }
+#terrain-controls.visible { display: flex; }
+.terrain-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.terrain-row label { font-weight: 600; white-space: nowrap; }
+.terrain-row input[type="range"] { flex: 1; min-width: 60px; }
+.terrain-val { font-weight: 600; color: var(--primary); min-width: 35px; text-align: right; }
+.terrain-mode-btns { display: flex; gap: 4px; }
+.terrain-mode-btn { flex: 1; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
+.terrain-mode-btn.active { background: #8B5E3C; color: white; border-color: #8B5E3C; }
+.terrain-mode-btn:hover:not(.active) { border-color: #8B5E3C; }
+#terrain-flatten { padding: 5px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
+#terrain-flatten:hover { border-color: #8B5E3C; background: #f8f0eb; }
+
 /* Measurement readout */
 #measure-readout { position: absolute; background: rgba(45,45,45,0.9); color: white; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; pointer-events: none; white-space: nowrap; display: none; z-index: 50; transform: translate(-50%, -130%); }
 #measure-readout.visible { display: block; }
@@ -259,6 +278,33 @@ canvas { display: block; }
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
       Tape Measure
     </button>
+    <!-- Terrain editing button -->
+    <button class="viewport-overlay" id="terrain-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20L8 8L14 14L18 6L22 20Z"/></svg>
+      Terrain
+    </button>
+    <!-- Terrain controls panel -->
+    <div class="viewport-overlay" id="terrain-controls">
+      <div class="terrain-row">
+        <label>Mode:</label>
+        <div class="terrain-mode-btns">
+          <button class="terrain-mode-btn active" data-tmode="raise">Raise</button>
+          <button class="terrain-mode-btn" data-tmode="lower">Lower</button>
+          <button class="terrain-mode-btn" data-tmode="smooth">Smooth</button>
+        </div>
+      </div>
+      <div class="terrain-row">
+        <label>Brush Size</label>
+        <input type="range" id="terrain-brush-size" min="3" max="30" value="8" step="1">
+        <span class="terrain-val" id="terrain-brush-val">8 ft</span>
+      </div>
+      <div class="terrain-row">
+        <label>Strength</label>
+        <input type="range" id="terrain-strength" min="0.1" max="3" value="0.5" step="0.1">
+        <span class="terrain-val" id="terrain-strength-val">0.5</span>
+      </div>
+      <button id="terrain-flatten">Flatten All Terrain</button>
+    </div>
     <!-- Measurement readout -->
     <div class="viewport-overlay" id="measure-readout"></div>
     <!-- Grid labels for 2D view -->
@@ -300,6 +346,15 @@ canvas { display: block; }
       <li><strong>Save</strong> downloads your design as a file you can reload later</li>
       <li>Your design auto-saves to your browser as you work</li>
       <li><strong>Screenshot</strong> captures a PNG image of your current view</li>
+    </ul>
+    <h3>Terrain & Measuring</h3>
+    <ul>
+      <li><strong>Terrain:</strong> Click the Terrain button, then click-drag on the ground to raise/lower/smooth the surface to match slopes and grade changes</li>
+      <li>Adjust brush size and strength in the panel that appears</li>
+      <li>Objects automatically follow the terrain height when you move them</li>
+      <li><strong>Tape Measure:</strong> Click two points to measure the distance between them</li>
+      <li><strong>Scale Bar:</strong> The bar at bottom-left shows a reference distance in feet</li>
+      <li>In <strong>Bird's-eye view</strong>, grid labels show foot measurements along the edges</li>
     </ul>
     <h3>Safety Reminders</h3>
     <ul>
@@ -1146,7 +1201,18 @@ const state = {
   redoStack: [],
   nextId: 1,
   shadowEnabled: !IS_MOBILE,
+  terrain: null, // Float32Array of height values, null = flat
+  terrainSegs: 50, // segments per side for terrain mesh
 };
+
+// Terrain editing state
+let terrainMode = false;
+let terrainBrushMode = 'raise'; // raise, lower, smooth
+let terrainBrushSize = 8;
+let terrainBrushStrength = 0.5;
+let terrainBrushMesh = null; // visual cursor circle
+let isTerrainPainting = false;
+let terrainHistory = null; // for undo
 
 const sceneObjects = new Map();
 let scene, renderer, camera3D, camera2D, controls;
@@ -1206,12 +1272,13 @@ function initScene() {
   sun.shadow.bias = -0.0005;
   scene.add(sun);
 
-  // Ground
-  const groundMat = new THREE.MeshLambertMaterial({ color: 0x6b8a4a });
-  const groundGeo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth);
+  // Ground (subdivided for terrain editing)
+  const groundMat = new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide });
+  const groundGeo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, state.terrainSegs, state.terrainSegs);
   groundGeo.rotateX(-Math.PI / 2);
   yardMesh = new THREE.Mesh(groundGeo, groundMat);
   yardMesh.receiveShadow = true;
+  yardMesh.castShadow = true;
   scene.add(yardMesh);
 
   // Ground plane for raycasting (invisible)
@@ -1409,11 +1476,19 @@ function onPointerMove(e) {
   mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(mouse, activeCamera);
   const point = new THREE.Vector3();
-  raycaster.ray.intersectPlane(groundPlane, point);
+  // Use terrain mesh for accurate placement on deformed ground
+  const hits = raycaster.intersectObject(yardMesh, false);
+  if (hits.length > 0) {
+    point.copy(hits[0].point);
+  } else {
+    raycaster.ray.intersectPlane(groundPlane, point);
+  }
   point.x = Math.max(-state.yard.width / 2 + 1, Math.min(state.yard.width / 2 - 1, point.x));
   point.z = Math.max(-state.yard.depth / 2 + 1, Math.min(state.yard.depth / 2 - 1, point.z));
   dragObject.position.x = point.x;
   dragObject.position.z = point.z;
+  // Set Y to terrain height so object follows the ground
+  dragObject.position.y = getTerrainHeight(point.x, point.z);
   const group = sceneObjects.get(dragObject.id);
   if (group) group.position.set(point.x, dragObject.position.y, point.z);
   showDimReadout(dragObject);
@@ -1756,10 +1831,12 @@ function debouncedAutosave() {
 
 function serializeDesign() {
   return {
-    version: 1,
+    version: 2,
     yard: state.yard,
     objects: Array.from(state.objects.values()),
     nextId: state.nextId,
+    terrain: state.terrain ? Array.from(state.terrain) : null,
+    terrainSegs: state.terrainSegs,
   };
 }
 
@@ -1782,9 +1859,15 @@ function loadDesign(data) {
   state.objects.clear();
   state.yard = data.yard || state.yard;
   state.nextId = data.nextId || 1;
+  state.terrain = data.terrain ? new Float32Array(data.terrain) : null;
+  state.terrainSegs = data.terrainSegs || 50;
+  // Rebuild ground with new dimensions and apply terrain
+  initWithYard(state.yard);
+  if (state.terrain) applyTerrainToMesh();
   for (const obj of data.objects) {
     state.objects.set(obj.id, obj);
     buildSceneObject(obj.id);
+    if (state.terrain) updateObjectHeight(obj.id);
   }
   state.undoStack = [];
   state.redoStack = [];
@@ -2013,10 +2096,11 @@ function initWithYard(data) {
   scene.remove(boundaryLines);
   yardMesh.geometry.dispose();
   yardMesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(data.width, data.depth).rotateX(-Math.PI / 2),
-    new THREE.MeshLambertMaterial({ color: 0x6b8a4a })
+    new THREE.PlaneGeometry(data.width, data.depth, state.terrainSegs, state.terrainSegs).rotateX(-Math.PI / 2),
+    new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide })
   );
   yardMesh.receiveShadow = true;
+  yardMesh.castShadow = true;
   scene.add(yardMesh);
   gridHelper = new THREE.GridHelper(Math.max(data.width, data.depth), Math.max(data.width, data.depth), 0x888888, 0xcccccc);
   gridHelper.position.y = 0.01;
@@ -2090,6 +2174,310 @@ document.addEventListener('keydown', e => {
     deselectObject();
   }
 });
+
+// ============================================================
+// TERRAIN EDITING SYSTEM
+// ============================================================
+const terrainBtn = document.getElementById('terrain-btn');
+const terrainControls = document.getElementById('terrain-controls');
+const terrainBrushSizeInput = document.getElementById('terrain-brush-size');
+const terrainBrushValEl = document.getElementById('terrain-brush-val');
+const terrainStrengthInput = document.getElementById('terrain-strength');
+const terrainStrengthValEl = document.getElementById('terrain-strength-val');
+
+terrainBtn.addEventListener('click', () => {
+  terrainMode = !terrainMode;
+  terrainBtn.classList.toggle('active', terrainMode);
+  terrainControls.classList.toggle('visible', terrainMode);
+  if (terrainMode) {
+    // Deselect any object
+    if (state.selectedId !== null) deselectObject();
+    showHint('Click and drag on the ground to sculpt terrain');
+    // Create brush cursor
+    createBrushCursor();
+  } else {
+    hideHint();
+    removeBrushCursor();
+  }
+  requestRender();
+});
+
+// Terrain mode buttons
+document.querySelectorAll('.terrain-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.terrain-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    terrainBrushMode = btn.dataset.tmode;
+  });
+});
+
+// Brush size slider
+terrainBrushSizeInput.addEventListener('input', e => {
+  terrainBrushSize = parseInt(e.target.value);
+  terrainBrushValEl.textContent = terrainBrushSize + ' ft';
+  if (terrainBrushMesh) updateBrushCursorSize();
+});
+
+// Strength slider
+terrainStrengthInput.addEventListener('input', e => {
+  terrainBrushStrength = parseFloat(e.target.value);
+  terrainStrengthValEl.textContent = terrainBrushStrength.toFixed(1);
+});
+
+// Flatten button
+document.getElementById('terrain-flatten').addEventListener('click', () => {
+  if (!state.terrain && !hasTerrainDeformation()) return;
+  const oldTerrain = state.terrain ? new Float32Array(state.terrain) : null;
+  state.terrain = null;
+  // Reset all vertices to 0
+  const geo = yardMesh.geometry;
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    pos.setY(i, 0);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  // Update object heights
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
+    redo: () => { state.terrain = null; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
+  });
+  requestRender();
+  showToast('Terrain flattened');
+});
+
+function hasTerrainDeformation() {
+  const pos = yardMesh.geometry.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    if (Math.abs(pos.getY(i)) > 0.001) return true;
+  }
+  return false;
+}
+
+function ensureTerrainArray() {
+  if (!state.terrain) {
+    const segs = state.terrainSegs;
+    const total = (segs + 1) * (segs + 1);
+    state.terrain = new Float32Array(total);
+  }
+}
+
+function getTerrainIndex(worldX, worldZ) {
+  // Convert world coords to terrain grid indices
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const fx = (worldX + halfW) / state.yard.width * segs;
+  const fz = (worldZ + halfD) / state.yard.depth * segs;
+  const ix = Math.round(fx);
+  const iz = Math.round(fz);
+  if (ix < 0 || ix > segs || iz < 0 || iz > segs) return null;
+  return { ix, iz, fx, fz };
+}
+
+function getTerrainHeight(worldX, worldZ) {
+  if (!state.terrain) return 0;
+  const segs = state.terrainSegs;
+  const idx = getTerrainIndex(worldX, worldZ);
+  if (!idx) return 0;
+  // Bilinear interpolation for smooth height lookup
+  const ix0 = Math.floor(idx.fx), ix1 = Math.min(ix0 + 1, segs);
+  const iz0 = Math.floor(idx.fz), iz1 = Math.min(iz0 + 1, segs);
+  const tx = idx.fx - ix0, tz = idx.fz - iz0;
+  const h00 = state.terrain[iz0 * (segs + 1) + ix0] || 0;
+  const h10 = state.terrain[iz0 * (segs + 1) + ix1] || 0;
+  const h01 = state.terrain[iz1 * (segs + 1) + ix0] || 0;
+  const h11 = state.terrain[iz1 * (segs + 1) + ix1] || 0;
+  return (1-tx)*(1-tz)*h00 + tx*(1-tz)*h10 + (1-tx)*tz*h01 + tx*tz*h11;
+}
+
+function applyTerrainToMesh() {
+  if (!state.terrain) return;
+  const segs = state.terrainSegs;
+  const geo = yardMesh.geometry;
+  const pos = geo.attributes.position;
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      pos.setY(vi, state.terrain[vi] || 0);
+    }
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+}
+
+function paintTerrain(worldX, worldZ) {
+  ensureTerrainArray();
+  const segs = state.terrainSegs;
+  const radius = terrainBrushSize;
+  const center = getTerrainIndex(worldX, worldZ);
+  if (!center) return;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  // Iterate over grid points within radius
+  const radGridX = radius / state.yard.width * segs;
+  const radGridZ = radius / state.yard.depth * segs;
+  
+  for (let iz = Math.max(0, Math.floor(center.iz - radGridZ)); iz <= Math.min(segs, Math.ceil(center.iz + radGridZ)); iz++) {
+    for (let ix = Math.max(0, Math.floor(center.ix - radGridX)); ix <= Math.min(segs, Math.ceil(center.ix + radGridX)); ix++) {
+      // World position of this vertex
+      const wx = (ix / segs) * state.yard.width - halfW;
+      const wz = (iz / segs) * state.yard.depth - halfD;
+      const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
+      if (dist > radius) continue;
+      // Falloff: smooth bell curve (1 - (d/r)^2)^2
+      const t = dist / radius;
+      const falloff = Math.pow(1 - t * t, 2);
+      
+      const vi = iz * (segs + 1) + ix;
+      if (terrainBrushMode === 'raise') {
+        state.terrain[vi] = (state.terrain[vi] || 0) + terrainBrushStrength * falloff;
+      } else if (terrainBrushMode === 'lower') {
+        state.terrain[vi] = (state.terrain[vi] || 0) - terrainBrushStrength * falloff;
+      } else if (terrainBrushMode === 'smooth') {
+        // Average with neighbors
+        let sum = 0, count = 0;
+        for (let dz = -1; dz <= 1; dz++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            const nx = ix + dx, nz = iz + dz;
+            if (nx >= 0 && nx <= segs && nz >= 0 && nz <= segs) {
+              sum += state.terrain[nz * (segs + 1) + nx] || 0;
+              count++;
+            }
+          }
+        }
+        const avg = sum / count;
+        state.terrain[vi] = (state.terrain[vi] || 0) * (1 - terrainBrushStrength * falloff * 0.5) + avg * (terrainBrushStrength * falloff * 0.5);
+      }
+    }
+  }
+  applyTerrainToMesh();
+  // Update heights of objects within brush radius
+  state.objects.forEach((obj, id) => {
+    const dist = Math.sqrt((obj.position.x - worldX) ** 2 + (obj.position.z - worldZ) ** 2);
+    if (dist < radius + 5) updateObjectHeight(id);
+  });
+  requestRender();
+}
+
+function updateObjectHeight(id) {
+  const obj = state.objects.get(id);
+  if (!obj) return;
+  const group = sceneObjects.get(id);
+  if (!group) return;
+  const h = getTerrainHeight(obj.position.x, obj.position.z);
+  obj.position.y = h;
+  group.position.set(obj.position.x, h, obj.position.z);
+}
+
+// --- Brush cursor visualization ---
+function createBrushCursor() {
+  removeBrushCursor();
+  const segs = 32;
+  const geo = new THREE.BufferGeometry();
+  const points = [];
+  for (let i = 0; i <= segs; i++) {
+    const a = (i / segs) * Math.PI * 2;
+    points.push(Math.cos(a) * terrainBrushSize, 0.02, Math.sin(a) * terrainBrushSize);
+  }
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+  terrainBrushMesh = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0x8B5E3C, linewidth: 2 }));
+  terrainBrushMesh.visible = false;
+  scene.add(terrainBrushMesh);
+}
+
+function removeBrushCursor() {
+  if (terrainBrushMesh) {
+    scene.remove(terrainBrushMesh);
+    terrainBrushMesh.geometry.dispose();
+    terrainBrushMesh.material.dispose();
+    terrainBrushMesh = null;
+  }
+}
+
+function updateBrushCursorSize() {
+  if (!terrainBrushMesh) return;
+  const segs = 32;
+  const pos = terrainBrushMesh.geometry.attributes.position;
+  for (let i = 0; i <= segs; i++) {
+    const a = (i / segs) * Math.PI * 2;
+    pos.setXYZ(i, Math.cos(a) * terrainBrushSize, 0.02, Math.sin(a) * terrainBrushSize);
+  }
+  pos.needsUpdate = true;
+}
+
+function moveBrushCursor(worldX, worldZ) {
+  if (!terrainBrushMesh) return;
+  const h = getTerrainHeight(worldX, worldZ);
+  terrainBrushMesh.position.set(worldX, h + 0.02, worldZ);
+  terrainBrushMesh.visible = true;
+}
+
+// --- Terrain pointer handling ---
+function onTerrainPointerDown(e) {
+  if (!terrainMode) return false;
+  const point = getGroundPointFromEvent(e);
+  if (!point) return false;
+  isTerrainPainting = true;
+  // Save terrain state for undo
+  terrainHistory = state.terrain ? new Float32Array(state.terrain) : null;
+  paintTerrain(point.x, point.z);
+  moveBrushCursor(point.x, point.z);
+  controls.enabled = false;
+  return true;
+}
+
+function onTerrainPointerMove(e) {
+  if (!terrainMode) return;
+  const point = getGroundPointFromEvent(e);
+  if (!point) return;
+  moveBrushCursor(point.x, point.z);
+  if (isTerrainPainting) {
+    paintTerrain(point.x, point.z);
+  }
+  requestRender();
+}
+
+function onTerrainPointerUp(e) {
+  if (!terrainMode) return;
+  if (isTerrainPainting) {
+    // Push undo command
+    const before = terrainHistory;
+    const after = state.terrain ? new Float32Array(state.terrain) : null;
+    if (before || after) {
+      pushCommand({
+        undo: () => { state.terrain = before; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
+        redo: () => { state.terrain = after; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
+      });
+    }
+  }
+  isTerrainPainting = false;
+  terrainHistory = null;
+  controls.enabled = true;
+}
+
+function getGroundPointFromEvent(e) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, activeCamera);
+  // Raycast against the yard mesh itself (so it works on deformed terrain)
+  const hits = raycaster.intersectObject(yardMesh, false);
+  if (hits.length > 0) return hits[0].point.clone();
+  // Fallback to flat plane
+  const point = new THREE.Vector3();
+  raycaster.ray.intersectPlane(groundPlane, point);
+  return point;
+}
+
+// Hook terrain events into the viewport
+viewport.addEventListener('pointerdown', e => {
+  if (terrainMode) { onTerrainPointerDown(e); e.stopPropagation(); }
+}, true);
+viewport.addEventListener('pointermove', e => { if (terrainMode) onTerrainPointerMove(e); });
+viewport.addEventListener('pointerup', e => { if (terrainMode) onTerrainPointerUp(e); });
+viewport.addEventListener('pointerleave', e => { if (terrainMode && terrainBrushMesh) terrainBrushMesh.visible = false; });
 
 // ============================================================
 // MEASUREMENT SYSTEM
