@@ -2193,8 +2193,26 @@ function initWithYard(data) {
   scene.remove(gridHelper);
   scene.remove(boundaryLines);
   yardMesh.geometry.dispose();
+  const segs = state.terrainSegs;
+  let groundGeo;
+  if (data.shape === 'L') {
+    // L-shape: create from a Shape with the L outline
+    const w = data.width, d = data.depth;
+    const lShape = new THREE.Shape();
+    lShape.moveTo(-w/2, -d/2);
+    lShape.lineTo(0, -d/2);
+    lShape.lineTo(0, 0);
+    lShape.lineTo(w/2, 0);
+    lShape.lineTo(w/2, d/2);
+    lShape.lineTo(-w/2, d/2);
+    lShape.lineTo(-w/2, -d/2);
+    groundGeo = new THREE.ShapeGeometry(lShape);
+  } else {
+    groundGeo = new THREE.PlaneGeometry(data.width, data.depth, segs, segs);
+  }
+  groundGeo.rotateX(-Math.PI / 2);
   yardMesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(data.width, data.depth, state.terrainSegs, state.terrainSegs).rotateX(-Math.PI / 2),
+    groundGeo,
     new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide })
   );
   yardMesh.receiveShadow = true;
@@ -2204,8 +2222,24 @@ function initWithYard(data) {
   gridHelper.position.y = 0.01;
   scene.add(gridHelper);
   boundaryLines.geometry.dispose();
+  let boundaryGeo;
+  if (data.shape === 'L') {
+    // L-shape boundary from the same Shape used for ground
+    const w = data.width, d = data.depth;
+    const lShape = new THREE.Shape();
+    lShape.moveTo(-w/2, -d/2);
+    lShape.lineTo(0, -d/2);
+    lShape.lineTo(0, 0);
+    lShape.lineTo(w/2, 0);
+    lShape.lineTo(w/2, d/2);
+    lShape.lineTo(-w/2, d/2);
+    lShape.lineTo(-w/2, -d/2);
+    boundaryGeo = new THREE.EdgesGeometry(new THREE.ShapeGeometry(lShape));
+  } else {
+    boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(data.width, 0.02, data.depth));
+  }
   boundaryLines = new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.BoxGeometry(data.width, 0.02, data.depth)),
+    boundaryGeo,
     new THREE.LineBasicMaterial({ color: 0x333333 })
   );
   boundaryLines.position.y = 0.03;
@@ -2933,6 +2967,9 @@ renderWizard();
     }
   });
 })();
+
+// Expose internals for testing
+window._test = { state, CATALOG, scene, sceneObjects, yardMesh, gridHelper, boundaryLines, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; } };
 
 // Try to load autosave
 try {
