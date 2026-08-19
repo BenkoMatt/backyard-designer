@@ -71,9 +71,32 @@ canvas { display: block; }
 .vc-btn { width: 40px; height: 40px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: all 0.15s; }
 .vc-btn:hover { background: white; border-color: var(--primary); }
 .vc-btn svg { width: 18px; height: 18px; color: var(--text); }
-#dim-readout { top: 16px; left: 16px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; box-shadow: var(--shadow); display: none; }
+#dim-readout { top: 16px; left: 16px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; box-shadow: var(--shadow); display: none; max-width: 280px; }
 #dim-readout.visible { display: block; }
 #dim-readout strong { color: var(--primary); }
+
+/* Scale bar overlay */
+#scale-bar { position: absolute; bottom: 16px; left: 16px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 11px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0; user-select: none; pointer-events: none; }
+.scale-bar-visual { display: flex; align-items: center; gap: 2px; margin-right: 8px; }
+.scale-segment { height: 8px; border: 1px solid #333; }
+.scale-segment.dark { background: #333; }
+.scale-segment.light { background: #fff; }
+.scale-label { font-weight: 600; color: var(--text); white-space: nowrap; }
+
+/* Tape measure tool */
+#tape-measure-btn { position: absolute; bottom: 16px; left: 200px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; }
+#tape-measure-btn:hover { border-color: var(--primary); background: white; }
+#tape-measure-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+#tape-measure-btn svg { width: 16px; height: 16px; }
+
+/* Measurement readout */
+#measure-readout { position: absolute; background: rgba(45,45,45,0.9); color: white; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; pointer-events: none; white-space: nowrap; display: none; z-index: 50; transform: translate(-50%, -130%); }
+#measure-readout.visible { display: block; }
+
+/* Grid axis labels container */
+#grid-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: none; }
+#grid-labels.visible { display: block; }
+.grid-label { position: absolute; font-size: 10px; color: #666; font-family: sans-serif; white-space: nowrap; user-select: none; }
 #context-hint { bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(45,45,45,0.85); color: white; padding: 8px 18px; border-radius: 20px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
 #context-hint.visible { opacity: 1; }
 #safety-warnings { top: 16px; right: 16px; max-width: 300px; display: flex; flex-direction: column; gap: 8px; }
@@ -229,6 +252,17 @@ canvas { display: block; }
       </button>
     </div>
     <div class="viewport-overlay" id="context-hint"></div>
+    <!-- Scale bar -->
+    <div class="viewport-overlay" id="scale-bar"></div>
+    <!-- Tape measure button -->
+    <button class="viewport-overlay" id="tape-measure-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
+      Tape Measure
+    </button>
+    <!-- Measurement readout -->
+    <div class="viewport-overlay" id="measure-readout"></div>
+    <!-- Grid labels for 2D view -->
+    <div class="viewport-overlay" id="grid-labels"></div>
   </div>
   <div id="properties">
     <div class="props-header" id="props-header"></div>
@@ -1822,6 +1856,7 @@ document.querySelectorAll('#view-toggle button').forEach(btn => {
     } else {
       activeCamera = camera3D;
       controls.enabled = true;
+      gridLabelsEl.classList.remove('visible');
     }
     requestRender();
   });
@@ -2057,9 +2092,325 @@ document.addEventListener('keydown', e => {
 });
 
 // ============================================================
-// START
+// MEASUREMENT SYSTEM
 // ============================================================
-buildLibrary();
+const scaleBarEl = document.getElementById('scale-bar');
+const tapeMeasureBtn = document.getElementById('tape-measure-btn');
+const measureReadoutEl = document.getElementById('measure-readout');
+const gridLabelsEl = document.getElementById('grid-labels');
+
+let tapeMeasureActive = false;
+let tapeMeasureStart = null;
+let tapeMeasureLine = null;
+let tapeMeasureDot1 = null;
+let tapeMeasureDot2 = null;
+let tapeMeasureLabel = null;
+
+// --- Scale bar ---
+function updateScaleBar() {
+  // Determine how many feet are represented by a known pixel width
+  // Use the camera to figure out world-to-screen scale
+  const rect = renderer.domElement.getBoundingClientRect();
+  if (rect.width === 0) return;
+  
+  // Pick two points 10 feet apart in world space, project to screen
+  const p1 = new THREE.Vector3(0, 0, 0).project(activeCamera);
+  const p2 = new THREE.Vector3(10, 0, 0).project(activeCamera);
+  const pxPer10ft = Math.abs((p2.x - p1.x) * rect.width / 2);
+  
+  // Choose a round number that fits nicely (~80-120px)
+  let scaleFt = 10;
+  if (pxPer10ft < 40) scaleFt = 50;
+  else if (pxPer10ft < 60) scaleFt = 25;
+  else if (pxPer10ft > 150) scaleFt = 5;
+  
+  // Recalculate for chosen scale
+  const pA = new THREE.Vector3(0, 0, 0).project(activeCamera);
+  const pB = new THREE.Vector3(scaleFt, 0, 0).project(activeCamera);
+  const pxWidth = Math.abs((pB.x - pA.x) * rect.width / 2);
+  
+  // Build the bar
+  const numSegs = Math.min(scaleFt, 5);
+  let segsHtml = '<div class="scale-bar-visual">';
+  for (let i = 0; i < numSegs; i++) {
+    segsHtml += `<div class="scale-segment ${i % 2 === 0 ? 'dark' : 'light'}" style="width:${pxWidth / numSegs}px"></div>`;
+  }
+  segsHtml += '</div>';
+  scaleBarEl.innerHTML = segsHtml + `<span class="scale-label">${scaleFt} ft</span>`;
+}
+
+// --- Grid labels (2D view) ---
+function updateGridLabels() {
+  gridLabelsEl.innerHTML = '';
+  if (state.viewMode !== '2d') {
+    gridLabelsEl.classList.remove('visible');
+    return;
+  }
+  gridLabelsEl.classList.add('visible');
+  
+  const rect = renderer.domElement.getBoundingClientRect();
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const maxDim = Math.max(w, d);
+  
+  // Label interval: every 5 or 10 feet depending on yard size
+  const interval = maxDim > 80 ? 10 : 5;
+  
+  // Project world points to screen for X axis (bottom edge) and Z axis (left edge)
+  for (let x = -Math.floor(w / 2); x <= Math.floor(w / 2); x += interval) {
+    const pt = new THREE.Vector3(x, 0.1, d / 2 + 1).project(activeCamera);
+    const sx = (pt.x + 1) / 2 * rect.width;
+    const sy = (-pt.y + 1) / 2 * rect.height;
+    if (sx > 20 && sx < rect.width - 20 && sy > 10 && sy < rect.height - 10) {
+      const label = document.createElement('div');
+      label.className = 'grid-label';
+      label.style.left = sx + 'px';
+      label.style.top = (sy + 2) + 'px';
+      label.style.transform = 'translateX(-50%)';
+      label.textContent = x + 'ft';
+      gridLabelsEl.appendChild(label);
+    }
+  }
+  for (let z = -Math.floor(d / 2); z <= Math.floor(d / 2); z += interval) {
+    const pt = new THREE.Vector3(-w / 2 - 1, 0.1, z).project(activeCamera);
+    const sx = (pt.x + 1) / 2 * rect.width;
+    const sy = (-pt.y + 1) / 2 * rect.height;
+    if (sx > 10 && sx < rect.width - 20 && sy > 15 && sy < rect.height - 15) {
+      const label = document.createElement('div');
+      label.className = 'grid-label';
+      label.style.left = sx + 'px';
+      label.style.top = (sy - 6) + 'px';
+      label.style.transform = 'translateY(-50%)';
+      label.textContent = z + 'ft';
+      gridLabelsEl.appendChild(label);
+    }
+  }
+  
+  // Yard dimension label at corners
+  const cornerLabels = [
+    { x: -w/2, z: d/2, text: `${w} ft`, tx: 0, ty: -14 },
+    { x: -w/2, z: -d/2, text: `${d} ft`, tx: 14, ty: 0, rotate: true },
+  ];
+  for (const cl of cornerLabels) {
+    const pt = new THREE.Vector3(cl.x, 0.1, cl.z).project(activeCamera);
+    const sx = (pt.x + 1) / 2 * rect.width;
+    const sy = (-pt.y + 1) / 2 * rect.height;
+    const label = document.createElement('div');
+    label.className = 'grid-label';
+    label.style.left = (sx + cl.tx) + 'px';
+    label.style.top = (sy + cl.ty) + 'px';
+    label.style.fontWeight = '700';
+    label.style.color = '#333';
+    label.textContent = cl.text;
+    gridLabelsEl.appendChild(label);
+  }
+}
+
+// --- Tape measure tool ---
+tapeMeasureBtn.addEventListener('click', () => {
+  tapeMeasureActive = !tapeMeasureActive;
+  tapeMeasureBtn.classList.toggle('active', tapeMeasureActive);
+  if (tapeMeasureActive) {
+    showHint('Click two points to measure distance');
+    clearTapeMeasure();
+  } else {
+    hideHint();
+    clearTapeMeasure();
+  }
+});
+
+function clearTapeMeasure() {
+  if (tapeMeasureLine) { scene.remove(tapeMeasureLine); tapeMeasureLine.geometry.dispose(); tapeMeasureLine = null; }
+  if (tapeMeasureDot1) { scene.remove(tapeMeasureDot1); tapeMeasureDot1 = null; }
+  if (tapeMeasureDot2) { scene.remove(tapeMeasureDot2); tapeMeasureDot2 = null; }
+  if (tapeMeasureLabel) { scene.remove(tapeMeasureLabel); tapeMeasureLabel = null; }
+  tapeMeasureStart = null;
+  measureReadoutEl.classList.remove('visible');
+  requestRender();
+}
+
+function getGroundPoint(e) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, activeCamera);
+  const point = new THREE.Vector3();
+  raycaster.ray.intersectPlane(groundPlane, point);
+  return point;
+}
+
+function onTapeMeasureClick(e) {
+  if (!tapeMeasureActive) return;
+  const point = getGroundPoint(e);
+  if (!point) return;
+  
+  if (!tapeMeasureStart) {
+    // First point
+    tapeMeasureStart = point.clone();
+    tapeMeasureDot1 = new THREE.Mesh(
+      new THREE.SphereGeometry(0.4, 12, 12),
+      new THREE.MeshBasicMaterial({ color: 0x4A8B5C })
+    );
+    tapeMeasureDot1.position.copy(point);
+    scene.add(tapeMeasureDot1);
+    showHint('Now click the second point to measure');
+    requestRender();
+  } else {
+    // Second point — draw line and show distance
+    const dist = tapeMeasureStart.distanceTo(point);
+    
+    // Draw line
+    const lineGeo = new THREE.BufferGeometry().setFromPoints([tapeMeasureStart, point.clone()]);
+    tapeMeasureLine = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: 0x4A8B5C, linewidth: 3 }));
+    scene.add(tapeMeasureLine);
+    
+    // Second dot
+    tapeMeasureDot2 = new THREE.Mesh(
+      new THREE.SphereGeometry(0.4, 12, 12),
+      new THREE.MeshBasicMaterial({ color: 0x4A8B5C })
+    );
+    tapeMeasureDot2.position.copy(point);
+    scene.add(tapeMeasureDot2);
+    
+    // Label sprite at midpoint
+    const midPoint = new THREE.Vector3().lerpVectors(tapeMeasureStart, point, 0.5);
+    tapeMeasureLabel = makeTextSprite(`${dist.toFixed(1)} ft`);
+    tapeMeasureLabel.position.copy(midPoint);
+    tapeMeasureLabel.position.y = 1;
+    scene.add(tapeMeasureLabel);
+    
+    // Also show in the readout overlay
+    measureReadoutEl.textContent = `${dist.toFixed(1)} feet`;
+    const rect = renderer.domElement.getBoundingClientRect();
+    const midScreen = midPoint.clone().project(activeCamera);
+    const sx = (midScreen.x + 1) / 2 * rect.width;
+    const sy = (-midScreen.y + 1) / 2 * rect.height;
+    measureReadoutEl.style.left = sx + 'px';
+    measureReadoutEl.style.top = sy + 'px';
+    measureReadoutEl.classList.add('visible');
+    
+    showHint(`${dist.toFixed(1)} feet — click Tape Measure again to clear`);
+    setTimeout(hideHint, 3000);
+    requestRender();
+    
+    // Deactivate but keep the line visible
+    tapeMeasureActive = false;
+    tapeMeasureBtn.classList.remove('active');
+  }
+}
+
+function makeTextSprite(text) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(45,45,45,0.9)';
+  ctx.fillRect(0, 0, 256, 64);
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 28px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 128, 32);
+  const texture = new THREE.CanvasTexture(canvas);
+  const material = new THREE.SpriteMaterial({ map: texture, depthTest: false });
+  const sprite = new THREE.Sprite(material);
+  sprite.scale.set(8, 2, 1);
+  return sprite;
+}
+
+// Override pointer down to handle tape measure
+const origOnPointerDown = onPointerDown;
+function onPointerDownWithTape(e) {
+  if (tapeMeasureActive) {
+    onTapeMeasureClick(e);
+    return;
+  }
+  origOnPointerDown(e);
+}
+viewport.removeEventListener('pointerdown', onPointerDown);
+viewport.addEventListener('pointerdown', onPointerDownWithTape);
+
+// --- Dimension lines on selected object in 2D view ---
+let dimLineGroup = null;
+
+function updateDimensionLines() {
+  if (dimLineGroup) { scene.remove(dimLineGroup); disposeGroup(dimLineGroup); dimLineGroup = null; }
+  if (state.viewMode !== '2d' || state.selectedId === null) return;
+  
+  const obj = state.objects.get(state.selectedId);
+  if (!obj) return;
+  const cat = CATALOG[obj.type];
+  const fp = cat.footprint(obj.params);
+  
+  dimLineGroup = new THREE.Group();
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x4A8B5C, linewidth: 2 });
+  const dotMat = new THREE.MeshBasicMaterial({ color: 0x4A8B5C });
+  
+  const w = fp.w, d = fp.d;
+  const cx = obj.position.x, cz = obj.position.z;
+  
+  // Width dimension line (below object)
+  const wLineGeo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(cx - w/2, 0.1, cz + d/2 + 2),
+    new THREE.Vector3(cx + w/2, 0.1, cz + d/2 + 2),
+  ]);
+  const wLine = new THREE.Line(wLineGeo, lineMat);
+  dimLineGroup.add(wLine);
+  
+  // Tick marks
+  for (const x of [cx - w/2, cx + w/2]) {
+    const tickGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(x, 0.1, cz + d/2 + 1.5),
+      new THREE.Vector3(x, 0.1, cz + d/2 + 2.5),
+    ]);
+    dimLineGroup.add(new THREE.Line(tickGeo, lineMat));
+  }
+  
+  // Width label
+  const wLabel = makeTextSprite(`${w.toFixed(1)} ft`);
+  wLabel.position.set(cx, 1, cz + d/2 + 3.5);
+  wLabel.scale.set(6, 1.5, 1);
+  dimLineGroup.add(wLabel);
+  
+  // Depth dimension line (left of object)
+  const dLineGeo = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(cx - w/2 - 2, 0.1, cz - d/2),
+    new THREE.Vector3(cx - w/2 - 2, 0.1, cz + d/2),
+  ]);
+  const dLine = new THREE.Line(dLineGeo, lineMat);
+  dimLineGroup.add(dLine);
+  
+  // Tick marks
+  for (const z of [cz - d/2, cz + d/2]) {
+    const tickGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(cx - w/2 - 2.5, 0.1, z),
+      new THREE.Vector3(cx - w/2 - 1.5, 0.1, z),
+    ]);
+    dimLineGroup.add(new THREE.Line(tickGeo, lineMat));
+  }
+  
+  // Depth label
+  const dLabel = makeTextSprite(`${d.toFixed(1)} ft`);
+  dLabel.position.set(cx - w/2 - 4, 1, cz);
+  dLabel.scale.set(6, 1.5, 1);
+  dimLineGroup.add(dLabel);
+  
+  scene.add(dimLineGroup);
+  requestRender();
+}
+
+// Update scale bar and grid labels after each render
+const origRequestRender = requestRender;
+requestRender = function() {
+  needsRender = true;
+  // Update overlays after a frame
+  setTimeout(() => {
+    updateScaleBar();
+    updateGridLabels();
+    updateDimensionLines();
+  }, 16);
+};
+
 initScene();
 renderWizard();
 
