@@ -1402,6 +1402,7 @@ function buildSceneObject(id) {
     disposeGroup(old);
   }
   const cat = CATALOG[obj.type];
+  if (!cat || typeof cat.factory !== 'function') return;
   const group = cat.factory(obj.params);
   group.position.set(obj.position.x, obj.position.y, obj.position.z);
   group.rotation.y = obj.rotation;
@@ -1561,6 +1562,7 @@ function showProperties(id) {
   const obj = state.objects.get(id);
   if (!obj) return;
   const cat = CATALOG[obj.type];
+  if (!cat) return;
   propsEl.classList.add('visible');
   propsHeader.innerHTML = `${cat.icon}<div><div class="name">${cat.name}</div><div class="type">Object #${id}</div></div>`;
   let html = '';
@@ -1623,6 +1625,7 @@ function showProperties(id) {
         redo: () => { obj.params[key] = val; buildSceneObject(id); showProperties(id); },
       });
       showDimReadout(obj);
+      checkSafetyWarnings(obj);
     });
   });
 
@@ -1745,6 +1748,7 @@ const dimReadout = document.getElementById('dim-readout');
 
 function showDimReadout(obj) {
   const cat = CATALOG[obj.type];
+  if (!cat || typeof cat.footprint !== 'function') return;
   const fp = cat.footprint(obj.params);
   const fw = (Number.isFinite(fp.w) ? fp.w : 0).toFixed(1);
   const fd = (Number.isFinite(fp.d) ? fp.d : 0).toFixed(1);
@@ -1766,6 +1770,7 @@ const safetyEl = document.getElementById('safety-warnings');
 function checkSafetyWarnings(obj) {
   clearSafetyWarnings();
   const cat = CATALOG[obj.type];
+  if (!cat) return;
   if (!cat.safety) return;
 
   if (cat.safety === 'pool') {
@@ -2828,6 +2833,7 @@ function updateDimensionLines() {
   const obj = state.objects.get(state.selectedId);
   if (!obj) return;
   const cat = CATALOG[obj.type];
+  if (!cat || typeof cat.footprint !== 'function') return;
   const fp = cat.footprint(obj.params);
   
   dimLineGroup = new THREE.Group();
