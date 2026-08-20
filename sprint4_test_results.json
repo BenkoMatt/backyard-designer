@@ -1,0 +1,873 @@
+{
+  "results": [
+    {
+      "id": "V1",
+      "test": "Carve box shape \u2014 voxels removed",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Height before: 30.000, after carving: -20.000 (should decrease)",
+      "evidence": "{'before': 30, 'after': -20}"
+    },
+    {
+      "id": "V1_js",
+      "test": "No JS Errors (Carve Box)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V2",
+      "test": "Carve cylinder shape",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Center: 30.00\u2192-30.00, Edge(12,12): 29.07",
+      "evidence": "{'center_before': 30, 'center_after': -30, 'edge': 29.07367515563965}"
+    },
+    {
+      "id": "V2_js",
+      "test": "No JS Errors (Carve Cylinder)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V3",
+      "test": "Carve sphere shape \u2014 dome depression",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Raised: 30.00, Center: 0.00, Mid(5,5): 22.50, Far(15,15): 6.27",
+      "evidence": "{'raised': 30, 'center': 0, 'mid': 22.50000000000002, 'far': 6.272001266479492}"
+    },
+    {
+      "id": "V3_js",
+      "test": "No JS Errors (Carve Sphere)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V4",
+      "test": "Surface-only rendering \u2014 solid earth block",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Solid earth exists: True, inScene: True, bottomY: -45.00",
+      "evidence": "{'exists': True, 'inScene': True, 'visible': True, 'bottomY': -45}"
+    },
+    {
+      "id": "V4_js",
+      "test": "No JS Errors (Solid Earth Block)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V5",
+      "test": "Grid level change preserves terrain",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Before: 30.0000, During cutaway: 30.0000, After reset: 30.0000",
+      "evidence": "{'before': 30, 'after': 30, 'reset': 30}"
+    },
+    {
+      "id": "V5_js",
+      "test": "No JS Errors (Grid Level Preserve)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V6",
+      "test": "Objects below grid at correct Y",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Terrain height at (0,0): -30.000, Object Y: -30.000 (should match)",
+      "evidence": "{'terrainH': -30, 'objY': -30}"
+    },
+    {
+      "id": "V6_js",
+      "test": "No JS Errors (Object Y Below Grid)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V7",
+      "test": "Save/load with terrain data",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Original: 30.0000, After load: 30.0000",
+      "evidence": "{'original': 30, 'loaded': 30}"
+    },
+    {
+      "id": "V7_js",
+      "test": "No JS Errors (Save/Load Terrain)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V8",
+      "test": "Undo/redo with carving",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Initial: 0.000, Carved: -1.000, Undone: 0.000, Redone: -1.000",
+      "evidence": "{'initial': 0, 'carved': -1, 'undone': 0, 'redone': -1}"
+    },
+    {
+      "id": "V8_js",
+      "test": "No JS Errors (Undo/Redo Carving)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "V9",
+      "test": "Voxel performance (500 paint ops)",
+      "status": "FAIL",
+      "severity": "High",
+      "desc": "500 paints in 5618ms, terrain size: 10201, segs: 100",
+      "evidence": "{'perfTime': 5617.799999952316, 'terrainSize': 10201, 'terrainSegs': 100, 'maxH': 30, 'minH': 2.842350721359253, 'rendererInfo': {'triangles': 60314, 'calls': 12}}"
+    },
+    {
+      "id": "V9_js",
+      "test": "No JS Errors (Voxel Performance)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-1a",
+      "test": "Height clamp +30ft",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Max height: 30.000 (should be <=30)",
+      "evidence": "{'maxH': 30}"
+    },
+    {
+      "id": "S3-1b",
+      "test": "Height clamp -30ft",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Min height: -30.000 (should be >=-30)",
+      "evidence": "{'minH': -30}"
+    },
+    {
+      "id": "S3-1_js",
+      "test": "No JS Errors (Height Clamps)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-2",
+      "test": "Precision mode toggle",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Precision: True, brush max: 10",
+      "evidence": "{'precisionMode': True, 'brushSize': 8, 'brushStrength': 0.05, 'sliderMax': '10'}"
+    },
+    {
+      "id": "S3-2_js",
+      "test": "No JS Errors (Precision Mode)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-3",
+      "test": "100x100 grid",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Terrain segs: 100, yard: 50x100",
+      "evidence": "{'terrainSegs': 100, 'yardWidth': 50, 'yardDepth': 100}"
+    },
+    {
+      "id": "S3-3_js",
+      "test": "No JS Errors (100x100 Grid)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-4",
+      "test": "Solid earth block geometry",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Exists: True, vertices: 1604, bottomY: -45.00",
+      "evidence": "{'exists': True, 'vertexCount': 1604, 'bottomY': -45, 'color': 6045747}"
+    },
+    {
+      "id": "S3-4_js",
+      "test": "No JS Errors (Solid Earth)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-5",
+      "test": "Excavation (lower mode)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Before: 0.000, After: -30.000",
+      "evidence": "{'before': 0, 'after': -30}"
+    },
+    {
+      "id": "S3-5_js",
+      "test": "No JS Errors (Excavation)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-6",
+      "test": "Height readout element",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Exists: True, visible: True, text: '\n        Height at cursor:\n        0.0 ft\n      '",
+      "evidence": "{'exists': True, 'visible': True, 'text': '\\n        Height at cursor:\\n        0.0 ft\\n      '}"
+    },
+    {
+      "id": "S3-6_js",
+      "test": "No JS Errors (Height Readout)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-7",
+      "test": "Pool wizard excavation",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Before: 0.000, After pool: -4.000 (should be significantly lower)",
+      "evidence": "{'before': 0, 'after': -4}"
+    },
+    {
+      "id": "S3-7_js",
+      "test": "No JS Errors (Pool Wizard)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-8",
+      "test": "Flatten to height",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Uneven: 30.000, After flatten: 15.000",
+      "evidence": "{'uneven': 29.999999999999996, 'flat': 15}"
+    },
+    {
+      "id": "S3-8_js",
+      "test": "No JS Errors (Flatten to Height)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-9",
+      "test": "Elevation marker placement",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Scene groups after marker: 2",
+      "evidence": "{'groups': 2}"
+    },
+    {
+      "id": "S3-9_js",
+      "test": "No JS Errors (Elevation Markers)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-10",
+      "test": "ADA slope mode activation",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Innov mode: slope (should be 'slope')",
+      "evidence": "{'mode': 'slope'}"
+    },
+    {
+      "id": "S3-10_js",
+      "test": "No JS Errors (ADA Slope)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-11",
+      "test": "Terrain stats mode",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Stats mode: stats, overlay exists: True",
+      "evidence": "{'mode': 'stats', 'overlay': {'exists': True, 'text': '\ud83d\udcca Terrain StatisticsMin: 0.00 ftMax: 30.00 ftAvg: 2.01 ftRange: 30.00 ftVolume: 379.9 yd\u00b3 (fill)Slope Distribution<5%5-10%10-15%15-25%>25%Steep slopes (>25%): 11.3% of yard \u26a0\ufe0f Consider retaining wall'}}"
+    },
+    {
+      "id": "S3-11_js",
+      "test": "No JS Errors (Terrain Stats)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S3-12",
+      "test": "Retaining wall scan",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Scene groups: 2",
+      "evidence": "{'sceneGroups': 2, 'foundGroup': True}"
+    },
+    {
+      "id": "S3-12_js",
+      "test": "No JS Errors (Retaining Wall)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-1",
+      "test": "Terrain raycasts/height queries",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Queried 5 points, all returned values",
+      "evidence": "[{'x': 0, 'z': 0, 'h': 30}, {'x': 5, 'z': 5, 'h': 7.49999999999998}, {'x': -5, 'z': -5, 'h': 7.5}, {'x': 10, 'z': 10, 'h': 0}, {'x': -10, 'z': -10, 'h': 0}]"
+    },
+    {
+      "id": "S2-1_js",
+      "test": "No JS Errors (Terrain Raycasts)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-2",
+      "test": "Buried object indicators",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Buried objects found: 1",
+      "evidence": "{'buried': [{'id': 1, 'type': 'chair', 'name': 'Patio Chair', 'position': {'x': 0, 'y': 0, 'z': 0}, 'terrainHeight': 10, 'buriedDepth': 10, 'fullyBuried': True, 'objHeight': 3}]}"
+    },
+    {
+      "id": "S2-2_js",
+      "test": "No JS Errors (Buried Indicators)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-3",
+      "test": "Cutaway/opacity/wireframe",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Cutaway: True, Opacity: 0.50, Wireframe: True",
+      "evidence": "{'cutaway': True, 'opacity': 0.5, 'wireframe': True}"
+    },
+    {
+      "id": "S2-3_js",
+      "test": "No JS Errors (Cutaway/Opacity/Wireframe)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-4",
+      "test": "Contour lines",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Contour enabled: True",
+      "evidence": "{'contour': True}"
+    },
+    {
+      "id": "S2-4_js",
+      "test": "No JS Errors (Contour Lines)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-5",
+      "test": "Slope heatmap",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Slope enabled: True",
+      "evidence": "{'slope': True}"
+    },
+    {
+      "id": "S2-5_js",
+      "test": "No JS Errors (Slope Heatmap)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-6",
+      "test": "Water flow paths",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Water flow enabled: True",
+      "evidence": "{'waterFlow': True}"
+    },
+    {
+      "id": "S2-6_js",
+      "test": "No JS Errors (Water Flow)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-7",
+      "test": "Cut/fill volume",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Cut/fill enabled: True, panel visible: True",
+      "evidence": "{'cutFill': True, 'panel': True}"
+    },
+    {
+      "id": "S2-7_js",
+      "test": "No JS Errors (Cut/Fill)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-8",
+      "test": "Cross-section mode",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "CS panel visible: True, points: 0",
+      "evidence": "{'crossSectionPoints': 0, 'csPanelVisible': True}"
+    },
+    {
+      "id": "S2-8_js",
+      "test": "No JS Errors (Cross-section)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-9a",
+      "test": "Terrain preset 'hill'",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Before: 0.000, After hill preset: 4.000",
+      "evidence": "{'before': 0, 'after': 4}"
+    },
+    {
+      "id": "S2-9b",
+      "test": "Terrain preset 'valley'",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "After hill: 4.000, After valley: -3.000",
+      "evidence": "{'hill': 4, 'valley': -3}"
+    },
+    {
+      "id": "S2-9_js",
+      "test": "No JS Errors (Terrain Presets)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-10",
+      "test": "Drainage arrows",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Drainage active: True",
+      "evidence": "{'drainage': True}"
+    },
+    {
+      "id": "S2-10_js",
+      "test": "No JS Errors (Drainage)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-11",
+      "test": "Erosion (erode mode)",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Before erode: 30.000, After erode: 20.842",
+      "evidence": "{'before': 30, 'after': 20.84177589416504}"
+    },
+    {
+      "id": "S2-11_js",
+      "test": "No JS Errors (Erosion)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-12",
+      "test": "Ghost view",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Ghost mode: True",
+      "evidence": "{'ghost': True}"
+    },
+    {
+      "id": "S2-12_js",
+      "test": "No JS Errors (Ghost View)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S2-13",
+      "test": "Elevation heatmap",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Elevation heatmap: True",
+      "evidence": "{'elev': True}"
+    },
+    {
+      "id": "S2-13_js",
+      "test": "No JS Errors (Elevation Heatmap)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-1",
+      "test": "Touch gestures setup (mobile)",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Viewport: 390x844, canvas: True",
+      "evidence": "{'isMobile': True, 'viewport': {'w': 390, 'h': 844}, 'canvasExists': True}"
+    },
+    {
+      "id": "S1-1_js",
+      "test": "No JS Errors (Touch Gestures)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-2",
+      "test": "Mobile bottom-sheet",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Props exists: True, display: none",
+      "evidence": "{'propsExists': True, 'propsDisplay': 'none', 'mobileSheetExists': True}"
+    },
+    {
+      "id": "S1-2_js",
+      "test": "No JS Errors (Mobile Bottom Sheet)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-3",
+      "test": "Cost estimator",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Visible: True, has content: True",
+      "evidence": "{'visible': True, 'hasContent': True, 'text': 'Cost EstimatexTrees & Plants$250Patios & Paths$960Total (2 items)$1,210Rough estimates for planning only. Actual costs vary by region, materials, and labor.'}"
+    },
+    {
+      "id": "S1-3_js",
+      "test": "No JS Errors (Cost Estimator)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-4",
+      "test": "Layer management",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Visible: True, content: True, hidden: 0",
+      "evidence": "{'visible': True, 'hasContent': True, 'hiddenLayers': 0}"
+    },
+    {
+      "id": "S1-4_js",
+      "test": "No JS Errors (Layer Management)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-5",
+      "test": "NOAA sun simulator",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Visible: True, content: True, sun light: True",
+      "evidence": "{'visible': True, 'hasContent': True, 'sunLightExists': True}"
+    },
+    {
+      "id": "S1-5_js",
+      "test": "No JS Errors (NOAA Sun)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-6",
+      "test": "Share/QR code",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Visible: True, has QR canvas: True, has link: False",
+      "evidence": "{'visible': True, 'hasQR': True, 'hasLink': False}"
+    },
+    {
+      "id": "S1-6_js",
+      "test": "No JS Errors (Share/QR)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-7",
+      "test": "Walk mode",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Walk mode: True, controls visible: True",
+      "evidence": "{'walkMode': True, 'walkPos': {'x': 0, 'y': 5.5, 'z': 0}, 'walkControlsVisible': True}"
+    },
+    {
+      "id": "S1-7_js",
+      "test": "No JS Errors (Walk Mode)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-8",
+      "test": "Keyboard navigation (Tab cycle)",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Selected after Tab: 1",
+      "evidence": "{'selected': 1}"
+    },
+    {
+      "id": "S1-8_js",
+      "test": "No JS Errors (Keyboard Nav)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-9",
+      "test": "Accessibility (ARIA)",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "ARIA elements: 37, roles: ['toolbar', 'tablist', 'tab', 'application', 'switch', 'region'], app role: True",
+      "evidence": "{'count': 37, 'roles': ['toolbar', 'tablist', 'tab', 'application', 'switch', 'region'], 'hasApplicationRole': True, 'hasToolbarRoles': 3}"
+    },
+    {
+      "id": "S1-9_js",
+      "test": "No JS Errors (Accessibility)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "S1-10",
+      "test": "Security (XSS prevention)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Loaded: True, params sanitized: {'color': '#888888'}",
+      "evidence": "{'loaded': True, 'objParams': {'color': '#888888'}, 'scriptCount': 2}"
+    },
+    {
+      "id": "S1-10_js",
+      "test": "No JS Errors (Security XSS)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "C1",
+      "test": "Rapid carving (150 paint calls)",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "150 paints in 1792ms, bounds: [-13.10, 0.00]",
+      "evidence": "{'time': 1792.4000000953674, 'maxH': 0, 'minH': -13.096274375915527, 'terrainExists': True}"
+    },
+    {
+      "id": "C1_js",
+      "test": "No JS Errors (Rapid Carving)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "C2",
+      "test": "Rapid grid level changes",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Clip plane after reset: None (should be null)",
+      "evidence": "{'clipPlane': 'None'}"
+    },
+    {
+      "id": "C2_js",
+      "test": "No JS Errors (Rapid Grid Changes)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "C3",
+      "test": "Carving + undo/redo cycling",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "After paints: 1.562, After 5 undos: 0.000, After 5 redos: 1.562",
+      "evidence": "{'paints': 1.5625, 'undos': 0, 'redos': 1.5625}"
+    },
+    {
+      "id": "C3_js",
+      "test": "No JS Errors (Undo/Redo Cycling)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "C4",
+      "test": "Save/load with large volumes",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Before: [0.75, 30.00], After: [0.75, 30.00], saved size: 138599 chars",
+      "evidence": "{'maxBefore': 30, 'minBefore': 0.7534813284873962, 'maxAfter': 30, 'minAfter': 0.7534813284873962, 'savedSize': 138599}"
+    },
+    {
+      "id": "C4_js",
+      "test": "No JS Errors (Save/Load Large Volumes)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "C5",
+      "test": "Performance with 50% voxels modified",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Painted grid in 1718ms, deformed: True, bounds: [-16.78, -0.93]",
+      "evidence": "{'perfTime': 1718.2000000476837, 'terrainSize': 10201, 'maxH': -0.93359375, 'minH': -16.78125, 'deformed': True}"
+    },
+    {
+      "id": "C5_js",
+      "test": "No JS Errors (50% Voxels Performance)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "M1",
+      "test": "Below-grid interaction on touch",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Terrain height after carving on mobile: -30.000",
+      "evidence": "{'height': -30}"
+    },
+    {
+      "id": "M1_js",
+      "test": "No JS Errors (Below-grid Touch)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "M2",
+      "test": "Grid level slider on mobile",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Cutaway active on mobile: True",
+      "evidence": "{'cutaway': True}"
+    },
+    {
+      "id": "M2_js",
+      "test": "No JS Errors (Grid Level Mobile)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "M3",
+      "test": "Carving shapes on touch",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Before: 0.000, After: -30.000",
+      "evidence": "{'before': 0, 'after': -30}"
+    },
+    {
+      "id": "M3_js",
+      "test": "No JS Errors (Carving Touch)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    },
+    {
+      "id": "M4",
+      "test": "Underground navigation on mobile",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Clip plane: True, solid earth: True, panel: True",
+      "evidence": "{'clipPlane': True, 'solidEarthExists': True, 'excavatePanelVisible': True}"
+    },
+    {
+      "id": "M4_js",
+      "test": "No JS Errors (Underground Nav Mobile)",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "No JS errors",
+      "evidence": ""
+    }
+  ],
+  "summary": {
+    "total": 108,
+    "passed": 107,
+    "failed": 1
+  }
+}
