@@ -1,0 +1,254 @@
+============================================================
+SPRINT 4 COMPREHENSIVE TEST SUITE
+Backyard Designer 3D — Agent 3 (Builder)
+============================================================
+URL: http://127.0.0.1:8094/index.html
+
+============================================================
+CATEGORY 1: VOLUME TESTS
+============================================================
+
+--- V1: Carve box shape — verify voxels removed ---
+  ✓ [PASS] V1: Carve box shape — voxels removed: Height before: 30.000, after carving: -20.000 (should decrease)
+  ✓ [PASS] V1_js: No JS Errors (Carve Box): No JS errors
+
+--- V2: Carve cylinder shape — verify round area carved ---
+  ✓ [PASS] V2: Carve cylinder shape: Center: 30.00→-30.00, Edge(12,12): 29.07
+  ✓ [PASS] V2_js: No JS Errors (Carve Cylinder): No JS errors
+
+--- V3: Carve sphere shape — verify dome-like depression ---
+  ✓ [PASS] V3: Carve sphere shape — dome depression: Raised: 30.00, Center: 0.00, Mid(5,5): 22.50, Far(15,15): 6.27
+  ✓ [PASS] V3_js: No JS Errors (Carve Sphere): No JS errors
+
+--- V4: Verify surface-only rendering (solid earth block) ---
+  ✓ [PASS] V4: Surface-only rendering — solid earth block: Solid earth exists: True, inScene: True, bottomY: -45.00
+  ✓ [PASS] V4_js: No JS Errors (Solid Earth Block): No JS errors
+
+--- V5: Grid level change preserves terrain ---
+  ✓ [PASS] V5: Grid level change preserves terrain: Before: 30.0000, During cutaway: 30.0000, After reset: 30.0000
+  ✓ [PASS] V5_js: No JS Errors (Grid Level Preserve): No JS errors
+
+--- V6: Objects below grid at correct Y ---
+  ✓ [PASS] V6: Objects below grid at correct Y: Terrain height at (0,0): -30.000, Object Y: -30.000 (should match)
+  ✓ [PASS] V6_js: No JS Errors (Object Y Below Grid): No JS errors
+
+--- V7: Save/load with voxel (terrain) data ---
+  ✓ [PASS] V7: Save/load with terrain data: Original: 30.0000, After load: 30.0000
+  ✓ [PASS] V7_js: No JS Errors (Save/Load Terrain): No JS errors
+
+--- V8: Undo/redo with carving ---
+  ✓ [PASS] V8: Undo/redo with carving: Initial: 0.000, Carved: -1.000, Undone: 0.000, Redone: -1.000
+  ✓ [PASS] V8_js: No JS Errors (Undo/Redo Carving): No JS errors
+
+--- V9: Voxel performance (large terrain) ---
+  ✗ [FAIL] V9: Voxel performance (500 paint ops): 500 paints in 5618ms, terrain size: 10201, segs: 100
+  ✓ [PASS] V9_js: No JS Errors (Voxel Performance): No JS errors
+
+============================================================
+CATEGORY 2: REGRESSION SPRINT 3
+============================================================
+
+--- S3-1: Height clamps ±30ft ---
+  ✓ [PASS] S3-1a: Height clamp +30ft: Max height: 30.000 (should be <=30)
+  ✓ [PASS] S3-1b: Height clamp -30ft: Min height: -30.000 (should be >=-30)
+  ✓ [PASS] S3-1_js: No JS Errors (Height Clamps): No JS errors
+
+--- S3-2: Precision mode ---
+  ✓ [PASS] S3-2: Precision mode toggle: Precision: True, brush max: 10
+  ✓ [PASS] S3-2_js: No JS Errors (Precision Mode): No JS errors
+
+--- S3-3: 100x100 grid ---
+  ✓ [PASS] S3-3: 100x100 grid: Terrain segs: 100, yard: 50x100
+  ✓ [PASS] S3-3_js: No JS Errors (100x100 Grid): No JS errors
+
+--- S3-4: Solid earth block ---
+  ✓ [PASS] S3-4: Solid earth block geometry: Exists: True, vertices: 1604, bottomY: -45.00
+  ✓ [PASS] S3-4_js: No JS Errors (Solid Earth): No JS errors
+
+--- S3-5: Excavation ---
+  ✓ [PASS] S3-5: Excavation (lower mode): Before: 0.000, After: -30.000
+  ✓ [PASS] S3-5_js: No JS Errors (Excavation): No JS errors
+
+--- S3-6: Height readout ---
+  ✓ [PASS] S3-6: Height readout element: Exists: True, visible: True, text: '
+        Height at cursor:
+        0.0 ft
+      '
+  ✓ [PASS] S3-6_js: No JS Errors (Height Readout): No JS errors
+
+--- S3-7: Pool wizard ---
+  ✓ [PASS] S3-7: Pool wizard excavation: Before: 0.000, After pool: -4.000 (should be significantly lower)
+  ✓ [PASS] S3-7_js: No JS Errors (Pool Wizard): No JS errors
+
+--- S3-8: Flatten to height ---
+  ✓ [PASS] S3-8: Flatten to height: Uneven: 30.000, After flatten: 15.000
+  ✓ [PASS] S3-8_js: No JS Errors (Flatten to Height): No JS errors
+
+--- S3-9: Elevation markers ---
+  ✓ [PASS] S3-9: Elevation marker placement: Scene groups after marker: 2
+  ✓ [PASS] S3-9_js: No JS Errors (Elevation Markers): No JS errors
+
+--- S3-10: ADA slope ---
+  ✓ [PASS] S3-10: ADA slope mode activation: Innov mode: slope (should be 'slope')
+  ✓ [PASS] S3-10_js: No JS Errors (ADA Slope): No JS errors
+
+--- S3-11: Terrain stats ---
+  ✓ [PASS] S3-11: Terrain stats mode: Stats mode: stats, overlay exists: True
+  ✓ [PASS] S3-11_js: No JS Errors (Terrain Stats): No JS errors
+
+--- S3-12: Retaining wall scan ---
+  ✓ [PASS] S3-12: Retaining wall scan: Scene groups: 2
+  ✓ [PASS] S3-12_js: No JS Errors (Retaining Wall): No JS errors
+
+============================================================
+CATEGORY 3: REGRESSION SPRINT 2
+============================================================
+
+--- S2-1: Terrain raycasts ---
+  ✓ [PASS] S2-1: Terrain raycasts/height queries: Queried 5 points, all returned values
+  ✓ [PASS] S2-1_js: No JS Errors (Terrain Raycasts): No JS errors
+
+--- S2-2: Buried indicators ---
+  ✓ [PASS] S2-2: Buried object indicators: Buried objects found: 1
+  ✓ [PASS] S2-2_js: No JS Errors (Buried Indicators): No JS errors
+
+--- S2-3: Cutaway/opacity/wireframe ---
+  ✓ [PASS] S2-3: Cutaway/opacity/wireframe: Cutaway: True, Opacity: 0.50, Wireframe: True
+  ✓ [PASS] S2-3_js: No JS Errors (Cutaway/Opacity/Wireframe): No JS errors
+
+--- S2-4: Contour lines ---
+  ✓ [PASS] S2-4: Contour lines: Contour enabled: True
+  ✓ [PASS] S2-4_js: No JS Errors (Contour Lines): No JS errors
+
+--- S2-5: Slope heatmap ---
+  ✓ [PASS] S2-5: Slope heatmap: Slope enabled: True
+  ✓ [PASS] S2-5_js: No JS Errors (Slope Heatmap): No JS errors
+
+--- S2-6: Water flow ---
+  ✓ [PASS] S2-6: Water flow paths: Water flow enabled: True
+  ✓ [PASS] S2-6_js: No JS Errors (Water Flow): No JS errors
+
+--- S2-7: Cut/fill volume ---
+  ✓ [PASS] S2-7: Cut/fill volume: Cut/fill enabled: True, panel visible: True
+  ✓ [PASS] S2-7_js: No JS Errors (Cut/Fill): No JS errors
+
+--- S2-8: Cross-section ---
+  ✓ [PASS] S2-8: Cross-section mode: CS panel visible: True, points: 0
+  ✓ [PASS] S2-8_js: No JS Errors (Cross-section): No JS errors
+
+--- S2-9: Terrain presets ---
+  ✓ [PASS] S2-9a: Terrain preset 'hill': Before: 0.000, After hill preset: 4.000
+  ✓ [PASS] S2-9b: Terrain preset 'valley': After hill: 4.000, After valley: -3.000
+  ✓ [PASS] S2-9_js: No JS Errors (Terrain Presets): No JS errors
+
+--- S2-10: Drainage ---
+  ✓ [PASS] S2-10: Drainage arrows: Drainage active: True
+  ✓ [PASS] S2-10_js: No JS Errors (Drainage): No JS errors
+
+--- S2-11: Erosion (erode mode) ---
+  ✓ [PASS] S2-11: Erosion (erode mode): Before erode: 30.000, After erode: 20.842
+  ✓ [PASS] S2-11_js: No JS Errors (Erosion): No JS errors
+
+--- S2-12: Ghost view ---
+  ✓ [PASS] S2-12: Ghost view: Ghost mode: True
+  ✓ [PASS] S2-12_js: No JS Errors (Ghost View): No JS errors
+
+--- S2-13: Elevation heatmap ---
+  ✓ [PASS] S2-13: Elevation heatmap: Elevation heatmap: True
+  ✓ [PASS] S2-13_js: No JS Errors (Elevation Heatmap): No JS errors
+
+============================================================
+CATEGORY 4: REGRESSION SPRINT 1
+============================================================
+
+--- S1-1: Touch gestures (mobile) ---
+  ✓ [PASS] S1-1: Touch gestures setup (mobile): Viewport: 390x844, canvas: True
+  ✓ [PASS] S1-1_js: No JS Errors (Touch Gestures): No JS errors
+
+--- S1-2: Mobile bottom-sheet ---
+  ✓ [PASS] S1-2: Mobile bottom-sheet: Props exists: True, display: none
+  ✓ [PASS] S1-2_js: No JS Errors (Mobile Bottom Sheet): No JS errors
+
+--- S1-3: Cost estimator ---
+  ✓ [PASS] S1-3: Cost estimator: Visible: True, has content: True
+  ✓ [PASS] S1-3_js: No JS Errors (Cost Estimator): No JS errors
+
+--- S1-4: Layer management ---
+  ✓ [PASS] S1-4: Layer management: Visible: True, content: True, hidden: 0
+  ✓ [PASS] S1-4_js: No JS Errors (Layer Management): No JS errors
+
+--- S1-5: NOAA sun simulator ---
+  ✓ [PASS] S1-5: NOAA sun simulator: Visible: True, content: True, sun light: True
+  ✓ [PASS] S1-5_js: No JS Errors (NOAA Sun): No JS errors
+
+--- S1-6: Share/QR ---
+  ✓ [PASS] S1-6: Share/QR code: Visible: True, has QR canvas: True, has link: False
+  ✓ [PASS] S1-6_js: No JS Errors (Share/QR): No JS errors
+
+--- S1-7: Walk mode ---
+  ✓ [PASS] S1-7: Walk mode: Walk mode: True, controls visible: True
+  ✓ [PASS] S1-7_js: No JS Errors (Walk Mode): No JS errors
+
+--- S1-8: Keyboard navigation ---
+  ✓ [PASS] S1-8: Keyboard navigation (Tab cycle): Selected after Tab: 1
+  ✓ [PASS] S1-8_js: No JS Errors (Keyboard Nav): No JS errors
+
+--- S1-9: Accessibility (ARIA) ---
+  ✓ [PASS] S1-9: Accessibility (ARIA): ARIA elements: 37, roles: ['toolbar', 'tablist', 'tab', 'application', 'switch', 'region'], app role: True
+  ✓ [PASS] S1-9_js: No JS Errors (Accessibility): No JS errors
+
+--- S1-10: Security (XSS prevention) ---
+  ✓ [PASS] S1-10: Security (XSS prevention): Loaded: True, params sanitized: {'color': '#888888'}
+  ✓ [PASS] S1-10_js: No JS Errors (Security XSS): No JS errors
+
+============================================================
+CATEGORY 5: CHAOS TESTS
+============================================================
+
+--- C1: Rapid carving (100+ paint calls) ---
+  ✓ [PASS] C1: Rapid carving (150 paint calls): 150 paints in 1792ms, bounds: [-13.10, 0.00]
+  ✓ [PASS] C1_js: No JS Errors (Rapid Carving): No JS errors
+
+--- C2: Rapid grid level (cutaway) changes ---
+  ✓ [PASS] C2: Rapid grid level changes: Clip plane after reset: None (should be null)
+  ✓ [PASS] C2_js: No JS Errors (Rapid Grid Changes): No JS errors
+
+--- C3: Carving + undo/redo cycling ---
+  ✓ [PASS] C3: Carving + undo/redo cycling: After paints: 1.562, After 5 undos: 0.000, After 5 redos: 1.562
+  ✓ [PASS] C3_js: No JS Errors (Undo/Redo Cycling): No JS errors
+
+--- C4: Save/load with large carved volumes ---
+  ✓ [PASS] C4: Save/load with large volumes: Before: [0.75, 30.00], After: [0.75, 30.00], saved size: 138599 chars
+  ✓ [PASS] C4_js: No JS Errors (Save/Load Large Volumes): No JS errors
+
+--- C5: Performance with 50% voxels modified ---
+  ✓ [PASS] C5: Performance with 50% voxels modified: Painted grid in 1718ms, deformed: True, bounds: [-16.78, -0.93]
+  ✓ [PASS] C5_js: No JS Errors (50% Voxels Performance): No JS errors
+
+============================================================
+CATEGORY 6: MOBILE TESTS
+============================================================
+
+--- M1: Below-grid interaction on touch ---
+  ✓ [PASS] M1: Below-grid interaction on touch: Terrain height after carving on mobile: -30.000
+  ✓ [PASS] M1_js: No JS Errors (Below-grid Touch): No JS errors
+
+--- M2: Grid level slider on mobile ---
+  ✓ [PASS] M2: Grid level slider on mobile: Cutaway active on mobile: True
+  ✓ [PASS] M2_js: No JS Errors (Grid Level Mobile): No JS errors
+
+--- M3: Carving shapes on touch ---
+  ✓ [PASS] M3: Carving shapes on touch: Before: 0.000, After: -30.000
+  ✓ [PASS] M3_js: No JS Errors (Carving Touch): No JS errors
+
+--- M4: Underground navigation on mobile ---
+  ✓ [PASS] M4: Underground navigation on mobile: Clip plane: True, solid earth: True, panel: True
+  ✓ [PASS] M4_js: No JS Errors (Underground Nav Mobile): No JS errors
+
+============================================================
+TEST SUMMARY
+============================================================
+Total: 108, Passed: 107, Failed: 1
+
+--- FAILURES (1) ---
+  ✗ [V9] Voxel performance (500 paint ops): 500 paints in 5618ms, terrain size: 10201, segs: 100

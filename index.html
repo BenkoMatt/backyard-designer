@@ -604,6 +604,88 @@ canvas { display: block; }
   #innovation-btn { left: 16px; bottom: 190px; }
   #innovation-panel { left: 16px; bottom: 240px; max-width: 300px; }
 }
+/* ===== SPRINT 4: GRID LEVEL UX ===== */
+.grid-level-section { display: flex; flex-direction: column; gap: 4px; padding: 6px 0; border-top: 1px solid var(--border); margin-top: 4px; }
+.grid-level-label { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
+.grid-level-row { display: flex; align-items: center; gap: 8px; }
+.grid-level-row input[type="range"] { flex: 1; min-width: 60px; accent-color: #5b4a8b; }
+.grid-level-val { font-weight: 700; color: #5b4a8b; min-width: 50px; text-align: right; font-size: 13px; }
+.grid-level-hint { font-size: 10px; color: var(--text-muted); line-height: 1.4; padding: 2px 0; }
+.grid-level-hint strong { color: #5b4a8b; }
+#grid-level-badge { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(91,74,139,0.95); color: white; padding: 5px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; box-shadow: var(--shadow); z-index: 46; display: none; pointer-events: none; }
+#grid-level-badge.visible { display: block; }
+#grid-level-badge .badge-icon { font-size: 14px; vertical-align: middle; margin-right: 4px; }
+
+/* ===== SPRINT 4: CARVING UX ===== */
+.carving-section { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; border-top: 1px solid var(--border); margin-top: 4px; }
+.carving-section-title { font-weight: 700; font-size: 11px; text-transform: uppercase; color: #5b4a8b; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+.carving-section-title svg { width: 14px; height: 14px; }
+.carving-shape-btns { display: flex; gap: 4px; }
+.carving-shape-btn { flex: 1; padding: 8px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; transition: all 0.15s; }
+.carving-shape-btn:hover { border-color: #5b4a8b; background: #f5f0fa; }
+.carving-shape-btn.active { background: #5b4a8b; color: white; border-color: #5b4a8b; }
+.carving-shape-btn svg { width: 20px; height: 20px; }
+.carving-shape-btn .shape-label { font-size: 10px; font-weight: 600; }
+.carving-controls { display: flex; flex-direction: column; gap: 4px; }
+.carving-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.carving-row label { font-weight: 600; white-space: nowrap; font-size: 11px; }
+.carving-row input[type="range"] { flex: 1; min-width: 40px; accent-color: #5b4a8b; }
+.carving-val { font-weight: 600; color: #5b4a8b; min-width: 40px; text-align: right; font-size: 11px; }
+.carving-hint { font-size: 10px; color: var(--text-muted); line-height: 1.4; padding: 4px 6px; background: rgba(91,74,139,0.06); border-radius: 4px; }
+.carving-hint.active { background: rgba(91,74,139,0.12); color: #5b4a8b; font-weight: 500; }
+.carving-preview-info { font-size: 10px; color: #5b4a8b; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.carving-preview-info::before { content: '\25C6'; font-size: 8px; }
+#carving-clear-btn { padding: 7px 10px; border: 1px solid #e0c0c0; border-radius: var(--radius-sm); background: #fff5f5; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; color: #c0392b; font-weight: 600; transition: all 0.15s; }
+#carving-clear-btn:hover { background: #fee0e0; border-color: #c0392b; }
+.carving-commit-btn { padding: 7px 10px; border: 1px solid #5b4a8b; border-radius: var(--radius-sm); background: #5b4a8b; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; color: white; font-weight: 600; transition: all 0.15s; }
+.carving-commit-btn:hover { background: #4a3a7a; }
+.carving-commit-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* ===== SPRINT 4: GO UNDERGROUND BUTTON ===== */
+#vc-underground { width: 40px; height: 40px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: all 0.15s; }
+#vc-underground:hover { background: white; border-color: #5b4a8b; }
+#vc-underground.active { background: #5b4a8b; border-color: #5b4a8b; }
+#vc-underground.active svg { color: white; }
+#vc-underground svg { width: 18px; height: 18px; color: var(--text); }
+
+/* Depth gauge overlay (Agent 4 — underground view) */
+#depth-gauge-overlay { position: absolute; top: 16px; right: 16px; background: rgba(91,74,139,0.95); color: white; border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; box-shadow: var(--shadow); display: none; z-index: 47; pointer-events: none; }
+#depth-gauge-overlay.visible { display: block; }
+#depth-gauge-overlay .dg-label { font-size: 10px; text-transform: uppercase; opacity: 0.8; }
+#depth-gauge-overlay .dg-value { font-size: 18px; font-weight: 700; }
+#depth-gauge-overlay .dg-unit { font-size: 11px; opacity: 0.7; }
+
+/* ===== Agent 2: Below-grid UX — inline depth gauge and voxel info ===== */
+.grid-level-display { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(91,74,139,0.10); border-radius: var(--radius-sm); font-size: 11px; }
+.grid-level-display .gl-label { color: var(--text-muted); font-weight: 600; }
+.grid-level-display .gl-value { color: #5b4a8b; font-weight: 700; font-size: 13px; }
+.depth-gauge-inline { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(139,94,60,0.12); border-radius: var(--radius-sm); font-size: 11px; }
+.depth-gauge-inline .dg-label { color: var(--text-muted); font-weight: 600; }
+.depth-gauge-inline .dg-value { color: #8B5E3C; font-weight: 700; font-size: 13px; }
+.depth-gauge-inline.below .dg-value { color: #c0392b; }
+.depth-gauge-inline.above .dg-value { color: #2d6b3c; }
+.depth-gauge-inline-bar { flex: 1; height: 6px; background: linear-gradient(to bottom, #2d6b3c 0%, #ddd 45%, #ddd 55%, #c0392b 100%); border-radius: 3px; position: relative; max-width: 80px; min-width: 40px; }
+.depth-gauge-inline-indicator { position: absolute; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: #5b4a8b; border: 1.5px solid white; transform: translate(-50%, -50%); transition: top 0.1s; top: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.voxel-layer-info { display: flex; align-items: center; gap: 8px; padding: 4px 8px; background: rgba(92,64,51,0.08); border-radius: var(--radius-sm); font-size: 10px; }
+.voxel-layer-swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.2); }
+.voxel-layer-label { color: var(--text-muted); font-weight: 600; }
+
+/* Mobile below-grid controls */
+@media (max-width: 768px) {
+  .grid-level-row { padding: 8px 10px; }
+  .grid-level-row label { font-size: 15px; }
+  .grid-level-row input[type="range"] { min-height: 32px; }
+  .grid-level-val { font-size: 14px; }
+  .depth-gauge-inline { padding: 8px 10px; font-size: 13px; }
+  .depth-gauge-inline .dg-value { font-size: 15px; }
+  .depth-gauge-inline-bar { min-width: 60px; height: 8px; }
+  .depth-gauge-inline-indicator { width: 14px; height: 14px; }
+  .excavate-row { min-height: 36px; }
+  .excavate-row label { font-size: 14px; }
+  .excavate-row input[type="range"] { min-height: 32px; }
+  .excavate-btns button { min-height: 44px; padding: 8px 10px; font-size: 13px; }
+}
+
 </style>
 <script type="importmap">
 {
@@ -678,6 +760,10 @@ canvas { display: block; }
   <!-- Mobile library toggle button -->
   <button id="mobile-lib-toggle" title="Show object library" aria-label="Show object library">+</button>
   <div id="viewport" role="application" aria-label="3D backyard design canvas">
+    <!-- Sprint 4: Grid level badge — shows when grid is not at Y=0 -->
+    <div class="viewport-overlay" id="grid-level-badge"><span class="badge-icon">\u2B06</span>Grid at Y=<span id="grid-level-badge-val">0</span> ft</div>
+    <!-- Sprint 4: Depth gauge overlay — shows camera depth when underground -->
+    <div class="viewport-overlay" id="depth-gauge-overlay"><div class="dg-label">Camera Depth</div><div><span class="dg-value" id="dg-overlay-value">0</span><span class="dg-unit"> ft</span></div></div>
     <div class="viewport-overlay" id="dim-readout" aria-hidden="true"></div>
     <div class="viewport-overlay" id="safety-warnings" aria-label="Safety warnings"></div>
     <div class="viewport-overlay" id="view-controls" role="toolbar" aria-label="Camera controls">
@@ -689,6 +775,10 @@ canvas { display: block; }
       </button>
       <button class="vc-btn" id="vc-reset" title="Reset View" aria-label="Reset camera view">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0118-1M21 3v5h-5M21 12a9 9 0 01-18 1M3 21v-5h5"/></svg>
+      </button>
+      <!-- Sprint 4: Go Underground camera preset -->
+      <button class="vc-btn" id="vc-underground" title="Go Underground — angle camera to look into carved spaces" aria-label="Go underground view" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M3 18l3-6 3 3 4-8 3 5 5-4M6 18v3M10 18v3M14 18v3M18 18v3"/></svg>
       </button>
     </div>
     <div class="viewport-overlay" id="context-hint"></div>
@@ -743,9 +833,98 @@ canvas { display: block; }
         <span class="readout-label">Height at cursor:</span>
         <span class="readout-value" id="height-readout-value">0.0 ft</span>
       </div>
+      <!-- Sprint 4: Grid Level UX (Agent 4) + Below-grid display (Agent 2) -->
+      <div class="grid-level-section">
+        <div class="grid-level-label">Grid Level (Ground Plane)</div>
+        <div class="grid-level-row">
+          <input type="range" id="grid-level-slider" min="-30" max="30" value="0" step="1">
+          <span class="grid-level-val" id="grid-level-val">0 ft</span>
+        </div>
+        <div class="grid-level-hint">
+          <strong>Ground level</strong> = where the grid sits (default Y=0). <strong>Terrain height</strong> = the actual surface shape you sculpt with the brush. Raise the grid level to match a sloped lot's reference elevation.
+        </div>
+        <div class="grid-level-display" id="grid-level-display">
+          <span class="gl-label">Ground Level:</span>
+          <span class="gl-value" id="grid-level-value">0 ft</span>
+        </div>
+        <div class="depth-gauge-inline" id="depth-gauge-inline">
+          <span class="dg-label" id="dg-inline-label">Height:</span>
+          <span class="dg-value" id="dg-inline-value">0.0 ft</span>
+          <div class="depth-gauge-inline-bar" id="dg-inline-bar"><div class="depth-gauge-inline-indicator" id="dg-inline-indicator"></div></div>
+        </div>
+      </div>
+      <div class="voxel-info" id="voxel-info" style="font-size: 10px; color: var(--text-muted); display: none;">
+        <span>Voxels: </span><span id="voxel-count">0</span> solid, <span id="voxel-faces">0</span> faces
+      </div>
       <div class="excavation-depth-hint" id="excavation-depth-hint" style="display: none;">
         <span class="depth-hint-icon">⬇</span>
         <span class="depth-hint-text">Excavating: terrain can go below 0 ft (down to -30 ft)</span>
+      </div>
+      <div class="terrain-row" style="border-top: 1px solid var(--border); padding-top: 8px;">
+        <label>Carve Shape</label>
+      </div>
+      <div class="terrain-mode-btns" id="carve-shape-btns">
+        <button class="terrain-mode-btn active" data-cshape="none">None</button>
+        <button class="terrain-mode-btn" data-cshape="box">Box</button>
+        <button class="terrain-mode-btn" data-cshape="cylinder">Cylinder</button>
+        <button class="terrain-mode-btn" data-cshape="sphere">Sphere</button>
+      </div>
+      <div class="terrain-row" id="carve-size-row" style="display: none;">
+        <label>Carve Size</label>
+        <input type="range" id="carve-size-slider" min="3" max="30" value="8" step="1">
+        <span class="terrain-val" id="carve-size-val">8 ft</span>
+      </div>
+      <div class="terrain-row" id="carve-depth-row" style="display: none;">
+        <label>Carve Depth</label>
+        <input type="range" id="carve-depth-slider" min="2" max="30" value="10" step="1">
+        <span class="terrain-val" id="carve-depth-val">10 ft</span>
+      </div>
+      <div id="carve-hint" style="font-size: 10px; color: var(--text-muted); display: none;">
+        Click on terrain to preview, click again to carve. Right-click to cancel.
+      </div>
+      <!-- Sprint 4: Carving Tools Section (Agent 4) -->
+      <div class="carving-section">
+        <div class="carving-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
+          Carving Tools
+        </div>
+        <div class="carving-shape-btns">
+          <button class="carving-shape-btn" data-cshape="box" title="Carve a rectangular box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4M21 7v10l-9 4M3 7l9 4 9-4"/></svg>
+            <span class="shape-label">Box</span>
+          </button>
+          <button class="carving-shape-btn" data-cshape="cylinder" title="Carve a round cylinder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><ellipse cx="12" cy="18" rx="7" ry="3" opacity="0.3"/></svg>
+            <span class="shape-label">Round</span>
+          </button>
+          <button class="carving-shape-btn" data-cshape="trench" title="Carve a long narrow trench">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h20M2 8v8M22 8v8M6 8v8M10 8v8M14 8v8M18 8v8M2 16h20"/></svg>
+            <span class="shape-label">Trench</span>
+          </button>
+        </div>
+        <div class="carving-controls">
+          <div class="carving-row">
+            <label>Depth</label>
+            <input type="range" id="carving-depth" min="1" max="20" value="5" step="1">
+            <span class="carving-val" id="carving-depth-val">5 ft</span>
+          </div>
+          <div class="carving-row">
+            <label>Width</label>
+            <input type="range" id="carving-width" min="3" max="30" value="10" step="1">
+            <span class="carving-val" id="carving-width-val">10 ft</span>
+          </div>
+          <div class="carving-row">
+            <label>Length</label>
+            <input type="range" id="carving-length" min="3" max="50" value="15" step="1">
+            <span class="carving-val" id="carving-length-val">15 ft</span>
+          </div>
+        </div>
+        <div class="carving-hint" id="carving-hint">Select a shape, then click on the ground where you want to carve. A preview shows the shape before you commit.</div>
+        <div class="carving-preview-info" id="carving-preview-info" style="display:none;"></div>
+        <div style="display:flex; gap:4px;">
+          <button class="carving-commit-btn" id="carving-commit-btn" disabled>Click ground first</button>
+        </div>
+        <button id="carving-clear-btn" title="Reset all terrain to flat (clears all carvings)">Clear All Carvings</button>
       </div>
       <div class="terrain-row">
         <label>Presets</label>
@@ -835,6 +1014,9 @@ canvas { display: block; }
         <div class="cs-legend-item"><div class="cs-legend-line" style="background:#6b8a4a;"></div>Terrain</div>
         <div class="cs-legend-item"><div class="cs-legend-dot" style="background:#4a8b5c;"></div>Object on surface</div>
         <div class="cs-legend-item"><div class="cs-legend-dot" style="background:#c0392b;"></div>Buried object</div>
+        <div class="cs-legend-item"><div class="cs-legend-line" style="background:#5b4a8b;border-top:2px dashed #5b4a8b;"></div>Grid Level</div>
+        <div class="cs-legend-item"><div class="cs-legend-dot" style="background:#5C4033;"></div>Voxel earth</div>
+        <div class="cs-legend-item"><div class="cs-legend-line" style="background:#3C2820;border-top:1px solid #3C2820;"></div>Voxel boundary</div>
         <div class="cs-legend-item"><div class="cs-legend-line" style="background:#5b4a8b;border-top:1px dashed #5b4a8b;"></div>Section line</div>
       </div>
       <div class="cs-info" id="cs-info"></div>
@@ -1070,6 +1252,147 @@ canvas { display: block; }
       <div class="innov-btns">
         <button id="innov-retwall-scan">Scan Terrain</button>
         <button id="innov-retwall-clear">Clear Walls</button>
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- S4 Innovation: Underground Structure Generator -->
+      <div class="innov-section-title">S4: Underground Structure Generator</div>
+      <button class="innov-tool-btn" id="innov-ugstruct-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6M9 12h6"/></svg>
+        <div>
+          <div>Underground Structure Generator</div>
+          <div class="innov-desc">Click terrain to carve an underground room with walls & floor</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Type</label>
+        <select id="innov-ugstruct-type" style="flex:1;padding:3px 6px;border:1px solid var(--border);border-radius:4px;font-size:11px;font-family:inherit;">
+          <option value="basement">Basement</option>
+          <option value="rootcellar">Root Cellar</option>
+          <option value="stormshelter">Storm Shelter</option>
+          <option value="winecellar">Wine Cellar</option>
+        </select>
+      </div>
+      <div class="innov-row">
+        <label>Width</label>
+        <input type="range" id="innov-ugstruct-width" min="6" max="30" value="12" step="1">
+        <span class="innov-val" id="innov-ugstruct-width-val">12 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Length</label>
+        <input type="range" id="innov-ugstruct-length" min="6" max="30" value="16" step="1">
+        <span class="innov-val" id="innov-ugstruct-length-val">16 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Depth</label>
+        <input type="range" id="innov-ugstruct-depth" min="4" max="15" value="8" step="0.5">
+        <span class="innov-val" id="innov-ugstruct-depth-val">8.0 ft</span>
+      </div>
+      <div class="innov-info">Click on terrain to carve an underground room. Use cutaway view to see inside.</div>
+      <div class="innov-btns">
+        <button id="innov-ugstruct-clear">Clear All Rooms</button>
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- S4 Innovation: Geological Layer Visualization -->
+      <div class="innov-section-title">S4: Geological Layers</div>
+      <button class="innov-tool-btn" id="innov-geolayer-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M2 8h20M2 16h20M2 4h20M2 20h20"/><path d="M4 4v16M20 4v16" stroke-width="1"/></svg>
+        <div>
+          <div>Geological Layer Visualization</div>
+          <div class="innov-desc">Show soil/rock layers at different depths in cutaway</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Topsoil Depth</label>
+        <input type="range" id="innov-geolayer-topsoil" min="0.5" max="5" value="2" step="0.5">
+        <span class="innov-val" id="innov-geolayer-topsoil-val">2.0 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Clay Depth</label>
+        <input type="range" id="innov-geolayer-clay" min="2" max="15" value="8" step="0.5">
+        <span class="innov-val" id="innov-geolayer-clay-val">8.0 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Sandstone Depth</label>
+        <input type="range" id="innov-geolayer-sandstone" min="5" max="25" value="15" step="0.5">
+        <span class="innov-val" id="innov-geolayer-sandstone-val">15.0 ft</span>
+      </div>
+      <div class="innov-info">Toggles geological layer coloring on the solid earth mesh. Use cutaway to see layers.</div>
+      <div class="innov-btns">
+        <button id="innov-geolayer-toggle">Toggle Layers</button>
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- S4 Innovation: Excavation Volume Calculator -->
+      <div class="innov-section-title">S4: Excavation Volume Calculator</div>
+      <button class="innov-tool-btn" id="innov-volcalc-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V4h6v4M5 12h14"/></svg>
+        <div>
+          <div>Excavation Volume Calculator</div>
+          <div class="innov-desc">Real-time cut/fill volumes, surface area, cost estimate</div>
+        </div>
+      </button>
+      <div class="innov-info">Computes excavation volumes from terrain deformation. Reports cubic yards and truck loads.</div>
+      <div id="innov-volcalc-display" style="display:none;background:#f0f5f2;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;gap:4px;">
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- S4 AI-Discovered: Exploded View -->
+      <div class="innov-section-title">S4 AI-Discovered: Exploded View</div>
+      <button class="innov-tool-btn" id="innov-exploded-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M12 16v6M12 8l-3 3M12 8l3 3M12 16l-3-3M12 16l3-3"/><circle cx="12" cy="12" r="2"/></svg>
+        <div>
+          <div>Exploded View</div>
+          <div class="innov-desc">Lift terrain to reveal underground structures</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Lift Amount</label>
+        <input type="range" id="innov-exploded-amount" min="0" max="50" value="20" step="1">
+        <span class="innov-val" id="innov-exploded-amount-val">20 ft</span>
+      </div>
+      <div class="innov-info">Animates terrain surface upward to reveal underground features. Slide to control separation.</div>
+
+      <div class="innov-divider"></div>
+
+      <!-- S4 AI-Discovered: Water Table -->
+      <div class="innov-section-title">S4 AI-Discovered: Water Table</div>
+      <button class="innov-tool-btn" id="innov-watertable-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M12 2v6M12 8l-2-2M12 8l2-2" stroke-width="1.5"/></svg>
+        <div>
+          <div>Water Table Visualization</div>
+          <div class="innov-desc">Show water table plane, warn when excavating below</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Water Table Depth</label>
+        <input type="range" id="innov-watertable-depth" min="2" max="30" value="10" step="0.5">
+        <span class="innov-val" id="innov-watertable-depth-val">10.0 ft</span>
+      </div>
+      <div class="innov-info">Shows a semi-transparent blue plane at the water table depth. Excavations below it trigger warnings.</div>
+      <div class="innov-btns">
+        <button id="innov-watertable-toggle">Toggle Water Table</button>
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- S4 AI-Discovered: Underground Ghost Preview -->
+      <div class="innov-section-title">S4 AI-Discovered: Ghost Preview</div>
+      <button class="innov-tool-btn" id="innov-ghostpreview-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9-5 9 5v8l-9 5-9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8" stroke-width="1.5"/></svg>
+        <div>
+          <div>Underground Ghost Preview</div>
+          <div class="innov-desc">Hover to preview underground placement before committing</div>
+        </div>
+      </button>
+      <div class="innov-info">When using Underground Structure Generator, a ghost preview shows where the room will be placed.</div>
+      <div class="innov-btns">
+        <button id="innov-ghostpreview-toggle">Toggle Ghost Preview</button>
       </div>
     </div>
     <!-- NOAA Sun & Shadow Simulator -->
@@ -2137,6 +2460,8 @@ const state = {
   terrain: null, // Float32Array of height values, null = flat
   terrainSegs: 100, // segments per side for terrain mesh (100x100 = 1ft cells on 100ft yard)
   terrainDeformed: false, // O(1) flag: true if terrain has any non-zero heights
+  voxels: null,   // Uint8Array 3D voxel grid (solid=1, empty=0) — null = not initialized
+  gridLevel: 0,   // Y value where grid sits (baseline for terrain measurements)
 };
 
 // --- Terrain height limits (precision engine) ---
@@ -2165,8 +2490,37 @@ const sceneObjects = new Map();
 let scene, renderer, camera3D, camera2D, controls;
 let raycaster, mouse, groundPlane, gridHelper, yardMesh, boundaryLines;
 let solidEarthMesh = null;       // solid earth block beneath terrain for excavations
+let voxelMesh = null;            // merged BufferGeometry mesh for voxel surface faces
+let carvingPreviewMesh = null;   // wireframe preview of carving shape
 let activeCamera = camera3D;
 let sunLight = null, sunAmbient = null, sunHemi = null;
+
+// ============================================================
+// VOXEL VOLUME ENGINE — 3D editable earth volume
+// ============================================================
+// Replaces the cosmetic solidEarthMesh with an editable voxel grid.
+// Voxels are 2ft cubes arranged in a 3D grid covering the yard area
+// from the terrain surface down to VOXEL_DEPTH ft below grid level.
+// Only surface faces (those adjacent to empty voxels) are rendered.
+
+const VOXEL_SIZE = 2;           // ft per voxel edge
+const VOXEL_DEPTH = 60;         // total depth of the voxel volume (ft) below grid level baseline
+const VOXEL_COLOR = 0x5C4033;   // dark earth-brown — same as old solid earth
+
+// Derived grid dimensions — computed lazily from yard size
+let voxelNX = 0, voxelNZ = 0, voxelNY = 0;
+let voxelOriginX = 0, voxelOriginZ = 0; // world X/Z of voxel [0,0,*]
+// Voxel Y=0 is at gridLevel - VOXEL_DEPTH, Y=top is at gridLevel + something
+
+// Carving shape state
+let carvingShape = null;  // 'box' | 'cylinder' | 'sphere' | null
+let carvingSize = 8;      // ft — radius for sphere/cylinder, half-extent for box
+let carvingDepth = 10;    // ft — how deep the carve goes below the click point
+let carvingPendingCenter = null; // {x, y, z} world coords of pending carve
+
+// Moved here from excavate section to avoid temporal dead zone when buildVoxelMesh runs during initScene
+let terrainClipPlane = null;       // THREE.Plane for clipping
+let wireframeActive = false;        // wireframe toggle state
 
 // ============================================================
 // INIT
@@ -2260,21 +2614,24 @@ function initScene() {
   // Built as a custom BufferGeometry: top surface mirrors terrain, bottom is flat
   // at a fixed depth below the lowest point, and side walls connect the edges.
   buildSolidEarth();
+  // Initialize voxel volume from terrain (or flat ground if no terrain)
+  initVoxelsFromTerrain();
+  buildVoxelMesh();
 
   // Ground plane for raycasting (invisible)
   raycaster = new THREE.Raycaster();
   mouse = new THREE.Vector2();
-  groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -state.gridLevel);
 
   // Grid
   gridHelper = new THREE.GridHelper(Math.max(state.yard.width, state.yard.depth), Math.max(state.yard.width, state.yard.depth), 0x888888, 0xcccccc);
-  gridHelper.position.y = 0.01;
+  gridHelper.position.y = state.gridLevel + 0.01;
   scene.add(gridHelper);
 
   // Boundary lines
   const boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(state.yard.width, 0.02, state.yard.depth));
   boundaryLines = new THREE.LineSegments(boundaryGeo, new THREE.LineBasicMaterial({ color: 0x333333 }));
-  boundaryLines.position.y = 0.03;
+  boundaryLines.position.y = state.gridLevel + 0.03;
   scene.add(boundaryLines);
 
   // Outer ground (extends beyond yard)
@@ -2356,6 +2713,8 @@ function addObject(type, params, position, rotation = 0) {
   };
   state.objects.set(id, obj);
   buildSceneObject(id);
+  // Update object Y to match terrain height when placed at default Y=0 (Agent 3 bug fix)
+  if (state.terrain && pos.y === 0) updateObjectHeight(id);
   return id;
 }
 
@@ -3151,12 +3510,14 @@ function debouncedAutosave() {
 
 function serializeDesign() {
   return {
-    version: 2,
+    version: 3,
     yard: state.yard,
     objects: Array.from(state.objects.values()),
     nextId: state.nextId,
     terrain: state.terrain ? Array.from(state.terrain) : null,
     terrainSegs: state.terrainSegs,
+    voxels: serializeVoxels(),
+    gridLevel: state.gridLevel,
   };
 }
 
@@ -3235,9 +3596,21 @@ function loadDesign(data) {
     state.terrain = null;
   }
   state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 ? data.terrainSegs : 100;
+  // Restore grid level
+  if (typeof data.gridLevel === 'number') {
+    state.gridLevel = Math.max(-30, Math.min(30, data.gridLevel));
+  }
   // Rebuild ground with new dimensions and apply terrain
   initWithYard(state.yard);
   if (state.terrain) { _recomputeTerrainDeformed(); applyTerrainToMesh(); }
+  // Restore voxel data if present, otherwise initWithYard already generated from terrain
+  if (data.voxels) {
+    if (deserializeVoxels(data.voxels)) {
+      buildVoxelMesh();
+      updateVoxelInfoDisplay();
+    }
+    // If deserialization fails, voxels were already generated from terrain in initWithYard
+  }
   for (const obj of data.objects) {
     // Sanitize all params against CATALOG definitions (prevents XSS, invalid values)
     const sanitizedParams = sanitizeObjectParams(obj);
@@ -3543,6 +3916,18 @@ function initWithYard(data) {
     if (solidEarthMesh.material) solidEarthMesh.material.dispose();
     solidEarthMesh = null;
   }
+  // Dispose old voxel mesh
+  if (voxelMesh) {
+    scene.remove(voxelMesh);
+    if (voxelMesh.geometry) voxelMesh.geometry.dispose();
+    if (voxelMesh.material) voxelMesh.material.dispose();
+    voxelMesh = null;
+  }
+  // Hide carving preview
+  hideCarvingPreview();
+  carvingPendingCenter = null;
+  // Reset voxel grid — will be reinitialized from terrain if terrain exists
+  state.voxels = null;
   scene.remove(gridHelper);
   if (gridHelper.material) gridHelper.material.dispose();
   if (gridHelper.geometry) gridHelper.geometry.dispose();
@@ -3578,7 +3963,7 @@ function initWithYard(data) {
   if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) yardMesh.material.clippingPlanes = [terrainClipPlane];
   if (typeof wireframeActive !== 'undefined' && wireframeActive) yardMesh.material.wireframe = true;
   gridHelper = new THREE.GridHelper(Math.max(data.width, data.depth), Math.max(data.width, data.depth), 0x888888, 0xcccccc);
-  gridHelper.position.y = 0.01;
+  gridHelper.position.y = state.gridLevel + 0.01;
   scene.add(gridHelper);
   boundaryLines.geometry.dispose();
   let boundaryGeo;
@@ -3601,7 +3986,7 @@ function initWithYard(data) {
     boundaryGeo,
     new THREE.LineBasicMaterial({ color: 0x333333 })
   );
-  boundaryLines.position.y = 0.03;
+  boundaryLines.position.y = state.gridLevel + 0.03;
   scene.add(boundaryLines);
   // Reset camera to frame the yard
   camera3D.position.set(data.width * 0.5, data.depth * 0.4, data.depth * 0.5);
@@ -3619,8 +4004,13 @@ function initWithYard(data) {
     applyTerrainToMesh();
     // Update all object heights to match terrain
     state.objects.forEach((_, id) => updateObjectHeight(id));
+  } else {
+    // No terrain — still init voxel volume (flat ground)
+    initVoxelsFromTerrain();
+    buildVoxelMesh();
   }
   updateAllBuriedIndicators();
+  updateVoxelInfoDisplay();
   requestRender();
 }
 
@@ -3806,6 +4196,9 @@ terrainBtn.addEventListener('click', () => {
   } else {
     hideHint();
     removeBrushCursor();
+    // Hide carving preview and reset carving state
+    hideCarvingPreview();
+    carvingPendingCenter = null;
     // Turn off overlays when exiting terrain mode
     if (terrainHeightColorsActive) {
       terrainHeightColorsActive = false;
@@ -3824,15 +4217,54 @@ terrainBtn.addEventListener('click', () => {
   requestRender();
 });
 
-// Terrain mode buttons
-document.querySelectorAll('.terrain-mode-btn').forEach(btn => {
+// Terrain mode buttons (only the brush mode buttons with data-tmode)
+document.querySelectorAll('.terrain-mode-btn[data-tmode]').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.terrain-mode-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.terrain-mode-btn[data-tmode]').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     terrainBrushMode = btn.dataset.tmode;
     updateExcavationHint();
   });
 });
+
+// Carve shape buttons
+document.querySelectorAll('.terrain-mode-btn[data-cshape]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.terrain-mode-btn[data-cshape]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const shape = btn.dataset.cshape;
+    carvingShape = shape === 'none' ? null : shape;
+    const showOpts = carvingShape !== null;
+    document.getElementById('carve-size-row').style.display = showOpts ? 'flex' : 'none';
+    document.getElementById('carve-depth-row').style.display = showOpts ? 'flex' : 'none';
+    document.getElementById('carve-hint').style.display = showOpts ? 'block' : 'none';
+    if (!carvingShape) hideCarvingPreview();
+  });
+});
+
+// Carve size slider
+document.getElementById('carve-size-slider').addEventListener('input', e => {
+  carvingSize = parseInt(e.target.value);
+  document.getElementById('carve-size-val').textContent = carvingSize + ' ft';
+  if (carvingPendingCenter) updateCarvingPreview();
+});
+
+// Carve depth slider
+document.getElementById('carve-depth-slider').addEventListener('input', e => {
+  carvingDepth = parseInt(e.target.value);
+  document.getElementById('carve-depth-val').textContent = carvingDepth + ' ft';
+  if (carvingPendingCenter) updateCarvingPreview();
+});
+
+// Grid level slider
+document.getElementById('grid-level-slider').addEventListener('input', e => {
+  setGridLevel(parseInt(e.target.value));
+});
+
+function updateCarvingPreview() {
+  if (!carvingShape || !carvingPendingCenter) { hideCarvingPreview(); return; }
+  showCarvingPreview(carvingShape, carvingPendingCenter.x, carvingPendingCenter.y, carvingPendingCenter.z, carvingSize, carvingDepth);
+}
 
 // Brush size slider
 terrainBrushSizeInput.addEventListener('input', e => {
@@ -4179,6 +4611,532 @@ function getSolidEarthBottomY() {
   return minH - EARTH_DEPTH_BELOW_MIN;
 }
 
+// ============================================================
+// VOXEL VOLUME ENGINE IMPLEMENTATION
+// ============================================================
+
+/** Compute voxel grid dimensions from yard size and constants. */
+function computeVoxelDims() {
+  // Cover the yard width/depth with VOXEL_SIZE cells
+  voxelNX = Math.ceil(state.yard.width / VOXEL_SIZE);
+  voxelNZ = Math.ceil(state.yard.depth / VOXEL_SIZE);
+  // Y range: from gridLevel - VOXEL_DEPTH up to MAX_TERRAIN_HEIGHT + a few voxels above
+  const topY = MAX_TERRAIN_HEIGHT + VOXEL_SIZE;
+  const bottomY = state.gridLevel - VOXEL_DEPTH;
+  voxelNY = Math.ceil((topY - bottomY) / VOXEL_SIZE);
+  // Origin: centered on yard, voxel [0,0,0] is at the bottom-left-bottom corner
+  voxelOriginX = -state.yard.width / 2;
+  voxelOriginZ = -state.yard.depth / 2;
+}
+
+/** Convert voxel indices to world coordinates (center of the voxel). */
+function voxelToWorld(ix, iy, iz) {
+  const bottomY = state.gridLevel - VOXEL_DEPTH;
+  return {
+    x: voxelOriginX + (ix + 0.5) * VOXEL_SIZE,
+    y: bottomY + (iy + 0.5) * VOXEL_SIZE,
+    z: voxelOriginZ + (iz + 0.5) * VOXEL_SIZE,
+  };
+}
+
+/** Convert world coordinates to voxel indices (floor). Returns null if out of range. */
+function worldToVoxel(wx, wy, wz) {
+  const bottomY = state.gridLevel - VOXEL_DEPTH;
+  const ix = Math.floor((wx - voxelOriginX) / VOXEL_SIZE);
+  const iy = Math.floor((wy - bottomY) / VOXEL_SIZE);
+  const iz = Math.floor((wz - voxelOriginZ) / VOXEL_SIZE);
+  if (ix < 0 || ix >= voxelNX || iy < 0 || iy >= voxelNY || iz < 0 || iz >= voxelNZ) return null;
+  return { ix, iy, iz };
+}
+
+/** Get voxel value at indices. Returns 0 (empty) for out-of-bounds. */
+function getVoxel(ix, iy, iz) {
+  if (!state.voxels) return 0;
+  if (ix < 0 || ix >= voxelNX || iy < 0 || iy >= voxelNY || iz < 0 || iz >= voxelNZ) return 0;
+  return state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix];
+}
+
+/** Set voxel value at indices. No-op if out of bounds. */
+function setVoxel(ix, iy, iz, val) {
+  if (!state.voxels) return;
+  if (ix < 0 || ix >= voxelNX || iy < 0 || iy >= voxelNY || iz < 0 || iz >= voxelNZ) return;
+  state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = val;
+}
+
+/**
+ * Initialize the voxel grid from the terrain array.
+ * All voxels below the terrain surface are solid, all above are empty.
+ * The terrain surface height is bilinearly sampled at each voxel column.
+ */
+function initVoxelsFromTerrain() {
+  computeVoxelDims();
+  const total = voxelNX * voxelNY * voxelNZ;
+  state.voxels = new Uint8Array(total);
+  const bottomY = state.gridLevel - VOXEL_DEPTH;
+
+  for (let ix = 0; ix < voxelNX; ix++) {
+    for (let iz = 0; iz < voxelNZ; iz++) {
+      // World X/Z at the center of this voxel column
+      const wx = voxelOriginX + (ix + 0.5) * VOXEL_SIZE;
+      const wz = voxelOriginZ + (iz + 0.5) * VOXEL_SIZE;
+      // Terrain height at this location (interpolated)
+      const surfY = getTerrainHeight(wx, wz);
+      // The surface voxel is the highest voxel whose center is at or below surfY
+      const surfIy = Math.floor((surfY - bottomY) / VOXEL_SIZE);
+      // Fill all voxels from 0 up to surfIy (inclusive) as solid
+      const maxY = Math.min(surfIy, voxelNY - 1);
+      for (let iy = 0; iy <= maxY; iy++) {
+        state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = 1;
+      }
+    }
+  }
+}
+
+/**
+ * Update the voxel grid to match terrain after a terrain edit.
+ * Only modifies the surface column — preserves user carvings below.
+ * For each column, ensures voxels are solid from bottom up to the new
+ * terrain surface, but does NOT fill in voxels that were carved out
+ * below the new surface (preserving tunnels/rooms).
+ */
+function updateVoxelsFromTerrain() {
+  if (!state.voxels) { initVoxelsFromTerrain(); return; }
+  computeVoxelDims(); // recompute in case yard changed
+  const bottomY = state.gridLevel - VOXEL_DEPTH;
+
+  for (let ix = 0; ix < voxelNX; ix++) {
+    for (let iz = 0; iz < voxelNZ; iz++) {
+      const wx = voxelOriginX + (ix + 0.5) * VOXEL_SIZE;
+      const wz = voxelOriginZ + (iz + 0.5) * VOXEL_SIZE;
+      const surfY = getTerrainHeight(wx, wz);
+      const surfIy = Math.floor((surfY - bottomY) / VOXEL_SIZE);
+      const maxY = Math.min(surfIy, voxelNY - 1);
+      // Ensure solid from 0 to maxY (only add, don't remove existing carvings)
+      for (let iy = 0; iy <= maxY; iy++) {
+        state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = 1;
+      }
+      // Clear voxels above the new surface
+      for (let iy = maxY + 1; iy < voxelNY; iy++) {
+        state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = 0;
+      }
+    }
+  }
+}
+
+/**
+ * Build the voxel surface mesh using a merged BufferGeometry.
+ * Only renders faces that are on the boundary (adjacent to an empty voxel).
+ * Uses greedy face merging per-slice for performance.
+ */
+function buildVoxelMesh() {
+  // Remove existing voxel mesh
+  if (voxelMesh) {
+    scene.remove(voxelMesh);
+    if (voxelMesh.geometry) voxelMesh.geometry.dispose();
+    if (voxelMesh.material) voxelMesh.material.dispose();
+    voxelMesh = null;
+  }
+  if (!state.voxels) return;
+
+  const positions = [];
+  const normals = [];
+  const indices = [];
+  const bottomY = state.gridLevel - VOXEL_DEPTH;
+
+  // Face definitions: for each direction, the offset to the neighbor and the face vertices
+  // Faces: 0=+X, 1=-X, 2=+Y(top), 3=-Y(bottom), 4=+Z, 5=-Z
+  const faceDefs = [
+    { dx: 1, dy: 0, dz: 0,  // +X face
+      verts: [[1,0,0],[1,1,0],[1,1,1],[1,0,1]],
+      normal: [1, 0, 0] },
+    { dx: -1, dy: 0, dz: 0,  // -X face
+      verts: [[0,0,1],[0,1,1],[0,1,0],[0,0,0]],
+      normal: [-1, 0, 0] },
+    { dx: 0, dy: 1, dz: 0,   // +Y (top) face
+      verts: [[0,1,0],[0,1,1],[1,1,1],[1,1,0]],
+      normal: [0, 1, 0] },
+    { dx: 0, dy: -1, dz: 0,  // -Y (bottom) face
+      verts: [[0,0,1],[0,0,0],[1,0,0],[1,0,1]],
+      normal: [0, -1, 0] },
+    { dx: 0, dy: 0, dz: 1,   // +Z face
+      verts: [[1,0,1],[1,1,1],[0,1,1],[0,0,1]],
+      normal: [0, 0, 1] },
+    { dx: 0, dy: 0, dz: -1,  // -Z face
+      verts: [[0,0,0],[0,1,0],[1,1,0],[1,0,0]],
+      normal: [0, 0, -1] },
+  ];
+
+  for (let iy = 0; iy < voxelNY; iy++) {
+    for (let iz = 0; iz < voxelNZ; iz++) {
+      for (let ix = 0; ix < voxelNX; ix++) {
+        if (getVoxel(ix, iy, iz) !== 1) continue;
+        const baseX = voxelOriginX + ix * VOXEL_SIZE;
+        const baseY = bottomY + iy * VOXEL_SIZE;
+        const baseZ = voxelOriginZ + iz * VOXEL_SIZE;
+
+        for (let f = 0; f < 6; f++) {
+          const fd = faceDefs[f];
+          // Only draw this face if the neighbor is empty (0)
+          if (getVoxel(ix + fd.dx, iy + fd.dy, iz + fd.dz) !== 0) continue;
+
+          const vIdx = positions.length / 3;
+          for (const v of fd.verts) {
+            positions.push(baseX + v[0] * VOXEL_SIZE, baseY + v[1] * VOXEL_SIZE, baseZ + v[2] * VOXEL_SIZE);
+            normals.push(fd.normal[0], fd.normal[1], fd.normal[2]);
+          }
+          // Two triangles: vIdx, vIdx+1, vIdx+2 and vIdx, vIdx+2, vIdx+3
+          indices.push(vIdx, vIdx + 1, vIdx + 2, vIdx, vIdx + 2, vIdx + 3);
+        }
+      }
+    }
+  }
+
+  if (positions.length === 0) return;
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+  geo.setIndex(indices);
+
+  const mat = new THREE.MeshLambertMaterial({
+    color: VOXEL_COLOR,
+    side: THREE.FrontSide,
+    transparent: true,
+    opacity: parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100,
+  });
+
+  voxelMesh = new THREE.Mesh(geo, mat);
+  voxelMesh.receiveShadow = true;
+  voxelMesh.castShadow = true;
+  scene.add(voxelMesh);
+
+  // Re-apply clipping planes if active
+  if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) {
+    voxelMesh.material.clippingPlanes = [terrainClipPlane];
+  }
+  // Re-apply wireframe if active
+  if (typeof wireframeActive !== 'undefined' && wireframeActive) {
+    voxelMesh.material.wireframe = true;
+  }
+}
+
+/** Full rebuild: init voxels from terrain (if needed) then build mesh. */
+function rebuildVoxelVolume() {
+  if (!state.voxels) {
+    initVoxelsFromTerrain();
+  }
+  buildVoxelMesh();
+  requestRender();
+}
+
+/** Count solid voxels — for diagnostics. */
+function countSolidVoxels() {
+  if (!state.voxels) return 0;
+  let c = 0;
+  for (let i = 0; i < state.voxels.length; i++) if (state.voxels[i]) c++;
+  return c;
+}
+
+/** Count surface faces — for diagnostics. */
+function countVoxelFaces() {
+  if (!state.voxels) return 0;
+  let c = 0;
+  for (let iy = 0; iy < voxelNY; iy++) {
+    for (let iz = 0; iz < voxelNZ; iz++) {
+      for (let ix = 0; ix < voxelNX; ix++) {
+        if (getVoxel(ix, iy, iz) !== 1) continue;
+        for (let f = 0; f < 6; f++) {
+          const dx = [1,-1,0,0,0,0][f], dy = [0,0,1,-1,0,0][f], dz = [0,0,0,0,1,-1][f];
+          if (getVoxel(ix+dx, iy+dy, iz+dz) === 0) c++;
+        }
+      }
+    }
+  }
+  return c;
+}
+
+// ============================================================
+// CARVING SHAPES
+// ============================================================
+
+/**
+ * Carve (remove) voxels within a given shape.
+ * @param {string} shape - 'box' | 'cylinder' | 'sphere'
+ * @param {number} cx - world center X
+ * @param {number} cy - world center Y
+ * @param {number} cz - world center Z
+ * @param {number} size - radius (sphere/cylinder) or half-extent (box) in ft
+ * @param {number} depth - depth extent in ft (for cylinder/box, half-height)
+ * @returns {Array} list of {ix,iy,iz,oldVal} for undo
+ */
+function carveShape(shape, cx, cy, cz, size, depth) {
+  if (!state.voxels) return [];
+  const changed = [];
+  const halfSize = size;
+  const halfDepth = depth;
+
+  // Determine voxel range to iterate
+  const minWx = cx - halfSize, maxWx = cx + halfSize;
+  const minWz = cz - halfSize, maxWz = cz + halfSize;
+  const minWy = cy - halfDepth, maxWy = cy + halfDepth;
+
+  const minV = worldToVoxel(minWx, minWy, minWz);
+  const maxV = worldToVoxel(maxWx, maxWy, maxWz);
+  if (!minV || !maxV) {
+    // Clamp to grid bounds
+    const clampedMin = { ix: 0, iy: 0, iz: 0 };
+    const clampedMax = { ix: voxelNX - 1, iy: voxelNY - 1, iz: voxelNZ - 1 };
+    _carveShapeRange(shape, cx, cy, cz, halfSize, halfDepth, clampedMin, clampedMax, changed);
+  } else {
+    _carveShapeRange(shape, cx, cy, cz, halfSize, halfDepth, minV, maxV, changed);
+  }
+  if (changed.length > 0) buildVoxelMesh();
+  return changed;
+}
+
+function _carveShapeRange(shape, cx, cy, cz, halfSize, halfDepth, minV, maxV, changed) {
+  const sizeSq = halfSize * halfSize;
+  for (let iy = minV.iy; iy <= maxV.iy; iy++) {
+    for (let iz = minV.iz; iz <= maxV.iz; iz++) {
+      for (let ix = minV.ix; ix <= maxV.ix; ix++) {
+        const w = voxelToWorld(ix, iy, iz);
+        let inside = false;
+        if (shape === 'box') {
+          inside = Math.abs(w.x - cx) <= halfSize &&
+                   Math.abs(w.y - cy) <= halfDepth &&
+                   Math.abs(w.z - cz) <= halfSize;
+        } else if (shape === 'cylinder') {
+          const dx = w.x - cx, dz = w.z - cz;
+          inside = (dx * dx + dz * dz) <= sizeSq && Math.abs(w.y - cy) <= halfDepth;
+        } else if (shape === 'sphere') {
+          const dx = w.x - cx, dy = w.y - cy, dz = w.z - cz;
+          inside = (dx * dx + dy * dy + dz * dz) <= sizeSq;
+        }
+        if (inside) {
+          const oldVal = getVoxel(ix, iy, iz);
+          if (oldVal === 1) {
+            setVoxel(ix, iy, iz, 0);
+            changed.push({ ix, iy, iz, oldVal: 1 });
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Add (fill) voxels within a given shape — for the raise brush in carving mode.
+ */
+function fillShape(shape, cx, cy, cz, size, depth) {
+  if (!state.voxels) return [];
+  const changed = [];
+  const halfSize = size;
+  const halfDepth = depth;
+  const minWx = cx - halfSize, maxWx = cx + halfSize;
+  const minWz = cz - halfSize, maxWz = cz + halfSize;
+  const minWy = cy - halfDepth, maxWy = cy + halfDepth;
+  const minV = worldToVoxel(minWx, minWy, minWz);
+  const maxV = worldToVoxel(maxWx, maxWy, maxWz);
+  const lo = minV || { ix: 0, iy: 0, iz: 0 };
+  const hi = maxV || { ix: voxelNX - 1, iy: voxelNY - 1, iz: voxelNZ - 1 };
+  const sizeSq = halfSize * halfSize;
+  for (let iy = lo.iy; iy <= hi.iy; iy++) {
+    for (let iz = lo.iz; iz <= hi.iz; iz++) {
+      for (let ix = lo.ix; ix <= hi.ix; ix++) {
+        const w = voxelToWorld(ix, iy, iz);
+        let inside = false;
+        if (shape === 'box') {
+          inside = Math.abs(w.x - cx) <= halfSize && Math.abs(w.y - cy) <= halfDepth && Math.abs(w.z - cz) <= halfSize;
+        } else if (shape === 'cylinder') {
+          const dx = w.x - cx, dz = w.z - cz;
+          inside = (dx * dx + dz * dz) <= sizeSq && Math.abs(w.y - cy) <= halfDepth;
+        } else if (shape === 'sphere') {
+          const dx = w.x - cx, dy = w.y - cy, dz = w.z - cz;
+          inside = (dx * dx + dy * dy + dz * dz) <= sizeSq;
+        }
+        if (inside) {
+          const oldVal = getVoxel(ix, iy, iz);
+          if (oldVal === 0) {
+            setVoxel(ix, iy, iz, 1);
+            changed.push({ ix, iy, iz, oldVal: 0 });
+          }
+        }
+      }
+    }
+  }
+  if (changed.length > 0) buildVoxelMesh();
+  return changed;
+}
+
+/**
+ * Carve using the terrain excavate brush — a sphere of brushSize radius.
+ * Removes voxels centered at the click point.
+ */
+function carveWithBrush(wx, wy, wz) {
+  if (!state.voxels) return [];
+  const changed = carveShape('sphere', wx, wy, wz, terrainBrushSize, terrainBrushSize);
+  return changed;
+}
+
+/**
+ * Fill using the terrain raise brush — a sphere of brushSize radius.
+ */
+function fillWithBrush(wx, wy, wz) {
+  if (!state.voxels) return [];
+  const changed = fillShape('sphere', wx, wy, wz, terrainBrushSize, terrainBrushSize);
+  return changed;
+}
+
+/**
+ * Show a wireframe preview of the carving shape at the given position.
+ */
+function showCarvingPreview(shape, cx, cy, cz, size, depth) {
+  if (carvingPreviewMesh) {
+    scene.remove(carvingPreviewMesh);
+    if (carvingPreviewMesh.geometry) carvingPreviewMesh.geometry.dispose();
+    if (carvingPreviewMesh.material) carvingPreviewMesh.material.dispose();
+    carvingPreviewMesh = null;
+  }
+  if (!shape) return;
+
+  let geo;
+  if (shape === 'box') {
+    geo = new THREE.BoxGeometry(size * 2, depth * 2, size * 2);
+  } else if (shape === 'cylinder') {
+    geo = new THREE.CylinderGeometry(size, size, depth * 2, 16);
+  } else if (shape === 'sphere') {
+    geo = new THREE.SphereGeometry(size, 16, 12);
+  } else return;
+
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0xff6600,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.6,
+  });
+  carvingPreviewMesh = new THREE.Mesh(geo, mat);
+  carvingPreviewMesh.position.set(cx, cy, cz);
+  scene.add(carvingPreviewMesh);
+  requestRender();
+}
+
+function hideCarvingPreview() {
+  if (carvingPreviewMesh) {
+    scene.remove(carvingPreviewMesh);
+    if (carvingPreviewMesh.geometry) carvingPreviewMesh.geometry.dispose();
+    if (carvingPreviewMesh.material) carvingPreviewMesh.material.dispose();
+    carvingPreviewMesh = null;
+    requestRender();
+  }
+}
+
+// ============================================================
+// VOXEL SERIALIZATION (RLE compression)
+// ============================================================
+
+/** Serialize voxels to a compact RLE-encoded array. */
+function serializeVoxels() {
+  if (!state.voxels) return null;
+  const rle = [];
+  let runVal = state.voxels[0];
+  let runLen = 1;
+  for (let i = 1; i < state.voxels.length; i++) {
+    if (state.voxels[i] === runVal && runLen < 65535) {
+      runLen++;
+    } else {
+      rle.push(runVal, runLen);
+      runVal = state.voxels[i];
+      runLen = 1;
+    }
+  }
+  rle.push(runVal, runLen);
+  return { dims: [voxelNX, voxelNY, voxelNZ], rle, voxelSize: VOXEL_SIZE, depth: VOXEL_DEPTH };
+}
+
+/** Deserialize RLE-encoded voxels back into state.voxels. */
+function deserializeVoxels(data) {
+  if (!data || !data.rle || !data.dims) return false;
+  const [nx, ny, nz] = data.dims;
+  const total = nx * ny * nz;
+  if (data.rle.length < 2 || data.rle.length % 2 !== 0) return false;
+  const arr = new Uint8Array(total);
+  let pos = 0;
+  for (let i = 0; i < data.rle.length; i += 2) {
+    const val = data.rle[i];
+    const len = data.rle[i + 1];
+    for (let j = 0; j < len && pos < total; j++) {
+      arr[pos++] = val;
+    }
+  }
+  voxelNX = nx; voxelNY = ny; voxelNZ = nz;
+  computeVoxelDims(); // recompute origin from yard
+  state.voxels = arr;
+  return true;
+}
+
+// ============================================================
+// VOXEL UNDO/REDO
+// ============================================================
+
+/** Snapshot the entire voxel grid for undo. */
+function snapshotVoxels() {
+  if (!state.voxels) return null;
+  return new Uint8Array(state.voxels);
+}
+
+/** Restore a voxel snapshot. */
+function restoreVoxelSnapshot(snap) {
+  if (!snap || !state.voxels || snap.length !== state.voxels.length) return;
+  state.voxels.set(snap);
+  buildVoxelMesh();
+  requestRender();
+}
+
+/** Push a voxel undo/redo command with before/after snapshots. */
+function pushVoxelUndo(beforeSnap, afterSnap) {
+  if (!beforeSnap || !afterSnap) return;
+  pushCommand({
+    undo: () => { restoreVoxelSnapshot(beforeSnap); },
+    redo: () => { restoreVoxelSnapshot(afterSnap); },
+  });
+}
+
+// ============================================================
+// GRID LEVEL SELECTOR
+// ============================================================
+
+function setGridLevel(newLevel) {
+  newLevel = Math.max(-30, Math.min(30, newLevel));
+  state.gridLevel = newLevel;
+  if (gridHelper) gridHelper.position.y = newLevel + 0.01;
+  if (groundPlane) groundPlane.constant = -newLevel;
+  if (boundaryLines) boundaryLines.position.y = newLevel + 0.03;
+  // Update voxel volume — the Y mapping changes
+  if (state.voxels) {
+    // Reinitialize from terrain since the Y baseline shifted
+    initVoxelsFromTerrain();
+    buildVoxelMesh();
+  }
+  // Update UI display
+  const el = document.getElementById('grid-level-val');
+  if (el) el.textContent = newLevel.toFixed(0) + ' ft';
+  const slider = document.getElementById('grid-level-slider');
+  if (slider) slider.value = newLevel;
+  updateVoxelInfoDisplay();
+  requestRender();
+}
+
+function updateVoxelInfoDisplay() {
+  const infoEl = document.getElementById('voxel-info');
+  if (!infoEl) return;
+  if (!state.voxels) { infoEl.style.display = 'none'; return; }
+  infoEl.style.display = 'block';
+  const countEl = document.getElementById('voxel-count');
+  const facesEl = document.getElementById('voxel-faces');
+  if (countEl) countEl.textContent = countSolidVoxels().toLocaleString();
+  if (facesEl) facesEl.textContent = countVoxelFaces().toLocaleString();
+}
+
 function applyTerrainToMesh() {
   if (!state.terrain) return;
   const segs = state.terrainSegs;
@@ -4218,6 +5176,16 @@ function applyTerrainToMesh() {
   if (typeof ghostModeEnabled !== 'undefined' && ghostModeEnabled && typeof updateGhostMode === 'function') updateGhostMode();
   // Rebuild solid earth block to match updated terrain (excavation walls + floor)
   buildSolidEarth();
+  // Update voxel volume to match new terrain surface
+  if (state.voxels) {
+    updateVoxelsFromTerrain();
+    buildVoxelMesh();
+  } else {
+    // Initialize voxel volume on first terrain edit
+    initVoxelsFromTerrain();
+    buildVoxelMesh();
+    updateVoxelInfoDisplay();
+  }
 }
 
 function paintTerrain(worldX, worldZ) {
@@ -4469,12 +5437,47 @@ function onTerrainPointerDown(e) {
   if (!terrainMode) return false;
   const point = getGroundPointFromEvent(e);
   if (!point) return false;
+
+  // --- Carving shape mode ---
+  if (carvingShape) {
+    if (e.button === 2 || e.ctrlKey) {
+      // Right-click or ctrl+click cancels pending carve
+      carvingPendingCenter = null;
+      hideCarvingPreview();
+      return true;
+    }
+    if (carvingPendingCenter) {
+      // Second click — commit the carve
+      const beforeSnap = snapshotVoxels();
+      const changed = carveShape(carvingShape, carvingPendingCenter.x, carvingPendingCenter.y, carvingPendingCenter.z, carvingSize, carvingDepth);
+      if (changed.length > 0) {
+        const afterSnap = snapshotVoxels();
+        pushVoxelUndo(beforeSnap, afterSnap);
+        debouncedAutosave();
+        updateVoxelInfoDisplay();
+      }
+      carvingPendingCenter = null;
+      hideCarvingPreview();
+    } else {
+      // First click — set the carve center at the clicked point
+      // Center the carve at the terrain surface, going down carvingDepth
+      const surfY = getTerrainHeight(point.x, point.z);
+      carvingPendingCenter = { x: point.x, y: surfY - carvingDepth / 2, z: point.z };
+      updateCarvingPreview();
+    }
+    return true;
+  }
+
+  // --- Normal terrain brush mode ---
   isTerrainPainting = true;
   // Save terrain state for undo
   terrainHistory = state.terrain ? new Float32Array(state.terrain) : null;
+  const voxelSnapBefore = snapshotVoxels();
   paintTerrain(point.x, point.z);
   moveBrushCursor(point.x, point.z);
   controls.enabled = false;
+  // Store voxel snapshot for undo on pointer up
+  _voxelSnapBeforeBrush = voxelSnapBefore;
   return true;
 }
 
@@ -4482,6 +5485,15 @@ function onTerrainPointerMove(e) {
   if (!terrainMode) return;
   const point = getGroundPointFromEvent(e);
   if (!point) return;
+  if (carvingShape && !isTerrainPainting) {
+    // Update preview position on hover
+    if (!carvingPendingCenter) {
+      const surfY = getTerrainHeight(point.x, point.z);
+      showCarvingPreview(carvingShape, point.x, surfY - carvingDepth / 2, point.z, carvingSize, carvingDepth);
+    }
+    requestRender();
+    return;
+  }
   moveBrushCursor(point.x, point.z);
   if (isTerrainPainting) {
     paintTerrain(point.x, point.z);
@@ -4489,18 +5501,23 @@ function onTerrainPointerMove(e) {
   requestRender();
 }
 
+let _voxelSnapBeforeBrush = null;
+
 function onTerrainPointerUp(e) {
   if (!terrainMode) return;
   if (isTerrainPainting) {
-    // Push undo command
+    // Push terrain undo command
     const before = terrainHistory;
     const after = state.terrain ? new Float32Array(state.terrain) : null;
+    const voxelBefore = _voxelSnapBeforeBrush;
+    const voxelAfter = snapshotVoxels();
     if (before || after) {
       pushCommand({
-        undo: () => { state.terrain = before; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); requestRender(); },
-        redo: () => { state.terrain = after; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); requestRender(); },
+        undo: () => { state.terrain = before; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); if (voxelBefore) restoreVoxelSnapshot(voxelBefore); requestRender(); },
+        redo: () => { state.terrain = after; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); if (voxelAfter) restoreVoxelSnapshot(voxelAfter); requestRender(); },
       });
     }
+    _voxelSnapBeforeBrush = null;
   }
   isTerrainPainting = false;
   terrainHistory = null;
@@ -4508,6 +5525,7 @@ function onTerrainPointerUp(e) {
   // Update drainage arrows and legend after stroke completes
   if (terrainDrainageActive) updateDrainageArrows();
   updateHeightLegend();
+  updateVoxelInfoDisplay();
 }
 
 function getGroundPointFromEvent(e) {
@@ -4543,7 +5561,9 @@ viewport.addEventListener('pointerdown', e => {
 }, true);
 viewport.addEventListener('pointermove', e => { if (terrainMode) onTerrainPointerMove(e); });
 viewport.addEventListener('pointerup', e => { if (terrainMode) onTerrainPointerUp(e); });
-viewport.addEventListener('pointerleave', e => { if (terrainMode && terrainBrushMesh) terrainBrushMesh.visible = false; });
+viewport.addEventListener('pointerleave', e => { if (terrainMode) { if (terrainBrushMesh) terrainBrushMesh.visible = false; if (carvingShape && !carvingPendingCenter) hideCarvingPreview(); } });
+// Prevent context menu when right-clicking in terrain mode (for carve cancel)
+viewport.addEventListener('contextmenu', e => { if (terrainMode && carvingShape) e.preventDefault(); });
 
 // ============================================================
 // MEASUREMENT SYSTEM
@@ -5426,6 +6446,7 @@ function encodeDesignToHash() {
     };
     if (data.terrain) compact.t = data.terrain;
     if (data.terrainSegs && data.terrainSegs !== 100) compact.ts = data.terrainSegs;
+    if (data.gridLevel) compact.gl = data.gridLevel;
     const json = JSON.stringify(compact);
     const b64 = btoa(unescape(encodeURIComponent(json)));
     return encodeURIComponent(b64);
@@ -5458,6 +6479,7 @@ function decodeDesignFromHash() {
       yard: { width: c.y[0], depth: c.y[1], shape: c.y[2] === 'r' ? 'rectangle' : 'L' },
       objects, nextId: c.n || (objects.length + 1),
       terrain: c.t || null, terrainSegs: c.ts || 100,
+      gridLevel: c.gl || 0,
     };
   } catch (e) { return null; }
 }
@@ -7055,8 +8077,7 @@ taCompareBtn.addEventListener('touchcancel', () => { if (compareActive) endCompa
 // toggle, buried objects indicator, cross-section profile view.
 
 // --- State ---
-let terrainClipPlane = null;       // THREE.Plane for clipping
-let wireframeActive = false;        // wireframe toggle state
+// (terrainClipPlane and wireframeActive moved to top-level declarations to avoid TDZ)
 let excavatePanelVisible = false;
 let crossSectionMode = false;       // user is picking cross-section points
 let crossSectionPoints = [];        // array of {x, z} world coords (max 2)
@@ -7112,6 +8133,9 @@ terrainCutawayInput.addEventListener('input', e => {
     if (solidEarthMesh && solidEarthMesh.material) {
       solidEarthMesh.material.clippingPlanes = [];
     }
+    if (voxelMesh && voxelMesh.material) {
+      voxelMesh.material.clippingPlanes = [];
+    }
     cutawayValEl.textContent = 'Full';
   } else {
     const maxH = getMaxTerrainHeight();
@@ -7125,6 +8149,10 @@ terrainCutawayInput.addEventListener('input', e => {
     if (solidEarthMesh && solidEarthMesh.material) {
       solidEarthMesh.material.clippingPlanes = [terrainClipPlane];
     }
+    // Also clip the voxel mesh so cutaway view reveals carved interior
+    if (voxelMesh && voxelMesh.material) {
+      voxelMesh.material.clippingPlanes = [terrainClipPlane];
+    }
     if (val === 100) {
       cutawayValEl.textContent = 'Hidden';
     } else {
@@ -7133,6 +8161,7 @@ terrainCutawayInput.addEventListener('input', e => {
   }
   if (yardMesh && yardMesh.material) yardMesh.material.needsUpdate = true;
   if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.needsUpdate = true;
+  if (voxelMesh && voxelMesh.material) voxelMesh.material.needsUpdate = true;
   requestRender();
 });
 
@@ -7165,6 +8194,10 @@ terrainOpacityInput.addEventListener('input', e => {
     solidEarthMesh.material.opacity = val / 100;
     solidEarthMesh.material.transparent = val < 100;
   }
+  if (voxelMesh && voxelMesh.material) {
+    voxelMesh.material.opacity = val / 100;
+    voxelMesh.material.transparent = val < 100;
+  }
   opacityValEl.textContent = val + '%';
   requestRender();
 });
@@ -7176,6 +8209,9 @@ wireframeToggleBtn.addEventListener('click', () => {
   wireframeToggleBtn.setAttribute('aria-pressed', wireframeActive);
   if (yardMesh && yardMesh.material) {
     yardMesh.material.wireframe = wireframeActive;
+  }
+  if (voxelMesh && voxelMesh.material) {
+    voxelMesh.material.wireframe = wireframeActive;
   }
   requestRender();
 });
@@ -7483,6 +8519,46 @@ function drawCrossSection() {
     ctx.lineTo(padL + plotW, zeroY);
     ctx.stroke();
     ctx.setLineDash([]);
+    ctx.fillStyle = '#999';
+    ctx.font = (9 * dpr) + 'px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('0 ft', padL + 4, zeroY - 2);
+  }
+
+  // Sprint 4 (Agent 2): Grid Level reference line — dashed purple
+  if (state.gridLevel !== 0 && state.gridLevel >= yMin && state.gridLevel <= yMax) {
+    const [_, glY] = worldToCanvas(0, state.gridLevel);
+    ctx.strokeStyle = '#5b4a8b';
+    ctx.lineWidth = 1.5 * dpr;
+    ctx.setLineDash([6 * dpr, 4 * dpr]);
+    ctx.beginPath();
+    ctx.moveTo(padL, glY);
+    ctx.lineTo(padL + plotW, glY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#5b4a8b';
+    ctx.font = (10 * dpr) + 'px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('Grid: ' + state.gridLevel + ' ft', padL + plotW - 4, glY - 3);
+  }
+
+  // Sprint 4 (Agent 2): Voxel depth bands at 5ft intervals below grid level
+  if (state.terrain) {
+    const voxelDepths = [5, 10, 15, 20, 25, 30];
+    ctx.strokeStyle = 'rgba(92,64,51,0.35)';
+    ctx.lineWidth = 0.5 * dpr;
+    ctx.setLineDash([2 * dpr, 2 * dpr]);
+    for (const depth of voxelDepths) {
+      const yLevel = state.gridLevel - depth;
+      if (yLevel >= yMin && yLevel <= yMax) {
+        const [_, vy] = worldToCanvas(0, yLevel);
+        ctx.beginPath();
+        ctx.moveTo(padL, vy);
+        ctx.lineTo(padL + plotW, vy);
+        ctx.stroke();
+      }
+    }
+    ctx.setLineDash([]);
   }
 
   ctx.strokeStyle = '#6b8a4a';
@@ -7513,7 +8589,9 @@ function drawCrossSection() {
     }
   }
   const buriedCount = objectData.filter(o => o.terrainElev > o.elev + 0.5 && Math.abs(o.terrainElev - o.elev) > 0.5).length;
-  csInfo.textContent = `Length: ${lineLength.toFixed(1)}ft | Elevation: ${minElev.toFixed(1)}–${maxElev.toFixed(1)}ft (Δ${(maxElev - minElev).toFixed(1)}ft) | Objects on line: ${objectData.length} | Buried: ${buriedCount}`;
+  const belowGridCount = profileData.filter(p => p.elev < state.gridLevel).length;
+  const maxDepthBelowGrid = Math.max(0, state.gridLevel - minElev);
+  csInfo.textContent = `Length: ${lineLength.toFixed(1)}ft | Elevation: ${minElev.toFixed(1)}–${maxElev.toFixed(1)}ft (Δ${(maxElev - minElev).toFixed(1)}ft) | Objects on line: ${objectData.length} | Buried: ${buriedCount} | Grid: ${state.gridLevel}ft | Below grid: ${belowGridCount}pts (${maxDepthBelowGrid.toFixed(1)}ft max)`;
 }
 
 window.addEventListener('resize', () => {
@@ -7664,6 +8742,7 @@ function innovSetMode(mode) {
   innovMarkerBtn.classList.remove('active');
   innovSlopeBtn.classList.remove('active');
   innovStatsBtn.classList.remove('active');
+  if (typeof innovUgStructBtn !== 'undefined' && innovUgStructBtn) innovUgStructBtn.classList.remove('active');
 
   innovMode = mode;
   if (!mode) {
@@ -7689,6 +8768,15 @@ function innovSetMode(mode) {
     innovStatsBtn.classList.add('active');
     innovHintEl.textContent = 'TERRAIN STATS: Dashboard active — showing live statistics.';
     showInnovStats();
+  } else if (mode === 'ugstruct') {
+    if (typeof innovUgStructBtn !== 'undefined' && innovUgStructBtn) {
+      innovUgStructBtn.classList.add('active');
+    }
+    if (typeof ghostPreviewActive !== 'undefined' && ghostPreviewActive) {
+      innovHintEl.textContent = 'UNDERGROUND STRUCTURE: Hover to preview, click to place room.';
+    } else {
+      innovHintEl.textContent = 'UNDERGROUND STRUCTURE: Click on terrain to carve a room.';
+    }
   }
 }
 
@@ -8384,13 +9472,1399 @@ viewport.addEventListener('pointermove', (e) => {
 const _origInnovSetMode = innovSetMode;
 // (already handled in innovSetMode above)
 
+// SPRINT 4: UX QUALITY & EASE-OF-USE FEATURES
+// Agent 4 (Critic) — Grid Level UX, Carving Tools, Below-Grid
+// Navigation, Voxel Visual Quality (Edge Highlighting)
+// ============================================================
+
+// --- State ---
+let carvingShapeMode = null;       // 'box' | 'cylinder' | 'trench' | null
+let uxCarvingDepth = 5;
+let uxCarvingWidth = 10;
+let uxCarvingLength = 15;
+let uxCarvingPreviewMesh = null;     // THREE.Mesh preview of carving shape
+let uxCarvingPendingPoint = null;    // {x, z} pending carve location
+let undergroundViewActive = false; // Go Underground camera preset
+let terrainEdgeLines = null;       // Edge highlight LineSegments for terrain
+
+// --- DOM refs ---
+const gridLevelSlider = document.getElementById('grid-level-slider');
+const gridLevelValEl = document.getElementById('grid-level-val');
+const gridLevelBadge = document.getElementById('grid-level-badge');
+const gridLevelBadgeVal = document.getElementById('grid-level-badge-val');
+const depthGaugeOverlay = document.getElementById('depth-gauge-overlay');
+const depthGaugeVal = document.getElementById('dg-overlay-value');
+const vcUndergroundBtn = document.getElementById('vc-underground');
+const carvingHintEl = document.getElementById('carving-hint');
+const carvingPreviewInfo = document.getElementById('carving-preview-info');
+const carvingCommitBtn = document.getElementById('carving-commit-btn');
+const carvingClearBtn = document.getElementById('carving-clear-btn');
+const carvingDepthInput = document.getElementById('carving-depth');
+const carvingDepthVal = document.getElementById('carving-depth-val');
+const carvingWidthInput = document.getElementById('carving-width');
+const carvingWidthVal = document.getElementById('carving-width-val');
+const carvingLengthInput = document.getElementById('carving-length');
+const carvingLengthVal = document.getElementById('carving-length-val');
+
+// ============================================================
+// 1. GRID LEVEL UX
+// ============================================================
+
+/**
+ * Apply a new grid level — moves the grid helper to the specified Y,
+ * updates the badge, and adjusts the boundary lines to match.
+ * @param {number} level - Y offset in feet (default 0)
+ */
+function applyGridLevel(level) {
+  state.gridLevel = Math.round(level);
+  if (gridHelper) {
+    gridHelper.position.y = state.gridLevel + 0.01;
+  }
+  if (boundaryLines) {
+    boundaryLines.position.y = state.gridLevel + 0.03;
+  }
+  if (typeof gridLevelPlane !== 'undefined' && gridLevelPlane) {
+    gridLevelPlane.position.y = state.gridLevel;
+  }
+  if (typeof updateGridLevelDisplay === 'function') {
+    updateGridLevelDisplay();
+  }
+  if (typeof setGridLevel === 'function') {
+    setGridLevel(state.gridLevel);
+  }
+  // Update badge visibility
+  if (state.gridLevel !== 0) {
+    gridLevelBadge.classList.add('visible');
+    gridLevelBadgeVal.textContent = state.gridLevel;
+  } else {
+    gridLevelBadge.classList.remove('visible');
+  }
+  // Update slider position
+  if (gridLevelSlider) gridLevelSlider.value = state.gridLevel;
+  if (gridLevelValEl) gridLevelValEl.textContent = state.gridLevel + ' ft';
+  requestRender();
+}
+
+gridLevelSlider.addEventListener('input', (e) => {
+  const val = parseInt(e.target.value);
+  applyGridLevel(val);
+});
+
+// ============================================================
+// 2. CARVING UX
+// ============================================================
+
+// Shape selection buttons
+document.querySelectorAll('.carving-shape-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const shape = btn.dataset.cshape;
+    if (carvingShapeMode === shape) {
+      // Deselect if clicking same shape
+      carvingShapeMode = null;
+      btn.classList.remove('active');
+      clearCarvingPreview();
+      carvingHintEl.textContent = 'Select a shape, then click on the ground where you want to carve. A preview shows the shape before you commit.';
+      carvingHintEl.classList.remove('active');
+      carvingCommitBtn.disabled = true;
+      carvingCommitBtn.textContent = 'Click ground first';
+    } else {
+      document.querySelectorAll('.carving-shape-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      carvingShapeMode = shape;
+      const shapeNames = { box: 'Box', cylinder: 'Round', trench: 'Trench' };
+      carvingHintEl.textContent = `Click on the ground to preview a ${shapeNames[shape]} carving. Adjust depth/width/length, then click "Carve Here" to commit.`;
+      carvingHintEl.classList.add('active');
+      carvingCommitBtn.disabled = true;
+      carvingCommitBtn.textContent = 'Click ground first';
+      clearCarvingPreview();
+    }
+    requestRender();
+  });
+});
+
+// Carving control sliders
+carvingDepthInput.addEventListener('input', (e) => {
+  uxCarvingDepth = parseInt(e.target.value);
+  carvingDepthVal.textContent = uxCarvingDepth + ' ft';
+  if (uxCarvingPendingPoint) updateCarvingPreviewUX(uxCarvingPendingPoint.x, uxCarvingPendingPoint.z);
+});
+carvingWidthInput.addEventListener('input', (e) => {
+  uxCarvingWidth = parseInt(e.target.value);
+  carvingWidthVal.textContent = uxCarvingWidth + ' ft';
+  if (uxCarvingPendingPoint) updateCarvingPreviewUX(uxCarvingPendingPoint.x, uxCarvingPendingPoint.z);
+});
+carvingLengthInput.addEventListener('input', (e) => {
+  uxCarvingLength = parseInt(e.target.value);
+  carvingLengthVal.textContent = uxCarvingLength + ' ft';
+  if (uxCarvingPendingPoint) updateCarvingPreviewUX(uxCarvingPendingPoint.x, uxCarvingPendingPoint.z);
+});
+
+/**
+ * Create/update the carving preview mesh at the given world position.
+ * Shows a semi-transparent purple wireframe of the carving shape.
+ */
+function updateCarvingPreviewUX(worldX, worldZ) {
+  clearCarvingPreview();
+  if (!carvingShapeMode) return;
+
+  let geo;
+  const terrainH = getTerrainHeight(worldX, worldZ);
+
+  if (carvingShapeMode === 'box') {
+    geo = new THREE.BoxGeometry(uxCarvingWidth, uxCarvingDepth, uxCarvingLength);
+  } else if (carvingShapeMode === 'cylinder') {
+    const radius = Math.max(1, uxCarvingWidth / 2);
+    geo = new THREE.CylinderGeometry(radius, radius, uxCarvingDepth, 32);
+  } else if (carvingShapeMode === 'trench') {
+    geo = new THREE.BoxGeometry(Math.max(2, uxCarvingWidth / 2), uxCarvingDepth, uxCarvingLength);
+  }
+
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0x5b4a8b,
+    transparent: true,
+    opacity: 0.3,
+    wireframe: false,
+  });
+  uxCarvingPreviewMesh = new THREE.Mesh(geo, mat);
+  // Position: center of the carving is below terrain surface
+  uxCarvingPreviewMesh.position.set(worldX, terrainH - uxCarvingDepth / 2, worldZ);
+  scene.add(uxCarvingPreviewMesh);
+
+  // Add wireframe overlay for clarity
+  const wireGeo = new THREE.EdgesGeometry(geo);
+  const wireMat = new THREE.LineBasicMaterial({ color: 0x5b4a8b, linewidth: 2 });
+  const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+  wireframe.position.copy(uxCarvingPreviewMesh.position);
+  uxCarvingPreviewMesh.add(wireframe);
+
+  uxCarvingPendingPoint = { x: worldX, z: worldZ };
+  carvingCommitBtn.disabled = false;
+  carvingCommitBtn.textContent = 'Carve Here';
+  const shapeNames = { box: 'Box', cylinder: 'Round', trench: 'Trench' };
+  carvingPreviewInfo.style.display = 'flex';
+  carvingPreviewInfo.textContent = `${shapeNames[carvingShapeMode]}: ${uxCarvingWidth}×${uxCarvingLength}×${uxCarvingDepth}ft deep at (${worldX.toFixed(0)}, ${worldZ.toFixed(0)})`;
+  requestRender();
+}
+
+function clearCarvingPreview() {
+  if (uxCarvingPreviewMesh) {
+    scene.remove(uxCarvingPreviewMesh);
+    uxCarvingPreviewMesh.traverse(child => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) child.material.dispose();
+    });
+    uxCarvingPreviewMesh = null;
+  }
+  uxCarvingPendingPoint = null;
+  carvingPreviewInfo.style.display = 'none';
+}
+
+/**
+ * Commit the carving — lowers terrain within the shape area to create
+ * an excavation. Uses the existing terrain system.
+ */
+function commitCarving(worldX, worldZ) {
+  if (!carvingShapeMode || !uxCarvingPendingPoint) return;
+
+  ensureTerrainArray();
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const oldTerrain = new Float32Array(state.terrain);
+
+  const targetY = -uxCarvingDepth; // carve below current surface
+
+  if (carvingShapeMode === 'box' || carvingShapeMode === 'trench') {
+    const w = carvingShapeMode === 'trench' ? Math.max(2, uxCarvingWidth / 2) : uxCarvingWidth;
+    const l = uxCarvingLength;
+    // Carve a rectangular area
+    for (let iz = 0; iz <= segs; iz++) {
+      for (let ix = 0; ix <= segs; ix++) {
+        const vi = iz * (segs + 1) + ix;
+        const wx = (ix / segs) * state.yard.width - halfW;
+        const wz = (iz / segs) * state.yard.depth - halfD;
+        if (Math.abs(wx - worldX) <= w / 2 && Math.abs(wz - worldZ) <= l / 2) {
+          // Smooth edge falloff for natural look
+          const edgeX = Math.abs(wx - worldX) / (w / 2);
+          const edgeZ = Math.abs(wz - worldZ) / (l / 2);
+          const edgeDist = Math.max(edgeX, edgeZ);
+          const falloff = Math.pow(1 - edgeDist, 0.5);
+          const currentH = state.terrain[vi] || 0;
+          const carveTarget = currentH - uxCarvingDepth * falloff;
+          state.terrain[vi] = clampTerrainHeight(Math.min(currentH, carveTarget));
+        }
+      }
+    }
+  } else if (carvingShapeMode === 'cylinder') {
+    const radius = Math.max(1, uxCarvingWidth / 2);
+    // Carve a circular area
+    for (let iz = 0; iz <= segs; iz++) {
+      for (let ix = 0; ix <= segs; ix++) {
+        const vi = iz * (segs + 1) + ix;
+        const wx = (ix / segs) * state.yard.width - halfW;
+        const wz = (iz / segs) * state.yard.depth - halfD;
+        const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
+        if (dist <= radius) {
+          const t = dist / radius;
+          const falloff = Math.pow(1 - t * t, 0.5);
+          const currentH = state.terrain[vi] || 0;
+          const carveTarget = currentH - uxCarvingDepth * falloff;
+          state.terrain[vi] = clampTerrainHeight(Math.min(currentH, carveTarget));
+        }
+      }
+    }
+  }
+
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+  if (terrainHeightColorsActive) applyHeightColors();
+  if (terrainDrainageActive) updateDrainageArrows();
+  updateHeightLegend();
+
+  // Push undo
+  const newTerrain = new Float32Array(state.terrain);
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); requestRender(); },
+    redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); requestRender(); },
+  });
+
+  const shapeNames = { box: 'Box', cylinder: 'Round', trench: 'Trench' };
+  showToast(`${shapeNames[carvingShapeMode]} carved: ${uxCarvingDepth}ft deep`);
+
+  // Clear preview after commit
+  clearCarvingPreview();
+  carvingCommitBtn.disabled = true;
+  carvingCommitBtn.textContent = 'Click ground first';
+  requestRender();
+}
+
+// Commit button
+carvingCommitBtn.addEventListener('click', () => {
+  if (uxCarvingPendingPoint) {
+    commitCarving(uxCarvingPendingPoint.x, uxCarvingPendingPoint.z);
+  }
+});
+
+// Clear all carvings button
+carvingClearBtn.addEventListener('click', () => {
+  if (!state.terrain) return;
+  const oldTerrain = new Float32Array(state.terrain);
+  // Reset all terrain to 0 (flat)
+  for (let i = 0; i < state.terrain.length; i++) {
+    state.terrain[i] = 0;
+  }
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+  if (terrainHeightColorsActive) applyHeightColors();
+  if (terrainDrainageActive) updateDrainageArrows();
+  updateHeightLegend();
+
+  const newTerrain = new Float32Array(state.terrain);
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); requestRender(); },
+    redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); requestRender(); },
+  });
+
+  // Reset cutaway
+  if (terrainClipPlane) {
+    terrainCutawayInput.value = 0;
+    terrainClipPlane = null;
+    if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
+    if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
+    cutawayValEl.textContent = 'Full';
+  }
+
+  showToast('All carvings cleared');
+  requestRender();
+});
+
+// Intercept terrain-mode clicks for carving preview
+viewport.addEventListener('pointerdown', (e) => {
+  if (!carvingShapeMode) return;
+  if (e.target.closest('#excavate-panel') || e.target.closest('#cross-section-panel') ||
+      e.target.closest('#view-controls') || e.target.closest('#terrain-controls') ||
+      e.target.closest('#sun-panel') || e.target.closest('#innovation-panel') ||
+      e.target.closest('#terrain-analysis-panel') || e.target.closest('#cut-fill-panel') ||
+      e.target.closest('#ta-cross-section-overlay')) return;
+  const point = getGroundPointFromEvent(e);
+  if (!point) return;
+  e.stopPropagation();
+  e.preventDefault();
+  updateCarvingPreviewUX(point.x, point.z);
+}, true);
+
+// Track mouse for live carving preview update
+viewport.addEventListener('pointermove', (e) => {
+  if (!carvingShapeMode) return;
+  if (e.target.closest('#excavate-panel') || e.target.closest('#cross-section-panel') ||
+      e.target.closest('#view-controls') || e.target.closest('#terrain-controls') ||
+      e.target.closest('#sun-panel') || e.target.closest('#innovation-panel') ||
+      e.target.closest('#terrain-analysis-panel')) return;
+  const point = getGroundPointFromEvent(e);
+  if (point) {
+    updateCarvingPreviewUX(point.x, point.z);
+  }
+}, true);
+
+// ============================================================
+// 3. BELOW-GRID NAVIGATION — Go Underground camera preset
+// ============================================================
+
+vcUndergroundBtn.addEventListener('click', () => {
+  undergroundViewActive = !undergroundViewActive;
+  vcUndergroundBtn.classList.toggle('active', undergroundViewActive);
+  vcUndergroundBtn.setAttribute('aria-pressed', undergroundViewActive);
+
+  if (undergroundViewActive) {
+    // Angle camera to look into carved/underground spaces
+    // Position camera low and angled to see beneath the terrain
+    const w = state.yard.width;
+    const d = state.yard.depth;
+    const minH = getMinTerrainHeight();
+    const targetY = Math.min(minH - 5, -10); // look below terrain
+
+    // Animate camera to underground viewing position
+    camera3D.position.set(w * 0.3, targetY + 15, d * 0.6);
+    controls.target.set(0, targetY, 0);
+    controls.update();
+
+    // Enable below-ground camera angle (allow looking up)
+    controls.maxPolarAngle = Math.PI; // full range including looking up
+    controls.minDistance = 3;
+
+    // Show depth gauge
+    depthGaugeOverlay.classList.add('visible');
+    updateDepthGauge();
+
+    // Make terrain semi-transparent so we can see through it
+    if (yardMesh && yardMesh.material) {
+      yardMesh.material.opacity = 0.4;
+      yardMesh.material.transparent = true;
+    }
+    if (solidEarthMesh && solidEarthMesh.material) {
+      solidEarthMesh.material.opacity = 0.6;
+      solidEarthMesh.material.transparent = true;
+    }
+
+    showToast('Underground view active — orbit to explore carved spaces');
+  } else {
+    // Reset to normal view
+    controls.maxPolarAngle = Math.PI / 2 - 0.05;
+    controls.minDistance = 5;
+    camera3D.position.set(state.yard.width * 0.5, state.yard.depth * 0.4, state.yard.depth * 0.5);
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    depthGaugeOverlay.classList.remove('visible');
+
+    // Restore terrain opacity
+    const opacityVal = parseInt(terrainOpacityInput.value);
+    if (yardMesh && yardMesh.material) {
+      yardMesh.material.opacity = opacityVal / 100;
+      yardMesh.material.transparent = opacityVal < 100;
+    }
+    if (solidEarthMesh && solidEarthMesh.material) {
+      solidEarthMesh.material.opacity = opacityVal / 100;
+      solidEarthMesh.material.transparent = opacityVal < 100;
+    }
+  }
+  requestRender();
+});
+
+function updateDepthGauge() {
+  if (!undergroundViewActive) return;
+  const camY = camera3D.position.y;
+  const depth = camY < 0 ? Math.abs(camY) : 0;
+  depthGaugeVal.textContent = depth.toFixed(1);
+}
+
+// Update depth gauge when camera moves
+controls.addEventListener('change', () => {
+  if (undergroundViewActive) updateDepthGauge();
+});
+
+// ============================================================
+// 4. VOXEL VISUAL QUALITY — Edge highlighting
+// ============================================================
+
+/**
+ * Add edge highlighting to the terrain mesh to make the polygonal/voxel
+ * look read as intentional. Uses EdgesGeometry with a subtle dark line
+ * along terrain mesh edges.
+ */
+function applyTerrainEdgeHighlight() {
+  // Remove existing edge lines
+  if (terrainEdgeLines) {
+    scene.remove(terrainEdgeLines);
+    if (terrainEdgeLines.geometry) terrainEdgeLines.geometry.dispose();
+    if (terrainEdgeLines.material) terrainEdgeLines.material.dispose();
+    terrainEdgeLines = null;
+  }
+
+  if (!yardMesh || !yardMesh.geometry) return;
+
+  // Create edge geometry from the terrain mesh
+  // Use a threshold angle so only significant edges are shown
+  const edgesGeo = new THREE.EdgesGeometry(yardMesh.geometry, 15); // 15 degree threshold
+  const edgesMat = new THREE.LineBasicMaterial({
+    color: 0x3a5a2a,
+    transparent: true,
+    opacity: 0.25,
+    linewidth: 1,
+  });
+  terrainEdgeLines = new THREE.LineSegments(edgesGeo, edgesMat);
+  terrainEdgeLines.position.copy(yardMesh.position);
+  terrainEdgeLines.rotation.copy(yardMesh.rotation);
+  scene.add(terrainEdgeLines);
+}
+
+// Apply edge highlight after terrain mesh is updated (debounced for performance)
+const _origApplyTerrainToMesh = applyTerrainToMesh;
+let _edgeHighlightTimer = null;
+applyTerrainToMesh = function() {
+  _origApplyTerrainToMesh();
+  // Debounce edge highlight — only rebuild after terrain stops changing
+  if (typeof applyTerrainEdgeHighlight === 'function') {
+    if (_edgeHighlightTimer) clearTimeout(_edgeHighlightTimer);
+    _edgeHighlightTimer = setTimeout(() => {
+      applyTerrainEdgeHighlight();
+      _edgeHighlightTimer = null;
+    }, 300);
+  }
+};
+
+
+// Apply initial edge highlight after scene init
+setTimeout(() => {
+  applyTerrainEdgeHighlight();
+  requestRender();
+}, 200);
+
+// ============================================================
+// SPRINT 4: HELPER — Expose carving functions for testing
+// ============================================================
+
+
+// S4 INNOVATION PROTOTYPES (Agent 5 — Innovation/Critic)
+// ============================================================
+
+// --- DOM refs for S4 prototypes ---
+const innovUgStructBtn = document.getElementById('innov-ugstruct-btn');
+const innovUgStructType = document.getElementById('innov-ugstruct-type');
+const innovUgStructWidth = document.getElementById('innov-ugstruct-width');
+const innovUgStructLength = document.getElementById('innov-ugstruct-length');
+const innovUgStructDepth = document.getElementById('innov-ugstruct-depth');
+const innovUgStructWidthVal = document.getElementById('innov-ugstruct-width-val');
+const innovUgStructLengthVal = document.getElementById('innov-ugstruct-length-val');
+const innovUgStructDepthVal = document.getElementById('innov-ugstruct-depth-val');
+const innovUgStructClear = document.getElementById('innov-ugstruct-clear');
+
+const innovGeoLayerBtn = document.getElementById('innov-geolayer-btn');
+const innovGeoLayerTopsoil = document.getElementById('innov-geolayer-topsoil');
+const innovGeoLayerClay = document.getElementById('innov-geolayer-clay');
+const innovGeoLayerSandstone = document.getElementById('innov-geolayer-sandstone');
+const innovGeoLayerTopsoilVal = document.getElementById('innov-geolayer-topsoil-val');
+const innovGeoLayerClayVal = document.getElementById('innov-geolayer-clay-val');
+const innovGeoLayerSandstoneVal = document.getElementById('innov-geolayer-sandstone-val');
+const innovGeoLayerToggle = document.getElementById('innov-geolayer-toggle');
+
+const innovVolCalcBtn = document.getElementById('innov-volcalc-btn');
+const innovVolCalcDisplay = document.getElementById('innov-volcalc-display');
+
+const innovExplodedBtn = document.getElementById('innov-exploded-btn');
+const innovExplodedAmount = document.getElementById('innov-exploded-amount');
+const innovExplodedAmountVal = document.getElementById('innov-amount-val') || document.getElementById('innov-exploded-amount-val');
+
+const innovWaterTableBtn = document.getElementById('innov-watertable-btn');
+const innovWaterTableDepth = document.getElementById('innov-watertable-depth');
+const innovWaterTableDepthVal = document.getElementById('innov-watertable-depth-val');
+const innovWaterTableToggle = document.getElementById('innov-watertable-toggle');
+
+const innovGhostPreviewBtn = document.getElementById('innov-ghostpreview-btn');
+const innovGhostPreviewToggle = document.getElementById('innov-ghostpreview-toggle');
+
+// --- State for S4 prototypes ---
+let undergroundRooms = [];      // array of {mesh, type, w, l, d, x, z}
+let geoLayersActive = false;
+let geoLayerMeshes = [];        // array of THREE.Mesh for each geological layer
+let volCalcActive = false;
+let volCalcPollTimer = null;
+let explodedViewActive = false;
+let explodedOffset = 0;
+let waterTableMesh = null;
+let waterTableActive = false;
+let ghostPreviewActive = false;
+let ghostPreviewMesh = null;
+
+// ============================================================
+// PROTOTYPE 1: UNDERGROUND STRUCTURE GENERATOR
+// Click on terrain → carve rectangular underground room
+// with walls, floor, and distinct color per structure type.
+// ============================================================
+
+const UG_STRUCT_COLORS = {
+  basement:   { wall: 0x8B7355, floor: 0xA0826D, label: 'Basement' },
+  rootcellar: { wall: 0x6B4423, floor: 0x8B6914, label: 'Root Cellar' },
+  stormshelter: { wall: 0x4A4A4A, floor: 0x5A5A5A, label: 'Storm Shelter' },
+  winecellar: { wall: 0x5C4033, floor: 0x6B4226, label: 'Wine Cellar' },
+};
+
+function buildUndergroundRoom(centerX, centerZ, width, length, depth, type) {
+  const group = new THREE.Group();
+  const colors = UG_STRUCT_COLORS[type] || UG_STRUCT_COLORS.basement;
+
+  // Get surface height at center
+  const surfaceH = getTerrainHeight(centerX, centerZ);
+  const roomTopY = surfaceH - 1; // ceiling just below surface
+  const roomBottomY = surfaceH - depth;
+  const wallThickness = 0.5;
+  const wallH = depth - 1; // leave 1ft for ceiling
+
+  // Wall material
+  const wallMat = new THREE.MeshLambertMaterial({ color: colors.wall, side: THREE.DoubleSide });
+  const floorMat = new THREE.MeshLambertMaterial({ color: colors.floor, side: THREE.DoubleSide });
+
+  // Floor
+  const floor = new THREE.Mesh(
+    new THREE.BoxGeometry(width, 0.3, length),
+    floorMat
+  );
+  floor.position.set(0, roomBottomY, 0);
+  floor.receiveShadow = true;
+  group.add(floor);
+
+  // Four walls (with door opening on one side)
+  const halfW = width / 2;
+  const halfL = length / 2;
+
+  // Front wall (with door gap)
+  const doorWidth = Math.min(3, width * 0.3);
+  const frontWallL = new THREE.Mesh(
+    new THREE.BoxGeometry((width - doorWidth) / 2, wallH, wallThickness),
+    wallMat
+  );
+  frontWallL.position.set(-(width + doorWidth) / 4, (roomBottomY + roomTopY) / 2, -halfL);
+  frontWallL.castShadow = true;
+  group.add(frontWallL);
+
+  const frontWallR = new THREE.Mesh(
+    new THREE.BoxGeometry((width - doorWidth) / 2, wallH, wallThickness),
+    wallMat
+  );
+  frontWallR.position.set((width + doorWidth) / 4, (roomBottomY + roomTopY) / 2, -halfL);
+  frontWallR.castShadow = true;
+  group.add(frontWallR);
+
+  // Back wall
+  const backWall = new THREE.Mesh(
+    new THREE.BoxGeometry(width, wallH, wallThickness),
+    wallMat
+  );
+  backWall.position.set(0, (roomBottomY + roomTopY) / 2, halfL);
+  backWall.castShadow = true;
+  group.add(backWall);
+
+  // Left wall
+  const leftWall = new THREE.Mesh(
+    new THREE.BoxGeometry(wallThickness, wallH, length),
+    wallMat
+  );
+  leftWall.position.set(-halfW, (roomBottomY + roomTopY) / 2, 0);
+  leftWall.castShadow = true;
+  group.add(leftWall);
+
+  // Right wall
+  const rightWall = new THREE.Mesh(
+    new THREE.BoxGeometry(wallThickness, wallH, length),
+    wallMat
+  );
+  rightWall.position.set(halfW, (roomBottomY + roomTopY) / 2, 0);
+  rightWall.castShadow = true;
+  group.add(rightWall);
+
+  // Ceiling (thin slab)
+  const ceiling = new THREE.Mesh(
+    new THREE.BoxGeometry(width, 0.2, length),
+    wallMat
+  );
+  ceiling.position.set(0, roomTopY, 0);
+  group.add(ceiling);
+
+  // Position the group
+  group.position.set(centerX, 0, centerZ);
+  group.userData = { type, width, length, depth, centerX, centerZ, label: colors.label };
+
+  // Add a label sprite
+  const labelSprite = makeTextSprite(colors.label + ' ' + Math.round(width) + 'x' + Math.round(length) + 'x' + depth.toFixed(0) + 'ft');
+  labelSprite.position.set(0, roomTopY + 1.5, 0);
+  labelSprite.scale.set(8, 1.5, 1);
+  group.add(labelSprite);
+
+  return group;
+}
+
+function placeUndergroundRoom(centerX, centerZ) {
+  ensureTerrainArray();
+  const width = parseFloat(innovUgStructWidth.value);
+  const length = parseFloat(innovUgStructLength.value);
+  const depth = parseFloat(innovUgStructDepth.value);
+  const type = innovUgStructType.value;
+
+  // Carve terrain down to create room space (excavate)
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const oldTerrain = new Float32Array(state.terrain);
+
+  // Carve the terrain above the room to create a depression
+  const edgeBlend = 2.0;
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const wx = (ix / segs) * state.yard.width - halfW;
+      const wz = (iz / segs) * state.yard.depth - halfD;
+      const dx = Math.abs(wx - centerX);
+      const dz = Math.abs(wz - centerZ);
+
+      if (dx <= width / 2 + edgeBlend && dz <= length / 2 + edgeBlend) {
+        const insideX = dx <= width / 2;
+        const insideZ = dz <= length / 2;
+        if (insideX && insideZ) {
+          // Inside room — excavate down to room depth
+          const currentH = state.terrain[vi] || 0;
+          const targetH = currentH - depth;
+          state.terrain[vi] = clampTerrainHeight(Math.min(state.terrain[vi] || 0, targetH));
+        } else {
+          // Edge blend zone
+          const blendDist = Math.max(
+            insideX ? 0 : dx - width / 2,
+            insideZ ? 0 : dz - length / 2
+          );
+          if (blendDist < edgeBlend) {
+            const t = blendDist / edgeBlend;
+            const falloff = Math.pow(1 - t, 2);
+            const currentH = state.terrain[vi] || 0;
+            state.terrain[vi] = clampTerrainHeight(currentH - depth * falloff * 0.5);
+          }
+        }
+      }
+    }
+  }
+
+  // Build the room mesh
+  const roomMesh = buildUndergroundRoom(centerX, centerZ, width, length, depth, type);
+  scene.add(roomMesh);
+  undergroundRooms.push(roomMesh);
+
+  const newTerrain = new Float32Array(state.terrain);
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+
+  // Compute volume
+  const roomVol = width * length * depth;
+  const roomVolYd = (roomVol / 27).toFixed(1);
+
+  pushCommand({
+    undo: () => {
+      state.terrain = oldTerrain;
+      scene.remove(roomMesh);
+      const idx = undergroundRooms.indexOf(roomMesh);
+      if (idx >= 0) undergroundRooms.splice(idx, 1);
+      _recomputeTerrainDeformed();
+      applyTerrainToMesh();
+      state.objects.forEach((_, id) => updateObjectHeight(id));
+      updateAllBuriedIndicators();
+      requestRender();
+    },
+    redo: () => {
+      state.terrain = newTerrain;
+      scene.add(roomMesh);
+      if (undergroundRooms.indexOf(roomMesh) < 0) undergroundRooms.push(roomMesh);
+      _recomputeTerrainDeformed();
+      applyTerrainToMesh();
+      state.objects.forEach((_, id) => updateObjectHeight(id));
+      updateAllBuriedIndicators();
+      requestRender();
+    },
+  });
+
+  showToast(UG_STRUCT_COLORS[type].label + ' placed! ' + width + 'x' + length + 'ft, ' + depth + 'ft deep (' + roomVolYd + ' yd³)');
+  requestRender();
+}
+
+function clearUndergroundRooms() {
+  for (const room of undergroundRooms) {
+    scene.remove(room);
+    if (room.children) {
+      room.children.forEach(child => {
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) child.material.dispose();
+      });
+    }
+  }
+  undergroundRooms = [];
+  requestRender();
+}
+
+// Slider value updaters
+innovUgStructWidth.addEventListener('input', e => { innovUgStructWidthVal.textContent = e.target.value + ' ft'; });
+innovUgStructLength.addEventListener('input', e => { innovUgStructLengthVal.textContent = e.target.value + ' ft'; });
+innovUgStructDepth.addEventListener('input', e => { innovUgStructDepthVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft'; });
+
+innovUgStructBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'ugstruct' ? null : 'ugstruct');
+});
+
+innovUgStructClear.addEventListener('click', () => {
+  clearUndergroundRooms();
+  showToast('All underground rooms cleared');
+});
+
+// ============================================================
+// PROTOTYPE 2: GEOLOGICAL LAYER VISUALIZATION
+// Show color-coded soil/rock layers at different depths
+// in the solid earth mesh via layered translucent planes.
+// ============================================================
+
+const GEO_LAYER_COLORS = [
+  { name: 'Topsoil',   color: 0x6B4423, opacity: 0.6 },
+  { name: 'Clay',      color: 0xB8860B, opacity: 0.55 },
+  { name: 'Sandstone', color: 0xCD853F, opacity: 0.5 },
+  { name: 'Bedrock',   color: 0x696969, opacity: 0.7 },
+];
+
+function buildGeoLayerMeshes() {
+  removeGeoLayerMeshes();
+
+  if (!state.terrain) return;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const minH = getMinTerrainHeight();
+  const bottomY = getSolidEarthBottomY();
+
+  const topsoilDepth = parseFloat(innovGeoLayerTopsoil.value);
+  const clayDepth = parseFloat(innovGeoLayerClay.value);
+  const sandstoneDepth = parseFloat(innovGeoLayerSandstone.value);
+
+  // Layer boundaries (Y positions, measured below the minimum terrain surface)
+  const layerDepths = [
+    { y: minH - topsoilDepth,     color: GEO_LAYER_COLORS[0].color, opacity: GEO_LAYER_COLORS[0].opacity, name: 'Topsoil' },
+    { y: minH - clayDepth,        color: GEO_LAYER_COLORS[1].color, opacity: GEO_LAYER_COLORS[1].opacity, name: 'Clay' },
+    { y: minH - sandstoneDepth,   color: GEO_LAYER_COLORS[2].color, opacity: GEO_LAYER_COLORS[2].opacity, name: 'Sandstone' },
+    { y: bottomY,                  color: GEO_LAYER_COLORS[3].color, opacity: GEO_LAYER_COLORS[3].opacity, name: 'Bedrock' },
+  ];
+
+  for (const layer of layerDepths) {
+    const geo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth);
+    const mat = new THREE.MeshLambertMaterial({
+      color: layer.color,
+      transparent: true,
+      opacity: layer.opacity,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(0, layer.y, 0);
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = false;
+    mesh.userData = { geoLayer: true, name: layer.name, depthY: layer.y };
+    scene.add(mesh);
+    geoLayerMeshes.push(mesh);
+  }
+
+  // Also change solid earth mesh color to show layered appearance
+  if (solidEarthMesh && solidEarthMesh.material) {
+    // Use vertex colors based on depth — but simpler: just tint
+    solidEarthMesh.material.color.setHex(0x5C4033);
+  }
+
+  requestRender();
+}
+
+function removeGeoLayerMeshes() {
+  for (const mesh of geoLayerMeshes) {
+    scene.remove(mesh);
+    if (mesh.geometry) mesh.geometry.dispose();
+    if (mesh.material) mesh.material.dispose();
+  }
+  geoLayerMeshes = [];
+}
+
+function toggleGeoLayers() {
+  geoLayersActive = !geoLayersActive;
+  if (geoLayersActive) {
+    buildGeoLayerMeshes();
+    showToast('Geological layers enabled — use cutaway view to see them');
+  } else {
+    removeGeoLayerMeshes();
+    showToast('Geological layers disabled');
+  }
+  requestRender();
+}
+
+innovGeoLayerTopsoil.addEventListener('input', e => {
+  innovGeoLayerTopsoilVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft';
+  if (geoLayersActive) buildGeoLayerMeshes();
+});
+innovGeoLayerClay.addEventListener('input', e => {
+  innovGeoLayerClayVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft';
+  if (geoLayersActive) buildGeoLayerMeshes();
+});
+innovGeoLayerSandstone.addEventListener('input', e => {
+  innovGeoLayerSandstoneVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft';
+  if (geoLayersActive) buildGeoLayerMeshes();
+});
+
+innovGeoLayerBtn.addEventListener('click', () => {
+  toggleGeoLayers();
+});
+
+innovGeoLayerToggle.addEventListener('click', () => {
+  toggleGeoLayers();
+});
+
+// ============================================================
+// PROTOTYPE 3: EXCAVATION VOLUME CALCULATOR
+// Real-time computation of cut/fill volumes from terrain data.
+// Reports cubic yards, truck loads, surface area, and cost.
+// ============================================================
+
+function computeExcavationVolume() {
+  if (!state.terrain) return null;
+  const segs = state.terrainSegs;
+  const cellW = state.yard.width / segs;
+  const cellD = state.yard.depth / segs;
+  const cellArea = cellW * cellD;
+
+  let cutVolume = 0;  // terrain below 0 (excavated)
+  let fillVolume = 0;  // terrain above 0 (added)
+  let cutSurfaceArea = 0;  // surface area of excavation walls
+  let maxDepth = 0;
+  let cellCount = 0;
+
+  for (let i = 0; i < state.terrain.length; i++) {
+    const h = state.terrain[i];
+    if (h < -0.01) {
+      cutVolume += Math.abs(h) * cellArea;
+      if (h < maxDepth) maxDepth = h;
+      cellCount++;
+    } else if (h > 0.01) {
+      fillVolume += h * cellArea;
+    }
+  }
+
+  // Estimate surface area of excavation walls (perimeter of excavated region)
+  // Simple approach: count edges between excavated and non-excavated cells
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const h = state.terrain[vi];
+      if (h < -0.01) {
+        // Check neighbors
+        const neighbors = [
+          iz > 0 ? state.terrain[(iz - 1) * (segs + 1) + ix] : 0,
+          iz < segs ? state.terrain[(iz + 1) * (segs + 1) + ix] : 0,
+          ix > 0 ? state.terrain[iz * (segs + 1) + (ix - 1)] : 0,
+          ix < segs ? state.terrain[iz * (segs + 1) + (ix + 1)] : 0,
+        ];
+        for (const nh of neighbors) {
+          if (nh >= -0.01) {
+            // Wall edge — add wall area
+            const wallHeight = Math.abs(h);
+            cutSurfaceArea += wallHeight * Math.max(cellW, cellD);
+          }
+        }
+      }
+    }
+  }
+
+  // Convert to cubic yards (1 cubic yard = 27 cubic feet)
+  const cutYd3 = cutVolume / 27;
+  const fillYd3 = fillVolume / 27;
+  const netYd3 = cutYd3 - fillYd3;
+
+  // Truck load estimate (1 truck = ~10 cubic yards)
+  const truckLoads = Math.ceil(Math.max(cutYd3, fillYd3) / 10);
+
+  // Cost estimate ($/cubic yard for excavation)
+  const cutCost = cutYd3 * 15;  // $15/yd³ for excavation
+  const fillCost = fillYd3 * 8;  // $8/yd³ for fill
+  const totalCost = cutCost + fillCost;
+
+  return {
+    cutYd3: cutYd3.toFixed(1),
+    fillYd3: fillYd3.toFixed(1),
+    netYd3: netYd3.toFixed(1),
+    truckLoads,
+    cutSurfaceArea: cutSurfaceArea.toFixed(0),
+    maxDepth: Math.abs(maxDepth).toFixed(1),
+    cellCount,
+    totalCost: Math.round(totalCost),
+  };
+}
+
+function updateVolCalcDisplay() {
+  const data = computeExcavationVolume();
+  if (!data) {
+    innovVolCalcDisplay.innerHTML = '<div style="color:var(--text-muted);">No terrain data. Use terrain editing tools first.</div>';
+    return;
+  }
+  if (data.cutYd3 === '0.0' && data.fillYd3 === '0.0') {
+    innovVolCalcDisplay.innerHTML = '<div style="color:var(--text-muted);">Terrain is flat. Edit terrain to see volumes.</div>';
+    return;
+  }
+  innovVolCalcDisplay.innerHTML = `
+    <div style="display:flex;justify-content:space-between;"><span>Cut (excavate):</span><b style="color:#c0392b;">${data.cutYd3} yd³</b></div>
+    <div style="display:flex;justify-content:space-between;"><span>Fill (add):</span><b style="color:#27ae60;">${data.fillYd3} yd³</b></div>
+    <div style="display:flex;justify-content:space-between;"><span>Net:</span><b>${data.netYd3} yd³</b></div>
+    <div style="display:flex;justify-content:space-between;"><span>Max Depth:</span><b>${data.maxDepth} ft</b></div>
+    <div style="display:flex;justify-content:space-between;"><span>Wall Surface:</span><b>${data.cutSurfaceArea} ft²</b></div>
+    <div style="display:flex;justify-content:space-between;"><span>Truck Loads:</span><b>~${data.truckLoads}</b></div>
+    <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:4px;margin-top:2px;"><span>Est. Cost:</span><b style="color:var(--primary);">$${data.totalCost.toLocaleString()}</b></div>
+  `;
+}
+
+innovVolCalcBtn.addEventListener('click', () => {
+  volCalcActive = !volCalcActive;
+  innovVolCalcBtn.classList.toggle('active', volCalcActive);
+  innovVolCalcDisplay.style.display = volCalcActive ? 'flex' : 'none';
+  if (volCalcActive) {
+    updateVolCalcDisplay();
+    // Start polling for terrain changes
+    if (!volCalcPollTimer) {
+      volCalcPollTimer = setInterval(() => {
+        if (volCalcActive) updateVolCalcDisplay();
+      }, 500);
+    }
+  } else {
+    if (volCalcPollTimer) {
+      clearInterval(volCalcPollTimer);
+      volCalcPollTimer = null;
+    }
+  }
+  requestRender();
+});
+
+// ============================================================
+// AI-DISCOVERED PROTOTYPE 1: EXPLODED VIEW
+// Lift terrain surface upward to reveal underground features.
+// Animates yardMesh.position.y and underground room offsets.
+// ============================================================
+
+innovExplodedAmount.addEventListener('input', e => {
+  const val = parseFloat(e.target.value);
+  if (innovExplodedAmountVal) innovExplodedAmountVal.textContent = val + ' ft';
+  explodedOffset = val;
+  applyExplodedView();
+});
+
+function applyExplodedView() {
+  if (!explodedViewActive) return;
+  const lift = explodedOffset;
+
+  // Lift terrain surface mesh
+  if (yardMesh) {
+    yardMesh.position.y = lift;
+  }
+
+  // Lift objects on terrain too
+  sceneObjects.forEach((obj, id) => {
+    const data = state.objects.get(id);
+    if (data && obj) {
+      // Save original Y if not saved
+      if (obj.userData.origY === undefined) {
+        obj.userData.origY = obj.position.y;
+      }
+      obj.position.y = obj.userData.origY + lift;
+    }
+  });
+
+  // Solid earth stays in place — revealing the gap
+  requestRender();
+}
+
+function resetExplodedView() {
+  if (yardMesh) yardMesh.position.y = 0;
+  sceneObjects.forEach((obj) => {
+    if (obj.userData.origY !== undefined) {
+      obj.position.y = obj.userData.origY;
+    }
+  });
+  requestRender();
+}
+
+innovExplodedBtn.addEventListener('click', () => {
+  explodedViewActive = !explodedViewActive;
+  innovExplodedBtn.classList.toggle('active', explodedViewActive);
+  if (explodedViewActive) {
+    applyExplodedView();
+    showToast('Exploded view ON — slide to lift terrain and reveal underground');
+  } else {
+    resetExplodedView();
+    showToast('Exploded view OFF');
+  }
+  requestRender();
+});
+
+// ============================================================
+// AI-DISCOVERED PROTOTYPE 2: WATER TABLE VISUALIZATION
+// Semi-transparent blue plane at configurable depth.
+// Warns when excavations go below water table.
+// ============================================================
+
+function buildWaterTableMesh() {
+  if (waterTableMesh) {
+    scene.remove(waterTableMesh);
+    if (waterTableMesh.geometry) waterTableMesh.geometry.dispose();
+    if (waterTableMesh.material) waterTableMesh.material.dispose();
+    waterTableMesh = null;
+  }
+
+  const depth = parseFloat(innovWaterTableDepth.value);
+  const minH = getMinTerrainHeight();
+  const waterY = minH - depth;
+
+  const geo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth);
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x2980B9,
+    transparent: true,
+    opacity: 0.4,
+    side: THREE.DoubleSide,
+    roughness: 0.2,
+    metalness: 0.1,
+  });
+  waterTableMesh = new THREE.Mesh(geo, mat);
+  waterTableMesh.position.set(0, waterY, 0);
+  waterTableMesh.rotation.x = -Math.PI / 2;
+  waterTableMesh.userData = { waterTable: true, depth };
+  scene.add(waterTableMesh);
+
+  // Check for excavations below water table
+  checkWaterTableWarning(depth);
+  requestRender();
+}
+
+function checkWaterTableWarning(depth) {
+  if (!state.terrain) return;
+  const minH = getMinTerrainHeight();
+  const waterY = minH - depth;
+  let belowCount = 0;
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (state.terrain[i] < waterY) belowCount++;
+  }
+  if (belowCount > 0) {
+    const cells = belowCount;
+    const area = (cells / state.terrain.length * 100).toFixed(1);
+    showToast('WARNING: ' + area + '% of excavation is below water table (' + depth + 'ft)');
+  }
+}
+
+function removeWaterTableMesh() {
+  if (waterTableMesh) {
+    scene.remove(waterTableMesh);
+    if (waterTableMesh.geometry) waterTableMesh.geometry.dispose();
+    if (waterTableMesh.material) waterTableMesh.material.dispose();
+    waterTableMesh = null;
+  }
+  requestRender();
+}
+
+innovWaterTableDepth.addEventListener('input', e => {
+  const val = parseFloat(e.target.value);
+  innovWaterTableDepthVal.textContent = val.toFixed(1) + ' ft';
+  if (waterTableActive) buildWaterTableMesh();
+});
+
+innovWaterTableBtn.addEventListener('click', () => {
+  waterTableActive = !waterTableActive;
+  innovWaterTableBtn.classList.toggle('active', waterTableActive);
+  if (waterTableActive) {
+    buildWaterTableMesh();
+    showToast('Water table visualization ON — depth: ' + innovWaterTableDepth.value + 'ft');
+  } else {
+    removeWaterTableMesh();
+    showToast('Water table visualization OFF');
+  }
+  requestRender();
+});
+
+innovWaterTableToggle.addEventListener('click', () => {
+  waterTableActive = !waterTableActive;
+  innovWaterTableBtn.classList.toggle('active', waterTableActive);
+  if (waterTableActive) {
+    buildWaterTableMesh();
+  } else {
+    removeWaterTableMesh();
+  }
+  requestRender();
+});
+
+// ============================================================
+// AI-DISCOVERED PROTOTYPE 3: GHOST PREVIEW
+// When hovering in ugstruct mode, show a transparent preview
+// of where the underground room will be placed.
+// ============================================================
+
+function createGhostPreviewMesh(centerX, centerZ) {
+  removeGhostPreviewMesh();
+
+  const width = parseFloat(innovUgStructWidth.value);
+  const length = parseFloat(innovUgStructLength.value);
+  const depth = parseFloat(innovUgStructDepth.value);
+  const surfaceH = getTerrainHeight(centerX, centerZ);
+
+  const geo = new THREE.BoxGeometry(width, depth, length);
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0x2d6a4f,
+    transparent: true,
+    opacity: 0.25,
+    wireframe: false,
+  });
+  ghostPreviewMesh = new THREE.Mesh(geo, mat);
+  ghostPreviewMesh.position.set(centerX, surfaceH - depth / 2, centerZ);
+  ghostPreviewMesh.userData = { ghostPreview: true };
+
+  // Add wireframe overlay
+  const wireGeo = new THREE.EdgesGeometry(geo);
+  const wireMat = new THREE.LineBasicMaterial({ color: 0x2d6a4f, linewidth: 2 });
+  const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+  ghostPreviewMesh.add(wireframe);
+
+  scene.add(ghostPreviewMesh);
+  requestRender();
+}
+
+function removeGhostPreviewMesh() {
+  if (ghostPreviewMesh) {
+    scene.remove(ghostPreviewMesh);
+    ghostPreviewMesh.traverse(child => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) child.material.dispose();
+    });
+    ghostPreviewMesh = null;
+  }
+}
+
+function updateGhostPreview(centerX, centerZ) {
+  if (!ghostPreviewActive || innovMode !== 'ugstruct') return;
+  createGhostPreviewMesh(centerX, centerZ);
+}
+
+innovGhostPreviewBtn.addEventListener('click', () => {
+  ghostPreviewActive = !ghostPreviewActive;
+  innovGhostPreviewBtn.classList.toggle('active', ghostPreviewActive);
+  if (ghostPreviewActive) {
+    showToast('Ghost preview ON — hover terrain to see room placement');
+  } else {
+    removeGhostPreviewMesh();
+    showToast('Ghost preview OFF');
+  }
+  requestRender();
+});
+
+innovGhostPreviewToggle.addEventListener('click', () => {
+  ghostPreviewActive = !ghostPreviewActive;
+  innovGhostPreviewBtn.classList.toggle('active', ghostPreviewActive);
+  if (!ghostPreviewActive) removeGhostPreviewMesh();
+  requestRender();
+});
+
+// --- Extend innovSetMode cleanup for ugstruct ---
+// The original innovSetMode already handles the new 'ugstruct' mode above.
+// We just need to clean up ghost preview when leaving ugstruct mode.
+
+
+// --- Handle clicks for ugstruct mode ---
+viewport.addEventListener('pointerdown', (e) => {
+  if (innovMode !== 'ugstruct') return;
+  const point = getGroundPointFromEvent(e);
+  if (point) {
+    placeUndergroundRoom(point.x, point.z);
+  }
+}, true);
+
+// --- Handle hover for ghost preview ---
+viewport.addEventListener('pointermove', (e) => {
+  if (innovMode !== 'ugstruct' || !ghostPreviewActive) return;
+  const point = getGroundPointFromEvent(e);
+  if (point) {
+    updateGhostPreview(point.x, point.z);
+  }
+}, true);
+
+// --- Update geo layers when terrain changes ---
+const _geoLayerUpdateTimer = setInterval(() => {
+  if (geoLayersActive) buildGeoLayerMeshes();
+}, 5000);
+
+// --- Expose S4 prototypes for testing ---
+window._testS4 = {
+  placeUndergroundRoom,
+  clearUndergroundRooms,
+  buildUndergroundRoom,
+  buildGeoLayerMeshes,
+  removeGeoLayerMeshes,
+  toggleGeoLayers,
+  get geoLayersActive() { return geoLayersActive; },
+  computeExcavationVolume,
+  updateVolCalcDisplay,
+  get volCalcActive() { return volCalcActive; },
+  applyExplodedView,
+  resetExplodedView,
+  get explodedViewActive() { return explodedViewActive; },
+  buildWaterTableMesh,
+  removeWaterTableMesh,
+  get waterTableActive() { return waterTableActive; },
+  checkWaterTableWarning,
+  createGhostPreviewMesh,
+  removeGhostPreviewMesh,
+  get ghostPreviewActive() { return ghostPreviewActive; },
+  get waterTableMesh() { return waterTableMesh; },
+  get geoLayerMeshes() { return geoLayerMeshes; },
+  get ghostPreviewMesh() { return ghostPreviewMesh; },
+  get undergroundRooms() { return undergroundRooms; },
+};
+
+
+
+// ============================================================
+// SPRINT 4: BELOW-GRID VISUALIZATION (Agent 2)
+// Grid level plane, inline depth gauge, cross-section upgrades
+// ============================================================
+
+let gridLevelPlane = null;       // semi-transparent wireframe plane showing grid level
+
+function buildGridLevelPlane() {
+  if (gridLevelPlane) {
+    scene.remove(gridLevelPlane);
+    if (gridLevelPlane.geometry) gridLevelPlane.geometry.dispose();
+    if (gridLevelPlane.material) gridLevelPlane.material.dispose();
+    gridLevelPlane = null;
+  }
+  const size = Math.max(state.yard.width, state.yard.depth);
+  const geo = new THREE.PlaneGeometry(size, size, 1, 1);
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0x5b4a8b,
+    transparent: true,
+    opacity: 0.08,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+  });
+  gridLevelPlane = new THREE.Mesh(geo, mat);
+  gridLevelPlane.rotation.x = -Math.PI / 2;
+  gridLevelPlane.position.y = state.gridLevel;
+  gridLevelPlane.renderOrder = 1;
+  scene.add(gridLevelPlane);
+
+  // Wireframe overlay
+  const wireGeo = new THREE.PlaneGeometry(size, size, 10, 10);
+  const wireMat = new THREE.LineBasicMaterial({
+    color: 0x5b4a8b,
+    transparent: true,
+    opacity: 0.25,
+  });
+  const wireframe = new THREE.LineSegments(new THREE.WireframeGeometry(wireGeo), wireMat);
+  wireframe.rotation.x = -Math.PI / 2;
+  wireframe.position.y = state.gridLevel + 0.02;
+  wireframe.renderOrder = 2;
+  gridLevelPlane.add(wireframe);
+  wireGeo.dispose();
+
+  // Apply clipping plane if active
+  try {
+    if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) {
+      gridLevelPlane.material.clippingPlanes = [terrainClipPlane];
+    }
+  } catch(e) {}
+}
+
+function updateGridLevelDisplay() {
+  const glValEl = document.getElementById('grid-level-val');
+  const glDispEl = document.getElementById('grid-level-value');
+  if (glValEl) glValEl.textContent = state.gridLevel + ' ft';
+  if (glDispEl) glDispEl.textContent = state.gridLevel + ' ft';
+  if (gridLevelPlane) gridLevelPlane.position.y = state.gridLevel;
+  updateInlineDepthGauge();
+}
+
+function updateInlineDepthGauge(relativeH) {
+  if (relativeH === undefined) {
+    const readoutEl = document.getElementById('height-readout-value');
+    if (readoutEl) {
+      const match = readoutEl.textContent.match(/-?\d+\.?\d*/);
+      if (match) {
+        const h = parseFloat(match[0]);
+        relativeH = h - state.gridLevel;
+      }
+    }
+  }
+  if (relativeH === undefined) return;
+
+  const dgEl = document.getElementById('depth-gauge-inline');
+  const dgLabel = document.getElementById('dg-inline-label');
+  const dgValue = document.getElementById('dg-inline-value');
+  const dgIndicator = document.getElementById('dg-inline-indicator');
+  if (!dgEl || !dgValue) return;
+
+  dgEl.classList.remove('above', 'below');
+  if (relativeH > 0.1) {
+    dgEl.classList.add('above');
+    if (dgLabel) dgLabel.textContent = 'Height:';
+    dgValue.textContent = relativeH.toFixed(1) + ' ft';
+  } else if (relativeH < -0.1) {
+    dgEl.classList.add('below');
+    if (dgLabel) dgLabel.textContent = 'Depth:';
+    dgValue.textContent = Math.abs(relativeH).toFixed(1) + ' ft below';
+  } else {
+    if (dgLabel) dgLabel.textContent = 'Level:';
+    dgValue.textContent = 'At grid (0.0 ft)';
+  }
+
+  if (dgIndicator) {
+    const pct = 50 - (relativeH / 30) * 50;
+    const clampedPct = Math.max(0, Math.min(100, pct));
+    dgIndicator.style.top = clampedPct + '%';
+  }
+}
+
+// Build grid level plane on init
+setTimeout(() => {
+  buildGridLevelPlane();
+  requestRender();
+}, 300);
+
 // Expose internals for testing
 
 // Expose internals for testing
 window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; },
   MAX_TERRAIN_HEIGHT, MIN_TERRAIN_HEIGHT, clampTerrainHeight,
   get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; updatePrecisionModeUI(); },
-  updatePrecisionModeUI, togglePrecisionMode, updateHeightReadout, updateExcavationHint, get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; }, get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject, buildSolidEarth, getSolidEarthBottomY, get solidEarthMesh() { return solidEarthMesh; }, EXCAVATION_EARTH_COLOR, EARTH_DEPTH_BELOW_MIN, get crossSectionPoints() { return crossSectionPoints; }, set crossSectionPoints(v) { crossSectionPoints = v; }, excavatePool, flattenToHeightAt, placeElevationMarker, clearInnovMarkers, applyPrecisionSlope, scanForRetainingWalls, clearInnovRetWalls, get innovMode() { return innovMode; }, innovSetMode, updateInnovStats };
+  updatePrecisionModeUI, togglePrecisionMode, updateHeightReadout, updateExcavationHint, get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; }, get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject, buildSolidEarth, getSolidEarthBottomY, get solidEarthMesh() { return solidEarthMesh; }, EXCAVATION_EARTH_COLOR, EARTH_DEPTH_BELOW_MIN, get crossSectionPoints() { return crossSectionPoints; }, set crossSectionPoints(v) { crossSectionPoints = v; }, excavatePool, flattenToHeightAt, placeElevationMarker, clearInnovMarkers, applyPrecisionSlope, scanForRetainingWalls, clearInnovRetWalls, get innovMode() { return innovMode; }, innovSetMode, updateInnovStats,
+  // Voxel volume engine
+  get voxelMesh() { return voxelMesh; }, get carvingPreviewMesh() { return carvingPreviewMesh; }, VOXEL_SIZE, VOXEL_DEPTH, VOXEL_COLOR, get voxelNX() { return voxelNX; }, get voxelNY() { return voxelNY; }, get voxelNZ() { return voxelNZ; },
+  initVoxelsFromTerrain, updateVoxelsFromTerrain, buildVoxelMesh, rebuildVoxelVolume, countSolidVoxels, countVoxelFaces,
+  getVoxel, setVoxel, voxelToWorld, worldToVoxel, computeVoxelDims,
+  carveShape, fillShape, carveWithBrush, fillWithBrush, showCarvingPreview, hideCarvingPreview,
+  serializeVoxels, deserializeVoxels, snapshotVoxels, restoreVoxelSnapshot, pushVoxelUndo,
+  setGridLevel, updateVoxelInfoDisplay,
+  get carvingShape() { return carvingShape; }, set carvingShape(v) { carvingShape = v; }, get carvingSize() { return carvingSize; }, set carvingSize(v) { carvingSize = v; }, get carvingDepth() { return carvingDepth; }, set carvingDepth(v) { carvingDepth = v; }, get carvingPendingCenter() { return carvingPendingCenter; }, set carvingPendingCenter(v) { carvingPendingCenter = v; },
+  // Sprint 4 UX additions (Agent 4)
+  applyGridLevel,
+  get carvingShapeMode() { return carvingShapeMode; }, set carvingShapeMode(v) { carvingShapeMode = v; },
+  commitCarving, updateCarvingPreview: updateCarvingPreviewUX, clearCarvingPreview,
+  get uxCarvingDepth() { return uxCarvingDepth; }, set uxCarvingDepth(v) { uxCarvingDepth = v; },
+  get uxCarvingWidth() { return uxCarvingWidth; }, set uxCarvingWidth(v) { uxCarvingWidth = v; },
+  get uxCarvingLength() { return uxCarvingLength; }, set uxCarvingLength(v) { uxCarvingLength = v; },
+  get carvingWidth() { return uxCarvingWidth; }, set carvingWidth(v) { uxCarvingWidth = v; },
+  get carvingLength() { return uxCarvingLength; }, set carvingLength(v) { uxCarvingLength = v; },
+  get undergroundViewActive() { return undergroundViewActive; },
+  applyTerrainEdgeHighlight, get terrainEdgeLines() { return terrainEdgeLines; },
+};
 
 // Try to load autosave
 try {
