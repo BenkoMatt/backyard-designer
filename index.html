@@ -167,6 +167,33 @@ canvas { display: block; }
 .terrain-toggle-btn:hover { border-color: #8B5E3C; background: #f8f0eb; }
 .terrain-toggle-btn.active { background: #4a8b5c; color: white; border-color: #4a8b5c; }
 
+/* Strength labels (Fine / Coarse) */
+.terrain-strength-section { display: flex; flex-direction: column; gap: 2px; }
+.strength-labels { display: flex; justify-content: space-between; padding: 0 2px; margin-top: -2px; }
+.strength-label-fine { font-size: 9px; color: var(--text-muted); font-weight: 600; }
+.strength-label-coarse { font-size: 9px; color: var(--text-muted); font-weight: 600; }
+
+/* Precision mode toggle */
+.precision-row { align-items: center; }
+.precision-toggle { position: relative; width: 38px; height: 22px; background: #ccc; border-radius: 11px; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+.precision-toggle.on { background: #4a8b5c; }
+.precision-toggle-knob { position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: transform 0.2s; }
+.precision-toggle.on .precision-toggle-knob { transform: translateX(16px); }
+.precision-hint { font-size: 10px; color: var(--text-muted); line-height: 1.4; display: none; }
+.precision-hint.visible { display: block; }
+#terrain-controls.precision-active { border-color: #4a8b5c; box-shadow: 0 0 0 2px rgba(74,139,92,0.15), var(--shadow); }
+#terrain-controls.precision-active .terrain-mode-btns { border-left: 3px solid #4a8b5c; padding-left: 4px; }
+
+/* Height readout */
+.terrain-height-readout { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(139,94,60,0.08); border-radius: var(--radius-sm); font-size: 11px; }
+.terrain-height-readout .readout-label { color: var(--text-muted); font-weight: 600; }
+.terrain-height-readout .readout-value { color: #8B5E3C; font-weight: 700; font-size: 13px; }
+.terrain-height-readout.negative .readout-value { color: #c0392b; }
+
+/* Excavation depth hint */
+.excavation-depth-hint { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(91,74,139,0.08); border-radius: var(--radius-sm); font-size: 10px; color: #5b4a8b; }
+.excavation-depth-hint .depth-hint-icon { font-size: 14px; }
+
 /* Height legend color bar */
 #terrain-height-legend { position: absolute; top: 16px; left: 16px; z-index: 45; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 11px; box-shadow: var(--shadow); display: none; }
 #terrain-height-legend.visible { display: block; }
@@ -539,6 +566,43 @@ canvas { display: block; }
 .walk-joy-btn.spacer { background: transparent; border: none; box-shadow: none; cursor: default; }
 #walk-motion-btn { position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: var(--shadow); pointer-events: auto; display: none; }
 #walk-motion-btn.visible { display: block; }
+
+/* ===== INNOVATION TOOLS (Agent 5 — Sprint 3) ===== */
+#innovation-btn { position: absolute; bottom: 16px; left: 530px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; z-index: 10; }
+#innovation-btn:hover { border-color: var(--primary); background: white; }
+#innovation-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+#innovation-btn svg { width: 16px; height: 16px; }
+
+#innovation-panel { position: absolute; bottom: 56px; left: 530px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 280px; max-width: 340px; z-index: 11; }
+#innovation-panel.visible { display: flex; }
+.innov-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.innov-header .title { font-size: 13px; font-weight: 700; color: #2d6a4f; display: flex; align-items: center; gap: 6px; }
+.innov-header .title svg { width: 16px; height: 16px; }
+.innov-header .close { cursor: pointer; border: none; background: none; font-size: 16px; color: var(--text-muted); padding: 0 4px; }
+.innov-header .close:hover { color: var(--text); }
+.innov-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #2d6a4f; margin-top: 4px; }
+.innov-tool-btn { padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: left; color: var(--text); transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
+.innov-tool-btn:hover { border-color: #2d6a4f; background: #f0f5f2; }
+.innov-tool-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+.innov-tool-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+.innov-tool-btn .innov-desc { font-size: 10px; opacity: 0.7; font-weight: 400; }
+.innov-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.innov-row label { font-weight: 600; white-space: nowrap; }
+.innov-row input[type="range"] { flex: 1; min-width: 50px; }
+.innov-row input[type="number"] { width: 60px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4px; font-size: 11px; font-family: inherit; }
+.innov-val { font-weight: 600; color: #2d6a4f; min-width: 45px; text-align: right; }
+.innov-divider { height: 1px; background: var(--border); margin: 2px 0; }
+.innov-info { font-size: 10px; color: var(--text-muted); line-height: 1.3; }
+.innov-hint { background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: var(--radius-sm); padding: 6px 10px; font-size: 11px; color: #1b5e20; }
+.innov-btns { display: flex; gap: 4px; }
+.innov-btns button { flex: 1; padding: 7px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
+.innov-btns button:hover { border-color: #2d6a4f; background: #f0f5f2; }
+.innov-btns button.primary { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+.innov-btns button.primary:hover { background: #1b5e20; }
+@media (max-width: 768px) {
+  #innovation-btn { left: 16px; bottom: 190px; }
+  #innovation-panel { left: 16px; bottom: 240px; max-width: 300px; }
+}
 </style>
 <script type="importmap">
 {
@@ -645,7 +709,7 @@ canvas { display: block; }
         <label>Mode:</label>
         <div class="terrain-mode-btns">
           <button class="terrain-mode-btn active" data-tmode="raise">Raise</button>
-          <button class="terrain-mode-btn" data-tmode="lower">Lower</button>
+          <button class="terrain-mode-btn" data-tmode="lower">Excavate</button>
           <button class="terrain-mode-btn" data-tmode="smooth">Smooth</button>
           <button class="terrain-mode-btn" data-tmode="erode">Erode</button>
         </div>
@@ -655,10 +719,32 @@ canvas { display: block; }
         <input type="range" id="terrain-brush-size" min="3" max="30" value="8" step="1">
         <span class="terrain-val" id="terrain-brush-val">8 ft</span>
       </div>
-      <div class="terrain-row">
-        <label>Strength</label>
-        <input type="range" id="terrain-strength" min="0.1" max="3" value="0.5" step="0.1">
-        <span class="terrain-val" id="terrain-strength-val">0.5</span>
+      <div class="terrain-strength-section">
+        <div class="terrain-row">
+          <label>Strength</label>
+          <input type="range" id="terrain-strength" min="0.01" max="1.0" value="0.05" step="0.01">
+          <span class="terrain-val" id="terrain-strength-val">0.05</span>
+        </div>
+        <div class="strength-labels">
+          <span class="strength-label-fine">Fine</span>
+          <span class="strength-label-coarse">Coarse</span>
+        </div>
+      </div>
+      <div class="terrain-row precision-row">
+        <label>Precision Mode</label>
+        <div class="precision-toggle" id="precision-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle precision mode">
+          <div class="precision-toggle-knob"></div>
+        </div>
+        <span class="terrain-val" id="precision-status">Off</span>
+      </div>
+      <div class="precision-hint" id="precision-hint">Precision mode limits brush to 10 ft and strength to 0.2 for fine control</div>
+      <div class="terrain-height-readout" id="terrain-height-readout">
+        <span class="readout-label">Height at cursor:</span>
+        <span class="readout-value" id="height-readout-value">0.0 ft</span>
+      </div>
+      <div class="excavation-depth-hint" id="excavation-depth-hint" style="display: none;">
+        <span class="depth-hint-icon">⬇</span>
+        <span class="depth-hint-text">Excavating: terrain can go below 0 ft (down to -30 ft)</span>
       </div>
       <div class="terrain-row">
         <label>Presets</label>
@@ -839,6 +925,152 @@ canvas { display: block; }
     <div class="viewport-overlay" id="cost-panel"></div>
     <!-- Layer management panel -->
     <div class="viewport-overlay" id="layer-panel"></div>
+    <!-- Innovation Tools (Agent 5 — Sprint 3) -->
+    <button class="viewport-overlay" id="innovation-btn" aria-label="Toggle innovation tools" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+      Innovate
+    </button>
+    <div class="viewport-overlay" id="innovation-panel">
+      <div class="innov-header">
+        <div class="title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+          Innovation Lab
+        </div>
+        <button class="close" id="innov-close" aria-label="Close innovation panel">&times;</button>
+      </div>
+      <div class="innov-hint" id="innov-hint">Select a tool below, then click on the terrain to apply.</div>
+
+      <!-- Pool Excavation Wizard -->
+      <div class="innov-section-title">Pool Excavation Wizard</div>
+      <button class="innov-tool-btn" id="innov-pool-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><rect x="3" y="4" width="18" height="16" rx="3" stroke-width="1.5"/></svg>
+        <div>
+          <div>Pool Excavation Wizard</div>
+          <div class="innov-desc">Click to dig a pool-shaped excavation with correct depth</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Pool Width</label>
+        <input type="range" id="innov-pool-width" min="8" max="30" value="16" step="1">
+        <span class="innov-val" id="innov-pool-width-val">16 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Pool Length</label>
+        <input type="range" id="innov-pool-length" min="12" max="40" value="24" step="1">
+        <span class="innov-val" id="innov-pool-length-val">24 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Depth</label>
+        <input type="range" id="innov-pool-depth" min="3" max="12" value="6" step="0.5">
+        <span class="innov-val" id="innov-pool-depth-val">6 ft</span>
+      </div>
+      <div class="innov-info">Click on terrain to auto-excavate a rounded-rect pool depression.</div>
+
+      <div class="innov-divider"></div>
+
+      <!-- Precision Flatten to Height -->
+      <div class="innov-section-title">Precision Flatten to Height</div>
+      <button class="innov-tool-btn" id="innov-flatten-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/><path d="M7 3v18M17 3v18" stroke-width="1"/></svg>
+        <div>
+          <div>Flatten to Height Brush</div>
+          <div class="innov-desc">Paint terrain to an exact elevation value</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Target Height</label>
+        <input type="range" id="innov-flatten-height" min="-10" max="15" value="0" step="0.5">
+        <span class="innov-val" id="innov-flatten-height-val">0.0 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Brush Radius</label>
+        <input type="range" id="innov-flatten-radius" min="3" max="30" value="10" step="1">
+        <span class="innov-val" id="innov-flatten-radius-val">10 ft</span>
+      </div>
+      <div class="innov-row">
+        <label>Edge Blend</label>
+        <input type="range" id="innov-flatten-blend" min="0" max="100" value="50" step="5">
+        <span class="innov-val" id="innov-flatten-blend-val">50%</span>
+      </div>
+      <div class="innov-info">Click and drag on terrain to set it to the exact target height.</div>
+      <div class="innov-btns">
+        <button id="innov-flatten-all">Flatten ALL to Height</button>
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- Elevation Markers -->
+      <div class="innov-section-title">Elevation Markers</div>
+      <button class="innov-tool-btn" id="innov-marker-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <div>
+          <div>Elevation Markers</div>
+          <div class="innov-desc">Click to place labeled elevation waypoints</div>
+        </div>
+      </button>
+      <div class="innov-info">Click on terrain to drop a marker showing the exact elevation at that point.</div>
+      <div class="innov-btns">
+        <button id="innov-marker-clear">Clear All Markers</button>
+      </div>
+
+      <div class="innov-divider"></div>
+
+      <!-- AI-Discovered: Precision Slope Tool -->
+      <div class="innov-section-title">AI-Discovered: Precision Slope</div>
+      <button class="innov-tool-btn" id="innov-slope-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20L21 4M3 20h18M3 20V4"/><path d="M7 16l4-4" stroke-width="1.5"/></svg>
+        <div>
+          <div>Precision ADA Slope Tool</div>
+          <div class="innov-desc">Click 2 points to grade exact slope between them</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Slope %</label>
+        <input type="range" id="innov-slope-pct" min="1" max="15" value="5" step="0.5">
+        <span class="innov-val" id="innov-slope-pct-val">5.0%</span>
+      </div>
+      <div class="innov-row">
+        <label>Blend Width</label>
+        <input type="range" id="innov-slope-blend" min="5" max="40" value="15" step="1">
+        <span class="innov-val" id="innov-slope-blend-val">15 ft</span>
+      </div>
+      <div class="innov-info">Click two points on terrain. Creates an exact grade between them at the specified slope %.</div>
+
+      <div class="innov-divider"></div>
+
+      <!-- AI-Discovered: Terrain Statistics Dashboard -->
+      <div class="innov-section-title">AI-Discovered: Terrain Stats</div>
+      <button class="innov-tool-btn" id="innov-stats-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 4 3 5-6"/></svg>
+        <div>
+          <div>Terrain Statistics Dashboard</div>
+          <div class="innov-desc">Live stats: min/max/avg, slope distribution, volume</div>
+        </div>
+      </button>
+      <div class="innov-info">Shows real-time terrain statistics for the entire yard.</div>
+
+      <div class="innov-divider"></div>
+
+      <!-- AI-Discovered: Retaining Wall Auto-Generation -->
+      <div class="innov-section-title">AI-Discovered: Auto Retaining Wall</div>
+      <button class="innov-tool-btn" id="innov-retwall-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M5 18V8M9 18V10M13 18V6M17 18V12M21 18V4"/><path d="M3 14h18" stroke-width="1" stroke-dasharray="3 2"/></svg>
+        <div>
+          <div>Auto Retaining Wall</div>
+          <div class="innov-desc">Detects steep slopes and suggests wall placement</div>
+        </div>
+      </button>
+      <div class="innov-row">
+        <label>Threshold</label>
+        <input type="range" id="innov-retwall-thresh" min="10" max="35" value="15" step="1">
+        <span class="innov-val" id="innov-retwall-thresh-val">15%</span>
+      </div>
+      <div class="innov-info">Analyzes terrain for slopes exceeding threshold and generates retaining wall outlines.</div>
+      <div class="innov-btns">
+        <button id="innov-retwall-scan">Scan Terrain</button>
+        <button id="innov-retwall-clear">Clear Walls</button>
+      </div>
+    </div>
     <!-- NOAA Sun & Shadow Simulator -->
     <button class="viewport-overlay" id="sun-btn" aria-label="Toggle sun and shadow simulator">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
@@ -968,8 +1200,8 @@ canvas { display: block; }
     </ul>
     <h3>Terrain & Measuring</h3>
     <ul>
-      <li><strong>Terrain:</strong> Click the Terrain button, then click-drag on the ground to raise/lower/smooth the surface to match slopes and grade changes</li>
-      <li>Adjust brush size and strength in the panel that appears</li>
+      <li><strong>Terrain:</strong> Click the Terrain button, then click-drag on the ground to raise/excavate/smooth the surface to match slopes and grade changes</li>
+      <li>Adjust brush size and strength in the panel that appears. Use <strong>Precision Mode</strong> for fine adjustments (brush limited to 10 ft, strength to 0.2)</li>
       <li>Objects automatically follow the terrain height when you move them</li>
       <li><strong>Tape Measure:</strong> Click two points to measure the distance between them</li>
       <li><strong>Excavate:</strong> Click the Excavate button to open the underground view — cut away terrain, make ground transparent, toggle wireframe, or see which objects are buried</li>
@@ -1902,15 +2134,25 @@ const state = {
   nextId: 1,
   shadowEnabled: !IS_MOBILE,
   terrain: null, // Float32Array of height values, null = flat
-  terrainSegs: 50, // segments per side for terrain mesh
+  terrainSegs: 100, // segments per side for terrain mesh (100x100 = 1ft cells on 100ft yard)
   terrainDeformed: false, // O(1) flag: true if terrain has any non-zero heights
 };
+
+// --- Terrain height limits (precision engine) ---
+const MAX_TERRAIN_HEIGHT = 30;  // ft — absolute ceiling
+const MIN_TERRAIN_HEIGHT = -30; // ft — absolute floor
+
+/** Clamp a terrain height value to [MIN_TERRAIN_HEIGHT, MAX_TERRAIN_HEIGHT] */
+function clampTerrainHeight(v) {
+  return Math.max(MIN_TERRAIN_HEIGHT, Math.min(MAX_TERRAIN_HEIGHT, v));
+}
 
 // Terrain editing state
 let terrainMode = false;
 let terrainBrushMode = 'raise'; // raise, lower, smooth
 let terrainBrushSize = 8;
-let terrainBrushStrength = 0.5;
+let terrainBrushStrength = 0.05; // default 0.05 — ~3ft/sec at 60fps, fine for precision
+let precisionMode = false; // when true: brush 3-10ft, strength 0.01-0.2
 let terrainBrushMesh = null; // visual cursor circle
 let isTerrainPainting = false;
 let terrainHistory = null; // for undo
@@ -1921,6 +2163,7 @@ let drainageArrowsGroup = null; // THREE.Group for drainage arrows
 const sceneObjects = new Map();
 let scene, renderer, camera3D, camera2D, controls;
 let raycaster, mouse, groundPlane, gridHelper, yardMesh, boundaryLines;
+let solidEarthMesh = null;       // solid earth block beneath terrain for excavations
 let activeCamera = camera3D;
 let sunLight = null, sunAmbient = null, sunHemi = null;
 
@@ -2011,6 +2254,11 @@ function initScene() {
   yardMesh.receiveShadow = true;
   yardMesh.castShadow = true;
   scene.add(yardMesh);
+
+  // Solid earth block beneath terrain — gives excavations real walls and a floor.
+  // Built as a custom BufferGeometry: top surface mirrors terrain, bottom is flat
+  // at a fixed depth below the lowest point, and side walls connect the edges.
+  buildSolidEarth();
 
   // Ground plane for raycasting (invisible)
   raycaster = new THREE.Raycaster();
@@ -2958,13 +3206,34 @@ function loadDesign(data) {
   state.objects.clear();
   state.yard = data.yard || state.yard;
   state.nextId = typeof data.nextId === 'number' && data.nextId > 0 ? data.nextId : 1;
-  // Sanitize terrain data
+  // Sanitize terrain data — validate array size matches terrainSegs, clamp heights
   if (data.terrain && Array.isArray(data.terrain)) {
-    state.terrain = new Float32Array(data.terrain);
+    const expectedLen = (state.terrainSegs + 1) * (state.terrainSegs + 1);
+    if (data.terrain.length === expectedLen) {
+      state.terrain = new Float32Array(data.terrain.length);
+      for (let i = 0; i < data.terrain.length; i++) {
+        state.terrain[i] = clampTerrainHeight(data.terrain[i] || 0);
+      }
+    } else if (data.terrain.length > 0) {
+      // Array size mismatch — try to auto-detect segs from array length
+      const detectedSegs = Math.round(Math.sqrt(data.terrain.length)) - 1;
+      if (detectedSegs > 0 && (detectedSegs + 1) * (detectedSegs + 1) === data.terrain.length) {
+        state.terrainSegs = detectedSegs;
+        state.terrain = new Float32Array(data.terrain.length);
+        for (let i = 0; i < data.terrain.length; i++) {
+          state.terrain[i] = clampTerrainHeight(data.terrain[i] || 0);
+        }
+      } else {
+        // Cannot determine resolution — discard terrain
+        state.terrain = null;
+      }
+    } else {
+      state.terrain = null;
+    }
   } else {
     state.terrain = null;
   }
-  state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 ? data.terrainSegs : 50;
+  state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 ? data.terrainSegs : 100;
   // Rebuild ground with new dimensions and apply terrain
   initWithYard(state.yard);
   if (state.terrain) { _recomputeTerrainDeformed(); applyTerrainToMesh(); }
@@ -3266,6 +3535,13 @@ function initWithYard(data) {
   scene.remove(yardMesh);
   if (yardMesh.material) yardMesh.material.dispose();
   yardMesh.geometry.dispose();
+  // Dispose old solid earth block
+  if (solidEarthMesh) {
+    scene.remove(solidEarthMesh);
+    if (solidEarthMesh.geometry) solidEarthMesh.geometry.dispose();
+    if (solidEarthMesh.material) solidEarthMesh.material.dispose();
+    solidEarthMesh = null;
+  }
   scene.remove(gridHelper);
   if (gridHelper.material) gridHelper.material.dispose();
   if (gridHelper.geometry) gridHelper.geometry.dispose();
@@ -3525,6 +3801,7 @@ terrainBtn.addEventListener('click', () => {
     showHint('Click and drag on the ground to sculpt terrain');
     // Create brush cursor
     createBrushCursor();
+    updateExcavationHint();
   } else {
     hideHint();
     removeBrushCursor();
@@ -3552,12 +3829,17 @@ document.querySelectorAll('.terrain-mode-btn').forEach(btn => {
     document.querySelectorAll('.terrain-mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     terrainBrushMode = btn.dataset.tmode;
+    updateExcavationHint();
   });
 });
 
 // Brush size slider
 terrainBrushSizeInput.addEventListener('input', e => {
   terrainBrushSize = parseInt(e.target.value);
+  if (precisionMode && terrainBrushSize > 10) {
+    terrainBrushSize = 10;
+    terrainBrushSizeInput.value = '10';
+  }
   terrainBrushValEl.textContent = terrainBrushSize + ' ft';
   if (terrainBrushMesh) updateBrushCursorSize();
 });
@@ -3565,8 +3847,101 @@ terrainBrushSizeInput.addEventListener('input', e => {
 // Strength slider
 terrainStrengthInput.addEventListener('input', e => {
   terrainBrushStrength = parseFloat(e.target.value);
-  terrainStrengthValEl.textContent = terrainBrushStrength.toFixed(1);
+  terrainStrengthValEl.textContent = terrainBrushStrength.toFixed(2);
+  // Enforce precision mode strength limit
+  if (precisionMode && terrainBrushStrength > 0.2) {
+    terrainBrushStrength = 0.2;
+    terrainStrengthInput.value = '0.2';
+    terrainStrengthValEl.textContent = '0.20';
+  }
 });
+
+// Precision mode toggle
+const precisionToggleEl = document.getElementById('precision-toggle');
+const precisionStatusEl = document.getElementById('precision-status');
+const precisionHintEl = document.getElementById('precision-hint');
+const terrainControlsEl = document.getElementById('terrain-controls');
+
+function togglePrecisionMode() {
+  precisionMode = !precisionMode;
+  precisionToggleEl.classList.toggle('on', precisionMode);
+  precisionToggleEl.setAttribute('aria-checked', precisionMode);
+  precisionStatusEl.textContent = precisionMode ? 'On' : 'Off';
+  precisionHintEl.classList.toggle('visible', precisionMode);
+  terrainControlsEl.classList.toggle('precision-active', precisionMode);
+  if (precisionMode) {
+    // Clamp brush size to max 10 and strength to max 0.2
+    if (terrainBrushSize > 10) {
+      terrainBrushSize = 10;
+      terrainBrushSizeInput.value = '10';
+      terrainBrushValEl.textContent = '10 ft';
+      if (terrainBrushMesh) updateBrushCursorSize();
+    }
+    if (terrainBrushStrength > 0.2) {
+      terrainBrushStrength = 0.2;
+      terrainStrengthInput.value = '0.2';
+      terrainStrengthValEl.textContent = '0.20';
+    }
+    // Also clamp the slider max values
+    terrainBrushSizeInput.max = '10';
+    terrainStrengthInput.max = '0.2';
+  } else {
+    // Restore slider max values
+    terrainBrushSizeInput.max = '30';
+    terrainStrengthInput.max = '1.0';
+  }
+  showToast(precisionMode ? 'Precision mode ON — fine brush & strength' : 'Precision mode OFF');
+  requestRender();
+}
+
+function updatePrecisionModeUI() {
+  // Compatibility wrapper — calls togglePrecisionMode if state differs
+  if (precisionMode) {
+    precisionToggleEl.classList.add('on');
+    precisionToggleEl.setAttribute('aria-checked', 'true');
+    precisionStatusEl.textContent = 'On';
+    precisionHintEl.classList.add('visible');
+    terrainControlsEl.classList.add('precision-active');
+    terrainBrushSizeInput.max = '10';
+    terrainStrengthInput.max = '0.2';
+    if (terrainBrushSize > 10) { terrainBrushSize = 10; terrainBrushSizeInput.value = '10'; terrainBrushValEl.textContent = '10 ft'; if (terrainBrushMesh) updateBrushCursorSize(); }
+    if (terrainBrushStrength > 0.2) { terrainBrushStrength = 0.2; terrainStrengthInput.value = '0.2'; terrainStrengthValEl.textContent = '0.20'; }
+  } else {
+    precisionToggleEl.classList.remove('on');
+    precisionToggleEl.setAttribute('aria-checked', 'false');
+    precisionStatusEl.textContent = 'Off';
+    precisionHintEl.classList.remove('visible');
+    terrainControlsEl.classList.remove('precision-active');
+    terrainBrushSizeInput.max = '30';
+    terrainStrengthInput.max = '1.0';
+  }
+}
+
+precisionToggleEl.addEventListener('click', togglePrecisionMode);
+precisionToggleEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePrecisionMode(); }
+});
+
+// Height readout — update the in-panel readout
+function updateHeightReadout(worldX, worldZ) {
+  const h = getTerrainHeight(worldX, worldZ);
+  const readoutEl = document.getElementById('height-readout-value');
+  const container = document.getElementById('terrain-height-readout');
+  if (readoutEl) {
+    readoutEl.textContent = h.toFixed(1) + ' ft';
+  }
+  if (container) {
+    container.classList.toggle('negative', h < 0);
+  }
+}
+
+// Show/hide excavation depth hint based on mode
+function updateExcavationHint() {
+  const hintEl = document.getElementById('excavation-depth-hint');
+  if (!hintEl) return;
+  const show = terrainBrushMode === 'lower';
+  hintEl.style.display = show ? 'flex' : 'none';
+}
 
 // Flatten button
 document.getElementById('terrain-flatten').addEventListener('click', () => {
@@ -3589,7 +3964,7 @@ document.getElementById('terrain-flatten').addEventListener('click', () => {
   updateAllBuriedIndicators();
   pushCommand({
     undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
-    redo: () => { state.terrain = null; state.terrainDeformed = false; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+    redo: () => { state.terrain = null; state.terrainDeformed = false; const geo2 = yardMesh.geometry; const pos2 = geo2.attributes.position; for (let i = 0; i < pos2.count; i++) pos2.setY(i, 0); pos2.needsUpdate = true; geo2.computeVertexNormals(); if (solidEarthMesh) { scene.remove(solidEarthMesh); if (solidEarthMesh.geometry) solidEarthMesh.geometry.dispose(); if (solidEarthMesh.material) solidEarthMesh.material.dispose(); solidEarthMesh = null; } state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
   });
   requestRender();
   showToast('Terrain flattened');
@@ -3648,15 +4023,185 @@ function getTerrainHeight(worldX, worldZ) {
   return (1-tx)*(1-tz)*h00 + tx*(1-tz)*h10 + (1-tx)*tz*h01 + tx*tz*h11;
 }
 
+// ============================================================
+// SOLID EARTH BLOCK — gives excavations real geometry
+// ============================================================
+// When terrain is lowered below Y=0, the single-sided terrain mesh shows a void.
+// We build a solid block of earth beneath the terrain surface so that looking
+// into an excavation reveals solid ground (walls + floor) instead of empty space.
+//
+// The block is a custom BufferGeometry with:
+//   - Top surface: mirrors the terrain mesh vertices exactly
+//   - Bottom surface: flat plane at a fixed depth below the lowest terrain point
+//   - Side walls: vertical faces connecting the terrain perimeter edges to the bottom
+// The block uses a dark earth-tone material (#5C4033) so excavations look like
+// real dug earth.
+
+const EARTH_DEPTH_BELOW_MIN = 15; // how far below the lowest terrain point the solid earth extends
+const EXCAVATION_EARTH_COLOR = 0x5C4033; // dark brown for excavation interior
+
+function buildSolidEarth() {
+  // Remove existing solid earth mesh
+  if (solidEarthMesh) {
+    scene.remove(solidEarthMesh);
+    if (solidEarthMesh.geometry) solidEarthMesh.geometry.dispose();
+    if (solidEarthMesh.material) solidEarthMesh.material.dispose();
+    solidEarthMesh = null;
+  }
+
+  if (!state.terrain) return;
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+
+  // Find the lowest terrain point to determine the bottom of the solid block
+  let minH = Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (state.terrain[i] < minH) minH = state.terrain[i];
+  }
+  if (minH === Infinity) minH = 0;
+  const bottomY = minH - EARTH_DEPTH_BELOW_MIN;
+
+  // Build a solid block using a modified BoxGeometry approach:
+  // We create vertices for the top (terrain surface), bottom (flat), and walls.
+  // For efficiency, we use the terrain grid for the top and a matching grid for
+  // the bottom, then connect the perimeter edges with wall faces.
+
+  const positions = [];
+  const indices = [];
+
+  // --- Bottom plane (flat at bottomY) ---
+  // 4 corners of the bottom
+  const bv0 = positions.length / 3; // index
+  positions.push(-halfW, bottomY, -halfD);
+  const bv1 = positions.length / 3;
+  positions.push(halfW, bottomY, -halfD);
+  const bv2 = positions.length / 3;
+  positions.push(halfW, bottomY, halfD);
+  const bv3 = positions.length / 3;
+  positions.push(-halfW, bottomY, halfD);
+  // Bottom face (facing down, but double-sided material so visible from above too)
+  // Wind clockwise when viewed from below so normal points down
+  indices.push(bv0, bv2, bv1);
+  indices.push(bv0, bv3, bv2);
+
+  // --- Side walls ---
+  // For each edge of the terrain perimeter, create a quad from the terrain edge
+  // vertex down to the bottom. We trace the perimeter: 4 edges (for rectangular yard).
+  // For each edge vertex pair (current, next), create wall face going down.
+
+  // Helper: get terrain height at grid index
+  function terrainAt(ix, iz) {
+    return state.terrain[iz * (segs + 1) + ix] || 0;
+  }
+
+  function addWallStrip(getXZ, count) {
+    // getXZ(i) returns {x, z, h} for perimeter vertex i (0..count)
+    for (let i = 0; i < count; i++) {
+      const cur = getXZ(i);
+      const nxt = getXZ(i + 1);
+      // Top vertices (at terrain height)
+      const ti0 = positions.length / 3;
+      positions.push(cur.x, cur.h, cur.z);
+      const ti1 = positions.length / 3;
+      positions.push(nxt.x, nxt.h, nxt.z);
+      // Bottom vertices (at bottomY)
+      const bi0 = positions.length / 3;
+      positions.push(cur.x, bottomY, cur.z);
+      const bi1 = positions.length / 3;
+      positions.push(nxt.x, bottomY, nxt.z);
+      // Two triangles for the quad (facing outward)
+      // Winding: cur_top, nxt_top, nxt_bottom, cur_bottom
+      indices.push(ti0, ti1, bi1);
+      indices.push(ti0, bi1, bi0);
+    }
+  }
+
+  // Edge 1: front (z = -halfD), ix from 0 to segs
+  addWallStrip(i => ({
+    x: (i / segs) * state.yard.width - halfW,
+    z: -halfD,
+    h: terrainAt(i, 0)
+  }), segs);
+
+  // Edge 2: right (x = halfW), iz from 0 to segs
+  addWallStrip(i => ({
+    x: halfW,
+    z: (i / segs) * state.yard.depth - halfD,
+    h: terrainAt(segs, i)
+  }), segs);
+
+  // Edge 3: back (z = halfD), ix from segs to 0 (reversed)
+  addWallStrip(i => ({
+    x: halfW - (i / segs) * state.yard.width,
+    z: halfD,
+    h: terrainAt(segs - i, segs)
+  }), segs);
+
+  // Edge 4: left (x = -halfW), iz from segs to 0 (reversed)
+  addWallStrip(i => ({
+    x: -halfW,
+    z: halfD - (i / segs) * state.yard.depth,
+    h: terrainAt(0, segs - i)
+  }), segs);
+
+  // Build geometry
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshLambertMaterial({
+    color: EXCAVATION_EARTH_COLOR,
+    side: THREE.DoubleSide,
+    transparent: true,
+    opacity: 1.0
+  });
+
+  solidEarthMesh = new THREE.Mesh(geo, mat);
+  solidEarthMesh.receiveShadow = true;
+  solidEarthMesh.castShadow = true;
+  scene.add(solidEarthMesh);
+  // Re-apply clipping planes if active (cutaway slider)
+  if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) {
+    solidEarthMesh.material.clippingPlanes = [terrainClipPlane];
+  }
+}
+
+function getSolidEarthBottomY() {
+  if (!state.terrain) return -EARTH_DEPTH_BELOW_MIN;
+  let minH = Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (state.terrain[i] < minH) minH = state.terrain[i];
+  }
+  if (minH === Infinity) minH = 0;
+  return minH - EARTH_DEPTH_BELOW_MIN;
+}
+
 function applyTerrainToMesh() {
   if (!state.terrain) return;
   const segs = state.terrainSegs;
   const geo = yardMesh.geometry;
   const pos = geo.attributes.position;
-  for (let iz = 0; iz <= segs; iz++) {
-    for (let ix = 0; ix <= segs; ix++) {
-      const vi = iz * (segs + 1) + ix;
-      pos.setY(vi, state.terrain[vi] || 0);
+  // Check if geometry has the expected grid vertex count (rectangle shape)
+  const expectedCount = (segs + 1) * (segs + 1);
+  if (pos.count === expectedCount) {
+    // Rectangle: direct grid index mapping
+    for (let iz = 0; iz <= segs; iz++) {
+      for (let ix = 0; ix <= segs; ix++) {
+        const vi = iz * (segs + 1) + ix;
+        pos.setY(vi, state.terrain[vi] || 0);
+      }
+    }
+  } else {
+    // L-shape or other: map by world position
+    const halfW = state.yard.width / 2;
+    const halfD = state.yard.depth / 2;
+    for (let i = 0; i < pos.count; i++) {
+      const wx = pos.getX(i);
+      const wz = pos.getZ(i);
+      const h = getTerrainHeight(wx, wz);
+      pos.setY(i, h);
     }
   }
   pos.needsUpdate = true;
@@ -3670,6 +4215,8 @@ function applyTerrainToMesh() {
   if (typeof waterFlowEnabled !== 'undefined' && waterFlowEnabled && typeof buildWaterFlowPaths === 'function') buildWaterFlowPaths();
   if (typeof elevHeatmapEnabled !== 'undefined' && elevHeatmapEnabled && typeof buildElevationHeatmap === 'function') buildElevationHeatmap();
   if (typeof ghostModeEnabled !== 'undefined' && ghostModeEnabled && typeof updateGhostMode === 'function') updateGhostMode();
+  // Rebuild solid earth block to match updated terrain (excavation walls + floor)
+  buildSolidEarth();
 }
 
 function paintTerrain(worldX, worldZ) {
@@ -3697,9 +4244,9 @@ function paintTerrain(worldX, worldZ) {
       
       const vi = iz * (segs + 1) + ix;
       if (terrainBrushMode === 'raise') {
-        state.terrain[vi] = (state.terrain[vi] || 0) + terrainBrushStrength * falloff;
+        state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) + terrainBrushStrength * falloff);
       } else if (terrainBrushMode === 'lower') {
-        state.terrain[vi] = (state.terrain[vi] || 0) - terrainBrushStrength * falloff;
+        state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) - terrainBrushStrength * falloff);
       } else if (terrainBrushMode === 'smooth') {
         // Average with neighbors
         let sum = 0, count = 0;
@@ -3713,7 +4260,7 @@ function paintTerrain(worldX, worldZ) {
           }
         }
         const avg = sum / count;
-        state.terrain[vi] = (state.terrain[vi] || 0) * (1 - terrainBrushStrength * falloff * 0.5) + avg * (terrainBrushStrength * falloff * 0.5);
+        state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) * (1 - terrainBrushStrength * falloff * 0.5) + avg * (terrainBrushStrength * falloff * 0.5));
       } else if (terrainBrushMode === 'erode') {
         // Erosion: move material from high-slope areas downhill.
         const h0 = state.terrain[vi] || 0;
@@ -3730,8 +4277,8 @@ function paintTerrain(worldX, worldZ) {
         const slope = h0 - lowestN;
         if (slope > 0.01 && lowestVi >= 0) {
           const erodeAmt = Math.min(slope, terrainBrushStrength * falloff * 0.3);
-          state.terrain[vi] = h0 - erodeAmt;
-          state.terrain[lowestVi] = (state.terrain[lowestVi] || 0) + erodeAmt * 0.8;
+          state.terrain[vi] = clampTerrainHeight(h0 - erodeAmt);
+          state.terrain[lowestVi] = clampTerrainHeight((state.terrain[lowestVi] || 0) + erodeAmt * 0.8);
         }
       }
     }
@@ -3764,6 +4311,9 @@ function updateObjectHeight(id) {
 // An object is "buried" when surrounding terrain is significantly higher than
 // the object's base Y. This happens when terrain is raised around an object
 // after it was placed. We sample terrain height at the object's footprint edges.
+// IMPORTANT: Objects sitting correctly in an excavation (negative terrain) are NOT
+// buried — the terrain at the object's center matches its base Y. An object is
+// only buried if the terrain AT its center is also higher than its base.
 const buriedIndicatorMeshes = new Map(); // objId -> LineSegments indicator
 
 function isObjectBuried(id) {
@@ -3784,11 +4334,25 @@ function isObjectBuried(id) {
     [obj.position.x - hw, obj.position.z + hd],
     [obj.position.x + hw, obj.position.z + hd],
   ];
+  // Terrain height at the object's center — if this matches baseY, the object
+  // is sitting on the terrain floor (possibly in an excavation), NOT buried.
+  const centerTerrainH = getTerrainHeight(obj.position.x, obj.position.z);
+
+  // If terrain at center is significantly higher than object base, the object
+  // is genuinely buried (terrain was raised on top of it).
+  if (centerTerrainH - baseY > 0.5) return true;
+
+  // Check surrounding terrain — only flag as buried if center terrain is also
+  // elevated. Objects in excavations with raised surrounding walls are NOT buried.
   let maxSurroundingHeight = baseY;
   for (const [sx, sz] of samples) {
     const th = getTerrainHeight(sx, sz);
     if (th > maxSurroundingHeight) maxSurroundingHeight = th;
   }
+  // Object is buried only if BOTH: surrounding terrain is higher AND center
+  // terrain is higher (not just an excavation edge effect).
+  // If center terrain matches baseY (within tolerance), object is on the floor.
+  if (Math.abs(centerTerrainH - baseY) < 0.5) return false;
   // Object is buried if surrounding terrain is more than 0.5 units higher than base
   return maxSurroundingHeight - baseY > 0.5;
 }
@@ -3895,6 +4459,8 @@ function moveBrushCursor(worldX, worldZ) {
   }
   pos.needsUpdate = true;
   terrainBrushMesh.visible = true;
+  // Update height readout
+  updateHeightReadout(worldX, worldZ);
 }
 
 // --- Terrain pointer handling ---
@@ -4858,7 +5424,7 @@ function encodeDesignToHash() {
       n: data.nextId,
     };
     if (data.terrain) compact.t = data.terrain;
-    if (data.terrainSegs && data.terrainSegs !== 50) compact.ts = data.terrainSegs;
+    if (data.terrainSegs && data.terrainSegs !== 100) compact.ts = data.terrainSegs;
     const json = JSON.stringify(compact);
     const b64 = btoa(unescape(encodeURIComponent(json)));
     return encodeURIComponent(b64);
@@ -4890,7 +5456,7 @@ function decodeDesignFromHash() {
       version: c.v || 2,
       yard: { width: c.y[0], depth: c.y[1], shape: c.y[2] === 'r' ? 'rectangle' : 'L' },
       objects, nextId: c.n || (objects.length + 1),
-      terrain: c.t || null, terrainSegs: c.ts || 50,
+      terrain: c.t || null, terrainSegs: c.ts || 100,
     };
   } catch (e) { return null; }
 }
@@ -5188,7 +5754,7 @@ function applyTerrainPreset(presetName) {
           break;
         }
       }
-      state.terrain[vi] = h;
+      state.terrain[vi] = clampTerrainHeight(h);
     }
   }
 
@@ -5266,15 +5832,13 @@ function applyHeightColors() {
     colors.setXYZ(i, ((c >> 16) & 0xff) / 255, ((c >> 8) & 0xff) / 255, (c & 0xff) / 255);
   }
   colors.needsUpdate = true;
-  yardMesh.material.vertexColors = true;
-  yardMesh.material.needsUpdate = true;
+  if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yardMesh.material.needsUpdate = true; }
 }
 
 function removeHeightColors() {
-  yardMesh.material.vertexColors = false;
-  yardMesh.material.needsUpdate = true;
-  const geo = yardMesh.geometry;
-  if (geo.attributes.color) { geo.deleteAttribute('color'); }
+  if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = false; yardMesh.material.needsUpdate = true; }
+  const geo = yardMesh ? yardMesh.geometry : null;
+  if (geo && geo.attributes.color) { geo.deleteAttribute('color'); }
 }
 
 function updateHeightLegend() {
@@ -5469,8 +6033,11 @@ function buildContourLines() {
 
   // Build line segments for each level using marching squares
   const allPoints = [];
+  const levelVertexCounts = []; // track vertex count per level for coloring
   for (const level of levels) {
     const segPoints = marchContourLevel(level, segs, cellW, cellD, halfW, halfD);
+    const numVerts = segPoints.length / 3;
+    levelVertexCounts.push(numVerts);
     for (const p of segPoints) allPoints.push(p);
   }
 
@@ -5484,15 +6051,12 @@ function buildContourLines() {
   // Use vertex colors: index contour (every 5th) is darker
   const colors = new Float32Array(allPoints.length);
   let segIdx = 0;
-  let levelIdx = 0;
   for (let i = 0; i < levels.length; i++) {
     const isIndex = (i % 5 === 0);
     const r = isIndex ? 0.15 : 0.25;
     const g = isIndex ? 0.10 : 0.18;
     const b = isIndex ? 0.05 : 0.08;
-    // Count segments for this level
-    const segPts = marchContourLevel(levels[i], segs, cellW, cellD, halfW, halfD);
-    const numVerts = segPts.length / 3;
+    const numVerts = levelVertexCounts[i];
     for (let j = 0; j < numVerts; j++) {
       colors[(segIdx + j) * 3] = r;
       colors[(segIdx + j) * 3 + 1] = g;
@@ -5873,7 +6437,9 @@ function drawCrossSectionChart(samples) {
     ctx.setLineDash([]);
   }
 
-  // Fill area under curve
+  // Fill area under curve — solid earth representation
+  // Fill from terrain surface down to chart bottom with earth-tone gradient.
+  // This shows excavations as solid ground, not empty space.
   ctx.beginPath();
   ctx.moveTo(toX(0), toY(minH));
   for (const s of samples) {
@@ -5881,11 +6447,31 @@ function drawCrossSectionChart(samples) {
   }
   ctx.lineTo(toX(maxDist), toY(minH));
   ctx.closePath();
-  const grad = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
-  grad.addColorStop(0, 'rgba(74,139,92,0.35)');
-  grad.addColorStop(1, 'rgba(74,139,92,0.08)');
-  ctx.fillStyle = grad;
+  const earthGrad = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
+  earthGrad.addColorStop(0, 'rgba(92,64,51,0.45)');   // dark brown near surface
+  earthGrad.addColorStop(1, 'rgba(60,40,30,0.25)');    // darker brown deeper
+  ctx.fillStyle = earthGrad;
   ctx.fill();
+
+  // Highlight excavation areas (below Y=0) with darker fill
+  if (minH < 0) {
+    const y0 = toY(0);
+    ctx.beginPath();
+    ctx.moveTo(toX(0), y0);
+    for (const s of samples) {
+      const y = toY(s.h);
+      if (s.h < 0) {
+        ctx.lineTo(toX(s.dist), y);
+      } else {
+        // Skip above-zero segments — draw to zero line
+        ctx.lineTo(toX(s.dist), y0);
+      }
+    }
+    ctx.lineTo(toX(maxDist), y0);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(92,64,51,0.35)';
+    ctx.fill();
+  }
 
   // Profile line
   ctx.strokeStyle = '#2d6a4f';
@@ -6522,6 +7108,9 @@ terrainCutawayInput.addEventListener('input', e => {
     if (yardMesh && yardMesh.material) {
       yardMesh.material.clippingPlanes = [];
     }
+    if (solidEarthMesh && solidEarthMesh.material) {
+      solidEarthMesh.material.clippingPlanes = [];
+    }
     cutawayValEl.textContent = 'Full';
   } else {
     const maxH = getMaxTerrainHeight();
@@ -6531,13 +7120,18 @@ terrainCutawayInput.addEventListener('input', e => {
     if (yardMesh && yardMesh.material) {
       yardMesh.material.clippingPlanes = [terrainClipPlane];
     }
+    // Also clip the solid earth block so cutaway view reveals the interior
+    if (solidEarthMesh && solidEarthMesh.material) {
+      solidEarthMesh.material.clippingPlanes = [terrainClipPlane];
+    }
     if (val === 100) {
       cutawayValEl.textContent = 'Hidden';
     } else {
       cutawayValEl.textContent = cutY.toFixed(1) + 'ft';
     }
   }
-  yardMesh.material.needsUpdate = true;
+  if (yardMesh && yardMesh.material) yardMesh.material.needsUpdate = true;
+  if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.needsUpdate = true;
   requestRender();
 });
 
@@ -6564,9 +7158,11 @@ terrainOpacityInput.addEventListener('input', e => {
   const val = parseInt(e.target.value);
   if (yardMesh && yardMesh.material) {
     yardMesh.material.opacity = val / 100;
-    if (val < 100) {
-      yardMesh.material.transparent = true;
-    }
+    yardMesh.material.transparent = val < 100;
+  }
+  if (solidEarthMesh && solidEarthMesh.material) {
+    solidEarthMesh.material.opacity = val / 100;
+    solidEarthMesh.material.transparent = val < 100;
   }
   opacityValEl.textContent = val + '%';
   requestRender();
@@ -6838,15 +7434,56 @@ function drawCrossSection() {
   ctx.textAlign = 'center';
   ctx.fillText('0ft', padL, padT + plotH + 15 * dpr);
   ctx.fillText(xMax.toFixed(0) + 'ft', padL + plotW, padT + plotH + 15 * dpr);
-  ctx.fillStyle = 'rgba(107, 138, 74, 0.3)';
+
+  // Fill area under terrain profile — solid earth representation
+  // Use earth-tone gradient (dark brown) to show solid ground, not empty space.
+  const earthGrad2 = ctx.createLinearGradient(0, padT, 0, padT + plotH);
+  earthGrad2.addColorStop(0, 'rgba(92,64,51,0.45)');
+  earthGrad2.addColorStop(1, 'rgba(60,40,30,0.20)');
+  ctx.fillStyle = earthGrad2;
   ctx.beginPath();
   for (let i = 0; i < profileData.length; i++) {
     const [cx, cy] = worldToCanvas(profileData[i].dist, profileData[i].elev);
     if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
   }
-  const [lastCx] = worldToCanvas(profileData[profileData.length - 1].dist, yMin);
-  ctx.lineTo(lastCx, padT + plotH); ctx.lineTo(padL, padT + plotH);
+  const [lastCx2] = worldToCanvas(profileData[profileData.length - 1].dist, yMin);
+  ctx.lineTo(lastCx2, padT + plotH); ctx.lineTo(padL, padT + plotH);
   ctx.closePath(); ctx.fill();
+
+  // Highlight excavation areas (below Y=0) with darker brown fill
+  if (yMin < 0) {
+    const [_, zeroY] = worldToCanvas(0, 0);
+    if (zeroY >= padT && zeroY <= padT + plotH) {
+      ctx.fillStyle = 'rgba(92,64,51,0.30)';
+      ctx.beginPath();
+      ctx.moveTo(padL, zeroY);
+      for (let i = 0; i < profileData.length; i++) {
+        const [cx, cy] = worldToCanvas(profileData[i].dist, profileData[i].elev);
+        if (profileData[i].elev < 0) {
+          ctx.lineTo(cx, cy);
+        } else {
+          ctx.lineTo(cx, zeroY);
+        }
+      }
+      ctx.lineTo(padL + plotW, zeroY);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  // Zero line (ground level reference)
+  if (yMin < 0 && yMax > 0) {
+    const [_, zeroY] = worldToCanvas(0, 0);
+    ctx.strokeStyle = '#999';
+    ctx.lineWidth = 1 * dpr;
+    ctx.setLineDash([4 * dpr, 3 * dpr]);
+    ctx.beginPath();
+    ctx.moveTo(padL, zeroY);
+    ctx.lineTo(padL + plotW, zeroY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
   ctx.strokeStyle = '#6b8a4a';
   ctx.lineWidth = 2.5 * dpr;
   ctx.beginPath();
@@ -6857,7 +7494,9 @@ function drawCrossSection() {
   ctx.stroke();
   for (const obj of objectData) {
     const [cx, cy] = worldToCanvas(obj.dist, obj.elev);
-    const isBuried = obj.terrainElev > obj.elev + 0.1;
+    // Object is buried only if terrain AT the object is higher than the object base
+    // (terrain was raised on top of it). Objects in excavations are NOT buried.
+    const isBuried = obj.terrainElev > obj.elev + 0.5 && Math.abs(obj.terrainElev - obj.elev) > 0.5;
     const objRectH = Math.max(4, (obj.height / (yMax - yMin)) * plotH);
     ctx.fillStyle = isBuried ? '#c0392b' : '#4a8b5c';
     const rectW = 8 * dpr;
@@ -6872,7 +7511,7 @@ function drawCrossSection() {
       ctx.fillText(obj.name, cx, cy - objRectH / 2 - 4 * dpr);
     }
   }
-  const buriedCount = objectData.filter(o => o.terrainElev > o.elev + 0.1).length;
+  const buriedCount = objectData.filter(o => o.terrainElev > o.elev + 0.5 && Math.abs(o.terrainElev - o.elev) > 0.5).length;
   csInfo.textContent = `Length: ${lineLength.toFixed(1)}ft | Elevation: ${minElev.toFixed(1)}–${maxElev.toFixed(1)}ft (Δ${(maxElev - minElev).toFixed(1)}ft) | Objects on line: ${objectData.length} | Buried: ${buriedCount}`;
 }
 
@@ -6895,6 +7534,7 @@ if (_origFlattenHandler) {
         terrainCutawayInput.value = 0;
         terrainClipPlane = null;
         if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
+        if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
         cutawayValEl.textContent = 'Full';
       }
     }, 50);
@@ -6920,8 +7560,836 @@ function _excavatePoll() {
 }
 _excavatePoll();
 
+
+// ============================================================
+// INNOVATION TOOLS (Agent 5 — Sprint 3)
+// Prototypes: Pool Excavation Wizard, Precision Flatten to Height,
+//   Elevation Markers, Precision ADA Slope Tool, Terrain Stats Dashboard,
+//   Auto Retaining Wall Detection
+// ============================================================
+
+// --- State ---
+let innovPanelVisible = false;
+let innovMode = null; // 'pool' | 'flatten' | 'marker' | 'slope' | null
+let innovFlattenPainting = false;
+let innovSlopePoints = [];
+let innovSlopeLineMesh = null;
+let innovSlopeDotMeshes = [];
+const innovMarkers = []; // array of THREE.Sprite + THREE.Mesh (pin)
+const innovMarkerGroup = new THREE.Group();
+scene.add(innovMarkerGroup);
+const innovRetWallGroup = new THREE.Group();
+scene.add(innovRetWallGroup);
+let innovStatsOverlay = null;
+
+// --- DOM refs ---
+const innovBtn = document.getElementById('innovation-btn');
+const innovPanel = document.getElementById('innovation-panel');
+const innovCloseBtn = document.getElementById('innov-close');
+const innovHintEl = document.getElementById('innov-hint');
+
+// Pool controls
+const innovPoolBtn = document.getElementById('innov-pool-btn');
+const innovPoolWidth = document.getElementById('innov-pool-width');
+const innovPoolWidthVal = document.getElementById('innov-pool-width-val');
+const innovPoolLength = document.getElementById('innov-pool-length');
+const innovPoolLengthVal = document.getElementById('innov-pool-length-val');
+const innovPoolDepth = document.getElementById('innov-pool-depth');
+const innovPoolDepthVal = document.getElementById('innov-pool-depth-val');
+
+// Flatten controls
+const innovFlattenBtn = document.getElementById('innov-flatten-btn');
+const innovFlattenHeight = document.getElementById('innov-flatten-height');
+const innovFlattenHeightVal = document.getElementById('innov-flatten-height-val');
+const innovFlattenRadius = document.getElementById('innov-flatten-radius');
+const innovFlattenRadiusVal = document.getElementById('innov-flatten-radius-val');
+const innovFlattenBlend = document.getElementById('innov-flatten-blend');
+const innovFlattenBlendVal = document.getElementById('innov-flatten-blend-val');
+const innovFlattenAllBtn = document.getElementById('innov-flatten-all');
+
+// Marker controls
+const innovMarkerBtn = document.getElementById('innov-marker-btn');
+const innovMarkerClearBtn = document.getElementById('innov-marker-clear');
+
+// Slope controls
+const innovSlopeBtn = document.getElementById('innov-slope-btn');
+const innovSlopePct = document.getElementById('innov-slope-pct');
+const innovSlopePctVal = document.getElementById('innov-slope-pct-val');
+const innovSlopeBlend = document.getElementById('innov-slope-blend');
+const innovSlopeBlendVal = document.getElementById('innov-slope-blend-val');
+
+// Stats controls
+const innovStatsBtn = document.getElementById('innov-stats-btn');
+
+// Retaining wall controls
+const innovRetWallBtn = document.getElementById('innov-retwall-btn');
+const innovRetWallThresh = document.getElementById('innov-retwall-thresh');
+const innovRetWallThreshVal = document.getElementById('innov-retwall-thresh-val');
+const innovRetWallScanBtn = document.getElementById('innov-retwall-scan');
+const innovRetWallClearBtn = document.getElementById('innov-retwall-clear');
+
+// --- Panel toggle ---
+innovBtn.addEventListener('click', () => {
+  innovPanelVisible = !innovPanelVisible;
+  innovBtn.classList.toggle('active', innovPanelVisible);
+  innovBtn.setAttribute('aria-pressed', innovPanelVisible);
+  innovPanel.classList.toggle('visible', innovPanelVisible);
+  if (!innovPanelVisible) { innovSetMode(null); }
+  requestRender();
+});
+
+innovCloseBtn.addEventListener('click', () => {
+  innovPanelVisible = false;
+  innovBtn.classList.remove('active');
+  innovBtn.setAttribute('aria-pressed', 'false');
+  innovPanel.classList.remove('visible');
+  innovSetMode(null);
+  requestRender();
+});
+
+// --- Mode management ---
+function innovSetMode(mode) {
+  // Deactivate previous mode
+  if (innovMode === 'flatten' && innovFlattenPainting) {
+    innovFlattenPainting = false;
+    removeBrushCursor();
+  }
+  if (innovMode === 'slope') {
+    clearInnovSlopeMarkers();
+  }
+  // Deactivate previous button
+  innovPoolBtn.classList.remove('active');
+  innovFlattenBtn.classList.remove('active');
+  innovMarkerBtn.classList.remove('active');
+  innovSlopeBtn.classList.remove('active');
+  innovStatsBtn.classList.remove('active');
+
+  innovMode = mode;
+  if (!mode) {
+    innovHintEl.textContent = 'Select a tool below, then click on the terrain to apply.';
+    return;
+  }
+
+  if (mode === 'pool') {
+    innovPoolBtn.classList.add('active');
+    innovHintEl.textContent = 'POOL WIZARD: Click on terrain to excavate a pool-shaped depression.';
+  } else if (mode === 'flatten') {
+    innovFlattenBtn.classList.add('active');
+    innovHintEl.textContent = 'FLATTEN TO HEIGHT: Click and drag on terrain to set it to target elevation.';
+    updateBrushCursorSize();
+  } else if (mode === 'marker') {
+    innovMarkerBtn.classList.add('active');
+    innovHintEl.textContent = 'ELEVATION MARKERS: Click on terrain to place a labeled elevation marker.';
+  } else if (mode === 'slope') {
+    innovSlopeBtn.classList.add('active');
+    innovSlopePoints = [];
+    innovHintEl.textContent = 'PRECISION SLOPE: Click first point on terrain.';
+  } else if (mode === 'stats') {
+    innovStatsBtn.classList.add('active');
+    innovHintEl.textContent = 'TERRAIN STATS: Dashboard active — showing live statistics.';
+    showInnovStats();
+  }
+}
+
+// --- Slider value updaters ---
+innovPoolWidth.addEventListener('input', e => { innovPoolWidthVal.textContent = e.target.value + ' ft'; });
+innovPoolLength.addEventListener('input', e => { innovPoolLengthVal.textContent = e.target.value + ' ft'; });
+innovPoolDepth.addEventListener('input', e => { innovPoolDepthVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft'; });
+innovFlattenHeight.addEventListener('input', e => { innovFlattenHeightVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft'; });
+innovFlattenRadius.addEventListener('input', e => { innovFlattenRadiusVal.textContent = e.target.value + ' ft'; if (innovMode === 'flatten') updateBrushCursorSize(); });
+innovFlattenBlend.addEventListener('input', e => { innovFlattenBlendVal.textContent = e.target.value + '%'; });
+innovSlopePct.addEventListener('input', e => { innovSlopePctVal.textContent = parseFloat(e.target.value).toFixed(1) + '%'; });
+innovSlopeBlend.addEventListener('input', e => { innovSlopeBlendVal.textContent = e.target.value + ' ft'; });
+innovRetWallThresh.addEventListener('input', e => { innovRetWallThreshVal.textContent = e.target.value + '%'; });
+
+// ============================================================
+// PROTOTYPE 1: POOL EXCAVATION WIZARD
+// Click on terrain → auto-dig a rounded-rect pool depression
+// at the clicked location with user-specified width, length, depth.
+// Uses smooth edge falloff for realistic excavation walls.
+// ============================================================
+innovPoolBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'pool' ? null : 'pool');
+});
+
+function excavatePool(centerX, centerZ) {
+  ensureTerrainArray();
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const halfW = w / 2, halfD = d / 2;
+  const poolW = parseFloat(innovPoolWidth.value);
+  const poolL = parseFloat(innovPoolLength.value);
+  const poolDepth = parseFloat(innovPoolDepth.value);
+  const cornerRadius = Math.min(poolW, poolL) * 0.2; // 20% rounded corners
+  const edgeBlend = 2.0; // ft of smooth transition at edges
+
+  // Snapshot for undo
+  const oldTerrain = new Float32Array(state.terrain);
+
+  // Iterate over all grid points
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const wx = (ix / segs) * w - halfW;
+      const wz = (iz / segs) * d - halfD;
+      const dx = wx - centerX;
+      const dz = wz - centerZ;
+
+      // Distance to rounded rectangle
+      const distToRoundedRect = distToRoundedRectShape(Math.abs(dx), Math.abs(dz), poolW / 2, poolL / 2, cornerRadius);
+
+      if (distToRoundedRect <= 0) {
+        // Inside the pool — set to -depth (dig down)
+        // Add slight deepening at center for realistic pool floor slope
+        const centerDist = Math.sqrt(dx * dx + dz * dz);
+        const maxCenterDist = Math.sqrt((poolW / 2) ** 2 + (poolL / 2) ** 2);
+        const centerFactor = 1 - (centerDist / maxCenterDist) * 0.15; // 15% deeper at center
+        const currentH = state.terrain[vi] || 0;
+        state.terrain[vi] = currentH - poolDepth * centerFactor;
+      } else if (distToRoundedRect < edgeBlend) {
+        // Edge blend zone — smooth transition from pool depth to original
+        const t = distToRoundedRect / edgeBlend;
+        const falloff = Math.pow(1 - t, 2); // smooth falloff
+        const currentH = state.terrain[vi] || 0;
+        state.terrain[vi] = currentH - poolDepth * falloff * 0.5;
+      }
+    }
+  }
+
+  const newTerrain = new Float32Array(state.terrain);
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+    redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+  });
+
+  showToast('Pool excavated! ' + poolW + '×' + poolL + 'ft, ' + poolDepth + 'ft deep');
+  requestRender();
+}
+
+// Helper: distance from point (absX, absZ) to rounded rectangle boundary
+// Returns negative if inside, 0 on boundary, positive if outside
+function distToRoundedRectShape(absX, absZ, halfW, halfD, r) {
+  const dx = Math.max(0, absX - (halfW - r));
+  const dz = Math.max(0, absZ - (halfD - r));
+  if (dx === 0 && dz === 0) {
+    // Inside the inner rectangle — distance is negative (how far inside)
+    const innerDist = Math.min(halfW - r - absX, halfD - r - absZ);
+    return -innerDist;
+  }
+  return Math.sqrt(dx * dx + dz * dz) - r;
+}
+
+// ============================================================
+// PROTOTYPE 2: PRECISION FLATTEN TO HEIGHT
+// Click and drag to set terrain to an exact target elevation.
+// Edge blend creates smooth transitions.
+// ============================================================
+innovFlattenBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'flatten' ? null : 'flatten');
+});
+
+innovFlattenAllBtn.addEventListener('click', () => {
+  ensureTerrainArray();
+  const targetH = parseFloat(innovFlattenHeight.value);
+  const oldTerrain = new Float32Array(state.terrain);
+  const blendPct = parseFloat(innovFlattenBlend.value) / 100;
+
+  for (let i = 0; i < state.terrain.length; i++) {
+    const current = state.terrain[i] || 0;
+    state.terrain[i] = current * (1 - blendPct) + targetH * blendPct;
+  }
+
+  const newTerrain = new Float32Array(state.terrain);
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+    redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+  });
+
+  showToast('Terrain flattened to ' + targetH.toFixed(1) + 'ft (' + blendPct * 100 + '% blend)');
+  requestRender();
+});
+
+function flattenToHeightAt(worldX, worldZ) {
+  ensureTerrainArray();
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const halfW = w / 2, halfD = d / 2;
+  const radius = Math.max(0.5, parseFloat(innovFlattenRadius.value));
+  const targetH = parseFloat(innovFlattenHeight.value);
+  const blendPct = parseFloat(innovFlattenBlend.value) / 100;
+
+  const center = getTerrainIndex(worldX, worldZ);
+  if (!center) return;
+  const radGridX = w > 0 ? radius / w * segs : 0;
+  const radGridZ = d > 0 ? radius / d * segs : 0;
+
+  for (let iz = Math.max(0, Math.floor(center.iz - radGridZ)); iz <= Math.min(segs, Math.ceil(center.iz + radGridZ)); iz++) {
+    for (let ix = Math.max(0, Math.floor(center.ix - radGridX)); ix <= Math.min(segs, Math.ceil(center.ix + radGridX)); ix++) {
+      const wx = (ix / segs) * w - halfW;
+      const wz = (iz / segs) * d - halfD;
+      const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
+      if (dist > radius) continue;
+
+      const t = dist / radius;
+      const falloff = Math.pow(1 - t * t, 2);
+      const vi = iz * (segs + 1) + ix;
+      const current = state.terrain[vi] || 0;
+      // Blend toward target height based on falloff and blend %
+      const blendFactor = falloff * blendPct;
+      state.terrain[vi] = current * (1 - blendFactor) + targetH * blendFactor;
+    }
+  }
+
+  applyTerrainToMesh();
+  state.terrainDeformed = true;
+  // Update nearby objects
+  state.objects.forEach((obj, id) => {
+    const objDist = Math.sqrt((obj.position.x - worldX) ** 2 + (obj.position.z - worldZ) ** 2);
+    if (objDist < radius + 5) updateObjectHeight(id);
+  });
+  updateAllBuriedIndicators();
+  requestRender();
+}
+
+// ============================================================
+// PROTOTYPE 3: ELEVATION MARKERS / WAYPOINTS
+// Click on terrain to place a 3D pin marker with a label
+// showing the exact elevation at that point.
+// ============================================================
+innovMarkerBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'marker' ? null : 'marker');
+});
+
+innovMarkerClearBtn.addEventListener('click', () => {
+  clearInnovMarkers();
+  requestRender();
+});
+
+function clearInnovMarkers() {
+  while (innovMarkerGroup.children.length > 0) {
+    const child = innovMarkerGroup.children[0];
+    innovMarkerGroup.remove(child);
+    if (child.geometry) child.geometry.dispose();
+    if (child.material) {
+      if (child.material.map) child.material.map.dispose();
+      child.material.dispose();
+    }
+  }
+  innovMarkers.length = 0;
+}
+
+function placeElevationMarker(worldX, worldZ) {
+  const h = getTerrainHeight(worldX, worldZ);
+  const elevText = h.toFixed(2) + ' ft';
+
+  // Create pin (cone + sphere)
+  const pinGroup = new THREE.Group();
+
+  // Pin stick
+  const stickGeo = new THREE.CylinderGeometry(0.08, 0.08, 2.5, 8);
+  const stickMat = new THREE.MeshBasicMaterial({ color: 0xe74c3c });
+  const stick = new THREE.Mesh(stickGeo, stickMat);
+  stick.position.y = 1.25;
+  pinGroup.add(stick);
+
+  // Pin head (sphere)
+  const headGeo = new THREE.SphereGeometry(0.4, 16, 16);
+  const headMat = new THREE.MeshBasicMaterial({ color: 0xe74c3c });
+  const head = new THREE.Mesh(headGeo, headMat);
+  head.position.y = 2.7;
+  pinGroup.add(head);
+
+  // Base ring on terrain
+  const ringGeo = new THREE.RingGeometry(0.3, 0.6, 24);
+  const ringMat = new THREE.MeshBasicMaterial({ color: 0xe74c3c, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.02;
+  pinGroup.add(ring);
+
+  // Elevation label sprite
+  const labelSprite = makeTextSprite(elevText);
+  labelSprite.scale.set(6, 3, 1);
+  labelSprite.position.y = 4.0;
+  pinGroup.add(labelSprite);
+
+  // Position the pin at the terrain point
+  pinGroup.position.set(worldX, h, worldZ);
+  pinGroup.userData.isInnovMarker = true;
+  pinGroup.userData.elevation = h;
+  pinGroup.userData.worldX = worldX;
+  pinGroup.userData.worldZ = worldZ;
+
+  innovMarkerGroup.add(pinGroup);
+  innovMarkers.push(pinGroup);
+
+  showToast('Marker placed: ' + elevText + ' at (' + worldX.toFixed(1) + ', ' + worldZ.toFixed(1) + ')');
+  requestRender();
+}
+
+// ============================================================
+// AI-DISCOVERED 1: PRECISION ADA SLOPE TOOL
+// Click two points → create exact slope between them.
+// Uses the existing slope analysis infrastructure (D10).
+// ============================================================
+innovSlopeBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'slope' ? null : 'slope');
+});
+
+function clearInnovSlopeMarkers() {
+  if (innovSlopeLineMesh) {
+    scene.remove(innovSlopeLineMesh);
+    innovSlopeLineMesh.geometry.dispose();
+    innovSlopeLineMesh.material.dispose();
+    innovSlopeLineMesh = null;
+  }
+  innovSlopeDotMeshes.forEach(m => {
+    scene.remove(m);
+    m.geometry.dispose();
+    m.material.dispose();
+  });
+  innovSlopeDotMeshes = [];
+  innovSlopePoints = [];
+}
+
+function addInnovSlopeDot(point, color) {
+  const geo = new THREE.SphereGeometry(0.8, 16, 16);
+  const mat = new THREE.MeshBasicMaterial({ color: color || 0x2d6a4f });
+  const mesh = new THREE.Mesh(geo, mat);
+  const h = getTerrainHeight(point.x, point.z);
+  mesh.position.set(point.x, h + 0.5, point.z);
+  scene.add(mesh);
+  innovSlopeDotMeshes.push(mesh);
+}
+
+function drawInnovSlopeLine() {
+  if (innovSlopePoints.length < 2) return;
+  const p0 = innovSlopePoints[0];
+  const p1 = innovSlopePoints[1];
+  const segments = 80;
+  const points = [];
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const x = p0.x + (p1.x - p0.x) * t;
+    const z = p0.z + (p1.z - p0.z) * t;
+    const h = getTerrainHeight(x, z);
+    points.push(new THREE.Vector3(x, h + 0.2, z));
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  const mat = new THREE.LineBasicMaterial({ color: 0x2d6a4f, linewidth: 3 });
+  innovSlopeLineMesh = new THREE.Line(geo, mat);
+  scene.add(innovSlopeLineMesh);
+}
+
+function applyPrecisionSlope() {
+  if (innovSlopePoints.length < 2) return;
+  ensureTerrainArray();
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const halfW = w / 2, halfD = d / 2;
+  const p0 = innovSlopePoints[0];
+  const p1 = innovSlopePoints[1];
+  const slopePct = parseFloat(innovSlopePct.value) / 100;
+  const blendWidth = parseFloat(innovSlopeBlend.value);
+
+  // Compute the line direction and length
+  const dx = p1.x - p0.x;
+  const dz = p1.z - p0.z;
+  const lineLen = Math.sqrt(dx * dx + dz * dz);
+  if (lineLen < 0.1) return;
+  const dirX = dx / lineLen;
+  const dirZ = dz / lineLen;
+  // Perpendicular direction
+  const perpX = -dirZ;
+  const perpZ = dirX;
+
+  // The slope goes from p0's current height downward by slopePct * lineLen
+  const h0 = getTerrainHeight(p0.x, p0.z);
+  const totalDrop = slopePct * lineLen;
+  const h1 = h0 - totalDrop;
+
+  const oldTerrain = new Float32Array(state.terrain);
+
+  // For each grid point, compute its position relative to the slope line
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const wx = (ix / segs) * w - halfW;
+      const wz = (iz / segs) * d - halfD;
+
+      // Project onto line
+      const relX = wx - p0.x;
+      const relZ = wz - p0.z;
+      const tProj = (relX * dirX + relZ * dirZ); // distance along line
+      const perpDist = Math.abs(relX * perpX + relZ * perpZ); // distance from line
+
+      if (perpDist > blendWidth) continue;
+
+      // Compute target height along the slope
+      let targetH;
+      if (tProj <= 0) {
+        targetH = h0;
+      } else if (tProj >= lineLen) {
+        targetH = h1;
+      } else {
+        const frac = tProj / lineLen;
+        targetH = h0 + (h1 - h0) * frac;
+      }
+
+      // Blend based on perpendicular distance
+      const perpT = perpDist / blendWidth;
+      const falloff = Math.pow(1 - perpT, 2);
+      const current = state.terrain[vi] || 0;
+      state.terrain[vi] = current * (1 - falloff) + targetH * falloff;
+    }
+  }
+
+  const newTerrain = new Float32Array(state.terrain);
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+    redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+  });
+
+  drawInnovSlopeLine();
+  showToast('Precision slope applied: ' + (slopePct * 100).toFixed(1) + '% over ' + lineLen.toFixed(1) + 'ft (drop: ' + totalDrop.toFixed(2) + 'ft)');
+  requestRender();
+}
+
+// ============================================================
+// AI-DISCOVERED 2: TERRAIN STATISTICS DASHBOARD
+// Shows real-time terrain stats: min/max/avg elevation,
+// slope distribution, volume estimate.
+// ============================================================
+innovStatsBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'stats' ? null : 'stats');
+});
+
+function showInnovStats() {
+  if (!innovStatsOverlay) {
+    innovStatsOverlay = document.createElement('div');
+    innovStatsOverlay.id = 'innov-stats-overlay';
+    innovStatsOverlay.style.cssText = 'position:absolute;top:60px;right:16px;z-index:55;background:rgba(255,255,255,0.97);border:1px solid #2d6a4f;border-radius:8px;padding:14px 16px;font-size:12px;box-shadow:0 4px 20px rgba(0,0,0,0.12);min-width:240px;max-width:320px;pointer-events:none;';
+    viewport.appendChild(innovStatsOverlay);
+  }
+  updateInnovStats();
+}
+
+function updateInnovStats() {
+  if (!innovStatsOverlay || (innovMode !== 'stats')) return;
+  if (!state.terrain) {
+    innovStatsOverlay.innerHTML = '<div style="font-weight:700;color:#2d6a4f;margin-bottom:8px;">Terrain Statistics</div><div style="color:#666;">No terrain data — terrain is flat at 0 ft.</div>';
+    return;
+  }
+
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const cellW = w / segs;
+  const cellD = d / segs;
+  const cellArea = cellW * cellD;
+
+  let minH = Infinity, maxH = -Infinity, sumH = 0;
+  let count = state.terrain.length;
+  let totalVolume = 0;
+  const slopeBuckets = [0, 0, 0, 0, 0]; // 0-5%, 5-10%, 10-15%, 15-25%, >25%
+  let steepCount = 0;
+
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const h = state.terrain[vi] || 0;
+      if (h < minH) minH = h;
+      if (h > maxH) maxH = h;
+      sumH += h;
+      totalVolume += h * cellArea;
+
+      // Compute slope using neighbor differences
+      if (ix < segs && iz < segs) {
+        const hRight = state.terrain[vi + 1] || 0;
+        const hDown = state.terrain[vi + (segs + 1)] || 0;
+        const slopeX = (hRight - h) / cellW;
+        const slopeZ = (hDown - h) / cellD;
+        const slopePct = Math.sqrt(slopeX * slopeX + slopeZ * slopeZ) * 100;
+        if (slopePct < 5) slopeBuckets[0]++;
+        else if (slopePct < 10) slopeBuckets[1]++;
+        else if (slopePct < 15) slopeBuckets[2]++;
+        else if (slopePct < 25) slopeBuckets[3]++;
+        else { slopeBuckets[4]++; steepCount++; }
+      }
+    }
+  }
+
+  const avgH = sumH / count;
+  const elevRange = maxH - minH;
+  const totalCells = (segs) * (segs);
+  const volYd3 = Math.abs(totalVolume) / 27; // cubic feet to cubic yards
+  const steepPct = (steepCount / totalCells * 100).toFixed(1);
+
+  innovStatsOverlay.innerHTML =
+    '<div style="font-weight:700;color:#2d6a4f;margin-bottom:8px;font-size:13px;">📊 Terrain Statistics</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;">' +
+    '<div><span style="color:#666;">Min:</span> <b>' + minH.toFixed(2) + ' ft</b></div>' +
+    '<div><span style="color:#666;">Max:</span> <b>' + maxH.toFixed(2) + ' ft</b></div>' +
+    '<div><span style="color:#666;">Avg:</span> <b>' + avgH.toFixed(2) + ' ft</b></div>' +
+    '<div><span style="color:#666;">Range:</span> <b>' + elevRange.toFixed(2) + ' ft</b></div>' +
+    '</div>' +
+    '<div style="margin-top:8px;border-top:1px solid #ddd;padding-top:8px;"><span style="color:#666;">Volume:</span> <b>' + volYd3.toFixed(1) + ' yd³</b> ' + (totalVolume >= 0 ? '(fill)' : '(cut)') + '</div>' +
+    '<div style="margin-top:8px;border-top:1px solid #ddd;padding-top:8px;font-weight:600;color:#2d6a4f;">Slope Distribution</div>' +
+    '<div style="display:flex;gap:2px;margin-top:4px;height:40px;align-items:flex-end;">' +
+    slopeBarHTML(slopeBuckets[0], '#2ecc71', '<5%') +
+    slopeBarHTML(slopeBuckets[1], '#f1c40f', '5-10%') +
+    slopeBarHTML(slopeBuckets[2], '#e67e22', '10-15%') +
+    slopeBarHTML(slopeBuckets[3], '#e74c3c', '15-25%') +
+    slopeBarHTML(slopeBuckets[4], '#8e44ad', '>25%') +
+    '</div>' +
+    '<div style="margin-top:6px;font-size:11px;color:' + (steepPct > 10 ? '#e74c3c' : '#666') + ';">Steep slopes (>25%): ' + steepPct + '% of yard' +
+    (steepPct > 10 ? ' ⚠️ Consider retaining walls' : '') + '</div>';
+}
+
+function slopeBarHTML(count, color, label) {
+  const maxCount = Math.max(1, count);
+  const totalAll = Math.max(1, slopeBucketsTotal());
+  const pct = (count / totalAll * 100).toFixed(0);
+  const height = Math.max(2, (count / totalAll) * 40);
+  return '<div style="flex:1;text-align:center;" title="' + label + ': ' + pct + '%">' +
+    '<div style="background:' + color + ';height:' + height + 'px;border-radius:2px 2px 0 0;"></div>' +
+    '<div style="font-size:8px;color:#666;margin-top:2px;">' + label + '</div>' +
+    '</div>';
+}
+
+function slopeBucketsTotal() {
+  if (!state.terrain) return 1;
+  const segs = state.terrainSegs;
+  return segs * segs;
+}
+
+// ============================================================
+// AI-DISCOVERED 3: AUTO RETAINING WALL DETECTION
+// Scans terrain for slopes exceeding threshold and generates
+// visual wall outlines at those locations.
+// ============================================================
+innovRetWallBtn.addEventListener('click', () => {
+  innovSetMode(innovMode === 'retwall' ? null : 'retwall');
+});
+
+innovRetWallScanBtn.addEventListener('click', () => {
+  scanForRetainingWalls();
+});
+
+innovRetWallClearBtn.addEventListener('click', () => {
+  clearInnovRetWalls();
+  requestRender();
+});
+
+function clearInnovRetWalls() {
+  while (innovRetWallGroup.children.length > 0) {
+    const child = innovRetWallGroup.children[0];
+    innovRetWallGroup.remove(child);
+    if (child.geometry) child.geometry.dispose();
+    if (child.material) child.material.dispose();
+  }
+}
+
+function scanForRetainingWalls() {
+  if (!state.terrain) {
+    showToast('No terrain to analyze — try raising/lowering some terrain first.');
+    return;
+  }
+  clearInnovRetWalls();
+
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const halfW = w / 2, halfD = d / 2;
+  const cellW = w / segs;
+  const cellD = d / segs;
+  const thresholdPct = parseFloat(innovRetWallThresh.value);
+  const thresholdRatio = thresholdPct / 100;
+
+  // Find cells where slope exceeds threshold
+  const wallSegments = [];
+  for (let iz = 0; iz < segs; iz++) {
+    for (let ix = 0; ix < segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const h = state.terrain[vi] || 0;
+      const hRight = state.terrain[vi + 1] || 0;
+      const hDown = state.terrain[vi + (segs + 1)] || 0;
+      const slopeX = Math.abs(hRight - h) / cellW;
+      const slopeZ = Math.abs(hDown - h) / cellD;
+
+      // Check X-direction slope
+      if (slopeX > thresholdRatio) {
+        const wx = (ix / segs) * w - halfW + cellW / 2;
+        const wz = (iz / segs) * d - halfD;
+        const avgH = (h + hRight) / 2;
+        const wallHeight = Math.abs(hRight - h);
+        wallSegments.push({ x: wx, z: wz, height: wallHeight, dir: 'x' });
+      }
+      // Check Z-direction slope
+      if (slopeZ > thresholdRatio) {
+        const wx = (ix / segs) * w - halfW;
+        const wz = (iz / segs) * d - halfD + cellD / 2;
+        const avgH = (h + hDown) / 2;
+        const wallHeight = Math.abs(hDown - h);
+        wallSegments.push({ x: wx, z: wz, height: wallHeight, dir: 'z' });
+      }
+    }
+  }
+
+  if (wallSegments.length === 0) {
+    showToast('No slopes exceeding ' + thresholdPct + '% found.');
+    return;
+  }
+
+  // Create visual wall segments
+  let maxH = 0;
+  for (const seg of wallSegments) {
+    const wallLen = seg.dir === 'x' ? cellW : cellD;
+    const wallGeo = seg.dir === 'x'
+      ? new THREE.BoxGeometry(wallLen * 1.1, seg.height, 0.4)
+      : new THREE.BoxGeometry(0.4, seg.height, wallLen * 1.1);
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0x8a7a6a, roughness: 0.8 });
+    const wallMesh = new THREE.Mesh(wallGeo, wallMat);
+    const baseH = getTerrainHeight(seg.x, seg.z);
+    wallMesh.position.set(seg.x, baseH + seg.height / 2, seg.z);
+    wallMesh.castShadow = true;
+    wallMesh.userData.isInnovRetWall = true;
+    innovRetWallGroup.add(wallMesh);
+    if (seg.height > maxH) maxH = seg.height;
+  }
+
+  showToast('Found ' + wallSegments.length + ' wall segments (max height: ' + maxH.toFixed(1) + 'ft). Threshold: ' + thresholdPct + '%');
+  requestRender();
+}
+
+// ============================================================
+// POINTER HANDLER for innovation tools
+// Uses capture-phase listener on viewport, same pattern as
+// cross-section system (D5).
+// ============================================================
+viewport.addEventListener('pointerdown', (e) => {
+  if (!innovMode) return;
+  // Ignore clicks on panels/buttons
+  if (e.target.closest('#innovation-panel') || e.target.closest('#innovation-btn') ||
+      e.target.closest('#excavate-panel') || e.target.closest('#cross-section-panel') ||
+      e.target.closest('#view-controls') || e.target.closest('#terrain-controls') ||
+      e.target.closest('#terrain-analysis-panel') || e.target.closest('#sun-panel')) return;
+
+  const point = getGroundPointFromEvent(e);
+  if (!point) return;
+
+  if (innovMode === 'pool') {
+    excavatePool(point.x, point.z);
+  } else if (innovMode === 'flatten') {
+    innovFlattenPainting = true;
+    if (!terrainBrushMesh) createBrushCursor();
+    moveBrushCursor(point.x, point.z);
+    flattenToHeightAt(point.x, point.z);
+  } else if (innovMode === 'marker') {
+    placeElevationMarker(point.x, point.z);
+  } else if (innovMode === 'slope') {
+    innovSlopePoints.push({ x: point.x, z: point.z });
+    addInnovSlopeDot({ x: point.x, z: point.z }, 0x2d6a4f);
+    if (innovSlopePoints.length === 1) {
+      innovHintEl.textContent = 'PRECISION SLOPE: Now click the second point.';
+    } else if (innovSlopePoints.length === 2) {
+      applyPrecisionSlope();
+      innovHintEl.textContent = 'Slope applied! Click again for a new slope, or switch tools.';
+      // Reset for next slope but keep mode active
+      setTimeout(() => {
+        clearInnovSlopeMarkers();
+        innovSlopePoints = [];
+        if (innovMode === 'slope') innovHintEl.textContent = 'PRECISION SLOPE: Click first point on terrain.';
+      }, 2000);
+    }
+  }
+  requestRender();
+}, true);
+
+viewport.addEventListener('pointermove', (e) => {
+  if (!innovMode) return;
+  if (innovMode === 'flatten' && innovFlattenPainting) {
+    const point = getGroundPointFromEvent(e);
+    if (point) {
+      moveBrushCursor(point.x, point.z);
+      flattenToHeightAt(point.x, point.z);
+    }
+  }
+}, true);
+
+viewport.addEventListener('pointerup', (e) => {
+  if (innovMode === 'flatten' && innovFlattenPainting) {
+    innovFlattenPainting = false;
+    removeBrushCursor();
+    // Push undo command for the flatten session
+    if (terrainHistory) {
+      const newTerrain = new Float32Array(state.terrain);
+      pushCommand({
+        undo: () => { state.terrain = terrainHistory; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+        redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+      });
+      terrainHistory = null;
+    }
+  }
+}, true);
+
+// Initialize terrain history at start of flatten painting
+viewport.addEventListener('pointerdown', (e) => {
+  if (innovMode === 'flatten' && !innovFlattenPainting) {
+    if (state.terrain) {
+      terrainHistory = new Float32Array(state.terrain);
+    } else {
+      ensureTerrainArray();
+      terrainHistory = new Float32Array(state.terrain);
+    }
+  }
+}, true);
+
+// Update stats overlay when terrain changes
+const _innovStatsPollTimer = setInterval(() => {
+  if (innovMode === 'stats') updateInnovStats();
+}, 500);
+
+// Brush cursor for flatten mode follows mouse
+viewport.addEventListener('pointermove', (e) => {
+  if (innovMode === 'flatten' && !innovFlattenPainting) {
+    const point = getGroundPointFromEvent(e);
+    if (point) {
+      if (!terrainBrushMesh) createBrushCursor();
+      moveBrushCursor(point.x, point.z);
+    }
+  }
+}, true);
+
+// Clean up brush cursor when leaving flatten mode
+const _origInnovSetMode = innovSetMode;
+// (already handled in innovSetMode above)
+
 // Expose internals for testing
-window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject };
+
+// Expose internals for testing
+window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; },
+  MAX_TERRAIN_HEIGHT, MIN_TERRAIN_HEIGHT, clampTerrainHeight,
+  get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; updatePrecisionModeUI(); },
+  updatePrecisionModeUI, togglePrecisionMode, updateHeightReadout, updateExcavationHint, get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; }, get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject, buildSolidEarth, getSolidEarthBottomY, get solidEarthMesh() { return solidEarthMesh; }, EXCAVATION_EARTH_COLOR, EARTH_DEPTH_BELOW_MIN, get crossSectionPoints() { return crossSectionPoints; }, set crossSectionPoints(v) { crossSectionPoints = v; }, excavatePool, flattenToHeightAt, placeElevationMarker, clearInnovMarkers, applyPrecisionSlope, scanForRetainingWalls, clearInnovRetWalls, get innovMode() { return innovMode; }, innovSetMode, updateInnovStats };
 
 // Try to load autosave
 try {

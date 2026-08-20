@@ -1,0 +1,167 @@
+{
+  "total": 20,
+  "passed": 20,
+  "failed": 0,
+  "results": [
+    {
+      "id": "QG-01",
+      "test": "30ft Height Clamp",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Max height after 500 raises: 30.00 ft (limit: 30.0)",
+      "evidence": "max_height=30"
+    },
+    {
+      "id": "QG-02",
+      "test": "-30ft Depth Clamp",
+      "status": "PASS",
+      "severity": "Critical",
+      "desc": "Min height after 500 excavations: -30.00 ft (limit: -30.0)",
+      "evidence": "min_height=-30"
+    },
+    {
+      "id": "QG-03",
+      "test": "Precision Mode Brush <= 10ft",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Brush size: 10 (limit: 10)",
+      "evidence": "brushSize=10"
+    },
+    {
+      "id": "QG-03b",
+      "test": "Precision Mode Strength <= 0.2",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Strength: 0.2 (limit: 0.2)",
+      "evidence": "strength=0.2"
+    },
+    {
+      "id": "QG-03c",
+      "test": "Precision Mode Slider Max Clamped",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Slider max brush: 10, max strength: 0.2",
+      "evidence": "sliderMaxBrush=10, sliderMaxStrength=0.2"
+    },
+    {
+      "id": "QG-03d",
+      "test": "Precision Mode Visual Indicator",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Panel class: viewport-overlay visible precision-active, toggle class: precision-toggle on",
+      "evidence": "visual=True"
+    },
+    {
+      "id": "QG-03e",
+      "test": "Precision Mode Status & Hint",
+      "status": "PASS",
+      "severity": "Low",
+      "desc": "Status: On, hint visible: True",
+      "evidence": "status=On, hint=True"
+    },
+    {
+      "id": "QG-03f",
+      "test": "Precision Mode Toggle Off Restores Limits",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Restored max brush: 30, max strength: 1.0",
+      "evidence": "restored={'sliderMaxBrush': '30', 'sliderMaxStrength': '1.0', 'precisionMode': False}"
+    },
+    {
+      "id": "QG-04",
+      "test": "Default Strength Single Paint < 1ft",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Change at center: 0.0500 ft (threshold: < 1.0 ft)",
+      "evidence": "change=0.05000000074505806, before=0, after=0.05000000074505806"
+    },
+    {
+      "id": "QG-05",
+      "test": "Terrain Below 0 Has Geometry",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Vertices below 0: 1395/10201, min terrain: -30.00",
+      "evidence": "belowZeroVertices=1395, minMeshY=-30"
+    },
+    {
+      "id": "QG-05b",
+      "test": "Excavated Mesh Visible",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Mesh visible: True",
+      "evidence": "meshVisible=True"
+    },
+    {
+      "id": "QG-05c",
+      "test": "Terrain Can Go Below 0",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Min terrain height: -30.00 ft",
+      "evidence": "minTerrainHeight=-30"
+    },
+    {
+      "id": "QG-06",
+      "test": "Object Follows Negative Terrain",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Terrain height: -30.00, object Y: -30.00",
+      "evidence": "terrainH=-30, objY=-30"
+    },
+    {
+      "id": "QG-06b",
+      "test": "Object Visible in Negative Terrain",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Object visible: True",
+      "evidence": "visible=True"
+    },
+    {
+      "id": "QG-06c",
+      "test": "Terrain Below 0 for Object Test",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Terrain height: -30.00",
+      "evidence": "terrainBelow=True"
+    },
+    {
+      "id": "QG-07",
+      "test": "Default Strength 0.05 & Min 0.01",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Default: 0.05, min: 0.01, val: 0.05",
+      "evidence": "defaults=True"
+    },
+    {
+      "id": "QG-07b",
+      "test": "Fine/Coarse Labels Present",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Fine: Fine, Coarse: Coarse",
+      "evidence": "labels=True"
+    },
+    {
+      "id": "QG-07c",
+      "test": "Precision Mode Toggle Present",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Toggle exists: True, status: Off",
+      "evidence": "precision=True"
+    },
+    {
+      "id": "QG-07d",
+      "test": "Height Readout Present",
+      "status": "PASS",
+      "severity": "Medium",
+      "desc": "Readout exists: True, value: 0.0 ft",
+      "evidence": "readout=True"
+    },
+    {
+      "id": "QG-07e",
+      "test": "Excavate Button & Hint",
+      "status": "PASS",
+      "severity": "High",
+      "desc": "Btn text: Excavate, hint display: flex",
+      "evidence": "excavate=True, hint=True"
+    }
+  ]
+}
