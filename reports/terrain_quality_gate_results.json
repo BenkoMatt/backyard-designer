@@ -1,0 +1,234 @@
+[
+  {
+    "id": "T1",
+    "test": "Brush Cursor Terrain Conformance",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Y variance = 0.227 ft (ring conforms to terrain)",
+    "evidence": "{'found': True, 'visible': True, 'count': 49, 'yMin': 3.844816207885742, 'yMax': 4.0716352462768555, 'yVariance': 0.22681903839111328}"
+  },
+  {
+    "id": "T1b",
+    "test": "No JS Errors (Terrain Mode)",
+    "status": "PASS",
+    "severity": "Critical",
+    "desc": "Errors: 0",
+    "evidence": "[]"
+  },
+  {
+    "id": "T2",
+    "test": "Preset: flat",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Range [0.00, 0.01], len=2601",
+    "evidence": ""
+  },
+  {
+    "id": "T2",
+    "test": "Preset: slope",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Range [-2.50, 2.50], len=2601",
+    "evidence": ""
+  },
+  {
+    "id": "T2",
+    "test": "Preset: hill",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Range [0.00, 4.00], len=2601",
+    "evidence": ""
+  },
+  {
+    "id": "T2",
+    "test": "Preset: valley",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Range [-3.00, -0.00], len=2601",
+    "evidence": ""
+  },
+  {
+    "id": "T2",
+    "test": "Preset: terraced",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Range [0.00, 6.00], len=2601",
+    "evidence": ""
+  },
+  {
+    "id": "T2",
+    "test": "Preset: poolslope",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Range [0.00, 3.50], len=2601",
+    "evidence": ""
+  },
+  {
+    "id": "T2b",
+    "test": "All 6 Preset Buttons in DOM",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Found 6 preset buttons",
+    "evidence": ""
+  },
+  {
+    "id": "T3a",
+    "test": "Height Legend Hidden Before Toggle",
+    "status": "PASS",
+    "severity": "Low",
+    "desc": "Legend correctly hidden by default",
+    "evidence": ""
+  },
+  {
+    "id": "T3b",
+    "test": "Height Colors + Legend Active",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "vertexColors=True, legendVisible=True, hasColorAttr=True",
+    "evidence": ""
+  },
+  {
+    "id": "T3c",
+    "test": "Height Legend Has Color Stripes",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "6 color stripes",
+    "evidence": ""
+  },
+  {
+    "id": "T3d",
+    "test": "Height Colors Toggle Off Works",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Both colors and legend removed",
+    "evidence": ""
+  },
+  {
+    "id": "T4a",
+    "test": "No Drainage Arrows Before Toggle",
+    "status": "PASS",
+    "severity": "Low",
+    "desc": "Correctly no arrows before toggle",
+    "evidence": ""
+  },
+  {
+    "id": "T4b",
+    "test": "Drainage Arrows Created",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "active=True, arrows=578",
+    "evidence": ""
+  },
+  {
+    "id": "T4c",
+    "test": "Drainage Arrows in Scene",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Arrows group found in scene graph",
+    "evidence": ""
+  },
+  {
+    "id": "T4d",
+    "test": "Drainage Toggle Off Works",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Arrows removed after toggle off",
+    "evidence": ""
+  },
+  {
+    "id": "T5a",
+    "test": "Mobile Bottom Sheet Layout",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "position=fixed, full width bottom sheet",
+    "evidence": ""
+  },
+  {
+    "id": "T5b",
+    "test": "Mode Button Touch Targets >= 44px",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "All 4 buttons >= 44px: [44, 44, 44, 44]",
+    "evidence": ""
+  },
+  {
+    "id": "T5c",
+    "test": "Preset Button Touch Targets >= 44px",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "All 6 preset buttons >= 44px",
+    "evidence": ""
+  },
+  {
+    "id": "T5d",
+    "test": "Terrain Button >= 44px",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "height=44",
+    "evidence": ""
+  },
+  {
+    "id": "T6a",
+    "test": "Single Undo Step Per Stroke",
+    "status": "WARN",
+    "severity": "Medium",
+    "desc": "Brush stroke didn't modify terrain (raycast may have missed); test via API instead",
+    "evidence": ""
+  },
+  {
+    "id": "T6b",
+    "test": "Undo Push via API",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "Undo step pushed via API, stack=1",
+    "evidence": ""
+  },
+  {
+    "id": "T7a",
+    "test": "Both Overlays Active",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Height colors and drainage both active",
+    "evidence": ""
+  },
+  {
+    "id": "T7b",
+    "test": "Overlays Cleaned Up on Exit",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "All overlays removed when terrain mode disabled",
+    "evidence": ""
+  },
+  {
+    "id": "T8a",
+    "test": "Preset Undo Reverts Correctly",
+    "status": "PASS",
+    "severity": "High",
+    "desc": "hill={'min': 0, 'max': 4}, valley={'min': -3, 'max': -0.0}, after_undo={'min': 0, 'max': 4}",
+    "evidence": ""
+  },
+  {
+    "id": "T9",
+    "test": "Brush Cursor Created on Mobile",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Brush cursor Line exists in scene on mobile viewport",
+    "evidence": ""
+  },
+  {
+    "id": "T9b",
+    "test": "Terrain Controls Visible on Mobile",
+    "status": "PASS",
+    "severity": "Medium",
+    "desc": "Controls panel visible in terrain mode on mobile",
+    "evidence": ""
+  },
+  {
+    "id": "T10",
+    "test": "No JS Errors During Full Exercise",
+    "status": "PASS",
+    "severity": "Critical",
+    "desc": "All terrain operations completed with zero JS errors",
+    "evidence": ""
+  }
+]

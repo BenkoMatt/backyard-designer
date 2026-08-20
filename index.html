@@ -104,11 +104,102 @@ canvas { display: block; }
 .terrain-row input[type="range"] { flex: 1; min-width: 60px; }
 .terrain-val { font-weight: 600; color: var(--primary); min-width: 35px; text-align: right; }
 .terrain-mode-btns { display: flex; gap: 4px; }
-.terrain-mode-btn { flex: 1; padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
+.terrain-mode-btn { flex: 1; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
 .terrain-mode-btn.active { background: #8B5E3C; color: white; border-color: #8B5E3C; }
 .terrain-mode-btn:hover:not(.active) { border-color: #8B5E3C; }
-#terrain-flatten { padding: 5px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
+
+/* ===== TERRAIN ANALYSIS FEATURES ===== */
+#terrain-analysis-btn { position: absolute; bottom: 16px; left: 480px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; z-index: 11; }
+#terrain-analysis-btn:hover { border-color: var(--primary); background: white; }
+#terrain-analysis-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
+#terrain-analysis-btn svg { width: 16px; height: 16px; }
+#terrain-analysis-panel { position: absolute; bottom: 56px; left: 480px; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 260px; z-index: 60; }
+#terrain-analysis-panel.visible { display: flex; }
+.ta-section-title { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+.ta-section-title:first-child { margin-top: 0; }
+.ta-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ta-toggle-row label { font-weight: 600; white-space: nowrap; cursor: pointer; }
+.ta-toggle { position: relative; width: 36px; height: 20px; background: #ccc; border-radius: 10px; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+.ta-toggle.on { background: var(--primary); }
+.ta-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: transform 0.2s; }
+.ta-toggle.on::after { transform: translateX(16px); }
+.ta-info { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+.ta-contour-interval { display: flex; align-items: center; gap: 6px; }
+.ta-contour-interval input { width: 50px; padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 11px; font-family: inherit; }
+.ta-slope-legend { display: flex; flex-direction: column; gap: 2px; }
+.ta-slope-legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; }
+.ta-slope-legend-swatch { width: 18px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.ta-btn { padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; transition: all 0.15s; }
+.ta-btn:hover { border-color: var(--primary); background: #f0f8f0; }
+.ta-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+#ta-cross-section-overlay { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); display: none; flex-direction: column; z-index: 70; min-width: 400px; max-width: 600px; }
+#ta-cross-section-overlay.visible { display: flex; }
+#ta-cross-section-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 12px; }
+#ta-cross-section-close { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-muted); padding: 0 4px; line-height: 1; }
+#ta-cross-section-close:hover { color: var(--text); }
+#ta-cross-section-canvas-wrap { padding: 8px 12px 12px; }
+#ta-cross-section-canvas { display: block; width: 100%; height: 140px; }
+#ta-cross-section-stats { display: flex; gap: 12px; padding: 0 12px 10px; font-size: 10px; color: var(--text-muted); flex-wrap: wrap; }
+#ta-cross-section-stats span { white-space: nowrap; }
+#ta-cross-section-stats b { color: var(--text); }
+#cut-fill-panel { position: absolute; top: 60px; right: 280px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 55; min-width: 200px; }
+#cut-fill-panel.visible { display: flex; }
+.cf-header { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); padding: 8px 12px 4px; }
+.cf-row { display: flex; justify-content: space-between; padding: 2px 12px; font-size: 12px; }
+.cf-row b { font-weight: 700; }
+.cf-cut { color: #c0392b; }
+.cf-fill { color: #27ae60; }
+.cf-net { color: var(--primary); font-weight: 700; }
+.cf-note { font-size: 10px; color: var(--text-muted); padding: 4px 12px 8px; line-height: 1.3; }
+#terrain-flatten { padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; }
 #terrain-flatten:hover { border-color: #8B5E3C; background: #f8f0eb; }
+
+/* Terrain presets */
+.terrain-presets { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.terrain-preset-btn { padding: 8px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; color: var(--text); transition: all 0.15s; min-height: 32px; }
+.terrain-preset-btn:hover { border-color: #8B5E3C; background: #f8f0eb; }
+.terrain-preset-btn:active { transform: scale(0.97); }
+.terrain-preset-btn.active { background: #8B5E3C; color: white; border-color: #8B5E3C; }
+
+/* Terrain overlay toggles */
+.terrain-overlay-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.terrain-toggle-btn { flex: 1; padding: 5px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 10px; font-family: inherit; text-align: center; min-width: 70px; transition: all 0.15s; }
+.terrain-toggle-btn:hover { border-color: #8B5E3C; background: #f8f0eb; }
+.terrain-toggle-btn.active { background: #4a8b5c; color: white; border-color: #4a8b5c; }
+
+/* Height legend color bar */
+#terrain-height-legend { position: absolute; top: 16px; left: 16px; z-index: 45; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 11px; box-shadow: var(--shadow); display: none; }
+#terrain-height-legend.visible { display: block; }
+.height-legend-title { font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; color: var(--text-muted); }
+.height-legend-bar { display: flex; flex-direction: column; gap: 0; }
+.height-legend-stripe { width: 24px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+.height-legend-labels { display: flex; flex-direction: column; gap: 0; margin-left: 8px; }
+.height-legend-label { height: 16px; font-size: 10px; line-height: 16px; color: var(--text); white-space: nowrap; }
+.height-legend-container { display: flex; align-items: stretch; }
+
+/* Mobile terrain controls */
+@media (max-width: 768px) {
+  #terrain-btn { bottom: 16px; left: 16px; padding: 10px 16px; font-size: 14px; min-height: 44px; }
+  #terrain-btn svg { width: 20px; height: 20px; }
+  #terrain-controls {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 65;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px 16px 0 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    display: none; flex-direction: column; gap: 12px;
+    max-height: 70vh; overflow-y: auto;
+    transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #terrain-controls.visible { display: flex; transform: translateY(0); }
+  #terrain-controls .terrain-row { flex-wrap: wrap; }
+  #terrain-controls .terrain-row label { font-size: 15px; }
+  .terrain-mode-btn { padding: 10px 12px; font-size: 14px; min-height: 44px; }
+  .terrain-preset-btn { padding: 12px 6px; font-size: 13px; min-height: 44px; }
+  .terrain-toggle-btn { padding: 10px 8px; font-size: 12px; min-height: 44px; }
+  #terrain-flatten { padding: 12px 16px; font-size: 14px; min-height: 44px; }
+  #terrain-controls input[type="range"] { min-height: 28px; }
+  #terrain-height-legend { top: 60px; left: 8px; font-size: 12px; }
+}
 
 /* Measurement readout */
 #measure-readout { position: absolute; background: rgba(45,45,45,0.9); color: white; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; pointer-events: none; white-space: nowrap; display: none; z-index: 50; transform: translate(-50%, -130%); }
@@ -126,6 +217,63 @@ canvas { display: block; }
 .safety-warning strong { display: block; margin-bottom: 4px; font-size: 13px; }
 .safety-warning .dismiss { float: right; cursor: pointer; opacity: 0.5; font-size: 14px; }
 .safety-warning .dismiss:hover { opacity: 1; }
+.buried-badge { background: #f8d7da; border: 1px solid #dc3545; border-left: 4px solid #dc3545; border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; color: #721c24; margin-bottom: 8px; font-weight: 500; }
+
+/* ===== UNDERGROUND / EXCAVATION VIEW ===== */
+#excavate-btn { position: absolute; bottom: 16px; left: 460px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; z-index: 10; }
+#excavate-btn:hover { border-color: var(--primary); background: white; }
+#excavate-btn.active { background: #5b4a8b; color: white; border-color: #5b4a8b; }
+#excavate-btn svg { width: 16px; height: 16px; }
+#excavate-panel { position: absolute; bottom: 56px; left: 460px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 270px; max-width: 320px; z-index: 11; }
+#excavate-panel.visible { display: flex; }
+.excavate-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.excavate-header .title { font-size: 13px; font-weight: 700; color: #5b4a8b; display: flex; align-items: center; gap: 6px; }
+.excavate-header .title svg { width: 16px; height: 16px; }
+.excavate-header .close { cursor: pointer; border: none; background: none; font-size: 16px; color: var(--text-muted); padding: 0 4px; }
+.excavate-header .close:hover { color: var(--text); }
+.excavate-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.excavate-row label { font-weight: 600; white-space: nowrap; color: var(--text); }
+.excavate-row input[type="range"] { flex: 1; min-width: 60px; }
+.excavate-val { font-weight: 600; color: #5b4a8b; min-width: 55px; text-align: right; }
+.excavate-btns { display: flex; gap: 4px; }
+.excavate-btns button { flex: 1; padding: 6px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.excavate-btns button:hover { border-color: #5b4a8b; }
+.excavate-btns button.active { background: #5b4a8b; color: white; border-color: #5b4a8b; }
+.excavate-btns button svg { width: 14px; height: 14px; }
+.excavate-divider { height: 1px; background: var(--border); margin: 2px 0; }
+#buried-objects-panel { margin-top: 4px; }
+#buried-objects-panel .buried-header { font-weight: 700; font-size: 12px; color: #c0392b; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+#buried-objects-panel .buried-header svg { width: 14px; height: 14px; }
+#buried-objects-panel .buried-count { display: inline-block; background: #c0392b; color: white; border-radius: 10px; padding: 1px 8px; font-size: 11px; font-weight: 700; }
+#buried-objects-panel .buried-count.zero { background: var(--primary); }
+#buried-objects-panel .buried-list { max-height: 160px; overflow-y: auto; font-size: 11px; }
+#buried-objects-panel .buried-item { display: flex; align-items: center; gap: 6px; padding: 4px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+#buried-objects-panel .buried-item:hover { background: #f8f8f8; }
+#buried-objects-panel .buried-item .buried-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+#buried-objects-panel .buried-item .buried-dot.full { background: #c0392b; }
+#buried-objects-panel .buried-item .buried-dot.partial { background: #f59e0b; }
+#buried-objects-panel .buried-item .buried-name { flex: 1; font-weight: 500; }
+#buried-objects-panel .buried-item .buried-depth { font-weight: 600; color: #c0392b; }
+#buried-objects-panel .buried-empty { font-size: 11px; color: var(--text-muted); padding: 6px 0; text-align: center; }
+#cross-section-panel { position: absolute; top: 16px; right: 16px; z-index: 40; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-lg); font-size: 12px; min-width: 320px; max-width: 420px; display: none; flex-direction: column; gap: 8px; }
+#cross-section-panel.visible { display: flex; }
+.cs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.cs-header .title { font-size: 13px; font-weight: 700; color: #5b4a8b; display: flex; align-items: center; gap: 6px; }
+.cs-header .close { cursor: pointer; border: none; background: none; font-size: 16px; color: var(--text-muted); padding: 0 4px; }
+.cs-header .close:hover { color: var(--text); }
+#cross-section-canvas { width: 100%; height: 200px; background: #f5f5f0; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.cs-legend { display: flex; gap: 12px; font-size: 10px; color: var(--text-muted); flex-wrap: wrap; }
+.cs-legend-item { display: flex; align-items: center; gap: 4px; }
+.cs-legend-item .cs-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+.cs-legend-item .cs-legend-line { width: 16px; height: 2px; }
+.cs-info { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
+.cs-instruction { font-size: 11px; color: var(--text-muted); padding: 6px 8px; background: #f0f0f0; border-radius: var(--radius-sm); text-align: center; }
+.cs-line-marker { pointer-events: none; }
+@media (max-width: 768px) {
+  #excavate-btn { left: 16px; bottom: 130px; }
+  #excavate-panel { left: 16px; bottom: 180px; max-width: 280px; }
+  #cross-section-panel { right: 8px; left: 8px; top: 60px; max-width: none; min-width: 0; }
+}
 
 /* ===== PROPERTIES ===== */
 #properties { width: var(--props-w); background: var(--surface); border-left: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; display: none; }
@@ -499,6 +647,7 @@ canvas { display: block; }
           <button class="terrain-mode-btn active" data-tmode="raise">Raise</button>
           <button class="terrain-mode-btn" data-tmode="lower">Lower</button>
           <button class="terrain-mode-btn" data-tmode="smooth">Smooth</button>
+          <button class="terrain-mode-btn" data-tmode="erode">Erode</button>
         </div>
       </div>
       <div class="terrain-row">
@@ -511,7 +660,176 @@ canvas { display: block; }
         <input type="range" id="terrain-strength" min="0.1" max="3" value="0.5" step="0.1">
         <span class="terrain-val" id="terrain-strength-val">0.5</span>
       </div>
+      <div class="terrain-row">
+        <label>Presets</label>
+      </div>
+      <div class="terrain-presets">
+        <button class="terrain-preset-btn" data-preset="flat">Flat</button>
+        <button class="terrain-preset-btn" data-preset="slope">Gentle Slope</button>
+        <button class="terrain-preset-btn" data-preset="hill">Hill</button>
+        <button class="terrain-preset-btn" data-preset="valley">Valley</button>
+        <button class="terrain-preset-btn" data-preset="terraced">Terraced</button>
+        <button class="terrain-preset-btn" data-preset="poolslope">Pool Slope</button>
+      </div>
+      <div class="terrain-row">
+        <label>Overlays</label>
+      </div>
+      <div class="terrain-overlay-row">
+        <button class="terrain-toggle-btn" id="terrain-toggle-height">Height Colors</button>
+        <button class="terrain-toggle-btn" id="terrain-toggle-drainage">Drainage</button>
+      </div>
       <button id="terrain-flatten">Flatten All Terrain</button>
+    </div>
+    <!-- Height legend color bar -->
+    <div id="terrain-height-legend">
+      <div class="height-legend-title">Elevation (ft)</div>
+      <div class="height-legend-container">
+        <div class="height-legend-bar" id="height-legend-bar"></div>
+        <div class="height-legend-labels" id="height-legend-labels"></div>
+      </div>
+    </div>
+    <!-- Underground / Excavation View -->
+    <button class="viewport-overlay" id="excavate-btn" aria-label="Toggle underground excavation view" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
+      Excavate
+    </button>
+    <div class="viewport-overlay" id="excavate-panel">
+      <div class="excavate-header">
+        <div class="title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
+          Underground View
+        </div>
+        <button class="close" id="excavate-close" aria-label="Close excavate panel">&times;</button>
+      </div>
+      <div class="excavate-row">
+        <label>Cutaway</label>
+        <input type="range" id="terrain-cutaway" min="0" max="100" value="0" step="1">
+        <span class="excavate-val" id="cutaway-val">Full</span>
+      </div>
+      <div class="excavate-row">
+        <label>Opacity</label>
+        <input type="range" id="terrain-opacity" min="15" max="100" value="100" step="1">
+        <span class="excavate-val" id="opacity-val">100%</span>
+      </div>
+      <div class="excavate-divider"></div>
+      <div class="excavate-btns">
+        <button id="wireframe-toggle" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z M3 9h18 M3 15h18 M9 3v18 M15 3v18"/></svg>
+          Wireframe
+        </button>
+        <button id="cross-section-toggle" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20 M12 2v20"/><path d="M5 7l7-5 7 5"/></svg>
+          Cross-Section
+        </button>
+      </div>
+      <div id="buried-objects-panel">
+        <div class="buried-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5"/></svg>
+          Buried Objects
+          <span class="buried-count zero" id="buried-count">0</span>
+        </div>
+        <div class="buried-list" id="buried-list">
+          <div class="buried-empty">No objects buried</div>
+        </div>
+      </div>
+    </div>
+    <!-- Cross-section view panel -->
+    <div class="viewport-overlay" id="cross-section-panel">
+      <div class="cs-header">
+        <div class="title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20 M12 2v20"/><path d="M5 7l7-5 7 5"/></svg>
+          Cross-Section Profile
+        </div>
+        <button class="close" id="cs-close" aria-label="Close cross-section panel">&times;</button>
+      </div>
+      <div class="cs-instruction" id="cs-instruction">Click two points on the ground to define a cross-section line</div>
+      <canvas id="cross-section-canvas"></canvas>
+      <div class="cs-legend">
+        <div class="cs-legend-item"><div class="cs-legend-line" style="background:#6b8a4a;"></div>Terrain</div>
+        <div class="cs-legend-item"><div class="cs-legend-dot" style="background:#4a8b5c;"></div>Object on surface</div>
+        <div class="cs-legend-item"><div class="cs-legend-dot" style="background:#c0392b;"></div>Buried object</div>
+        <div class="cs-legend-item"><div class="cs-legend-line" style="background:#5b4a8b;border-top:1px dashed #5b4a8b;"></div>Section line</div>
+      </div>
+      <div class="cs-info" id="cs-info"></div>
+    </div>
+    <!-- Terrain analysis button -->
+    <button class="viewport-overlay" id="terrain-analysis-btn" aria-label="Toggle terrain analysis tools" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l4-4 4 4 4-8 6 6"/><path d="M3 21h18" stroke-width="1.5"/></svg>
+      Analyze
+    </button>
+    <!-- Terrain analysis panel -->
+    <div class="viewport-overlay" id="terrain-analysis-panel">
+      <div class="ta-section-title">Contour Lines</div>
+      <div class="ta-toggle-row">
+        <label for="ta-contour-toggle">Show Contours</label>
+        <div class="ta-toggle" id="ta-contour-toggle"></div>
+      </div>
+      <div class="ta-contour-interval">
+        <label>Interval:</label>
+        <input type="number" id="ta-contour-interval" value="1.0" min="0.1" max="10" step="0.1"> ft
+      </div>
+      <div class="ta-info">Topographic lines at fixed elevation intervals</div>
+      <div class="ta-section-title">Slope Analysis</div>
+      <div class="ta-toggle-row">
+        <label for="ta-slope-toggle">Slope Heatmap</label>
+        <div class="ta-toggle" id="ta-slope-toggle"></div>
+      </div>
+      <div class="ta-slope-legend">
+        <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#2ecc71"></div> 0–5% (flat, ADA accessible)</div>
+        <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#f1c40f"></div> 5–10% (gentle slope)</div>
+        <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#e67e22"></div> 10–15% (moderate, drainage OK)</div>
+        <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#e74c3c"></div> 15–25% (steep, needs retaining)</div>
+        <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#8e44ad"></div> >25% (very steep, unsafe)</div>
+      </div>
+      <div class="ta-section-title">Cross-Section Profile</div>
+      <button class="ta-btn" id="ta-crosssection-btn">Draw Cross-Section Line</button>
+      <div class="ta-info">Click two points on terrain to see elevation profile with stats</div>
+      <div class="ta-section-title">Cut/Fill Volume</div>
+      <div class="ta-toggle-row">
+        <label for="ta-cutfill-toggle">Show Volume</label>
+        <div class="ta-toggle" id="ta-cutfill-toggle"></div>
+      </div>
+      <div class="ta-info">Earth volume relative to flat grade (0 ft)</div>
+      <div class="ta-section-title">Water Flow Simulation</div>
+      <div class="ta-toggle-row">
+        <label for="ta-waterflow-toggle">Show Flow Paths</label>
+        <div class="ta-toggle" id="ta-waterflow-toggle"></div>
+      </div>
+      <div class="ta-info">Traces water droplets downhill to reveal drainage paths and pooling areas</div>
+      <div class="ta-section-title">Elevation Heatmap</div>
+      <div class="ta-toggle-row">
+        <label for="ta-elev-toggle">Color by Height</label>
+        <div class="ta-toggle" id="ta-elev-toggle"></div>
+      </div>
+      <div class="ta-info">Colors terrain by elevation: blue=low, green=mid, brown=high</div>
+      <div class="ta-section-title">Buried Object Ghost View</div>
+      <div class="ta-toggle-row">
+        <label for="ta-ghost-toggle">Highlight Buried Objects</label>
+        <div class="ta-toggle" id="ta-ghost-toggle"></div>
+      </div>
+      <div class="ta-info">Makes objects buried by terrain semi-transparent red</div>
+      <div class="ta-section-title">Before/After Compare</div>
+      <button class="ta-btn" id="ta-compare-btn">Hold to Compare (Flat)</button>
+      <div class="ta-info">Press and hold to temporarily view terrain as flat</div>
+    </div>
+    <!-- Cross-section profile overlay (analysis) -->
+    <div id="ta-cross-section-overlay">
+      <div id="ta-cross-section-header">
+        <span>Elevation Profile</span>
+        <button id="ta-cross-section-close" aria-label="Close profile">×</button>
+      </div>
+      <div id="ta-cross-section-canvas-wrap">
+        <canvas id="ta-cross-section-canvas" width="560" height="140"></canvas>
+      </div>
+      <div id="ta-cross-section-stats"></div>
+    </div>
+    <!-- Cut/fill panel -->
+    <div id="cut-fill-panel">
+      <div class="cf-header">Earthwork Volume</div>
+      <div class="cf-row cf-cut"><span>Cut (remove):</span><b id="cf-cut-val">0 yd³</b></div>
+      <div class="cf-row cf-fill"><span>Fill (add):</span><b id="cf-fill-val">0 yd³</b></div>
+      <div class="cf-row cf-net"><span>Net:</span><b id="cf-net-val">0 yd³</b></div>
+      <div class="cf-note">Relative to flat grade at 0 ft elevation</div>
     </div>
     <!-- Measurement readout -->
     <div class="viewport-overlay" id="measure-readout"></div>
@@ -654,6 +972,8 @@ canvas { display: block; }
       <li>Adjust brush size and strength in the panel that appears</li>
       <li>Objects automatically follow the terrain height when you move them</li>
       <li><strong>Tape Measure:</strong> Click two points to measure the distance between them</li>
+      <li><strong>Excavate:</strong> Click the Excavate button to open the underground view — cut away terrain, make ground transparent, toggle wireframe, or see which objects are buried</li>
+      <li><strong>Cross-Section:</strong> In the Excavate panel, click Cross-Section then click two points on the ground to see a 2D elevation profile</li>
       <li><strong>Scale Bar:</strong> The bar at bottom-left shows a reference distance in feet</li>
       <li>In <strong>Bird's-eye view</strong>, grid labels show foot measurements along the edges</li>
     </ul>
@@ -1583,6 +1903,7 @@ const state = {
   shadowEnabled: !IS_MOBILE,
   terrain: null, // Float32Array of height values, null = flat
   terrainSegs: 50, // segments per side for terrain mesh
+  terrainDeformed: false, // O(1) flag: true if terrain has any non-zero heights
 };
 
 // Terrain editing state
@@ -1593,6 +1914,9 @@ let terrainBrushStrength = 0.5;
 let terrainBrushMesh = null; // visual cursor circle
 let isTerrainPainting = false;
 let terrainHistory = null; // for undo
+let terrainHeightColorsActive = false;
+let terrainDrainageActive = false;
+let drainageArrowsGroup = null; // THREE.Group for drainage arrows
 
 const sceneObjects = new Map();
 let scene, renderer, camera3D, camera2D, controls;
@@ -1613,6 +1937,7 @@ function initScene() {
   renderer = new THREE.WebGLRenderer({ antialias: !IS_MOBILE, powerPreference: 'high-performance' });
   renderer.setPixelRatio(PIXEL_RATIO);
   renderer.setSize(viewport.clientWidth, viewport.clientHeight);
+  renderer.localClippingEnabled = true;
   renderer.shadowMap.enabled = state.shadowEnabled;
   renderer.shadowMap.type = IS_MOBILE ? THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
   viewport.appendChild(renderer.domElement);
@@ -1679,7 +2004,7 @@ function initScene() {
   sunLight = sun;
 
   // Ground (subdivided for terrain editing)
-  const groundMat = new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide });
+  const groundMat = new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide, transparent: true, opacity: 1.0 });
   const groundGeo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, state.terrainSegs, state.terrainSegs);
   groundGeo.rotateX(-Math.PI / 2);
   yardMesh = new THREE.Mesh(groundGeo, groundMat);
@@ -1807,6 +2132,8 @@ function buildSceneObject(id) {
   });
   scene.add(group);
   sceneObjects.set(id, group);
+  // Update buried indicator after rebuilding the object
+  updateBuriedIndicator(id);
   requestRender();
 }
 
@@ -1816,6 +2143,14 @@ function removeObject(id) {
     scene.remove(obj);
     disposeGroup(obj);
     sceneObjects.delete(id);
+  }
+  // Clean up buried indicator if present
+  if (buriedIndicatorMeshes.has(id)) {
+    const ind = buriedIndicatorMeshes.get(id);
+    scene.remove(ind);
+    ind.geometry.dispose();
+    ind.material.dispose();
+    buriedIndicatorMeshes.delete(id);
   }
   state.objects.delete(id);
   if (state.selectedId === id) deselectObject();
@@ -1827,6 +2162,11 @@ function selectObject(id) {
   const obj = state.objects.get(id);
   if (!obj) return;
   showProperties(id);
+  // Update buried indicator badge in properties
+  const badge = document.getElementById('buried-badge');
+  if (badge) {
+    badge.style.display = isObjectBuried(id) ? 'block' : 'none';
+  }
   // Highlight
   const group = sceneObjects.get(id);
   if (group) {
@@ -1899,6 +2239,8 @@ let touchState = {
 function _getMeshesForRaycast() {
   const meshes = [];
   sceneObjects.forEach(g => { g.traverse(c => { if (c.isMesh) meshes.push(c); }); });
+  meshes.push(yardMesh); // Include terrain so occlusion is respected
+  // Note: buried indicators are LineSegments, not Mesh, so they won't be included
   return meshes;
 }
 
@@ -1909,8 +2251,12 @@ function _raycastFromScreenPoint(clientX, clientY) {
   raycaster.setFromCamera(mouse, activeCamera);
   const meshes = _getMeshesForRaycast();
   const hits = raycaster.intersectObjects(meshes, false);
-  if (hits.length > 0 && hits[0].object.userData.objectId !== undefined) {
-    return { objectId: hits[0].object.userData.objectId, point: hits[0].point };
+  if (hits.length > 0) {
+    // Find closest hit that belongs to an object (not yardMesh)
+    const objHit = hits.find(h => h.object.userData.objectId !== undefined);
+    if (objHit) {
+      return { objectId: objHit.object.userData.objectId, point: objHit.point };
+    }
   }
   return null;
 }
@@ -1922,9 +2268,20 @@ function _getGroundPointFromScreen(clientX, clientY) {
   raycaster.setFromCamera(mouse, activeCamera);
   const hits = raycaster.intersectObject(yardMesh, false);
   if (hits.length > 0) return hits[0].point.clone();
-  const point = new THREE.Vector3();
-  raycaster.ray.intersectPlane(groundPlane, point);
-  return point;
+  // Fallback: use terrain-aware plane intersection
+  const roughPoint = new THREE.Vector3();
+  raycaster.ray.intersectPlane(groundPlane, roughPoint);
+  if (roughPoint && (state.terrainDeformed || state.terrain)) {
+    const terrainY = getTerrainHeight(roughPoint.x, roughPoint.z);
+    if (Math.abs(terrainY) > 0.001) {
+      const elevatedPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -terrainY);
+      const refinedPoint = new THREE.Vector3();
+      if (raycaster.ray.intersectPlane(elevatedPlane, refinedPoint)) {
+        return refinedPoint;
+      }
+    }
+  }
+  return roughPoint;
 }
 
 function onTouchPointerDown(e) {
@@ -2099,18 +2456,26 @@ function onPointerDown(e) {
   mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
   mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(mouse, activeCamera);
+  // Include yardMesh in raycast so terrain occlusion is handled correctly.
+  // If terrain is the closest hit → deselect. If an object is closer → select it.
   const meshes = [];
   sceneObjects.forEach(g => { g.traverse(c => { if (c.isMesh) meshes.push(c); }); });
+  meshes.push(yardMesh); // Include terrain in selection raycast
   const hits = raycaster.intersectObjects(meshes, false);
   if (hits.length > 0) {
-    const objId = hits[0].object.userData.objectId;
-    if (objId !== undefined) {
+    // Find the closest hit that belongs to an object (skip yardMesh hits)
+    const objHit = hits.find(h => h.object.userData.objectId !== undefined);
+    if (objHit) {
+      const objId = objHit.object.userData.objectId;
       selectObject(objId);
       isDragging = true;
       dragObject = state.objects.get(objId);
       dragStartPos = { x: dragObject.position.x, z: dragObject.position.z };
       controls.enabled = false;
       showHint('Drag to move • Release to place');
+    } else {
+      // Closest hit was terrain (or no object hit at all) → deselect
+      deselectObject();
     }
   } else {
     deselectObject();
@@ -2131,13 +2496,25 @@ function onPointerMove(e) {
   if (hits.length > 0) {
     point.copy(hits[0].point);
   } else {
+    // Fallback: terrain-aware plane intersection (not flat Y=0)
     raycaster.ray.intersectPlane(groundPlane, point);
+    if (state.terrainDeformed || state.terrain) {
+      const terrainY = getTerrainHeight(point.x, point.z);
+      if (Math.abs(terrainY) > 0.001) {
+        const elevatedPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -terrainY);
+        const refinedPoint = new THREE.Vector3();
+        if (raycaster.ray.intersectPlane(elevatedPlane, refinedPoint)) {
+          point.copy(refinedPoint);
+        }
+      }
+    }
   }
   point.x = Math.max(-state.yard.width / 2 + 1, Math.min(state.yard.width / 2 - 1, point.x));
   point.z = Math.max(-state.yard.depth / 2 + 1, Math.min(state.yard.depth / 2 - 1, point.z));
   dragObject.position.x = point.x;
   dragObject.position.z = point.z;
-  // Set Y to terrain height so object follows the ground
+  // ALWAYS set Y to terrain height so object follows the ground surface
+  // This ensures array/mesh stay in sync - we use the canonical height source
   dragObject.position.y = getTerrainHeight(point.x, point.z);
   const group = sceneObjects.get(dragObject.id);
   if (group) group.position.set(point.x, dragObject.position.y, point.z);
@@ -2196,6 +2573,9 @@ function showProperties(id) {
   }
   headerEl.innerHTML = `${cat.icon}<div><div class="name">${escHtml(cat.name)}</div><div class="type">Object #${id}</div></div>`;
   let html = '';
+  // Buried indicator badge (shown when object is partially buried by terrain)
+  const buried = isObjectBuried(id);
+  html += `<div id="buried-badge" class="buried-badge" style="display:${buried ? 'block' : 'none'}">⚠ Object is partially buried by terrain</div>`;
   html += '<div class="prop-group"><div class="prop-group-title">Size & Style</div>';
   for (const param of cat.params) {
     const val = obj.params[param.key];
@@ -2587,7 +2967,7 @@ function loadDesign(data) {
   state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 ? data.terrainSegs : 50;
   // Rebuild ground with new dimensions and apply terrain
   initWithYard(state.yard);
-  if (state.terrain) applyTerrainToMesh();
+  if (state.terrain) { _recomputeTerrainDeformed(); applyTerrainToMesh(); }
   for (const obj of data.objects) {
     // Sanitize all params against CATALOG definitions (prevents XSS, invalid values)
     const sanitizedParams = sanitizeObjectParams(obj);
@@ -2612,6 +2992,8 @@ function loadDesign(data) {
   state.undoStack = [];
   state.redoStack = [];
   updateUndoRedoButtons();
+  // Update all buried indicators after loading
+  updateAllBuriedIndicators();
   requestRender();
   showToast('Design loaded successfully!');
 }
@@ -2910,11 +3292,14 @@ function initWithYard(data) {
   groundGeo.rotateX(-Math.PI / 2);
   yardMesh = new THREE.Mesh(
     groundGeo,
-    new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide })
+    new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide, transparent: true, opacity: parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100 })
   );
   yardMesh.receiveShadow = true;
   yardMesh.castShadow = true;
   scene.add(yardMesh);
+  // Re-apply clipping planes if active
+  if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) yardMesh.material.clippingPlanes = [terrainClipPlane];
+  if (typeof wireframeActive !== 'undefined' && wireframeActive) yardMesh.material.wireframe = true;
   gridHelper = new THREE.GridHelper(Math.max(data.width, data.depth), Math.max(data.width, data.depth), 0x888888, 0xcccccc);
   gridHelper.position.y = 0.01;
   scene.add(gridHelper);
@@ -2952,6 +3337,13 @@ function initWithYard(data) {
   camera2D.bottom = -fs / 2;
   camera2D.updateProjectionMatrix();
   onResize();
+  // Re-apply terrain to the new mesh if terrain data exists (single source of truth)
+  if (state.terrain) {
+    applyTerrainToMesh();
+    // Update all object heights to match terrain
+    state.objects.forEach((_, id) => updateObjectHeight(id));
+  }
+  updateAllBuriedIndicators();
   requestRender();
 }
 
@@ -3118,6 +3510,11 @@ const terrainStrengthInput = document.getElementById('terrain-strength');
 const terrainStrengthValEl = document.getElementById('terrain-strength-val');
 
 terrainBtn.addEventListener('click', () => {
+  // Prevent terrain mode while in walk mode
+  if (walkMode && !terrainMode) {
+    showToast('Exit walk mode first to edit terrain');
+    return;
+  }
   terrainMode = !terrainMode;
   terrainBtn.classList.toggle('active', terrainMode);
   terrainBtn.setAttribute('aria-pressed', terrainMode);
@@ -3131,6 +3528,20 @@ terrainBtn.addEventListener('click', () => {
   } else {
     hideHint();
     removeBrushCursor();
+    // Turn off overlays when exiting terrain mode
+    if (terrainHeightColorsActive) {
+      terrainHeightColorsActive = false;
+      const btn = document.getElementById('terrain-toggle-height');
+      if (btn) btn.classList.remove('active');
+      removeHeightColors();
+      if (typeof heightLegendEl !== 'undefined') heightLegendEl.classList.remove('visible');
+    }
+    if (terrainDrainageActive) {
+      terrainDrainageActive = false;
+      const btn = document.getElementById('terrain-toggle-drainage');
+      if (btn) btn.classList.remove('active');
+      updateDrainageArrows();
+    }
   }
   requestRender();
 });
@@ -3159,10 +3570,12 @@ terrainStrengthInput.addEventListener('input', e => {
 
 // Flatten button
 document.getElementById('terrain-flatten').addEventListener('click', () => {
-  if (!state.terrain && !hasTerrainDeformation()) return;
+  if (!state.terrain && !state.terrainDeformed) return;
   const oldTerrain = state.terrain ? new Float32Array(state.terrain) : null;
   state.terrain = null;
-  // Reset all vertices to 0
+  state.terrainDeformed = false; // Clear deformation flag
+  // Reset mesh to flat via applyTerrainToMesh (needs a temp array since terrain is null)
+  // Actually, just zero out the geometry directly since terrain is now null
   const geo = yardMesh.geometry;
   const pos = geo.attributes.position;
   for (let i = 0; i < pos.count; i++) {
@@ -3170,22 +3583,30 @@ document.getElementById('terrain-flatten').addEventListener('click', () => {
   }
   pos.needsUpdate = true;
   geo.computeVertexNormals();
-  // Update object heights
+  // Update object heights to flat ground
   state.objects.forEach((_, id) => updateObjectHeight(id));
+  // Update buried indicators
+  updateAllBuriedIndicators();
   pushCommand({
-    undo: () => { state.terrain = oldTerrain; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
-    redo: () => { state.terrain = null; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+    redo: () => { state.terrain = null; state.terrainDeformed = false; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
   });
   requestRender();
   showToast('Terrain flattened');
 });
 
+// O(1) terrain deformation check — uses boolean flag instead of scanning all vertices
 function hasTerrainDeformation() {
-  const pos = yardMesh.geometry.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    if (Math.abs(pos.getY(i)) > 0.001) return true;
+  return state.terrainDeformed;
+}
+
+// Recompute terrainDeformed flag by scanning state.terrain (used when restoring from save/undo)
+function _recomputeTerrainDeformed() {
+  if (!state.terrain) { state.terrainDeformed = false; return; }
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (Math.abs(state.terrain[i]) > 0.001) { state.terrainDeformed = true; return; }
   }
-  return false;
+  state.terrainDeformed = false;
 }
 
 function ensureTerrainArray() {
@@ -3240,6 +3661,15 @@ function applyTerrainToMesh() {
   }
   pos.needsUpdate = true;
   geo.computeVertexNormals();
+  // Refresh height colors if active
+  if (terrainHeightColorsActive) applyHeightColors();
+  // Update analysis overlays if enabled (defined later in module scope, hoisted)
+  if (typeof contourEnabled !== 'undefined' && contourEnabled && typeof buildContourLines === 'function') buildContourLines();
+  if (typeof slopeEnabled !== 'undefined' && slopeEnabled && typeof buildSlopeHeatmap === 'function') buildSlopeHeatmap();
+  if (typeof cutFillEnabled !== 'undefined' && cutFillEnabled && typeof updateCutFillVolume === 'function') updateCutFillVolume();
+  if (typeof waterFlowEnabled !== 'undefined' && waterFlowEnabled && typeof buildWaterFlowPaths === 'function') buildWaterFlowPaths();
+  if (typeof elevHeatmapEnabled !== 'undefined' && elevHeatmapEnabled && typeof buildElevationHeatmap === 'function') buildElevationHeatmap();
+  if (typeof ghostModeEnabled !== 'undefined' && ghostModeEnabled && typeof updateGhostMode === 'function') updateGhostMode();
 }
 
 function paintTerrain(worldX, worldZ) {
@@ -3284,15 +3714,37 @@ function paintTerrain(worldX, worldZ) {
         }
         const avg = sum / count;
         state.terrain[vi] = (state.terrain[vi] || 0) * (1 - terrainBrushStrength * falloff * 0.5) + avg * (terrainBrushStrength * falloff * 0.5);
+      } else if (terrainBrushMode === 'erode') {
+        // Erosion: move material from high-slope areas downhill.
+        const h0 = state.terrain[vi] || 0;
+        let lowestN = h0, lowestVi = -1;
+        for (let dz = -1; dz <= 1; dz++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dz === 0) continue;
+            const nx = ix + dx, nz = iz + dz;
+            if (nx < 0 || nx > segs || nz < 0 || nz > segs) continue;
+            const nh = state.terrain[nz * (segs + 1) + nx] || 0;
+            if (nh < lowestN) { lowestN = nh; lowestVi = nz * (segs + 1) + nx; }
+          }
+        }
+        const slope = h0 - lowestN;
+        if (slope > 0.01 && lowestVi >= 0) {
+          const erodeAmt = Math.min(slope, terrainBrushStrength * falloff * 0.3);
+          state.terrain[vi] = h0 - erodeAmt;
+          state.terrain[lowestVi] = (state.terrain[lowestVi] || 0) + erodeAmt * 0.8;
+        }
       }
     }
   }
   applyTerrainToMesh();
+  state.terrainDeformed = true; // Mark terrain as deformed (O(1) flag)
   // Update heights of objects within brush radius
   state.objects.forEach((obj, id) => {
     const dist = Math.sqrt((obj.position.x - worldX) ** 2 + (obj.position.z - worldZ) ** 2);
     if (dist < radius + 5) updateObjectHeight(id);
   });
+  // Update all buried indicators (objects outside brush radius may also be affected)
+  updateAllBuriedIndicators();
   requestRender();
 }
 
@@ -3304,21 +3756,105 @@ function updateObjectHeight(id) {
   const h = getTerrainHeight(obj.position.x, obj.position.z);
   obj.position.y = h;
   group.position.set(obj.position.x, h, obj.position.z);
+  // Update buried indicator for this object
+  updateBuriedIndicator(id);
 }
 
-// --- Brush cursor visualization ---
+// --- Buried object detection & visual indicator ---
+// An object is "buried" when surrounding terrain is significantly higher than
+// the object's base Y. This happens when terrain is raised around an object
+// after it was placed. We sample terrain height at the object's footprint edges.
+const buriedIndicatorMeshes = new Map(); // objId -> LineSegments indicator
+
+function isObjectBuried(id) {
+  const obj = state.objects.get(id);
+  if (!obj) return false;
+  if (!state.terrainDeformed) return false;
+  const cat = CATALOG[obj.type];
+  if (!cat || typeof cat.footprint !== 'function') return false;
+  const fp = cat.footprint(obj.params);
+  const hw = (fp.w || 1) / 2;
+  const hd = (fp.d || 1) / 2;
+  const baseY = obj.position.y;
+  // Sample terrain at the 4 corners and center of the footprint
+  const samples = [
+    [obj.position.x, obj.position.z],
+    [obj.position.x - hw, obj.position.z - hd],
+    [obj.position.x + hw, obj.position.z - hd],
+    [obj.position.x - hw, obj.position.z + hd],
+    [obj.position.x + hw, obj.position.z + hd],
+  ];
+  let maxSurroundingHeight = baseY;
+  for (const [sx, sz] of samples) {
+    const th = getTerrainHeight(sx, sz);
+    if (th > maxSurroundingHeight) maxSurroundingHeight = th;
+  }
+  // Object is buried if surrounding terrain is more than 0.5 units higher than base
+  return maxSurroundingHeight - baseY > 0.5;
+}
+
+function updateBuriedIndicator(id) {
+  // Remove existing indicator
+  if (buriedIndicatorMeshes.has(id)) {
+    const old = buriedIndicatorMeshes.get(id);
+    scene.remove(old);
+    old.geometry.dispose();
+    old.material.dispose();
+    buriedIndicatorMeshes.delete(id);
+  }
+  if (!isObjectBuried(id)) return;
+  // Create a red wireframe outline around the object to indicate it's buried
+  const obj = state.objects.get(id);
+  if (!obj) return;
+  const cat = CATALOG[obj.type];
+  if (!cat || typeof cat.footprint !== 'function') return;
+  const fp = cat.footprint(obj.params);
+  const w = fp.w || 1, d = fp.d || 1;
+  // Create a box outline slightly larger than the footprint
+  const h = 1; // indicator height
+  const geo = new THREE.EdgesGeometry(new THREE.BoxGeometry(w + 0.3, h, d + 0.3));
+  const mat = new THREE.LineBasicMaterial({ color: 0xff3333, linewidth: 2, transparent: true, opacity: 0.8 });
+  const indicator = new THREE.LineSegments(geo, mat);
+  indicator.position.set(obj.position.x, obj.position.y + h / 2, obj.position.z);
+  indicator.userData.isBuriedIndicator = true;
+  scene.add(indicator);
+  buriedIndicatorMeshes.set(id, indicator);
+}
+
+function updateAllBuriedIndicators() {
+  // Update buried indicators for all objects
+  state.objects.forEach((_, id) => updateBuriedIndicator(id));
+  // Also update the properties panel if an object is selected
+  if (state.selectedId !== null) {
+    const badge = document.getElementById('buried-badge');
+    if (badge) {
+      if (isObjectBuried(state.selectedId)) {
+        badge.style.display = 'block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+  }
+}
+
+// --- Brush cursor visualization (terrain-conforming) ---
+const BRUSH_CURSOR_SEGS = 48;
+
 function createBrushCursor() {
   removeBrushCursor();
-  const segs = 32;
+  const segs = BRUSH_CURSOR_SEGS;
   const geo = new THREE.BufferGeometry();
-  const points = [];
+  const points = new Float32Array((segs + 1) * 3);
   for (let i = 0; i <= segs; i++) {
     const a = (i / segs) * Math.PI * 2;
-    points.push(Math.cos(a) * terrainBrushSize, 0.02, Math.sin(a) * terrainBrushSize);
+    points[i * 3] = Math.cos(a) * terrainBrushSize;
+    points[i * 3 + 1] = 0.05; // default height offset, will be updated per-point
+    points[i * 3 + 2] = Math.sin(a) * terrainBrushSize;
   }
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+  geo.setAttribute('position', new THREE.BufferAttribute(points, 3));
   terrainBrushMesh = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0x8B5E3C, linewidth: 2 }));
   terrainBrushMesh.visible = false;
+  terrainBrushMesh.frustumCulled = false;
   scene.add(terrainBrushMesh);
 }
 
@@ -3333,19 +3869,31 @@ function removeBrushCursor() {
 
 function updateBrushCursorSize() {
   if (!terrainBrushMesh) return;
-  const segs = 32;
+  const segs = BRUSH_CURSOR_SEGS;
   const pos = terrainBrushMesh.geometry.attributes.position;
   for (let i = 0; i <= segs; i++) {
     const a = (i / segs) * Math.PI * 2;
-    pos.setXYZ(i, Math.cos(a) * terrainBrushSize, 0.02, Math.sin(a) * terrainBrushSize);
+    pos.setXYZ(i, Math.cos(a) * terrainBrushSize, 0.05, Math.sin(a) * terrainBrushSize);
   }
   pos.needsUpdate = true;
 }
 
+// Terrain-conforming brush cursor: sample terrain height at each ring vertex
 function moveBrushCursor(worldX, worldZ) {
   if (!terrainBrushMesh) return;
-  const h = getTerrainHeight(worldX, worldZ);
-  terrainBrushMesh.position.set(worldX, h + 0.02, worldZ);
+  const segs = BRUSH_CURSOR_SEGS;
+  const pos = terrainBrushMesh.geometry.attributes.position;
+  // Position the mesh at origin so vertex positions are in world space
+  terrainBrushMesh.position.set(0, 0, 0);
+  // Sample terrain height at each point around the ring
+  for (let i = 0; i <= segs; i++) {
+    const a = (i / segs) * Math.PI * 2;
+    const px = worldX + Math.cos(a) * terrainBrushSize;
+    const pz = worldZ + Math.sin(a) * terrainBrushSize;
+    const h = getTerrainHeight(px, pz);
+    pos.setXYZ(i, px, h + 0.08, pz);
+  }
+  pos.needsUpdate = true;
   terrainBrushMesh.visible = true;
 }
 
@@ -3382,14 +3930,17 @@ function onTerrainPointerUp(e) {
     const after = state.terrain ? new Float32Array(state.terrain) : null;
     if (before || after) {
       pushCommand({
-        undo: () => { state.terrain = before; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
-        redo: () => { state.terrain = after; applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); requestRender(); },
+        undo: () => { state.terrain = before; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); requestRender(); },
+        redo: () => { state.terrain = after; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); requestRender(); },
       });
     }
   }
   isTerrainPainting = false;
   terrainHistory = null;
   controls.enabled = true;
+  // Update drainage arrows and legend after stroke completes
+  if (terrainDrainageActive) updateDrainageArrows();
+  updateHeightLegend();
 }
 
 function getGroundPointFromEvent(e) {
@@ -3400,10 +3951,23 @@ function getGroundPointFromEvent(e) {
   // Raycast against the yard mesh itself (so it works on deformed terrain)
   const hits = raycaster.intersectObject(yardMesh, false);
   if (hits.length > 0) return hits[0].point.clone();
-  // Fallback to flat plane
-  const point = new THREE.Vector3();
-  raycaster.ray.intersectPlane(groundPlane, point);
-  return point;
+  // Fallback: use ray-plane intersection at the terrain height Y value, not Y=0
+  // First, do a rough XZ estimate using the Y=0 plane
+  const roughPoint = new THREE.Vector3();
+  raycaster.ray.intersectPlane(groundPlane, roughPoint);
+  // If we have a rough point, compute terrain height at that XZ and re-intersect
+  // against a plane at that height for a more accurate result
+  if (roughPoint && (state.terrainDeformed || state.terrain)) {
+    const terrainY = getTerrainHeight(roughPoint.x, roughPoint.z);
+    if (Math.abs(terrainY) > 0.001) {
+      const elevatedPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -terrainY);
+      const refinedPoint = new THREE.Vector3();
+      if (raycaster.ray.intersectPlane(elevatedPlane, refinedPoint)) {
+        return refinedPoint;
+      }
+    }
+  }
+  return roughPoint;
 }
 
 // Hook terrain events into the viewport
@@ -3565,6 +4129,10 @@ function getGroundPoint(e) {
   mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
   mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(mouse, activeCamera);
+  // Raycast against the yard mesh itself (so it works on deformed terrain)
+  const hits = raycaster.intersectObject(yardMesh, false);
+  if (hits.length > 0) return hits[0].point.clone();
+  // Fallback to flat plane
   const point = new THREE.Vector3();
   raycaster.ray.intersectPlane(groundPlane, point);
   return point;
@@ -3757,7 +4325,7 @@ const COST_TABLE = {
   fence_picket:    { compute: p => (p.length || 20) * 18 },
   pergola:         { compute: p => ((p.width || 12) * (p.depth || 12)) * 35 },
   shed:            { compute: p => ((p.width || 10) * (p.depth || 8)) * 40 + 500 },
-  pool:            { compute: p => ((p.width || 16) * (p.length || 32)) * 80 + 5000 },
+  pool_inground:   { compute: p => ((p.width || 16) * (p.length || 32)) * 80 + 5000 },
   hot_tub:         { compute: p => (p.diameter || 7) * 1500 },
   tree_deciduous:  { compute: p => p.size === 'L' ? 400 : p.size === 'S' ? 120 : 250 },
   tree_evergreen:  { compute: p => p.size === 'L' ? 300 : p.size === 'S' ? 80 : 180 },
@@ -4264,9 +4832,9 @@ function drawQR(canvas, text) {
 }
 
 const TYPE_ABBREV = {
-  fence_privacy:'fp', fence_picket:'fk', pergola:'pg', shed:'sh', pool:'pl', hottub:'ht',
+  fence_privacy:'fp', fence_picket:'fk', pergola:'pg', shed:'sh', pool_inground:'pl', hot_tub:'ht',
   tree_deciduous:'td', tree_evergreen:'te', bush:'bu', hedge:'he', patio:'pa', deck:'dk',
-  walkway:'wk', raisedbed:'rb', retainingwall:'rw', firepit:'fi', chair:'ch', table:'tb',
+  walkway:'wk', raised_bed:'rb', retaining_wall:'rw', fire_pit:'fi', chair:'ch', table:'tb',
   lounge:'lo', grill:'gr', lawn:'ln',
 };
 const ABBREV_TYPE = Object.fromEntries(Object.entries(TYPE_ABBREV).map(([k,v]) => [v,k]));
@@ -4569,8 +5137,1791 @@ renderWizard();
   });
 })();
 
+// ============================================================
+// TERRAIN PRESETS
+// ============================================================
+function applyTerrainPreset(presetName) {
+  ensureTerrainArray();
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const oldTerrain = new Float32Array(state.terrain);
+  const halfW = w / 2;
+  const halfD = d / 2;
+  const cx = 0, cz = 0;
+  const maxRadius = Math.sqrt(halfW * halfW + halfD * halfD);
+
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const wx = (ix / segs) * w - halfW;
+      const wz = (iz / segs) * d - halfD;
+      let h = 0;
+      switch (presetName) {
+        case 'flat': h = 0; break;
+        case 'slope': h = -(wz / d) * 5; break;
+        case 'hill': {
+          const distHill = Math.sqrt((wx - cx) ** 2 + (wz - cz) ** 2);
+          h = Math.max(0, 4 * (1 - (distHill / maxRadius) ** 2));
+          break;
+        }
+        case 'valley': {
+          const distValley = Math.sqrt((wx - cx) ** 2 + (wz - cz) ** 2);
+          h = -Math.max(0, 3 * (1 - (distValley / maxRadius) ** 2));
+          break;
+        }
+        case 'terraced': {
+          const numSteps = 4;
+          const stepHeight = 1.5;
+          const tz = (wz + halfD) / d;
+          const stepIdx = Math.floor(tz * numSteps);
+          h = stepIdx * stepHeight;
+          const stepProgress = (tz * numSteps) % 1;
+          if (stepProgress > 0.85) { h += (stepProgress - 0.85) / 0.15 * stepHeight * 0.3; }
+          break;
+        }
+        case 'poolslope': {
+          const dz = (wz + halfD) / d;
+          h = dz * 3;
+          const dxs = Math.abs(wx) / halfW;
+          h += dxs * 0.5;
+          break;
+        }
+      }
+      state.terrain[vi] = h;
+    }
+  }
+
+  const newTerrain = new Float32Array(state.terrain);
+  _recomputeTerrainDeformed();
+  applyTerrainToMesh();
+  state.objects.forEach((_, id) => updateObjectHeight(id));
+  updateAllBuriedIndicators();
+
+  if (terrainHeightColorsActive) applyHeightColors();
+  if (terrainDrainageActive) updateDrainageArrows();
+  updateHeightLegend();
+
+  pushCommand({
+    undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); requestRender(); },
+    redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); if (terrainDrainageActive) updateDrainageArrows(); updateHeightLegend(); requestRender(); },
+  });
+  requestRender();
+  const names = { flat: 'Flat', slope: 'Gentle Slope', hill: 'Hill', valley: 'Valley', terraced: 'Terraced', poolslope: 'Pool Slope' };
+  showToast('Terrain preset: ' + (names[presetName] || presetName));
+}
+
+document.querySelectorAll('.terrain-preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.terrain-preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyTerrainPreset(btn.dataset.preset);
+  });
+});
+
+// ============================================================
+// HEIGHT LEGEND / TOPOGRAPHIC COLORING
+// ============================================================
+const heightLegendEl = document.getElementById('terrain-height-legend');
+const heightLegendBarEl = document.getElementById('height-legend-bar');
+const heightLegendLabelsEl = document.getElementById('height-legend-labels');
+
+function heightToColor(t) {
+  t = Math.max(0, Math.min(1, t));
+  let r, g, b;
+  if (t < 0.2) { const k = t / 0.2; r = Math.round(30 + k * 40); g = Math.round(80 + k * 80); b = Math.round(160 + k * 60); }
+  else if (t < 0.4) { const k = (t - 0.2) / 0.2; r = Math.round(70 + k * 30); g = Math.round(160 + k * 60); b = Math.round(220 - k * 120); }
+  else if (t < 0.6) { const k = (t - 0.4) / 0.2; r = Math.round(100 + k * 80); g = Math.round(220 - k * 20); b = Math.round(100 - k * 40); }
+  else if (t < 0.8) { const k = (t - 0.6) / 0.2; r = Math.round(180 + k * 50); g = Math.round(200 - k * 80); b = Math.round(60 - k * 30); }
+  else { const k = (t - 0.8) / 0.2; r = Math.round(230 - k * 40); g = Math.round(120 - k * 40); b = Math.round(30 + k * 10); }
+  return (r << 16) | (g << 8) | b;
+}
+
+function getHeightRange() {
+  if (!state.terrain) return { min: 0, max: 0 };
+  let min = Infinity, max = -Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (state.terrain[i] < min) min = state.terrain[i];
+    if (state.terrain[i] > max) max = state.terrain[i];
+  }
+  if (min === Infinity) return { min: 0, max: 0 };
+  if (max - min < 0.01) { max = min + 0.01; }
+  return { min, max };
+}
+
+function applyHeightColors() {
+  if (!state.terrain) return;
+  const { min, max } = getHeightRange();
+  const range = max - min;
+  const geo = yardMesh.geometry;
+  const pos = geo.attributes.position;
+  if (!geo.attributes.color) {
+    geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(pos.count * 3), 3));
+  }
+  const colors = geo.attributes.color;
+  for (let i = 0; i < pos.count; i++) {
+    const h = pos.getY(i);
+    const t = (h - min) / range;
+    const c = heightToColor(t);
+    colors.setXYZ(i, ((c >> 16) & 0xff) / 255, ((c >> 8) & 0xff) / 255, (c & 0xff) / 255);
+  }
+  colors.needsUpdate = true;
+  yardMesh.material.vertexColors = true;
+  yardMesh.material.needsUpdate = true;
+}
+
+function removeHeightColors() {
+  yardMesh.material.vertexColors = false;
+  yardMesh.material.needsUpdate = true;
+  const geo = yardMesh.geometry;
+  if (geo.attributes.color) { geo.deleteAttribute('color'); }
+}
+
+function updateHeightLegend() {
+  if (!terrainHeightColorsActive || !state.terrain) {
+    heightLegendEl.classList.remove('visible');
+    return;
+  }
+  const { min, max } = getHeightRange();
+  const steps = 6;
+  heightLegendBarEl.innerHTML = '';
+  heightLegendLabelsEl.innerHTML = '';
+  for (let i = steps - 1; i >= 0; i--) {
+    const t = i / (steps - 1);
+    const val = min + t * (max - min);
+    const c = heightToColor(t);
+    const hex = '#' + c.toString(16).padStart(6, '0');
+    const stripe = document.createElement('div');
+    stripe.className = 'height-legend-stripe';
+    stripe.style.background = hex;
+    stripe.textContent = val.toFixed(1);
+    heightLegendBarEl.appendChild(stripe);
+    const label = document.createElement('div');
+    label.className = 'height-legend-label';
+    label.textContent = (i === steps - 1 ? 'High ' : i === 0 ? 'Low ' : '') + val.toFixed(1) + 'ft';
+    heightLegendLabelsEl.appendChild(label);
+  }
+  heightLegendEl.classList.add('visible');
+}
+
+const terrainToggleHeightBtn = document.getElementById('terrain-toggle-height');
+terrainToggleHeightBtn.addEventListener('click', () => {
+  terrainHeightColorsActive = !terrainHeightColorsActive;
+  terrainToggleHeightBtn.classList.toggle('active', terrainHeightColorsActive);
+  if (terrainHeightColorsActive) {
+    applyHeightColors();
+    updateHeightLegend();
+  } else {
+    removeHeightColors();
+    heightLegendEl.classList.remove('visible');
+  }
+  requestRender();
+});
+
+// ============================================================
+// DRAINAGE INDICATOR ARROWS
+// ============================================================
+function updateDrainageArrows() {
+  if (drainageArrowsGroup) {
+    scene.remove(drainageArrowsGroup);
+    drainageArrowsGroup.traverse(obj => {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    });
+    drainageArrowsGroup = null;
+  }
+  if (!terrainDrainageActive || !state.terrain) return;
+
+  drainageArrowsGroup = new THREE.Group();
+  const segs = state.terrainSegs;
+  const w = state.yard.width;
+  const d = state.yard.depth;
+  const halfW = w / 2;
+  const halfD = d / 2;
+  const step = Math.max(2, Math.floor(segs / 15));
+  const arrowMat = new THREE.LineBasicMaterial({ color: 0x2196F3, linewidth: 2 });
+
+  for (let iz = 1; iz < segs; iz += step) {
+    for (let ix = 1; ix < segs; ix += step) {
+      const vi = iz * (segs + 1) + ix;
+      const h = state.terrain[vi];
+      const hRight = state.terrain[vi + 1];
+      const hDown = state.terrain[vi + (segs + 1)];
+      const dx = hRight - h;
+      const dz = hDown - h;
+      const slopeMag = Math.sqrt(dx * dx + dz * dz);
+      if (slopeMag < 0.001) continue;
+      const dirX = -dx / slopeMag;
+      const dirZ = -dz / slopeMag;
+      const wx = (ix / segs) * w - halfW;
+      const wz = (iz / segs) * d - halfD;
+      const arrowLen = Math.min(3, 1 + slopeMag * 2);
+      const tailX = wx - dirX * arrowLen * 0.4;
+      const tailZ = wz - dirZ * arrowLen * 0.4;
+      const tipX = wx + dirX * arrowLen * 0.6;
+      const tipZ = wz + dirZ * arrowLen * 0.6;
+      const y = h + 0.15;
+      const shaftGeo = new THREE.BufferGeometry();
+      shaftGeo.setAttribute('position', new THREE.Float32BufferAttribute([tailX, y, tailZ, tipX, y, tipZ], 3));
+      drainageArrowsGroup.add(new THREE.Line(shaftGeo, arrowMat));
+      const headLen = arrowLen * 0.25;
+      const angle = Math.atan2(dirZ, dirX);
+      const ha1 = angle + Math.PI - 0.4;
+      const ha2 = angle + Math.PI + 0.4;
+      const headGeo = new THREE.BufferGeometry();
+      headGeo.setAttribute('position', new THREE.Float32BufferAttribute([
+        tipX, y, tipZ, tipX + Math.cos(ha1) * headLen, y, tipZ + Math.sin(ha1) * headLen,
+        tipX, y, tipZ, tipX + Math.cos(ha2) * headLen, y, tipZ + Math.sin(ha2) * headLen
+      ], 3));
+      drainageArrowsGroup.add(new THREE.LineSegments(headGeo, arrowMat));
+    }
+  }
+  drainageArrowsGroup.frustumCulled = false;
+  scene.add(drainageArrowsGroup);
+}
+
+const terrainToggleDrainageBtn = document.getElementById('terrain-toggle-drainage');
+terrainToggleDrainageBtn.addEventListener('click', () => {
+  terrainDrainageActive = !terrainDrainageActive;
+  terrainToggleDrainageBtn.classList.toggle('active', terrainDrainageActive);
+  updateDrainageArrows();
+  requestRender();
+});
+
+// ============================================================
+// TERRAIN ANALYSIS SYSTEM
+// Feature 1: Contour Lines / Topographic Map Overlay
+// Feature 2: Slope Analysis Heatmap
+// Feature 3: Cross-Section Profile Tool
+// Feature 4: Cut/Fill Volume Calculator (bonus, from brainstorm)
+// ============================================================
+
+// --- State ---
+let contourOverlay = null;      // THREE.Line group for contour lines
+let contourInterval = 1.0;      // elevation interval in ft
+let contourEnabled = false;
+let slopeOverlay = null;         // THREE.Mesh for slope heatmap
+let slopeEnabled = false;
+let taCrossSectionActive = false;  // drawing mode for cross-section
+let taCrossSectionStart = null;    // first click point
+let taCrossSectionLine = null;     // THREE.Line for the drawn cross-section line
+let taCrossSectionMarker1 = null;  // start marker sphere
+let taCrossSectionMarker2 = null;  // end marker sphere
+let cutFillEnabled = false;
+let originalTerrainMaterial = null; // saved material for restoring
+
+// --- DOM refs ---
+const terrainAnalysisBtn = document.getElementById('terrain-analysis-btn');
+const terrainAnalysisPanel = document.getElementById('terrain-analysis-panel');
+const taContourToggle = document.getElementById('ta-contour-toggle');
+const taContourIntervalInput = document.getElementById('ta-contour-interval');
+const taSlopeToggle = document.getElementById('ta-slope-toggle');
+const taCrossSectionBtn = document.getElementById('ta-crosssection-btn');
+const taCutFillToggle = document.getElementById('ta-cutfill-toggle');
+const taCrossSectionOverlay = document.getElementById('ta-cross-section-overlay');
+const taCrossSectionCloseBtn = document.getElementById('ta-cross-section-close');
+const taCrossSectionCanvas = document.getElementById('ta-cross-section-canvas');
+const taCrossSectionStats = document.getElementById('ta-cross-section-stats');
+const cutFillPanel = document.getElementById('cut-fill-panel');
+const cfCutVal = document.getElementById('cf-cut-val');
+const cfFillVal = document.getElementById('cf-fill-val');
+const cfNetVal = document.getElementById('cf-net-val');
+
+// --- Panel toggle ---
+terrainAnalysisBtn.addEventListener('click', () => {
+  const visible = terrainAnalysisPanel.classList.toggle('visible');
+  terrainAnalysisBtn.classList.toggle('active', visible);
+  terrainAnalysisBtn.setAttribute('aria-pressed', visible);
+});
+
+// ============================================================
+// FEATURE 1: CONTOUR LINES (TOPOGRAPHIC MAP OVERLAY)
+// ============================================================
+// Draws isolines at regular elevation intervals across the terrain.
+// Uses marching-squares-style edge interpolation on the terrain grid.
+
+function buildContourLines() {
+  removeContourLines();
+  if (!state.terrain) return;
+
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const cellW = state.yard.width / segs;
+  const cellD = state.yard.depth / segs;
+  const interval = Math.max(0.1, contourInterval);
+
+  // Find min/max elevation
+  let minH = Infinity, maxH = -Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    const h = state.terrain[i];
+    if (h < minH) minH = h;
+    if (h > maxH) maxH = h;
+  }
+  if (Math.abs(maxH - minH) < 0.01) return; // flat terrain, no contours
+
+  // Generate contour levels
+  const startLevel = Math.ceil(minH / interval) * interval;
+  const levels = [];
+  for (let lvl = startLevel; lvl <= maxH; lvl += interval) {
+    levels.push(Math.round(lvl * 1000) / 1000); // avoid float drift
+  }
+
+  // Build line segments for each level using marching squares
+  const allPoints = [];
+  for (const level of levels) {
+    const segPoints = marchContourLevel(level, segs, cellW, cellD, halfW, halfD);
+    for (const p of segPoints) allPoints.push(p);
+  }
+
+  if (allPoints.length < 6) return; // not enough geometry
+
+  // Create line geometry
+  const geo = new THREE.BufferGeometry();
+  const positions = new Float32Array(allPoints);
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  // Use vertex colors: index contour (every 5th) is darker
+  const colors = new Float32Array(allPoints.length);
+  let segIdx = 0;
+  let levelIdx = 0;
+  for (let i = 0; i < levels.length; i++) {
+    const isIndex = (i % 5 === 0);
+    const r = isIndex ? 0.15 : 0.25;
+    const g = isIndex ? 0.10 : 0.18;
+    const b = isIndex ? 0.05 : 0.08;
+    // Count segments for this level
+    const segPts = marchContourLevel(levels[i], segs, cellW, cellD, halfW, halfD);
+    const numVerts = segPts.length / 3;
+    for (let j = 0; j < numVerts; j++) {
+      colors[(segIdx + j) * 3] = r;
+      colors[(segIdx + j) * 3 + 1] = g;
+      colors[(segIdx + j) * 3 + 2] = b;
+    }
+    segIdx += numVerts;
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.LineBasicMaterial({ vertexColors: true, linewidth: 2 });
+  contourOverlay = new THREE.LineSegments(geo, mat);
+  contourOverlay.renderOrder = 999;
+  contourOverlay.material.depthTest = true;
+  contourOverlay.material.polygonOffset = true;
+  contourOverlay.material.polygonOffsetFactor = -2;
+  scene.add(contourOverlay);
+  requestRender();
+}
+
+function marchContourLevel(level, segs, cellW, cellD, halfW, halfD) {
+  const points = [];
+  const h = (ix, iz) => state.terrain[iz * (segs + 1) + ix] || 0;
+
+  for (let iz = 0; iz < segs; iz++) {
+    for (let ix = 0; ix < segs; ix++) {
+      const h00 = h(ix, iz);
+      const h10 = h(ix + 1, iz);
+      const h11 = h(ix + 1, iz + 1);
+      const h01 = h(ix, iz + 1);
+
+      // World positions of cell corners
+      const x0 = ix * cellW - halfW;
+      const x1 = (ix + 1) * cellW - halfW;
+      const z0 = iz * cellD - halfD;
+      const z1 = (iz + 1) * cellD - halfD;
+
+      // Interpolate where edge crosses level
+      const interp = (ha, hb, xa, xb, za, zb) => {
+        const t = (level - ha) / (hb - ha);
+        if (!isFinite(t) || t < 0 || t > 1) return null;
+        return [xa + t * (xb - xa), level + 0.05, za + t * (zb - za)];
+      };
+
+      // Edge intersections: bottom, right, top, left
+      const eBot = interp(h00, h10, x0, x1, z0, z0);
+      const eRight = interp(h10, h11, x1, x1, z0, z1);
+      const eTop = interp(h01, h11, x0, x1, z1, z1);
+      const eLeft = interp(h00, h01, x0, x0, z0, z1);
+
+      const edges = [eBot, eRight, eTop, eLeft];
+      const valid = edges.filter(e => e !== null);
+
+      if (valid.length === 2) {
+        points.push(...valid[0], ...valid[1]);
+      } else if (valid.length === 4) {
+        // Saddle case - connect pairs based on center value
+        const center = (h00 + h10 + h11 + h01) / 4;
+        if (center > level) {
+          points.push(...valid[0], ...valid[1]);
+          points.push(...valid[2], ...valid[3]);
+        } else {
+          points.push(...valid[0], ...valid[3]);
+          points.push(...valid[1], ...valid[2]);
+        }
+      }
+    }
+  }
+  return points;
+}
+
+function removeContourLines() {
+  if (contourOverlay) {
+    scene.remove(contourOverlay);
+    contourOverlay.geometry.dispose();
+    contourOverlay.material.dispose();
+    contourOverlay = null;
+  }
+}
+
+function updateContourLines() {
+  if (contourEnabled) {
+    buildContourLines();
+  }
+}
+
+// Toggle handler
+taContourToggle.addEventListener('click', () => {
+  contourEnabled = !contourEnabled;
+  taContourToggle.classList.toggle('on', contourEnabled);
+  if (contourEnabled) {
+    buildContourLines();
+    showToast('Contour lines enabled');
+  } else {
+    removeContourLines();
+    showToast('Contour lines disabled');
+  }
+  requestRender();
+});
+
+taContourIntervalInput.addEventListener('change', () => {
+  contourInterval = Math.max(0.1, parseFloat(taContourIntervalInput.value) || 1.0);
+  if (contourEnabled) buildContourLines();
+  requestRender();
+});
+
+// ============================================================
+// FEATURE 2: SLOPE ANALYSIS HEATMAP
+// ============================================================
+// Overlays a color-mapped mesh on the terrain showing slope steepness.
+// Green = flat/ADA accessible, Yellow = gentle, Orange = moderate,
+// Red = steep, Purple = very steep. Critical for drainage and accessibility.
+
+function buildSlopeHeatmap() {
+  removeSlopeHeatmap();
+  if (!state.terrain) return;
+
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const cellW = state.yard.width / segs;
+  const cellD = state.yard.depth / segs;
+
+  // Create a mesh matching the terrain geometry
+  const geo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, segs, segs);
+  geo.rotateX(-Math.PI / 2);
+
+  // Copy terrain heights
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    pos.setY(i, state.terrain[i] + 0.03); // slight offset above terrain
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+
+  // Compute per-vertex slope and assign colors
+  const colors = new Float32Array(pos.count * 3);
+  for (let iz = 0; iz <= segs; iz++) {
+    for (let ix = 0; ix <= segs; ix++) {
+      const vi = iz * (segs + 1) + ix;
+      const h = (x, z) => {
+        const i = getTerrainIndex(x, z);
+        if (!i) return 0;
+        return state.terrain[i.iz * (segs + 1) + i.ix] || 0;
+      };
+
+      // Calculate slope using neighboring heights
+      const wx = ix * cellW - halfW;
+      const wz = iz * cellD - halfD;
+      const hL = h(wx - cellW, wz);
+      const hR = h(wx + cellW, wz);
+      const hD = h(wx, wz - cellD);
+      const hU = h(wx, wz + cellD);
+      const dx = (hR - hL) / (2 * cellW);
+      const dz = (hU - hD) / (2 * cellD);
+      const slope = Math.sqrt(dx * dx + dz * dz); // rise/run
+      const slopePct = slope * 100;
+
+      // Color mapping
+      const c = slopeToColor(slopePct);
+      colors[vi * 3] = c[0];
+      colors[vi * 3 + 1] = c[1];
+      colors[vi * 3 + 2] = c[2];
+    }
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.MeshBasicMaterial({
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.55,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+  });
+  slopeOverlay = new THREE.Mesh(geo, mat);
+  slopeOverlay.renderOrder = 998;
+  scene.add(slopeOverlay);
+  requestRender();
+}
+
+function slopeToColor(slopePct) {
+  // 0-5%: green (flat/ADA), 5-10%: yellow (gentle),
+  // 10-15%: orange (moderate), 15-25%: red (steep), >25%: purple (very steep)
+  if (slopePct < 5) return [0.18, 0.80, 0.44]; // green
+  if (slopePct < 10) return [0.95, 0.77, 0.06]; // yellow
+  if (slopePct < 15) return [0.90, 0.49, 0.13]; // orange
+  if (slopePct < 25) return [0.90, 0.31, 0.20]; // red
+  return [0.56, 0.27, 0.68]; // purple
+}
+
+function removeSlopeHeatmap() {
+  if (slopeOverlay) {
+    scene.remove(slopeOverlay);
+    slopeOverlay.geometry.dispose();
+    slopeOverlay.material.dispose();
+    slopeOverlay = null;
+  }
+}
+
+taSlopeToggle.addEventListener('click', () => {
+  slopeEnabled = !slopeEnabled;
+  taSlopeToggle.classList.toggle('on', slopeEnabled);
+  if (slopeEnabled) {
+    buildSlopeHeatmap();
+    showToast('Slope analysis enabled');
+  } else {
+    removeSlopeHeatmap();
+    showToast('Slope analysis disabled');
+  }
+  requestRender();
+});
+
+// ============================================================
+// FEATURE 3: CROSS-SECTION PROFILE TOOL
+// ============================================================
+// User clicks two points on the terrain. A line is drawn in 3D and
+// an elevation profile graph is rendered on a 2D canvas overlay.
+
+taCrossSectionBtn.addEventListener('click', () => {
+  taCrossSectionActive = !taCrossSectionActive;
+  taCrossSectionBtn.classList.toggle('active', taCrossSectionActive);
+  if (taCrossSectionActive) {
+    taCrossSectionStart = null;
+    removeCrossSectionLine();
+    showHint('Click two points on the terrain to draw a cross-section');
+  } else {
+    hideHint();
+  }
+});
+
+function removeCrossSectionLine() {
+  if (taCrossSectionLine) {
+    scene.remove(taCrossSectionLine);
+    taCrossSectionLine.geometry.dispose();
+    taCrossSectionLine.material.dispose();
+    taCrossSectionLine = null;
+  }
+  if (taCrossSectionMarker1) {
+    scene.remove(taCrossSectionMarker1);
+    taCrossSectionMarker1.geometry.dispose();
+    taCrossSectionMarker1.material.dispose();
+    taCrossSectionMarker1 = null;
+  }
+  if (taCrossSectionMarker2) {
+    scene.remove(taCrossSectionMarker2);
+    taCrossSectionMarker2.geometry.dispose();
+    taCrossSectionMarker2.material.dispose();
+    taCrossSectionMarker2 = null;
+  }
+}
+
+// Hook into viewport pointer for cross-section clicks
+viewport.addEventListener('pointerdown', e => {
+  if (!taCrossSectionActive) return;
+  const point = getGroundPointFromEvent(e);
+  if (!point) return;
+
+  if (!taCrossSectionStart) {
+    // First click - store start point
+    taCrossSectionStart = point.clone();
+    // Show start marker
+    const mGeo = new THREE.SphereGeometry(0.5, 16, 16);
+    const mMat = new THREE.MeshBasicMaterial({ color: 0x2d6a4f });
+    taCrossSectionMarker1 = new THREE.Mesh(mGeo, mMat);
+    taCrossSectionMarker1.position.copy(point);
+    taCrossSectionMarker1.position.y = getTerrainHeight(point.x, point.z) + 0.3;
+    scene.add(taCrossSectionMarker1);
+    showHint('Click a second point to complete the cross-section');
+    requestRender();
+  } else {
+    // Second click - draw line and show profile
+    drawAnalysisCrossSection(taCrossSectionStart, point.clone());
+    taCrossSectionActive = false;
+    taCrossSectionBtn.classList.remove('active');
+    hideHint();
+  }
+  e.stopPropagation();
+}, true);
+
+function drawAnalysisCrossSection(start, end) {
+  removeCrossSectionLine();
+
+  // Sample terrain along the line
+  const numSamples = 100;
+  const samples = [];
+  for (let i = 0; i <= numSamples; i++) {
+    const t = i / numSamples;
+    const x = start.x + (end.x - start.x) * t;
+    const z = start.z + (end.z - start.z) * t;
+    const h = getTerrainHeight(x, z);
+    samples.push({ x, z, h, dist: t * Math.sqrt((end.x - start.x) ** 2 + (end.z - start.z) ** 2) });
+  }
+
+  // Draw 3D line on terrain
+  const lineGeo = new THREE.BufferGeometry();
+  const linePts = [];
+  for (const s of samples) {
+    linePts.push(s.x, s.h + 0.1, s.z);
+  }
+  lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePts, 3));
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x2d6a4f, linewidth: 3 });
+  taCrossSectionLine = new THREE.Line(lineGeo, lineMat);
+  taCrossSectionLine.renderOrder = 1000;
+  scene.add(taCrossSectionLine);
+
+  // End marker
+  const mGeo = new THREE.SphereGeometry(0.5, 16, 16);
+  const mMat = new THREE.MeshBasicMaterial({ color: 0x2d6a4f });
+  taCrossSectionMarker2 = new THREE.Mesh(mGeo, mMat);
+  taCrossSectionMarker2.position.copy(end);
+  taCrossSectionMarker2.position.y = getTerrainHeight(end.x, end.z) + 0.3;
+  scene.add(taCrossSectionMarker2);
+
+  // Draw 2D profile chart
+  drawCrossSectionChart(samples);
+  taCrossSectionOverlay.classList.add('visible');
+  requestRender();
+}
+
+function drawCrossSectionChart(samples) {
+  const ctx = taCrossSectionCanvas.getContext('2d');
+  const W = taCrossSectionCanvas.width;
+  const H = taCrossSectionCanvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const padding = { left: 45, right: 15, top: 12, bottom: 25 };
+  const chartW = W - padding.left - padding.right;
+  const chartH = H - padding.top - padding.bottom;
+
+  // Data range
+  const maxDist = samples[samples.length - 1].dist;
+  let minH = Infinity, maxH = -Infinity;
+  for (const s of samples) {
+    if (s.h < minH) minH = s.h;
+    if (s.h > maxH) maxH = s.h;
+  }
+  // Add padding to height range
+  const hRange = Math.max(0.5, maxH - minH);
+  minH -= hRange * 0.15;
+  maxH += hRange * 0.15;
+
+  // Helper: data to pixel
+  const toX = dist => padding.left + (dist / maxDist) * chartW;
+  const toY = h => padding.top + (1 - (h - minH) / (maxH - minH)) * chartH;
+
+  // Background
+  ctx.fillStyle = '#f8f9fa';
+  ctx.fillRect(padding.left, padding.top, chartW, chartH);
+
+  // Grid lines
+  ctx.strokeStyle = '#e0e0e0';
+  ctx.lineWidth = 0.5;
+  const numHLines = 5;
+  ctx.font = '10px sans-serif';
+  ctx.fillStyle = '#666';
+  ctx.textAlign = 'right';
+  for (let i = 0; i <= numHLines; i++) {
+    const h = minH + (i / numHLines) * (maxH - minH);
+    const y = toY(h);
+    ctx.beginPath();
+    ctx.moveTo(padding.left, y);
+    ctx.lineTo(padding.left + chartW, y);
+    ctx.stroke();
+    ctx.fillText(h.toFixed(1) + ' ft', padding.left - 4, y + 3);
+  }
+
+  // Zero line if in range
+  if (minH < 0 && maxH > 0) {
+    ctx.strokeStyle = '#999';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    const y0 = toY(0);
+    ctx.moveTo(padding.left, y0);
+    ctx.lineTo(padding.left + chartW, y0);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Fill area under curve
+  ctx.beginPath();
+  ctx.moveTo(toX(0), toY(minH));
+  for (const s of samples) {
+    ctx.lineTo(toX(s.dist), toY(s.h));
+  }
+  ctx.lineTo(toX(maxDist), toY(minH));
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartH);
+  grad.addColorStop(0, 'rgba(74,139,92,0.35)');
+  grad.addColorStop(1, 'rgba(74,139,92,0.08)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Profile line
+  ctx.strokeStyle = '#2d6a4f';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i < samples.length; i++) {
+    const x = toX(samples[i].dist);
+    const y = toY(samples[i].h);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // X-axis labels
+  ctx.fillStyle = '#666';
+  ctx.textAlign = 'center';
+  const numXLabels = 5;
+  for (let i = 0; i <= numXLabels; i++) {
+    const dist = (i / numXLabels) * maxDist;
+    const x = toX(dist);
+    ctx.fillText(dist.toFixed(0) + ' ft', x, H - 8);
+  }
+
+  // Compute stats
+  let totalRise = 0, totalRun = 0;
+  let maxSlope = 0;
+  for (let i = 1; i < samples.length; i++) {
+    const dh = Math.abs(samples[i].h - samples[i-1].h);
+    const dd = samples[i].dist - samples[i-1].dist;
+    totalRise += dh;
+    if (dd > 0) {
+      const slope = (dh / dd) * 100;
+      if (slope > maxSlope) maxSlope = slope;
+    }
+  }
+  totalRun = maxDist;
+  const avgSlope = totalRun > 0 ? (totalRise / totalRun) * 100 : 0;
+  const elevChange = samples[samples.length - 1].h - samples[0].h;
+
+  taCrossSectionStats.innerHTML =
+    `<span>Length: <b>${maxDist.toFixed(1)} ft</b></span>` +
+    `<span>Start: <b>${samples[0].h.toFixed(1)} ft</b></span>` +
+    `<span>End: <b>${samples[samples.length - 1].h.toFixed(1)} ft</b></span>` +
+    `<span>Elevation change: <b>${elevChange >= 0 ? '+' : ''}${elevChange.toFixed(2)} ft</b></span>` +
+    `<span>Max slope: <b>${maxSlope.toFixed(1)}%</b></span>` +
+    `<span>Avg slope: <b>${avgSlope.toFixed(1)}%</b></span>`;
+}
+
+taCrossSectionCloseBtn.addEventListener('click', () => {
+  taCrossSectionOverlay.classList.remove('visible');
+  removeCrossSectionLine();
+  taCrossSectionStart = null;
+});
+
+// ============================================================
+// FEATURE 4: CUT/FILL VOLUME CALCULATOR
+// ============================================================
+// Calculates earthwork volume: how much dirt needs to be removed (cut)
+// or added (fill) to return the terrain to flat grade (0 ft elevation).
+// Uses grid cell integration: sum(height * cellArea) for each cell.
+
+function updateCutFillVolume() {
+  if (!state.terrain) {
+    cfCutVal.textContent = '0 yd³';
+    cfFillVal.textContent = '0 yd³';
+    cfNetVal.textContent = '0 yd³';
+    return;
+  }
+
+  const segs = state.terrainSegs;
+  const cellW = state.yard.width / segs;
+  const cellD = state.yard.depth / segs;
+  const cellArea = cellW * cellD; // in square feet
+
+  let cutVol = 0;  // positive height = material above grade = cut
+  let fillVol = 0;  // negative height = void below grade = fill needed
+
+  for (let iz = 0; iz < segs; iz++) {
+    for (let ix = 0; ix < segs; ix++) {
+      // Average height at cell corners
+      const h00 = state.terrain[iz * (segs + 1) + ix] || 0;
+      const h10 = state.terrain[iz * (segs + 1) + ix + 1] || 0;
+      const h01 = state.terrain[(iz + 1) * (segs + 1) + ix] || 0;
+      const h11 = state.terrain[(iz + 1) * (segs + 1) + ix + 1] || 0;
+      const avgH = (h00 + h10 + h01 + h11) / 4;
+
+      if (avgH > 0) {
+        cutVol += avgH * cellArea; // cubic feet
+      } else if (avgH < 0) {
+        fillVol += Math.abs(avgH) * cellArea;
+      }
+    }
+  }
+
+  // Convert cubic feet to cubic yards (1 yd³ = 27 ft³)
+  const cutYd = cutVol / 27;
+  const fillYd = fillVol / 27;
+  const netYd = cutYd - fillYd;
+
+  cfCutVal.textContent = cutYd.toFixed(1) + ' yd³';
+  cfFillVal.textContent = fillYd.toFixed(1) + ' yd³';
+  cfNetVal.textContent = (netYd >= 0 ? '+' : '') + netYd.toFixed(1) + ' yd³';
+}
+
+taCutFillToggle.addEventListener('click', () => {
+  cutFillEnabled = !cutFillEnabled;
+  taCutFillToggle.classList.toggle('on', cutFillEnabled);
+  if (cutFillEnabled) {
+    updateCutFillVolume();
+    cutFillPanel.classList.add('visible');
+    showToast('Cut/fill volume calculator enabled');
+  } else {
+    cutFillPanel.classList.remove('visible');
+    showToast('Cut/fill volume calculator disabled');
+  }
+});
+
+// ============================================================
+// FEATURE 5: WATER FLOW SIMULATION (AI-Discovered Idea)
+// ============================================================
+// Traces simulated water droplets from a grid of starting points,
+// following steepest descent until they reach a local minimum or
+// the terrain boundary. Draws flow paths as blue lines and marks
+// pooling locations with blue circles.
+// Discovery: This emerged from observing the slope heatmap — knowing
+// WHERE slopes are steep isn't enough; users need to know WHERE water
+// actually goes. This is the single most valuable feature for drainage.
+
+let waterFlowOverlay = null;
+let waterFlowEnabled = false;
+const taWaterFlowToggle = document.getElementById('ta-waterflow-toggle');
+
+function buildWaterFlowPaths() {
+  removeWaterFlowPaths();
+  if (!state.terrain) return;
+
+  const segs = state.terrainSegs;
+  const halfW = state.yard.width / 2;
+  const halfD = state.yard.depth / 2;
+  const cellW = state.yard.width / segs;
+  const cellD = state.yard.depth / segs;
+
+  // Launch droplets from a sparse grid
+  const dropletSpacing = Math.max(2, Math.floor(segs / 15));
+  const flowPaths = []; // array of arrays of [x, y, z] points
+  const poolingPoints = []; // [x, y, z] for local minima
+
+  for (let iz = 0; iz <= segs; iz += dropletSpacing) {
+    for (let ix = 0; ix <= segs; ix += dropletSpacing) {
+      const path = traceDroplet(ix, iz, segs, cellW, cellD, halfW, halfD);
+      if (path.length > 2) {
+        flowPaths.push(path);
+        // Check if it ended in a pool (local minimum)
+        const lastPt = path[path.length - 1];
+        const endIx = Math.round((lastPt[0] + halfW) / cellW);
+        const endIz = Math.round((lastPt[2] + halfD) / cellD);
+        if (endIx > 0 && endIx < segs && endIz > 0 && endIz < segs) {
+          // It's an interior point — likely a pool
+          poolingPoints.push(lastPt);
+        }
+      }
+    }
+  }
+
+  if (flowPaths.length === 0) return;
+
+  // Build line geometry for all flow paths
+  const allPoints = [];
+  const allColors = [];
+  for (const path of flowPaths) {
+    for (let i = 0; i < path.length; i++) {
+      allPoints.push(path[i][0], path[i][1], path[i][2]);
+      // Gradient: lighter blue at start, darker at end
+      const t = i / (path.length - 1);
+      allColors.push(0.2 + t * 0.1, 0.4 + t * 0.2, 0.8 + t * 0.15);
+    }
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(allPoints, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(allColors, 3));
+
+  const mat = new THREE.LineBasicMaterial({ vertexColors: true, linewidth: 2, transparent: true, opacity: 0.7 });
+  waterFlowOverlay = new THREE.LineSegments(geo, mat);
+  waterFlowOverlay.renderOrder = 1001;
+  scene.add(waterFlowOverlay);
+
+  // Add pooling markers
+  for (const pt of poolingPoints) {
+    const poolGeo = new THREE.RingGeometry(0.6, 1.0, 16);
+    poolGeo.rotateX(-Math.PI / 2);
+    const poolMat = new THREE.MeshBasicMaterial({ color: 0x2980b9, transparent: true, opacity: 0.6, side: THREE.DoubleSide });
+    const poolMesh = new THREE.Mesh(poolGeo, poolMat);
+    poolMesh.position.set(pt[0], pt[1] + 0.08, pt[2]);
+    poolMesh.renderOrder = 1002;
+    // Attach to the overlay group (we'll use waterFlowOverlay as parent)
+    waterFlowOverlay.add(poolMesh);
+  }
+
+  requestRender();
+}
+
+function traceDroplet(startIx, startIz, segs, cellW, cellD, halfW, halfD) {
+  const path = [];
+  let ix = startIx, iz = startIz;
+  const visited = new Set();
+  const maxSteps = 200;
+
+  for (let step = 0; step < maxSteps; step++) {
+    const wx = ix * cellW - halfW;
+    const wz = iz * cellD - halfD;
+    const h = state.terrain[iz * (segs + 1) + ix] || 0;
+    path.push([wx, h + 0.06, wz]);
+
+    const key = ix + ',' + iz;
+    if (visited.has(key)) break; // loop detection
+    visited.add(key);
+
+    // Find steepest descent neighbor
+    let steepestDir = null;
+    let steepestDrop = 0.001; // minimum drop to continue
+    const currentH = state.terrain[iz * (segs + 1) + ix] || 0;
+
+    for (let dz = -1; dz <= 1; dz++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        if (dx === 0 && dz === 0) continue;
+        const nx = ix + dx, nz = iz + dz;
+        if (nx < 0 || nx > segs || nz < 0 || nz > segs) continue;
+        const nh = state.terrain[nz * (segs + 1) + nx] || 0;
+        const drop = currentH - nh;
+        // Diagonal distance is longer, so normalize
+        const dist = (dx !== 0 && dz !== 0) ? Math.SQRT2 : 1;
+        const normalizedDrop = drop / dist;
+        if (normalizedDrop > steepestDrop) {
+          steepestDrop = normalizedDrop;
+          steepestDir = { dx, dz };
+        }
+      }
+    }
+
+    if (!steepestDir) break; // local minimum reached
+    ix += steepestDir.dx;
+    iz += steepestDir.dz;
+  }
+
+  return path;
+}
+
+function removeWaterFlowPaths() {
+  if (waterFlowOverlay) {
+    // Dispose all children (pooling rings)
+    waterFlowOverlay.traverse(obj => {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    });
+    scene.remove(waterFlowOverlay);
+    waterFlowOverlay = null;
+  }
+}
+
+taWaterFlowToggle.addEventListener('click', () => {
+  waterFlowEnabled = !waterFlowEnabled;
+  taWaterFlowToggle.classList.toggle('on', waterFlowEnabled);
+  if (waterFlowEnabled) {
+    buildWaterFlowPaths();
+    showToast('Water flow simulation enabled');
+  } else {
+    removeWaterFlowPaths();
+    showToast('Water flow simulation disabled');
+  }
+  requestRender();
+});
+
+// ============================================================
+// FEATURE 6: ELEVATION HEATMAP (AI-Discovered Idea)
+// ============================================================
+// Colors the terrain itself by elevation using a blue-green-brown
+// color ramp. This gives a "thermal map" view of terrain height.
+// Discovery: While implementing the slope heatmap, I realized that
+// coloring by ELEVATION (not slope) is a different and complementary
+// view. The slope heatmap shows danger zones; the elevation heatmap
+// shows the overall landform shape at a glance.
+
+let elevHeatmapOverlay = null;
+let elevHeatmapEnabled = false;
+const taElevToggle = document.getElementById('ta-elev-toggle');
+
+function buildElevationHeatmap() {
+  removeElevationHeatmap();
+  if (!state.terrain) return;
+
+  const segs = state.terrainSegs;
+
+  // Find min/max elevation for normalization
+  let minH = Infinity, maxH = -Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    const h = state.terrain[i];
+    if (h < minH) minH = h;
+    if (h > maxH) maxH = h;
+  }
+  if (Math.abs(maxH - minH) < 0.01) return; // flat
+
+  // Create overlay mesh matching terrain
+  const geo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, segs, segs);
+  geo.rotateX(-Math.PI / 2);
+
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    pos.setY(i, state.terrain[i] + 0.02);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+
+  // Per-vertex elevation color
+  const colors = new Float32Array(pos.count * 3);
+  for (let i = 0; i < pos.count; i++) {
+    const h = state.terrain[i] || 0;
+    const t = (h - minH) / (maxH - minH); // 0 to 1
+    const c = elevationToColor(t);
+    colors[i * 3] = c[0];
+    colors[i * 3 + 1] = c[1];
+    colors[i * 3 + 2] = c[2];
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.MeshBasicMaterial({
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.5,
+    side: THREE.DoubleSide,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -1,
+  });
+  elevHeatmapOverlay = new THREE.Mesh(geo, mat);
+  elevHeatmapOverlay.renderOrder = 997;
+  scene.add(elevHeatmapOverlay);
+  requestRender();
+}
+
+function elevationToColor(t) {
+  // Color ramp: deep blue -> light blue -> green -> yellow -> orange -> brown
+  // t = 0 (lowest) to 1 (highest)
+  const stops = [
+    [0.0, [0.12, 0.22, 0.55]],   // deep blue (low)
+    [0.2, [0.25, 0.45, 0.75]],   // light blue
+    [0.4, [0.30, 0.60, 0.40]],   // green
+    [0.6, [0.55, 0.70, 0.25]],   // yellow-green
+    [0.8, [0.75, 0.55, 0.20]],   // orange-brown
+    [1.0, [0.55, 0.40, 0.25]],   // brown (high)
+  ];
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (t >= stops[i][0] && t <= stops[i + 1][0]) {
+      const lt = (t - stops[i][0]) / (stops[i + 1][0] - stops[i][0]);
+      const c0 = stops[i][1], c1 = stops[i + 1][1];
+      return [
+        c0[0] + lt * (c1[0] - c0[0]),
+        c0[1] + lt * (c1[1] - c0[1]),
+        c0[2] + lt * (c1[2] - c0[2]),
+      ];
+    }
+  }
+  return stops[stops.length - 1][1];
+}
+
+function removeElevationHeatmap() {
+  if (elevHeatmapOverlay) {
+    scene.remove(elevHeatmapOverlay);
+    elevHeatmapOverlay.geometry.dispose();
+    elevHeatmapOverlay.material.dispose();
+    elevHeatmapOverlay = null;
+  }
+}
+
+taElevToggle.addEventListener('click', () => {
+  elevHeatmapEnabled = !elevHeatmapEnabled;
+  taElevToggle.classList.toggle('on', elevHeatmapEnabled);
+  if (elevHeatmapEnabled) {
+    buildElevationHeatmap();
+    showToast('Elevation heatmap enabled');
+  } else {
+    removeElevationHeatmap();
+    showToast('Elevation heatmap disabled');
+  }
+  requestRender();
+});
+
+// ============================================================
+// FEATURE 7: BURIED OBJECT GHOST VIEW (AI-Discovered from terrain-viz agent)
+// ============================================================
+// When enabled, scans all objects and checks if terrain has been raised
+// around (but not under) them. Buried objects become semi-transparent red
+// so they're visible even without a cutaway view.
+// Discovery: From terrain-viz agent's E7: "Ghost Mode for Objects — Make
+// buried objects semi-transparent red so they're visible even without cutaway."
+// This is a simpler, always-on alternative to the cutaway slider approach.
+
+let ghostModeEnabled = false;
+let originalMaterials = new Map(); // Store original materials for restoration
+const taGhostToggle = document.getElementById('ta-ghost-toggle');
+
+function isObjectBuriedAnalysis(obj) {
+  if (!state.terrain) return false;
+  const terrainH = getTerrainHeight(obj.position.x, obj.position.z);
+  // Object is buried if terrain around it is higher than its base
+  // Sample terrain at offsets around the object
+  const offsets = [
+    [3, 0], [-3, 0], [0, 3], [0, -3],
+    [2, 2], [-2, 2], [2, -2], [-2, -2]
+  ];
+  let maxSurroundingH = terrainH;
+  for (const [dx, dz] of offsets) {
+    const h = getTerrainHeight(obj.position.x + dx, obj.position.z + dz);
+    if (h > maxSurroundingH) maxSurroundingH = h;
+  }
+  // Buried if surrounding terrain is more than 0.5 ft above object base
+  return maxSurroundingH - obj.position.y > 0.5;
+}
+
+function updateGhostMode() {
+  if (!ghostModeEnabled) {
+    restoreOriginalMaterials();
+    return;
+  }
+  
+  state.objects.forEach((obj, id) => {
+    const group = sceneObjects.get(id);
+    if (!group) return;
+    const buried = isObjectBuried(obj);
+    
+    group.traverse(child => {
+      if (!child.isMesh) return;
+      
+      if (buried) {
+        // Save original material if not already saved
+        if (!originalMaterials.has(child)) {
+          originalMaterials.set(child, {
+            material: child.material,
+            transparent: child.material.transparent,
+            opacity: child.material.opacity,
+            color: child.material.color ? child.material.color.clone() : null,
+          });
+        }
+        // Apply ghost material
+        child.material.transparent = true;
+        child.material.opacity = 0.35;
+        if (child.material.color) {
+          child.material.color.setHex(0xe74c3c); // red
+        }
+        child.material.needsUpdate = true;
+      } else {
+        // Restore if was modified
+        if (originalMaterials.has(child)) {
+          const orig = originalMaterials.get(child);
+          child.material.transparent = orig.transparent;
+          child.material.opacity = orig.opacity;
+          if (orig.color && child.material.color) {
+            child.material.color.copy(orig.color);
+          }
+          child.material.needsUpdate = true;
+          originalMaterials.delete(child);
+        }
+      }
+    });
+  });
+  requestRender();
+}
+
+function restoreOriginalMaterials() {
+  originalMaterials.forEach((orig, child) => {
+    child.material.transparent = orig.transparent;
+    child.material.opacity = orig.opacity;
+    if (orig.color && child.material.color) {
+      child.material.color.copy(orig.color);
+    }
+    child.material.needsUpdate = true;
+  });
+  originalMaterials.clear();
+  requestRender();
+}
+
+taGhostToggle.addEventListener('click', () => {
+  ghostModeEnabled = !ghostModeEnabled;
+  taGhostToggle.classList.toggle('on', ghostModeEnabled);
+  if (ghostModeEnabled) {
+    updateGhostMode();
+    showToast('Buried object ghost view enabled');
+  } else {
+    restoreOriginalMaterials();
+    showToast('Buried object ghost view disabled');
+  }
+  requestRender();
+});
+
+// ============================================================
+// FEATURE 8: BEFORE/AFTER COMPARE (AI-Discovered from terrain-ux agent)
+// ============================================================
+// Press and hold the "Compare" button to temporarily flatten the terrain
+// to see what the yard looked like before sculpting. Release to restore.
+// AI-Discovered from terrain-ux agent's D7: "Add a 'hold to compare'
+// button that temporarily reverts terrain while pressed."
+// This is useful for real estate agents showing hillside lots and for
+// homeowners to see the impact of their terrain modifications.
+
+const taCompareBtn = document.getElementById('ta-compare-btn');
+let compareSavedTerrain = null;
+let compareActive = false;
+
+function startCompare() {
+  if (compareActive) return;
+  if (!state.terrain) return; // nothing to compare if flat
+  compareActive = true;
+  compareSavedTerrain = new Float32Array(state.terrain);
+  // Temporarily flatten terrain
+  state.terrain = null;
+  const geo = yardMesh.geometry;
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    pos.setY(i, 0);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  // Temporarily remove overlays
+  if (contourOverlay) contourOverlay.visible = false;
+  if (slopeOverlay) slopeOverlay.visible = false;
+  if (elevHeatmapOverlay) elevHeatmapOverlay.visible = false;
+  if (waterFlowOverlay) waterFlowOverlay.visible = false;
+  // Update objects to flat height
+  state.objects.forEach((obj, id) => {
+    const group = sceneObjects.get(id);
+    if (group) {
+      obj.position.y = 0;
+      group.position.y = 0;
+    }
+  });
+  taCompareBtn.classList.add('active');
+  taCompareBtn.textContent = 'Release to Restore';
+  requestRender();
+}
+
+function endCompare() {
+  if (!compareActive) return;
+  compareActive = false;
+  // Restore terrain
+  state.terrain = compareSavedTerrain;
+  compareSavedTerrain = null;
+  applyTerrainToMesh();
+  // Restore overlays
+  if (contourOverlay) contourOverlay.visible = true;
+  if (slopeOverlay) slopeOverlay.visible = true;
+  if (elevHeatmapOverlay) elevHeatmapOverlay.visible = true;
+  if (waterFlowOverlay) waterFlowOverlay.visible = true;
+  // Restore object heights
+  state.objects.forEach((obj, id) => updateObjectHeight(id));
+  taCompareBtn.classList.remove('active');
+  taCompareBtn.textContent = 'Hold to Compare (Flat)';
+  requestRender();
+}
+
+// Mouse events
+taCompareBtn.addEventListener('mousedown', e => { e.preventDefault(); startCompare(); });
+taCompareBtn.addEventListener('mouseup', e => { e.preventDefault(); endCompare(); });
+taCompareBtn.addEventListener('mouseleave', () => { if (compareActive) endCompare(); });
+
+// Touch events
+taCompareBtn.addEventListener('touchstart', e => { e.preventDefault(); startCompare(); }, { passive: false });
+taCompareBtn.addEventListener('touchend', e => { e.preventDefault(); endCompare(); }, { passive: false });
+taCompareBtn.addEventListener('touchcancel', () => { if (compareActive) endCompare(); });
+
+// Note: The overlay update hooks are integrated directly into applyTerrainToMesh()
+// above, because ES module scope doesn't allow function reassignment (discovered
+// by terrain-viz agent, E2: ES Module Scope Limitations).
+
+// ============================================================
+
+// ============================================================
+// UNDERGROUND / EXCAVATION VIEW SYSTEM
+// ============================================================
+// Features: Clipping plane cutaway, terrain opacity, wireframe
+// toggle, buried objects indicator, cross-section profile view.
+
+// --- State ---
+let terrainClipPlane = null;       // THREE.Plane for clipping
+let wireframeActive = false;        // wireframe toggle state
+let excavatePanelVisible = false;
+let crossSectionMode = false;       // user is picking cross-section points
+let crossSectionPoints = [];        // array of {x, z} world coords (max 2)
+let crossSectionLineMesh = null;    // visual line in 3D scene
+let crossSectionDotMeshes = [];     // endpoint markers
+
+// --- DOM refs ---
+const excavateBtn = document.getElementById('excavate-btn');
+const excavatePanel = document.getElementById('excavate-panel');
+const excavateCloseBtn = document.getElementById('excavate-close');
+const terrainCutawayInput = document.getElementById('terrain-cutaway');
+const cutawayValEl = document.getElementById('cutaway-val');
+const terrainOpacityInput = document.getElementById('terrain-opacity');
+const opacityValEl = document.getElementById('opacity-val');
+const wireframeToggleBtn = document.getElementById('wireframe-toggle');
+const crossSectionToggleBtn = document.getElementById('cross-section-toggle');
+const crossSectionPanel = document.getElementById('cross-section-panel');
+const csCloseBtn = document.getElementById('cs-close');
+const csCanvas = document.getElementById('cross-section-canvas');
+const csInstruction = document.getElementById('cs-instruction');
+const csInfo = document.getElementById('cs-info');
+const buriedCountEl = document.getElementById('buried-count');
+const buriedListEl = document.getElementById('buried-list');
+
+// --- Panel toggle ---
+excavateBtn.addEventListener('click', () => {
+  excavatePanelVisible = !excavatePanelVisible;
+  excavateBtn.classList.toggle('active', excavatePanelVisible);
+  excavateBtn.setAttribute('aria-pressed', excavatePanelVisible);
+  excavatePanel.classList.toggle('visible', excavatePanelVisible);
+  if (excavatePanelVisible) {
+    updateBuriedObjects();
+  }
+  requestRender();
+});
+
+excavateCloseBtn.addEventListener('click', () => {
+  excavatePanelVisible = false;
+  excavateBtn.classList.remove('active');
+  excavateBtn.setAttribute('aria-pressed', 'false');
+  excavatePanel.classList.remove('visible');
+  requestRender();
+});
+
+// --- 1. CLIPPING PLANE CUTAWAY ---
+terrainCutawayInput.addEventListener('input', e => {
+  const val = parseInt(e.target.value);
+  if (val === 0) {
+    terrainClipPlane = null;
+    if (yardMesh && yardMesh.material) {
+      yardMesh.material.clippingPlanes = [];
+    }
+    cutawayValEl.textContent = 'Full';
+  } else {
+    const maxH = getMaxTerrainHeight();
+    const minH = getMinTerrainHeight();
+    const cutY = maxH + 0.5 - (val / 100) * (maxH - minH + 5.5);
+    terrainClipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
+    if (yardMesh && yardMesh.material) {
+      yardMesh.material.clippingPlanes = [terrainClipPlane];
+    }
+    if (val === 100) {
+      cutawayValEl.textContent = 'Hidden';
+    } else {
+      cutawayValEl.textContent = cutY.toFixed(1) + 'ft';
+    }
+  }
+  yardMesh.material.needsUpdate = true;
+  requestRender();
+});
+
+function getMaxTerrainHeight() {
+  if (!state.terrain) return 0;
+  let max = -Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (state.terrain[i] > max) max = state.terrain[i];
+  }
+  return max === -Infinity ? 0 : max;
+}
+
+function getMinTerrainHeight() {
+  if (!state.terrain) return 0;
+  let min = Infinity;
+  for (let i = 0; i < state.terrain.length; i++) {
+    if (state.terrain[i] < min) min = state.terrain[i];
+  }
+  return min === Infinity ? 0 : min;
+}
+
+// --- 2. TERRAIN OPACITY SLIDER ---
+terrainOpacityInput.addEventListener('input', e => {
+  const val = parseInt(e.target.value);
+  if (yardMesh && yardMesh.material) {
+    yardMesh.material.opacity = val / 100;
+    if (val < 100) {
+      yardMesh.material.transparent = true;
+    }
+  }
+  opacityValEl.textContent = val + '%';
+  requestRender();
+});
+
+// --- 3. WIREFRAME TOGGLE ---
+wireframeToggleBtn.addEventListener('click', () => {
+  wireframeActive = !wireframeActive;
+  wireframeToggleBtn.classList.toggle('active', wireframeActive);
+  wireframeToggleBtn.setAttribute('aria-pressed', wireframeActive);
+  if (yardMesh && yardMesh.material) {
+    yardMesh.material.wireframe = wireframeActive;
+  }
+  requestRender();
+});
+
+// --- 4. BURIED OBJECTS INDICATOR ---
+function getObjectHeightAboveGround(obj) {
+  const cat = CATALOG[obj.type];
+  if (!cat) return 1;
+  let h = 1;
+  if (obj.params) {
+    if (obj.params.height) h = obj.params.height;
+    else if (obj.params.depth && obj.type === 'pool_inground') h = obj.params.depth;
+    else if (obj.params.diameter) h = obj.params.diameter * 0.6;
+  }
+  if (!obj.params || (!obj.params.height && !obj.params.diameter)) {
+    const fp = cat.footprint ? cat.footprint(obj.params) : { w: 2, d: 2 };
+    h = Math.max(fp.w, fp.d) * 0.5;
+  }
+  return Math.max(0.5, h);
+}
+
+function getBuriedObjects() {
+  const buried = [];
+  state.objects.forEach((obj, id) => {
+    const terrainH = getTerrainHeight(obj.position.x, obj.position.z);
+    const objY = obj.position.y;
+    const objHeight = getObjectHeightAboveGround(obj);
+    const objBottom = objY;
+    const objTop = objY + objHeight;
+    const terrainTop = terrainH;
+    if (terrainTop > objBottom + 0.1) {
+      const buriedDepth = terrainTop - objBottom;
+      const fullyBuried = terrainTop > objTop + 0.1;
+      buried.push({
+        id, type: obj.type, name: CATALOG[obj.type]?.name || obj.type,
+        position: { x: obj.position.x, y: objY, z: obj.position.z },
+        terrainHeight: terrainH, buriedDepth, fullyBuried, objHeight,
+      });
+    }
+  });
+  buried.sort((a, b) => b.buriedDepth - a.buriedDepth);
+  return buried;
+}
+
+function updateBuriedObjects() {
+  const buried = getBuriedObjects();
+  buriedCountEl.textContent = buried.length;
+  buriedCountEl.classList.toggle('zero', buried.length === 0);
+  if (buried.length === 0) {
+    buriedListEl.innerHTML = '<div class="buried-empty">No objects buried</div>';
+  } else {
+    let html = '';
+    for (const b of buried) {
+      const dotClass = b.fullyBuried ? 'full' : 'partial';
+      const label = b.fullyBuried ? 'Fully buried' : 'Partially buried';
+      html += `<div class="buried-item" data-obj-id="${b.id}" title="${label}">
+        <div class="buried-dot ${dotClass}"></div>
+        <div class="buried-name">${escHtml(b.name)}</div>
+        <div class="buried-depth">-${b.buriedDepth.toFixed(1)}ft</div>
+      </div>`;
+    }
+    buriedListEl.innerHTML = html;
+    buriedListEl.querySelectorAll('.buried-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const id = parseInt(item.dataset.objId);
+        if (id) selectObject(id);
+      });
+    });
+  }
+}
+
+let _lastTerrainHash = state.terrain ? state.terrain.join(',') : 'null';
+function _checkTerrainChange() {
+  const currentHash = state.terrain ? Array.from(state.terrain).join(',') : 'null';
+  if (currentHash !== _lastTerrainHash) {
+    _lastTerrainHash = currentHash;
+    if (excavatePanelVisible) updateBuriedObjects();
+    if (crossSectionPanel.classList.contains('visible') && crossSectionPoints.length === 2) {
+      drawCrossSection();
+    }
+  }
+}
+
+// --- 5. CROSS-SECTION VIEW ---
+crossSectionToggleBtn.addEventListener('click', () => {
+  crossSectionMode = !crossSectionMode;
+  crossSectionToggleBtn.classList.toggle('active', crossSectionMode);
+  crossSectionToggleBtn.setAttribute('aria-pressed', crossSectionMode);
+  if (crossSectionMode) {
+    crossSectionPanel.classList.add('visible');
+    crossSectionPoints = [];
+    csInstruction.textContent = 'Click two points on the ground to define a cross-section line';
+    csInfo.textContent = '';
+    clearCrossSectionMarkers();
+    drawCrossSection();
+    showHint('Click two points on the ground to define a cross-section line');
+  } else {
+    crossSectionPanel.classList.remove('visible');
+    clearCrossSectionMarkers();
+    hideHint();
+  }
+  requestRender();
+});
+
+csCloseBtn.addEventListener('click', () => {
+  crossSectionPanel.classList.remove('visible');
+  crossSectionMode = false;
+  crossSectionToggleBtn.classList.remove('active');
+  crossSectionToggleBtn.setAttribute('aria-pressed', 'false');
+  clearCrossSectionMarkers();
+  crossSectionPoints = [];
+  hideHint();
+  requestRender();
+});
+
+function clearCrossSectionMarkers() {
+  if (crossSectionLineMesh) {
+    scene.remove(crossSectionLineMesh);
+    crossSectionLineMesh.geometry.dispose();
+    crossSectionLineMesh.material.dispose();
+    crossSectionLineMesh = null;
+  }
+  crossSectionDotMeshes.forEach(d => {
+    scene.remove(d);
+    d.geometry.dispose();
+    d.material.dispose();
+  });
+  crossSectionDotMeshes = [];
+}
+
+function addCrossSectionMarker(point, color) {
+  const geo = new THREE.SphereGeometry(0.8, 16, 16);
+  const mat = new THREE.MeshBasicMaterial({ color: color || 0x5b4a8b });
+  const mesh = new THREE.Mesh(geo, mat);
+  const h = getTerrainHeight(point.x, point.z);
+  mesh.position.set(point.x, h + 0.5, point.z);
+  scene.add(mesh);
+  crossSectionDotMeshes.push(mesh);
+}
+
+function drawCrossSectionLine() {
+  if (crossSectionPoints.length < 2) return;
+  clearCrossSectionMarkers();
+  addCrossSectionMarker(crossSectionPoints[0], 0x5b4a8b);
+  addCrossSectionMarker(crossSectionPoints[1], 0x5b4a8b);
+  const segments = 60;
+  const p0 = crossSectionPoints[0];
+  const p1 = crossSectionPoints[1];
+  const points = [];
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const x = p0.x + (p1.x - p0.x) * t;
+    const z = p0.z + (p1.z - p0.z) * t;
+    const h = getTerrainHeight(x, z);
+    points.push(new THREE.Vector3(x, h + 0.15, z));
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  const mat = new THREE.LineBasicMaterial({ color: 0x5b4a8b, linewidth: 3 });
+  crossSectionLineMesh = new THREE.Line(geo, mat);
+  scene.add(crossSectionLineMesh);
+}
+
+viewport.addEventListener('pointerdown', e => {
+  if (!crossSectionMode) return;
+  if (terrainMode) return;
+  if (e.target.closest('#excavate-panel') || e.target.closest('#cross-section-panel') ||
+      e.target.closest('#view-controls') || e.target.closest('#terrain-controls') ||
+      e.target.closest('#sun-panel')) return;
+  const point = getGroundPointFromEvent(e);
+  if (!point) return;
+  crossSectionPoints.push({ x: point.x, z: point.z });
+  addCrossSectionMarker({ x: point.x, z: point.z }, 0x5b4a8b);
+  if (crossSectionPoints.length === 2) {
+    drawCrossSectionLine();
+    drawCrossSection();
+    csInstruction.textContent = 'Cross-section drawn — click "Cross-Section" to start over';
+    crossSectionMode = false;
+    crossSectionToggleBtn.classList.remove('active');
+    crossSectionToggleBtn.setAttribute('aria-pressed', 'false');
+    hideHint();
+  } else {
+    csInstruction.textContent = 'Now click a second point to complete the cross-section';
+  }
+  requestRender();
+}, true);
+
+function drawCrossSection() {
+  const ctx = csCanvas.getContext('2d');
+  const W = csCanvas.width = csCanvas.clientWidth * (window.devicePixelRatio || 1);
+  const H = csCanvas.height = csCanvas.clientHeight * (window.devicePixelRatio || 1);
+  ctx.clearRect(0, 0, W, H);
+  if (crossSectionPoints.length < 2) {
+    ctx.fillStyle = '#999';
+    ctx.font = `${14 * (window.devicePixelRatio || 1)}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText('Click two points on the ground to see the profile', W / 2, H / 2);
+    return;
+  }
+  const p0 = crossSectionPoints[0];
+  const p1 = crossSectionPoints[1];
+  const dx = p1.x - p0.x;
+  const dz = p1.z - p0.z;
+  const lineLength = Math.sqrt(dx * dx + dz * dz);
+  if (lineLength < 0.1) return;
+  const samples = 100;
+  const profileData = [];
+  let minElev = Infinity, maxElev = -Infinity;
+  for (let i = 0; i <= samples; i++) {
+    const t = i / samples;
+    const x = p0.x + dx * t;
+    const z = p0.z + dz * t;
+    const h = getTerrainHeight(x, z);
+    const dist = t * lineLength;
+    profileData.push({ dist, elev: h, x, z });
+    if (h < minElev) minElev = h;
+    if (h > maxElev) maxElev = h;
+  }
+  const objectData = [];
+  state.objects.forEach((obj, id) => {
+    const ox = obj.position.x - p0.x;
+    const oz = obj.position.z - p0.z;
+    const t = (ox * dx + oz * dz) / (lineLength * lineLength);
+    if (t < -0.05 || t > 1.05) return;
+    const perpDist = Math.abs(ox * dz - oz * dx) / lineLength;
+    if (perpDist > 10) return;
+    const dist = t * lineLength;
+    const objH = getObjectHeightAboveGround(obj);
+    objectData.push({
+      id, name: CATALOG[obj.type]?.name || obj.type, type: obj.type,
+      dist, elev: obj.position.y, height: objH, perpDist,
+      terrainElev: getTerrainHeight(obj.position.x, obj.position.z),
+    });
+  });
+  const dpr = window.devicePixelRatio || 1;
+  const padL = 40 * dpr, padR = 15 * dpr, padT = 15 * dpr, padB = 25 * dpr;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  const elevRange = Math.max(1, maxElev - minElev);
+  const yMin = minElev - elevRange * 0.2 - 2;
+  const yMax = maxElev + elevRange * 0.2 + 2;
+  const xMax = lineLength;
+  function worldToCanvas(dist, elev) {
+    const cx = padL + (dist / xMax) * plotW;
+    const cy = padT + (1 - (elev - yMin) / (yMax - yMin)) * plotH;
+    return [cx, cy];
+  }
+  ctx.strokeStyle = '#ccc';
+  ctx.lineWidth = 1 * dpr;
+  ctx.beginPath();
+  ctx.moveTo(padL, padT); ctx.lineTo(padL, padT + plotH); ctx.lineTo(padL + plotW, padT + plotH);
+  ctx.stroke();
+  ctx.fillStyle = '#666';
+  ctx.font = `${10 * dpr}px sans-serif`;
+  ctx.textAlign = 'right';
+  ctx.fillText(yMax.toFixed(1) + 'ft', padL - 4, padT + 8);
+  ctx.fillText(yMin.toFixed(1) + 'ft', padL - 4, padT + plotH);
+  ctx.textAlign = 'center';
+  ctx.fillText('0ft', padL, padT + plotH + 15 * dpr);
+  ctx.fillText(xMax.toFixed(0) + 'ft', padL + plotW, padT + plotH + 15 * dpr);
+  ctx.fillStyle = 'rgba(107, 138, 74, 0.3)';
+  ctx.beginPath();
+  for (let i = 0; i < profileData.length; i++) {
+    const [cx, cy] = worldToCanvas(profileData[i].dist, profileData[i].elev);
+    if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+  }
+  const [lastCx] = worldToCanvas(profileData[profileData.length - 1].dist, yMin);
+  ctx.lineTo(lastCx, padT + plotH); ctx.lineTo(padL, padT + plotH);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#6b8a4a';
+  ctx.lineWidth = 2.5 * dpr;
+  ctx.beginPath();
+  for (let i = 0; i < profileData.length; i++) {
+    const [cx, cy] = worldToCanvas(profileData[i].dist, profileData[i].elev);
+    if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+  }
+  ctx.stroke();
+  for (const obj of objectData) {
+    const [cx, cy] = worldToCanvas(obj.dist, obj.elev);
+    const isBuried = obj.terrainElev > obj.elev + 0.1;
+    const objRectH = Math.max(4, (obj.height / (yMax - yMin)) * plotH);
+    ctx.fillStyle = isBuried ? '#c0392b' : '#4a8b5c';
+    const rectW = 8 * dpr;
+    ctx.fillRect(cx - rectW / 2, cy - objRectH / 2, rectW, objRectH);
+    ctx.strokeStyle = isBuried ? '#8b2020' : '#2d6b3c';
+    ctx.lineWidth = 1 * dpr;
+    ctx.strokeRect(cx - rectW / 2, cy - objRectH / 2, rectW, objRectH);
+    if (objectData.length <= 8) {
+      ctx.fillStyle = '#333';
+      ctx.font = `${9 * dpr}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(obj.name, cx, cy - objRectH / 2 - 4 * dpr);
+    }
+  }
+  const buriedCount = objectData.filter(o => o.terrainElev > o.elev + 0.1).length;
+  csInfo.textContent = `Length: ${lineLength.toFixed(1)}ft | Elevation: ${minElev.toFixed(1)}–${maxElev.toFixed(1)}ft (Δ${(maxElev - minElev).toFixed(1)}ft) | Objects on line: ${objectData.length} | Buried: ${buriedCount}`;
+}
+
+window.addEventListener('resize', () => {
+  if (crossSectionPanel.classList.contains('visible')) {
+    setTimeout(() => drawCrossSection(), 100);
+  }
+});
+
+// Reset excavation state when terrain is flattened
+const _origFlattenHandler = document.getElementById('terrain-flatten');
+if (_origFlattenHandler) {
+  _origFlattenHandler.addEventListener('click', () => {
+    setTimeout(() => {
+      if (excavatePanelVisible) updateBuriedObjects();
+      if (crossSectionPanel.classList.contains('visible') && crossSectionPoints.length === 2) {
+        drawCrossSection();
+      }
+      if (terrainClipPlane) {
+        terrainCutawayInput.value = 0;
+        terrainClipPlane = null;
+        if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
+        cutawayValEl.textContent = 'Full';
+      }
+    }, 50);
+  });
+}
+
+let _lastObjCount = state.objects.size;
+function _checkObjCountChange() {
+  let changed = false;
+  if (state.objects.size !== _lastObjCount) {
+    _lastObjCount = state.objects.size;
+    changed = true;
+  }
+  if (excavatePanelVisible || (crossSectionPanel.classList.contains('visible') && crossSectionPoints.length === 2)) {
+    _checkTerrainChange();
+  }
+  if (changed && excavatePanelVisible) updateBuriedObjects();
+}
+let _excavateCheckTimer = 0;
+function _excavatePoll() {
+  _checkObjCountChange();
+  _excavateCheckTimer = setTimeout(_excavatePoll, 300);
+}
+_excavatePoll();
+
 // Expose internals for testing
-window._test = { state, CATALOG, scene, sceneObjects, yardMesh, gridHelper, boundaryLines, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; } };
+window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject };
 
 // Try to load autosave
 try {
