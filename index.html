@@ -9,16 +9,42 @@
 :root {
   --bg: #f5f5f0;
   --surface: #ffffff;
-  --primary: #4a8b5c;
-  --primary-dark: #3a6b46;
+  --primary: #3d7549;      /* darkened from #4a8b5c for WCAG AA 4.5:1 contrast on white */
+  --primary-dark: #2f5d3a;
   --secondary: #c97b4f;
   --text: #2d2d2d;
-  --text-muted: #666;
+  --text-muted: #5a5a5a;    /* darkened from #666 for WCAG AA 4.5:1 on white */
   --border: #dcdcdc;
   --shadow: 0 2px 8px rgba(0,0,0,0.08);
   --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
   --radius: 10px;
   --radius-sm: 6px;
+  /* ===== DESIGN SYSTEM (Agent 2) ===== */
+  --panel-padding: 12px;
+  --control-padding: 8px;
+  --font-label: 11px;
+  --font-body: 13px;
+  --font-heading: 15px;
+  --radius-panel: 6px;
+  --radius-button: 4px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --panel-bg: rgba(255,255,255,0.96);
+  --shadow: var(--shadow-sm);
+  --radius-sm: var(--radius-panel);
+  /* Color language */
+  --terrain: #8B5E3C;
+  --terrain-light: #f8f0eb;
+  --water: #3b82c4;
+  --carve: #5b4a8b;
+  --carve-light: #f5f0fa;
+  --sun: #f59e0b;
+  --danger: #c0392b;
+  --analysis: #2d6a4f;
+  /* Z-index hierarchy */
+  --z-overlay: 10;
+  --z-panel: 20;
+  --z-modal: 30;
+  --z-toast: 40;
   --topbar-h: 52px;
   --sidebar-w: 250px;
   --props-w: 270px;
@@ -98,7 +124,7 @@ canvas { display: block; }
 #terrain-btn.active { background: #8B5E3C; color: white; border-color: #8B5E3C; }
 #terrain-btn svg { width: 16px; height: 16px; }
 
-#terrain-controls { position: absolute; bottom: 56px; left: 330px; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 220px; }
+#terrain-controls { position: absolute; bottom: 56px; left: 330px; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 220px; max-height: calc(100vh - 80px); overflow-y: auto; }
 #terrain-controls.visible { display: flex; }
 .terrain-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .terrain-row label { font-weight: 600; white-space: nowrap; }
@@ -109,12 +135,92 @@ canvas { display: block; }
 .terrain-mode-btn.active { background: #8B5E3C; color: white; border-color: #8B5E3C; }
 .terrain-mode-btn:hover:not(.active) { border-color: #8B5E3C; }
 
+/* ===== TOOL DOCK (IA Navigation System) ===== */
+#tool-dock {
+  position: absolute; bottom: 16px; left: 16px; z-index: 20;
+  display: flex; flex-direction: column; gap: 4px;
+  background: rgba(255,255,255,0.95); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 6px; box-shadow: var(--shadow);
+}
+.td-tab {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  border: 1px solid transparent; border-radius: var(--radius-sm);
+  background: none; cursor: pointer; font-size: 12px; font-family: inherit;
+  color: var(--text); transition: all 0.15s; white-space: nowrap; width: 100%;
+  justify-content: flex-start;
+}
+.td-tab:hover { background: #f0f0f0; border-color: var(--border); }
+.td-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+.td-tab.active svg { color: white; }
+.td-tab svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--text); }
+.td-tab .td-label { font-weight: 600; font-size: 11px; }
+.td-group-label {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-muted);
+  padding: 4px 8px 2px; border-top: 1px solid var(--border); margin-top: 2px;
+}
+.td-group-label:first-child { border-top: none; margin-top: 0; padding-top: 0; }
+
+/* Dock panel container — replaces floating panel positions */
+#dock-panel-container {
+  position: absolute; bottom: 16px; left: 120px; z-index: 19;
+  max-height: calc(100% - 80px); display: none;
+}
+#dock-panel-container.visible { display: block; }
+.dock-panel {
+  display: none; max-height: calc(100vh - 100px); overflow-y: auto;
+  background: rgba(255,255,255,0.97); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px;
+  box-shadow: var(--shadow-lg); min-width: 260px; max-width: 340px;
+  position: relative;
+}
+.dock-panel.visible { display: flex; flex-direction: column; gap: 8px; }
+.dock-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border);
+}
+.dock-panel-header .title {
+  font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;
+}
+.dock-panel-header .title svg { width: 16px; height: 16px; }
+.dock-panel-header .close {
+  background: none; border: none; cursor: pointer; font-size: 18px;
+  color: var(--text-muted); padding: 0 4px; line-height: 1;
+}
+.dock-panel-header .close:hover { color: var(--text); }
+
+/* Progressive disclosure accordion for innovation advanced tools */
+.advanced-toggle {
+  display: flex; align-items: center; gap: 6px; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: #f8f8f8; cursor: pointer; font-size: 12px; font-family: inherit;
+  color: var(--text-muted); transition: all 0.15s; width: 100%;
+  justify-content: center; font-weight: 600;
+}
+.advanced-toggle:hover { border-color: var(--primary); background: #f0f5f2; }
+.advanced-toggle .arrow { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.5; }
+.advanced-toggle.expanded .arrow { transform: rotate(180deg); }
+.advanced-section {
+  display: none; flex-direction: column; gap: 8px;
+}
+.advanced-section.visible { display: flex; }
+
+/* Old floating buttons — replaced by dock, hidden but JS-clickable */
+#tape-measure-btn, #terrain-btn, #excavate-btn, #terrain-analysis-btn, #innovation-btn, #sun-btn {
+  display: none !important;
+}
+
+/* Old floating panels hidden — content moved to dock panels */
+#terrain-controls, #excavate-panel, #terrain-analysis-panel, #innovation-panel, #sun-panel {
+  display: none !important;
+}
+
 /* ===== TERRAIN ANALYSIS FEATURES ===== */
 #terrain-analysis-btn { position: absolute; bottom: 16px; left: 480px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; z-index: 11; }
 #terrain-analysis-btn:hover { border-color: var(--primary); background: white; }
 #terrain-analysis-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
 #terrain-analysis-btn svg { width: 16px; height: 16px; }
-#terrain-analysis-panel { position: absolute; bottom: 56px; left: 480px; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 260px; z-index: 60; }
+#terrain-analysis-panel { position: absolute; bottom: 56px; left: 480px; background: rgba(255,255,255,0.95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 260px; z-index: 60; max-height: calc(100vh - 80px); overflow-y: auto; }
 #terrain-analysis-panel.visible { display: flex; }
 .ta-section-title { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
 .ta-section-title:first-child { margin-top: 0; }
@@ -143,7 +249,7 @@ canvas { display: block; }
 #ta-cross-section-stats { display: flex; gap: 12px; padding: 0 12px 10px; font-size: 10px; color: var(--text-muted); flex-wrap: wrap; }
 #ta-cross-section-stats span { white-space: nowrap; }
 #ta-cross-section-stats b { color: var(--text); }
-#cut-fill-panel { position: absolute; top: 60px; right: 280px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 55; min-width: 200px; }
+#cut-fill-panel { position: absolute; top: 16px; right: 330px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 41; min-width: 200px; }
 #cut-fill-panel.visible { display: flex; }
 .cf-header { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); padding: 8px 12px 4px; }
 .cf-row { display: flex; justify-content: space-between; padding: 2px 12px; font-size: 12px; }
@@ -252,7 +358,7 @@ canvas { display: block; }
 #excavate-btn:hover { border-color: var(--primary); background: white; }
 #excavate-btn.active { background: #5b4a8b; color: white; border-color: #5b4a8b; }
 #excavate-btn svg { width: 16px; height: 16px; }
-#excavate-panel { position: absolute; bottom: 56px; left: 460px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 270px; max-width: 320px; z-index: 11; }
+#excavate-panel { position: absolute; bottom: 56px; left: 460px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 270px; max-width: 320px; z-index: 11; max-height: calc(100vh - 80px); overflow-y: auto; }
 #excavate-panel.visible { display: flex; }
 .excavate-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 .excavate-header .title { font-size: 13px; font-weight: 700; color: #5b4a8b; display: flex; align-items: center; gap: 6px; }
@@ -283,7 +389,7 @@ canvas { display: block; }
 #buried-objects-panel .buried-item .buried-name { flex: 1; font-weight: 500; }
 #buried-objects-panel .buried-item .buried-depth { font-weight: 600; color: #c0392b; }
 #buried-objects-panel .buried-empty { font-size: 11px; color: var(--text-muted); padding: 6px 0; text-align: center; }
-#cross-section-panel { position: absolute; top: 16px; right: 16px; z-index: 40; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-lg); font-size: 12px; min-width: 320px; max-width: 420px; display: none; flex-direction: column; gap: 8px; }
+#cross-section-panel { position: absolute; top: 16px; right: 330px; z-index: 42; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-lg); font-size: 12px; min-width: 320px; max-width: 420px; display: none; flex-direction: column; gap: 8px; }
 #cross-section-panel.visible { display: flex; }
 .cs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 .cs-header .title { font-size: 13px; font-weight: 700; color: #5b4a8b; display: flex; align-items: center; gap: 6px; }
@@ -464,12 +570,14 @@ canvas { display: block; }
 .mab-btn.danger { color: #c0392b; }
 
 /* ===== COST ESTIMATOR ===== */
+/* Fix: Cost/Layer/Cross-section panels shared same position — now distinct z-indexes */
 #cost-panel {
-  position: absolute; top: 16px; right: 16px; z-index: 40;
+  position: absolute; top: 16px; right: 16px; z-index: 44;
   background: rgba(255,255,255,0.96); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow-lg);
   font-size: 13px; min-width: 240px; max-width: 300px; display: none;
 }
+#cost-panel.shifted { right: 280px; }
 #cost-panel.visible { display: block; }
 .cost-panel-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -487,7 +595,7 @@ canvas { display: block; }
 
 /* ===== LAYER PANEL ===== */
 #layer-panel {
-  position: absolute; top: 16px; right: 16px; z-index: 40;
+  position: absolute; top: 200px; right: 16px; z-index: 43;
   background: rgba(255,255,255,0.96); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow-lg);
   font-size: 13px; min-width: 200px; display: none;
@@ -520,7 +628,7 @@ canvas { display: block; }
 #sun-btn:hover { border-color: var(--primary); background: white; }
 #sun-btn.active { background: #f59e0b; color: white; border-color: #f59e0b; }
 #sun-btn svg { width: 16px; height: 16px; }
-#sun-panel { position: absolute; bottom: 56px; left: 410px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 250px; z-index: 10; }
+#sun-panel { position: absolute; bottom: 56px; left: 410px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 250px; z-index: 10; max-height: calc(100vh - 80px); overflow-y: auto; }
 #sun-panel.visible { display: flex; }
 .sun-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .sun-row label { font-weight: 600; color: var(--text); white-space: nowrap; }
@@ -574,7 +682,7 @@ canvas { display: block; }
 #innovation-btn.active { background: #2d6a4f; color: white; border-color: #2d6a4f; }
 #innovation-btn svg { width: 16px; height: 16px; }
 
-#innovation-panel { position: absolute; bottom: 56px; left: 530px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 280px; max-width: 340px; z-index: 11; }
+#innovation-panel { position: absolute; bottom: 56px; left: 530px; background: rgba(255,255,255,0.97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 280px; max-width: 340px; z-index: 11; max-height: calc(100vh - 80px); overflow-y: auto; }
 #innovation-panel.visible { display: flex; }
 .innov-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 .innov-header .title { font-size: 13px; font-weight: 700; color: #2d6a4f; display: flex; align-items: center; gap: 6px; }
@@ -686,6 +794,57 @@ canvas { display: block; }
   .excavate-btns button { min-height: 44px; padding: 8px 10px; font-size: 13px; }
 }
 
+/* ===== MOBILE TOOL DOCK ===== */
+@media (max-width: 768px) {
+  #tool-dock { padding: 4px; gap: 2px; }
+  .td-tab { padding: 6px 8px; min-height: 44px; }
+  .td-tab .td-label { display: none; }
+  #tool-dock { width: 52px; }
+  #dock-panel-container { left: 72px; right: 8px; bottom: 72px; }
+  .dock-panel { min-width: 0; max-width: none; }
+  /* Mobile responsive topbar */
+  #topbar { padding: 0 4px; gap: 2px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  #topbar::-webkit-scrollbar { display: none; }
+  .topbar-brand { font-size: 0; flex-shrink: 0; }
+  .topbar-brand svg { width: 22px; height: 22px; margin-right: 2px; }
+  .topbar-spacer { min-width: 0; }
+  .tb-btn { padding: 6px 6px; font-size: 0; flex-shrink: 0; min-height: 44px; }
+  .tb-btn svg { width: 16px; height: 16px; }
+  .view-toggle { flex-shrink: 0; }
+  .view-toggle button { padding: 4px 6px; font-size: 10px; min-height: 44px; }
+  .tb-divider { margin: 0 1px; flex-shrink: 0; }
+  #btn-screenshot, #btn-help { display: none; }
+}
+
+
+/* ===== SPRINT 5: ACCESSIBILITY — FOCUS VISIBLE & TOUCH TARGETS ===== */
+*:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius-sm); }
+*:focus:not(:focus-visible) { outline: none; }
+.tb-btn.primary:focus-visible,
+#sun-btn.active:focus-visible,
+#walk-exit:focus-visible { outline-color: white; outline-offset: 1px; }
+
+/* Mobile touch target minimum sizes — ensure 44x44px minimum */
+@media (max-width: 768px) {
+  .tb-btn { min-height: 44px !important; padding: 8px 12px !important; font-size: 13px !important; }
+  #tape-measure-btn, #terrain-btn, #excavate-btn, #terrain-analysis-btn, #innovation-btn, #sun-btn {
+    min-height: 44px !important; padding: 10px 16px !important; font-size: 14px !important;
+  }
+  .innov-tool-btn { min-height: 44px; padding: 10px 12px; font-size: 13px; }
+  .innov-btns button { min-height: 44px; padding: 10px 8px; font-size: 13px; }
+  .ta-btn { min-height: 44px; padding: 10px 12px; font-size: 13px; }
+  .ta-toggle { width: 44px; height: 26px; }
+  .ta-toggle::after { width: 22px; height: 22px; }
+  .ta-toggle.on::after { transform: translateX(18px); }
+  .ta-contour-interval input { min-height: 44px; font-size: 16px; }
+  .carving-shape-btn { min-height: 44px; padding: 10px 8px; font-size: 13px; }
+  .carving-commit-btn { min-height: 44px !important; padding: 10px 12px !important; font-size: 13px !important; }
+  #carving-clear-btn { min-height: 44px !important; padding: 10px 12px !important; font-size: 13px !important; }
+  .sun-row input[type="number"], .sun-row input[type="date"] { min-height: 44px; font-size: 16px; }
+  .sun-preset { min-height: 36px; padding: 8px 10px; font-size: 12px; }
+  .sun-geo-btn, .sun-play-btn { min-height: 44px; padding: 10px 14px; font-size: 14px; }
+}
+
 </style>
 <script type="importmap">
 {
@@ -729,6 +888,7 @@ canvas { display: block; }
     <button class="tb-btn" id="btn-load" title="Load Design" aria-label="Load design from file">Load</button>
     <button class="tb-btn" id="btn-screenshot" title="Take Screenshot" aria-label="Take screenshot">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Shot
     </button>
     <button class="tb-btn" id="btn-help" title="Help" aria-label="Open help dialog">? Help</button>
     <div class="tb-divider"></div>
@@ -760,6 +920,114 @@ canvas { display: block; }
   <!-- Mobile library toggle button -->
   <button id="mobile-lib-toggle" title="Show object library" aria-label="Show object library">+</button>
   <div id="viewport" role="application" aria-label="3D backyard design canvas">
+    <!-- IA: Tool Dock Navigation System -->
+    <div id="tool-dock" role="toolbar" aria-label="Tool dock">
+      <div class="td-group-label">Sculpt</div>
+      <button class="td-tab" data-dock="terrain" aria-label="Terrain editing tools" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20L8 8L14 14L18 6L22 20Z"/></svg>
+        <span class="td-label">Terrain</span>
+      </button>
+      <button class="td-tab" data-dock="underground" aria-label="Underground excavation tools" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
+        <span class="td-label">Underground</span>
+      </button>
+      <button class="td-tab" data-dock="analyze" aria-label="Terrain analysis tools" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l4-4 4 4 4-8 6 6"/><path d="M3 21h18" stroke-width="1.5"/></svg>
+        <span class="td-label">Analyze</span>
+      </button>
+      <div class="td-group-label">Build</div>
+      <button class="td-tab" data-dock="innovate" aria-label="Pro terrain tools" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+        <span class="td-label">Pro Tools</span>
+      </button>
+      <div class="td-group-label">View</div>
+      <button class="td-tab" data-dock="sun" aria-label="Sun and shadow simulator" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <span class="td-label">Sun & Shadow</span>
+      </button>
+      <button class="td-tab" data-dock="measure" aria-label="Tape measure tool" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
+        <span class="td-label">Measure</span>
+      </button>
+    </div>
+    <!-- Dock panel container — panels get injected here by JS -->
+    <div id="dock-panel-container">
+      <!-- Terrain panel -->
+      <div class="dock-panel" id="dock-terrain">
+        <div class="dock-panel-header">
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20L8 8L14 14L18 6L22 20Z"/></svg>
+            Terrain Sculpting
+          </div>
+          <button class="close" data-dock-close aria-label="Close panel">&times;</button>
+        </div>
+        <div id="dock-terrain-content"></div>
+      </div>
+      <!-- Underground panel -->
+      <div class="dock-panel" id="dock-underground">
+        <div class="dock-panel-header">
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
+            Underground View
+          </div>
+          <button class="close" data-dock-close aria-label="Close panel">&times;</button>
+        </div>
+        <div id="dock-underground-content"></div>
+      </div>
+      <!-- Analyze panel -->
+      <div class="dock-panel" id="dock-analyze">
+        <div class="dock-panel-header">
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l4-4 4 4 4-8 6 6"/><path d="M3 21h18" stroke-width="1.5"/></svg>
+            Terrain Analysis
+          </div>
+          <button class="close" data-dock-close aria-label="Close panel">&times;</button>
+        </div>
+        <div id="dock-analyze-content"></div>
+      </div>
+      <!-- Innovate panel -->
+      <div class="dock-panel" id="dock-innovate">
+        <div class="dock-panel-header">
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
+            Pro Terrain Tools
+          </div>
+          <button class="close" data-dock-close aria-label="Close panel">&times;</button>
+        </div>
+        <div id="dock-innovate-content"></div>
+      </div>
+      <!-- Sun panel -->
+      <div class="dock-panel" id="dock-sun">
+        <div class="dock-panel-header">
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            Sun & Shadow
+          </div>
+          <button class="close" data-dock-close aria-label="Close panel">&times;</button>
+        </div>
+        <div id="dock-sun-content"></div>
+      </div>
+      <!-- Measure panel -->
+      <div class="dock-panel" id="dock-measure">
+        <div class="dock-panel-header">
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
+            Measure
+          </div>
+          <button class="close" data-dock-close aria-label="Close panel">&times;</button>
+        </div>
+        <div id="dock-measure-content">
+          <button class="innov-tool-btn" id="dock-tape-toggle" style="width:100%;">
+            <div>
+              <div>Tape Measure</div>
+              <div class="innov-desc">Click two points to measure distance</div>
+            </div>
+          </button>
+          <div class="innov-info" id="dock-measure-hint">Click the button, then click two points on the ground to measure the distance between them.</div>
+        </div>
+      </div>
+    </div>
+    <!-- IA: End Tool Dock -->
     <!-- Sprint 4: Grid level badge — shows when grid is not at Y=0 -->
     <div class="viewport-overlay" id="grid-level-badge"><span class="badge-icon">\u2B06</span>Grid at Y=<span id="grid-level-badge-val">0</span> ft</div>
     <!-- Sprint 4: Depth gauge overlay — shows camera depth when underground -->
@@ -807,13 +1075,13 @@ canvas { display: block; }
       </div>
       <div class="terrain-row">
         <label>Brush Size</label>
-        <input type="range" id="terrain-brush-size" min="3" max="30" value="8" step="1">
+        <input type="range" id="terrain-brush-size" min="3" max="30" value="8" step="1" aria-label="Terrain brush size in feet">
         <span class="terrain-val" id="terrain-brush-val">8 ft</span>
       </div>
       <div class="terrain-strength-section">
         <div class="terrain-row">
           <label>Strength</label>
-          <input type="range" id="terrain-strength" min="0.01" max="1.0" value="0.05" step="0.01">
+          <input type="range" id="terrain-strength" min="0.01" max="1.0" value="0.05" step="0.01" aria-label="Terrain brush strength">
           <span class="terrain-val" id="terrain-strength-val">0.05</span>
         </div>
         <div class="strength-labels">
@@ -837,7 +1105,7 @@ canvas { display: block; }
       <div class="grid-level-section">
         <div class="grid-level-label">Grid Level (Ground Plane)</div>
         <div class="grid-level-row">
-          <input type="range" id="grid-level-slider" min="-30" max="30" value="0" step="1">
+          <input type="range" id="grid-level-slider" min="-30" max="30" value="0" step="1" aria-label="Grid level ground plane elevation in feet">
           <span class="grid-level-val" id="grid-level-val">0 ft</span>
         </div>
         <div class="grid-level-hint">
@@ -871,12 +1139,12 @@ canvas { display: block; }
       </div>
       <div class="terrain-row" id="carve-size-row" style="display: none;">
         <label>Carve Size</label>
-        <input type="range" id="carve-size-slider" min="3" max="30" value="8" step="1">
+        <input type="range" id="carve-size-slider" min="3" max="30" value="8" step="1" aria-label="Carve shape size in feet">
         <span class="terrain-val" id="carve-size-val">8 ft</span>
       </div>
       <div class="terrain-row" id="carve-depth-row" style="display: none;">
         <label>Carve Depth</label>
-        <input type="range" id="carve-depth-slider" min="2" max="30" value="10" step="1">
+        <input type="range" id="carve-depth-slider" min="2" max="30" value="10" step="1" aria-label="Carve shape depth in feet">
         <span class="terrain-val" id="carve-depth-val">10 ft</span>
       </div>
       <div id="carve-hint" style="font-size: 10px; color: var(--text-muted); display: none;">
@@ -905,26 +1173,26 @@ canvas { display: block; }
         <div class="carving-controls">
           <div class="carving-row">
             <label>Depth</label>
-            <input type="range" id="carving-depth" min="1" max="20" value="5" step="1">
+            <input type="range" id="carving-depth" min="1" max="20" value="5" step="1" aria-label="Carving depth in feet">
             <span class="carving-val" id="carving-depth-val">5 ft</span>
           </div>
           <div class="carving-row">
             <label>Width</label>
-            <input type="range" id="carving-width" min="3" max="30" value="10" step="1">
+            <input type="range" id="carving-width" min="3" max="30" value="10" step="1" aria-label="Carving width in feet">
             <span class="carving-val" id="carving-width-val">10 ft</span>
           </div>
           <div class="carving-row">
             <label>Length</label>
-            <input type="range" id="carving-length" min="3" max="50" value="15" step="1">
+            <input type="range" id="carving-length" min="3" max="50" value="15" step="1" aria-label="Carving length in feet">
             <span class="carving-val" id="carving-length-val">15 ft</span>
           </div>
         </div>
         <div class="carving-hint" id="carving-hint">Select a shape, then click on the ground where you want to carve. A preview shows the shape before you commit.</div>
         <div class="carving-preview-info" id="carving-preview-info" style="display:none;"></div>
         <div style="display:flex; gap:4px;">
-          <button class="carving-commit-btn" id="carving-commit-btn" disabled>Click ground first</button>
+          <button class="carving-commit-btn" id="carving-commit-btn" disabled aria-label="Commit carving to terrain">Click ground first</button>
         </div>
-        <button id="carving-clear-btn" title="Reset all terrain to flat (clears all carvings)">Clear All Carvings</button>
+        <button id="carving-clear-btn" title="Reset all terrain to flat (clears all carvings)" aria-label="Clear all terrain carvings">Clear All Carvings</button>
       </div>
       <div class="terrain-row">
         <label>Presets</label>
@@ -941,10 +1209,10 @@ canvas { display: block; }
         <label>Overlays</label>
       </div>
       <div class="terrain-overlay-row">
-        <button class="terrain-toggle-btn" id="terrain-toggle-height">Height Colors</button>
-        <button class="terrain-toggle-btn" id="terrain-toggle-drainage">Drainage</button>
+        <button class="terrain-toggle-btn" id="terrain-toggle-height" aria-label="Toggle height color overlay">Height Colors</button>
+        <button class="terrain-toggle-btn" id="terrain-toggle-drainage" aria-label="Toggle drainage overlay">Drainage</button>
       </div>
-      <button id="terrain-flatten">Flatten All Terrain</button>
+      <button id="terrain-flatten" aria-label="Flatten all terrain to zero elevation">Flatten All Terrain</button>
     </div>
     <!-- Height legend color bar -->
     <div id="terrain-height-legend">
@@ -969,21 +1237,21 @@ canvas { display: block; }
       </div>
       <div class="excavate-row">
         <label>Cutaway</label>
-        <input type="range" id="terrain-cutaway" min="0" max="100" value="0" step="1">
+        <input type="range" id="terrain-cutaway" min="0" max="100" value="0" step="1" aria-label="Terrain cutaway amount percentage">
         <span class="excavate-val" id="cutaway-val">Full</span>
       </div>
       <div class="excavate-row">
         <label>Opacity</label>
-        <input type="range" id="terrain-opacity" min="15" max="100" value="100" step="1">
+        <input type="range" id="terrain-opacity" min="15" max="100" value="100" step="1" aria-label="Terrain opacity percentage">
         <span class="excavate-val" id="opacity-val">100%</span>
       </div>
       <div class="excavate-divider"></div>
       <div class="excavate-btns">
-        <button id="wireframe-toggle" aria-pressed="false">
+        <button id="wireframe-toggle" aria-pressed="false" aria-label="Toggle wireframe view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z M3 9h18 M3 15h18 M9 3v18 M15 3v18"/></svg>
           Wireframe
         </button>
-        <button id="cross-section-toggle" aria-pressed="false">
+        <button id="cross-section-toggle" aria-pressed="false" aria-label="Toggle cross-section view">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20 M12 2v20"/><path d="M5 7l7-5 7 5"/></svg>
           Cross-Section
         </button>
@@ -1031,17 +1299,17 @@ canvas { display: block; }
       <div class="ta-section-title">Contour Lines</div>
       <div class="ta-toggle-row">
         <label for="ta-contour-toggle">Show Contours</label>
-        <div class="ta-toggle" id="ta-contour-toggle"></div>
+        <div class="ta-toggle" id="ta-contour-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Show contour lines"></div>
       </div>
       <div class="ta-contour-interval">
         <label>Interval:</label>
-        <input type="number" id="ta-contour-interval" value="1.0" min="0.1" max="10" step="0.1"> ft
+        <input type="number" id="ta-contour-interval" value="1.0" min="0.1" max="10" step="0.1" aria-label="Contour line interval in feet"> ft
       </div>
       <div class="ta-info">Topographic lines at fixed elevation intervals</div>
       <div class="ta-section-title">Slope Analysis</div>
       <div class="ta-toggle-row">
         <label for="ta-slope-toggle">Slope Heatmap</label>
-        <div class="ta-toggle" id="ta-slope-toggle"></div>
+        <div class="ta-toggle" id="ta-slope-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Show slope heatmap"></div>
       </div>
       <div class="ta-slope-legend">
         <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#2ecc71"></div> 0–5% (flat, ADA accessible)</div>
@@ -1051,34 +1319,34 @@ canvas { display: block; }
         <div class="ta-slope-legend-item"><div class="ta-slope-legend-swatch" style="background:#8e44ad"></div> >25% (very steep, unsafe)</div>
       </div>
       <div class="ta-section-title">Cross-Section Profile</div>
-      <button class="ta-btn" id="ta-crosssection-btn">Draw Cross-Section Line</button>
+      <button class="ta-btn" id="ta-crosssection-btn" aria-label="Draw cross-section line on terrain">Draw Cross-Section Line</button>
       <div class="ta-info">Click two points on terrain to see elevation profile with stats</div>
       <div class="ta-section-title">Cut/Fill Volume</div>
       <div class="ta-toggle-row">
         <label for="ta-cutfill-toggle">Show Volume</label>
-        <div class="ta-toggle" id="ta-cutfill-toggle"></div>
+        <div class="ta-toggle" id="ta-cutfill-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Show cut and fill volume"></div>
       </div>
       <div class="ta-info">Earth volume relative to flat grade (0 ft)</div>
       <div class="ta-section-title">Water Flow Simulation</div>
       <div class="ta-toggle-row">
         <label for="ta-waterflow-toggle">Show Flow Paths</label>
-        <div class="ta-toggle" id="ta-waterflow-toggle"></div>
+        <div class="ta-toggle" id="ta-waterflow-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Show water flow simulation"></div>
       </div>
       <div class="ta-info">Traces water droplets downhill to reveal drainage paths and pooling areas</div>
       <div class="ta-section-title">Elevation Heatmap</div>
       <div class="ta-toggle-row">
         <label for="ta-elev-toggle">Color by Height</label>
-        <div class="ta-toggle" id="ta-elev-toggle"></div>
+        <div class="ta-toggle" id="ta-elev-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Color terrain by elevation"></div>
       </div>
       <div class="ta-info">Colors terrain by elevation: blue=low, green=mid, brown=high</div>
       <div class="ta-section-title">Buried Object Ghost View</div>
       <div class="ta-toggle-row">
         <label for="ta-ghost-toggle">Highlight Buried Objects</label>
-        <div class="ta-toggle" id="ta-ghost-toggle"></div>
+        <div class="ta-toggle" id="ta-ghost-toggle" role="switch" aria-checked="false" tabindex="0" aria-label="Highlight buried objects"></div>
       </div>
       <div class="ta-info">Makes objects buried by terrain semi-transparent red</div>
       <div class="ta-section-title">Before/After Compare</div>
-      <button class="ta-btn" id="ta-compare-btn">Hold to Compare (Flat)</button>
+      <button class="ta-btn" id="ta-compare-btn" aria-label="Hold to compare terrain with flat view">Hold to Compare (Flat)</button>
       <div class="ta-info">Press and hold to temporarily view terrain as flat</div>
     </div>
     <!-- Cross-section profile overlay (analysis) -->
@@ -1134,17 +1402,17 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Pool Width</label>
-        <input type="range" id="innov-pool-width" min="8" max="30" value="16" step="1">
+        <input type="range" id="innov-pool-width" min="8" max="30" value="16" step="1" aria-label="Pool width in feet">
         <span class="innov-val" id="innov-pool-width-val">16 ft</span>
       </div>
       <div class="innov-row">
         <label>Pool Length</label>
-        <input type="range" id="innov-pool-length" min="12" max="40" value="24" step="1">
+        <input type="range" id="innov-pool-length" min="12" max="40" value="24" step="1" aria-label="Pool length in feet">
         <span class="innov-val" id="innov-pool-length-val">24 ft</span>
       </div>
       <div class="innov-row">
         <label>Depth</label>
-        <input type="range" id="innov-pool-depth" min="3" max="12" value="6" step="0.5">
+        <input type="range" id="innov-pool-depth" min="3" max="12" value="6" step="0.5" aria-label="Pool depth in feet">
         <span class="innov-val" id="innov-pool-depth-val">6 ft</span>
       </div>
       <div class="innov-info">Click on terrain to auto-excavate a rounded-rect pool depression.</div>
@@ -1162,17 +1430,17 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Target Height</label>
-        <input type="range" id="innov-flatten-height" min="-10" max="15" value="0" step="0.5">
+        <input type="range" id="innov-flatten-height" min="-10" max="15" value="0" step="0.5" aria-label="Flatten target height in feet">
         <span class="innov-val" id="innov-flatten-height-val">0.0 ft</span>
       </div>
       <div class="innov-row">
         <label>Brush Radius</label>
-        <input type="range" id="innov-flatten-radius" min="3" max="30" value="10" step="1">
+        <input type="range" id="innov-flatten-radius" min="3" max="30" value="10" step="1" aria-label="Flatten brush radius in feet">
         <span class="innov-val" id="innov-flatten-radius-val">10 ft</span>
       </div>
       <div class="innov-row">
         <label>Edge Blend</label>
-        <input type="range" id="innov-flatten-blend" min="0" max="100" value="50" step="5">
+        <input type="range" id="innov-flatten-blend" min="0" max="100" value="50" step="5" aria-label="Flatten edge blend percentage">
         <span class="innov-val" id="innov-flatten-blend-val">50%</span>
       </div>
       <div class="innov-info">Click and drag on terrain to set it to the exact target height.</div>
@@ -1198,8 +1466,8 @@ canvas { display: block; }
 
       <div class="innov-divider"></div>
 
-      <!-- AI-Discovered: Precision Slope Tool -->
-      <div class="innov-section-title">AI-Discovered: Precision Slope</div>
+      <!-- Precision Slope Tool -->
+      <div class="innov-section-title">Precision Slope</div>
       <button class="innov-tool-btn" id="innov-slope-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20L21 4M3 20h18M3 20V4"/><path d="M7 16l4-4" stroke-width="1.5"/></svg>
         <div>
@@ -1209,12 +1477,12 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Slope %</label>
-        <input type="range" id="innov-slope-pct" min="1" max="15" value="5" step="0.5">
+        <input type="range" id="innov-slope-pct" min="1" max="15" value="5" step="0.5" aria-label="Slope percentage">
         <span class="innov-val" id="innov-slope-pct-val">5.0%</span>
       </div>
       <div class="innov-row">
         <label>Blend Width</label>
-        <input type="range" id="innov-slope-blend" min="5" max="40" value="15" step="1">
+        <input type="range" id="innov-slope-blend" min="5" max="40" value="15" step="1" aria-label="Slope blend width in feet">
         <span class="innov-val" id="innov-slope-blend-val">15 ft</span>
       </div>
       <div class="innov-info">Click two points on terrain. Creates an exact grade between them at the specified slope %.</div>
@@ -1222,7 +1490,7 @@ canvas { display: block; }
       <div class="innov-divider"></div>
 
       <!-- AI-Discovered: Terrain Statistics Dashboard -->
-      <div class="innov-section-title">AI-Discovered: Terrain Stats</div>
+      <div class="innov-section-title">Terrain Stats</div>
       <button class="innov-tool-btn" id="innov-stats-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 4 3 5-6"/></svg>
         <div>
@@ -1235,7 +1503,7 @@ canvas { display: block; }
       <div class="innov-divider"></div>
 
       <!-- AI-Discovered: Retaining Wall Auto-Generation -->
-      <div class="innov-section-title">AI-Discovered: Auto Retaining Wall</div>
+      <div class="innov-section-title">Auto Retaining Wall</div>
       <button class="innov-tool-btn" id="innov-retwall-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M5 18V8M9 18V10M13 18V6M17 18V12M21 18V4"/><path d="M3 14h18" stroke-width="1" stroke-dasharray="3 2"/></svg>
         <div>
@@ -1245,7 +1513,7 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Threshold</label>
-        <input type="range" id="innov-retwall-thresh" min="10" max="35" value="15" step="1">
+        <input type="range" id="innov-retwall-thresh" min="10" max="35" value="15" step="1" aria-label="Retaining wall slope threshold percentage">
         <span class="innov-val" id="innov-retwall-thresh-val">15%</span>
       </div>
       <div class="innov-info">Analyzes terrain for slopes exceeding threshold and generates retaining wall outlines.</div>
@@ -1257,7 +1525,7 @@ canvas { display: block; }
       <div class="innov-divider"></div>
 
       <!-- S4 Innovation: Underground Structure Generator -->
-      <div class="innov-section-title">S4: Underground Structure Generator</div>
+      <div class="innov-section-title">Underground Structure Generator</div>
       <button class="innov-tool-btn" id="innov-ugstruct-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6M9 12h6"/></svg>
         <div>
@@ -1276,17 +1544,17 @@ canvas { display: block; }
       </div>
       <div class="innov-row">
         <label>Width</label>
-        <input type="range" id="innov-ugstruct-width" min="6" max="30" value="12" step="1">
+        <input type="range" id="innov-ugstruct-width" min="6" max="30" value="12" step="1" aria-label="Underground structure width in feet">
         <span class="innov-val" id="innov-ugstruct-width-val">12 ft</span>
       </div>
       <div class="innov-row">
         <label>Length</label>
-        <input type="range" id="innov-ugstruct-length" min="6" max="30" value="16" step="1">
+        <input type="range" id="innov-ugstruct-length" min="6" max="30" value="16" step="1" aria-label="Underground structure length in feet">
         <span class="innov-val" id="innov-ugstruct-length-val">16 ft</span>
       </div>
       <div class="innov-row">
         <label>Depth</label>
-        <input type="range" id="innov-ugstruct-depth" min="4" max="15" value="8" step="0.5">
+        <input type="range" id="innov-ugstruct-depth" min="4" max="15" value="8" step="0.5" aria-label="Underground structure depth in feet">
         <span class="innov-val" id="innov-ugstruct-depth-val">8.0 ft</span>
       </div>
       <div class="innov-info">Click on terrain to carve an underground room. Use cutaway view to see inside.</div>
@@ -1297,7 +1565,7 @@ canvas { display: block; }
       <div class="innov-divider"></div>
 
       <!-- S4 Innovation: Geological Layer Visualization -->
-      <div class="innov-section-title">S4: Geological Layers</div>
+      <div class="innov-section-title">Geological Layers</div>
       <button class="innov-tool-btn" id="innov-geolayer-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M2 8h20M2 16h20M2 4h20M2 20h20"/><path d="M4 4v16M20 4v16" stroke-width="1"/></svg>
         <div>
@@ -1307,17 +1575,17 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Topsoil Depth</label>
-        <input type="range" id="innov-geolayer-topsoil" min="0.5" max="5" value="2" step="0.5">
+        <input type="range" id="innov-geolayer-topsoil" min="0.5" max="5" value="2" step="0.5" aria-label="Topsoil layer thickness in feet">
         <span class="innov-val" id="innov-geolayer-topsoil-val">2.0 ft</span>
       </div>
       <div class="innov-row">
         <label>Clay Depth</label>
-        <input type="range" id="innov-geolayer-clay" min="2" max="15" value="8" step="0.5">
+        <input type="range" id="innov-geolayer-clay" min="2" max="15" value="8" step="0.5" aria-label="Clay layer thickness in feet">
         <span class="innov-val" id="innov-geolayer-clay-val">8.0 ft</span>
       </div>
       <div class="innov-row">
         <label>Sandstone Depth</label>
-        <input type="range" id="innov-geolayer-sandstone" min="5" max="25" value="15" step="0.5">
+        <input type="range" id="innov-geolayer-sandstone" min="5" max="25" value="15" step="0.5" aria-label="Sandstone layer thickness in feet">
         <span class="innov-val" id="innov-geolayer-sandstone-val">15.0 ft</span>
       </div>
       <div class="innov-info">Toggles geological layer coloring on the solid earth mesh. Use cutaway to see layers.</div>
@@ -1328,7 +1596,7 @@ canvas { display: block; }
       <div class="innov-divider"></div>
 
       <!-- S4 Innovation: Excavation Volume Calculator -->
-      <div class="innov-section-title">S4: Excavation Volume Calculator</div>
+      <div class="innov-section-title">Excavation Volume Calculator</div>
       <button class="innov-tool-btn" id="innov-volcalc-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V4h6v4M5 12h14"/></svg>
         <div>
@@ -1342,8 +1610,8 @@ canvas { display: block; }
 
       <div class="innov-divider"></div>
 
-      <!-- S4 AI-Discovered: Exploded View -->
-      <div class="innov-section-title">S4 AI-Discovered: Exploded View</div>
+      <!-- Exploded View -->
+      <div class="innov-section-title">Exploded View</div>
       <button class="innov-tool-btn" id="innov-exploded-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M12 16v6M12 8l-3 3M12 8l3 3M12 16l-3-3M12 16l3-3"/><circle cx="12" cy="12" r="2"/></svg>
         <div>
@@ -1353,15 +1621,15 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Lift Amount</label>
-        <input type="range" id="innov-exploded-amount" min="0" max="50" value="20" step="1">
+        <input type="range" id="innov-exploded-amount" min="0" max="50" value="20" step="1" aria-label="Exploded view separation amount">
         <span class="innov-val" id="innov-exploded-amount-val">20 ft</span>
       </div>
       <div class="innov-info">Animates terrain surface upward to reveal underground features. Slide to control separation.</div>
 
       <div class="innov-divider"></div>
 
-      <!-- S4 AI-Discovered: Water Table -->
-      <div class="innov-section-title">S4 AI-Discovered: Water Table</div>
+      <!-- Water Table -->
+      <div class="innov-section-title">Water Table</div>
       <button class="innov-tool-btn" id="innov-watertable-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M2 18c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/><path d="M12 2v6M12 8l-2-2M12 8l2-2" stroke-width="1.5"/></svg>
         <div>
@@ -1371,7 +1639,7 @@ canvas { display: block; }
       </button>
       <div class="innov-row">
         <label>Water Table Depth</label>
-        <input type="range" id="innov-watertable-depth" min="2" max="30" value="10" step="0.5">
+        <input type="range" id="innov-watertable-depth" min="2" max="30" value="10" step="0.5" aria-label="Water table depth in feet">
         <span class="innov-val" id="innov-watertable-depth-val">10.0 ft</span>
       </div>
       <div class="innov-info">Shows a semi-transparent blue plane at the water table depth. Excavations below it trigger warnings.</div>
@@ -1382,7 +1650,7 @@ canvas { display: block; }
       <div class="innov-divider"></div>
 
       <!-- S4 AI-Discovered: Underground Ghost Preview -->
-      <div class="innov-section-title">S4 AI-Discovered: Ghost Preview</div>
+      <div class="innov-section-title">Ghost Preview</div>
       <button class="innov-tool-btn" id="innov-ghostpreview-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9-5 9 5v8l-9 5-9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8" stroke-width="1.5"/></svg>
         <div>
@@ -1403,29 +1671,29 @@ canvas { display: block; }
     <div class="viewport-overlay" id="sun-panel">
       <div class="sun-row">
         <label>Location</label>
-        <button class="sun-geo-btn" id="sun-geo">Use My Location</button>
+        <button class="sun-geo-btn" id="sun-geo" aria-label="Use my current location for sun simulation">Use My Location</button>
       </div>
       <div class="sun-row">
         <label>Latitude</label>
-        <input type="number" id="sun-lat" value="42.33" step="0.01" min="-90" max="90">
+        <input type="number" id="sun-lat" value="42.33" step="0.01" min="-90" max="90" aria-label="Latitude">
       </div>
       <div class="sun-row">
         <label>Longitude</label>
-        <input type="number" id="sun-lng" value="-83.05" step="0.01" min="-180" max="180">
+        <input type="number" id="sun-lng" value="-83.05" step="0.01" min="-180" max="180" aria-label="Longitude">
       </div>
       <div class="sun-presets" id="sun-presets"></div>
       <div class="sun-row">
         <label>Date</label>
-        <input type="date" id="sun-date">
+        <input type="date" id="sun-date" aria-label="Date for sun position">
       </div>
       <div class="sun-row">
         <label>Time</label>
-        <input type="range" id="sun-time" min="0" max="24" step="0.25" value="12">
+        <input type="range" id="sun-time" min="0" max="24" step="0.25" value="12" aria-label="Time of day in hours">
         <span class="sun-time-display" id="sun-time-display">12:00</span>
       </div>
       <div class="sun-row">
-        <button class="sun-play-btn" id="sun-play">Play Day Cycle</button>
-        <button class="tb-btn" id="sun-reset" style="border:1px solid var(--border);padding:6px 10px;">Reset</button>
+        <button class="sun-play-btn" id="sun-play" aria-label="Play sun day cycle animation">Play Day Cycle</button>
+        <button class="tb-btn" id="sun-reset" style="border:1px solid var(--border);padding:6px 10px;" aria-label="Reset sun position to defaults">Reset</button>
       </div>
     </div>
   </div>
@@ -1494,6 +1762,7 @@ canvas { display: block; }
 <!-- WIZARD -->
 <div id="wizard">
   <div class="wizard-panel" id="wizard-panel"></div>
+  <button id="wizard-skip" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:8px 16px;" title="Skip setup and start with a default yard">Skip — use default yard</button>
 </div>
 
 <!-- TOAST -->
@@ -4186,6 +4455,15 @@ terrainBtn.addEventListener('click', () => {
   terrainBtn.classList.toggle('active', terrainMode);
   terrainBtn.setAttribute('aria-pressed', terrainMode);
   terrainControls.classList.toggle('visible', terrainMode);
+  // Bridge: also open/close dock terrain panel
+  if (typeof window._dockActiveTab === 'function') {
+    if (terrainMode && window._dockActiveTab() !== 'terrain') {
+      const dockTab = document.querySelector('.td-tab[data-dock="terrain"]');
+      if (dockTab) dockTab.click();
+    } else if (!terrainMode && window._dockActiveTab() === 'terrain') {
+      if (typeof window._dockClosePanel === 'function') window._dockClosePanel();
+    }
+  }
   if (terrainMode) {
     // Deselect any object
     if (state.selectedId !== null) deselectObject();
@@ -5980,7 +6258,14 @@ function updateCostPanel() {
 function toggleCostPanel() {
   costPanelVisible = !costPanelVisible;
   costPanelEl.classList.toggle('visible', costPanelVisible);
-  if (costPanelVisible) updateCostPanel();
+  costPanelEl.classList.toggle('shifted', costPanelVisible && typeof layerPanelVisible !== 'undefined' && layerPanelVisible);
+  if (costPanelVisible) {
+    updateCostPanel();
+    // Close layer panel and cross-section panel to prevent overlap
+    if (typeof layerPanelVisible !== 'undefined' && layerPanelVisible) { layerPanelVisible = false; layerPanelEl.classList.remove('visible'); }
+    const csPanel = document.getElementById('cross-section-panel');
+    if (csPanel && csPanel.classList.contains('visible')) { csPanel.classList.remove('visible'); if (typeof crossSectionMode !== 'undefined') crossSectionMode = false; }
+  }
 }
 document.getElementById('btn-cost').addEventListener('click', toggleCostPanel);
 
@@ -6043,7 +6328,15 @@ function applyLayerVisibility() {
 function toggleLayerPanel() {
   layerPanelVisible = !layerPanelVisible;
   layerPanelEl.classList.toggle('visible', layerPanelVisible);
-  if (layerPanelVisible) updateLayerPanel();
+  if (typeof costPanelEl !== 'undefined' && typeof costPanelVisible !== 'undefined')
+    costPanelEl.classList.toggle('shifted', costPanelVisible && layerPanelVisible);
+  if (layerPanelVisible) {
+    updateLayerPanel();
+    // Close cost panel and cross-section panel to prevent overlap
+    if (typeof costPanelVisible !== 'undefined' && costPanelVisible) { costPanelVisible = false; costPanelEl.classList.remove('visible'); }
+    const csPanel = document.getElementById('cross-section-panel');
+    if (csPanel && csPanel.classList.contains('visible')) { csPanel.classList.remove('visible'); if (typeof crossSectionMode !== 'undefined') crossSectionMode = false; }
+  }
 }
 document.getElementById('btn-layers').addEventListener('click', toggleLayerPanel);
 
@@ -6704,6 +6997,21 @@ _attachTouchGestureHandlers();
 buildLibrary();
 renderWizard();
 
+// Wizard skip button — lets users bypass setup with a default yard
+(function setupWizardSkip() {
+  const skipBtn = document.getElementById('wizard-skip');
+  if (!skipBtn) return;
+  skipBtn.addEventListener('click', () => {
+    document.getElementById('wizard').style.display = 'none';
+    if (typeof initWithYard === 'function') initWithYard(wizardData);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('wizard').style.display !== 'none') {
+      skipBtn.click();
+    }
+  });
+})();
+
 // Mobile sidebar library toggle
 (function setupMobileLibToggle() {
   const toggleBtn = document.getElementById('mobile-lib-toggle');
@@ -7021,6 +7329,21 @@ terrainAnalysisBtn.addEventListener('click', () => {
   terrainAnalysisBtn.setAttribute('aria-pressed', visible);
 });
 
+// --- Sprint 5: Accessibility helper for ta-toggle switches ---
+function setupToggleKeyboard(toggleEl, handler) {
+  toggleEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      handler();
+    }
+  });
+  toggleEl.addEventListener('click', () => {
+    setTimeout(() => {
+      toggleEl.setAttribute('aria-checked', toggleEl.classList.contains('on'));
+    }, 0);
+  });
+}
+
 // ============================================================
 // FEATURE 1: CONTOUR LINES (TOPOGRAPHIC MAP OVERLAY)
 // ============================================================
@@ -7179,6 +7502,9 @@ taContourToggle.addEventListener('click', () => {
   requestRender();
 });
 
+// Sprint 5: keyboard accessibility for taContourToggle
+setupToggleKeyboard(taContourToggle, () => taContourToggle.click());
+
 taContourIntervalInput.addEventListener('change', () => {
   contourInterval = Math.max(0.1, parseFloat(taContourIntervalInput.value) || 1.0);
   if (contourEnabled) buildContourLines();
@@ -7292,6 +7618,9 @@ taSlopeToggle.addEventListener('click', () => {
   }
   requestRender();
 });
+
+// Sprint 5: keyboard accessibility for taSlopeToggle
+setupToggleKeyboard(taSlopeToggle, () => taSlopeToggle.click());
 
 // ============================================================
 // FEATURE 3: CROSS-SECTION PROFILE TOOL
@@ -7612,6 +7941,9 @@ taCutFillToggle.addEventListener('click', () => {
   }
 });
 
+// Sprint 5: keyboard accessibility for taCutFillToggle
+setupToggleKeyboard(taCutFillToggle, () => taCutFillToggle.click());
+
 // ============================================================
 // FEATURE 5: WATER FLOW SIMULATION (AI-Discovered Idea)
 // ============================================================
@@ -7768,6 +8100,9 @@ taWaterFlowToggle.addEventListener('click', () => {
   requestRender();
 });
 
+// Sprint 5: keyboard accessibility for taWaterFlowToggle
+setupToggleKeyboard(taWaterFlowToggle, () => taWaterFlowToggle.click());
+
 // ============================================================
 // FEATURE 6: ELEVATION HEATMAP (AI-Discovered Idea)
 // ============================================================
@@ -7882,6 +8217,9 @@ taElevToggle.addEventListener('click', () => {
   requestRender();
 });
 
+// Sprint 5: keyboard accessibility for taElevToggle
+setupToggleKeyboard(taElevToggle, () => taElevToggle.click());
+
 // ============================================================
 // FEATURE 7: BURIED OBJECT GHOST VIEW (AI-Discovered from terrain-viz agent)
 // ============================================================
@@ -7988,6 +8326,9 @@ taGhostToggle.addEventListener('click', () => {
   }
   requestRender();
 });
+
+// Sprint 5: keyboard accessibility for taGhostToggle
+setupToggleKeyboard(taGhostToggle, () => taGhostToggle.click());
 
 // ============================================================
 // FEATURE 8: BEFORE/AFTER COMPARE (AI-Discovered from terrain-ux agent)
@@ -8302,6 +8643,9 @@ crossSectionToggleBtn.addEventListener('click', () => {
   crossSectionToggleBtn.setAttribute('aria-pressed', crossSectionMode);
   if (crossSectionMode) {
     crossSectionPanel.classList.add('visible');
+    // Close cost and layer panels to prevent overlap
+    if (typeof costPanelVisible !== 'undefined' && costPanelVisible) { costPanelVisible = false; costPanelEl.classList.remove('visible'); }
+    if (typeof layerPanelVisible !== 'undefined' && layerPanelVisible) { layerPanelVisible = false; layerPanelEl.classList.remove('visible'); }
     crossSectionPoints = [];
     csInstruction.textContent = 'Click two points on the ground to define a cross-section line';
     csInfo.textContent = '';
@@ -10873,6 +11217,229 @@ try {
     // Don't auto-load; let the wizard run. User can Load manually.
   }
 } catch(e) {}
+
+// ============================================================
+// IA: TOOL DOCK NAVIGATION SYSTEM
+// Reorganizes 30+ features into 6 logical groups with
+// progressive disclosure. Replaces 6 floating bottom-left
+// buttons with a grouped vertical icon dock.
+// ============================================================
+(function setupToolDock() {
+  const toolDock = document.getElementById('tool-dock');
+  const dockPanelContainer = document.getElementById('dock-panel-container');
+  if (!toolDock || !dockPanelContainer) return;
+
+  let activeDockTab = null;
+
+  // --- Move existing panel content into dock panels (preserves all event listeners) ---
+  // Terrain controls -> dock-terrain-content
+  const terrainControls = document.getElementById('terrain-controls');
+  const dockTerrainContent = document.getElementById('dock-terrain-content');
+  if (terrainControls && dockTerrainContent) {
+    while (terrainControls.firstChild) {
+      dockTerrainContent.appendChild(terrainControls.firstChild);
+    }
+  }
+
+  // Excavate panel -> dock-underground-content
+  const excavatePanel = document.getElementById('excavate-panel');
+  const dockUndergroundContent = document.getElementById('dock-underground-content');
+  if (excavatePanel && dockUndergroundContent) {
+    while (excavatePanel.firstChild) {
+      dockUndergroundContent.appendChild(excavatePanel.firstChild);
+    }
+  }
+
+  // Terrain analysis panel -> dock-analyze-content
+  const terrainAnalysisPanel = document.getElementById('terrain-analysis-panel');
+  const dockAnalyzeContent = document.getElementById('dock-analyze-content');
+  if (terrainAnalysisPanel && dockAnalyzeContent) {
+    while (terrainAnalysisPanel.firstChild) {
+      dockAnalyzeContent.appendChild(terrainAnalysisPanel.firstChild);
+    }
+  }
+
+  // Innovation panel -> dock-innovate-content (with progressive disclosure)
+  const innovationPanel = document.getElementById('innovation-panel');
+  const dockInnovateContent = document.getElementById('dock-innovate-content');
+  if (innovationPanel && dockInnovateContent) {
+    // Move the innov-hint
+    while (innovationPanel.firstChild) {
+      dockInnovateContent.appendChild(innovationPanel.firstChild);
+    }
+    // Add progressive disclosure: wrap advanced tools in collapsible section
+    addInnovationProgressiveDisclosure(dockInnovateContent);
+  }
+
+  // Sun panel -> dock-sun-content
+  const sunPanel = document.getElementById('sun-panel');
+  const dockSunContent = document.getElementById('dock-sun-content');
+  if (sunPanel && dockSunContent) {
+    while (sunPanel.firstChild) {
+      dockSunContent.appendChild(sunPanel.firstChild);
+    }
+  }
+
+  // --- Progressive Disclosure for Innovation Lab ---
+  // Basic tools (Pool, Flatten, Markers) are always visible.
+  // Advanced tools (ADA Slope, Terrain Stats, Retaining Wall, Underground Structure,
+  // Geological Layers, Volume Calc, Exploded View, Water Table, Ghost Preview)
+  // are hidden behind an "Advanced Tools" accordion.
+  function addInnovationProgressiveDisclosure(container) {
+    // Find all .innov-divider elements — they separate tools
+    const dividers = container.querySelectorAll('.innov-divider');
+    // Basic tools = everything up to the 3rd divider (Pool, Flatten, Markers)
+    // Advanced tools = everything from the 4th divider onward
+    if (dividers.length >= 3) {
+      // Create advanced section wrapper
+      const advancedSection = document.createElement('div');
+      advancedSection.className = 'advanced-section';
+      advancedSection.id = 'innov-advanced-section';
+
+      // Create toggle button
+      const toggleBtn = document.createElement('button');
+      toggleBtn.className = 'advanced-toggle';
+      toggleBtn.innerHTML = '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg> Advanced Tools';
+
+      // Move everything after the 3rd divider into the advanced section
+      // The 3rd divider is after Elevation Markers (the 3rd basic tool)
+      let node = dividers[2].nextElementSibling; // Start after 3rd divider
+      const advancedNodes = [];
+      while (node) {
+        advancedNodes.push(node);
+        node = node.nextElementSibling;
+      }
+
+      // Insert toggle before advanced nodes
+      dividers[2].after(toggleBtn);
+      toggleBtn.after(advancedSection);
+
+      // Move advanced nodes into the section
+      for (const n of advancedNodes) {
+        advancedSection.appendChild(n);
+      }
+
+      // Wire up toggle
+      toggleBtn.addEventListener('click', () => {
+        const expanded = toggleBtn.classList.toggle('expanded');
+        advancedSection.classList.toggle('visible', expanded);
+      });
+    }
+  }
+
+  // --- Dock tab switching ---
+  toolDock.querySelectorAll('.td-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const dockId = tab.dataset.dock;
+      const panelId = 'dock-' + dockId;
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+
+      // If clicking the already-active tab, close it
+      if (activeDockTab === dockId) {
+        closeDockPanel();
+        return;
+      }
+
+      // Close any previously open panel
+      closeDockPanel();
+
+      // Open the new panel
+      panel.classList.add('visible');
+      tab.classList.add('active');
+      tab.setAttribute('aria-pressed', 'true');
+      dockPanelContainer.classList.add('visible');
+      activeDockTab = dockId;
+
+      // Special handling for terrain: activate terrain mode
+      if (dockId === 'terrain') {
+        // Simulate clicking the old terrain-btn
+        const terrainBtn = document.getElementById('terrain-btn');
+        if (terrainBtn && !terrainMode) {
+          terrainBtn.click();
+        }
+      }
+
+      // Special handling for measure: toggle tape measure
+      if (dockId === 'measure') {
+        // No auto-activate; let user click the toggle button
+      }
+
+      // Special handling for sun: apply sun position on open
+      if (dockId === 'sun') {
+        if (typeof applySunPosition === 'function') {
+          applySunPosition();
+        }
+      }
+
+      // Special handling for underground: update buried objects
+      if (dockId === 'underground') {
+        if (typeof updateBuriedObjects === 'function') {
+          updateBuriedObjects();
+        }
+      }
+
+      if (typeof requestRender === 'function') requestRender();
+    });
+  });
+
+  // --- Close buttons ---
+  dockPanelContainer.querySelectorAll('[data-dock-close]').forEach(btn => {
+    btn.addEventListener('click', closeDockPanel);
+  });
+
+  function closeDockPanel() {
+    if (!activeDockTab) return;
+
+    const panel = document.getElementById('dock-' + activeDockTab);
+    if (panel) panel.classList.remove('visible');
+
+    const tab = toolDock.querySelector('.td-tab[data-dock="' + activeDockTab + '"]');
+    if (tab) {
+      tab.classList.remove('active');
+      tab.setAttribute('aria-pressed', 'false');
+    }
+
+    // Special handling: if closing terrain, also exit terrain mode
+    if (activeDockTab === 'terrain') {
+      const terrainBtn = document.getElementById('terrain-btn');
+      if (terrainBtn && terrainMode) {
+        terrainBtn.click();
+      }
+    }
+
+    // Special handling: if closing innovate, exit innov mode
+    if (activeDockTab === 'innovate') {
+      const innovBtn = document.getElementById('innovation-btn');
+      if (innovBtn && typeof innovPanelVisible !== 'undefined' && innovPanelVisible) {
+        innovBtn.click();
+      }
+    }
+
+    dockPanelContainer.classList.remove('visible');
+    activeDockTab = null;
+    if (typeof requestRender === 'function') requestRender();
+  }
+
+  // --- Wire up tape measure toggle in dock ---
+  const dockTapeToggle = document.getElementById('dock-tape-toggle');
+  if (dockTapeToggle) {
+    dockTapeToggle.addEventListener('click', () => {
+      // Simulate clicking the old tape-measure-btn
+      const tapeMeasureBtn = document.getElementById('tape-measure-btn');
+      if (tapeMeasureBtn) tapeMeasureBtn.click();
+      // Update visual state
+      dockTapeToggle.classList.toggle('active');
+    });
+  }
+
+  // --- Expose for external access ---
+  window._dockClosePanel = closeDockPanel;
+  window._dockActiveTab = () => activeDockTab;
+
+  // Log successful setup
+  console.log('[IA] Tool Dock Navigation System initialized — 6 groups, 30+ features reorganized');
+})();
 
 </script>
 </body>

@@ -1,0 +1,596 @@
+{
+  "summary": {
+    "total": 117,
+    "passed": 117,
+    "failed": 0,
+    "errors": 0
+  },
+  "tests": [
+    {
+      "name": "aria:btn-undo_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Undo last action', title='Undo', text='Undo'"
+    },
+    {
+      "name": "aria:btn-redo_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Redo last action', title='Redo', text='Redo'"
+    },
+    {
+      "name": "aria:btn-save_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Save design as file', title='Save Design', text='Save'"
+    },
+    {
+      "name": "aria:btn-load_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Load design from file', title='Load Design', text='Load'"
+    },
+    {
+      "name": "aria:btn-screenshot_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Take screenshot', title='Take Screenshot', text='Shot'"
+    },
+    {
+      "name": "aria:btn-help_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Open help dialog', title='Help', text='? Help'"
+    },
+    {
+      "name": "aria:btn-layers_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle layer management panel', title='Layer Management', text='Layers'"
+    },
+    {
+      "name": "aria:btn-cost_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle cost estimator panel', title='Cost Estimator', text='Cost'"
+    },
+    {
+      "name": "aria:btn-walk_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Enter first-person walk mode', title='Walk Through Your Design (first-person)', text='Walk'"
+    },
+    {
+      "name": "aria:btn-share_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Share design via link or QR code', title='Share Design via Link / QR Code', text='Share'"
+    },
+    {
+      "name": "aria:vc-zoom-in_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Zoom in', title='Zoom In', text=''"
+    },
+    {
+      "name": "aria:vc-zoom-out_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Zoom out', title='Zoom Out', text=''"
+    },
+    {
+      "name": "aria:vc-reset_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Reset camera view', title='Reset View', text=''"
+    },
+    {
+      "name": "aria:vc-underground_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Go underground view', title='Go Underground \u2014 angle camera to look into carved spaces', text=''"
+    },
+    {
+      "name": "aria:tape-measure-btn_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle tape measure tool', title='None', text=''"
+    },
+    {
+      "name": "aria:terrain-btn_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle terrain editing mode', title='None', text=''"
+    },
+    {
+      "name": "aria:excavate-btn_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle underground excavation view', title='None', text=''"
+    },
+    {
+      "name": "aria:terrain-analysis-btn_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle terrain analysis tools', title='None', text=''"
+    },
+    {
+      "name": "aria:innovation-btn_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle innovation tools', title='None', text=''"
+    },
+    {
+      "name": "aria:excavate-close_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Close excavate panel', title='None', text=''"
+    },
+    {
+      "name": "aria:cs-close_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Close cross-section panel', title='None', text=''"
+    },
+    {
+      "name": "aria:innov-close_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Close innovation panel', title='None', text=''"
+    },
+    {
+      "name": "aria:ta-cross-section-close_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Close profile', title='None', text=''"
+    },
+    {
+      "name": "aria:precision-toggle_has_accessible_name",
+      "status": "PASS",
+      "details": "aria-label='Toggle precision mode', title='None', text=''"
+    },
+    {
+      "name": "aria:precision-toggle_role",
+      "status": "PASS",
+      "details": "role='switch', expected='switch'"
+    },
+    {
+      "name": "aria:view_toggle_tabs_role",
+      "status": "PASS",
+      "details": "Found 2 tab buttons, all role='tab'"
+    },
+    {
+      "name": "aria:toolbars_exist",
+      "status": "PASS",
+      "details": "Found 4 toolbars (need >=2)"
+    },
+    {
+      "name": "aria:viewport_role_application",
+      "status": "PASS",
+      "details": "role='application'"
+    },
+    {
+      "name": "keyboard:btn-undo_focusable",
+      "status": "PASS",
+      "details": "Disabled \u2014 skipped (OK)"
+    },
+    {
+      "name": "keyboard:btn-redo_focusable",
+      "status": "PASS",
+      "details": "Disabled \u2014 skipped (OK)"
+    },
+    {
+      "name": "keyboard:btn-save_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-save'"
+    },
+    {
+      "name": "keyboard:btn-load_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-load'"
+    },
+    {
+      "name": "keyboard:btn-screenshot_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-screenshot'"
+    },
+    {
+      "name": "keyboard:btn-help_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-help'"
+    },
+    {
+      "name": "keyboard:btn-layers_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-layers'"
+    },
+    {
+      "name": "keyboard:btn-cost_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-cost'"
+    },
+    {
+      "name": "keyboard:btn-walk_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-walk'"
+    },
+    {
+      "name": "keyboard:btn-share_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='btn-share'"
+    },
+    {
+      "name": "keyboard:vc-zoom-in_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='vc-zoom-in'"
+    },
+    {
+      "name": "keyboard:vc-zoom-out_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='vc-zoom-out'"
+    },
+    {
+      "name": "keyboard:vc-reset_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='vc-reset'"
+    },
+    {
+      "name": "keyboard:vc-underground_focusable",
+      "status": "PASS",
+      "details": "tabindex='None', focused_id='vc-underground'"
+    },
+    {
+      "name": "keyboard:tab_navigation_works",
+      "status": "PASS",
+      "details": "Focusable controls (12): ['btn-save', 'btn-load', 'btn-screenshot', 'btn-help', 'btn-layers', 'btn-cost', 'btn-walk', 'btn-share', 'vc-zoom-in', 'vc-zoom-out']..."
+    },
+    {
+      "name": "keyboard:terrain_brush_focusable_when_open",
+      "status": "PASS",
+      "details": "focused='terrain-brush-size'"
+    },
+    {
+      "name": "touch:btn-save_size",
+      "status": "PASS",
+      "details": "78x44"
+    },
+    {
+      "name": "touch:btn-load_size",
+      "status": "PASS",
+      "details": "55x44"
+    },
+    {
+      "name": "touch:btn-layers_size",
+      "status": "PASS",
+      "details": "87x44"
+    },
+    {
+      "name": "touch:btn-cost_size",
+      "status": "PASS",
+      "details": "75x44"
+    },
+    {
+      "name": "touch:btn-walk_size",
+      "status": "PASS",
+      "details": "76x44"
+    },
+    {
+      "name": "touch:btn-share_size",
+      "status": "PASS",
+      "details": "83x44"
+    },
+    {
+      "name": "touch:vc-zoom-in_size",
+      "status": "PASS",
+      "details": "40x40 (close to 44x44)"
+    },
+    {
+      "name": "touch:vc-zoom-out_size",
+      "status": "PASS",
+      "details": "40x40 (close to 44x44)"
+    },
+    {
+      "name": "touch:vc-reset_size",
+      "status": "PASS",
+      "details": "40x40 (close to 44x44)"
+    },
+    {
+      "name": "touch:vc-underground_size",
+      "status": "PASS",
+      "details": "40x40 (close to 44x44)"
+    },
+    {
+      "name": "touch:mobile-lib-toggle_size",
+      "status": "PASS",
+      "details": "48x48"
+    },
+    {
+      "name": "touch:terrain-flatten_size",
+      "status": "PASS",
+      "details": "142x44"
+    },
+    {
+      "name": "touch:terrain-toggle-height_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:terrain-toggle-drainage_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:carving-commit-btn_size",
+      "status": "PASS",
+      "details": "134x44"
+    },
+    {
+      "name": "touch:carving-clear-btn_size",
+      "status": "PASS",
+      "details": "265x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_0_size",
+      "status": "PASS",
+      "details": "62x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_1_size",
+      "status": "PASS",
+      "details": "84x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_2_size",
+      "status": "PASS",
+      "details": "74x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_3_size",
+      "status": "PASS",
+      "details": "63x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_4_size",
+      "status": "PASS",
+      "details": "59x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_5_size",
+      "status": "PASS",
+      "details": "50x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_6_size",
+      "status": "PASS",
+      "details": "77x44"
+    },
+    {
+      "name": "touch:terrain_mode_btn_7_size",
+      "status": "PASS",
+      "details": "71x44"
+    },
+    {
+      "name": "touch:terrain_preset_btn_0_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:terrain_preset_btn_1_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:terrain_preset_btn_2_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:terrain_preset_btn_3_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:terrain_preset_btn_4_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "touch:terrain_preset_btn_5_size",
+      "status": "PASS",
+      "details": "130x44"
+    },
+    {
+      "name": "contrast:text_on_surface",
+      "status": "PASS",
+      "details": "#2d2d2d on #ffffff: 13.77:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:text_on_bg",
+      "status": "PASS",
+      "details": "#2d2d2d on #f5f5f0: 12.59:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:text-muted_on_surface",
+      "status": "PASS",
+      "details": "#5a5a5a on #ffffff: 6.90:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:text-muted_on_bg",
+      "status": "PASS",
+      "details": "#5a5a5a on #f5f5f0: 6.31:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:white_on_primary",
+      "status": "PASS",
+      "details": "#ffffff on #3d7549: 5.47:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:white_on_primary-dark",
+      "status": "PASS",
+      "details": "#ffffff on #2f5d3a: 7.64:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:white_on_context_hint_bg",
+      "status": "PASS",
+      "details": "#ffffff on #2d2d2d: 13.77:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:white_on_measure_bg",
+      "status": "PASS",
+      "details": "#ffffff on #2d2d2d: 13.77:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:white_on_toast",
+      "status": "PASS",
+      "details": "#ffffff on #2d2d2d: 13.77:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:primary_on_surface",
+      "status": "PASS",
+      "details": "#3d7549 on #ffffff: 5.47:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:primary_on_bg",
+      "status": "PASS",
+      "details": "#3d7549 on #f5f5f0: 5.00:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:muted666_on_white",
+      "status": "PASS",
+      "details": "#666666 on #ffffff: 5.74:1 (need 4.5:1)"
+    },
+    {
+      "name": "contrast:muted666_on_bg",
+      "status": "PASS",
+      "details": "#666666 on #f5f5f0: 5.25:1 (need 4.5:1)"
+    },
+    {
+      "name": "focus:focus_visible_css_exists",
+      "status": "PASS",
+      "details": "Found :focus-visible in CSS"
+    },
+    {
+      "name": "focus:focus_style_exists",
+      "status": "PASS",
+      "details": "Focus style found"
+    },
+    {
+      "name": "focus:button_focus_computed",
+      "status": "PASS",
+      "details": "outline=none, shadow=none"
+    },
+    {
+      "name": "focus:tab_order_starts_at_top",
+      "status": "PASS",
+      "details": "First: BODY, Second: BODY"
+    },
+    {
+      "name": "a11y:disabled_buttons_marked",
+      "status": "PASS",
+      "details": "redo: disabled=True, aria-disabled=False, prop=True"
+    },
+    {
+      "name": "a11y:page_title",
+      "status": "PASS",
+      "details": "title='Backyard Designer 3D'"
+    },
+    {
+      "name": "a11y:html_lang",
+      "status": "PASS",
+      "details": "lang='en'"
+    },
+    {
+      "name": "a11y:viewport_meta",
+      "status": "PASS",
+      "details": "viewport='width=device-width, initial-scale=1.0'"
+    },
+    {
+      "name": "a11y:vc-underground_aria_pressed",
+      "status": "PASS",
+      "details": "aria-pressed='false'"
+    },
+    {
+      "name": "a11y:tape-measure-btn_aria_pressed",
+      "status": "PASS",
+      "details": "aria-pressed='false'"
+    },
+    {
+      "name": "a11y:terrain-btn_aria_pressed",
+      "status": "PASS",
+      "details": "aria-pressed='false'"
+    },
+    {
+      "name": "a11y:excavate-btn_aria_pressed",
+      "status": "PASS",
+      "details": "aria-pressed='false'"
+    },
+    {
+      "name": "a11y:terrain-analysis-btn_aria_pressed",
+      "status": "PASS",
+      "details": "aria-pressed='false'"
+    },
+    {
+      "name": "a11y:innovation-btn_aria_pressed",
+      "status": "PASS",
+      "details": "aria-pressed='false'"
+    },
+    {
+      "name": "a11y:excavate-panel_has_label",
+      "status": "PASS",
+      "details": "role='None', label='None', labelledby='None'"
+    },
+    {
+      "name": "a11y:cross-section-panel_has_label",
+      "status": "PASS",
+      "details": "role='None', label='None', labelledby='None'"
+    },
+    {
+      "name": "a11y:innovation-panel_has_label",
+      "status": "PASS",
+      "details": "role='None', label='None', labelledby='None'"
+    },
+    {
+      "name": "a11y:sun_btn_aria_label",
+      "status": "PASS",
+      "details": "aria-label='Toggle sun and shadow simulator'"
+    },
+    {
+      "name": "a11y:innov-pool-btn_has_name",
+      "status": "PASS",
+      "details": "text='Pool Excavation Wizard\n       ', label='None'"
+    },
+    {
+      "name": "a11y:innov-flatten-btn_has_name",
+      "status": "PASS",
+      "details": "text='Flatten to Height Brush\n      ', label='None'"
+    },
+    {
+      "name": "a11y:innov-marker-btn_has_name",
+      "status": "PASS",
+      "details": "text='Elevation Markers\n          Cl', label='None'"
+    },
+    {
+      "name": "a11y:innov-slope-btn_has_name",
+      "status": "PASS",
+      "details": "text='Precision ADA Slope Tool\n     ', label='None'"
+    },
+    {
+      "name": "a11y:innov-stats-btn_has_name",
+      "status": "PASS",
+      "details": "text='Terrain Statistics Dashboard\n ', label='None'"
+    },
+    {
+      "name": "a11y:innov-retwall-btn_has_name",
+      "status": "PASS",
+      "details": "text='Auto Retaining Wall\n          ', label='None'"
+    },
+    {
+      "name": "a11y:innov-ugstruct-btn_has_name",
+      "status": "PASS",
+      "details": "text='Underground Structure Generato', label='None'"
+    },
+    {
+      "name": "a11y:terrain-brush-size_labeled",
+      "status": "PASS",
+      "details": "aria-label='Terrain brush size in feet', labelledby='None'"
+    },
+    {
+      "name": "a11y:terrain-strength_labeled",
+      "status": "PASS",
+      "details": "aria-label='Terrain brush strength', labelledby='None'"
+    },
+    {
+      "name": "a11y:grid-level-slider_labeled",
+      "status": "PASS",
+      "details": "aria-label='Grid level ground plane elevation in feet', labelledby='None'"
+    },
+    {
+      "name": "a11y:terrain-cutaway_labeled",
+      "status": "PASS",
+      "details": "aria-label='Terrain cutaway amount percentage', labelledby='None'"
+    },
+    {
+      "name": "a11y:terrain-opacity_labeled",
+      "status": "PASS",
+      "details": "aria-label='Terrain opacity percentage', labelledby='None'"
+    }
+  ],
+  "failures": []
+}
