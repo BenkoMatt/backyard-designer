@@ -1,0 +1,1555 @@
+{
+  "summary": {
+    "total": 209,
+    "passed": 209,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "categories": {
+    "functional": {
+      "total": 100,
+      "passed": 100,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "perf": {
+      "total": 13,
+      "passed": 13,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "mobile": {
+      "total": 35,
+      "passed": 35,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "chaos": {
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "critic": {
+      "total": 37,
+      "passed": 37,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "perf_metrics": {
+    "fps": [
+      {
+        "scene": "empty",
+        "fps": 58.79422022919781
+      },
+      {
+        "scene": "20_objects",
+        "fps": 57.79770802192327
+      },
+      {
+        "scene": "50_objects",
+        "fps": 55.71215387166308
+      },
+      {
+        "scene": "terrain_deformed",
+        "fps": 58.94105894105894
+      }
+    ],
+    "memory": [
+      {
+        "point": "after_load",
+        "used_mb": 10.10894775390625,
+        "total_mb": 19.550323486328125
+      },
+      {
+        "point": "leak_test",
+        "diff_mb": 0.0
+      }
+    ],
+    "load_times": [
+      2592.7929878234863
+    ],
+    "render_times": [
+      {
+        "avg_ms": 8.430000007152557,
+        "max_ms": 11.200000047683716,
+        "min_ms": 6.6000001430511475
+      }
+    ]
+  },
+  "failures": [],
+  "all_tests": [
+    {
+      "category": "functional",
+      "name": "dom:btn-undo_exists",
+      "status": "PASS",
+      "details": "#btn-undo found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-redo_exists",
+      "status": "PASS",
+      "details": "#btn-redo found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-save_exists",
+      "status": "PASS",
+      "details": "#btn-save found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-load_exists",
+      "status": "PASS",
+      "details": "#btn-load found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-screenshot_exists",
+      "status": "PASS",
+      "details": "#btn-screenshot found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-help_exists",
+      "status": "PASS",
+      "details": "#btn-help found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-layers_exists",
+      "status": "PASS",
+      "details": "#btn-layers found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-cost_exists",
+      "status": "PASS",
+      "details": "#btn-cost found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-walk_exists",
+      "status": "PASS",
+      "details": "#btn-walk found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:btn-share_exists",
+      "status": "PASS",
+      "details": "#btn-share found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:vc-zoom-in_exists",
+      "status": "PASS",
+      "details": "#vc-zoom-in found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:vc-zoom-out_exists",
+      "status": "PASS",
+      "details": "#vc-zoom-out found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:vc-reset_exists",
+      "status": "PASS",
+      "details": "#vc-reset found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:vc-underground_exists",
+      "status": "PASS",
+      "details": "#vc-underground found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:tape-measure-btn_exists",
+      "status": "PASS",
+      "details": "#tape-measure-btn found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:terrain-btn_exists",
+      "status": "PASS",
+      "details": "#terrain-btn found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:sun-btn_exists",
+      "status": "PASS",
+      "details": "#sun-btn found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:excavate-btn_exists",
+      "status": "PASS",
+      "details": "#excavate-btn found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:terrain-analysis-btn_exists",
+      "status": "PASS",
+      "details": "#terrain-analysis-btn found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:innovation-btn_exists",
+      "status": "PASS",
+      "details": "#innovation-btn found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:viewport_exists",
+      "status": "PASS",
+      "details": "#viewport found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:sidebar_exists",
+      "status": "PASS",
+      "details": "#sidebar found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:properties_exists",
+      "status": "PASS",
+      "details": "#properties found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:library_exists",
+      "status": "PASS",
+      "details": "#library found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "dom:view-controls_exists",
+      "status": "PASS",
+      "details": "#view-controls found",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "page:title_correct",
+      "status": "PASS",
+      "details": "Title: 'Backyard Designer 3D'",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "threejs:loaded",
+      "status": "PASS",
+      "details": "Scene available via _test API",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "threejs:scene_initialized",
+      "status": "PASS",
+      "details": "Scene object exists",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "threejs:camera_initialized",
+      "status": "PASS",
+      "details": "Camera object exists",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "threejs:renderer_initialized",
+      "status": "PASS",
+      "details": "Renderer object exists",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:exists",
+      "status": "PASS",
+      "details": "CATALOG has 21 entries",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:fence_privacy_exists",
+      "status": "PASS",
+      "details": "Type 'fence_privacy' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:fence_picket_exists",
+      "status": "PASS",
+      "details": "Type 'fence_picket' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:pergola_exists",
+      "status": "PASS",
+      "details": "Type 'pergola' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:shed_exists",
+      "status": "PASS",
+      "details": "Type 'shed' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:pool_inground_exists",
+      "status": "PASS",
+      "details": "Type 'pool_inground' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:hot_tub_exists",
+      "status": "PASS",
+      "details": "Type 'hot_tub' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:tree_deciduous_exists",
+      "status": "PASS",
+      "details": "Type 'tree_deciduous' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:tree_evergreen_exists",
+      "status": "PASS",
+      "details": "Type 'tree_evergreen' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:bush_exists",
+      "status": "PASS",
+      "details": "Type 'bush' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:hedge_exists",
+      "status": "PASS",
+      "details": "Type 'hedge' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:patio_exists",
+      "status": "PASS",
+      "details": "Type 'patio' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:deck_exists",
+      "status": "PASS",
+      "details": "Type 'deck' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:walkway_exists",
+      "status": "PASS",
+      "details": "Type 'walkway' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:raised_bed_exists",
+      "status": "PASS",
+      "details": "Type 'raised_bed' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:retaining_wall_exists",
+      "status": "PASS",
+      "details": "Type 'retaining_wall' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:fire_pit_exists",
+      "status": "PASS",
+      "details": "Type 'fire_pit' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:chair_exists",
+      "status": "PASS",
+      "details": "Type 'chair' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:table_exists",
+      "status": "PASS",
+      "details": "Type 'table' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:lounge_exists",
+      "status": "PASS",
+      "details": "Type 'lounge' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:grill_exists",
+      "status": "PASS",
+      "details": "Type 'grill' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "catalog:lawn_exists",
+      "status": "PASS",
+      "details": "Type 'lawn' in CATALOG",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "categories:exists",
+      "status": "PASS",
+      "details": "Found 0 category elements in library DOM",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "add_object:fence_privacy",
+      "status": "PASS",
+      "details": "id=1, 7.8ms",
+      "duration_ms": 7
+    },
+    {
+      "category": "functional",
+      "name": "add_object:fence_picket",
+      "status": "PASS",
+      "details": "id=2, 5.3ms",
+      "duration_ms": 5
+    },
+    {
+      "category": "functional",
+      "name": "add_object:pergola",
+      "status": "PASS",
+      "details": "id=3, 454.9ms",
+      "duration_ms": 454
+    },
+    {
+      "category": "functional",
+      "name": "add_object:shed",
+      "status": "PASS",
+      "details": "id=4, 367.4ms",
+      "duration_ms": 367
+    },
+    {
+      "category": "functional",
+      "name": "add_object:pool_inground",
+      "status": "PASS",
+      "details": "id=5, 349.3ms",
+      "duration_ms": 349
+    },
+    {
+      "category": "functional",
+      "name": "add_object:hot_tub",
+      "status": "PASS",
+      "details": "id=6, 564.2ms",
+      "duration_ms": 564
+    },
+    {
+      "category": "functional",
+      "name": "add_object:tree_deciduous",
+      "status": "PASS",
+      "details": "id=7, 341.9ms",
+      "duration_ms": 341
+    },
+    {
+      "category": "functional",
+      "name": "add_object:tree_evergreen",
+      "status": "PASS",
+      "details": "id=8, 300.2ms",
+      "duration_ms": 300
+    },
+    {
+      "category": "functional",
+      "name": "add_object:bush",
+      "status": "PASS",
+      "details": "id=9, 339.8ms",
+      "duration_ms": 339
+    },
+    {
+      "category": "functional",
+      "name": "add_object:hedge",
+      "status": "PASS",
+      "details": "id=10, 308.4ms",
+      "duration_ms": 308
+    },
+    {
+      "category": "functional",
+      "name": "add_object:patio",
+      "status": "PASS",
+      "details": "id=11, 329.3ms",
+      "duration_ms": 329
+    },
+    {
+      "category": "functional",
+      "name": "add_object:deck",
+      "status": "PASS",
+      "details": "id=12, 314.0ms",
+      "duration_ms": 313
+    },
+    {
+      "category": "functional",
+      "name": "add_object:walkway",
+      "status": "PASS",
+      "details": "id=13, 287.6ms",
+      "duration_ms": 287
+    },
+    {
+      "category": "functional",
+      "name": "add_object:raised_bed",
+      "status": "PASS",
+      "details": "id=14, 328.7ms",
+      "duration_ms": 328
+    },
+    {
+      "category": "functional",
+      "name": "add_object:retaining_wall",
+      "status": "PASS",
+      "details": "id=15, 335.4ms",
+      "duration_ms": 335
+    },
+    {
+      "category": "functional",
+      "name": "add_object:fire_pit",
+      "status": "PASS",
+      "details": "id=16, 585.1ms",
+      "duration_ms": 585
+    },
+    {
+      "category": "functional",
+      "name": "add_object:chair",
+      "status": "PASS",
+      "details": "id=17, 467.0ms",
+      "duration_ms": 466
+    },
+    {
+      "category": "functional",
+      "name": "add_object:table",
+      "status": "PASS",
+      "details": "id=18, 329.7ms",
+      "duration_ms": 329
+    },
+    {
+      "category": "functional",
+      "name": "add_object:lounge",
+      "status": "PASS",
+      "details": "id=19, 332.1ms",
+      "duration_ms": 332
+    },
+    {
+      "category": "functional",
+      "name": "add_object:grill",
+      "status": "PASS",
+      "details": "id=20, 337.8ms",
+      "duration_ms": 337
+    },
+    {
+      "category": "functional",
+      "name": "add_object:lawn",
+      "status": "PASS",
+      "details": "id=21, 314.7ms",
+      "duration_ms": 314
+    },
+    {
+      "category": "functional",
+      "name": "state:object_count_after_add",
+      "status": "PASS",
+      "details": "Expected 21, got 21",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "select:object_selected",
+      "status": "PASS",
+      "details": "selectedId=1",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "select:object_deselected",
+      "status": "PASS",
+      "details": "selectedId=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "props:panel_exists",
+      "status": "PASS",
+      "details": "props-header=yes, props-body=yes",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "remove:object_removed",
+      "status": "PASS",
+      "details": "before=21, after=20",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "undo:library_add_then_undo_reverts",
+      "status": "PASS",
+      "details": "before=20, after_add=21, after_undo=20",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "redo:redo_restores",
+      "status": "PASS",
+      "details": "after_undo=20, after_redo=21",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "undo:button_state_after_redo",
+      "status": "PASS",
+      "details": "undo disabled=False, redo disabled=True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "save:generates_valid_json",
+      "status": "PASS",
+      "details": "yard=yes, objects=21, version=3",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "screenshot:button_exists",
+      "status": "PASS",
+      "details": "button exists: True, visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "viewmode:switch_to_2d",
+      "status": "PASS",
+      "details": "before=3d, after=2d",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "viewmode:switch_to_3d",
+      "status": "PASS",
+      "details": "after=3d",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "walkmode:button_exists",
+      "status": "PASS",
+      "details": "walk button: True, walkMode getter: True, value: False",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:terrain-controls_opens_via_dock",
+      "status": "PASS",
+      "details": "Dock tab 'terrain' clicked, content visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:excavate-panel_opens_via_dock",
+      "status": "PASS",
+      "details": "Dock tab 'underground' clicked, content visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:terrain-analysis-panel_opens_via_dock",
+      "status": "PASS",
+      "details": "Dock tab 'analyze' clicked, content visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:innovation-panel_opens_via_dock",
+      "status": "PASS",
+      "details": "Dock tab 'innovate' clicked, content visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:sun-panel_opens_via_dock",
+      "status": "PASS",
+      "details": "Dock tab 'sun' clicked, content visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:cost-panel_opens",
+      "status": "PASS",
+      "details": "Button #btn-cost clicked, panel visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "panel:layer-panel_opens",
+      "status": "PASS",
+      "details": "Button #btn-layers clicked, panel visible: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "help:modal_opens",
+      "status": "PASS",
+      "details": "exists=True, visible=True",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "help:modal_closes_on_escape",
+      "status": "PASS",
+      "details": "visible after Escape=False",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "library:categories_visible",
+      "status": "PASS",
+      "details": "Found 0 category elements, 21 library items",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "keyboard:delete_removes_object",
+      "status": "PASS",
+      "details": "before=21, after=20",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "resize:viewport_updates",
+      "status": "PASS",
+      "details": "viewport=1024x768",
+      "duration_ms": 0
+    },
+    {
+      "category": "functional",
+      "name": "terrain:mode_initialized",
+      "status": "PASS",
+      "details": "terrainMode=False, hasTerrain=False",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "load:page_load_time",
+      "status": "PASS",
+      "details": "2593ms (max 5000ms)",
+      "duration_ms": 2592
+    },
+    {
+      "category": "perf",
+      "name": "fps:empty_scene",
+      "status": "PASS",
+      "details": "58.8 FPS (min 30)",
+      "duration_ms": 3010
+    },
+    {
+      "category": "perf",
+      "name": "fps:20_objects",
+      "status": "PASS",
+      "details": "57.8 FPS (min 30)",
+      "duration_ms": 3010
+    },
+    {
+      "category": "perf",
+      "name": "fps:50_objects",
+      "status": "PASS",
+      "details": "55.7 FPS with 50 objects (min 24)",
+      "duration_ms": 3015
+    },
+    {
+      "category": "perf",
+      "name": "fps:terrain_deformed",
+      "status": "PASS",
+      "details": "58.9 FPS with terrain (min 21)",
+      "duration_ms": 3003
+    },
+    {
+      "category": "perf",
+      "name": "memory:heap_usage",
+      "status": "PASS",
+      "details": "Used: 10.1MB, Total: 19.6MB, Limit: 3585.8MB",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "memory:leak_test",
+      "status": "PASS",
+      "details": "Delta: +0.0MB (max 50MB)",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "render:single_frame_time",
+      "status": "PASS",
+      "details": "avg=8.4ms, min=6.6ms, max=11.2ms",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "create:patio_performance",
+      "status": "PASS",
+      "details": "avg=0.3ms per object (max 50ms)",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "create:tree_deciduous_performance",
+      "status": "PASS",
+      "details": "avg=1.4ms per object (max 50ms)",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "create:pool_inground_performance",
+      "status": "PASS",
+      "details": "avg=0.5ms per object (max 50ms)",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "create:fence_privacy_performance",
+      "status": "PASS",
+      "details": "avg=1.0ms per object (max 50ms)",
+      "duration_ms": 0
+    },
+    {
+      "category": "perf",
+      "name": "dom:query_all_elements",
+      "status": "PASS",
+      "details": "100x querySelectorAll('*') in 3.8ms",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "load:iPhone SE_loads",
+      "status": "PASS",
+      "details": "2812ms",
+      "duration_ms": 2812
+    },
+    {
+      "category": "mobile",
+      "name": "layout:iPhone SE_no_horizontal_scroll",
+      "status": "PASS",
+      "details": "scrollWidth vs innerWidth check at 375px",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "touch:iPhone SE_target_sizes",
+      "status": "PASS",
+      "details": "121 buttons, 0 below 24px min",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "fps:iPhone SE_performance",
+      "status": "PASS",
+      "details": "60.2 FPS (min 15 for mobile)",
+      "duration_ms": 3005
+    },
+    {
+      "category": "mobile",
+      "name": "meta:iPhone SE_viewport_tag",
+      "status": "PASS",
+      "details": "content='width=device-width, initial-scale=1.0'",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "mobile_lib:iPhone SE_toggle_exists",
+      "status": "PASS",
+      "details": "mobile-lib-toggle exists: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "sidebar:iPhone SE_present",
+      "status": "PASS",
+      "details": "width=0, visible=False",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "load:iPhone 14_loads",
+      "status": "PASS",
+      "details": "2785ms",
+      "duration_ms": 2784
+    },
+    {
+      "category": "mobile",
+      "name": "layout:iPhone 14_no_horizontal_scroll",
+      "status": "PASS",
+      "details": "scrollWidth vs innerWidth check at 390px",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "touch:iPhone 14_target_sizes",
+      "status": "PASS",
+      "details": "121 buttons, 0 below 24px min",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "fps:iPhone 14_performance",
+      "status": "PASS",
+      "details": "60.2 FPS (min 15 for mobile)",
+      "duration_ms": 3004
+    },
+    {
+      "category": "mobile",
+      "name": "meta:iPhone 14_viewport_tag",
+      "status": "PASS",
+      "details": "content='width=device-width, initial-scale=1.0'",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "mobile_lib:iPhone 14_toggle_exists",
+      "status": "PASS",
+      "details": "mobile-lib-toggle exists: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "sidebar:iPhone 14_present",
+      "status": "PASS",
+      "details": "width=0, visible=False",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "load:Galaxy S20_loads",
+      "status": "PASS",
+      "details": "2795ms",
+      "duration_ms": 2794
+    },
+    {
+      "category": "mobile",
+      "name": "layout:Galaxy S20_no_horizontal_scroll",
+      "status": "PASS",
+      "details": "scrollWidth vs innerWidth check at 360px",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "touch:Galaxy S20_target_sizes",
+      "status": "PASS",
+      "details": "121 buttons, 0 below 24px min",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "fps:Galaxy S20_performance",
+      "status": "PASS",
+      "details": "60.3 FPS (min 15 for mobile)",
+      "duration_ms": 3003
+    },
+    {
+      "category": "mobile",
+      "name": "meta:Galaxy S20_viewport_tag",
+      "status": "PASS",
+      "details": "content='width=device-width, initial-scale=1.0'",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "mobile_lib:Galaxy S20_toggle_exists",
+      "status": "PASS",
+      "details": "mobile-lib-toggle exists: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "sidebar:Galaxy S20_present",
+      "status": "PASS",
+      "details": "width=0, visible=False",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "load:iPad Mini_loads",
+      "status": "PASS",
+      "details": "2743ms",
+      "duration_ms": 2742
+    },
+    {
+      "category": "mobile",
+      "name": "layout:iPad Mini_no_horizontal_scroll",
+      "status": "PASS",
+      "details": "scrollWidth vs innerWidth check at 768px",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "touch:iPad Mini_target_sizes",
+      "status": "PASS",
+      "details": "121 buttons, 0 below 24px min",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "fps:iPad Mini_performance",
+      "status": "PASS",
+      "details": "60.3 FPS (min 15 for mobile)",
+      "duration_ms": 3003
+    },
+    {
+      "category": "mobile",
+      "name": "meta:iPad Mini_viewport_tag",
+      "status": "PASS",
+      "details": "content='width=device-width, initial-scale=1.0'",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "mobile_lib:iPad Mini_toggle_exists",
+      "status": "PASS",
+      "details": "mobile-lib-toggle exists: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "sidebar:iPad Mini_present",
+      "status": "PASS",
+      "details": "width=0, visible=False",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "load:iPad Pro_loads",
+      "status": "PASS",
+      "details": "2744ms",
+      "duration_ms": 2743
+    },
+    {
+      "category": "mobile",
+      "name": "layout:iPad Pro_no_horizontal_scroll",
+      "status": "PASS",
+      "details": "scrollWidth vs innerWidth check at 1024px",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "touch:iPad Pro_target_sizes",
+      "status": "PASS",
+      "details": "121 buttons, 0 below 24px min",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "fps:iPad Pro_performance",
+      "status": "PASS",
+      "details": "60.2 FPS (min 15 for mobile)",
+      "duration_ms": 3006
+    },
+    {
+      "category": "mobile",
+      "name": "meta:iPad Pro_viewport_tag",
+      "status": "PASS",
+      "details": "content='width=device-width, initial-scale=1.0'",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "mobile_lib:iPad Pro_toggle_exists",
+      "status": "PASS",
+      "details": "mobile-lib-toggle exists: True",
+      "duration_ms": 0
+    },
+    {
+      "category": "mobile",
+      "name": "sidebar:iPad Pro_present",
+      "status": "PASS",
+      "details": "width=250, visible=True",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "rapid:add_50_objects",
+      "status": "PASS",
+      "details": "added=50, 40ms",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "rapid:add_remove_cycle",
+      "status": "PASS",
+      "details": "errors=0, finalCount=50",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:negative dimensions",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:zero dimensions",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:huge dimensions",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:string as number",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:invalid color",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:null width",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:NaN width",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_params:Infinity width",
+      "status": "PASS",
+      "details": "success=True, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "duplicate:object_duplicated",
+      "status": "PASS",
+      "details": "before=58, after=59",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "rapid:undo_redo_cycle",
+      "status": "PASS",
+      "details": "errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "clear:remove_all_objects",
+      "status": "PASS",
+      "details": "removed=59, remaining=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_load:empty_json",
+      "status": "PASS",
+      "details": "success=True, count=0, err=",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_load:null_data",
+      "status": "PASS",
+      "details": "success=True, count=0, err=",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_load:missing_yard",
+      "status": "PASS",
+      "details": "success=True, count=0, err=",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_load:missing_objects",
+      "status": "PASS",
+      "details": "success=True, count=0, err=",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_load:malformed_array",
+      "status": "PASS",
+      "details": "success=True, count=0, err=",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "invalid_load:extra_large",
+      "status": "PASS",
+      "details": "success=True, count=0, err=",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "rapid:panel_toggling",
+      "status": "PASS",
+      "details": "state OK after toggling, viewMode=3d",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "rapid:slider_changes",
+      "status": "PASS",
+      "details": "errors=0, ",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "keyboard:mashing_no_crash",
+      "status": "PASS",
+      "details": "state OK after mashing, viewMode=3d",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "mouse:spam_no_crash",
+      "status": "PASS",
+      "details": "state OK after 20 rapid clicks",
+      "duration_ms": 0
+    },
+    {
+      "category": "chaos",
+      "name": "resize:spam_no_crash",
+      "status": "PASS",
+      "details": "state OK after rapid resizes",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "js:no_errors_on_load",
+      "status": "PASS",
+      "details": "0 total errors, 0 critical",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "dom:no_duplicate_ids",
+      "status": "PASS",
+      "details": "240 elements, 0 duplicates: []",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "a11y:buttons_have_names",
+      "status": "PASS",
+      "details": "114 buttons, 0 without accessible name: []",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "css:variables_defined",
+      "status": "PASS",
+      "details": "Checked 5, missing: []",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "importmap:three_js_configured",
+      "status": "PASS",
+      "details": "three URL: https://unpkg.com/three@0.160.0/build/three.module.js",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "webgl:context_available",
+      "status": "PASS",
+      "details": "WebGL: WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "canvas:present",
+      "status": "PASS",
+      "details": "4 canvas(es), sizes: [{'w': 300, 'h': 150, 'id': 'cross-section-canvas'}, {'w': 560, 'h': 140, 'id': 'ta-cross-section-canvas'}, {'w': 1030, 'h': 748, 'id': 'viewport'}]",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:hasDoctype",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:hasHtml",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:hasHead",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:hasBody",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:hasViewport",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:hasCharset",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:body_has_children",
+      "status": "PASS",
+      "details": "10 children in body",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasYard",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasObjects",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasSelectedId",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasNextId",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasViewMode",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasUndoStack",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasRedoStack",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "state:hasTerrain",
+      "status": "PASS",
+      "details": "True",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:terrain_dock_opens_clean",
+      "status": "PASS",
+      "details": "content visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:underground_dock_opens_clean",
+      "status": "PASS",
+      "details": "content visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:analyze_dock_opens_clean",
+      "status": "PASS",
+      "details": "content visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:innovate_dock_opens_clean",
+      "status": "PASS",
+      "details": "content visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:sun_dock_opens_clean",
+      "status": "PASS",
+      "details": "content visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:cost-panel_opens_clean",
+      "status": "PASS",
+      "details": "visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "panel:layer-panel_opens_clean",
+      "status": "PASS",
+      "details": "visible=True, errors=0",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "keyboard:tab_navigation_works",
+      "status": "PASS",
+      "details": "Focused 1 unique elements: ['btn-save', 'btn-save', 'btn-save', 'btn-save', 'btn-save']",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "html:no_inline_handlers",
+      "status": "PASS",
+      "details": "0 inline handlers found",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "a11y:contrast_ratios",
+      "status": "PASS",
+      "details": "4 checked, 0 below 3.0:1",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "recovery:invalid_object_type",
+      "status": "PASS",
+      "details": "success=False, error=None",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "stability:idle_10s",
+      "status": "PASS",
+      "details": "60.1 FPS over 10s idle, state OK",
+      "duration_ms": 10007
+    },
+    {
+      "category": "critic",
+      "name": "persistence:save_load_roundtrip",
+      "status": "PASS",
+      "details": "saved=True, empty=0, after_load=2",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "file:size_reasonable",
+      "status": "PASS",
+      "details": "505KB (max 600KB)",
+      "duration_ms": 0
+    },
+    {
+      "category": "critic",
+      "name": "file:line_count_reasonable",
+      "status": "PASS",
+      "details": "11749 lines (max 15000)",
+      "duration_ms": 0
+    }
+  ],
+  "generated_at": "2026-08-22T08:49:55.671003",
+  "total_runtime_s": 154.68143439292908
+}

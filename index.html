@@ -483,14 +483,35 @@ canvas { display: block; }
 
 /* ===== MOBILE ===== */
 #mobile-lib-toggle { display: none; }
+@media (max-width: 768px), (max-height: 500px) and (max-width: 900px) {
+  body.is-mobile #sidebar, #sidebar { display: none; }
+}
+body.is-mobile #sidebar.mobile-visible { display: flex !important; position: absolute; z-index: 55; width: 200px; }
+body.is-mobile #mobile-lib-toggle {
+  display: block;
+  position: fixed;
+  bottom: 200px;
+  right: 16px;
+  z-index: 60;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+body.is-mobile #properties { position: absolute; right: 0; top: 0; bottom: 0; z-index: 50; width: 240px; }
 @media (max-width: 768px) {
   #sidebar { display: none; }
   #sidebar.mobile-visible { display: flex !important; position: absolute; z-index: 55; width: 200px; }
   #mobile-lib-toggle {
     display: block;
     position: fixed;
-    bottom: 70px;
-    left: 16px;
+    bottom: 200px;
+    right: 16px;
     z-index: 60;
     width: 48px;
     height: 48px;
@@ -557,6 +578,51 @@ canvas { display: block; }
   #mobile-props-sheet .rotate-btn { width: 44px; height: 44px; font-size: 20px; }
   #mobile-props-sheet .prop-actions { display: none; }
 }
+/* Also apply mobile sheet styles when IS_MOBILE class is set (tablet landscape) */
+body.is-mobile #properties { display: none !important; }
+body.is-mobile #mobile-props-sheet {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 70;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  max-height: 70vh;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  flex-direction: column;
+}
+body.is-mobile #mobile-props-sheet.expanded { display: flex; transform: translateY(0); }
+body.is-mobile #mobile-props-sheet .sheet-grabber {
+  flex-shrink: 0; height: 28px; display: flex; align-items: center; justify-content: center;
+  cursor: grab; background: var(--surface);
+}
+body.is-mobile #mobile-props-sheet .sheet-grabber-bar { width: 40px; height: 5px; border-radius: 3px; background: var(--border); }
+body.is-mobile #mobile-props-sheet .sheet-header {
+  flex-shrink: 0; padding: 4px 16px 10px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+body.is-mobile #mobile-props-sheet .sheet-header svg { width: 32px; height: 32px; }
+body.is-mobile #mobile-props-sheet .sheet-header .name { font-size: 15px; font-weight: 700; }
+body.is-mobile #mobile-props-sheet .sheet-header .type { font-size: 12px; color: var(--text-muted); }
+body.is-mobile #mobile-props-sheet .sheet-body {
+  overflow-y: auto; padding: 14px 16px 16px; -webkit-overflow-scrolling: touch; flex: 1;
+}
+body.is-mobile #mobile-action-bar {
+  display: none; flex-shrink: 0; border-top: 1px solid var(--border);
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  gap: 8px; justify-content: space-around; background: var(--surface);
+}
+body.is-mobile #mobile-props-sheet.expanded #mobile-action-bar { display: flex; }
+body.is-mobile #mobile-props-sheet .prop-row input[type="number"],
+body.is-mobile #mobile-props-sheet .prop-row select { min-height: 40px; font-size: 16px; }
+body.is-mobile #mobile-props-sheet .prop-row label { font-size: 15px; }
+body.is-mobile #mobile-props-sheet .prop-actions button { min-height: 44px; font-size: 15px; }
+body.is-mobile #mobile-props-sheet .rotate-btn { width: 44px; height: 44px; font-size: 20px; }
+body.is-mobile #mobile-props-sheet .prop-actions { display: none; }
 .mab-btn {
   flex: 1; min-height: 44px;
   border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -796,24 +862,37 @@ canvas { display: block; }
 
 /* ===== MOBILE TOOL DOCK ===== */
 @media (max-width: 768px) {
-  #tool-dock { padding: 4px; gap: 2px; }
-  .td-tab { padding: 6px 8px; min-height: 44px; }
+  #tool-dock { width: 56px; padding: 4px; gap: 2px; }
+  .td-tab { padding: 6px 6px; min-height: 44px; min-width: 44px; }
   .td-tab .td-label { display: none; }
-  #tool-dock { width: 52px; }
-  #dock-panel-container { left: 72px; right: 8px; bottom: 72px; }
-  .dock-panel { min-width: 0; max-width: none; }
+  #dock-panel-container { left: 76px; right: 8px; bottom: 72px; max-height: calc(100% - 88px); }
+  .dock-panel { min-width: 0; max-width: none; max-height: calc(100vh - 100px); overflow-y: auto; }
   /* Mobile responsive topbar */
   #topbar { padding: 0 4px; gap: 2px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   #topbar::-webkit-scrollbar { display: none; }
   .topbar-brand { font-size: 0; flex-shrink: 0; }
   .topbar-brand svg { width: 22px; height: 22px; margin-right: 2px; }
   .topbar-spacer { min-width: 0; }
-  .tb-btn { padding: 6px 6px; font-size: 0; flex-shrink: 0; min-height: 44px; }
-  .tb-btn svg { width: 16px; height: 16px; }
+  .tb-btn { padding: 6px 8px; font-size: 0; flex-shrink: 0; min-height: 44px; min-width: 44px; }
+  .tb-btn svg { width: 18px; height: 18px; }
   .view-toggle { flex-shrink: 0; }
   .view-toggle button { padding: 4px 6px; font-size: 10px; min-height: 44px; }
   .tb-divider { margin: 0 1px; flex-shrink: 0; }
   #btn-screenshot, #btn-help { display: none; }
+}
+
+/* Landscape phone — short height, constrain dock and panels */
+@media (max-width: 768px) and (max-height: 500px) {
+  #tool-dock { gap: 1px; padding: 2px; }
+  .td-tab { min-height: 36px; padding: 4px 6px; }
+  .td-group-label { display: none; }
+  #dock-panel-container { bottom: 8px; max-height: calc(100% - 70px); }
+  .dock-panel { max-height: calc(100vh - 80px); }
+  #view-controls { bottom: 8px; }
+  .vc-btn { width: 36px; height: 36px; }
+  #context-hint { display: none !important; }
+  #scale-bar { display: none !important; }
+  #mobile-lib-toggle { bottom: 60px; width: 40px; height: 40px; font-size: 20px; }
 }
 
 
@@ -826,7 +905,9 @@ canvas { display: block; }
 
 /* Mobile touch target minimum sizes — ensure 44x44px minimum */
 @media (max-width: 768px) {
-  .tb-btn { min-height: 44px !important; padding: 8px 12px !important; font-size: 13px !important; }
+  .tb-btn { min-height: 44px !important; min-width: 44px !important; }
+  /* Old floating buttons are hidden via display:none !important elsewhere;
+     these rules are kept for compatibility but won't affect hidden elements */
   #tape-measure-btn, #terrain-btn, #excavate-btn, #terrain-analysis-btn, #innovation-btn, #sun-btn {
     min-height: 44px !important; padding: 10px 16px !important; font-size: 14px !important;
   }
@@ -836,6 +917,9 @@ canvas { display: block; }
   .ta-toggle { width: 44px; height: 26px; }
   .ta-toggle::after { width: 22px; height: 22px; }
   .ta-toggle.on::after { transform: translateX(18px); }
+  .precision-toggle { width: 44px; height: 26px; }
+  .precision-toggle-knob { width: 22px; height: 22px; }
+  .precision-toggle.on .precision-toggle-knob { transform: translateX(18px); }
   .ta-contour-interval input { min-height: 44px; font-size: 16px; }
   .carving-shape-btn { min-height: 44px; padding: 10px 8px; font-size: 13px; }
   .carving-commit-btn { min-height: 44px !important; padding: 10px 12px !important; font-size: 13px !important; }
@@ -1810,7 +1894,7 @@ canvas { display: block; }
       <li>Retaining walls over 4 feet need engineering — consult a professional</li>
       <li>Grade soil away from your house: 6" drop over 10 feet (5% slope)</li>
     </ul>
-    <button class="wizard-btn close-btn" onclick="document.getElementById('help-modal').classList.remove('visible')">Got It!</button>
+    <button class="wizard-btn close-btn" id="help-close-btn">Got It!</button>
   </div>
 </div>
 
@@ -1824,6 +1908,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // CONFIGURATION
 // ============================================================
 const IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+// Add body class for IS_MOBILE so CSS can respond even when viewport is > 768px
+if (IS_MOBILE) document.body.classList.add('is-mobile');
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, IS_MOBILE ? 1 : 2);
 const SHADOW_MAP_SIZE = IS_MOBILE ? 1024 : 2048;
 
@@ -1878,6 +1964,7 @@ function sanitizeNumber(val, min, max, fallback) {
 function sanitizeObjectParams(obj) {
   const cat = CATALOG[obj.type];
   if (!cat) return null;
+  if (!obj.params || typeof obj.params !== 'object') return { ...cat.defaults };
   const sanitized = {};
   for (const param of cat.params) {
     const val = obj.params[param.key];
@@ -2219,16 +2306,20 @@ function createFence(params) {
   const postSpacing = 8;
   const numPosts = Math.max(2, Math.min(100, Math.ceil(len / postSpacing) + 1));
   const actualSpacing = len / (numPosts - 1);
+  // PERF FIX: Share post geometry across all posts
+  const postGeo = new THREE.BoxGeometry(0.45, h, 0.45);
   for (let i = 0; i < numPosts; i++) {
     const x = i * actualSpacing - len / 2;
-    const post = new THREE.Mesh(new THREE.BoxGeometry(0.45, h, 0.45), postMat);
+    const post = new THREE.Mesh(postGeo, postMat);
     post.position.set(x, h / 2, 0);
     post.castShadow = true;
     post.receiveShadow = true;
     group.add(post);
   }
+  // PERF FIX: Share rail geometry across both rails
+  const railGeo = new THREE.BoxGeometry(len, 0.28, 0.18);
   for (const rh of [h * 0.22, h * 0.72]) {
-    const rail = new THREE.Mesh(new THREE.BoxGeometry(len, 0.28, 0.18), railMat);
+    const rail = new THREE.Mesh(railGeo, railMat);
     rail.position.set(0, rh, 0);
     rail.castShadow = true;
     group.add(rail);
@@ -2236,9 +2327,11 @@ function createFence(params) {
   const picketW = 0.35, gap = 0.1;
   const numPick = Math.max(1, Math.min(2000, Math.floor(len / (picketW + gap))));
   const picketH = Math.max(0.1, h - 1.2);
+  // PERF FIX: Share a single picket geometry instead of creating one per picket (up to 2000 geometries)
+  const picketGeo = new THREE.BoxGeometry(picketW, picketH, 0.12);
   for (let i = 0; i < numPick; i++) {
     const x = i * (picketW + gap) - len / 2 + picketW / 2;
-    const picket = new THREE.Mesh(new THREE.BoxGeometry(picketW, picketH, 0.12), picketMat);
+    const picket = new THREE.Mesh(picketGeo, picketMat);
     picket.position.set(x, picketH / 2 + 0.3, 0.05);
     picket.castShadow = true;
     group.add(picket);
@@ -2253,23 +2346,27 @@ function createPergola(params) {
   const mat = new THREE.MeshLambertMaterial({ color: new THREE.Color(color) });
   const postR = 0.35;
   const positions = [[w/2 - postR, 0, d/2 - postR], [-(w/2 - postR), 0, d/2 - postR], [w/2 - postR, 0, -(d/2 - postR)], [-(w/2 - postR), 0, -(d/2 - postR)]];
+  // PERF FIX: Share geometries across repeated mesh instances
+  const postGeo = new THREE.BoxGeometry(0.6, h, 0.6);
   for (const [px, , pz] of positions) {
-    const post = new THREE.Mesh(new THREE.BoxGeometry(0.6, h, 0.6), mat);
+    const post = new THREE.Mesh(postGeo, mat);
     post.position.set(px, h / 2, pz);
     post.castShadow = true;
     group.add(post);
   }
   const beamW = 0.5, beamH = 0.6;
+  const beamGeo = new THREE.BoxGeometry(w - 0.3, beamH, beamW);
   for (const [zOff, orient] of [[d/2 - postR, 'x'], [-(d/2 - postR), 'x']]) {
-    const beam = new THREE.Mesh(new THREE.BoxGeometry(w - 0.3, beamH, beamW), mat);
+    const beam = new THREE.Mesh(beamGeo, mat);
     beam.position.set(0, h - beamH/2, zOff);
     beam.castShadow = true;
     group.add(beam);
   }
   const slatCount = Math.max(1, Math.min(100, Math.ceil(w / 1.5)));
+  const slatGeo = new THREE.BoxGeometry(0.3, 0.35, d - 0.3);
   for (let i = 0; i < slatCount; i++) {
     const x = slatCount > 1 ? (i / (slatCount - 1)) * (w - 1) - (w - 1) / 2 : 0;
-    const slat = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.35, d - 0.3), mat);
+    const slat = new THREE.Mesh(slatGeo, mat);
     slat.position.set(x, h + 0.1, 0);
     slat.castShadow = true;
     group.add(slat);
@@ -2503,20 +2600,25 @@ function createPatio(params) {
   group.add(slab);
   if (params.material === 'paver' || params.material === 'flagstone') {
     const lineMat = new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(0.85) });
+    // PERF FIX: Share geometries for repeated line meshes
+    const lineGeoZ = new THREE.BoxGeometry(0.05, 0.02, d);
+    const lineGeoX = new THREE.BoxGeometry(w, 0.02, 0.05);
     for (let x = -w / 2 + 2; x < w / 2; x += 2) {
-      const line = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.02, d), lineMat);
+      const line = new THREE.Mesh(lineGeoZ, lineMat);
       line.position.set(x, 0.16, 0);
       group.add(line);
     }
     for (let z = -d / 2 + 2; z < d / 2; z += 2) {
-      const line = new THREE.Mesh(new THREE.BoxGeometry(w, 0.02, 0.05), lineMat);
+      const line = new THREE.Mesh(lineGeoX, lineMat);
       line.position.set(0, 0.16, z);
       group.add(line);
     }
   } else {
+    const lineGeo3 = new THREE.BoxGeometry(w, 0.02, 0.04);
     const lines = [0.25, 0.5, 0.75];
+    const lineMat3 = new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(0.9) });
     for (const f of lines) {
-      const line = new THREE.Mesh(new THREE.BoxGeometry(w, 0.02, 0.04), new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(0.9) }));
+      const line = new THREE.Mesh(lineGeo3, lineMat3);
       line.position.set(0, 0.16, -d / 2 + d * f);
       group.add(line);
     }
@@ -2533,16 +2635,19 @@ function createDeck(params) {
   surface.castShadow = true; surface.receiveShadow = true;
   group.add(surface);
   const plankMat = new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(0.92) });
+  // PERF FIX: Share plank geometry across all planks
+  const plankGeo = new THREE.BoxGeometry(w, 0.02, 0.08);
   for (let z = -d / 2 + 0.5; z < d / 2; z += 1) {
-    const plank = new THREE.Mesh(new THREE.BoxGeometry(w, 0.02, 0.08), plankMat);
+    const plank = new THREE.Mesh(plankGeo, plankMat);
     plank.position.set(0, h + 0.11, z);
     group.add(plank);
   }
   if (h > 0.5) {
     const postMat = new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(0.6) });
+    const postGeo = new THREE.BoxGeometry(0.4, h, 0.4);
     for (const px of [-w / 2 + 0.3, w / 2 - 0.3]) {
       for (const pz of [-d / 2 + 0.3, d / 2 - 0.3]) {
-        const post = new THREE.Mesh(new THREE.BoxGeometry(0.4, h, 0.4), postMat);
+        const post = new THREE.Mesh(postGeo, postMat);
         post.position.set(px, h / 2, pz);
         post.castShadow = true;
         group.add(post);
@@ -2561,8 +2666,9 @@ function createWalkway(params) {
   path.receiveShadow = true;
   group.add(path);
   const lineMat = new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(0.85) });
+  const lineGeo = new THREE.BoxGeometry(w, 0.02, 0.05);
   for (let z = -len / 2 + 2; z < len / 2; z += 2) {
-    const line = new THREE.Mesh(new THREE.BoxGeometry(w, 0.02, 0.05), lineMat);
+    const line = new THREE.Mesh(lineGeo, lineMat);
     line.position.set(0, 0.09, z);
     group.add(line);
   }
@@ -2580,8 +2686,9 @@ function createRaisedBed(params) {
     [w / 2 - t / 2, h / 2, 0, t, h, d - 2 * t],
     [-(w / 2 - t / 2), h / 2, 0, t, h, d - 2 * t],
   ];
+  const wallMat = new THREE.MeshLambertMaterial({ color: col });
   for (const [px, py, pz, sw, sh, sd] of sides) {
-    const wall = new THREE.Mesh(new THREE.BoxGeometry(sw, sh, sd), new THREE.MeshLambertMaterial({ color: col }));
+    const wall = new THREE.Mesh(new THREE.BoxGeometry(sw, sh, sd), wallMat);
     wall.position.set(px, py, pz);
     wall.castShadow = true; wall.receiveShadow = true;
     group.add(wall);
@@ -2597,10 +2704,16 @@ function createRetainingWall(params) {
   const len = Math.max(0.1, Math.min(500, params.length || 20)), h = Math.max(0.1, Math.min(50, params.height || 3));
   const col = new THREE.Color(params.color || '#a09080');
   const tiers = Math.ceil(h / 1);
+  // PERF FIX: Share geometry, create materials outside loop
+  const tierGeo = new THREE.BoxGeometry(len, 1, 1);
   for (let i = 0; i < tiers; i++) {
     const tierH = Math.min(1, h - i);
     const tierY = i + tierH / 2;
-    const tier = new THREE.Mesh(new THREE.BoxGeometry(len, tierH, 1), new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(1 - i * 0.05) }));
+    // Only create new material if color changes (darkens per tier)
+    const tierMat = new THREE.MeshLambertMaterial({ color: col.clone().multiplyScalar(1 - i * 0.05) });
+    const tier = new THREE.Mesh(tierGeo, tierMat);
+    // Scale Y to actual tier height
+    tier.scale.y = tierH;
     tier.position.set(0, tierY, 0);
     tier.castShadow = true; tier.receiveShadow = true;
     group.add(tier);
@@ -2635,8 +2748,9 @@ function createChair(params) {
   back.position.set(0, seatH + 1, -seatD / 2 + 0.075);
   back.castShadow = true;
   group.add(back);
+  const legGeo = new THREE.CylinderGeometry(0.08, 0.08, seatH, 8);
   for (const [lx, lz] of [[seatW/2-0.15, seatD/2-0.15], [-(seatW/2-0.15), seatD/2-0.15], [seatW/2-0.15, -(seatD/2-0.15)], [-(seatW/2-0.15), -(seatD/2-0.15)]]) {
-    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, seatH, 8), mat);
+    const leg = new THREE.Mesh(legGeo, mat);
     leg.position.set(lx, seatH / 2, lz);
     leg.castShadow = true;
     group.add(leg);
@@ -2653,8 +2767,9 @@ function createTable(params) {
   top.position.y = 2.8;
   top.castShadow = true; top.receiveShadow = true;
   group.add(top);
+  const legGeo = new THREE.BoxGeometry(0.2, 2.8, 0.2);
   for (const [lx, lz] of [[w/2-0.2, d/2-0.2], [-(w/2-0.2), d/2-0.2], [w/2-0.2, -(d/2-0.2)], [-(w/2-0.2), -(d/2-0.2)]]) {
-    const leg = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2.8, 0.2), mat);
+    const leg = new THREE.Mesh(legGeo, mat);
     leg.position.set(lx, 1.4, lz);
     leg.castShadow = true;
     group.add(leg);
@@ -2675,8 +2790,9 @@ function createLounge(params) {
   back.castShadow = true;
   group.add(back);
   const legs = [[1, 0], [-1, 0], [1, -3], [-1, -3]];
+  const legGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.8, 8);
   for (const [lx, lz] of legs) {
-    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.8, 8), mat);
+    const leg = new THREE.Mesh(legGeo, mat);
     leg.position.set(lx, 0.4, lz + 3);
     leg.castShadow = true;
     group.add(leg);
@@ -2695,8 +2811,9 @@ function createGrill(params) {
   body.position.y = 1.25;
   body.castShadow = true;
   group.add(body);
+  const legGeo = new THREE.CylinderGeometry(0.05, 0.05, 0.5, 6);
   for (const [lx, lz] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
-    const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.5, 6), bodyMat);
+    const leg = new THREE.Mesh(legGeo, bodyMat);
     leg.position.set(lx, 0.25, lz);
     group.add(leg);
   }
@@ -2739,6 +2856,7 @@ const MIN_TERRAIN_HEIGHT = -30; // ft — absolute floor
 
 /** Clamp a terrain height value to [MIN_TERRAIN_HEIGHT, MAX_TERRAIN_HEIGHT] */
 function clampTerrainHeight(v) {
+  if (!Number.isFinite(v)) return 0;
   return Math.max(MIN_TERRAIN_HEIGHT, Math.min(MAX_TERRAIN_HEIGHT, v));
 }
 
@@ -2910,12 +3028,17 @@ function initScene() {
   scene.add(outerGround);
 
   // Context loss handler
+  window._bydContextLost = false;
   renderer.domElement.addEventListener('webglcontextlost', e => {
     e.preventDefault();
+    window._bydContextLost = true;
     showToast('Graphics context lost — please reload');
   });
   renderer.domElement.addEventListener('webglcontextrestored', () => {
+    window._bydContextLost = false;
     showToast('Graphics restored');
+    // Re-render to restore the scene
+    requestRender();
   });
 
   // Resize
@@ -2947,6 +3070,8 @@ function onResize() {
 let needsRender = true;
 function animate() {
   requestAnimationFrame(animate);
+  // Skip rendering when WebGL context is lost
+  if (window._bydContextLost) return;
   // controls.update() returns true if the camera is still moving (damping active).
   // Only render when something changed (needsRender) or damping is in progress.
   const dampingActive = controls.update();
@@ -3631,6 +3756,22 @@ function deleteObjectWithCommand(id) {
   showToast('Deleted — press Undo to restore');
 }
 
+function duplicateObject(id) {
+  const obj = state.objects.get(id);
+  if (!obj) return;
+  const newObj = JSON.parse(JSON.stringify(obj));
+  newObj.id = state.nextId++;
+  newObj.position.x += 5;
+  state.objects.set(newObj.id, newObj);
+  buildSceneObject(newObj.id);
+  pushCommand({
+    undo: () => { removeObject(newObj.id); },
+    redo: () => { state.objects.set(newObj.id, newObj); buildSceneObject(newObj.id); },
+  });
+  selectObject(newObj.id);
+  if (state.terrain) updateObjectHeight(newObj.id);
+}
+
 // ============================================================
 // DIMENSION READOUT
 // ============================================================
@@ -3716,7 +3857,10 @@ function checkSafetyWarnings(obj) {
 function addSafetyWarning(level, title, body) {
   const div = document.createElement('div');
   div.className = 'safety-warning' + (level ? ' ' + level : '');
-  div.innerHTML = `<span class="dismiss" onclick="this.parentElement.remove()">×</span><strong>${title}</strong>${body}`;
+  div.innerHTML = `<span class="dismiss" data-dismiss="true">×</span><strong>${title}</strong>${body}`;
+  // Attach event listener for dismiss button (replaces inline onclick)
+  const dismissBtn = div.querySelector('[data-dismiss]');
+  if (dismissBtn) dismissBtn.addEventListener('click', () => div.remove());
   safetyEl.appendChild(div);
 }
 
@@ -3792,7 +3936,7 @@ function serializeDesign() {
 
 function saveDesign() {
   const data = serializeDesign();
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -3812,17 +3956,28 @@ function loadDesign(data) {
     showToast('Invalid design file: objects is not an array.');
     return;
   }
-  // Validate each object has a valid type and params
-  for (const obj of data.objects) {
-    if (!obj || typeof obj.type !== 'string' || !CATALOG[obj.type]) {
-      showToast(`Invalid design file: unknown or missing object type.`);
-      return;
-    }
-    if (!obj.params || typeof obj.params !== 'object') {
-      showToast(`Invalid design file: object missing params.`);
-      return;
-    }
-  }
+  // Backward compatibility: migrate old object type names to current catalog
+  const TYPE_MIGRATIONS = {
+    'tree': 'tree_deciduous',
+    'pool': 'pool_inground',
+    'fence': 'fence_privacy',
+    'table_patio': 'table',
+    'chair_patio': 'chair',
+    'lounge_chair': 'lounge',
+  };
+  // Migrate old types and filter out invalid ones (skip rather than fail entire load)
+  data.objects = data.objects.map(obj => {
+    if (!obj || typeof obj.type !== 'string') return null;
+    const migratedType = TYPE_MIGRATIONS[obj.type] || obj.type;
+    if (!CATALOG[migratedType]) return null;
+    return { ...obj, type: migratedType };
+  }).filter(obj => obj !== null);
+  // If all objects were invalid, still proceed (empty design is valid)
+  // Validate each remaining object has valid params (skip invalid ones)
+  data.objects = data.objects.filter(obj => {
+    if (!obj.params || typeof obj.params !== 'object') return false;
+    return true;
+  });
   // Validate yard has positive width/depth; fallback to current yard if invalid
   if (data.yard && (typeof data.yard.width !== 'number' || typeof data.yard.depth !== 'number' || data.yard.width <= 0 || data.yard.depth <= 0)) {
     showToast('Invalid design file: yard has invalid dimensions; using current yard.');
@@ -3864,9 +4019,9 @@ function loadDesign(data) {
   } else {
     state.terrain = null;
   }
-  state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 ? data.terrainSegs : 100;
-  // Restore grid level
-  if (typeof data.gridLevel === 'number') {
+  state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 && data.terrainSegs <= 1000 ? data.terrainSegs : 100;
+  // Restore grid level (validate it's a finite number)
+  if (typeof data.gridLevel === 'number' && Number.isFinite(data.gridLevel)) {
     state.gridLevel = Math.max(-30, Math.min(30, data.gridLevel));
   }
   // Rebuild ground with new dimensions and apply terrain
@@ -3937,14 +4092,23 @@ document.getElementById('import-input').addEventListener('change', e => {
 // SCREENSHOT
 // ============================================================
 document.getElementById('btn-screenshot').addEventListener('click', () => {
-  // Render synchronously then capture
-  renderer.render(scene, activeCamera);
-  const dataUrl = renderer.domElement.toDataURL('image/png');
-  const a = document.createElement('a');
-  a.href = dataUrl;
-  a.download = 'my-backyard-' + Date.now() + '.png';
-  a.click();
-  showToast('Screenshot saved!');
+  // Guard against WebGL context loss
+  if (window._bydContextLost) {
+    showToast('Cannot take screenshot: graphics context lost. Please reload.');
+    return;
+  }
+  try {
+    // Render synchronously then capture
+    renderer.render(scene, activeCamera);
+    const dataUrl = renderer.domElement.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'my-backyard-' + Date.now() + '.png';
+    a.click();
+    showToast('Screenshot saved!');
+  } catch(e) {
+    showToast('Screenshot failed: ' + e.message);
+  }
   requestRender();
 });
 
@@ -4292,6 +4456,20 @@ document.getElementById('btn-help').addEventListener('click', () => {
 document.getElementById('help-modal').addEventListener('click', e => {
   if (e.target.id === 'help-modal') e.target.classList.remove('visible');
 });
+// Close help modal on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const helpModal = document.getElementById('help-modal');
+    if (helpModal && helpModal.classList.contains('visible')) {
+      helpModal.classList.remove('visible');
+      e.stopPropagation();
+    }
+  }
+}, true);
+// Close help modal via "Got It!" button
+document.getElementById('help-close-btn')?.addEventListener('click', () => {
+  document.getElementById('help-modal').classList.remove('visible');
+});
 
 // ============================================================
 // TOAST & HINT
@@ -4332,7 +4510,13 @@ document.addEventListener('keydown', e => {
   } else if (e.key === 'Delete' || e.key === 'Backspace') {
     if (state.selectedId !== null) deleteObjectWithCommand(state.selectedId);
   } else if (e.key === 'Escape') {
-    deselectObject();
+    // Close any open modal/panel first, then deselect
+    let modalClosed = false;
+    const helpModal = document.getElementById('help-modal');
+    if (helpModal && helpModal.classList.contains('visible')) { helpModal.classList.remove('visible'); modalClosed = true; }
+    const shareModal = document.getElementById('share-modal');
+    if (shareModal && shareModal.classList.contains('visible')) { shareModal.classList.remove('visible'); modalClosed = true; }
+    if (!modalClosed) deselectObject();
   } else if (e.key === 'Tab') {
     // Tab: cycle through objects (forward) or Shift+Tab (backward)
     e.preventDefault();
@@ -5023,47 +5207,126 @@ function buildVoxelMesh() {
 
   // Face definitions: for each direction, the offset to the neighbor and the face vertices
   // Faces: 0=+X, 1=-X, 2=+Y(top), 3=-Y(bottom), 4=+Z, 5=-Z
+  // Each faceDef: dx,dy,dz = neighbor offset; uAxis, vAxis = the two axes that span the face plane;
+  // The third axis (depth axis) is determined by the face normal.
+  // PERF FIX: Uses greedy face merging — adjacent coplanar faces in the same
+  // row are merged into a single quad, dramatically reducing vertex count.
   const faceDefs = [
-    { dx: 1, dy: 0, dz: 0,  // +X face
-      verts: [[1,0,0],[1,1,0],[1,1,1],[1,0,1]],
-      normal: [1, 0, 0] },
-    { dx: -1, dy: 0, dz: 0,  // -X face
-      verts: [[0,0,1],[0,1,1],[0,1,0],[0,0,0]],
-      normal: [-1, 0, 0] },
-    { dx: 0, dy: 1, dz: 0,   // +Y (top) face
-      verts: [[0,1,0],[0,1,1],[1,1,1],[1,1,0]],
-      normal: [0, 1, 0] },
-    { dx: 0, dy: -1, dz: 0,  // -Y (bottom) face
-      verts: [[0,0,1],[0,0,0],[1,0,0],[1,0,1]],
-      normal: [0, -1, 0] },
-    { dx: 0, dy: 0, dz: 1,   // +Z face
-      verts: [[1,0,1],[1,1,1],[0,1,1],[0,0,1]],
-      normal: [0, 0, 1] },
-    { dx: 0, dy: 0, dz: -1,  // -Z face
-      verts: [[0,0,0],[0,1,0],[1,1,0],[1,0,0]],
-      normal: [0, 0, -1] },
+    { dx: 1, dy: 0, dz: 0, normal: [1, 0, 0],   // +X face: span Y,Z
+      uAxis: 2, vAxis: 1, faceAxis: 0, faceDir: 1 },
+    { dx: -1, dy: 0, dz: 0, normal: [-1, 0, 0],  // -X face: span Y,Z
+      uAxis: 2, vAxis: 1, faceAxis: 0, faceDir: 0 },
+    { dx: 0, dy: 1, dz: 0, normal: [0, 1, 0],    // +Y (top) face: span X,Z
+      uAxis: 0, vAxis: 2, faceAxis: 1, faceDir: 1 },
+    { dx: 0, dy: -1, dz: 0, normal: [0, -1, 0], // -Y (bottom) face: span X,Z
+      uAxis: 0, vAxis: 2, faceAxis: 1, faceDir: 0 },
+    { dx: 0, dy: 0, dz: 1, normal: [0, 0, 1],    // +Z face: span X,Y
+      uAxis: 0, vAxis: 1, faceAxis: 2, faceDir: 1 },
+    { dx: 0, dy: 0, dz: -1, normal: [0, 0, -1],  // -Z face: span X,Y
+      uAxis: 0, vAxis: 1, faceAxis: 2, faceDir: 0 },
   ];
 
-  for (let iy = 0; iy < voxelNY; iy++) {
-    for (let iz = 0; iz < voxelNZ; iz++) {
-      for (let ix = 0; ix < voxelNX; ix++) {
-        if (getVoxel(ix, iy, iz) !== 1) continue;
-        const baseX = voxelOriginX + ix * VOXEL_SIZE;
-        const baseY = bottomY + iy * VOXEL_SIZE;
-        const baseZ = voxelOriginZ + iz * VOXEL_SIZE;
+  const dims = [voxelNX, voxelNY, voxelNZ];
 
-        for (let f = 0; f < 6; f++) {
-          const fd = faceDefs[f];
-          // Only draw this face if the neighbor is empty (0)
-          if (getVoxel(ix + fd.dx, iy + fd.dy, iz + fd.dz) !== 0) continue;
+  // Greedy meshing: for each face direction, scan the voxel grid and merge
+  // adjacent coplanar exposed faces into larger quads.
+  for (let f = 0; f < 6; f++) {
+    const fd = faceDefs[f];
+    const uAxis = fd.uAxis, vAxis = fd.vAxis, dAxis = fd.faceAxis;
+    const uMax = dims[uAxis], vMax = dims[vAxis], dMax = dims[dAxis];
+
+    // For each slice along the depth axis (the face normal axis)
+    for (let d = 0; d < dMax; d++) {
+      const maskSize = uMax * vMax;
+      const mask = new Uint8Array(maskSize);
+
+      for (let u = 0; u < uMax; u++) {
+        for (let v = 0; v < vMax; v++) {
+          const coord = [0, 0, 0];
+          coord[dAxis] = d;
+          coord[uAxis] = u;
+          coord[vAxis] = v;
+          const ix = coord[0], iy = coord[1], iz = coord[2];
+
+          if (getVoxel(ix, iy, iz) !== 1) {
+            mask[u * vMax + v] = 0;
+            continue;
+          }
+          const nx = ix + fd.dx, ny = iy + fd.dy, nz = iz + fd.dz;
+          if (getVoxel(nx, ny, nz) === 0) {
+            mask[u * vMax + v] = 1;
+          } else {
+            mask[u * vMax + v] = 0;
+          }
+        }
+      }
+
+      // Greedy merge: scan the mask and merge adjacent 1s in the U direction, then V direction
+      for (let v = 0; v < vMax; v++) {
+        let u = 0;
+        while (u < uMax) {
+          if (mask[u * vMax + v] === 0) { u++; continue; }
+          let uEnd = u + 1;
+          while (uEnd < uMax && mask[uEnd * vMax + v] === 1) uEnd++;
+          const uLen = uEnd - u;
+
+          let vEnd = v + 1;
+          let canExtend = true;
+          while (canExtend && vEnd < vMax) {
+            for (let uu = u; uu < uEnd; uu++) {
+              if (mask[uu * vMax + vEnd] !== 1) { canExtend = false; break; }
+            }
+            if (canExtend) vEnd++;
+          }
+          const vLen = vEnd - v;
+
+          // Emit a merged quad for (u..uEnd, v..vEnd) at depth d
+          const faceDCoord = fd.faceDir === 1 ? d + 1 : d;
+
+          const worldCoord = (c) => {
+            const ix = c[0], iy = c[1], iz = c[2];
+            return [
+              voxelOriginX + ix * VOXEL_SIZE,
+              bottomY + iy * VOXEL_SIZE,
+              voxelOriginZ + iz * VOXEL_SIZE,
+            ];
+          };
+
+          const corners = [
+            [0,0,0], [0,0,0], [0,0,0], [0,0,0]
+          ];
+          const cornerUV = [[u, v], [uEnd, v], [uEnd, vEnd], [u, vEnd]];
+          for (let ci = 0; ci < 4; ci++) {
+            const c = [0, 0, 0];
+            c[dAxis] = faceDCoord;
+            c[uAxis] = cornerUV[ci][0];
+            c[vAxis] = cornerUV[ci][1];
+            corners[ci] = worldCoord(c);
+          }
 
           const vIdx = positions.length / 3;
-          for (const v of fd.verts) {
-            positions.push(baseX + v[0] * VOXEL_SIZE, baseY + v[1] * VOXEL_SIZE, baseZ + v[2] * VOXEL_SIZE);
-            normals.push(fd.normal[0], fd.normal[1], fd.normal[2]);
+          if (fd.faceDir === 1) {
+            for (let ci = 0; ci < 4; ci++) {
+              positions.push(corners[ci][0], corners[ci][1], corners[ci][2]);
+              normals.push(fd.normal[0], fd.normal[1], fd.normal[2]);
+            }
+            indices.push(vIdx, vIdx + 1, vIdx + 2, vIdx, vIdx + 2, vIdx + 3);
+          } else {
+            for (let ci = 0; ci < 4; ci++) {
+              positions.push(corners[ci][0], corners[ci][1], corners[ci][2]);
+              normals.push(fd.normal[0], fd.normal[1], fd.normal[2]);
+            }
+            indices.push(vIdx, vIdx + 2, vIdx + 1, vIdx, vIdx + 3, vIdx + 2);
           }
-          // Two triangles: vIdx, vIdx+1, vIdx+2 and vIdx, vIdx+2, vIdx+3
-          indices.push(vIdx, vIdx + 1, vIdx + 2, vIdx, vIdx + 2, vIdx + 3);
+
+          // Mark these voxels as consumed in the mask
+          for (let vv = v; vv < vEnd; vv++) {
+            for (let uu = u; uu < uEnd; uu++) {
+              mask[uu * vMax + vv] = 0;
+            }
+          }
+
+          u = uEnd;
         }
       }
     }
@@ -5335,7 +5598,12 @@ function serializeVoxels() {
 function deserializeVoxels(data) {
   if (!data || !data.rle || !data.dims) return false;
   const [nx, ny, nz] = data.dims;
+  // Validate dimensions are positive integers
+  if (!Number.isFinite(nx) || !Number.isFinite(ny) || !Number.isFinite(nz)) return false;
+  if (nx <= 0 || ny <= 0 || nz <= 0) return false;
+  // Prevent excessively large arrays (safety limit: 200M voxels max)
   const total = nx * ny * nz;
+  if (total > 200000000 || !Number.isFinite(total) || total <= 0) return false;
   if (data.rle.length < 2 || data.rle.length % 2 !== 0) return false;
   const arr = new Uint8Array(total);
   let pos = 0;
@@ -6452,6 +6720,7 @@ function applySunPosition() {
 
 let sunPlaying = false;
 let sunPlayStart = 0;
+let _suppressSunInput = false;
 function toggleSunPlay() {
   sunPlaying = !sunPlaying;
   const btn = document.getElementById('sun-play');
@@ -6468,7 +6737,10 @@ function sunAnimate() {
   const elapsed = (performance.now() - sunPlayStart) / 1000;
   const t = (elapsed / 12) * 24;
   if (t >= 24) { toggleSunPlay(); document.getElementById('sun-time').value = 12; applySunPosition(); return; }
+  // Set value WITHOUT triggering the 'input' event listener (which also calls applySunPosition)
+  _suppressSunInput = true;
   document.getElementById('sun-time').value = t;
+  _suppressSunInput = false;
   applySunPosition();
   requestAnimationFrame(sunAnimate);
 }
@@ -6517,7 +6789,7 @@ function sunAnimate() {
   ['sun-lat', 'sun-lng', 'sun-date'].forEach(id => {
     document.getElementById(id).addEventListener('input', applySunPosition);
   });
-  document.getElementById('sun-time').addEventListener('input', applySunPosition);
+  document.getElementById('sun-time').addEventListener('input', () => { if (!_suppressSunInput) applySunPosition(); });
   document.getElementById('sun-play').addEventListener('click', toggleSunPlay);
   document.getElementById('sun-reset').addEventListener('click', () => {
     if (sunPlaying) toggleSunPlay();
@@ -6881,6 +7153,11 @@ function exitWalkMode() {
   }
   requestRender();
 }
+// Pre-allocated reusable objects to avoid per-frame GC pressure
+const _walkFwdVec = new THREE.Vector3();
+const _walkRightVec = new THREE.Vector3();
+const _walkEuler = new THREE.Euler(0, 0, 0, 'YXZ');
+
 function updateWalkCamera() {
   if (!walkMode) return;
   let moveF = 0, moveR = 0;
@@ -6892,10 +7169,11 @@ function updateWalkCamera() {
   moveR += walkMoveDir.right;
   if (moveF !== 0 || moveR !== 0) {
     const speed = 0.6;
-    const fwd = new THREE.Vector3(0, 0, -1).applyEuler(new THREE.Euler(0, walkYaw, 0));
-    const right = new THREE.Vector3(1, 0, 0).applyEuler(new THREE.Euler(0, walkYaw, 0));
-    walkPos.x += (fwd.x * moveF + right.x * moveR) * speed;
-    walkPos.z += (fwd.z * moveF + right.z * moveR) * speed;
+    _walkEuler.set(0, walkYaw, 0, 'YXZ');
+    _walkFwdVec.set(0, 0, -1).applyEuler(_walkEuler);
+    _walkRightVec.set(1, 0, 0).applyEuler(_walkEuler);
+    walkPos.x += (_walkFwdVec.x * moveF + _walkRightVec.x * moveR) * speed;
+    walkPos.z += (_walkFwdVec.z * moveF + _walkRightVec.z * moveR) * speed;
     walkPos.x = Math.max(-state.yard.width / 2 + 1, Math.min(state.yard.width / 2 - 1, walkPos.x));
     walkPos.z = Math.max(-state.yard.depth / 2 + 1, Math.min(state.yard.depth / 2 - 1, walkPos.z));
   }
@@ -6984,11 +7262,22 @@ function onWalkDeviceOrient(e) {
     document.getElementById('walk-motion-btn').textContent = 'Motion On';
     showToast('Tilt your phone to look around!');
   });
+  let walkLoopRunning = false;
   function walkLoop() {
-    if (walkMode) updateWalkCamera();
-    requestAnimationFrame(walkLoop);
+    if (walkMode) {
+      updateWalkCamera();
+      requestAnimationFrame(walkLoop);
+    } else {
+      walkLoopRunning = false;
+    }
   }
-  walkLoop();
+  // Start walk loop only when entering walk mode (prevents idle rAF)
+  let _walkCheckId = setInterval(() => {
+    if (walkMode && !walkLoopRunning) {
+      walkLoopRunning = true;
+      requestAnimationFrame(walkLoop);
+    }
+  }, 100);
   setTimeout(attachPointer, 0);
 })();
 
@@ -10653,15 +10942,15 @@ function toggleGeoLayers() {
 
 innovGeoLayerTopsoil.addEventListener('input', e => {
   innovGeoLayerTopsoilVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft';
-  if (geoLayersActive) buildGeoLayerMeshes();
+  if (geoLayersActive && typeof buildGeoLayerMeshes === 'function') buildGeoLayerMeshes();
 });
 innovGeoLayerClay.addEventListener('input', e => {
   innovGeoLayerClayVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft';
-  if (geoLayersActive) buildGeoLayerMeshes();
+  if (geoLayersActive && typeof buildGeoLayerMeshes === 'function') buildGeoLayerMeshes();
 });
 innovGeoLayerSandstone.addEventListener('input', e => {
   innovGeoLayerSandstoneVal.textContent = parseFloat(e.target.value).toFixed(1) + ' ft';
-  if (geoLayersActive) buildGeoLayerMeshes();
+  if (geoLayersActive && typeof buildGeoLayerMeshes === 'function') buildGeoLayerMeshes();
 });
 
 innovGeoLayerBtn.addEventListener('click', () => {
@@ -11043,7 +11332,7 @@ viewport.addEventListener('pointermove', (e) => {
 
 // --- Update geo layers when terrain changes ---
 const _geoLayerUpdateTimer = setInterval(() => {
-  if (geoLayersActive) buildGeoLayerMeshes();
+  if (geoLayersActive && typeof buildGeoLayerMeshes === 'function') buildGeoLayerMeshes();
 }, 5000);
 
 // --- Expose S4 prototypes for testing ---
@@ -11208,6 +11497,20 @@ window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, ge
   get carvingLength() { return uxCarvingLength; }, set carvingLength(v) { uxCarvingLength = v; },
   get undergroundViewActive() { return undergroundViewActive; },
   applyTerrainEdgeHighlight, get terrainEdgeLines() { return terrainEdgeLines; },
+  // Sprint 6 chaos testing additions
+  saveDesign, loadFromFile, deleteObjectWithCommand, removeObject, showToast, requestRender,
+  get terrainMode() { return terrainMode; }, set terrainMode(v) { terrainMode = v; },
+  get isTerrainPainting() { return isTerrainPainting; }, set isTerrainPainting(v) { isTerrainPainting = v; },
+  get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; },
+  get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; },
+  get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; },
+  moveBrushCursor, getGroundPointFromEvent,
+  buildSolidEarth, getSolidEarthBottomY, get solidEarthMesh() { return solidEarthMesh; },
+  EXCAVATION_EARTH_COLOR, EARTH_DEPTH_BELOW_MIN,
+  get crossSectionPoints() { return crossSectionPoints; }, set crossSectionPoints(v) { crossSectionPoints = v; },
+  excavatePool, flattenToHeightAt, placeElevationMarker, clearInnovMarkers,
+  applyPrecisionSlope, scanForRetainingWalls, clearInnovRetWalls,
+  get innovMode() { return innovMode; }, innovSetMode, updateInnovStats,
 };
 
 // Try to load autosave
