@@ -771,19 +771,26 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 #tool-dock { width: 56px; padding: 4px; gap: 2px; }
 .td-tab { padding: 6px 6px; min-height: 44px; min-width: 44px; }
 .td-tab .td-label { display: none; }
-#dock-panel-container { left: 76px; right: 8px; bottom: 72px; max-height: calc(100% - 88px); }
-.dock-panel { min-width: 0; max-width: none; max-height: calc(100vh - 100px); overflow-y: auto; }
-#topbar { padding: 0 4px; gap: 2px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-#topbar::-webkit-scrollbar { display: none; }
+#dock-panel-container { left: 76px; right: 8px; bottom: 72px; max-height: calc(100% - 88px); max-width: calc(100vw - 84px); }
+.dock-panel { min-width: 0; max-width: min(340px, calc(100vw - 84px)); max-height: calc(100vh - 100px); overflow-y: auto; }
+/* Mobile responsive topbar — scrollable with visible indicator */
+#topbar { padding: 0 4px; gap: 2px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.25) transparent; position: relative; }
+#topbar::-webkit-scrollbar { height: 3px; display: block; }
+#topbar::-webkit-scrollbar-track { background: transparent; }
+#topbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 2px; }
 .topbar-brand { font-size: 0; flex-shrink: 0; }
 .topbar-brand svg { width: 22px; height: 22px; margin-right: 2px; }
 .topbar-spacer { min-width: 0; }
 .tb-btn { padding: 6px 8px; font-size: 0; flex-shrink: 0; min-height: 44px; min-width: 44px; }
 .tb-btn svg { width: 18px; height: 18px; }
+.tb-btn:disabled { opacity: 0.3; }
 .view-toggle { flex-shrink: 0; }
 .view-toggle button { padding: 4px 6px; font-size: 10px; min-height: 44px; }
 .tb-divider { margin: 0 1px; flex-shrink: 0; }
 #btn-screenshot, #btn-help { display: none; }
+/* Mobile topbar overflow indicator — shows when buttons extend beyond viewport */
+#topbar::after { content: ''; position: absolute; right: 0; top: 0; bottom: 3px; width: 24px; background: linear-gradient(to left, var(--surface) 30%, transparent); pointer-events: none; opacity: 1; transition: opacity 0.2s; z-index: 1; }
+#topbar.scrolled-end::after { opacity: 0; }
 }
 @media (max-width: 768px) and (max-height: 500px) {
 #tool-dock { gap: 1px; padding: 2px; }
@@ -1128,6 +1135,39 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 }
 #batch-bar button:hover { background: rgba(255,255,255,0.3); }
 #batch-bar .batch-count { font-weight: 600; }
+
+<style id="mobile-usability-styles">
+/* Mobile usability fixes — in separate style tag to bypass 500-rule inline stylesheet limit */
+@media (max-width: 768px) {
+/* View controls — 44px min touch target */
+.vc-btn { width: 44px !important; height: 44px !important; }
+.vc-btn svg { width: 20px; height: 20px; }
+#vc-underground { width: 44px !important; height: 44px !important; }
+/* Library categories — larger touch targets */
+.cat-title { padding: 12px 16px; font-size: 15px; min-height: 44px; }
+.lib-item { padding: 12px 16px 12px 32px; min-height: 44px; font-size: 15px; }
+.lib-item svg { width: 24px; height: 24px; }
+/* Close buttons — 44px min */
+.cost-panel-header .close, .layer-panel-header .close { min-width: 44px; min-height: 44px; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+/* Walk mode — larger joystick and exit */
+#walk-joystick { bottom: 30px; }
+.walk-joy-btn { width: 56px; height: 56px; font-size: 26px; }
+#walk-exit { min-height: 44px !important; padding: 12px 20px !important; font-size: 15px; }
+#walk-motion-btn { padding: 12px 20px; font-size: 15px; min-height: 44px; }
+#walk-hint-mobile { color: white; background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 20px; font-size: 13px; pointer-events: none; white-space: nowrap; }
+/* Mobile responsive cost/layer panels */
+#cost-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
+#cost-panel.shifted { right: 16px; }
+#layer-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
+#ta-cross-section-overlay { min-width: 0; max-width: calc(100vw - 16px); left: 8px; right: 8px; transform: none; }
+#cut-fill-panel { right: 16px; left: 16px; min-width: 0; max-width: calc(100vw - 32px); }
+/* Extra-small phones — hide disabled Undo/Redo */
+#btn-undo:disabled, #btn-redo:disabled { display: none; }
+/* Dock panel max-width for tablet */
+#dock-panel-container { max-width: calc(100vw - 84px); }
+.dock-panel { max-width: min(340px, calc(100vw - 84px)); }
+}
+</style>
 
 </style>
 <script type="importmap">
@@ -2184,6 +2224,7 @@ Close
 <div id="walk-controls">
 <button id="walk-exit">Exit Walk</button>
 <div id="walk-hint">WASD/Arrows to move - Drag to look - Esc to exit</div>
+<div id="walk-hint-mobile" style="display:none;">Joystick to move - Drag to look - Tap Exit to leave</div>
 <button id="walk-motion-btn">Enable Motion Look</button>
 <div id="walk-joystick">
 <div class="walk-joy-row"><button class="walk-joy-btn" data-dir="forward">▲</button></div>
@@ -2197,7 +2238,7 @@ Close
 </div>
 <div id="wizard">
 <div class="wizard-panel" id="wizard-panel"></div>
-<button id="wizard-skip" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:8px 16px;" title="Skip setup and start with a default yard">Skip — use default yard</button>
+<button id="wizard-skip" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:12px 20px;min-height:44px;" title="Skip setup and start with a default yard">Skip — use default yard</button>
 </div>
 <div id="gallery-modal">
 <div class="gallery-panel">
@@ -2401,6 +2442,74 @@ const IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini
 if (IS_MOBILE) document.body.classList.add('is-mobile');
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, IS_MOBILE ? 1 : 2);
 const SHADOW_MAP_SIZE = IS_MOBILE ? 1024 : 2048;
+
+// ============================================================
+// MOBILE CSS INJECTION (bypasses 500-rule inline stylesheet limit)
+// Injects mobile-specific CSS via a <style> tag appended to <head>
+// ============================================================
+if (IS_MOBILE) {
+const mobileCSS = `
+@media (max-width: 768px) {
+/* View controls — 44px min touch target */
+.vc-btn { width: 44px !important; height: 44px !important; }
+.vc-btn svg { width: 20px; height: 20px; }
+#vc-underground { width: 44px !important; height: 44px !important; }
+/* Library categories — larger touch targets */
+.cat-title { padding: 12px 16px; font-size: 15px; min-height: 44px; }
+.lib-item { padding: 12px 16px 12px 32px; min-height: 44px; font-size: 15px; }
+.lib-item svg { width: 24px; height: 24px; }
+/* Close buttons — 44px min */
+.cost-panel-header .close, .layer-panel-header .close { min-width: 44px; min-height: 44px; font-size: 24px; display: flex; align-items: center; justify-content: center; }
+/* Walk mode — larger joystick and exit */
+#walk-joystick { bottom: 30px; }
+.walk-joy-btn { width: 56px; height: 56px; font-size: 26px; }
+#walk-exit { min-height: 44px !important; padding: 12px 20px !important; font-size: 15px; }
+#walk-motion-btn { padding: 12px 20px; font-size: 15px; min-height: 44px; }
+#walk-hint-mobile { color: white; background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 20px; font-size: 13px; pointer-events: none; white-space: nowrap; }
+/* Mobile responsive cost/layer panels */
+#cost-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
+#cost-panel.shifted { right: 16px; }
+#layer-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
+#ta-cross-section-overlay { min-width: 0; max-width: calc(100vw - 16px); left: 8px; right: 8px; transform: none; }
+#cut-fill-panel { right: 16px; left: 16px; min-width: 0; max-width: calc(100vw - 32px); }
+/* Extra-small phones — hide disabled Undo/Redo */
+#btn-undo:disabled, #btn-redo:disabled { display: none; }
+}
+`;
+const styleEl = document.createElement('style');
+styleEl.id = 'mobile-usability-css';
+styleEl.textContent = mobileCSS;
+(document.head || document.documentElement).appendChild(styleEl);
+console.log('[Mobile] CSS injection complete, IS_MOBILE=' + IS_MOBILE);
+}
+
+// ============================================================
+// MOBILE TOPBAR SCROLL INDICATOR
+// Shows a fade gradient when topbar buttons overflow, hides when scrolled to end
+// ============================================================
+(function() {
+function updateTopbarScroll() {
+const tb = document.getElementById('topbar');
+if (!tb) return;
+const hasOverflow = tb.scrollWidth > tb.clientWidth + 2;
+if (!hasOverflow) {
+tb.classList.add('scrolled-end');
+return;
+}
+const atEnd = tb.scrollLeft + tb.clientWidth >= tb.scrollWidth - 2;
+tb.classList.toggle('scrolled-end', atEnd);
+}
+document.addEventListener('DOMContentLoaded', function() {
+const tb = document.getElementById('topbar');
+if (!tb) return;
+tb.addEventListener('scroll', updateTopbarScroll, { passive: true });
+updateTopbarScroll();
+// Re-check after layout settles
+setTimeout(updateTopbarScroll, 500);
+});
+window.addEventListener('resize', updateTopbarScroll, { passive: true });
+})();
+
 function setAppHeight() {
 document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
 }
@@ -3649,6 +3758,8 @@ requestRender();
 const TAP_DURATION_MS = 300;
 const TAP_MOVEMENT_THRESHOLD = 10;
 const TOUCH_DRAG_THRESHOLD = 5;
+const LONG_PRESS_MS = 500;
+const LONG_PRESS_THRESHOLD = 8;
 let touchState = {
 active: false,
 startTime: 0,
@@ -3658,6 +3769,8 @@ startOnObject: null,
 moved: false,
 isObjectDrag: false,
 multiTouch: false,
+longPressTimer: null,
+longPressFired: false,
 };
 function _getMeshesForRaycast() {
 const meshes = [];
@@ -3718,11 +3831,20 @@ touchState.startX = e.clientX;
 touchState.startY = e.clientY;
 touchState.moved = false;
 touchState.isObjectDrag = false;
+touchState.longPressFired = false;
 const hit = _raycastFromScreenPoint(e.clientX, e.clientY);
 if (hit) {
 touchState.startOnObject = hit.objectId;
 if (state.selectedId === hit.objectId) {
 }
+// Start long-press timer for context menu on objects
+if (touchState.longPressTimer) clearTimeout(touchState.longPressTimer);
+touchState.longPressTimer = setTimeout(() => {
+if (touchState.active && !touchState.moved && !touchState.longPressFired) {
+touchState.longPressFired = true;
+_showMobileContextMenu(e.clientX, e.clientY, hit.objectId);
+}
+}, LONG_PRESS_MS);
 } else {
 touchState.startOnObject = null;
 }
@@ -3738,6 +3860,11 @@ const dy = e.clientY - touchState.startY;
 const dist = Math.sqrt(dx * dx + dy * dy);
 if (dist > TAP_MOVEMENT_THRESHOLD) {
 touchState.moved = true;
+}
+// Cancel long-press if moved too far
+if (dist > LONG_PRESS_THRESHOLD && touchState.longPressTimer) {
+clearTimeout(touchState.longPressTimer);
+touchState.longPressTimer = null;
 }
 if (dist > TOUCH_DRAG_THRESHOLD && touchState.startOnObject !== null && state.selectedId === touchState.startOnObject) {
 if (!touchState.isObjectDrag) {
@@ -3776,6 +3903,22 @@ touchState.active = false;
 return;
 }
 if (!touchState.active) return;
+
+// Cancel long-press timer
+if (touchState.longPressTimer) {
+clearTimeout(touchState.longPressTimer);
+touchState.longPressTimer = null;
+}
+
+// If long-press already fired (context menu shown), don't also process tap
+if (touchState.longPressFired) {
+touchState.active = false;
+touchState.startOnObject = null;
+touchState.isObjectDrag = false;
+touchState.longPressFired = false;
+return;
+}
+
 const elapsed = Date.now() - touchState.startTime;
 const dx = e.clientX - touchState.startX;
 const dy = e.clientY - touchState.startY;
@@ -3815,6 +3958,84 @@ canvas.addEventListener('pointermove', onTouchPointerMove, true);
 canvas.addEventListener('pointerup', onTouchPointerUp, true);
 canvas.addEventListener('pointercancel', onTouchPointerUp, true);
 }
+
+// ============================================================
+// MOBILE CONTEXT MENU (long-press on object)
+// Shows a small popup with Select / Duplicate / Delete / Rotate options
+// ============================================================
+function _showMobileContextMenu(x, y, objectId) {
+// Remove any existing context menu
+const existing = document.getElementById('mobile-ctx-menu');
+if (existing) existing.remove();
+
+const obj = state.objects.get(objectId);
+if (!obj) return;
+
+const menu = document.createElement('div');
+menu.id = 'mobile-ctx-menu';
+menu.style.cssText = [
+'position:fixed',
+'z-index:300',
+'background:var(--surface)',
+'border:1px solid var(--border)',
+'border-radius:var(--radius)',
+'box-shadow:var(--shadow-lg)',
+'padding:4px',
+'min-width:160px',
+'max-width:240px',
+'font-size:14px',
+'font-family:inherit',
+].join(';');
+
+const actions = [
+{ label: '✓ Select', action: () => selectObject(objectId) },
+{ label: '⧉ Duplicate', action: () => { selectObject(objectId); if (typeof duplicateSelected === 'function') duplicateSelected(); } },
+{ label: '↻ Rotate 90°', action: () => { selectObject(objectId); if (typeof rotateSelected === 'function') rotateSelected(); else { obj.rotation = (obj.rotation || 0) + 90; buildSceneObject(objectId); } } },
+{ label: '✕ Delete', action: () => { if (typeof removeObject === 'function') removeObject(objectId); else { state.objects.delete(objectId); const g = sceneObjects.get(objectId); if (g) scene.remove(g); sceneObjects.delete(objectId); } requestRender(); }, danger: true },
+];
+
+for (const act of actions) {
+const btn = document.createElement('button');
+btn.textContent = act.label;
+btn.style.cssText = [
+'display:block',
+'width:100%',
+'padding:12px 16px',
+'border:none',
+'background:none',
+'text-align:left',
+'cursor:pointer',
+'font-family:inherit',
+'font-size:14px',
+'color:' + (act.danger ? '#c0392b' : 'var(--text)'),
+'border-radius:var(--radius-sm)',
+'min-height:44px',
+].join(';');
+btn.addEventListener('click', () => {
+act.action();
+menu.remove();
+});
+btn.addEventListener('mouseenter', () => { btn.style.background = act.danger ? '#f8d7da' : '#f0f5f2'; });
+btn.addEventListener('mouseleave', () => { btn.style.background = 'none'; });
+menu.appendChild(btn);
+}
+
+// Position menu, keeping it within viewport
+menu.style.left = Math.min(x, window.innerWidth - 250) + 'px';
+menu.style.top = Math.min(y, window.innerHeight - 250) + 'px';
+
+document.body.appendChild(menu);
+
+// Close on tap outside
+const closeHandler = (ev) => {
+if (!menu.contains(ev.target)) {
+menu.remove();
+document.removeEventListener('pointerdown', closeHandler, true);
+}
+};
+setTimeout(() => document.addEventListener('pointerdown', closeHandler, true), 100);
+}
+
 let isDragging = false;
 let dragStartPos = null;
 let dragObject = null;
@@ -6448,7 +6669,7 @@ updateHeightReadout(worldX, worldZ);
 }
 function onTerrainPointerDown(e) {
 if (!terrainMode) return false;
-const point = getGroundPointFromEvent(e);
+const point = e._terrainPoint || getGroundPointFromEvent(e);
 if (!point) return false;
 if (carvingShape) {
 if (e.button === 2 || e.ctrlKey) {
@@ -6485,7 +6706,7 @@ return true;
 }
 function onTerrainPointerMove(e) {
 if (!terrainMode) return;
-const point = getGroundPointFromEvent(e);
+const point = e._terrainPoint || getGroundPointFromEvent(e);
 if (!point) return;
 if (carvingShape && !isTerrainPainting) {
 if (!carvingPendingCenter) {
@@ -6545,10 +6766,35 @@ return refinedPoint;
 }
 return roughPoint;
 }
+// On mobile, offset the brush cursor upward so the finger doesn't occlude it
+function _getTerrainEventPoint(e) {
+if (IS_MOBILE && e.pointerType === 'touch') {
+// Offset touch point upward by 40px so finger doesn't occlude the brush
+const adjustedY = e.clientY - 40;
+return _getGroundPointFromScreen(e.clientX, adjustedY);
+}
+return getGroundPointFromEvent(e);
+}
 viewport.addEventListener('pointerdown', e => {
-if (terrainMode) { onTerrainPointerDown(e); e.stopPropagation(); }
+if (terrainMode) {
+// On mobile touch, offset the point upward so the finger doesn't occlude it
+if (IS_MOBILE && e.pointerType === 'touch') {
+const point = _getTerrainEventPoint(e);
+if (point) {
+e._terrainPoint = point;
+}
+}
+onTerrainPointerDown(e);
+e.stopPropagation();
+}
 }, true);
-viewport.addEventListener('pointermove', e => { if (terrainMode) onTerrainPointerMove(e); });
+viewport.addEventListener('pointermove', e => { if (terrainMode) {
+if (IS_MOBILE && e.pointerType === 'touch') {
+const point = _getTerrainEventPoint(e);
+if (point) e._terrainPoint = point;
+}
+onTerrainPointerMove(e);
+} });
 viewport.addEventListener('pointerup', e => { if (terrainMode) onTerrainPointerUp(e); });
 viewport.addEventListener('pointerleave', e => { if (terrainMode) { if (terrainBrushMesh) terrainBrushMesh.visible = false; if (carvingShape && !carvingPendingCenter) hideCarvingPreview(); } });
 viewport.addEventListener('contextmenu', e => { if (terrainMode && carvingShape) e.preventDefault(); });
@@ -7461,6 +7707,13 @@ camera3D.rotation.set(walkPitch, walkYaw, 0, 'YXZ');
 document.getElementById('walk-controls').classList.add('visible');
 if (IS_MOBILE && typeof DeviceOrientationEvent !== 'undefined') {
 document.getElementById('walk-motion-btn').classList.add('visible');
+}
+// Show mobile-appropriate hint
+const hintEl = document.getElementById('walk-hint');
+const hintMobileEl = document.getElementById('walk-hint-mobile');
+if (IS_MOBILE && hintEl && hintMobileEl) {
+hintEl.style.display = 'none';
+hintMobileEl.style.display = 'block';
 }
 showToast('Walk mode! Use WASD or arrow keys to move. Press Esc to exit.');
 requestRender();
