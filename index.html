@@ -1020,6 +1020,115 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 .s7-btn-secondary { padding: 10px 20px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; cursor: pointer; font-family: inherit; }
 .s7-btn-secondary:hover { background: var(--bg); }
 .btn-social { font-size: 13px; }
+
+/* ============================================================
+   EXPERT USER: COMMAND PALETTE (Ctrl+K)
+   ============================================================ */
+#cmd-palette-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300;
+  display: none; align-items: flex-start; justify-content: center;
+  padding-top: 120px; backdrop-filter: blur(4px);
+}
+#cmd-palette-overlay.visible { display: flex; }
+#cmd-palette {
+  background: white; border-radius: 12px; width: 520px; max-width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden;
+}
+#cmd-palette-input {
+  width: 100%; border: none; padding: 16px 20px; font-size: 16px;
+  font-family: inherit; border-bottom: 2px solid var(--border);
+  outline: none; box-sizing: border-box;
+}
+#cmd-palette-input:focus { border-bottom-color: var(--primary); }
+#cmd-palette-results {
+  max-height: 360px; overflow-y: auto; padding: 8px 0;
+}
+.cmd-item {
+  padding: 10px 20px; cursor: pointer; display: flex; align-items: center;
+  gap: 12px; font-size: 14px; color: var(--text); transition: background 0.1s;
+}
+.cmd-item:hover, .cmd-item.selected {
+  background: var(--primary); color: white;
+}
+.cmd-item .cmd-icon { font-size: 18px; width: 24px; text-align: center; }
+.cmd-item .cmd-shortcut {
+  margin-left: auto; font-size: 11px; color: var(--text-muted);
+  background: #f0f0f0; padding: 2px 8px; border-radius: 4px;
+}
+.cmd-item:hover .cmd-shortcut, .cmd-item.selected .cmd-shortcut {
+  background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
+}
+.cmd-category {
+  padding: 6px 20px 4px; font-size: 11px; font-weight: 700;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   EXPERT USER: RIGHT-CLICK CONTEXT MENU
+   ============================================================ */
+#ctx-menu {
+  position: fixed; z-index: 250; background: white; border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15); border: 1px solid var(--border);
+  min-width: 180px; padding: 6px 0; display: none;
+}
+#ctx-menu.visible { display: block; }
+.ctx-item {
+  padding: 8px 16px; cursor: pointer; font-size: 13px; color: var(--text);
+  display: flex; align-items: center; gap: 10px; transition: background 0.1s;
+}
+.ctx-item:hover { background: #f5f5f0; }
+.ctx-item.danger { color: #c0392b; }
+.ctx-item.danger:hover { background: #fdf0ee; }
+.ctx-separator { height: 1px; background: var(--border); margin: 4px 0; }
+.ctx-item .ctx-key {
+  margin-left: auto; font-size: 11px; color: var(--text-muted);
+}
+
+/* ============================================================
+   EXPERT USER: MULTI-SELECT HIGHLIGHT
+   ============================================================ */
+.scene-object.multi-selected {
+  outline: 2px solid var(--primary);
+}
+
+/* ============================================================
+   EXPERT USER: RECENTLY USED LIBRARY
+   ============================================================ */
+.recent-section {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px; margin-bottom: 8px;
+}
+.recent-title {
+  font-size: 12px; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 8px 12px 6px; display: flex; align-items: center; gap: 6px;
+}
+.recent-items { display: flex; flex-wrap: wrap; gap: 4px; padding: 0 12px 8px; }
+.recent-chip {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 16px; font-size: 12px;
+  cursor: pointer; background: white; transition: all 0.15s;
+}
+.recent-chip:hover { border-color: var(--primary); background: #f5f5f0; }
+
+/* ============================================================
+   EXPERT USER: BATCH OPS BAR
+   ============================================================ */
+#batch-bar {
+  position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%);
+  background: var(--primary); color: white; padding: 8px 20px;
+  border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: none; align-items: center; gap: 12px; z-index: 100; font-size: 13px;
+}
+#batch-bar.visible { display: flex; }
+#batch-bar button {
+  background: rgba(255,255,255,0.2); border: none; color: white;
+  padding: 6px 14px; border-radius: 16px; cursor: pointer; font-size: 12px;
+  font-family: inherit; transition: background 0.15s;
+}
+#batch-bar button:hover { background: rgba(255,255,255,0.3); }
+#batch-bar .batch-count { font-weight: 600; }
+
 </style>
 <script type="importmap">
 {
@@ -2225,6 +2334,34 @@ Close
 <li><strong>Scale Bar:</strong> The bar at bottom-left shows a reference distance in feet</li>
 <li>In <strong>Bird's-eye view</strong>, grid labels show foot measurements along the edges</li>
 </ul>
+<h3>Keyboard Shortcuts</h3>
+<ul>
+<li><strong>Ctrl+Z</strong> — Undo • <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> — Redo</li>
+<li><strong>Ctrl+S</strong> — Save Design • <strong>Ctrl+Shift+S</strong> — Save As...</li>
+<li><strong>Ctrl+D</strong> — Duplicate Selected Object</li>
+<li><strong>Ctrl+A</strong> — Select All Objects</li>
+<li><strong>Ctrl+K</strong> — Command Palette (search any feature)</li>
+<li><strong>Delete</strong> / <strong>Backspace</strong> — Delete Selected Object</li>
+<li><strong>Tab</strong> — Cycle Through Objects • <strong>Shift+Tab</strong> — Reverse</li>
+<li><strong>Arrow Keys</strong> — Move Selected Object (1 ft) • <strong>Shift+Arrows</strong> — Fine Move (0.1 ft)</li>
+<li><strong>V</strong> — 3D View • <strong>B</strong> — Bird's-eye View</li>
+<li><strong>W</strong> — Walk Mode • <strong>T</strong> — Terrain Dock</li>
+<li><strong>G</strong> — Toggle Grid • <strong>R</strong> — Reset View</li>
+<li><strong>Shift+Click</strong> / <strong>Ctrl+Click</strong> — Multi-Select Objects</li>
+<li><strong>Right-Click</strong> on object — Context Menu (Duplicate, Rotate, Delete, Properties)</li>
+<li><strong>Escape</strong> — Deselect / Close Panels</li>
+</ul>
+<h3>Advanced Features</h3>
+<ul>
+<li><strong>Walk Mode:</strong> Click Walk Mode to explore your yard in first-person. Use WASD or arrow keys to move, mouse to look around. Press Escape to exit.</li>
+<li><strong>Cost Estimator:</strong> Click the Cost button to see a cost breakdown of all objects in your design. Estimates are based on typical material costs.</li>
+<li><strong>Layers:</strong> Click the Layers button to toggle visibility of different object categories. Hide plants, structures, or terrain elements independently.</li>
+<li><strong>Command Palette (Ctrl+K):</strong> Quick access to any feature — search by name and press Enter.</li>
+<li><strong>Multi-Select:</strong> Hold Shift or Ctrl while clicking objects to select multiple. Use the batch bar to delete all or delete by type.</li>
+<li><strong>Right-Click Context Menu:</strong> Right-click any object for quick Duplicate, Rotate, Delete, and Properties actions.</li>
+<li><strong>Underground Carving:</strong> Open the Underground dock to cut away terrain, make ground transparent, view wireframe, see buried objects, and create cross-sections. Carving tools are in the Terrain dock.</li>
+<li><strong>Pro Terrain Tools:</strong> Open the Pro Tools dock for pool excavation wizard, precision flatten, elevation markers, ADA slope tool, terrain statistics, auto retaining wall, underground structures, geological layers, volume calculator, exploded view, and water table visualization.</li>
+</ul>
 <h3>Safety Reminders</h3>
 <ul>
 <li>Pool barriers must be at least 48" high with self-closing, self-latching gates</li>
@@ -2237,6 +2374,26 @@ Close
 </div>
 </div>
 <input type="file" id="import-input" accept=".json">
+
+<!-- Expert User: Command Palette (Ctrl+K) -->
+<div id="cmd-palette-overlay">
+<div id="cmd-palette">
+<input type="text" id="cmd-palette-input" placeholder="Type a command... (e.g. 'terrain', 'save', 'walk')" autocomplete="off">
+<div id="cmd-palette-results"></div>
+</div>
+</div>
+
+<!-- Expert User: Right-Click Context Menu -->
+<div id="ctx-menu"></div>
+
+<!-- Expert User: Batch Operations Bar -->
+<div id="batch-bar">
+<span class="batch-count" id="batch-count">0 selected</span>
+<button id="batch-delete-all" title="Delete all selected">Delete All</button>
+<button id="batch-delete-type" title="Delete all objects of same type">Delete by Type</button>
+<button id="batch-deselect" title="Deselect all">Deselect</button>
+</div>
+
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -3137,6 +3294,7 @@ const state = {
 yard: { width: 50, depth: 100, shape: 'rectangle' },
 objects: new Map(),
 selectedId: null,
+selectedIds: new Set(), // Expert: multi-select support
 viewMode: '3d',
 undoStack: [],
 redoStack: [],
@@ -3147,6 +3305,7 @@ terrainSegs: 100,
 terrainDeformed: false,
 voxels: null,
 gridLevel: 0,
+recentObjects: [], // Expert: recently used object types
 };
 const MAX_TERRAIN_HEIGHT = 30;
 const MIN_TERRAIN_HEIGHT = -30;
@@ -3480,6 +3639,8 @@ if (child.material.emissive) child.material.emissive.setHex(child.userData.origE
 }
 }
 state.selectedId = null;
+state.selectedIds.clear(); // Expert: also clear multi-select
+hideBatchBar(); // Expert: hide batch bar
 hideProperties();
 hideDimReadout();
 clearSafetyWarnings();
@@ -3658,6 +3819,30 @@ let isDragging = false;
 let dragStartPos = null;
 let dragObject = null;
 function onPointerDown(e) {
+if (e.button === 2) {
+// Right-click: show context menu on objects
+const rect = renderer.domElement.getBoundingClientRect();
+mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+raycaster.setFromCamera(mouse, activeCamera);
+const meshes = [];
+sceneObjects.forEach(g => { g.traverse(c => { if (c.isMesh) meshes.push(c); }); });
+meshes.push(yardMesh);
+const hits = raycaster.intersectObjects(meshes, false);
+if (hits.length > 0) {
+const objHit = hits.find(h => h.object.userData.objectId !== undefined);
+if (objHit) {
+const objId = objHit.object.userData.objectId;
+if (state.objects.has(objId)) {
+selectObject(objId);
+showContextMenu(e.clientX, e.clientY, objId);
+e.preventDefault();
+return;
+}
+}
+}
+return;
+}
 if (e.button !== 0) return;
 if (IS_MOBILE && e.pointerType === 'touch') return;
 const rect = renderer.domElement.getBoundingClientRect();
@@ -3672,6 +3857,11 @@ if (hits.length > 0) {
 const objHit = hits.find(h => h.object.userData.objectId !== undefined);
 if (objHit) {
 const objId = objHit.object.userData.objectId;
+// Expert: Multi-select with Shift+click or Ctrl+click
+if (e.shiftKey || e.ctrlKey) {
+selectObjectMulti(objId, true);
+return;
+}
 selectObject(objId);
 isDragging = true;
 dragObject = state.objects.get(objId);
@@ -4317,6 +4507,7 @@ selectObject(id);
 showToast(item.name + ' added! Drag to reposition');
 showHint('Drag to position • Click empty space to deselect');
 setTimeout(hideHint, 3000);
+trackRecentObject(key);
 // Auto-hide getting started hint after first object
 const gsHint = document.getElementById('getting-started-hint');
 if (gsHint) gsHint.style.display = 'none';
@@ -4329,6 +4520,439 @@ section.classList.toggle('collapsed');
 });
 }
 }
+
+// ============================================================
+// EXPERT USER: RECENTLY USED OBJECTS
+// ============================================================
+function trackRecentObject(type) {
+// Remove if already in list, then add to front
+const idx = state.recentObjects.indexOf(type);
+if (idx >= 0) state.recentObjects.splice(idx, 1);
+state.recentObjects.unshift(type);
+// Keep only last 8
+if (state.recentObjects.length > 8) state.recentObjects = state.recentObjects.slice(0, 8);
+updateRecentObjects();
+}
+
+function updateRecentObjects() {
+const container = document.getElementById('recent-items');
+if (!container) return;
+if (state.recentObjects.length === 0) {
+container.innerHTML = '<span style="font-size:11px;color:var(--text-muted);">Objects you add will appear here for quick access</span>';
+return;
+}
+container.innerHTML = '';
+for (const type of state.recentObjects) {
+const item = CATALOG[type];
+if (!item) continue;
+const chip = document.createElement('div');
+chip.className = 'recent-chip';
+chip.innerHTML = `${item.icon}<span>${escHtml(item.name)}</span>`;
+chip.addEventListener('click', () => {
+const id = addObject(type, {}, { x: 0, y: 0, z: 0 });
+const obj = state.objects.get(id);
+pushCommand({
+undo: () => removeObject(id),
+redo: () => { state.objects.set(id, obj); buildSceneObject(id); },
+});
+selectObject(id);
+trackRecentObject(type);
+});
+container.appendChild(chip);
+}
+}
+
+// ============================================================
+// EXPERT USER: MULTI-SELECT FUNCTIONS
+// ============================================================
+function selectObjectMulti(id, additive) {
+if (additive) {
+if (state.selectedIds.has(id)) {
+state.selectedIds.delete(id);
+} else {
+state.selectedIds.add(id);
+}
+} else {
+state.selectedIds.clear();
+state.selectedIds.add(id);
+}
+// Set primary selection
+if (state.selectedIds.size === 1) {
+selectObject(id);
+} else if (state.selectedIds.size > 1) {
+// Multi-select mode: highlight all selected
+state.selectedId = id;
+showProperties(id);
+updateMultiSelectHighlights();
+showBatchBar();
+} else {
+deselectObject();
+hideBatchBar();
+}
+}
+
+function updateMultiSelectHighlights() {
+// Clear all highlights first
+sceneObjects.forEach((group, oid) => {
+group.traverse(child => {
+if (child.isMesh && child.material && child.userData.origEmissive !== undefined) {
+if (child.material.emissive) child.material.emissive.setHex(child.userData.origEmissive);
+}
+});
+});
+// Highlight all selected
+state.selectedIds.forEach(oid => {
+const group = sceneObjects.get(oid);
+if (group) {
+group.traverse(child => {
+if (child.isMesh && child.material && !child.userData.isHelper) {
+if (!child.userData.origEmissive) {
+child.userData.origEmissive = child.material.emissive ? child.material.emissive.getHex() : 0;
+}
+if (child.material.emissive) child.material.emissive.setHex(0x333311);
+}
+});
+}
+});
+requestRender();
+}
+
+function clearMultiSelect() {
+state.selectedIds.clear();
+hideBatchBar();
+}
+
+// ============================================================
+// EXPERT USER: BATCH OPERATIONS
+// ============================================================
+function deleteAllSelected() {
+if (state.selectedIds.size === 0 && state.selectedId !== null) {
+state.selectedIds.add(state.selectedId);
+}
+if (state.selectedIds.size === 0) return;
+const ids = Array.from(state.selectedIds);
+const copies = ids.map(id => ({ id, obj: JSON.parse(JSON.stringify(state.objects.get(id))) }));
+ids.forEach(id => removeObject(id));
+pushCommand({
+undo: () => { copies.forEach(c => { state.objects.set(c.id, c.obj); buildSceneObject(c.id); }); },
+redo: () => { ids.forEach(id => removeObject(id)); },
+});
+clearMultiSelect();
+deselectObject();
+showToast(`Deleted ${ids.length} object(s) — press Undo to restore`);
+}
+
+function deleteByType() {
+if (state.selectedId === null && state.selectedIds.size === 0) return;
+// Get the type of the selected object
+let targetType;
+if (state.selectedIds.size > 0) {
+const firstId = Array.from(state.selectedIds)[0];
+const obj = state.objects.get(firstId);
+if (!obj) return;
+targetType = obj.type;
+} else {
+const obj = state.objects.get(state.selectedId);
+if (!obj) return;
+targetType = obj.type;
+}
+// Find all objects of the same type
+const idsToDelete = [];
+const copies = [];
+state.objects.forEach((obj, id) => {
+if (obj.type === targetType) {
+idsToDelete.push(id);
+copies.push({ id, obj: JSON.parse(JSON.stringify(obj)) });
+}
+});
+if (idsToDelete.length === 0) return;
+idsToDelete.forEach(id => removeObject(id));
+pushCommand({
+undo: () => { copies.forEach(c => { state.objects.set(c.id, c.obj); buildSceneObject(c.id); }); },
+redo: () => { idsToDelete.forEach(id => removeObject(id)); },
+});
+clearMultiSelect();
+deselectObject();
+showToast(`Deleted ${idsToDelete.length} ${CATALOG[targetType]?.name || targetType}(s) — press Undo to restore`);
+}
+
+function selectAllObjects() {
+const ids = Array.from(state.objects.keys());
+if (ids.length === 0) return;
+state.selectedIds.clear();
+ids.forEach(id => state.selectedIds.add(id));
+if (ids.length > 0) {
+selectObject(ids[0]);
+updateMultiSelectHighlights();
+showBatchBar();
+}
+showToast(`Selected ${ids.length} object(s)`);
+}
+
+function showBatchBar() {
+const bar = document.getElementById('batch-bar');
+if (!bar) return;
+const count = document.getElementById('batch-count');
+if (count) count.textContent = `${state.selectedIds.size} selected`;
+bar.classList.add('visible');
+}
+
+function hideBatchBar() {
+const bar = document.getElementById('batch-bar');
+if (bar) bar.classList.remove('visible');
+}
+
+// ============================================================
+// EXPERT USER: COMMAND PALETTE (Ctrl+K)
+// ============================================================
+const CMD_ITEMS = [
+{ cat: 'View', icon: '🌐', label: 'Switch to 3D View', shortcut: 'V', action: () => switchView('3d') },
+{ cat: 'View', icon: '🗺️', label: "Switch to Bird's-eye View", shortcut: 'B', action: () => switchView('2d') },
+{ cat: 'View', icon: '🚶', label: 'Enter Walk Mode', shortcut: 'W', action: () => { if (typeof enterWalkMode === 'function') enterWalkMode(); } },
+{ cat: 'View', icon: '🔄', label: 'Reset View', shortcut: 'R', action: () => { document.getElementById('vc-reset')?.click(); } },
+{ cat: 'View', icon: '🔲', label: 'Toggle Grid', shortcut: 'G', action: () => { if (typeof gridHelper !== 'undefined' && gridHelper) { gridHelper.visible = !gridHelper.visible; requestRender(); } } },
+{ cat: 'Edit', icon: '↶', label: 'Undo', shortcut: 'Ctrl+Z', action: () => undo() },
+{ cat: 'Edit', icon: '↷', label: 'Redo', shortcut: 'Ctrl+Y', action: () => redo() },
+{ cat: 'Edit', icon: '📋', label: 'Duplicate Selected', shortcut: 'Ctrl+D', action: () => { if (state.selectedId !== null) duplicateObject(state.selectedId); } },
+{ cat: 'Edit', icon: '🗑', label: 'Delete Selected', shortcut: 'Del', action: () => { if (state.selectedId !== null) deleteObjectWithCommand(state.selectedId); } },
+{ cat: 'Edit', icon: '☑️', label: 'Select All Objects', shortcut: 'Ctrl+A', action: () => selectAllObjects() },
+{ cat: 'Edit', icon: '🗑', label: 'Delete All Selected (Batch)', action: () => deleteAllSelected() },
+{ cat: 'Edit', icon: '🗑', label: 'Delete by Type (Batch)', action: () => deleteByType() },
+{ cat: 'File', icon: '💾', label: 'Save Design', shortcut: 'Ctrl+S', action: () => saveDesign() },
+{ cat: 'File', icon: '💾', label: 'Save As...', shortcut: 'Ctrl+Shift+S', action: () => saveDesignAs() },
+{ cat: 'File', icon: '📂', label: 'Load Design', action: () => document.getElementById('import-input').click() },
+{ cat: 'File', icon: '📸', label: 'Take Screenshot', action: () => document.getElementById('btn-screenshot').click() },
+{ cat: 'File', icon: '🔄', label: 'Reset Terrain (Flatten All)', action: () => document.getElementById('terrain-flatten')?.click() },
+{ cat: 'Tools', icon: '⛰️', label: 'Terrain Sculpting', shortcut: 'T', action: () => openDockByTab('terrain') },
+{ cat: 'Tools', icon: '⛏️', label: 'Underground / Excavate', action: () => openDockByTab('underground') },
+{ cat: 'Tools', icon: '📊', label: 'Terrain Analysis', action: () => openDockByTab('analyze') },
+{ cat: 'Tools', icon: '💡', label: 'Pro Terrain Tools', action: () => openDockByTab('innovate') },
+{ cat: 'Tools', icon: '☀️', label: 'Sun & Shadow', action: () => openDockByTab('sun') },
+{ cat: 'Tools', icon: '📏', label: 'Tape Measure', action: () => openDockByTab('measure') },
+{ cat: 'Tools', icon: '💰', label: 'Cost Estimator', action: () => document.getElementById('btn-cost').click() },
+{ cat: 'Tools', icon: '📚', label: 'Layers', action: () => document.getElementById('btn-layers').click() },
+{ cat: 'Tools', icon: '📤', label: 'Share Design', action: () => document.getElementById('btn-share').click() },
+{ cat: 'Help', icon: '❓', label: 'Help & Shortcuts', action: () => document.getElementById('btn-help').click() },
+];
+
+function openDockByTab(dockId) {
+const tab = document.querySelector(`.td-tab[data-dock="${dockId}"]`);
+if (tab) tab.click();
+}
+
+function switchView(mode) {
+const btn = document.querySelector(`#view-toggle button[data-view="${mode}"]`);
+if (btn) btn.click();
+}
+
+let cmdPaletteOpen = false;
+let cmdSelectedIdx = 0;
+let cmdFilteredItems = [];
+
+function openCommandPalette() {
+const overlay = document.getElementById('cmd-palette-overlay');
+const input = document.getElementById('cmd-palette-input');
+overlay.classList.add('visible');
+input.value = '';
+input.focus();
+cmdPaletteOpen = true;
+cmdSelectedIdx = 0;
+renderCommandPalette('');
+}
+
+function closeCommandPalette() {
+const overlay = document.getElementById('cmd-palette-overlay');
+overlay.classList.remove('visible');
+cmdPaletteOpen = false;
+}
+
+function renderCommandPalette(query) {
+const results = document.getElementById('cmd-palette-results');
+if (!query) {
+cmdFilteredItems = CMD_ITEMS;
+} else {
+const q = query.toLowerCase();
+cmdFilteredItems = CMD_ITEMS.filter(item =>
+item.label.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)
+);
+}
+cmdSelectedIdx = 0;
+let html = '';
+let lastCat = '';
+for (let i = 0; i < cmdFilteredItems.length; i++) {
+const item = cmdFilteredItems[i];
+if (item.cat !== lastCat) {
+html += `<div class="cmd-category">${escHtml(item.cat)}</div>`;
+lastCat = item.cat;
+}
+html += `<div class="cmd-item ${i === cmdSelectedIdx ? 'selected' : ''}" data-idx="${i}">
+<span class="cmd-icon">${item.icon}</span>
+<span>${escHtml(item.label)}</span>
+${item.shortcut ? `<span class="cmd-shortcut">${escHtml(item.shortcut)}</span>` : ''}
+</div>`;
+}
+if (cmdFilteredItems.length === 0) {
+html = '<div class="cmd-item" style="color:var(--text-muted);">No commands found</div>';
+}
+results.innerHTML = html;
+// Wire up click handlers
+results.querySelectorAll('.cmd-item[data-idx]').forEach(el => {
+el.addEventListener('click', () => {
+const idx = parseInt(el.dataset.idx);
+if (cmdFilteredItems[idx]) {
+cmdFilteredItems[idx].action();
+closeCommandPalette();
+}
+});
+});
+}
+
+function setupCommandPalette() {
+const input = document.getElementById('cmd-palette-input');
+input.addEventListener('input', e => renderCommandPalette(e.target.value));
+input.addEventListener('keydown', e => {
+if (e.key === 'ArrowDown') {
+e.preventDefault();
+cmdSelectedIdx = Math.min(cmdSelectedIdx + 1, cmdFilteredItems.length - 1);
+updateCmdSelection();
+} else if (e.key === 'ArrowUp') {
+e.preventDefault();
+cmdSelectedIdx = Math.max(cmdSelectedIdx - 1, 0);
+updateCmdSelection();
+} else if (e.key === 'Enter') {
+e.preventDefault();
+if (cmdFilteredItems[cmdSelectedIdx]) {
+cmdFilteredItems[cmdSelectedIdx].action();
+closeCommandPalette();
+}
+} else if (e.key === 'Escape') {
+e.preventDefault();
+closeCommandPalette();
+}
+});
+document.getElementById('cmd-palette-overlay').addEventListener('click', e => {
+if (e.target.id === 'cmd-palette-overlay') closeCommandPalette();
+});
+}
+
+function updateCmdSelection() {
+const items = document.querySelectorAll('#cmd-palette-results .cmd-item');
+items.forEach((el, i) => {
+const idx = parseInt(el.dataset.idx);
+el.classList.toggle('selected', idx === cmdSelectedIdx);
+});
+// Scroll selected into view
+const selected = document.querySelector('#cmd-palette-results .cmd-item.selected');
+if (selected) selected.scrollIntoView({ block: 'nearest' });
+}
+
+// ============================================================
+// EXPERT USER: RIGHT-CLICK CONTEXT MENU
+// ============================================================
+function showContextMenu(clientX, clientY, objectId) {
+const menu = document.getElementById('ctx-menu');
+const obj = state.objects.get(objectId);
+if (!obj) return;
+const cat = CATALOG[obj.type];
+const isMulti = state.selectedIds.size > 1;
+let html = '';
+html += `<div class="ctx-item" data-action="duplicate"><span>📋</span> Duplicate<span class="ctx-key">Ctrl+D</span></div>`;
+html += `<div class="ctx-item" data-action="rotate-left"><span>↺</span> Rotate Left 90°</div>`;
+html += `<div class="ctx-item" data-action="rotate-right"><span>↻</span> Rotate Right 90°</div>`;
+html += `<div class="ctx-separator"></div>`;
+html += `<div class="ctx-item" data-action="select-all"><span>☑️</span> Select All<span class="ctx-key">Ctrl+A</span></div>`;
+if (isMulti) {
+html += `<div class="ctx-item" data-action="delete-batch"><span>🗑</span> Delete All Selected</div>`;
+}
+html += `<div class="ctx-item danger" data-action="delete"><span>🗑</span> Delete<span class="ctx-key">Del</span></div>`;
+html += `<div class="ctx-separator"></div>`;
+html += `<div class="ctx-item" data-action="properties"><span>⚙️</span> Properties</div>`;
+menu.innerHTML = html;
+menu.style.left = clientX + 'px';
+menu.style.top = clientY + 'px';
+menu.classList.add('visible');
+// Adjust if off-screen
+const rect = menu.getBoundingClientRect();
+if (rect.right > window.innerWidth) menu.style.left = (window.innerWidth - rect.width - 10) + 'px';
+if (rect.bottom > window.innerHeight) menu.style.top = (window.innerHeight - rect.height - 10) + 'px';
+// Wire up actions
+menu.querySelectorAll('.ctx-item').forEach(item => {
+item.addEventListener('click', () => {
+const action = item.dataset.action;
+handleContextAction(action, objectId);
+hideContextMenu();
+});
+});
+}
+
+function hideContextMenu() {
+document.getElementById('ctx-menu').classList.remove('visible');
+}
+
+function handleContextAction(action, objectId) {
+const obj = state.objects.get(objectId);
+if (!obj) return;
+switch (action) {
+case 'duplicate':
+duplicateObject(objectId);
+break;
+case 'rotate-left':
+obj.rotation -= Math.PI / 2;
+buildSceneObject(objectId);
+pushCommand({
+undo: () => { obj.rotation += Math.PI / 2; buildSceneObject(objectId); },
+redo: () => { obj.rotation -= Math.PI / 2; buildSceneObject(objectId); },
+});
+requestRender();
+break;
+case 'rotate-right':
+obj.rotation += Math.PI / 2;
+buildSceneObject(objectId);
+pushCommand({
+undo: () => { obj.rotation -= Math.PI / 2; buildSceneObject(objectId); },
+redo: () => { obj.rotation += Math.PI / 2; buildSceneObject(objectId); },
+});
+requestRender();
+break;
+case 'select-all':
+selectAllObjects();
+break;
+case 'delete-batch':
+deleteAllSelected();
+break;
+case 'delete':
+deleteObjectWithCommand(objectId);
+break;
+case 'properties':
+selectObject(objectId);
+break;
+}
+}
+
+// Close context menu on click anywhere else or Escape
+document.addEventListener('click', e => {
+if (!e.target.closest('#ctx-menu')) hideContextMenu();
+});
+
+// ============================================================
+// EXPERT USER: SAVE-AS FUNCTION
+// ============================================================
+function saveDesignAs() {
+const data = serializeDesign();
+const name = prompt('Save design as:', 'my-yard-design');
+if (!name) return;
+const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = name.replace(/[^a-z0-9_-]/gi, '_') + '.json';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+showToast('Design saved as: ' + name);
+}
+
 let wizardStep = 0;
 let wizardData = { shape: 'rectangle', width: 50, depth: 100 };
 function renderWizard() {
@@ -4599,19 +5223,39 @@ document.getElementById('context-hint').classList.remove('visible');
 }
 document.addEventListener('keydown', e => {
 if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+// Close command palette on Escape regardless
+if (cmdPaletteOpen && e.key === 'Escape') { e.preventDefault(); closeCommandPalette(); return; }
+if (cmdPaletteOpen) return; // Let palette handle its own keys
 if (e.ctrlKey || e.metaKey) {
 if (e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
 else if (e.key === 'z' && e.shiftKey || e.key === 'y') { e.preventDefault(); redo(); }
-else if (e.key === 's') { e.preventDefault(); saveDesign(); }
+else if (e.key === 's' && !e.shiftKey) { e.preventDefault(); saveDesign(); }
+else if (e.key === 's' && e.shiftKey) { e.preventDefault(); saveDesignAs(); }
+else if (e.key === 'd' || e.key === 'D') {
+e.preventDefault();
+if (state.selectedId !== null) duplicateObject(state.selectedId);
+}
+else if (e.key === 'k' || e.key === 'K') {
+e.preventDefault();
+openCommandPalette();
+}
+else if (e.key === 'a' || e.key === 'A') {
+e.preventDefault();
+selectAllObjects();
+}
 } else if (e.key === 'Delete' || e.key === 'Backspace') {
-if (state.selectedId !== null) deleteObjectWithCommand(state.selectedId);
+if (state.selectedIds.size > 1) {
+deleteAllSelected();
+} else if (state.selectedId !== null) {
+deleteObjectWithCommand(state.selectedId);
+}
 } else if (e.key === 'Escape') {
 let modalClosed = false;
 const helpModal = document.getElementById('help-modal');
 if (helpModal && helpModal.classList.contains('visible')) { helpModal.classList.remove('visible'); modalClosed = true; }
 const shareModal = document.getElementById('share-modal');
 if (shareModal && shareModal.classList.contains('visible')) { shareModal.classList.remove('visible'); modalClosed = true; }
-if (!modalClosed) deselectObject();
+if (!modalClosed) { deselectObject(); clearMultiSelect(); hideContextMenu(); }
 } else if (e.key === 'Tab') {
 e.preventDefault();
 cycleObjectSelection(e.shiftKey ? -1 : 1);
@@ -4620,6 +5264,27 @@ if (state.selectedId !== null) {
 e.preventDefault();
 moveSelectedWithArrow(e.key, e.shiftKey);
 }
+} else if (e.key === 'v' || e.key === 'V') {
+e.preventDefault();
+switchView('3d');
+} else if (e.key === 'b' || e.key === 'B') {
+e.preventDefault();
+switchView('2d');
+} else if (e.key === 'w' || e.key === 'W') {
+e.preventDefault();
+if (typeof enterWalkMode === 'function') enterWalkMode();
+} else if (e.key === 't' || e.key === 'T') {
+e.preventDefault();
+openDockByTab('terrain');
+} else if (e.key === 'g' || e.key === 'G') {
+e.preventDefault();
+if (typeof gridHelper !== 'undefined' && gridHelper) {
+gridHelper.visible = !gridHelper.visible;
+requestRender();
+}
+} else if (e.key === 'r' || e.key === 'R') {
+e.preventDefault();
+document.getElementById('vc-reset')?.click();
 }
 });
 function cycleObjectSelection(direction) {
@@ -6944,6 +7609,93 @@ initScene();
 _attachTouchGestureHandlers();
 buildLibrary();
 renderWizard();
+
+// ============================================================
+// EXPERT USER: INITIALIZE POWER-USER FEATURES
+// ============================================================
+(function initExpertFeatures() {
+// Initialize command palette
+setupCommandPalette();
+
+// Wire up batch bar buttons
+document.getElementById('batch-delete-all')?.addEventListener('click', deleteAllSelected);
+document.getElementById('batch-delete-type')?.addEventListener('click', deleteByType);
+document.getElementById('batch-deselect')?.addEventListener('click', () => { clearMultiSelect(); deselectObject(); });
+
+// Prevent default context menu on the viewport (we have our own)
+document.getElementById('viewport')?.addEventListener('contextmenu', e => {
+e.preventDefault();
+// Also try to show our context menu via the contextmenu event
+const rect = renderer.domElement.getBoundingClientRect();
+mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+raycaster.setFromCamera(mouse, activeCamera);
+const meshes = [];
+sceneObjects.forEach(g => { g.traverse(c => { if (c.isMesh) meshes.push(c); }); });
+meshes.push(yardMesh);
+const hits = raycaster.intersectObjects(meshes, false);
+if (hits.length > 0) {
+const objHit = hits.find(h => h.object.userData.objectId !== undefined);
+if (objHit) {
+const objId = objHit.object.userData.objectId;
+if (state.objects.has(objId)) {
+selectObject(objId);
+showContextMenu(e.clientX, e.clientY, objId);
+return;
+}
+}
+}
+});
+
+// Add recently used section to the sidebar
+const sidebar = document.getElementById('library');
+if (sidebar) {
+const recentDiv = document.createElement('div');
+recentDiv.className = 'recent-section';
+recentDiv.innerHTML = '<div class="recent-title">Recently Used</div><div id="recent-items"></div>';
+sidebar.parentNode.insertBefore(recentDiv, sidebar);
+}
+
+console.log('[Expert] Power-user features initialized: Command Palette, Context Menu, Multi-Select, Batch Ops, Recent Objects');
+
+// Expert: Expose functions for testing/debugging
+window._expertTest = {
+raycastAt: (clientX, clientY) => {
+const rect = renderer.domElement.getBoundingClientRect();
+const mx = ((clientX - rect.left) / rect.width) * 2 - 1;
+const my = -((clientY - rect.top) / rect.height) * 2 + 1;
+raycaster.setFromCamera(new THREE.Vector2(mx, my), activeCamera);
+const meshes = [];
+sceneObjects.forEach(g => { g.traverse(c => { if (c.isMesh) meshes.push(c); }); });
+meshes.push(yardMesh);
+const hits = raycaster.intersectObjects(meshes, false);
+return hits.map(h => ({
+objectId: h.object.userData.objectId,
+distance: h.distance
+}));
+},
+showCtxAt: (clientX, clientY) => {
+const hits = window._expertTest.raycastAt(clientX, clientY);
+const objHit = hits.find(h => h.objectId !== undefined);
+if (objHit && state.objects.has(objHit.objectId)) {
+selectObject(objHit.objectId);
+showContextMenu(clientX, clientY, objHit.objectId);
+return true;
+}
+return false;
+},
+showCtxForSelected: (clientX, clientY) => {
+if (state.selectedId !== null) {
+showContextMenu(clientX, clientY, state.selectedId);
+return true;
+}
+return false;
+},
+objectCount: () => state.objects.size,
+selectedId: () => state.selectedId,
+selectedIds: () => Array.from(state.selectedIds),
+};
+})();
 (function setupWizardSkip() {
 const skipBtn = document.getElementById('wizard-skip');
 if (!skipBtn) return;
