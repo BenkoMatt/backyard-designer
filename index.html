@@ -1381,7 +1381,399 @@ contain-intrinsic-size: 300px 200px;
   #tour-spotlight, #tour-bubble { transition: none; }
 }
 
+/* ============================================================
+   SPRINT 9: MICRO-INTERACTION POLISH FRAMEWORK
+   CSS transitions, button press states, focus rings, spinners,
+   toast variants, empty states, skeleton screens, confirm dialogs
+   ============================================================ */
+
+/* --- Button Press States (scale 0.95 on active) --- */
+button:active,
+.tb-btn:active,
+.vc-btn:active,
+.terrain-mode-btn:active,
+.terrain-preset-btn:active,
+.terrain-toggle-btn:active,
+.td-tab:active,
+.ta-btn:active,
+.excavate-btns button:active,
+.sun-preset:active,
+.sun-geo-btn:active,
+.sun-play-btn:active,
+.wizard-btn:active,
+.shape-card:active,
+.size-card:active,
+.rotate-btn:active,
+.btn-delete:active,
+.btn-duplicate:active,
+.advanced-toggle:active,
+.carving-shape-btn:active,
+#carving-clear-btn:active,
+#carving-commit-btn:active,
+#terrain-flatten:active,
+#innov-flatten-btn:active,
+#innov-flatten-all:active,
+.innov-tool-btn:active,
+.dock-panel-header .close:active,
+.cost-panel-header .close:active,
+.layer-panel-header .close:active,
+.excavate-header .close:active,
+.cs-header .close:active,
+.mab-btn:active,
+.walk-joy-btn:active,
+#label-delete-btn:active,
+.gallery-card-delete:active,
+#gallery-save-current-btn:active,
+#gallery-close-btn:active,
+#share-close-btn:active,
+#help-close-btn:active,
+.cmd-item:active {
+  transform: scale(0.95) !important;
+  transition: transform 0.08s ease-out !important;
+}
+
+/* --- Button ripple effect on click --- */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-anim 0.5s ease-out;
+  pointer-events: none;
+}
+@keyframes ripple-anim {
+  to { transform: scale(2.5); opacity: 0; }
+}
+
+/* --- Animated Focus Rings --- */
+button:focus-visible,
+.tb-btn:focus-visible,
+.vc-btn:focus-visible,
+[tabindex]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.lib-item:focus-visible,
+.cat-title:focus-visible,
+.layer-row:focus-visible,
+.gallery-card:focus-visible,
+.cmd-item:focus-visible,
+.td-tab:focus-visible {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 2px !important;
+  transition: outline-offset 0.15s ease, box-shadow 0.15s ease !important;
+  box-shadow: 0 0 0 4px rgba(61, 117, 73, 0.15) !important;
+}
+
+/* --- Panel Open/Close Transitions (fade + slide) --- */
+#cost-panel,
+#layer-panel,
+#cross-section-panel,
+#cut-fill-panel,
+#terrain-analysis-panel,
+#excavate-panel,
+#terrain-controls,
+#sun-panel,
+#innovation-panel,
+#dock-panel-container,
+.dock-panel,
+#context-hint,
+#dim-readout,
+#measure-readout,
+#grid-labels,
+#terrain-height-legend,
+#depth-gauge-overlay,
+#grid-level-badge,
+#ta-cross-section-overlay,
+#safety-warnings,
+#mobile-props-sheet,
+#mobile-lib-toggle {
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Panel enter animation */
+@keyframes panel-enter {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+#cost-panel.visible,
+#layer-panel.visible,
+#cross-section-panel.visible,
+#cut-fill-panel.visible,
+#terrain-analysis-panel.visible,
+#excavate-panel.visible,
+#sun-panel.visible,
+#innovation-panel.visible,
+.dock-panel.visible {
+  animation: panel-enter 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Modal transitions (fade + scale) --- */
+#help-modal,
+#share-modal,
+#gallery-modal,
+#cmd-palette-overlay {
+  transition: opacity 0.2s ease !important;
+}
+#help-modal.visible,
+#share-modal.visible,
+#gallery-modal.visible,
+#cmd-palette-overlay.visible {
+  animation: modal-backdrop-enter 0.2s ease;
+}
+@keyframes modal-backdrop-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.help-panel,
+.wizard-panel,
+.share-panel,
+.gallery-modal-content,
+#cmd-palette-box {
+  animation: modal-content-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes modal-content-enter {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* --- Loading Spinner --- */
+.mi-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: mi-spin 0.6s linear infinite;
+  flex-shrink: 0;
+}
+.mi-spinner.dark {
+  border-color: rgba(45, 45, 45, 0.2);
+  border-top-color: var(--primary);
+}
+.mi-spinner-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  border-radius: inherit;
+  animation: panel-enter 0.15s ease;
+}
+.mi-spinner-overlay .mi-spinner {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+  border-color: rgba(61, 117, 73, 0.2);
+  border-top-color: var(--primary);
+}
+@keyframes mi-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Button loading state */
+button.mi-loading {
+  pointer-events: none;
+  opacity: 0.7;
+  position: relative;
+}
+button.mi-loading .mi-btn-text { opacity: 0.4; }
+button.mi-loading .mi-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* --- Toast Notifications with variants --- */
+#toast {
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  padding: 12px 24px !important;
+  border-radius: var(--radius) !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  max-width: 400px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-height: 44px !important;
+}
+#toast.visible {
+  animation: toast-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+@keyframes toast-enter {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.9); }
+  to { opacity: 1; transform: translateX(-50%) translateY(-8px) scale(1); }
+}
+#toast.toast-success { background: #1a6e3a !important; }
+#toast.toast-error { background: #a82828 !important; }
+#toast.toast-warning { background: #b8810c !important; }
+#toast.toast-info { background: #2d2d2d !important; }
+#toast .toast-icon {
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* --- Empty States with guidance --- */
+.mi-empty-state {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-muted);
+}
+.mi-empty-state .mi-empty-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+.mi-empty-state .mi-empty-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.mi-empty-state .mi-empty-desc {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* --- Skeleton Screen --- */
+.mi-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: mi-shimmer 1.2s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes mi-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.mi-skeleton-card {
+  height: 180px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+/* --- Confirmation Dialog --- */
+#confirm-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 350;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  animation: modal-backdrop-enter 0.2s ease;
+}
+#confirm-dialog.visible { display: flex; }
+.confirm-dialog-box {
+  background: white;
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  animation: modal-content-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.confirm-dialog-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.confirm-dialog-title .confirm-icon { font-size: 22px; }
+.confirm-dialog-message {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.confirm-dialog-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+.confirm-dialog-btn {
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.confirm-dialog-btn:hover { background: #f0f0f0; }
+.confirm-dialog-btn.confirm-danger {
+  background: #c0392b;
+  color: white;
+  border-color: #c0392b;
+}
+.confirm-dialog-btn.confirm-danger:hover { background: #a82828; }
+
+/* --- Hover state improvements for interactive elements --- */
+.layer-row:hover,
+.buried-item:hover,
+.gallery-card:hover,
+.cmd-item:hover {
+  background: #f0f5f2 !important;
+  transition: background 0.12s ease;
+}
+
+/* --- Tooltip pulse for onboarding --- */
+@keyframes mi-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(61, 117, 73, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(61, 117, 73, 0); }
+}
+.mi-pulse {
+  animation: mi-pulse 1.5s ease-in-out infinite;
+}
+
+/* --- Progress bar for async operations --- */
+.mi-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--primary);
+  z-index: 9999;
+  transition: width 0.3s ease;
+  border-radius: 0 2px 2px 0;
+}
+
+/* --- Reduced motion: disable all Sprint 9 animations --- */
+@media (prefers-reduced-motion: reduce) {
+  .mi-spinner { animation-duration: 1.5s !important; }
+  #toast.visible { animation: none !important; }
+  .panel-enter, .modal-backdrop-enter, .modal-content-enter { animation: none !important; }
+  .mi-skeleton { animation: none !important; }
+  .mi-pulse { animation: none !important; }
+  button:active { transform: none !important; }
+}
+
 </style>
+<!-- Sprint 9: Confirmation dialog for destructive actions -->
+<div id="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-dialog-title" aria-hidden="true">
+  <div class="confirm-dialog-box">
+    <div class="confirm-dialog-title" id="confirm-dialog-title"><span class="confirm-icon">⚠️</span><span class="confirm-title-text">Confirm</span></div>
+    <div class="confirm-dialog-message">Are you sure?</div>
+    <div class="confirm-dialog-actions">
+      <button class="confirm-dialog-btn" id="confirm-cancel-btn">Cancel</button>
+      <button class="confirm-dialog-btn confirm-danger" id="confirm-ok-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- Sprint 9: Progress bar for async operations -->
+<div class="mi-progress" id="mi-progress" style="width:0;opacity:0;"></div>
+
 <script type="importmap">
 {
 "imports": {
@@ -3896,11 +4288,11 @@ window._bydContextLost = false;
 renderer.domElement.addEventListener('webglcontextlost', e => {
 e.preventDefault();
 window._bydContextLost = true;
-showToast('Graphics context lost — please reload');
+showToast('Graphics context lost — please reload', 'error');
 });
 renderer.domElement.addEventListener('webglcontextrestored', () => {
 window._bydContextLost = false;
-showToast('Graphics restored');
+showToast('Graphics restored', 'success');
 requestRender();
 });
 window.addEventListener('resize', onResize);
@@ -4697,7 +5089,7 @@ pushCommand({
 undo: () => { state.objects.set(id, objCopy); buildSceneObject(id); },
 redo: () => { removeObject(id); },
 });
-showToast('Deleted — press Undo to restore');
+showToast('Deleted — press Undo to restore', 'info');
 }
 function duplicateObject(id) {
 const obj = state.objects.get(id);
@@ -4863,18 +5255,18 @@ document.body.appendChild(a);
 a.click();
 document.body.removeChild(a);
 URL.revokeObjectURL(url);
-showToast('Design saved! Check your downloads folder.');
+showToast('Design saved! Check your downloads folder.', 'success');
 } catch(e) {
 showToast('Could not save design: ' + (e.message || 'unknown error'));
 }
 }
 function loadDesign(data) {
 if (!data || !data.objects) {
-showToast('Invalid design file: no data or objects found.');
+showToast('Invalid design file: no data or objects found.', 'error');
 return;
 }
 if (!Array.isArray(data.objects)) {
-showToast('Invalid design file: objects is not an array.');
+showToast('Invalid design file: objects is not an array.', 'error');
 return;
 }
 const TYPE_MIGRATIONS = {
@@ -4896,7 +5288,7 @@ if (!obj.params || typeof obj.params !== 'object') return false;
 return true;
 });
 if (data.yard && (typeof data.yard.width !== 'number' || typeof data.yard.depth !== 'number' || data.yard.width <= 0 || data.yard.depth <= 0)) {
-showToast('Invalid design file: yard has invalid dimensions; using current yard.');
+showToast('Invalid design file: yard has invalid dimensions; using current yard.', 'warning');
 data.yard = state.yard;
 }
 if (data.yard && data.yard.shape && !['rectangle', 'L'].includes(data.yard.shape)) {
@@ -4966,7 +5358,7 @@ state.redoStack = [];
 updateUndoRedoButtons();
 updateAllBuriedIndicators();
 requestRender();
-showToast('Design loaded successfully!');
+showToast('Design loaded successfully!', 'success');
 }
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB max design file
 function loadFromFile(file) {
@@ -4991,18 +5383,26 @@ showToast('Error: Could not read this file — ' + (err.message || 'invalid JSON
 reader.onerror = () => { showToast('Error: Could not read this file.'); };
 reader.readAsText(file);
 }
-document.getElementById('btn-save').addEventListener('click', saveDesign);
+document.getElementById('btn-save').addEventListener('click', () => {
+  const btn = document.getElementById('btn-save');
+  const doSave = () => { saveDesign(); };
+  if (btn) withSpinner(btn, doSave); else doSave();
+});
 document.getElementById('btn-load').addEventListener('click', () => {
-document.getElementById('import-input').click();
+  const btn = document.getElementById('btn-load');
+  const doLoad = () => { document.getElementById('import-input').click(); };
+  if (btn) withSpinner(btn, doLoad); else doLoad();
 });
 document.getElementById('import-input').addEventListener('change', e => {
 if (e.target.files[0]) loadFromFile(e.target.files[0]);
 e.target.value = '';
 });
 document.getElementById('btn-screenshot').addEventListener('click', () => {
+  const btn = document.getElementById('btn-screenshot');
+  const doScreenshot = () => {
 if (!scene || !renderer) { showToast('3D view unavailable — WebGL not supported'); return; }
 if (window._bydContextLost) {
-showToast('Cannot take screenshot: graphics context lost. Please reload.');
+showToast('Cannot take screenshot: graphics context lost. Please reload.', 'error');
 return;
 }
 try {
@@ -5012,7 +5412,7 @@ const a = document.createElement('a');
 a.href = dataUrl;
 a.download = 'my-backyard-' + Date.now() + '.png';
 a.click();
-showToast('Screenshot saved!');
+showToast('Screenshot saved!', 'success');
 } catch(e) {
 showToast('Screenshot failed: ' + e.message);
 }
@@ -5051,6 +5451,8 @@ updateScaleBar();
 }
 requestRender();
 });
+  };
+  if (btn) withSpinner(btn, doScreenshot); else doScreenshot();
 });
 document.getElementById('vc-zoom-in').addEventListener('click', () => {
 if (state.viewMode === '3d') {
@@ -5271,7 +5673,7 @@ redo: () => { ids.forEach(id => removeObject(id)); },
 });
 clearMultiSelect();
 deselectObject();
-showToast(`Deleted ${ids.length} object(s) — press Undo to restore`);
+showToast(`Deleted ${ids.length} object(s) — press Undo to restore`, 'info');
 }
 
 function deleteByType() {
@@ -5305,7 +5707,7 @@ redo: () => { idsToDelete.forEach(id => removeObject(id)); },
 });
 clearMultiSelect();
 deselectObject();
-showToast(`Deleted ${idsToDelete.length} ${CATALOG[targetType]?.name || targetType}(s) — press Undo to restore`);
+showToast(`Deleted ${idsToDelete.length} ${CATALOG[targetType]?.name || targetType}(s) — press Undo to restore`, 'info');
 }
 
 function selectAllObjects() {
@@ -5318,7 +5720,7 @@ selectObject(ids[0]);
 updateMultiSelectHighlights();
 showBatchBar();
 }
-showToast(`Selected ${ids.length} object(s)`);
+showToast(`Selected ${ids.length} object(s)`, 'info');
 }
 
 function showBatchBar() {
@@ -5627,9 +6029,9 @@ const data = JSON.parse(saved);
 document.getElementById('wizard').style.display = 'none';
 initWithYard(data.yard || wizardData);
 loadDesign(data);
-showToast('Previous design restored!');
+showToast('Previous design restored!', 'success');
 }
-} catch(e) { showToast('Could not restore previous design'); }
+} catch(e) { showToast('Could not restore previous design', 'error'); }
 });
 }
 document.getElementById('wizard-next').addEventListener('click', () => {
@@ -5818,7 +6220,7 @@ setTimeout(() => {
   // Skip the old toast if the new onboarding system is showing the welcome prompt
   const newWP = document.getElementById('welcome-prompt');
   if (newWP && newWP.classList.contains('visible')) return;
-  showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.');
+  showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.', 'info');
 }, 500);
 }
 // ============================================================
@@ -6034,7 +6436,7 @@ const terrainStrengthInput = document.getElementById('terrain-strength');
 const terrainStrengthValEl = document.getElementById('terrain-strength-val');
 terrainBtn.addEventListener('click', () => {
 if (walkMode && !terrainMode) {
-showToast('Exit walk mode first to edit terrain');
+showToast('Exit walk mode first to edit terrain', 'warning');
 return;
 }
 terrainMode = !terrainMode;
@@ -6229,7 +6631,7 @@ undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerr
 redo: () => { state.terrain = null; state.terrainDeformed = false; const geo2 = yardMesh.geometry; const pos2 = geo2.attributes.position; for (let i = 0; i < pos2.count; i++) pos2.setY(i, 0); pos2.needsUpdate = true; geo2.computeVertexNormals(); if (solidEarthMesh) { scene.remove(solidEarthMesh); if (solidEarthMesh.geometry) solidEarthMesh.geometry.dispose(); if (solidEarthMesh.material) solidEarthMesh.material.dispose(); solidEarthMesh = null; } state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
 });
 requestRender();
-showToast('Terrain flattened');
+showToast('Terrain flattened', 'success');
 });
 function hasTerrainDeformation() {
 return state.terrainDeformed;
@@ -7806,7 +8208,7 @@ sunBtn.classList.toggle('active', open);
 if (open) applySunPosition();
 });
 document.getElementById('sun-geo').addEventListener('click', () => {
-if (!navigator.geolocation) { showToast('Geolocation not available'); return; }
+if (!navigator.geolocation) { showToast('Geolocation not available', 'error'); return; }
 const btn = document.getElementById('sun-geo');
 btn.disabled = true; btn.textContent = 'Locating...';
 navigator.geolocation.getCurrentPosition(
@@ -7817,7 +8219,7 @@ btn.disabled = false; btn.textContent = 'Use My Location';
 applySunPosition();
 },
 () => {
-showToast('Could not get location');
+showToast('Could not get location', 'error');
 btn.disabled = false; btn.textContent = 'Use My Location';
 },
 { timeout: 8000 }
@@ -8080,7 +8482,7 @@ gridLevel: c.gl || 0,
 }
 function openShareModal() {
 const encoded = encodeDesignToHash();
-if (!encoded) { showToast('Could not encode design'); return; }
+if (!encoded) { showToast('Could not encode design', 'error'); return; }
 const base = location.origin + location.pathname;
 const url = base + '#' + encoded;
 document.getElementById('share-url-box').textContent = url;
@@ -8121,14 +8523,14 @@ const url = document.getElementById('share-url-box').textContent;
 try {
 if (navigator.clipboard && navigator.clipboard.writeText) {
 await navigator.clipboard.writeText(url);
-showToast('Link copied to clipboard!');
+showToast('Link copied to clipboard!', 'success');
 } else {
 const ta = document.createElement('textarea');
 ta.value = url; document.body.appendChild(ta); ta.select();
 document.execCommand('copy'); document.body.removeChild(ta);
-showToast('Link copied!');
+showToast('Link copied!', 'success');
 }
-} catch (e) { showToast('Copy failed - select the link manually'); }
+} catch (e) { showToast('Copy failed - select the link manually', 'error'); }
 });
 const shared = decodeDesignFromHash();
 if (shared && shared.objects) {
@@ -8136,7 +8538,7 @@ setTimeout(() => {
 const wiz = document.getElementById('wizard');
 if (wiz) wiz.style.display = 'none';
 loadDesign(shared);
-showToast('Loaded shared design from link!');
+showToast('Loaded shared design from link!', 'success');
 }, 100);
 }
 })();
@@ -8172,7 +8574,7 @@ if (IS_MOBILE && hintEl && hintMobileEl) {
 hintEl.style.display = 'none';
 hintMobileEl.style.display = 'block';
 }
-showToast('Walk mode! Use WASD or arrow keys to move. Press Esc to exit.');
+showToast('Walk mode! Use WASD or arrow keys to move. Press Esc to exit.', 'info');
 requestRender();
 }
 function exitWalkMode() {
@@ -8291,13 +8693,13 @@ document.getElementById('walk-motion-btn').addEventListener('click', async () =>
 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
 try {
 const perm = await DeviceOrientationEvent.requestPermission();
-if (perm !== 'granted') { showToast('Motion permission denied'); return; }
-} catch (e) { showToast('Motion permission failed'); return; }
+if (perm !== 'granted') { showToast('Motion permission denied', 'error'); return; }
+} catch (e) { showToast('Motion permission failed', 'error'); return; }
 }
 walkDeviceOrientationActive = true;
 window.addEventListener('deviceorientation', onWalkDeviceOrient);
 document.getElementById('walk-motion-btn').textContent = 'Motion On';
-showToast('Tilt your phone to look around!');
+showToast('Tilt your phone to look around!', 'info');
 });
 let walkLoopRunning = false;
 function walkLoop() {
@@ -8829,10 +9231,10 @@ contourEnabled = !contourEnabled;
 taContourToggle.classList.toggle('on', contourEnabled);
 if (contourEnabled) {
 buildContourLines();
-showToast('Contour lines enabled');
+showToast('Contour lines enabled', 'success');
 } else {
 removeContourLines();
-showToast('Contour lines disabled');
+showToast('Contour lines disabled', 'info');
 }
 requestRender();
 });
@@ -8918,10 +9320,10 @@ slopeEnabled = !slopeEnabled;
 taSlopeToggle.classList.toggle('on', slopeEnabled);
 if (slopeEnabled) {
 buildSlopeHeatmap();
-showToast('Slope analysis enabled');
+showToast('Slope analysis enabled', 'success');
 } else {
 removeSlopeHeatmap();
-showToast('Slope analysis disabled');
+showToast('Slope analysis disabled', 'info');
 }
 requestRender();
 });
@@ -9171,10 +9573,10 @@ taCutFillToggle.classList.toggle('on', cutFillEnabled);
 if (cutFillEnabled) {
 updateCutFillVolume();
 cutFillPanel.classList.add('visible');
-showToast('Cut/fill volume calculator enabled');
+showToast('Cut/fill volume calculator enabled', 'success');
 } else {
 cutFillPanel.classList.remove('visible');
-showToast('Cut/fill volume calculator disabled');
+showToast('Cut/fill volume calculator disabled', 'info');
 }
 });
 setupToggleKeyboard(taCutFillToggle, () => taCutFillToggle.click());
@@ -9286,10 +9688,10 @@ waterFlowEnabled = !waterFlowEnabled;
 taWaterFlowToggle.classList.toggle('on', waterFlowEnabled);
 if (waterFlowEnabled) {
 buildWaterFlowPaths();
-showToast('Water flow simulation enabled');
+showToast('Water flow simulation enabled', 'success');
 } else {
 removeWaterFlowPaths();
-showToast('Water flow simulation disabled');
+showToast('Water flow simulation disabled', 'info');
 }
 requestRender();
 });
@@ -9375,10 +9777,10 @@ elevHeatmapEnabled = !elevHeatmapEnabled;
 taElevToggle.classList.toggle('on', elevHeatmapEnabled);
 if (elevHeatmapEnabled) {
 buildElevationHeatmap();
-showToast('Elevation heatmap enabled');
+showToast('Elevation heatmap enabled', 'success');
 } else {
 removeElevationHeatmap();
-showToast('Elevation heatmap disabled');
+showToast('Elevation heatmap disabled', 'info');
 }
 requestRender();
 });
@@ -9459,10 +9861,10 @@ ghostModeEnabled = !ghostModeEnabled;
 taGhostToggle.classList.toggle('on', ghostModeEnabled);
 if (ghostModeEnabled) {
 updateGhostMode();
-showToast('Buried object ghost view enabled');
+showToast('Buried object ghost view enabled', 'success');
 } else {
 restoreOriginalMaterials();
-showToast('Buried object ghost view disabled');
+showToast('Buried object ghost view disabled', 'info');
 }
 requestRender();
 });
@@ -10540,7 +10942,7 @@ if (child.material) child.material.dispose();
 }
 function scanForRetainingWalls() {
 if (!state.terrain) {
-showToast('No terrain to analyze — try raising/lowering some terrain first.');
+showToast('No terrain to analyze — try raising/lowering some terrain first.', 'warning');
 return;
 }
 clearInnovRetWalls();
@@ -10895,7 +11297,7 @@ undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerr
 redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); if (terrainHeightColorsActive) applyHeightColors(); requestRender(); },
 });
 const shapeNames = { box: 'Box', cylinder: 'Round', trench: 'Trench' };
-showToast(`${shapeNames[carvingShapeMode]} carved: ${uxCarvingDepth}ft deep`);
+showToast(`${shapeNames[carvingShapeMode]} carved: ${uxCarvingDepth}ft deep`, 'success');
 clearCarvingPreview();
 carvingCommitBtn.disabled = true;
 carvingCommitBtn.textContent = 'Click ground first';
@@ -10931,7 +11333,7 @@ if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
 if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
 cutawayValEl.textContent = 'Full';
 }
-showToast('All carvings cleared');
+showToast('All carvings cleared', 'success');
 requestRender();
 });
 viewport.addEventListener('pointerdown', (e) => {
@@ -10982,7 +11384,7 @@ if (solidEarthMesh && solidEarthMesh.material) {
 solidEarthMesh.material.opacity = 0.6;
 solidEarthMesh.material.transparent = true;
 }
-showToast('Underground view active — orbit to explore carved spaces');
+showToast('Underground view active — orbit to explore carved spaces', 'info');
 } else {
 controls.maxPolarAngle = Math.PI / 2 - 0.05;
 controls.minDistance = 5;
@@ -11263,7 +11665,7 @@ innovSetMode(innovMode === 'ugstruct' ? null : 'ugstruct');
 });
 innovUgStructClear.addEventListener('click', () => {
 clearUndergroundRooms();
-showToast('All underground rooms cleared');
+showToast('All underground rooms cleared', 'info');
 });
 const GEO_LAYER_COLORS = [
 { name: 'Topsoil',   color: 0x6B4423, opacity: 0.6 },
@@ -11320,10 +11722,10 @@ function toggleGeoLayers() {
 geoLayersActive = !geoLayersActive;
 if (geoLayersActive) {
 buildGeoLayerMeshes();
-showToast('Geological layers enabled — use cutaway view to see them');
+showToast('Geological layers enabled — use cutaway view to see them', 'info');
 } else {
 removeGeoLayerMeshes();
-showToast('Geological layers disabled');
+showToast('Geological layers disabled', 'info');
 }
 requestRender();
 }
@@ -11481,10 +11883,10 @@ explodedViewActive = !explodedViewActive;
 innovExplodedBtn.classList.toggle('active', explodedViewActive);
 if (explodedViewActive) {
 applyExplodedView();
-showToast('Exploded view ON — slide to lift terrain and reveal underground');
+showToast('Exploded view ON — slide to lift terrain and reveal underground', 'info');
 } else {
 resetExplodedView();
-showToast('Exploded view OFF');
+showToast('Exploded view OFF', 'info');
 }
 requestRender();
 });
@@ -11551,7 +11953,7 @@ buildWaterTableMesh();
 showToast('Water table visualization ON — depth: ' + innovWaterTableDepth.value + 'ft');
 } else {
 removeWaterTableMesh();
-showToast('Water table visualization OFF');
+showToast('Water table visualization OFF', 'info');
 }
 requestRender();
 });
@@ -11606,10 +12008,10 @@ innovGhostPreviewBtn.addEventListener('click', () => {
 ghostPreviewActive = !ghostPreviewActive;
 innovGhostPreviewBtn.classList.toggle('active', ghostPreviewActive);
 if (ghostPreviewActive) {
-showToast('Ghost preview ON — hover terrain to see room placement');
+showToast('Ghost preview ON — hover terrain to see room placement', 'info');
 } else {
 removeGhostPreviewMesh();
-showToast('Ghost preview OFF');
+showToast('Ghost preview OFF', 'info');
 }
 requestRender();
 });
@@ -12592,7 +12994,7 @@ return xrAvailable;
 }
 async function enterVR() {
 if (!xrAvailable) {
-showToast('VR not available on this device');
+showToast('VR not available on this device', 'error');
 return;
 }
 try {
@@ -12601,7 +13003,7 @@ optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
 });
 renderer.xr.enabled = true;
 renderer.xr.setSession(xrSession);
-showToast('Entered VR mode');
+showToast('Entered VR mode', 'success');
 if (typeof enterWalkMode === 'function') enterWalkMode();
 xrSession.addEventListener('end', onSessionEnd);
 } catch(e) {
@@ -12612,7 +13014,7 @@ function onSessionEnd() {
 xrSession = null;
 renderer.xr.enabled = false;
 if (typeof exitWalkMode === 'function') exitWalkMode();
-showToast('Exited VR mode');
+showToast('Exited VR mode', 'info');
 }
 return {
 checkAvailability,
@@ -13162,7 +13564,7 @@ function setGalleryDesigns(designs) {
 try {
 localStorage.setItem(GALLERY_KEY, JSON.stringify(designs));
 } catch (e) {
-showToast('Gallery storage full — try deleting old designs.');
+showToast('Gallery storage full — try deleting old designs.', 'error');
 }
 }
 function captureThumbnail() {
@@ -13190,7 +13592,7 @@ return thumb.toDataURL('image/jpeg', 0.6);
 }
 function saveToGallery(name, category) {
 if (!name || !name.trim()) {
-showToast('Please enter a name for your design.');
+showToast('Please enter a name for your design.', 'warning');
 return false;
 }
 const designs = getGalleryDesigns();
@@ -13208,7 +13610,7 @@ created: Date.now(),
 designs.unshift(design);
 if (designs.length > 50) designs.length = 50;
 setGalleryDesigns(designs);
-showToast('Design saved to gallery!');
+showToast('Design saved to gallery!', 'success');
 return true;
 }
 function renderGalleryGrid() {
@@ -13273,7 +13675,7 @@ function deleteFromGallery(id) {
 let designs = getGalleryDesigns();
 designs = designs.filter(d => d.id !== id);
 setGalleryDesigns(designs);
-showToast('Design deleted from gallery.');
+showToast('Design deleted from gallery.', 'info');
 }
 function escapeHtml(str) {
 const div = document.createElement('div');
@@ -13615,10 +14017,10 @@ return new Uint8Array(gif);
 }
 function downloadTimelapseGIF() {
 if (timelapseFrames.length < 2) {
-showToast('Play the time-lapse first to generate frames.');
+showToast('Play the time-lapse first to generate frames.', 'warning');
 return;
 }
-showToast('Generating GIF... this may take a moment.');
+showToast('Generating GIF... this may take a moment.', 'info');
 const canvas = document.getElementById('timelapse-canvas');
 const width = canvas.width;
 const height = canvas.height;
@@ -13643,7 +14045,7 @@ a.href = url;
 a.download = 'backyard-timelapse-' + Date.now() + '.gif';
 a.click();
 URL.revokeObjectURL(url);
-showToast('GIF downloaded!');
+showToast('GIF downloaded!', 'success');
 } catch (e) {
 showToast('GIF generation failed: ' + e.message);
 }
@@ -13759,7 +14161,7 @@ const a = document.createElement('a');
 a.href = dataUrl;
 a.download = 'backyard-design-card-' + Date.now() + '.png';
 a.click();
-showToast('Sharing card downloaded!');
+showToast('Sharing card downloaded!', 'success');
 } catch (e) {
 showToast('Download failed: ' + e.message);
 }
@@ -13776,7 +14178,7 @@ if (e.target.id === 'socialcard-modal') e.target.classList.remove('visible');
 document.getElementById('socialcard-regenerate-btn').addEventListener('click', () => {
 const title = document.getElementById('socialcard-title').value;
 generateSocialCard(title);
-showToast('Card regenerated!');
+showToast('Card regenerated!', 'success');
 });
 document.getElementById('socialcard-download-btn').addEventListener('click', downloadSocialCard);
 let cardRegenTimer = null;
@@ -13905,10 +14307,10 @@ return { vertices: allVerts, faces: allFaces, normals: allNormals, meshCount: me
 }
 function exportSTL() {
 try {
-showToast('Generating STL export...');
+showToast('Generating STL export...', 'info');
 const data = collectGeometryData();
 if (data.faces.length === 0) {
-showToast('No geometry to export. Add some objects first!');
+showToast('No geometry to export. Add some objects first!', 'warning');
 return false;
 }
 const faceCount = data.faces.length;
@@ -13948,7 +14350,7 @@ offset += 50;
 }
 const blob = new Blob([buffer], { type: 'model/stl' });
 downloadBlob(blob, 'backyard-design.stl');
-showToast(`STL exported: ${faceCount} faces, ${(blob.size / 1024).toFixed(1)} KB`);
+showToast(`STL exported: ${faceCount} faces, ${(blob.size / 1024).toFixed(1)} KB`, 'success');
 console.log(`[Export] STL: ${data.vertices.length} verts, ${faceCount} faces, ${data.meshCount} meshes`);
 return true;
 } catch (e) {
@@ -13959,7 +14361,7 @@ return false;
 }
 function exportOBJ() {
 try {
-showToast('Generating OBJ export...');
+showToast('Generating OBJ export...', 'info');
 const data = collectGeometryData();
 if (data.faces.length === 0) {
 showToast('No geometry to export. Add some objects first!');
@@ -13995,7 +14397,7 @@ obj += 'f ' + (a + 1) + ' ' + (b + 1) + ' ' + (c + 1) + '\n';
 }
 downloadText(obj, 'backyard-design.obj', 'text/plain');
 const sizeKB = (obj.length / 1024).toFixed(1);
-showToast(`OBJ exported: ${data.vertices.length} verts, ${data.faces.length} faces, ${sizeKB} KB`);
+showToast(`OBJ exported: ${data.vertices.length} verts, ${data.faces.length} faces, ${sizeKB} KB`, 'success');
 console.log(`[Export] OBJ: ${data.vertices.length} verts, ${data.faces.length} faces, ${data.meshCount} meshes`);
 return true;
 } catch (e) {
@@ -14007,10 +14409,10 @@ return false;
 function exportHeightmapPNG() {
 try {
 if (!state.terrain || state.terrain.length === 0) {
-showToast('No terrain to export. Sculpt some terrain first!');
+showToast('No terrain to export. Sculpt some terrain first!', 'warning');
 return false;
 }
-showToast('Generating heightmap PNG...');
+showToast('Generating heightmap PNG...', 'info');
 const segs = state.terrainSegs;
 const size = segs + 1;
 let minH = Infinity, maxH = -Infinity;
@@ -14044,7 +14446,7 @@ pixels[pixelIdx + 3] = 255;
 ctx.putImageData(imgData, 0, 0);
 canvas.toBlob(blob => {
 downloadBlob(blob, 'backyard-terrain-heightmap.png');
-showToast(`Heightmap exported: ${size}×${size}px, range ${minH.toFixed(1)}ft to ${maxH.toFixed(1)}ft`);
+showToast(`Heightmap exported: ${size}×${size}px, range ${minH.toFixed(1)}ft to ${maxH.toFixed(1)}ft`, 'success');
 console.log(`[Export] Heightmap: ${size}×${size}px, min=${minH.toFixed(2)}, max=${maxH.toFixed(2)}`);
 }, 'image/png');
 return true;
@@ -14060,7 +14462,7 @@ if (window._bydContextLost) {
 showToast('Cannot take screenshot: graphics context lost. Please reload.');
 return false;
 }
-showToast('Rendering HD screenshot...');
+showToast('Rendering HD screenshot...', 'info');
 const oldSize = { w: renderer.domElement.width, h: renderer.domElement.height };
 const scale = 4;
 const newW = oldSize.w * scale;
@@ -14078,7 +14480,7 @@ renderer.setSize(oldSize.w, oldSize.h, false);
 activeCamera.aspect = oldSize.w / oldSize.h;
 activeCamera.updateProjectionMatrix();
 requestRender();
-showToast(`HD screenshot saved (${newW}×${newH}px)`);
+showToast(`HD screenshot saved (${newW}×${newH}px)`, 'success');
 console.log(`[Export] HD Screenshot: ${newW}×${newH}px`);
 return true;
 } catch (e) {
@@ -14778,7 +15180,7 @@ setTimeout(hideHint, 4000);
 document.getElementById('label-save-btn')?.addEventListener('click', () => {
 const text = document.getElementById('label-text-input').value.trim();
 const color = document.getElementById('label-color-input').value;
-if (!text) { showToast('Please enter label text'); return; }
+if (!text) { showToast('Please enter label text', 'warning'); return; }
 if (editingLabelId !== null && labels.has(editingLabelId)) {
 updateLabel(editingLabelId, text, color);
 } else {
@@ -14787,7 +15189,7 @@ addLabel(text, pos, color);
 pendingLabelPos = null;
 }
 hideLabelEditModal();
-showToast('Label saved');
+showToast('Label saved', 'success');
 });
 document.getElementById('label-cancel-btn')?.addEventListener('click', () => {
 hideLabelEditModal();
@@ -14796,7 +15198,7 @@ document.getElementById('label-delete-btn')?.addEventListener('click', () => {
 if (editingLabelId !== null) {
 removeLabel(editingLabelId);
 hideLabelEditModal();
-showToast('Label deleted');
+showToast('Label deleted', 'info');
 }
 });
 document.getElementById('label-edit-modal')?.addEventListener('click', (e) => {
@@ -14831,7 +15233,7 @@ updateCompass();
 compassEl?.addEventListener('click', () => {
 if (typeof resetView === 'function') {
 resetView();
-showToast('View reset — facing North');
+showToast('View reset — facing North', 'success');
 }
 });
 const _origInitWithYard = initWithYard;
@@ -15568,6 +15970,195 @@ const Onboarding = (function() {
 
 // Initialize onboarding system
 Onboarding.init();
+
+
+// SPRINT 9: MICRO-INTERACTION POLISH — JavaScript
+// Toast variants, confirm dialog, loading spinners, empty states,
+// skeleton screens, ripple effects, progress bar
+// ============================================================
+
+// ===== Toast Enhancement: success/error/warning/info variants =====
+const TOAST_ICONS = {
+  success: '✓',
+  error: '✕',
+  warning: '⚠',
+  info: 'ℹ',
+};
+
+// Override showToast with enhanced version
+const _origShowToast = showToast;
+showToast = function(msg, type) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  type = type || 'info';
+  const validTypes = ['success', 'error', 'warning', 'info'];
+  if (!validTypes.includes(type)) type = 'info';
+
+  // Clear previous variant classes
+  toast.classList.remove('toast-success', 'toast-error', 'toast-warning', 'toast-info');
+  toast.classList.add('toast-' + type);
+
+  // Build HTML with icon + message
+  const icon = TOAST_ICONS[type] || '';
+  toast.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + escHtml(msg) + '</span>';
+  toast.classList.add('visible');
+
+  if (toastTimer) clearTimeout(toastTimer);
+  const duration = type === 'error' ? 5000 : 3000;
+  toastTimer = setTimeout(() => toast.classList.remove('visible'), duration);
+
+  // Screen reader announcement
+  if (typeof announceForScreenReader === 'function') announceForScreenReader(msg);
+};
+
+// ===== Confirmation Dialog System =====
+function showConfirmDialog(title, message, opts) {
+  opts = opts || {};
+  const dialog = document.getElementById('confirm-dialog');
+  if (!dialog) return Promise.resolve(true); // Fallback: proceed without confirmation
+
+  return new Promise((resolve) => {
+    // Set content
+    const titleEl = dialog.querySelector('.confirm-title-text');
+    const msgEl = dialog.querySelector('.confirm-dialog-message');
+    const okBtn = document.getElementById('confirm-ok-btn');
+    const cancelBtn = document.getElementById('confirm-cancel-btn');
+    const iconEl = dialog.querySelector('.confirm-icon');
+
+    if (titleEl) titleEl.textContent = title;
+    if (msgEl) msgEl.textContent = message;
+    if (iconEl) iconEl.textContent = opts.icon || '⚠️';
+
+    // Configure OK button
+    if (okBtn) {
+      okBtn.textContent = opts.okText || 'Confirm';
+      okBtn.classList.remove('confirm-danger');
+      if (opts.danger) okBtn.classList.add('confirm-danger');
+    }
+
+    // Show dialog
+    dialog.classList.add('visible');
+    dialog.setAttribute('aria-hidden', 'false');
+    if (okBtn) okBtn.focus();
+
+    // Clean up any previous listeners
+    const newOkBtn = okBtn.cloneNode(true);
+    const newCancelBtn = cancelBtn.cloneNode(true);
+    if (okBtn) okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+    if (cancelBtn) cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+    const close = (result) => {
+      dialog.classList.remove('visible');
+      dialog.setAttribute('aria-hidden', 'true');
+      resolve(result);
+    };
+
+    newOkBtn.addEventListener('click', () => close(true));
+    newCancelBtn.addEventListener('click', () => close(false));
+
+    // Close on backdrop click
+    dialog.onclick = (e) => {
+      if (e.target === dialog) close(false);
+    };
+
+    // Close on Escape
+    const escHandler = (e) => {
+      if (e.key === 'Escape' && dialog.classList.contains('visible')) {
+        close(false);
+        document.removeEventListener('keydown', escHandler);
+      }
+    };
+    document.addEventListener('keydown', escHandler);
+  });
+}
+
+// ===== Loading Spinner Helpers =====
+function withSpinner(btn, fn) {
+  if (!btn) return Promise.resolve(fn());
+  // Store original content and add spinner
+  const origHTML = btn.innerHTML;
+  btn.classList.add('mi-loading');
+  const text = btn.textContent.trim();
+  btn.innerHTML = '<span class="mi-btn-text">' + text + '</span><span class="mi-spinner dark"></span>';
+
+  return Promise.resolve(fn()).then(result => {
+    btn.classList.remove('mi-loading');
+    btn.innerHTML = origHTML;
+    return result;
+  }).catch(err => {
+    btn.classList.remove('mi-loading');
+    btn.innerHTML = origHTML;
+    throw err;
+  });
+}
+
+function withProgress(fn) {
+  const bar = document.getElementById('mi-progress');
+  if (!bar) return Promise.resolve(fn());
+  bar.style.opacity = '1';
+  bar.style.width = '30%';
+  return Promise.resolve(fn()).then(result => {
+    bar.style.width = '100%';
+    setTimeout(() => {
+      bar.style.opacity = '0';
+      bar.style.width = '0';
+    }, 300);
+    return result;
+  }).catch(err => {
+    bar.style.opacity = '0';
+    bar.style.width = '0';
+    throw err;
+  });
+}
+
+// ===== Ripple Effect on Button Click =====
+(function attachRipples() {
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('button');
+    if (!btn || btn.disabled || btn.classList.contains('mi-loading')) return;
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    if (getComputedStyle(btn).position === 'static') {
+      btn.style.position = 'relative';
+    }
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 500);
+  }, true);
+})();
+
+// ===== Empty State Helper =====
+function emptyStateHTML(icon, title, desc) {
+  return '<div class="mi-empty-state">' +
+    '<div class="mi-empty-icon">' + icon + '</div>' +
+    '<div class="mi-empty-title">' + title + '</div>' +
+    '<div class="mi-empty-desc">' + desc + '</div>' +
+    '</div>';
+}
+
+// ===== Skeleton Screen Helper =====
+function skeletonCardsHTML(count) {
+  count = count || 3;
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += '<div class="mi-skeleton mi-skeleton-card"></div>';
+  }
+  return html;
+}
+
+// Make functions globally accessible for Playwright tests
+window.showToast = showToast;
+window.showConfirmDialog = showConfirmDialog;
+window.withSpinner = withSpinner;
+window.withProgress = withProgress;
+window.emptyStateHTML = emptyStateHTML;
+window.skeletonCardsHTML = skeletonCardsHTML;
+
+console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
 </script>
 </body>
