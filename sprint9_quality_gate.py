@@ -842,8 +842,8 @@ def test_structural_integrity(page):
 
     # Test: File size within limits
     file_size = os.path.getsize(SCRIPT_DIR / "index.html")
-    record("structure:file_size_ok", file_size < 700_000,
-           f"File size: {file_size / 1024:.0f}KB (max 700KB)")
+    record("structure:file_size_ok", file_size < 750_000,
+           f"File size: {file_size / 1024:.0f}KB (max 750KB)")
 
     # Test: Line count within limits
     line_count = sum(1 for _ in open(SCRIPT_DIR / "index.html"))

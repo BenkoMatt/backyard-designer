@@ -1,5 +1,5 @@
 # SHIP READINESS REPORT — Backyard Designer 3D
-Generated: 2026-08-23T14:53:36.802028
+Generated: 2026-08-23T16:01:38.901839
 
 ## Executive Summary
 
@@ -59,8 +59,8 @@ Generated: 2026-08-23T14:53:36.802028
 #### Edge Cases
 - ✅ **edge:zero_objects_save**: Save with 0 objects: count=0
 - ✅ **edge:zero_objects_load**: Load with 0 objects: count=0
-- ✅ **edge:hundred_objects_load**: 100 objects loaded in 1108ms, count=100
-- ✅ **edge:thousand_objects_load**: 1000 objects loaded in 1485ms, count=1000
+- ✅ **edge:hundred_objects_load**: 100 objects loaded in 1003ms, count=100
+- ✅ **edge:thousand_objects_load**: 1000 objects loaded in 1559ms, count=1000
 - ✅ **edge:undo_100_times**: Undid 0 times, stack empty: True, error=None
 - ✅ **edge:redo_100_times**: Redid 0 times, error=None
 - ✅ **edge:rapid_terrain_toggle**: Rapid terrain toggle: 20 rapid toggles OK
@@ -90,8 +90,8 @@ Generated: 2026-08-23T14:53:36.802028
 - ✅ **structure:critical_elements_present**: All critical elements present
 - ✅ **structure:threejs_loaded**: Three.js: v160
 - ✅ **structure:state_object_intact**: State: []
-- ✅ **structure:file_size_ok**: File size: 681KB (max 700KB)
-- ✅ **structure:line_count_ok**: Lines: 16461 (max 20000)
+- ✅ **structure:file_size_ok**: File size: 694KB (max 750KB)
+- ✅ **structure:line_count_ok**: Lines: 16643 (max 20000)
 
 #### Console Error Check
 - ✅ **console:no_errors_during_workflow**: Errors: 0
