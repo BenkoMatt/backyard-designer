@@ -1196,8 +1196,7 @@ text-decoration: none; transition: left 0.2s;
 }
 .skip-link:focus { left: 0; }
 
-<style id="mobile-usability-styles">
-/* Mobile usability fixes — in separate style tag to bypass 500-rule inline stylesheet limit */
+/* Mobile usability fixes — in main style block (separate JS-injected version also exists) */
 @media (max-width: 768px) {
 /* View controls — 44px min touch target */
 .vc-btn { width: 44px !important; height: 44px !important; }
@@ -1227,7 +1226,6 @@ text-decoration: none; transition: left 0.2s;
 #dock-panel-container { max-width: calc(100vw - 84px); }
 .dock-panel { max-width: min(340px, calc(100vw - 84px)); }
 }
-</style>
 
 </style>
 <script type="importmap">
@@ -7837,6 +7835,7 @@ _modalLastFocus = document.activeElement;
 const sf = document.getElementById('share-modal').querySelector('button, a, input, [tabindex]');
 if (sf) sf.focus();
 }
+(function setupShare() {
 const shareBtn = document.getElementById('btn-share');
 if (shareBtn) shareBtn.addEventListener('click', openShareModal);
 document.getElementById('share-close-btn').addEventListener('click', () => {
