@@ -1053,8 +1053,8 @@ Redo
 </div>
 <div class="tb-divider"></div>
 <div class="view-toggle" id="view-toggle" role="tablist" aria-label="View mode">
-<button class="active" data-view="3d" role="tab" aria-selected="true">3D View</button>
-<button data-view="2d" role="tab" aria-selected="false">Bird's-eye</button>
+<button class="active" data-view="3d" role="tab" aria-selected="true" title="3D perspective view — orbit, zoom, pan">3D View</button>
+<button data-view="2d" role="tab" aria-selected="false" title="Bird's-eye top-down view for precise placement">Bird's-eye</button>
 </div>
 <div class="tb-divider"></div>
 <div class="topbar-group" role="toolbar" aria-label="File operations">
@@ -1065,7 +1065,7 @@ Save
 <button class="tb-btn" id="btn-load" title="Load Design" aria-label="Load design from file">Load</button>
 <button class="tb-btn" id="btn-screenshot" title="Take Screenshot" aria-label="Take screenshot">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-Shot
+Capture
 </button>
 <button class="tb-btn" id="btn-help" title="Help" aria-label="Open help dialog">? Help</button>
 <div class="tb-divider"></div>
@@ -1144,6 +1144,11 @@ Label
 <div id="main">
 <div id="sidebar">
 <div class="sidebar-header">Add to Your Yard</div>
+<div id="getting-started-hint" style="padding:10px 16px;background:linear-gradient(135deg,#e8f5e9,#f0f5f2);border-bottom:1px solid var(--border);font-size:11px;color:var(--text-muted);line-height:1.5;position:relative;">
+<span style="position:absolute;top:4px;right:8px;cursor:pointer;color:var(--text-muted);font-size:14px;" onclick="document.getElementById('getting-started-hint').style.display='none'">&times;</span>
+<strong style="color:var(--primary);">👋 Getting Started</strong><br>
+Click any item below to add it to your yard. Then drag to position it.
+</div>
 <div id="library"></div>
 </div>
 <button id="mobile-lib-toggle" title="Show object library" aria-label="Show object library">+</button>
@@ -1377,6 +1382,9 @@ Tape Measure
 Terrain
 </button>
 <div class="viewport-overlay" id="terrain-controls">
+<div class="terrain-instructions" style="background:#f0f5f2;padding:8px 12px;border-radius:6px;margin-bottom:8px;font-size:11px;color:var(--text-muted);line-height:1.4;">
+💡 <strong>How to sculpt:</strong> Pick a mode (Raise, Excavate, etc.), then <strong>click and drag</strong> on the ground to shape the terrain. Adjust brush size and strength as needed.
+</div>
 <div class="terrain-row">
 <label>Mode:</label>
 <div class="terrain-mode-btns">
@@ -4306,8 +4314,12 @@ undo: () => removeObject(id),
 redo: () => { state.objects.set(id, obj); buildSceneObject(id); },
 });
 selectObject(id);
+showToast(item.name + ' added! Drag to reposition');
 showHint('Drag to position • Click empty space to deselect');
 setTimeout(hideHint, 3000);
+// Auto-hide getting started hint after first object
+const gsHint = document.getElementById('getting-started-hint');
+if (gsHint) gsHint.style.display = 'none';
 });
 itemsDiv.appendChild(el);
 }
@@ -4507,6 +4519,47 @@ buildVoxelMesh();
 updateAllBuriedIndicators();
 updateVoxelInfoDisplay();
 requestRender();
+
+// First-time user onboarding: show a welcome hint guiding them to start
+showWelcomeOnboarding();
+}
+
+// ============================================================
+// FIRST-TIME USER ONBOARDING
+// ============================================================
+function showWelcomeOnboarding() {
+// Show a persistent welcome hint for first-time users
+const hint = document.getElementById('context-hint');
+if (hint) {
+hint.textContent = '👋 Click an item from the left panel to add it to your yard';
+hint.classList.add('visible');
+hint.style.pointerEvents = 'auto';
+hint.style.cursor = 'pointer';
+hint.style.fontSize = '14px';
+hint.style.padding = '10px 24px';
+hint.style.maxWidth = '500px';
+hint.style.whiteSpace = 'normal';
+hint.style.textAlign = 'center';
+hint.style.lineHeight = '1.4';
+hint.title = 'Click to dismiss';
+hint.onclick = () => {
+hint.classList.remove('visible');
+hint.onclick = null;
+hint.style.pointerEvents = 'none';
+hint.style.cursor = '';
+hint.style.fontSize = '';
+hint.style.padding = '';
+hint.style.maxWidth = '';
+hint.style.whiteSpace = '';
+hint.style.textAlign = '';
+hint.style.lineHeight = '';
+};
+}
+
+// Show a toast welcoming the user
+setTimeout(() => {
+showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.');
+}, 500);
 }
 document.getElementById('btn-help').addEventListener('click', () => {
 document.getElementById('help-modal').classList.add('visible');
@@ -6744,6 +6797,7 @@ document.getElementById('walk-controls').classList.add('visible');
 if (IS_MOBILE && typeof DeviceOrientationEvent !== 'undefined') {
 document.getElementById('walk-motion-btn').classList.add('visible');
 }
+showToast('Walk mode! Use WASD or arrow keys to move. Press Esc to exit.');
 requestRender();
 }
 function exitWalkMode() {
