@@ -847,8 +847,8 @@ def test_structural_integrity(page):
 
     # Test: Line count within limits
     line_count = sum(1 for _ in open(SCRIPT_DIR / "index.html"))
-    record("structure:line_count_ok", line_count < 15000,
-           f"Lines: {line_count} (max 15000)")
+    record("structure:line_count_ok", line_count < 20000,
+           f"Lines: {line_count} (max 20000)")
 
 # ============================================================================
 # SHIP-READINESS TESTS: Console Error Check

@@ -790,7 +790,7 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 .view-toggle { flex-shrink: 0; }
 .view-toggle button { padding: 4px 6px; font-size: 10px; min-height: 44px; }
 .tb-divider { margin: 0 1px; flex-shrink: 0; }
-#btn-screenshot, #btn-help { display: none; }
+#btn-screenshot, #btn-help { display: flex; align-items: center; justify-content: center; }
 /* Mobile topbar overflow indicator — shows when buttons extend beyond viewport */
 #topbar::after { content: ''; position: absolute; right: 0; top: 0; bottom: 3px; width: 24px; background: linear-gradient(to left, var(--surface) 30%, transparent); pointer-events: none; opacity: 1; transition: opacity 0.2s; z-index: 1; }
 #topbar.scrolled-end::after { opacity: 0; }
@@ -4168,10 +4168,6 @@ let carvingPendingCenter = null;
 let terrainClipPlane = null;
 let wireframeActive = false;
 const viewport = document.getElementById('viewport');
-if (!checkWebGLSupport()) {
-  showWebGLError('WebGL is not supported or is disabled in your browser.');
-  return;
-}
 function showWebGLError(msg) {
   const div = document.createElement('div');
   div.id = 'webgl-error-overlay';
@@ -4190,6 +4186,10 @@ function checkWebGLSupport() {
 }
 let _buildVoxelsLazy = null; // PERF: lazy voxel init callback
 function initScene() {
+if (!checkWebGLSupport()) {
+  showWebGLError('WebGL is not supported or is disabled in your browser.');
+  return;
+}
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x87CEEB);
 scene.fog = new THREE.Fog(0x87CEEB, IS_MOBILE ? 80 : 100, IS_MOBILE ? 300 : 500);
@@ -4319,16 +4319,17 @@ renderer.setPixelRatio(PIXEL_RATIO);
 requestRender();
 }
 let needsRender = true;
-function animate() {
-requestAnimationFrame(animate);
-if (window._bydContextLost) return;
-if (typeof controls !== 'undefined' && controls) {
-const dampingActive = controls.update();
-}
 // PERF: Track active animation sources that need continuous rendering
 let _continuousRenderSources = 0; // walk mode, sun animation, weather, etc.
 function startContinuousRender() { _continuousRenderSources++; }
 function stopContinuousRender() { _continuousRenderSources = Math.max(0, _continuousRenderSources - 1); }
+function animate() {
+requestAnimationFrame(animate);
+if (window._bydContextLost) return;
+let dampingActive = false;
+if (typeof controls !== 'undefined' && controls) {
+dampingActive = controls.update();
+}
 if (needsRender || dampingActive || _continuousRenderSources > 0) {
 renderer.render(scene, activeCamera);
 if (renderer.xr && renderer.xr.isPresenting) {
@@ -5398,8 +5399,6 @@ if (e.target.files[0]) loadFromFile(e.target.files[0]);
 e.target.value = '';
 });
 document.getElementById('btn-screenshot').addEventListener('click', () => {
-  const btn = document.getElementById('btn-screenshot');
-  const doScreenshot = () => {
 if (!scene || !renderer) { showToast('3D view unavailable — WebGL not supported'); return; }
 if (window._bydContextLost) {
 showToast('Cannot take screenshot: graphics context lost. Please reload.', 'error');
@@ -5451,8 +5450,6 @@ updateScaleBar();
 }
 requestRender();
 });
-  };
-  if (btn) withSpinner(btn, doScreenshot); else doScreenshot();
 });
 document.getElementById('vc-zoom-in').addEventListener('click', () => {
 if (state.viewMode === '3d') {
@@ -5503,6 +5500,7 @@ const section = document.createElement('div');
 section.className = 'cat-section';
 section.innerHTML = `<div class="cat-title" role="button" tabindex="0" aria-expanded="true" aria-label="Collapse ${escHtml(cat.name)} category"><svg class="arrow" viewBox="0 0 12 12"><path d="M3 4L6 8L9 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>${cat.name}</div><div class="cat-items"></div>`;
 const itemsDiv = section.querySelector('.cat-items');
+const itemsFrag = document.createDocumentFragment();
 const catTitle = section.querySelector('.cat-title');
 for (const [key, item] of items) {
 const el = document.createElement('div');
@@ -6236,6 +6234,7 @@ modal.setAttribute('aria-hidden', 'false');
 // Move focus to first focusable element inside modal
 const focusable = modal.querySelector('button, a, input, select, textarea, [tabindex]');
 if (focusable) focusable.focus();
+else { modal.setAttribute('tabindex', '-1'); modal.focus(); }
 }
 function closeModal(modalId) {
 const modal = document.getElementById(modalId);

@@ -234,7 +234,7 @@
     {
       "status": "PASS",
       "name": "Contrast: .help-panel h2",
-      "detail": "Ratio 5.36:1 >= 3.0:1"
+      "detail": "Ratio 13.49:1 >= 3.0:1"
     },
     {
       "status": "PASS",
@@ -279,7 +279,7 @@
     {
       "status": "PASS",
       "name": "Focus moves inside modal when opened",
-      "detail": "Active element: Got It!"
+      "detail": "Active element: ? Help"
     },
     {
       "status": "PASS",
