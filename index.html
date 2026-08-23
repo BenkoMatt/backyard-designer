@@ -288,6 +288,7 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 .terrain-preset-btn { padding: 12px 6px; font-size: 13px; min-height: 44px; }
 .terrain-toggle-btn { padding: 10px 8px; font-size: 12px; min-height: 44px; }
 #terrain-flatten { padding: 12px 16px; font-size: 14px; min-height: 44px; }
+#terrain-smooth-pass { padding: 12px 16px; font-size: 14px; min-height: 44px; }
 #terrain-controls input[type="range"] { min-height: 28px; }
 #terrain-height-legend { top: 60px; left: 8px; font-size: 12px; }
 }
@@ -1411,6 +1412,7 @@ button:active,
 #carving-clear-btn:active,
 #carving-commit-btn:active,
 #terrain-flatten:active,
+#terrain-smooth-pass:active,
 #innov-flatten-btn:active,
 #innov-flatten-all:active,
 .innov-tool-btn:active,
@@ -2299,6 +2301,7 @@ Carving Tools
 <button class="terrain-toggle-btn" id="terrain-toggle-drainage" aria-label="Toggle drainage overlay">Drainage</button>
 </div>
 <button id="terrain-flatten" aria-label="Flatten all terrain to zero elevation">Flatten All Terrain</button>
+<button id="terrain-smooth-pass" aria-label="Apply smoothing pass to terrain" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; margin-top: 4px;">Smooth Terrain</button>
 </div>
 <div id="terrain-height-legend">
 <div class="height-legend-title">Elevation (ft)</div>
@@ -4124,7 +4127,7 @@ redoStack: [],
 nextId: 1,
 shadowEnabled: !IS_MOBILE,
 terrain: null,
-terrainSegs: 100,
+terrainSegs: 200, // Sprint 10: increased from 100 to 200 for higher-resolution terrain
 terrainDeformed: false,
 voxels: null,
 gridLevel: 0,
@@ -4238,10 +4241,10 @@ updateScaleBar();
 scaleBarDebounce = null;
 }, 80);
 });
-const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+const ambient = new THREE.AmbientLight(0xffffff, 0.65);
 scene.add(ambient);
 sunAmbient = ambient;
-const hemi = new THREE.HemisphereLight(0x87CEEB, 0x5a7a3a, 0.4);
+const hemi = new THREE.HemisphereLight(0x87CEEB, 0x6b5a3a, 0.55);
 scene.add(hemi);
 sunHemi = hemi;
 const sun = new THREE.DirectionalLight(0xffffff, 0.9);
@@ -4257,13 +4260,14 @@ sun.shadow.camera.far = 200;
 sun.shadow.bias = -0.0005;
 scene.add(sun);
 sunLight = sun;
-const groundMat = new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide, transparent: true, opacity: 1.0 });
+const groundMat = createTerrainMaterial(parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100);
 const groundGeo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, state.terrainSegs, state.terrainSegs);
 groundGeo.rotateX(-Math.PI / 2);
 yardMesh = new THREE.Mesh(groundGeo, groundMat);
 yardMesh.receiveShadow = true;
 yardMesh.castShadow = true;
 scene.add(yardMesh);
+applyTerrainVertexColors();
 applySeasonalGroundColor();
 // PERF: Lazy voxel/earth init — deferred until first terrain/excavation use
 // initVoxelsFromTerrain() and buildVoxelMesh() are called on-demand by callers
@@ -4280,9 +4284,10 @@ boundaryLines = new THREE.LineSegments(boundaryGeo, new THREE.LineBasicMaterial(
 boundaryLines.position.y = state.gridLevel + 0.03;
 scene.add(boundaryLines);
 // PERF: Reduced outer ground from 500x500 to 200x200 — still covers visible area, fewer vertices for raycasting
-const outerGround = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshLambertMaterial({ color: 0x555555 }));
+const outerGround = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0x5a7a3a, roughness: 0.95, metalness: 0.0 }));
 outerGround.rotation.x = -Math.PI / 2;
 outerGround.position.y = -0.05;
+outerGround.receiveShadow = true;
 scene.add(outerGround);
 window._bydContextLost = false;
 renderer.domElement.addEventListener('webglcontextlost', e => {
@@ -4359,10 +4364,274 @@ scale: 1,
 };
 state.objects.set(id, obj);
 buildSceneObject(id);
-if (state.terrain && pos.y === 0) updateObjectHeight(id);
+// Always conform object to terrain surface — even on flat terrain (y=0)
+// this is a no-op, but on deformed terrain it prevents floating/clipping.
+if (state.terrain) updateObjectHeight(id);
 return id;
 }
 let currentSeason = 'summer';
+let _terrainTextureCache = null;
+let _terrainSnowMesh = null;
+// SPRINT 10 — Terrain Material System: vertex colors, procedural textures, snow overlay
+/**
+* Create a procedural noise texture for terrain using CanvasTexture.
+* Generates a subtle multi-octave noise pattern for natural earth appearance.
+* No external files — fully generated in-browser.
+*/
+function createTerrainNoiseTexture() {
+if (_terrainTextureCache) return _terrainTextureCache;
+const size = 256;
+const canvas = document.createElement('canvas');
+canvas.width = size;
+canvas.height = size;
+const ctx = canvas.getContext('2d');
+// Base earth tone
+ctx.fillStyle = '#7a8a5a';
+ctx.fillRect(0, 0, size, size);
+// Multi-octave noise for natural variation
+const imageData = ctx.getImageData(0, 0, size, size);
+const data = imageData.data;
+for (let i = 0; i < data.length; i += 4) {
+const x = (i / 4) % size;
+const y = Math.floor((i / 4) / size);
+// Multi-octave value noise
+let n = 0;
+n += Math.sin(x * 0.08) * Math.cos(y * 0.08) * 15;
+n += Math.sin(x * 0.15 + 1.3) * Math.cos(y * 0.12 + 0.7) * 10;
+n += Math.sin(x * 0.3 + 2.1) * Math.cos(y * 0.25 + 1.5) * 6;
+n += Math.sin(x * 0.6 + 3.7) * Math.cos(y * 0.5 + 2.8) * 3;
+n += (Math.random() - 0.5) * 4;
+data[i]     = Math.max(0, Math.min(255, data[i] + n));
+data[i + 1] = Math.max(0, Math.min(255, data[i + 1] + n));
+data[i + 2] = Math.max(0, Math.min(255, data[i + 2] + n * 0.7));
+}
+ctx.putImageData(imageData, 0, 0);
+const texture = new THREE.CanvasTexture(canvas);
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+texture.repeat.set(8, 8);
+_terrainTextureCache = texture;
+return texture;
+}
+/**
+* Create the terrain material — MeshStandardMaterial with vertex colors,
+* procedural noise texture, and natural earth roughness.
+*/
+function createTerrainMaterial(opacity) {
+const mat = new THREE.MeshStandardMaterial({
+color: 0x6b8a4a,
+side: THREE.DoubleSide,
+transparent: opacity < 1.0,
+opacity: opacity,
+roughness: 0.9,
+metalness: 0.0,
+vertexColors: true,
+flatShading: false,
+});
+// Add procedural noise texture for surface detail
+try {
+const tex = createTerrainNoiseTexture();
+if (tex) {
+mat.map = tex;
+}
+} catch(e) { /* texture optional — vertex colors still provide variation */ }
+mat.userData = { seasonalGrass: 0x6b8a4a, isWinter: false };
+return mat;
+}
+/**
+* Compute slope at a terrain vertex using neighbor heights.
+* Returns slope as a ratio (rise/run). 0 = flat, 1 = 45 degrees.
+*/
+function computeTerrainSlope(ix, iz, segs, cellW, cellD) {
+function hAt(x, z) {
+const ixx = Math.max(0, Math.min(segs, x));
+const izz = Math.max(0, Math.min(segs, z));
+return state.terrain[izz * (segs + 1) + ixx] || 0;
+}
+const hL = hAt(ix - 1, iz);
+const hR = hAt(ix + 1, iz);
+const hD = hAt(ix, iz - 1);
+const hU = hAt(ix, iz + 1);
+const dx = (hR - hL) / (2 * cellW);
+const dz = (hU - hD) / (2 * cellD);
+return Math.sqrt(dx * dx + dz * dz);
+}
+/**
+* Apply vertex colors to the terrain mesh based on height and slope.
+* - Flat areas (slope < 0.15): green grass, tinted by season
+* - Moderate slopes (0.15-0.35): brown dirt blend
+* - Steep slopes (> 0.35): rocky gray
+* - Low areas (negative height): darker, damp earth
+* Smoothly blends between all zones.
+*/
+function applyTerrainVertexColors() {
+if (!yardMesh || !yardMesh.geometry) return;
+const geo = yardMesh.geometry;
+const pos = geo.attributes.position;
+if (!pos) return;
+// Determine if height colors overlay is active — if so, don't override
+if (typeof terrainHeightColorsActive !== 'undefined' && terrainHeightColorsActive && state.terrain) return;
+// Get seasonal grass color
+const mat = yardMesh.material;
+const seasonalHex = (mat && mat.userData && mat.userData.seasonalGrass) || 0x6b8a4a;
+const isWinter = (mat && mat.userData && mat.userData.isWinter) || false;
+const grassColor = new THREE.Color(seasonalHex);
+const dirtColor = new THREE.Color(0x8b6f47);
+const rockColor = new THREE.Color(0x7a7a6e);
+const darkEarthColor = new THREE.Color(0x4a5a3a);
+const _tmpColor = new THREE.Color();
+// Ensure color attribute exists
+if (!geo.attributes.color) {
+geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(pos.count * 3), 3));
+}
+const colors = geo.attributes.color;
+const segs = state.terrainSegs;
+const halfW = state.yard.width / 2;
+const halfD = state.yard.depth / 2;
+const cellW = state.yard.width / segs;
+const cellD = state.yard.depth / segs;
+// Height range for normalization
+let minH = 0, maxH = 0;
+if (state.terrain) {
+minH = Infinity; maxH = -Infinity;
+for (let i = 0; i < state.terrain.length; i++) {
+if (state.terrain[i] < minH) minH = state.terrain[i];
+if (state.terrain[i] > maxH) maxH = state.terrain[i];
+}
+if (minH === Infinity) minH = 0;
+if (maxH === -Infinity) maxH = 0;
+}
+const heightRange = Math.max(0.01, maxH - minH);
+for (let i = 0; i < pos.count; i++) {
+const py = pos.getY(i);
+// Compute slope if terrain data exists
+let slope = 0;
+if (state.terrain && segs > 0) {
+const px = pos.getX(i);
+const pz = pos.getZ(i);
+const ix = Math.round((px + halfW) / cellW);
+const iz = Math.round((pz + halfD) / cellD);
+slope = computeTerrainSlope(ix, iz, segs, cellW, cellD);
+}
+// Height normalization [0,1]
+const heightT = state.terrain ? Math.max(0, Math.min(1, (py - minH) / heightRange)) : 0.5;
+// Determine zone weights based on slope
+const grassWeight = Math.max(0, 1 - smoothstep(0.10, 0.25, slope));
+const dirtWeight = smoothstep(0.10, 0.20, slope) * (1 - smoothstep(0.30, 0.45, slope));
+const rockWeight = smoothstep(0.30, 0.45, slope);
+// Height-based modulation: low areas darker, high areas slightly lighter
+let heightMod = 1.0;
+if (py < -0.5) {
+// Low/damp areas — blend toward dark earth
+heightMod = 0.7;
+_tmpColor.copy(darkEarthColor).lerp(grassColor, grassWeight * 0.5);
+} else if (py > 2) {
+// Higher areas — slightly lighter grass, more rocky tendency
+heightMod = 1.05 + heightT * 0.1;
+_tmpColor.copy(grassColor);
+} else {
+_tmpColor.copy(grassColor);
+}
+// Blend zone colors by weighted sum
+let r = 0, g = 0, b = 0;
+const gw = grassWeight, dw = dirtWeight, rw = rockWeight;
+r = grassColor.r * gw + dirtColor.r * dw + rockColor.r * rw;
+g = grassColor.g * gw + dirtColor.g * dw + rockColor.g * rw;
+b = grassColor.b * gw + dirtColor.b * dw + rockColor.b * rw;
+// Normalize weights
+const totalWeight = gw + dw + rw;
+if (totalWeight > 0.001) {
+r /= totalWeight;
+g /= totalWeight;
+b /= totalWeight;
+}
+// Apply height modulation
+r *= heightMod;
+g *= heightMod;
+b *= heightMod;
+// Add slight per-vertex noise for natural variation
+const noiseVar = 0.92 + ((i * 0.737) % 1) * 0.16; // deterministic pseudo-noise
+r *= noiseVar;
+g *= noiseVar;
+b *= noiseVar;
+// Clamp and store
+colors.setXYZ(i,
+Math.max(0, Math.min(1, r)),
+Math.max(0, Math.min(1, g)),
+Math.max(0, Math.min(1, b))
+);
+}
+colors.needsUpdate = true;
+if (mat) {
+mat.vertexColors = true;
+mat.needsUpdate = true;
+}
+}
+/** Smooth interpolation function (GLSL smoothstep equivalent). */
+function smoothstep(edge0, edge1, x) {
+const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+return t * t * (3 - 2 * t);
+}
+/**
+* Create/update a snow overlay mesh for winter season.
+* Covers terrain surface with white, thicker on flat areas, thinner on steep slopes.
+*/
+function updateTerrainSnowOverlay() {
+// Remove existing snow mesh
+if (_terrainSnowMesh) {
+if (yardMesh && yardMesh.parent) yardMesh.parent.remove(_terrainSnowMesh);
+if (_terrainSnowMesh.geometry) _terrainSnowMesh.geometry.dispose();
+if (_terrainSnowMesh.material) _terrainSnowMesh.material.dispose();
+_terrainSnowMesh = null;
+}
+if (!yardMesh || !yardMesh.material) return;
+const isWinter = (yardMesh.material.userData && yardMesh.material.userData.isWinter) || false;
+if (!isWinter || !state.terrain) return;
+const segs = state.terrainSegs;
+const halfW = state.yard.width / 2;
+const halfD = state.yard.depth / 2;
+const cellW = state.yard.width / segs;
+const cellD = state.yard.depth / segs;
+// Build snow overlay as a mesh slightly above terrain
+const geo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, segs, segs);
+geo.rotateX(-Math.PI / 2);
+const pos = geo.attributes.position;
+const colors = new Float32Array(pos.count * 3);
+for (let i = 0; i < pos.count; i++) {
+const px = pos.getX(i);
+const pz = pos.getZ(i);
+const ix = Math.round((px + halfW) / cellW);
+const iz = Math.round((pz + halfD) / cellD);
+const vi = iz * (segs + 1) + ix;
+const h = state.terrain[vi] || 0;
+pos.setY(i, h + 0.04);
+// Snow opacity based on slope — flat = full snow, steep = less
+const slope = computeTerrainSlope(ix, iz, segs, cellW, cellD);
+const snowAmount = Math.max(0, 1 - smoothstep(0.2, 0.5, slope));
+colors[i * 3] = 0.92 + snowAmount * 0.08;
+colors[i * 3 + 1] = 0.92 + snowAmount * 0.08;
+colors[i * 3 + 2] = 0.95 + snowAmount * 0.05;
+}
+pos.needsUpdate = true;
+geo.computeVertexNormals();
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+const mat = new THREE.MeshStandardMaterial({
+vertexColors: true,
+transparent: true,
+opacity: 0.85,
+roughness: 0.6,
+metalness: 0.0,
+side: THREE.DoubleSide,
+depthWrite: false,
+polygonOffset: true,
+polygonOffsetFactor: -1,
+});
+_terrainSnowMesh = new THREE.Mesh(geo, mat);
+_terrainSnowMesh.receiveShadow = true;
+_terrainSnowMesh.renderOrder = 500;
+if (yardMesh.parent) yardMesh.parent.add(_terrainSnowMesh);
+else scene.add(_terrainSnowMesh);
+}
 let growthYear = 20;
 let growthPlaying = false;
 const SEASON_FOLIAGE = {
@@ -4416,7 +4685,16 @@ return new THREE.Color('#4a8b5c');
 function applySeasonalGroundColor() {
 if (!yardMesh || !yardMesh.material) return;
 const pal = SEASON_FOLIAGE[currentSeason] || SEASON_FOLIAGE.summer;
+// Store seasonal base color for vertex color blending
+yardMesh.material.userData = yardMesh.material.userData || {};
+yardMesh.material.userData.seasonalGrass = pal.grass;
+yardMesh.material.userData.isWinter = currentSeason === 'winter';
+// Set base color as seasonal grass tint
 yardMesh.material.color.setHex(pal.grass);
+// Re-apply vertex colors with seasonal tinting
+applyTerrainVertexColors();
+// Handle snow overlay in winter
+updateTerrainSnowOverlay();
 if (typeof requestRender === 'function') requestRender();
 }
 function buildSceneObject(id) {
@@ -4441,6 +4719,8 @@ child.userData.objectId = id;
 });
 scene.add(group);
 sceneObjects.set(id, group);
+// Refresh foundation walls after rebuild (object params may have changed).
+updateFoundationWalls(id);
 updateBuriedIndicator(id);
 requestRender();
 }
@@ -4457,6 +4737,15 @@ scene.remove(ind);
 ind.geometry.dispose();
 ind.material.dispose();
 buriedIndicatorMeshes.delete(id);
+}
+if (foundationWallMeshes.has(id)) {
+const fw = foundationWallMeshes.get(id);
+scene.remove(fw);
+fw.traverse(c => {
+if (c.geometry) c.geometry.dispose();
+if (c.material) c.material.dispose();
+});
+foundationWallMeshes.delete(id);
 }
 state.objects.delete(id);
 if (state.selectedId === id) deselectObject();
@@ -4680,8 +4969,8 @@ if (touchState.isObjectDrag && dragObject) {
 const newPos = { x: dragObject.position.x, z: dragObject.position.z };
 if (dragStartPos && (Math.abs(newPos.x - dragStartPos.x) > 0.1 || Math.abs(newPos.z - dragStartPos.z) > 0.1)) {
 pushCommand({
-undo: () => { dragObject.position.x = dragStartPos.x; dragObject.position.z = dragStartPos.z; buildSceneObject(dragObject.id); },
-redo: () => { dragObject.position.x = newPos.x; dragObject.position.z = newPos.z; buildSceneObject(dragObject.id); },
+undo: () => { dragObject.position.x = dragStartPos.x; dragObject.position.z = dragStartPos.z; updateObjectHeight(dragObject.id); },
+redo: () => { dragObject.position.x = newPos.x; dragObject.position.z = newPos.z; updateObjectHeight(dragObject.id); },
 });
 }
 checkSafetyWarnings(dragObject);
@@ -4890,8 +5179,8 @@ if (isDragging && dragObject) {
 const newPos = { x: dragObject.position.x, z: dragObject.position.z };
 if (dragStartPos && (Math.abs(newPos.x - dragStartPos.x) > 0.1 || Math.abs(newPos.z - dragStartPos.z) > 0.1)) {
 pushCommand({
-undo: () => { dragObject.position.x = dragStartPos.x; dragObject.position.z = dragStartPos.z; buildSceneObject(dragObject.id); },
-redo: () => { dragObject.position.x = newPos.x; dragObject.position.z = newPos.z; buildSceneObject(dragObject.id); },
+undo: () => { dragObject.position.x = dragStartPos.x; dragObject.position.z = dragStartPos.z; updateObjectHeight(dragObject.id); },
+redo: () => { dragObject.position.x = newPos.x; dragObject.position.z = newPos.z; updateObjectHeight(dragObject.id); },
 });
 }
 checkSafetyWarnings(dragObject);
@@ -5323,7 +5612,23 @@ state.terrain = null;
 } else {
 state.terrain = null;
 }
-state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 && data.terrainSegs <= 1000 ? data.terrainSegs : 100;
+// Sprint 10: Only override terrainSegs from the save file's explicit field if it matches the terrain data.
+// If terrain data was loaded with a detected segs count, keep that. Otherwise use the save's field or default.
+if (state.terrain) {
+// Terrain array was loaded — segs already set from detection (line 5312) or matched expected.
+// Only override if the save file explicitly specifies a different segs AND it matches the array.
+const savedSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 && data.terrainSegs <= 1000 ? data.terrainSegs : null;
+const arrayLen = state.terrain.length;
+const arraySegs = Math.round(Math.sqrt(arrayLen)) - 1;
+if (savedSegs && (savedSegs + 1) * (savedSegs + 1) === arrayLen) {
+state.terrainSegs = savedSegs;
+} else {
+state.terrainSegs = arraySegs; // trust the array length
+}
+} else {
+// No terrain data — use save's field or default to 200
+state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 && data.terrainSegs <= 1000 ? data.terrainSegs : 200;
+}
 if (typeof data.gridLevel === 'number' && Number.isFinite(data.gridLevel)) {
 state.gridLevel = Math.max(-30, Math.min(30, data.gridLevel));
 }
@@ -6123,13 +6428,14 @@ groundGeo = new THREE.PlaneGeometry(data.width, data.depth, segs, segs);
 groundGeo.rotateX(-Math.PI / 2);
 yardMesh = new THREE.Mesh(
 groundGeo,
-new THREE.MeshLambertMaterial({ color: 0x6b8a4a, side: THREE.DoubleSide, transparent: true, opacity: parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100 })
+createTerrainMaterial(parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100)
 );
 yardMesh.receiveShadow = true;
 yardMesh.castShadow = true;
 scene.add(yardMesh);
 if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) yardMesh.material.clippingPlanes = [terrainClipPlane];
 if (typeof wireframeActive !== 'undefined' && wireframeActive) yardMesh.material.wireframe = true;
+applyTerrainVertexColors();
 gridHelper = new THREE.GridHelper(Math.max(data.width, data.depth), Math.max(data.width, data.depth), 0x888888, 0xcccccc);
 gridHelper.position.y = state.gridLevel + 0.01;
 scene.add(gridHelper);
@@ -6623,15 +6929,36 @@ pos.setY(i, 0);
 }
 pos.needsUpdate = true;
 geo.computeVertexNormals();
+// SPRINT 10: Restore flat terrain vertex colors
+applyTerrainVertexColors();
+if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay();
 state.objects.forEach((_, id) => updateObjectHeight(id));
 updateAllBuriedIndicators();
 pushCommand({
 undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
-redo: () => { state.terrain = null; state.terrainDeformed = false; const geo2 = yardMesh.geometry; const pos2 = geo2.attributes.position; for (let i = 0; i < pos2.count; i++) pos2.setY(i, 0); pos2.needsUpdate = true; geo2.computeVertexNormals(); if (solidEarthMesh) { scene.remove(solidEarthMesh); if (solidEarthMesh.geometry) solidEarthMesh.geometry.dispose(); if (solidEarthMesh.material) solidEarthMesh.material.dispose(); solidEarthMesh = null; } state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+redo: () => { state.terrain = null; state.terrainDeformed = false; const geo2 = yardMesh.geometry; const pos2 = geo2.attributes.position; for (let i = 0; i < pos2.count; i++) pos2.setY(i, 0); pos2.needsUpdate = true; geo2.computeVertexNormals(); applyTerrainVertexColors(); if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay(); if (solidEarthMesh) { scene.remove(solidEarthMesh); if (solidEarthMesh.geometry) solidEarthMesh.geometry.dispose(); if (solidEarthMesh.material) solidEarthMesh.material.dispose(); solidEarthMesh = null; } state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
 });
 requestRender();
 showToast('Terrain flattened', 'success');
 });
+// Smooth Terrain button — applies Laplacian smoothing pass
+(function() {
+const btn = document.getElementById('terrain-smooth-pass');
+if (btn) {
+btn.addEventListener('click', () => {
+if (!state.terrain) { showToast('No terrain to smooth', 'info'); return; }
+const oldTerrain = new Float32Array(state.terrain);
+smoothTerrainPass(2, 0.5);
+state.objects.forEach((_, id) => updateObjectHeight(id));
+updateAllBuriedIndicators();
+pushCommand({
+undo: () => { state.terrain = oldTerrain; _recomputeTerrainDeformed(); applyTerrainToMesh(); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+redo: () => { smoothTerrainPass(2, 0.5); state.objects.forEach((_, id) => updateObjectHeight(id)); updateAllBuriedIndicators(); requestRender(); },
+});
+showToast('Terrain smoothed', 'success');
+});
+}
+})();
 function hasTerrainDeformation() {
 return state.terrainDeformed;
 }
@@ -6675,6 +7002,56 @@ const h01 = state.terrain[iz1 * (segs + 1) + ix0] || 0;
 const h11 = state.terrain[iz1 * (segs + 1) + ix1] || 0;
 return (1-tx)*(1-tz)*h00 + tx*(1-tz)*h10 + (1-tx)*tz*h01 + tx*tz*h11;
 }
+// Average terrain height across an object's footprint — used to find the
+// mean surface level for wide objects so they sit on the average ground
+// rather than just the center point.
+function getTerrainHeightAvg(worldX, worldZ, halfW, halfD) {
+const samples = [
+[worldX, worldZ],
+[worldX - halfW, worldZ - halfD],
+[worldX + halfW, worldZ - halfD],
+[worldX - halfW, worldZ + halfD],
+[worldX + halfW, worldZ + halfD],
+[worldX - halfW, worldZ],
+[worldX + halfW, worldZ],
+[worldX, worldZ - halfD],
+[worldX, worldZ + halfD],
+];
+let sum = 0;
+for (const [sx, sz] of samples) sum += getTerrainHeight(sx, sz);
+return sum / samples.length;
+}
+// Per-object-type embedding offset (feet). Positive = sink into ground so
+// there's no visible gap between the object base and the terrain surface.
+// Trees get a trunk embed; flat objects sit flush; furniture rests on top.
+const EMBED_OFFSETS = {
+tree_deciduous: 0.5,
+tree_evergreen: 0.5,
+bush: 0.2,
+hedge: 0.2,
+fence_privacy: 0.3,
+fence_picket: 0.3,
+pergola: 0.2,
+shed: 0.0,
+pool_inground: 0.0,
+hot_tub: 0.0,
+patio: 0.0,
+deck: 0.0,
+walkway: 0.0,
+raised_bed: 0.1,
+retaining_wall: 0.5,
+fire_pit: 0.2,
+chair: 0.0,
+table: 0.0,
+lounge: 0.0,
+grill: 0.0,
+lawn: 0.0,
+};
+// Terrain-deforming (heavy) object types — placement flattens the terrain
+// beneath them to create a level building pad.
+const HEAVY_OBJECT_TYPES = new Set(['shed', 'pool_inground', 'retaining_wall']);
+// Flat-surface object types that get visible foundation walls on sloped terrain.
+const FLAT_OBJECT_TYPES = new Set(['patio', 'deck', 'walkway', 'shed', 'raised_bed']);
 const EARTH_DEPTH_BELOW_MIN = 15;
 const EXCAVATION_EARTH_COLOR = 0x5C4033;
 function buildSolidEarth() {
@@ -7306,6 +7683,10 @@ pos.setY(i, h);
 }
 pos.needsUpdate = true;
 geo.computeVertexNormals();
+// SPRINT 10: Apply natural vertex colors after terrain deformation
+applyTerrainVertexColors();
+// Update snow overlay if in winter
+if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay();
 if (terrainHeightColorsActive) applyHeightColors();
 if (typeof contourEnabled !== 'undefined' && contourEnabled && typeof buildContourLines === 'function') buildContourLines();
 if (typeof slopeEnabled !== 'undefined' && slopeEnabled && typeof buildSlopeHeatmap === 'function') buildSlopeHeatmap();
@@ -7341,24 +7722,36 @@ const wz = (iz / segs) * state.yard.depth - halfD;
 const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
 if (dist > radius) continue;
 const t = dist / radius;
-const falloff = Math.pow(1 - t * t, 2);
+// Smooth cosine falloff: (cos(π*t) + 1) / 2 — gives smooth blend at edges
+const falloff = (Math.cos(t * Math.PI) + 1) * 0.5;
 const vi = iz * (segs + 1) + ix;
+/* Edge feathering: smoothly reduce terrain modification near yard boundaries
+   to prevent visible cliffs at edges. The feather zone is 10% of the grid
+   dimension from each border, blending the brush effect to zero. */
+const edgeFade = 0.1;
+const fadeX = Math.min(ix / segs, 1 - ix / segs) / edgeFade;
+const fadeZ = Math.min(iz / segs, 1 - iz / segs) / edgeFade;
+const edgeFactor = Math.min(1, Math.min(fadeX, fadeZ));
 if (terrainBrushMode === 'raise') {
-state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) + terrainBrushStrength * falloff);
+state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) + terrainBrushStrength * falloff * edgeFactor);
 } else if (terrainBrushMode === 'lower') {
-state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) - terrainBrushStrength * falloff);
+state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) - terrainBrushStrength * falloff * edgeFactor);
 } else if (terrainBrushMode === 'smooth') {
+// 5x5 smoothing kernel with Gaussian-like weights [1,4,6,4,1] for smoother results
+const smoothRadius = 2;
+const weights = [1, 4, 6, 4, 1];
 let sum = 0, count = 0;
-for (let dz = -1; dz <= 1; dz++) {
-for (let dx = -1; dx <= 1; dx++) {
+for (let dz = -smoothRadius; dz <= smoothRadius; dz++) {
+for (let dx = -smoothRadius; dx <= smoothRadius; dx++) {
 const nx = ix + dx, nz = iz + dz;
 if (nx >= 0 && nx <= segs && nz >= 0 && nz <= segs) {
-sum += state.terrain[nz * (segs + 1) + nx] || 0;
-count++;
+const w = weights[dx + smoothRadius] * weights[dz + smoothRadius];
+sum += state.terrain[nz * (segs + 1) + nx] * w;
+count += w;
 }
 }
 }
-const avg = sum / count;
+const avg = count > 0 ? sum / count : (state.terrain[vi] || 0);
 state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) * (1 - terrainBrushStrength * falloff * 0.5) + avg * (terrainBrushStrength * falloff * 0.5));
 } else if (terrainBrushMode === 'erode') {
 const h0 = state.terrain[vi] || 0;
@@ -7374,7 +7767,7 @@ if (nh < lowestN) { lowestN = nh; lowestVi = nz * (segs + 1) + nx; }
 }
 const slope = h0 - lowestN;
 if (slope > 0.01 && lowestVi >= 0) {
-const erodeAmt = Math.min(slope, terrainBrushStrength * falloff * 0.3);
+const erodeAmt = Math.min(slope, terrainBrushStrength * falloff * 0.3 * edgeFactor);
 state.terrain[vi] = clampTerrainHeight(h0 - erodeAmt);
 state.terrain[lowestVi] = clampTerrainHeight((state.terrain[lowestVi] || 0) + erodeAmt * 0.8);
 }
@@ -7390,17 +7783,177 @@ if (dist < radius + 5) updateObjectHeight(id);
 updateAllBuriedIndicators();
 requestRender();
 }
+/**
+ * Subdivision smoothing pass: Laplacian smoothing that averages each vertex
+ * with its neighbors to remove jagged edges. Called after sculpting operations.
+ * @param {number} iterations - Number of smoothing passes (1-3 recommended)
+ * @param {number} blendFactor - 0..1, how much of the smoothed result to blend in
+ */
+function smoothTerrainPass(iterations, blendFactor) {
+if (!state.terrain || state.terrain.length === 0) return;
+const segs = state.terrainSegs;
+const size = segs + 1;
+const src = state.terrain;
+for (let iter = 0; iter < iterations; iter++) {
+const smoothed = new Float32Array(src.length);
+for (let iz = 0; iz < size; iz++) {
+for (let ix = 0; ix < size; ix++) {
+const vi = iz * size + ix;
+// Skip edge vertices to maintain boundary
+if (ix === 0 || ix === segs || iz === 0 || iz === segs) {
+smoothed[vi] = src[vi];
+continue;
+}
+// Laplacian: average of 4 direct neighbors
+const avg = (
+(src[vi - 1] || 0) + (src[vi + 1] || 0) +
+(src[vi - size] || 0) + (src[vi + size] || 0)
+) * 0.25;
+smoothed[vi] = clampTerrainHeight(src[vi] * (1 - blendFactor) + avg * blendFactor);
+}
+}
+// Copy smoothed back for next iteration
+for (let i = 0; i < src.length; i++) src[i] = smoothed[i];
+}
+applyTerrainToMesh();
+state.terrainDeformed = true;
+requestRender();
+}
 function updateObjectHeight(id) {
 const obj = state.objects.get(id);
 if (!obj) return;
 const group = sceneObjects.get(id);
 if (!group) return;
-const h = getTerrainHeight(obj.position.x, obj.position.z);
-obj.position.y = h;
-group.position.set(obj.position.x, h, obj.position.z);
+const cat = CATALOG[obj.type];
+// For wide/flat objects, sample the average terrain height across the
+// footprint so they sit on the mean surface rather than just center.
+// Vertical objects (trees, bushes, fences, furniture) use center point only.
+let h;
+if (cat && typeof cat.footprint === 'function' && FLAT_OBJECT_TYPES.has(obj.type)) {
+const fp = cat.footprint(obj.params);
+const hw = (fp.w || 1) / 2;
+const hd = (fp.d || 1) / 2;
+if (hw > 3 || hd > 3) {
+h = getTerrainHeightAvg(obj.position.x, obj.position.z, hw, hd);
+} else {
+h = getTerrainHeight(obj.position.x, obj.position.z);
+}
+} else {
+h = getTerrainHeight(obj.position.x, obj.position.z);
+}
+// Apply per-type embedding offset so object bases sink slightly into ground.
+const embed = EMBED_OFFSETS[obj.type] || 0;
+const finalY = h - embed;
+obj.position.y = finalY;
+group.position.set(obj.position.x, finalY, obj.position.z);
+// Add or refresh foundation walls for flat objects on sloped terrain.
+updateFoundationWalls(id);
 updateBuriedIndicator(id);
 }
 const buriedIndicatorMeshes = new Map();
+// Foundation walls: for flat objects on sloped terrain, create visible
+// retaining walls around the base to prevent the object from appearing
+// to float on the downhill side or clip into the uphill side.
+const foundationWallMeshes = new Map();
+function updateFoundationWalls(id) {
+// Remove existing foundation walls for this object.
+if (foundationWallMeshes.has(id)) {
+const old = foundationWallMeshes.get(id);
+scene.remove(old);
+old.traverse(c => {
+if (c.geometry) c.geometry.dispose();
+if (c.material) c.material.dispose();
+});
+foundationWallMeshes.delete(id);
+}
+const obj = state.objects.get(id);
+if (!obj) return;
+const cat = CATALOG[obj.type];
+if (!cat || typeof cat.footprint !== 'function') return;
+if (!FLAT_OBJECT_TYPES.has(obj.type)) return;
+if (!state.terrain || !state.terrainDeformed) return;
+const fp = cat.footprint(obj.params);
+const w = fp.w || 1, d = fp.d || 1;
+const hw = w / 2, hd = d / 2;
+const baseY = obj.position.y;
+// Sample terrain at the four corners and edges to determine max gap.
+const samples = [
+[-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd],
+[-hw, 0], [hw, 0], [0, -hd], [0, hd],
+];
+let maxGap = 0;
+for (const [dx, dz] of samples) {
+const terrainY = getTerrainHeight(obj.position.x + dx, obj.position.z + dz);
+const gap = baseY - terrainY;
+if (gap > maxGap) maxGap = gap;
+}
+// Only add foundation walls if there's a meaningful gap (> 0.3 ft).
+if (maxGap < 0.3) return;
+const wallHeight = Math.min(maxGap + 0.2, 8);
+const wallThickness = 0.3;
+const wallMat = new THREE.MeshLambertMaterial({ color: 0x807070 });
+const group = new THREE.Group();
+// Four walls around the perimeter.
+const walls = [
+[0, -hd, w, wallHeight, wallThickness],   // front
+[0, hd, w, wallHeight, wallThickness],     // back
+[-hw, 0, wallThickness, wallHeight, d],    // left
+[hw, 0, wallThickness, wallHeight, d],     // right
+];
+for (const [px, pz, ww, wh, wd] of walls) {
+const wall = new THREE.Mesh(new THREE.BoxGeometry(ww, wh, wd), wallMat);
+wall.position.set(px, -wh / 2, pz);
+wall.castShadow = true;
+wall.receiveShadow = true;
+group.add(wall);
+}
+group.position.set(obj.position.x, baseY, obj.position.z);
+group.rotation.y = obj.rotation;
+group.userData.objectId = id;
+group.userData.isFoundation = true;
+scene.add(group);
+foundationWallMeshes.set(id, group);
+requestRender();
+}
+// Terrain deformation: flatten terrain beneath heavy objects to create a
+// level building pad. Returns true if terrain was modified.
+function flattenTerrainForObject(obj) {
+if (!state.terrain) return false;
+if (!HEAVY_OBJECT_TYPES.has(obj.type)) return false;
+const cat = CATALOG[obj.type];
+if (!cat || typeof cat.footprint !== 'function') return false;
+const fp = cat.footprint(obj.params);
+const w = fp.w || 1, d = fp.d || 1;
+const hw = w / 2, hd = d / 2;
+// Sample the average terrain height at the center to use as pad level.
+const padLevel = getTerrainHeightAvg(obj.position.x, obj.position.z, hw, hd);
+const segs = state.terrainSegs;
+const halfWY = state.yard.width / 2;
+const halfDY = state.yard.depth / 2;
+// Flatten all terrain vertices within the object footprint.
+for (let iz = 0; iz <= segs; iz++) {
+for (let ix = 0; ix <= segs; ix++) {
+const worldX = (ix / segs) * state.yard.width - halfWY;
+const worldZ = (iz / segs) * state.yard.depth - halfDY;
+const dx = worldX - obj.position.x;
+const dz = worldZ - obj.position.z;
+// Check if this vertex is within the footprint (plus small margin).
+// Rotate the delta by -obj.rotation to account for object orientation.
+const cos = Math.cos(-obj.rotation);
+const sin = Math.sin(-obj.rotation);
+const rdx = dx * cos - dz * sin;
+const rdz = dx * sin + dz * cos;
+if (Math.abs(rdx) <= hw + 1 && Math.abs(rdz) <= hd + 1) {
+const idx = iz * (segs + 1) + ix;
+state.terrain[idx] = padLevel;
+}
+}
+}
+_recomputeTerrainDeformed();
+applyTerrainToMesh();
+if (terrainHeightColorsActive) applyHeightColors();
+return true;
+}
 function isObjectBuried(id) {
 const obj = state.objects.get(id);
 if (!obj) return false;
@@ -8142,8 +8695,8 @@ const sunX = Math.sin(azRad) * horiz;
 const sunZ = -Math.cos(azRad) * horiz;
 sunLight.position.set(sunX, Math.max(0.5, sunY), sunZ);
 const dayFactor = Math.max(0, Math.min(1, pos.elevation / 30));
-if (sunAmbient) sunAmbient.intensity = 0.2 + 0.3 * dayFactor;
-if (sunHemi) sunHemi.intensity = 0.15 + 0.25 * dayFactor;
+if (sunAmbient) sunAmbient.intensity = 0.35 + 0.3 * dayFactor;
+if (sunHemi) sunHemi.intensity = 0.3 + 0.25 * dayFactor;
 sunLight.intensity = 0.2 + 0.7 * dayFactor;
 const warm = new THREE.Color(0xff8844);
 const noon = new THREE.Color(0xffffff);
@@ -8239,8 +8792,8 @@ sunLight.intensity = 0.9;
 sunLight.color.setHex(0xffffff);
 sunLight.shadow.camera.updateProjectionMatrix();
 }
-if (sunAmbient) sunAmbient.intensity = 0.5;
-if (sunHemi) sunHemi.intensity = 0.4;
+if (sunAmbient) sunAmbient.intensity = 0.65;
+if (sunHemi) sunHemi.intensity = 0.55;
 requestRender();
 });
 })();
@@ -8441,7 +8994,7 @@ Math.round(o.rotation*100)/100,
 n: data.nextId,
 };
 if (data.terrain) compact.t = data.terrain;
-if (data.terrainSegs && data.terrainSegs !== 100) compact.ts = data.terrainSegs;
+if (data.terrainSegs && data.terrainSegs !== 200) compact.ts = data.terrainSegs;
 if (data.gridLevel) compact.gl = data.gridLevel;
 const json = JSON.stringify(compact);
 const b64 = btoa(unescape(encodeURIComponent(json)));
@@ -8474,7 +9027,7 @@ return {
 version: c.v || 2,
 yard: { width: c.y[0], depth: c.y[1], shape: c.y[2] === 'r' ? 'rectangle' : 'L' },
 objects, nextId: c.n || (objects.length + 1),
-terrain: c.t || null, terrainSegs: c.ts || 100,
+terrain: c.t || null, terrainSegs: c.ts || 200,
 gridLevel: c.gl || 0,
 };
 } catch (e) { return null; }
@@ -8896,6 +9449,18 @@ break;
 state.terrain[vi] = clampTerrainHeight(h);
 }
 }
+/* Apply edge feathering to presets so terrain smoothly returns to zero
+   at yard boundaries, preventing visible cliffs. */
+const edgeFadePreset = 0.08;
+for (let iz2 = 0; iz2 <= segs; iz2++) {
+for (let ix2 = 0; ix2 <= segs; ix2++) {
+const vi2 = iz2 * (segs + 1) + ix2;
+const fadeX2 = Math.min(ix2 / segs, 1 - ix2 / segs) / edgeFadePreset;
+const fadeZ2 = Math.min(iz2 / segs, 1 - iz2 / segs) / edgeFadePreset;
+const edgeFactor2 = Math.min(1, Math.min(fadeX2, fadeZ2));
+state.terrain[vi2] = clampTerrainHeight(state.terrain[vi2] * edgeFactor2);
+}
+}
 const newTerrain = new Float32Array(state.terrain);
 _recomputeTerrainDeformed();
 applyTerrainToMesh();
@@ -8963,9 +9528,14 @@ colors.needsUpdate = true;
 if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yardMesh.material.needsUpdate = true; }
 }
 function removeHeightColors() {
-if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = false; yardMesh.material.needsUpdate = true; }
+if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yardMesh.material.needsUpdate = true; }
+// SPRINT 10: Restore natural terrain vertex colors instead of deleting color attribute
+if (typeof applyTerrainVertexColors === 'function') {
+applyTerrainVertexColors();
+} else {
 const geo = yardMesh ? yardMesh.geometry : null;
 if (geo && geo.attributes.color) { geo.deleteAttribute('color'); }
+}
 }
 function updateHeightLegend() {
 if (!terrainHeightColorsActive || !state.terrain) {
@@ -9894,6 +10464,16 @@ if (group) {
 obj.position.y = 0;
 group.position.y = 0;
 }
+// Remove foundation walls during flat compare mode.
+if (foundationWallMeshes.has(id)) {
+const fw = foundationWallMeshes.get(id);
+scene.remove(fw);
+fw.traverse(c => {
+if (c.geometry) c.geometry.dispose();
+if (c.material) c.material.dispose();
+});
+foundationWallMeshes.delete(id);
+}
 });
 taCompareBtn.classList.add('active');
 taCompareBtn.textContent = 'Release to Restore';
@@ -10655,7 +11235,8 @@ const wz = (iz / segs) * d - halfD;
 const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
 if (dist > radius) continue;
 const t = dist / radius;
-const falloff = Math.pow(1 - t * t, 2);
+// Smooth cosine falloff for natural blending
+const falloff = (Math.cos(t * Math.PI) + 1) * 0.5;
 const vi = iz * (segs + 1) + ix;
 const current = state.terrain[vi] || 0;
 const blendFactor = falloff * blendPct;
@@ -12152,7 +12733,7 @@ setTimeout(() => {
 buildGridLevelPlane();
 requestRender();
 }, 300);
-window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; },
+window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, smoothTerrainPass, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getTerrainHeightAvg, updateFoundationWalls, flattenTerrainForObject, EMBED_OFFSETS, HEAVY_OBJECT_TYPES, FLAT_OBJECT_TYPES, get foundationWallMeshes() { return foundationWallMeshes; }, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; },
 MAX_TERRAIN_HEIGHT, MIN_TERRAIN_HEIGHT, clampTerrainHeight,
 get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; updatePrecisionModeUI(); },
 updatePrecisionModeUI, togglePrecisionMode, updateHeightReadout, updateExcavationHint, get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; }, get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject, buildSolidEarth, getSolidEarthBottomY, get solidEarthMesh() { return solidEarthMesh; }, EXCAVATION_EARTH_COLOR, EARTH_DEPTH_BELOW_MIN, get crossSectionPoints() { return crossSectionPoints; }, set crossSectionPoints(v) { crossSectionPoints = v; }, excavatePool, flattenToHeightAt, placeElevationMarker, clearInnovMarkers, applyPrecisionSlope, scanForRetainingWalls, clearInnovRetWalls, get innovMode() { return innovMode; }, innovSetMode, updateInnovStats,
@@ -12173,6 +12754,7 @@ get carvingWidth() { return uxCarvingWidth; }, set carvingWidth(v) { uxCarvingWi
 get carvingLength() { return uxCarvingLength; }, set carvingLength(v) { uxCarvingLength = v; },
 get undergroundViewActive() { return undergroundViewActive; },
 applyTerrainEdgeHighlight, get terrainEdgeLines() { return terrainEdgeLines; },
+applyTerrainVertexColors, createTerrainMaterial, createTerrainNoiseTexture, updateTerrainSnowOverlay, get _terrainSnowMesh() { return _terrainSnowMesh; }, computeTerrainSlope, smoothstep,
 saveDesign, loadFromFile, deleteObjectWithCommand, removeObject, showToast, requestRender,
 get terrainMode() { return terrainMode; }, set terrainMode(v) { terrainMode = v; },
 get isTerrainPainting() { return isTerrainPainting; }, set isTerrainPainting(v) { isTerrainPainting = v; },
@@ -14569,7 +15151,7 @@ perfPanel.innerHTML = `
 <button id="perf-stress-500" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--primary); color:white;">Add 500 Objects</button>
 <button id="perf-stress-1000" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--secondary); color:white;">Add 1000 Objects</button>
 <button id="perf-stress-voxels" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--carve); color:white;">Carve 500 Spaces</button>
-<button id="perf-stress-terrain" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--terrain); color:white;">Terrain 100×100</button>
+<button id="perf-stress-terrain" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--terrain); color:white;">Terrain 200×200</button>
 <br>
 <button id="perf-stress-clear" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--danger); color:white;">Clear All</button>
 <button id="perf-stress-report" class="perf-stress-btn" style="margin:2px; padding:5px 10px; font-size:11px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--text); color:white;">Run Full Report</button>
@@ -14711,7 +15293,7 @@ requestRender();
 function stressTestTerrain() {
 const log = document.getElementById('perf-report');
 const t0 = performance.now();
-const segs = 100;
+const segs = 200;
 const size = segs + 1;
 state.terrainSegs = segs;
 state.terrain = new Float32Array(size * size);
