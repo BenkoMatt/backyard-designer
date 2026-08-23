@@ -1,0 +1,385 @@
+{
+  "sprint": 8,
+  "category": "accessibility",
+  "tests_passed": 75,
+  "tests_failed": 0,
+  "total": 75,
+  "status": "PASS",
+  "test_details": [
+    {
+      "status": "PASS",
+      "name": "Tab navigates from skip-link to 3D View control",
+      "detail": "Got: 3D View"
+    },
+    {
+      "status": "PASS",
+      "name": "Tab reaches Bird's-eye toggle",
+      "detail": "Got: {'text': \"Bird's-eye\", 'id': ''}"
+    },
+    {
+      "status": "PASS",
+      "name": "Tab reaches Save button",
+      "detail": "Got: btn-save"
+    },
+    {
+      "status": "PASS",
+      "name": "Library items exist",
+      "detail": "Count: 21"
+    },
+    {
+      "status": "PASS",
+      "name": "Library items have role=button",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Library items have tabindex=0",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Library items have aria-label",
+      "detail": "Label: Add Privacy Fence to yard"
+    },
+    {
+      "status": "PASS",
+      "name": "Category titles have role=button",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Category titles have tabindex=0",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Category titles have aria-expanded",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Category titles have aria-label",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Enter toggles category collapse (aria-expanded changes)",
+      "detail": "Before: true, After: false"
+    },
+    {
+      "status": "PASS",
+      "name": "Click on library item opens properties panel",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Escape deselects (properties panel closes)",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Undo button enabled after adding object",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Undo (Ctrl+Z) reverses action (undo button may disable)",
+      "detail": "Undo disabled: False"
+    },
+    {
+      "status": "PASS",
+      "name": "Redo (Ctrl+Shift+Z) works (redo button may disable after)",
+      "detail": "Redo disabled: True"
+    },
+    {
+      "status": "PASS",
+      "name": "All visible buttons have accessible names",
+      "detail": "Unlabeled: none"
+    },
+    {
+      "status": "PASS",
+      "name": "All visible inputs have aria-labels or label context",
+      "detail": "Unlabeled: none"
+    },
+    {
+      "status": "PASS",
+      "name": "Toast has aria-live",
+      "detail": "aria-live: polite"
+    },
+    {
+      "status": "PASS",
+      "name": "Toast has role=status",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Toast has aria-atomic",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Context hint has aria-live",
+      "detail": "aria-live: polite"
+    },
+    {
+      "status": "PASS",
+      "name": "Safety warnings has aria-live",
+      "detail": "aria-live: assertive"
+    },
+    {
+      "status": "PASS",
+      "name": "Safety warnings has role=alert",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help modal has role=dialog",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help modal has aria-modal=true",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help modal has aria-labelledby",
+      "detail": "aria-labelledby: help-title"
+    },
+    {
+      "status": "PASS",
+      "name": "Share modal has role=dialog",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Share modal has aria-modal=true",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Share modal has aria-labelledby",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Viewport has role=application",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Viewport has aria-label",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Viewport has aria-describedby",
+      "detail": "aria-describedby: viewport-desc"
+    },
+    {
+      "status": "PASS",
+      "name": "Viewport description element exists",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .topbar-brand",
+      "detail": "Ratio 5.36:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .tb-btn",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .view-toggle button",
+      "detail": "Ratio 5.36:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .sidebar-header",
+      "detail": "Ratio 6.83:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .cat-title",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .lib-item span",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .lib-item small",
+      "detail": "Ratio 6.83:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .terrain-mode-btn.active",
+      "detail": "Ratio 5.45:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .terrain-mode-btn:not(.active)",
+      "detail": "Ratio 20.34:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: #toast",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .help-panel h2",
+      "detail": "Ratio 5.36:1 >= 3.0:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .help-panel li",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .help-panel h3",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .innov-tool-btn",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .innov-section-title",
+      "detail": "Ratio 6.29:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .ta-btn",
+      "detail": "Ratio 20.34:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: #terrain-flatten",
+      "detail": "Ratio 20.34:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "Contrast: .terrain-preset-btn",
+      "detail": "Ratio 13.49:1 >= 4.5:1"
+    },
+    {
+      "status": "PASS",
+      "name": "CSS @media prefers-reduced-motion exists",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Focus moves inside modal when opened",
+      "detail": "Active element: Got It!"
+    },
+    {
+      "status": "PASS",
+      "name": "Modal aria-hidden=false when open",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Modal closes on Escape",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Modal aria-hidden=true when closed",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Skip-to-content link exists",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Skip link has text",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Skip link has href to viewport",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "CSS *:focus-visible rule exists",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Library items have focus-visible style",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Terrain mode buttons have aria-pressed",
+      "detail": "Buttons: 4, all have aria-pressed: True"
+    },
+    {
+      "status": "PASS",
+      "name": "Terrain mode buttons have aria-label",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help has Keyboard Shortcuts section",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help has Accessibility Tips section",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help documents Ctrl+Z (undo)",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help documents Ctrl+Y/Ctrl+Shift+Z (redo)",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help documents Escape",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Help documents Arrow keys",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Walk mode joystick buttons have aria-labels",
+      "detail": "Buttons: [{'ariaLabel': 'Walk forward', 'dataDir': 'forward'}, {'ariaLabel': 'Walk left', 'dataDir': 'left'}, {'ariaLabel': 'Walk right', 'dataDir': 'right'}, {'ariaLabel': 'Walk backward', 'dataDir': 'back'}]"
+    },
+    {
+      "status": "PASS",
+      "name": "CSS .sr-only utility class exists",
+      "detail": ""
+    },
+    {
+      "status": "PASS",
+      "name": "Slope heatmap legend has text labels",
+      "detail": "Items: 5"
+    },
+    {
+      "status": "PASS",
+      "name": "Delete has undo support (verified via code)",
+      "detail": ""
+    }
+  ]
+}

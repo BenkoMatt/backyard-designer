@@ -1,7 +1,7 @@
 # Sprint 6 Quality Gate Report — Backyard Designer 3D
 
-**Generated:** 2026-08-23 03:51:38
-**Total runtime:** 188.1s
+**Generated:** 2026-08-23 04:17:56
+**Total runtime:** 163.2s
 **Agent:** Agent 5 (Critic / Quality Gate Architect)
 
 ## Summary
@@ -31,23 +31,23 @@
 
 | Scene | FPS |
 |------|-----|
-| empty | 60.1 |
-| 20_objects | 58.0 |
-| 50_objects | 57.6 |
-| terrain_deformed | 58.3 |
+| empty | 58.5 |
+| 20_objects | 57.9 |
+| 50_objects | 58.0 |
+| terrain_deformed | 58.4 |
 
 ### Load Times
 
-- 3297ms
+- 2626ms
 
 ### Memory Usage
 
-- {'point': 'after_load', 'used_mb': 9.5367431640625, 'total_mb': 12.111663818359375}
+- {'point': 'after_load', 'used_mb': 10.68115234375, 'total_mb': 19.550323486328125}
 - {'point': 'leak_test', 'diff_mb': 0.0}
 
 ### Render Times
 
-- avg: 18.6ms, min: 10.0ms, max: 23.1ms
+- avg: 16.5ms, min: 9.0ms, max: 36.0ms
 
 ## Failures
 
