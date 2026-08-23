@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6L6 28v30h16V42h20v16h16V28z' fill='%234a8b5c'/%3E%3Cpath d='M32 6L6 28h52z' fill='%233a6b46'/%3E%3Crect x='24' y='44' width='16' height='14' fill='%23f5f5f0'/%3E%3C/svg%3E">
 <title>Backyard Designer 3D</title>
 <style>
+* { -webkit-tap-highlight-color: transparent; }
 :root {
 --bg: #f5f5f0;
 --surface: #ffffff;
@@ -48,7 +49,7 @@
 --app-height: 100vh;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100vh; }
+html, body { height: 100vh; overscroll-behavior: none; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; height: 100dvh; height: var(--app-height); -webkit-font-smoothing: antialiased; }
 canvas { display: block; }
 #topbar { height: var(--topbar-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 12px; z-index: 100; position: relative; box-shadow: var(--shadow); }
@@ -71,21 +72,21 @@ canvas { display: block; }
 #sidebar { width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; }
 .sidebar-header { padding: 14px 16px 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
 .cat-section { margin-bottom: 2px; }
-.cat-title { padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; }
+.cat-title { padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; -webkit-user-select: none; }
 .cat-title:hover { background: #f8f8f8; }
 .cat-title:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
 .cat-title .arrow { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.4; }
 .cat-section.collapsed .cat-title .arrow { transform: rotate(-90deg); }
 .cat-items { overflow: hidden; transition: max-height 0.3s ease; }
 .cat-section.collapsed .cat-items { max-height: 0; }
-.lib-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 32px; cursor: pointer; font-size: 13px; color: var(--text); transition: background 0.1s; user-select: none; }
+.lib-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 32px; cursor: pointer; font-size: 13px; color: var(--text); transition: background 0.1s; user-select: none; -webkit-user-select: none; }
 .lib-item:hover { background: #f0f5f2; }
 .lib-item:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
 .lib-item svg { width: 28px; height: 28px; flex-shrink: 0; }
 .lib-item span { line-height: 1.3; }
 .lib-item small { color: var(--text-muted); font-size: 11px; display: block; margin-top: 1px; }
-#viewport { flex: 1; position: relative; overflow: hidden; }
-#viewport canvas { position: absolute; top: 0; left: 0; }
+#viewport { flex: 1; position: relative; overflow: hidden; touch-action: none; }
+#viewport canvas { position: absolute; top: 0; left: 0; touch-action: none; }
 .viewport-overlay { position: absolute; z-index: 10; }
 #view-controls { bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 6px; }
 .vc-btn { width: 40px; height: 40px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: all 0.15s; }
@@ -94,7 +95,7 @@ canvas { display: block; }
 #dim-readout { top: 16px; left: 16px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; box-shadow: var(--shadow); display: none; max-width: 280px; }
 #dim-readout.visible { display: block; }
 #dim-readout strong { color: var(--primary); }
-#scale-bar { position: absolute; bottom: 16px; left: 16px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 11px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0; user-select: none; pointer-events: none; }
+#scale-bar { position: absolute; bottom: 16px; left: 16px; background: rgba(255,255,255,0.92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 11px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0; user-select: none; -webkit-user-select: none; pointer-events: none; }
 .scale-bar-visual { display: flex; align-items: center; gap: 2px; margin-right: 8px; }
 .scale-segment { height: 8px; border: 1px solid #333; }
 .scale-segment.dark { background: #333; }
@@ -294,7 +295,7 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 #measure-readout.visible { display: block; }
 #grid-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: none; }
 #grid-labels.visible { display: block; }
-.grid-label { position: absolute; font-size: 10px; color: #666; font-family: sans-serif; white-space: nowrap; user-select: none; }
+.grid-label { position: absolute; font-size: 10px; color: #666; font-family: sans-serif; white-space: nowrap; user-select: none; -webkit-user-select: none; }
 #context-hint { bottom: 16px; left: 50%; transform: translateX(-50%); background: rgba(45,45,45,0.85); color: white; padding: 8px 18px; border-radius: 20px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
 #context-hint.visible { opacity: 1; }
 #safety-warnings { top: 16px; right: 16px; max-width: 300px; display: flex; flex-direction: column; gap: 8px; }
@@ -383,7 +384,7 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 .btn-delete:hover { background: #fdf0f0; }
 .btn-duplicate { color: var(--text); }
 .btn-duplicate:hover { background: #f0f0f0; }
-#wizard { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+#wizard { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 .wizard-panel { background: white; border-radius: 16px; padding: 36px 40px; max-width: 540px; width: 90%; box-shadow: var(--shadow-lg); }
 .wizard-panel h1 { font-size: 24px; margin-bottom: 6px; color: var(--text); }
 .wizard-panel .subtitle { color: var(--text-muted); margin-bottom: 28px; font-size: 14px; }
@@ -410,7 +411,7 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 .wizard-back { background: none; color: var(--text-muted); border: none; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 12px; }
 #toast { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: #2d2d2d; color: white; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 13px; z-index: 150; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
 #toast.visible { opacity: 1; transform: translateX(-50%) translateY(-8px); }
-#help-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+#help-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 #help-modal.visible { display: flex; }
 .help-panel { background: white; border-radius: 16px; padding: 32px 36px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
 .help-panel h2 { font-size: 20px; margin-bottom: 16px; color: var(--primary); }
@@ -603,7 +604,7 @@ margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border);
 }
 .layer-panel-header .title { font-size: 13px; font-weight: 700; color: var(--primary); }
 .layer-panel-header .close { cursor: pointer; border: none; background: none; font-size: 16px; color: var(--text-muted); padding: 0 4px; }
-.layer-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; cursor: pointer; user-select: none; }
+.layer-row { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; cursor: pointer; user-select: none; -webkit-user-select: none; }
 .layer-row:hover { background: #f8f8f8; }
 .layer-row .layer-name { display: flex; align-items: center; gap: 6px; font-size: 13px; }
 .layer-row .layer-name .layer-icon { font-size: 16px; }
@@ -963,7 +964,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 #vr-btn-container.available { display: inline-flex; }
 #atmosphere-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 16px; font-size: 11px; z-index: 12; display: none; pointer-events: none; }
 #atmosphere-badge.visible { display: block; }
-#templates-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; backdrop-filter: blur(4px); }
+#templates-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 200; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 #templates-modal.visible { display: flex; }
 .templates-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 28px; max-width: 680px; width: 90%; max-height: 85vh; overflow-y: auto; }
 .templates-panel h2 { font-size: 20px; margin-bottom: 4px; color: var(--text); }
@@ -1060,7 +1061,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 #cmd-palette-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300;
   display: none; align-items: flex-start; justify-content: center;
-  padding-top: 120px; backdrop-filter: blur(4px);
+  padding-top: 120px; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
 }
 #cmd-palette-overlay.visible { display: flex; }
 #cmd-palette {
@@ -2565,7 +2566,7 @@ Generated by Backyard Designer 3D — This is a planning tool only; verify all m
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-const IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+const IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768 || (navigator.maxTouchPoints > 1 && window.innerWidth < 1024);
 if (IS_MOBILE) document.body.classList.add('is-mobile');
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, IS_MOBILE ? 1 : 2);
 const SHADOW_MAP_SIZE = IS_MOBILE ? 1024 : 2048;
@@ -3583,11 +3584,36 @@ let carvingPendingCenter = null;
 let terrainClipPlane = null;
 let wireframeActive = false;
 const viewport = document.getElementById('viewport');
+if (!checkWebGLSupport()) {
+  showWebGLError('WebGL is not supported or is disabled in your browser.');
+  return;
+}
+function showWebGLError(msg) {
+  const div = document.createElement('div');
+  div.id = 'webgl-error-overlay';
+  div.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;background:#1a1a1a;color:#fff;font-family:sans-serif;z-index:9999;';
+  div.innerHTML = '<h2 style="margin:0 0 16px;font-size:22px;">⚠️ 3D View Unavailable</h2>' +
+    '<p style="margin:0 0 12px;max-width:480px;line-height:1.6;opacity:0.9;">' + (msg || 'Your browser or device does not support WebGL, which is required for the 3D view.') + '</p>' +
+    '<p style="margin:0 0 20px;max-width:480px;line-height:1.6;opacity:0.7;font-size:13px;">Try enabling hardware acceleration in your browser settings, updating your graphics drivers, or using a modern browser like Chrome, Firefox, Safari, or Edge. The 2D bird\'s-eye view may still work if you switch to it.</p>' +
+    '<button onclick="location.reload()" style="padding:10px 28px;border:none;border-radius:6px;background:#4a8b5c;color:#fff;font-size:14px;cursor:pointer;font-family:inherit;">Reload Page</button>';
+  if (viewport) viewport.appendChild(div);
+}
+function checkWebGLSupport() {
+  try {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl'));
+  } catch(e) { return false; }
+}
 function initScene() {
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x87CEEB);
 scene.fog = new THREE.Fog(0x87CEEB, IS_MOBILE ? 80 : 100, IS_MOBILE ? 300 : 500);
-renderer = new THREE.WebGLRenderer({ antialias: !IS_MOBILE, powerPreference: 'high-performance' });
+try {
+renderer = new THREE.WebGLRenderer({ antialias: !IS_MOBILE, powerPreference: 'high-performance', failIfMajorPerformanceCaveat: false });
+} catch(e) {
+  showWebGLError('Failed to initialize WebGL renderer: ' + e.message);
+  return;
+}
 renderer.setPixelRatio(PIXEL_RATIO);
 renderer.setSize(viewport.clientWidth, viewport.clientHeight);
 renderer.localClippingEnabled = true;
@@ -3683,6 +3709,7 @@ window.addEventListener('resize', onResize);
 animate();
 }
 function onResize() {
+if (!renderer || !camera3D || !camera2D) return;
 const w = viewport.clientWidth, h = viewport.clientHeight;
 if (w === 0 || h === 0) return;
 renderer.setSize(w, h);
@@ -3705,7 +3732,9 @@ let needsRender = true;
 function animate() {
 requestAnimationFrame(animate);
 if (window._bydContextLost) return;
+if (typeof controls !== 'undefined' && controls) {
 const dampingActive = controls.update();
+}
 if (needsRender || dampingActive) {
 renderer.render(scene, activeCamera);
 if (renderer.xr && renderer.xr.isPresenting) {
@@ -4169,6 +4198,7 @@ let isDragging = false;
 let dragStartPos = null;
 let dragObject = null;
 function onPointerDown(e) {
+if (!renderer || !scene || !raycaster || !mouse || !activeCamera) return;
 if (e.button === 2) {
 // Right-click: show context menu on objects
 const rect = renderer.domElement.getBoundingClientRect();
@@ -4768,6 +4798,7 @@ if (e.target.files[0]) loadFromFile(e.target.files[0]);
 e.target.value = '';
 });
 document.getElementById('btn-screenshot').addEventListener('click', () => {
+if (!scene || !renderer) { showToast('3D view unavailable — WebGL not supported'); return; }
 if (window._bydContextLost) {
 showToast('Cannot take screenshot: graphics context lost. Please reload.');
 return;
@@ -7015,6 +7046,7 @@ let tapeMeasureDot1 = null;
 let tapeMeasureDot2 = null;
 let tapeMeasureLabel = null;
 function updateScaleBar() {
+if (!renderer || !activeCamera) return;
 const rect = renderer.domElement.getBoundingClientRect();
 if (rect.width === 0) return;
 const p1 = new THREE.Vector3(0, 0, 0).project(activeCamera);
@@ -7207,6 +7239,7 @@ viewport.removeEventListener('pointerdown', onPointerDown);
 viewport.addEventListener('pointerdown', onPointerDownWithTape);
 let dimLineGroup = null;
 function updateDimensionLines() {
+if (!scene) return;
 if (dimLineGroup) { scene.remove(dimLineGroup); disposeGroup(dimLineGroup); dimLineGroup = null; }
 if (state.viewMode !== '2d' || state.selectedId === null) return;
 const obj = state.objects.get(state.selectedId);
@@ -9795,9 +9828,9 @@ let innovSlopeLineMesh = null;
 let innovSlopeDotMeshes = [];
 const innovMarkers = [];
 const innovMarkerGroup = new THREE.Group();
-scene.add(innovMarkerGroup);
+if (typeof scene !== 'undefined' && scene) scene.add(innovMarkerGroup);
 const innovRetWallGroup = new THREE.Group();
-scene.add(innovRetWallGroup);
+if (typeof scene !== 'undefined' && scene) scene.add(innovRetWallGroup);
 let innovStatsOverlay = null;
 const innovBtn = document.getElementById('innovation-btn');
 const innovPanel = document.getElementById('innovation-panel');
@@ -11414,6 +11447,7 @@ get undergroundRooms() { return undergroundRooms; },
 };
 let gridLevelPlane = null;
 function buildGridLevelPlane() {
+if (!scene) return;
 if (gridLevelPlane) {
 scene.remove(gridLevelPlane);
 if (gridLevelPlane.geometry) gridLevelPlane.geometry.dispose();
