@@ -73,12 +73,14 @@ canvas { display: block; }
 .cat-section { margin-bottom: 2px; }
 .cat-title { padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; }
 .cat-title:hover { background: #f8f8f8; }
+.cat-title:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
 .cat-title .arrow { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.4; }
 .cat-section.collapsed .cat-title .arrow { transform: rotate(-90deg); }
 .cat-items { overflow: hidden; transition: max-height 0.3s ease; }
 .cat-section.collapsed .cat-items { max-height: 0; }
 .lib-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px 8px 32px; cursor: pointer; font-size: 13px; color: var(--text); transition: background 0.1s; user-select: none; }
 .lib-item:hover { background: #f0f5f2; }
+.lib-item:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
 .lib-item svg { width: 28px; height: 28px; flex-shrink: 0; }
 .lib-item span { line-height: 1.3; }
 .lib-item small { color: var(--text-muted); font-size: 11px; display: block; margin-top: 1px; }
@@ -1136,6 +1138,40 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 #batch-bar button:hover { background: rgba(255,255,255,0.3); }
 #batch-bar .batch-count { font-weight: 600; }
 
+/* ===== SPRINT 8: MOTION SENSITIVITY — prefers-reduced-motion ===== */
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after {
+animation-duration: 0.01ms !important;
+animation-iteration-count: 1 !important;
+transition-duration: 0.01ms !important;
+scroll-behavior: auto !important;
+}
+.cat-items { transition: none !important; }
+.cat-title .arrow { transition: none !important; }
+#toast { transition: none !important; }
+}
+
+/* ===== SPRINT 8: SR-ONLY UTILITY CLASS ===== */
+.sr-only {
+position: absolute !important;
+width: 1px !important; height: 1px !important;
+padding: 0 !important; margin: -1px !important;
+overflow: hidden !important;
+clip: rect(0, 0, 0, 0) !important;
+white-space: nowrap !important;
+border: 0 !important;
+}
+
+/* ===== SPRINT 8: SKIP-TO-CONTENT LINK ===== */
+.skip-link {
+position: absolute; left: -9999px; top: 0;
+background: var(--primary); color: white;
+padding: 10px 18px; border-radius: 0 0 var(--radius-sm) 0;
+font-size: 14px; font-weight: 600; z-index: 9999;
+text-decoration: none; transition: left 0.2s;
+}
+.skip-link:focus { left: 0; }
+
 <style id="mobile-usability-styles">
 /* Mobile usability fixes — in separate style tag to bypass 500-rule inline stylesheet limit */
 @media (max-width: 768px) {
@@ -1180,6 +1216,13 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 </script>
 </head>
 <body>
+
+<!-- SPRINT 8: Skip-to-content link for keyboard users -->
+<a href="#viewport" class="skip-link">Skip to 3D design canvas</a>
+
+<!-- SPRINT 8: Screen reader description of the 3D viewport -->
+<div id="viewport-desc" class="sr-only" aria-hidden="true">This is an interactive 3D backyard design canvas. Use keyboard shortcuts: Arrow keys move selected objects, Delete removes selected object, Ctrl+Z undoes, Ctrl+Shift+Z or Ctrl+Y redoes, Escape deselects or closes panels, Alt+Tab cycles through placed objects.</div>
+
 <div id="topbar">
 <div class="topbar-brand">
 <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="20" width="24" height="8" rx="2" fill="#4a8b5c"/><path d="M8 20V12M16 20V10M24 20V12" stroke="#c97b4f" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="8" r="5" fill="#4a8b5c" opacity="0.6"/></svg>
@@ -1301,7 +1344,7 @@ Click any item below to add it to your yard. Then drag to position it.
 <div id="library"></div>
 </div>
 <button id="mobile-lib-toggle" title="Show object library" aria-label="Show object library">+</button>
-<div id="viewport" role="application" aria-label="3D backyard design canvas">
+<div id="viewport" role="application" aria-label="3D backyard design canvas" aria-describedby="viewport-desc">
 <div id="tool-dock" role="toolbar" aria-label="Tool dock">
 <div class="td-group-label">Sculpt</div>
 <button class="td-tab" data-dock="terrain" aria-label="Terrain editing tools" aria-pressed="false">
@@ -1505,7 +1548,7 @@ VR Mode
 <div class="viewport-overlay" id="grid-level-badge"><span class="badge-icon">\u2B06</span>Grid at Y=<span id="grid-level-badge-val">0</span> ft</div>
 <div class="viewport-overlay" id="depth-gauge-overlay"><div class="dg-label">Camera Depth</div><div><span class="dg-value" id="dg-overlay-value">0</span><span class="dg-unit"> ft</span></div></div>
 <div class="viewport-overlay" id="dim-readout" aria-hidden="true"></div>
-<div class="viewport-overlay" id="safety-warnings" aria-label="Safety warnings"></div>
+<div class="viewport-overlay" id="safety-warnings" role="alert" aria-live="assertive" aria-label="Safety warnings"></div>
 <div class="viewport-overlay" id="view-controls" role="toolbar" aria-label="Camera controls">
 <button class="vc-btn" id="vc-zoom-in" title="Zoom In" aria-label="Zoom in">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
@@ -1520,7 +1563,7 @@ VR Mode
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M3 18l3-6 3 3 4-8 3 5 5-4M6 18v3M10 18v3M14 18v3M18 18v3"/></svg>
 </button>
 </div>
-<div class="viewport-overlay" id="context-hint"></div>
+<div class="viewport-overlay" id="context-hint" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="viewport-overlay" id="scale-bar"></div>
 <button class="viewport-overlay" id="tape-measure-btn" aria-label="Toggle tape measure tool" aria-pressed="false">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
@@ -1537,10 +1580,10 @@ Terrain
 <div class="terrain-row">
 <label>Mode:</label>
 <div class="terrain-mode-btns">
-<button class="terrain-mode-btn active" data-tmode="raise">Raise</button>
-<button class="terrain-mode-btn" data-tmode="lower">Excavate</button>
-<button class="terrain-mode-btn" data-tmode="smooth">Smooth</button>
-<button class="terrain-mode-btn" data-tmode="erode">Erode</button>
+<button class="terrain-mode-btn active" data-tmode="raise" aria-label="Raise terrain mode" aria-pressed="true">Raise</button>
+<button class="terrain-mode-btn" data-tmode="lower" aria-label="Excavate terrain mode" aria-pressed="false">Excavate</button>
+<button class="terrain-mode-btn" data-tmode="smooth" aria-label="Smooth terrain mode" aria-pressed="false">Smooth</button>
+<button class="terrain-mode-btn" data-tmode="erode" aria-label="Erode terrain mode" aria-pressed="false">Erode</button>
 </div>
 </div>
 <div class="terrain-row">
@@ -2208,9 +2251,9 @@ Close
 </button>
 </div>
 </div>
-<div id="share-modal">
+<div id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-title" aria-hidden="true">
 <div class="share-panel">
-<h2>Share Your Design</h2>
+<h2 id="share-title">Share Your Design</h2>
 <p>Scan the QR code or copy the link to share your backyard design.</p>
 <canvas id="share-qr-canvas" width="200" height="200"></canvas>
 <div class="share-too-long" id="share-too-long">Design is large - QR may be hard to scan. Use the link or Save instead.</div>
@@ -2221,19 +2264,19 @@ Close
 </div>
 </div>
 </div>
-<div id="walk-controls">
-<button id="walk-exit">Exit Walk</button>
-<div id="walk-hint">WASD/Arrows to move - Drag to look - Esc to exit</div>
+<div id="walk-controls" role="region" aria-label="Walk mode controls">
+<button id="walk-exit" aria-label="Exit walk mode">Exit Walk</button>
+<div id="walk-hint" role="status" aria-live="polite">WASD/Arrows to move - Drag to look - Esc to exit</div>
 <div id="walk-hint-mobile" style="display:none;">Joystick to move - Drag to look - Tap Exit to leave</div>
-<button id="walk-motion-btn">Enable Motion Look</button>
-<div id="walk-joystick">
-<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="forward">▲</button></div>
+<button id="walk-motion-btn" aria-label="Toggle motion look mode">Enable Motion Look</button>
+<div id="walk-joystick" role="group" aria-label="Movement joystick">
+<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="forward" aria-label="Walk forward">▲</button></div>
 <div class="walk-joy-row">
-<button class="walk-joy-btn" data-dir="left">◀</button>
-<button class="walk-joy-btn spacer"></button>
-<button class="walk-joy-btn" data-dir="right">▶</button>
+<button class="walk-joy-btn" data-dir="left" aria-label="Walk left">◀</button>
+<button class="walk-joy-btn spacer" aria-hidden="true" tabindex="-1" disabled></button>
+<button class="walk-joy-btn" data-dir="right" aria-label="Walk right">▶</button>
 </div>
-<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="back">▼</button></div>
+<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="back" aria-label="Walk backward">▼</button></div>
 </div>
 </div>
 <div id="wizard">
@@ -2341,10 +2384,10 @@ Close
 </div>
 </div>
 </div>
-<div id="toast"></div>
-<div id="help-modal">
+<div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+<div id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-panel">
-<h2>How to Use Backyard Designer 3D</h2>
+<h2 id="help-title">How to Use Backyard Designer 3D</h2>
 <h3>Getting Started</h3>
 <ul>
 <li><strong>Click an item</strong> from the left panel to add it to your yard</li>
@@ -2410,6 +2453,26 @@ Close
 <li>Keep fire pits at least 25 feet from structures and property lines</li>
 <li>Retaining walls over 4 feet need engineering — consult a professional</li>
 <li>Grade soil away from your house: 6" drop over 10 feet (5% slope)</li>
+</ul>
+<h3>Keyboard Shortcuts</h3>
+<ul>
+<li><strong>Tab / Shift+Tab:</strong> Navigate between controls</li>
+<li><strong>Enter / Space:</strong> Activate the focused button or item</li>
+<li><strong>Escape:</strong> Close panels or deselect the current object</li>
+<li><strong>Ctrl+Z:</strong> Undo last action</li>
+<li><strong>Ctrl+Shift+Z</strong> or <strong>Ctrl+Y:</strong> Redo</li>
+<li><strong>Ctrl+S:</strong> Save your design</li>
+<li><strong>Alt+Tab:</strong> Cycle through placed objects</li>
+<li><strong>Arrow Keys:</strong> Move selected object by 1 foot</li>
+<li><strong>Shift+Arrow Keys:</strong> Move selected object by 0.1 ft (fine control)</li>
+<li><strong>Delete / Backspace:</strong> Delete the selected object (press Undo to restore)</li>
+</ul>
+<h3>Accessibility Tips</h3>
+<ul>
+<li>All buttons and controls are keyboard accessible — use Tab to move through them</li>
+<li>Object library items can be added by focusing and pressing Enter or Space</li>
+<li>Status messages (save success, cost updates) are announced to screen readers automatically</li>
+<li>If you prefer reduced motion, enable "Reduce motion" in your system settings — animations will be minimized</li>
 </ul>
 <button class="wizard-btn close-btn" id="help-close-btn">Got It!</button>
 </div>
@@ -4711,11 +4774,15 @@ const items = Object.entries(CATALOG).filter(([_, v]) => v.category === cat.key)
 if (items.length === 0) continue;
 const section = document.createElement('div');
 section.className = 'cat-section';
-section.innerHTML = `<div class="cat-title"><svg class="arrow" viewBox="0 0 12 12"><path d="M3 4L6 8L9 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>${cat.name}</div><div class="cat-items"></div>`;
+section.innerHTML = `<div class="cat-title" role="button" tabindex="0" aria-expanded="true" aria-label="Collapse ${escHtml(cat.name)} category"><svg class="arrow" viewBox="0 0 12 12"><path d="M3 4L6 8L9 4" fill="none" stroke="currentColor" stroke-width="2"/></svg>${cat.name}</div><div class="cat-items"></div>`;
 const itemsDiv = section.querySelector('.cat-items');
+const catTitle = section.querySelector('.cat-title');
 for (const [key, item] of items) {
 const el = document.createElement('div');
 el.className = 'lib-item';
+el.setAttribute('role', 'button');
+el.setAttribute('tabindex', '0');
+el.setAttribute('aria-label', `Add ${item.name} to yard`);
 el.innerHTML = `${item.icon}<div><span>${item.name}</span><small>${item.desc || ''}</small></div>`;
 el.addEventListener('click', () => {
 const id = addObject(key, {}, { x: 0, y: 0, z: 0 });
@@ -4732,12 +4799,29 @@ trackRecentObject(key);
 // Auto-hide getting started hint after first object
 const gsHint = document.getElementById('getting-started-hint');
 if (gsHint) gsHint.style.display = 'none';
+announceForScreenReader(`Added ${item.name} to yard`);
+});
+// Keyboard activation: Enter or Space
+el.addEventListener('keydown', (ev) => {
+if (ev.key === 'Enter' || ev.key === ' ') {
+ev.preventDefault();
+el.click();
+}
 });
 itemsDiv.appendChild(el);
 }
 lib.appendChild(section);
-section.querySelector('.cat-title').addEventListener('click', () => {
+// Toggle collapse — mouse click
+catTitle.addEventListener('click', () => {
 section.classList.toggle('collapsed');
+catTitle.setAttribute('aria-expanded', section.classList.contains('collapsed') ? 'false' : 'true');
+});
+// Toggle collapse — keyboard activation
+catTitle.addEventListener('keydown', (ev) => {
+if (ev.key === 'Enter' || ev.key === ' ') {
+ev.preventDefault();
+catTitle.click();
+}
 });
 }
 }
@@ -5406,23 +5490,47 @@ setTimeout(() => {
 showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.');
 }, 500);
 }
+// ============================================================
+// HELP MODAL — with focus management for accessibility
+// ============================================================
+let _modalLastFocus = null;
+function openModal(modalId) {
+const modal = document.getElementById(modalId);
+if (!modal) return;
+_modalLastFocus = document.activeElement;
+modal.classList.add('visible');
+modal.setAttribute('aria-hidden', 'false');
+// Move focus to first focusable element inside modal
+const focusable = modal.querySelector('button, a, input, select, textarea, [tabindex]');
+if (focusable) focusable.focus();
+}
+function closeModal(modalId) {
+const modal = document.getElementById(modalId);
+if (!modal) return;
+modal.classList.remove('visible');
+modal.setAttribute('aria-hidden', 'true');
+// Return focus to the trigger element
+if (_modalLastFocus) _modalLastFocus.focus();
+}
 document.getElementById('btn-help').addEventListener('click', () => {
-document.getElementById('help-modal').classList.add('visible');
+openModal('help-modal');
 });
 document.getElementById('help-modal').addEventListener('click', e => {
-if (e.target.id === 'help-modal') e.target.classList.remove('visible');
+if (e.target.id === 'help-modal') closeModal('help-modal');
 });
+// Close help modal on Escape key
 document.addEventListener('keydown', e => {
 if (e.key === 'Escape') {
 const helpModal = document.getElementById('help-modal');
 if (helpModal && helpModal.classList.contains('visible')) {
-helpModal.classList.remove('visible');
+closeModal('help-modal');
 e.stopPropagation();
 }
 }
 }, true);
+// Close help modal via "Got It!" button
 document.getElementById('help-close-btn')?.addEventListener('click', () => {
-document.getElementById('help-modal').classList.remove('visible');
+closeModal('help-modal');
 });
 let toastTimer = null;
 function showToast(msg) {
@@ -5431,6 +5539,9 @@ toast.textContent = msg;
 toast.classList.add('visible');
 if (toastTimer) clearTimeout(toastTimer);
 toastTimer = setTimeout(() => toast.classList.remove('visible'), 3000);
+// Toast has aria-live="polite", so the text update is auto-announced.
+// Also call announceForScreenReader as a fallback for older AT.
+announceForScreenReader(msg);
 }
 let hintTimer = null;
 function showHint(msg) {
@@ -5473,11 +5584,11 @@ deleteObjectWithCommand(state.selectedId);
 } else if (e.key === 'Escape') {
 let modalClosed = false;
 const helpModal = document.getElementById('help-modal');
-if (helpModal && helpModal.classList.contains('visible')) { helpModal.classList.remove('visible'); modalClosed = true; }
+if (helpModal && helpModal.classList.contains('visible')) { closeModal('help-modal'); modalClosed = true; }
 const shareModal = document.getElementById('share-modal');
-if (shareModal && shareModal.classList.contains('visible')) { shareModal.classList.remove('visible'); modalClosed = true; }
+if (shareModal && shareModal.classList.contains('visible')) { closeModal('share-modal'); modalClosed = true; }
 if (!modalClosed) { deselectObject(); clearMultiSelect(); hideContextMenu(); }
-} else if (e.key === 'Tab') {
+} else if (e.key === 'Tab' && e.altKey) {
 e.preventDefault();
 cycleObjectSelection(e.shiftKey ? -1 : 1);
 } else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
@@ -5635,10 +5746,15 @@ requestRender();
 });
 document.querySelectorAll('.terrain-mode-btn[data-tmode]').forEach(btn => {
 btn.addEventListener('click', () => {
-document.querySelectorAll('.terrain-mode-btn[data-tmode]').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.terrain-mode-btn[data-tmode]').forEach(b => {
+b.classList.remove('active');
+b.setAttribute('aria-pressed', 'false');
+});
 btn.classList.add('active');
+btn.setAttribute('aria-pressed', 'true');
 terrainBrushMode = btn.dataset.tmode;
 updateExcavationHint();
+announceForScreenReader(`Terrain mode: ${btn.textContent.trim()}`);
 });
 });
 document.querySelectorAll('.terrain-mode-btn[data-cshape]').forEach(btn => {
@@ -7650,15 +7766,18 @@ ctx.fillText('QR error - use link', 100, 100);
 }
 }
 document.getElementById('share-modal').classList.add('visible');
+document.getElementById('share-modal').setAttribute('aria-hidden', 'false');
+_modalLastFocus = document.activeElement;
+const sf = document.getElementById('share-modal').querySelector('button, a, input, [tabindex]');
+if (sf) sf.focus();
 }
-(function setupShare() {
 const shareBtn = document.getElementById('btn-share');
 if (shareBtn) shareBtn.addEventListener('click', openShareModal);
 document.getElementById('share-close-btn').addEventListener('click', () => {
-document.getElementById('share-modal').classList.remove('visible');
+closeModal('share-modal');
 });
 document.getElementById('share-modal').addEventListener('click', e => {
-if (e.target.id === 'share-modal') e.target.classList.remove('visible');
+if (e.target.id === 'share-modal') closeModal('share-modal');
 });
 document.getElementById('share-copy-btn').addEventListener('click', async () => {
 const url = document.getElementById('share-url-box').textContent;
