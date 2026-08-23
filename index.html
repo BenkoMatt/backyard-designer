@@ -1229,7 +1229,6 @@ text-decoration: none; transition: left 0.2s;
 .dock-panel { max-width: min(340px, calc(100vw - 84px)); }
 }
 
-
 /* PERF: content-visibility auto skips rendering/layout for hidden panels — major DOM optimization */
 #gallery-modal, #timelapse-modal, #socialcard-modal, #templates-modal,
 #label-edit-modal, #help-modal, #print-view, #share-modal, #cmd-palette-overlay {
@@ -3153,7 +3152,6 @@ _matCache.set(key, mat);
 return mat;
 }
 
-
 // ============================================================
 // MOBILE CSS INJECTION (bypasses 500-rule inline stylesheet limit)
 // Injects mobile-specific CSS via a <style> tag appended to <head>
@@ -3549,7 +3547,6 @@ const CATEGORIES = [
 ];
 function disposeGroup(group) {
 group.traverse(obj => {
-// PERF: Skip disposal of cached geometries/materials (shared across objects)
 if (obj.geometry && !obj.geometry._cached) obj.geometry.dispose();
 if (obj.material) {
 const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
@@ -3570,7 +3567,6 @@ const h = Math.max(0.1, params.height || 6);
 const len = Math.max(0.1, Math.min(500, params.length || 24));
 const color = params.color || '#D2B48C';
 const matColor = new THREE.Color(color);
-// PERF: Cache materials by color to reduce draw calls
 const matKey = 'fence:' + color;
 const postMat = getCachedMat(matKey + ':post', () => { const m = new THREE.MeshLambertMaterial({ color: matColor.clone().multiplyScalar(0.7) }); m._cached = true; return m; });
 const railMat = getCachedMat(matKey + ':rail', () => { const m = new THREE.MeshLambertMaterial({ color: matColor.clone().multiplyScalar(0.6) }); m._cached = true; return m; });
@@ -3578,7 +3574,6 @@ const picketMat = getCachedMat(matKey + ':picket', () => { const m = new THREE.M
 const postSpacing = 8;
 const numPosts = Math.max(2, Math.min(100, Math.ceil(len / postSpacing) + 1));
 const actualSpacing = len / (numPosts - 1);
-// PERF: Cache post geometry by dimensions
 const postGeo = getCachedGeo('fencePost:' + h, () => { const g = new THREE.BoxGeometry(0.45, h, 0.45); g._cached = true; return g; });
 for (let i = 0; i < numPosts; i++) {
 const x = i * actualSpacing - len / 2;
@@ -4135,7 +4130,6 @@ recentObjects: [], // Expert: recently used object types
 };
 const MAX_TERRAIN_HEIGHT = 30;
 const MIN_TERRAIN_HEIGHT = -30;
-/** Clamp a terrain height value to [MIN_TERRAIN_HEIGHT, MAX_TERRAIN_HEIGHT] */
 function clampTerrainHeight(v) {
 if (!Number.isFinite(v)) return 0;
 return Math.max(MIN_TERRAIN_HEIGHT, Math.min(MAX_TERRAIN_HEIGHT, v));
@@ -4202,13 +4196,11 @@ renderer = new THREE.WebGLRenderer({ antialias: !IS_MOBILE, powerPreference: 'hi
   showWebGLError('Failed to initialize WebGL renderer: ' + e.message);
   return;
 }
-// PERF: Cap pixel ratio at 1.5 instead of 2 to reduce GPU fill rate by up to 44%
 renderer.setPixelRatio(Math.min(PIXEL_RATIO, IS_MOBILE ? 1 : 1.5));
 renderer.setSize(viewport.clientWidth, viewport.clientHeight);
 renderer.localClippingEnabled = true;
 renderer.shadowMap.enabled = state.shadowEnabled;
 renderer.shadowMap.type = IS_MOBILE ? THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
-// PERF: Adaptive shadow map size — smaller viewports get smaller shadow maps
 SHADOW_MAP_SIZE = IS_MOBILE ? 1024 : (window.innerWidth < 1280 ? 1536 : 2048);
 viewport.appendChild(renderer.domElement);
 const aspect = viewport.clientWidth / viewport.clientHeight;
@@ -4269,9 +4261,6 @@ yardMesh.castShadow = true;
 scene.add(yardMesh);
 applyTerrainVertexColors();
 applySeasonalGroundColor();
-// PERF: Lazy voxel/earth init — deferred until first terrain/excavation use
-// initVoxelsFromTerrain() and buildVoxelMesh() are called on-demand by callers
-// that check state.voxels === null. This saves ~50-100ms on initial load.
 _buildVoxelsLazy = function() { initVoxelsFromTerrain(); buildVoxelMesh(); };
 raycaster = new THREE.Raycaster();
 mouse = new THREE.Vector2();
@@ -4283,7 +4272,6 @@ const boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(state.yard.wid
 boundaryLines = new THREE.LineSegments(boundaryGeo, new THREE.LineBasicMaterial({ color: 0x333333 }));
 boundaryLines.position.y = state.gridLevel + 0.03;
 scene.add(boundaryLines);
-// PERF: Reduced outer ground from 500x500 to 200x200 — still covers visible area, fewer vertices for raycasting
 const outerGround = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0x5a7a3a, roughness: 0.95, metalness: 0.0 }));
 outerGround.rotation.x = -Math.PI / 2;
 outerGround.position.y = -0.05;
@@ -4324,7 +4312,6 @@ renderer.setPixelRatio(PIXEL_RATIO);
 requestRender();
 }
 let needsRender = true;
-// PERF: Track active animation sources that need continuous rendering
 let _continuousRenderSources = 0; // walk mode, sun animation, weather, etc.
 function startContinuousRender() { _continuousRenderSources++; }
 function stopContinuousRender() { _continuousRenderSources = Math.max(0, _continuousRenderSources - 1); }
@@ -4364,20 +4351,12 @@ scale: 1,
 };
 state.objects.set(id, obj);
 buildSceneObject(id);
-// Always conform object to terrain surface — even on flat terrain (y=0)
-// this is a no-op, but on deformed terrain it prevents floating/clipping.
 if (state.terrain) updateObjectHeight(id);
 return id;
 }
 let currentSeason = 'summer';
 let _terrainTextureCache = null;
 let _terrainSnowMesh = null;
-// SPRINT 10 — Terrain Material System: vertex colors, procedural textures, snow overlay
-/**
-* Create a procedural noise texture for terrain using CanvasTexture.
-* Generates a subtle multi-octave noise pattern for natural earth appearance.
-* No external files — fully generated in-browser.
-*/
 function createTerrainNoiseTexture() {
 if (_terrainTextureCache) return _terrainTextureCache;
 const size = 256;
@@ -4385,16 +4364,13 @@ const canvas = document.createElement('canvas');
 canvas.width = size;
 canvas.height = size;
 const ctx = canvas.getContext('2d');
-// Base earth tone
 ctx.fillStyle = '#7a8a5a';
 ctx.fillRect(0, 0, size, size);
-// Multi-octave noise for natural variation
 const imageData = ctx.getImageData(0, 0, size, size);
 const data = imageData.data;
 for (let i = 0; i < data.length; i += 4) {
 const x = (i / 4) % size;
 const y = Math.floor((i / 4) / size);
-// Multi-octave value noise
 let n = 0;
 n += Math.sin(x * 0.08) * Math.cos(y * 0.08) * 15;
 n += Math.sin(x * 0.15 + 1.3) * Math.cos(y * 0.12 + 0.7) * 10;
@@ -4413,10 +4389,6 @@ texture.repeat.set(8, 8);
 _terrainTextureCache = texture;
 return texture;
 }
-/**
-* Create the terrain material — MeshStandardMaterial with vertex colors,
-* procedural noise texture, and natural earth roughness.
-*/
 function createTerrainMaterial(opacity) {
 const mat = new THREE.MeshStandardMaterial({
 color: 0x6b8a4a,
@@ -4428,7 +4400,6 @@ metalness: 0.0,
 vertexColors: true,
 flatShading: false,
 });
-// Add procedural noise texture for surface detail
 try {
 const tex = createTerrainNoiseTexture();
 if (tex) {
@@ -4438,10 +4409,6 @@ mat.map = tex;
 mat.userData = { seasonalGrass: 0x6b8a4a, isWinter: false };
 return mat;
 }
-/**
-* Compute slope at a terrain vertex using neighbor heights.
-* Returns slope as a ratio (rise/run). 0 = flat, 1 = 45 degrees.
-*/
 function computeTerrainSlope(ix, iz, segs, cellW, cellD) {
 function hAt(x, z) {
 const ixx = Math.max(0, Math.min(segs, x));
@@ -4456,22 +4423,12 @@ const dx = (hR - hL) / (2 * cellW);
 const dz = (hU - hD) / (2 * cellD);
 return Math.sqrt(dx * dx + dz * dz);
 }
-/**
-* Apply vertex colors to the terrain mesh based on height and slope.
-* - Flat areas (slope < 0.15): green grass, tinted by season
-* - Moderate slopes (0.15-0.35): brown dirt blend
-* - Steep slopes (> 0.35): rocky gray
-* - Low areas (negative height): darker, damp earth
-* Smoothly blends between all zones.
-*/
 function applyTerrainVertexColors() {
 if (!yardMesh || !yardMesh.geometry) return;
 const geo = yardMesh.geometry;
 const pos = geo.attributes.position;
 if (!pos) return;
-// Determine if height colors overlay is active — if so, don't override
 if (typeof terrainHeightColorsActive !== 'undefined' && terrainHeightColorsActive && state.terrain) return;
-// Get seasonal grass color
 const mat = yardMesh.material;
 const seasonalHex = (mat && mat.userData && mat.userData.seasonalGrass) || 0x6b8a4a;
 const isWinter = (mat && mat.userData && mat.userData.isWinter) || false;
@@ -4480,7 +4437,6 @@ const dirtColor = new THREE.Color(0x8b6f47);
 const rockColor = new THREE.Color(0x7a7a6e);
 const darkEarthColor = new THREE.Color(0x4a5a3a);
 const _tmpColor = new THREE.Color();
-// Ensure color attribute exists
 if (!geo.attributes.color) {
 geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(pos.count * 3), 3));
 }
@@ -4490,7 +4446,6 @@ const halfW = state.yard.width / 2;
 const halfD = state.yard.depth / 2;
 const cellW = state.yard.width / segs;
 const cellD = state.yard.depth / segs;
-// Height range for normalization
 let minH = 0, maxH = 0;
 if (state.terrain) {
 minH = Infinity; maxH = -Infinity;
@@ -4504,7 +4459,6 @@ if (maxH === -Infinity) maxH = 0;
 const heightRange = Math.max(0.01, maxH - minH);
 for (let i = 0; i < pos.count; i++) {
 const py = pos.getY(i);
-// Compute slope if terrain data exists
 let slope = 0;
 if (state.terrain && segs > 0) {
 const px = pos.getX(i);
@@ -4513,48 +4467,38 @@ const ix = Math.round((px + halfW) / cellW);
 const iz = Math.round((pz + halfD) / cellD);
 slope = computeTerrainSlope(ix, iz, segs, cellW, cellD);
 }
-// Height normalization [0,1]
 const heightT = state.terrain ? Math.max(0, Math.min(1, (py - minH) / heightRange)) : 0.5;
-// Determine zone weights based on slope
 const grassWeight = Math.max(0, 1 - smoothstep(0.10, 0.25, slope));
 const dirtWeight = smoothstep(0.10, 0.20, slope) * (1 - smoothstep(0.30, 0.45, slope));
 const rockWeight = smoothstep(0.30, 0.45, slope);
-// Height-based modulation: low areas darker, high areas slightly lighter
 let heightMod = 1.0;
 if (py < -0.5) {
-// Low/damp areas — blend toward dark earth
 heightMod = 0.7;
 _tmpColor.copy(darkEarthColor).lerp(grassColor, grassWeight * 0.5);
 } else if (py > 2) {
-// Higher areas — slightly lighter grass, more rocky tendency
 heightMod = 1.05 + heightT * 0.1;
 _tmpColor.copy(grassColor);
 } else {
 _tmpColor.copy(grassColor);
 }
-// Blend zone colors by weighted sum
 let r = 0, g = 0, b = 0;
 const gw = grassWeight, dw = dirtWeight, rw = rockWeight;
 r = grassColor.r * gw + dirtColor.r * dw + rockColor.r * rw;
 g = grassColor.g * gw + dirtColor.g * dw + rockColor.g * rw;
 b = grassColor.b * gw + dirtColor.b * dw + rockColor.b * rw;
-// Normalize weights
 const totalWeight = gw + dw + rw;
 if (totalWeight > 0.001) {
 r /= totalWeight;
 g /= totalWeight;
 b /= totalWeight;
 }
-// Apply height modulation
 r *= heightMod;
 g *= heightMod;
 b *= heightMod;
-// Add slight per-vertex noise for natural variation
 const noiseVar = 0.92 + ((i * 0.737) % 1) * 0.16; // deterministic pseudo-noise
 r *= noiseVar;
 g *= noiseVar;
 b *= noiseVar;
-// Clamp and store
 colors.setXYZ(i,
 Math.max(0, Math.min(1, r)),
 Math.max(0, Math.min(1, g)),
@@ -4567,17 +4511,11 @@ mat.vertexColors = true;
 mat.needsUpdate = true;
 }
 }
-/** Smooth interpolation function (GLSL smoothstep equivalent). */
 function smoothstep(edge0, edge1, x) {
 const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
 return t * t * (3 - 2 * t);
 }
-/**
-* Create/update a snow overlay mesh for winter season.
-* Covers terrain surface with white, thicker on flat areas, thinner on steep slopes.
-*/
 function updateTerrainSnowOverlay() {
-// Remove existing snow mesh
 if (_terrainSnowMesh) {
 if (yardMesh && yardMesh.parent) yardMesh.parent.remove(_terrainSnowMesh);
 if (_terrainSnowMesh.geometry) _terrainSnowMesh.geometry.dispose();
@@ -4592,7 +4530,6 @@ const halfW = state.yard.width / 2;
 const halfD = state.yard.depth / 2;
 const cellW = state.yard.width / segs;
 const cellD = state.yard.depth / segs;
-// Build snow overlay as a mesh slightly above terrain
 const geo = new THREE.PlaneGeometry(state.yard.width, state.yard.depth, segs, segs);
 geo.rotateX(-Math.PI / 2);
 const pos = geo.attributes.position;
@@ -4605,7 +4542,6 @@ const iz = Math.round((pz + halfD) / cellD);
 const vi = iz * (segs + 1) + ix;
 const h = state.terrain[vi] || 0;
 pos.setY(i, h + 0.04);
-// Snow opacity based on slope — flat = full snow, steep = less
 const slope = computeTerrainSlope(ix, iz, segs, cellW, cellD);
 const snowAmount = Math.max(0, 1 - smoothstep(0.2, 0.5, slope));
 colors[i * 3] = 0.92 + snowAmount * 0.08;
@@ -4685,15 +4621,11 @@ return new THREE.Color('#4a8b5c');
 function applySeasonalGroundColor() {
 if (!yardMesh || !yardMesh.material) return;
 const pal = SEASON_FOLIAGE[currentSeason] || SEASON_FOLIAGE.summer;
-// Store seasonal base color for vertex color blending
 yardMesh.material.userData = yardMesh.material.userData || {};
 yardMesh.material.userData.seasonalGrass = pal.grass;
 yardMesh.material.userData.isWinter = currentSeason === 'winter';
-// Set base color as seasonal grass tint
 yardMesh.material.color.setHex(pal.grass);
-// Re-apply vertex colors with seasonal tinting
 applyTerrainVertexColors();
-// Handle snow overlay in winter
 updateTerrainSnowOverlay();
 if (typeof requestRender === 'function') requestRender();
 }
@@ -4719,7 +4651,6 @@ child.userData.objectId = id;
 });
 scene.add(group);
 sceneObjects.set(id, group);
-// Refresh foundation walls after rebuild (object params may have changed).
 updateFoundationWalls(id);
 updateBuriedIndicator(id);
 requestRender();
@@ -4879,7 +4810,6 @@ if (hit) {
 touchState.startOnObject = hit.objectId;
 if (state.selectedId === hit.objectId) {
 }
-// Start long-press timer for context menu on objects
 if (touchState.longPressTimer) clearTimeout(touchState.longPressTimer);
 touchState.longPressTimer = setTimeout(() => {
 if (touchState.active && !touchState.moved && !touchState.longPressFired) {
@@ -4903,7 +4833,6 @@ const dist = Math.sqrt(dx * dx + dy * dy);
 if (dist > TAP_MOVEMENT_THRESHOLD) {
 touchState.moved = true;
 }
-// Cancel long-press if moved too far
 if (dist > LONG_PRESS_THRESHOLD && touchState.longPressTimer) {
 clearTimeout(touchState.longPressTimer);
 touchState.longPressTimer = null;
@@ -4945,14 +4874,10 @@ touchState.active = false;
 return;
 }
 if (!touchState.active) return;
-
-// Cancel long-press timer
 if (touchState.longPressTimer) {
 clearTimeout(touchState.longPressTimer);
 touchState.longPressTimer = null;
 }
-
-// If long-press already fired (context menu shown), don't also process tap
 if (touchState.longPressFired) {
 touchState.active = false;
 touchState.startOnObject = null;
@@ -4960,7 +4885,6 @@ touchState.isObjectDrag = false;
 touchState.longPressFired = false;
 return;
 }
-
 const elapsed = Date.now() - touchState.startTime;
 const dx = e.clientX - touchState.startX;
 const dy = e.clientY - touchState.startY;
@@ -5000,19 +4924,11 @@ canvas.addEventListener('pointermove', onTouchPointerMove, true);
 canvas.addEventListener('pointerup', onTouchPointerUp, true);
 canvas.addEventListener('pointercancel', onTouchPointerUp, true);
 }
-
-// ============================================================
-// MOBILE CONTEXT MENU (long-press on object)
-// Shows a small popup with Select / Duplicate / Delete / Rotate options
-// ============================================================
 function _showMobileContextMenu(x, y, objectId) {
-// Remove any existing context menu
 const existing = document.getElementById('mobile-ctx-menu');
 if (existing) existing.remove();
-
 const obj = state.objects.get(objectId);
 if (!obj) return;
-
 const menu = document.createElement('div');
 menu.id = 'mobile-ctx-menu';
 menu.style.cssText = [
@@ -5028,14 +4944,12 @@ menu.style.cssText = [
 'font-size:14px',
 'font-family:inherit',
 ].join(';');
-
 const actions = [
 { label: '✓ Select', action: () => selectObject(objectId) },
 { label: '⧉ Duplicate', action: () => { selectObject(objectId); if (typeof duplicateSelected === 'function') duplicateSelected(); } },
 { label: '↻ Rotate 90°', action: () => { selectObject(objectId); if (typeof rotateSelected === 'function') rotateSelected(); else { obj.rotation = (obj.rotation || 0) + 90; buildSceneObject(objectId); } } },
 { label: '✕ Delete', action: () => { if (typeof removeObject === 'function') removeObject(objectId); else { state.objects.delete(objectId); const g = sceneObjects.get(objectId); if (g) scene.remove(g); sceneObjects.delete(objectId); } requestRender(); }, danger: true },
 ];
-
 for (const act of actions) {
 const btn = document.createElement('button');
 btn.textContent = act.label;
@@ -5061,14 +4975,9 @@ btn.addEventListener('mouseenter', () => { btn.style.background = act.danger ? '
 btn.addEventListener('mouseleave', () => { btn.style.background = 'none'; });
 menu.appendChild(btn);
 }
-
-// Position menu, keeping it within viewport
 menu.style.left = Math.min(x, window.innerWidth - 250) + 'px';
 menu.style.top = Math.min(y, window.innerHeight - 250) + 'px';
-
 document.body.appendChild(menu);
-
-// Close on tap outside
 const closeHandler = (ev) => {
 if (!menu.contains(ev.target)) {
 menu.remove();
@@ -5077,14 +4986,12 @@ document.removeEventListener('pointerdown', closeHandler, true);
 };
 setTimeout(() => document.addEventListener('pointerdown', closeHandler, true), 100);
 }
-
 let isDragging = false;
 let dragStartPos = null;
 let dragObject = null;
 function onPointerDown(e) {
 if (!renderer || !scene || !raycaster || !mouse || !activeCamera) return;
 if (e.button === 2) {
-// Right-click: show context menu on objects
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -5121,7 +5028,6 @@ if (hits.length > 0) {
 const objHit = hits.find(h => h.object.userData.objectId !== undefined);
 if (objHit) {
 const objId = objHit.object.userData.objectId;
-// Expert: Multi-select with Shift+click or Ctrl+click
 if (e.shiftKey || e.ctrlKey) {
 selectObjectMulti(objId, true);
 return;
@@ -5612,11 +5518,7 @@ state.terrain = null;
 } else {
 state.terrain = null;
 }
-// Sprint 10: Only override terrainSegs from the save file's explicit field if it matches the terrain data.
-// If terrain data was loaded with a detected segs count, keep that. Otherwise use the save's field or default.
 if (state.terrain) {
-// Terrain array was loaded — segs already set from detection (line 5312) or matched expected.
-// Only override if the save file explicitly specifies a different segs AND it matches the array.
 const savedSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 && data.terrainSegs <= 1000 ? data.terrainSegs : null;
 const arrayLen = state.terrain.length;
 const arraySegs = Math.round(Math.sqrt(arrayLen)) - 1;
@@ -5626,7 +5528,6 @@ state.terrainSegs = savedSegs;
 state.terrainSegs = arraySegs; // trust the array length
 }
 } else {
-// No terrain data — use save's field or default to 200
 state.terrainSegs = typeof data.terrainSegs === 'number' && data.terrainSegs > 0 && data.terrainSegs <= 1000 ? data.terrainSegs : 200;
 }
 if (typeof data.gridLevel === 'number' && Number.isFinite(data.gridLevel)) {
@@ -5795,7 +5696,6 @@ updateGridLabels();
 requestRender();
 });
 function buildLibrary() {
-// PERF: Use document fragment to batch DOM writes (reduces layout thrashing)
 const frag = document.createDocumentFragment();
 const lib = document.getElementById('library');
 for (const cat of CATEGORIES) {
@@ -5826,12 +5726,10 @@ showToast(item.name + ' added! Drag to reposition');
 showHint('Drag to position • Click empty space to deselect');
 setTimeout(hideHint, 3000);
 trackRecentObject(key);
-// Auto-hide getting started hint after first object
 const gsHint = document.getElementById('getting-started-hint');
 if (gsHint) gsHint.style.display = 'none';
 announceForScreenReader(`Added ${item.name} to yard`);
 });
-// Keyboard activation: Enter or Space
 el.addEventListener('keydown', (ev) => {
 if (ev.key === 'Enter' || ev.key === ' ') {
 ev.preventDefault();
@@ -5843,12 +5741,10 @@ itemsFrag.appendChild(el);
 itemsDiv.appendChild(itemsFrag);
 frag.appendChild(section);
 lib.appendChild(frag);
-// Toggle collapse — mouse click
 catTitle.addEventListener('click', () => {
 section.classList.toggle('collapsed');
 catTitle.setAttribute('aria-expanded', section.classList.contains('collapsed') ? 'false' : 'true');
 });
-// Toggle collapse — keyboard activation
 catTitle.addEventListener('keydown', (ev) => {
 if (ev.key === 'Enter' || ev.key === ' ') {
 ev.preventDefault();
@@ -5857,20 +5753,13 @@ catTitle.click();
 });
 }
 }
-
-// ============================================================
-// EXPERT USER: RECENTLY USED OBJECTS
-// ============================================================
 function trackRecentObject(type) {
-// Remove if already in list, then add to front
 const idx = state.recentObjects.indexOf(type);
 if (idx >= 0) state.recentObjects.splice(idx, 1);
 state.recentObjects.unshift(type);
-// Keep only last 8
 if (state.recentObjects.length > 8) state.recentObjects = state.recentObjects.slice(0, 8);
 updateRecentObjects();
 }
-
 function updateRecentObjects() {
 const container = document.getElementById('recent-items');
 if (!container) return;
@@ -5898,10 +5787,6 @@ trackRecentObject(type);
 container.appendChild(chip);
 }
 }
-
-// ============================================================
-// EXPERT USER: MULTI-SELECT FUNCTIONS
-// ============================================================
 function selectObjectMulti(id, additive) {
 if (additive) {
 if (state.selectedIds.has(id)) {
@@ -5913,11 +5798,9 @@ state.selectedIds.add(id);
 state.selectedIds.clear();
 state.selectedIds.add(id);
 }
-// Set primary selection
 if (state.selectedIds.size === 1) {
 selectObject(id);
 } else if (state.selectedIds.size > 1) {
-// Multi-select mode: highlight all selected
 state.selectedId = id;
 showProperties(id);
 updateMultiSelectHighlights();
@@ -5927,9 +5810,7 @@ deselectObject();
 hideBatchBar();
 }
 }
-
 function updateMultiSelectHighlights() {
-// Clear all highlights first
 sceneObjects.forEach((group, oid) => {
 group.traverse(child => {
 if (child.isMesh && child.material && child.userData.origEmissive !== undefined) {
@@ -5937,7 +5818,6 @@ if (child.material.emissive) child.material.emissive.setHex(child.userData.origE
 }
 });
 });
-// Highlight all selected
 state.selectedIds.forEach(oid => {
 const group = sceneObjects.get(oid);
 if (group) {
@@ -5953,15 +5833,10 @@ if (child.material.emissive) child.material.emissive.setHex(0x333311);
 });
 requestRender();
 }
-
 function clearMultiSelect() {
 state.selectedIds.clear();
 hideBatchBar();
 }
-
-// ============================================================
-// EXPERT USER: BATCH OPERATIONS
-// ============================================================
 function deleteAllSelected() {
 if (state.selectedIds.size === 0 && state.selectedId !== null) {
 state.selectedIds.add(state.selectedId);
@@ -5978,10 +5853,8 @@ clearMultiSelect();
 deselectObject();
 showToast(`Deleted ${ids.length} object(s) — press Undo to restore`, 'info');
 }
-
 function deleteByType() {
 if (state.selectedId === null && state.selectedIds.size === 0) return;
-// Get the type of the selected object
 let targetType;
 if (state.selectedIds.size > 0) {
 const firstId = Array.from(state.selectedIds)[0];
@@ -5993,7 +5866,6 @@ const obj = state.objects.get(state.selectedId);
 if (!obj) return;
 targetType = obj.type;
 }
-// Find all objects of the same type
 const idsToDelete = [];
 const copies = [];
 state.objects.forEach((obj, id) => {
@@ -6012,7 +5884,6 @@ clearMultiSelect();
 deselectObject();
 showToast(`Deleted ${idsToDelete.length} ${CATALOG[targetType]?.name || targetType}(s) — press Undo to restore`, 'info');
 }
-
 function selectAllObjects() {
 const ids = Array.from(state.objects.keys());
 if (ids.length === 0) return;
@@ -6025,7 +5896,6 @@ showBatchBar();
 }
 showToast(`Selected ${ids.length} object(s)`, 'info');
 }
-
 function showBatchBar() {
 const bar = document.getElementById('batch-bar');
 if (!bar) return;
@@ -6033,15 +5903,10 @@ const count = document.getElementById('batch-count');
 if (count) count.textContent = `${state.selectedIds.size} selected`;
 bar.classList.add('visible');
 }
-
 function hideBatchBar() {
 const bar = document.getElementById('batch-bar');
 if (bar) bar.classList.remove('visible');
 }
-
-// ============================================================
-// EXPERT USER: COMMAND PALETTE (Ctrl+K)
-// ============================================================
 const CMD_ITEMS = [
 { cat: 'View', icon: '🌐', label: 'Switch to 3D View', shortcut: 'V', action: () => switchView('3d') },
 { cat: 'View', icon: '🗺️', label: "Switch to Bird's-eye View", shortcut: 'B', action: () => switchView('2d') },
@@ -6071,21 +5936,17 @@ const CMD_ITEMS = [
 { cat: 'Tools', icon: '📤', label: 'Share Design', action: () => document.getElementById('btn-share').click() },
 { cat: 'Help', icon: '❓', label: 'Help & Shortcuts', action: () => document.getElementById('btn-help').click() },
 ];
-
 function openDockByTab(dockId) {
 const tab = document.querySelector(`.td-tab[data-dock="${dockId}"]`);
 if (tab) tab.click();
 }
-
 function switchView(mode) {
 const btn = document.querySelector(`#view-toggle button[data-view="${mode}"]`);
 if (btn) btn.click();
 }
-
 let cmdPaletteOpen = false;
 let cmdSelectedIdx = 0;
 let cmdFilteredItems = [];
-
 function openCommandPalette() {
 const overlay = document.getElementById('cmd-palette-overlay');
 const input = document.getElementById('cmd-palette-input');
@@ -6096,13 +5957,11 @@ cmdPaletteOpen = true;
 cmdSelectedIdx = 0;
 renderCommandPalette('');
 }
-
 function closeCommandPalette() {
 const overlay = document.getElementById('cmd-palette-overlay');
 overlay.classList.remove('visible');
 cmdPaletteOpen = false;
 }
-
 function renderCommandPalette(query) {
 const results = document.getElementById('cmd-palette-results');
 if (!query) {
@@ -6132,7 +5991,6 @@ if (cmdFilteredItems.length === 0) {
 html = '<div class="cmd-item" style="color:var(--text-muted);">No commands found</div>';
 }
 results.innerHTML = html;
-// Wire up click handlers
 results.querySelectorAll('.cmd-item[data-idx]').forEach(el => {
 el.addEventListener('click', () => {
 const idx = parseInt(el.dataset.idx);
@@ -6143,7 +6001,6 @@ closeCommandPalette();
 });
 });
 }
-
 function setupCommandPalette() {
 const input = document.getElementById('cmd-palette-input');
 input.addEventListener('input', e => renderCommandPalette(e.target.value));
@@ -6171,21 +6028,15 @@ document.getElementById('cmd-palette-overlay').addEventListener('click', e => {
 if (e.target.id === 'cmd-palette-overlay') closeCommandPalette();
 });
 }
-
 function updateCmdSelection() {
 const items = document.querySelectorAll('#cmd-palette-results .cmd-item');
 items.forEach((el, i) => {
 const idx = parseInt(el.dataset.idx);
 el.classList.toggle('selected', idx === cmdSelectedIdx);
 });
-// Scroll selected into view
 const selected = document.querySelector('#cmd-palette-results .cmd-item.selected');
 if (selected) selected.scrollIntoView({ block: 'nearest' });
 }
-
-// ============================================================
-// EXPERT USER: RIGHT-CLICK CONTEXT MENU
-// ============================================================
 function showContextMenu(clientX, clientY, objectId) {
 const menu = document.getElementById('ctx-menu');
 const obj = state.objects.get(objectId);
@@ -6208,11 +6059,9 @@ menu.innerHTML = html;
 menu.style.left = clientX + 'px';
 menu.style.top = clientY + 'px';
 menu.classList.add('visible');
-// Adjust if off-screen
 const rect = menu.getBoundingClientRect();
 if (rect.right > window.innerWidth) menu.style.left = (window.innerWidth - rect.width - 10) + 'px';
 if (rect.bottom > window.innerHeight) menu.style.top = (window.innerHeight - rect.height - 10) + 'px';
-// Wire up actions
 menu.querySelectorAll('.ctx-item').forEach(item => {
 item.addEventListener('click', () => {
 const action = item.dataset.action;
@@ -6221,11 +6070,9 @@ hideContextMenu();
 });
 });
 }
-
 function hideContextMenu() {
 document.getElementById('ctx-menu').classList.remove('visible');
 }
-
 function handleContextAction(action, objectId) {
 const obj = state.objects.get(objectId);
 if (!obj) return;
@@ -6265,15 +6112,9 @@ selectObject(objectId);
 break;
 }
 }
-
-// Close context menu on click anywhere else or Escape
 document.addEventListener('click', e => {
 if (!e.target.closest('#ctx-menu')) hideContextMenu();
 });
-
-// ============================================================
-// EXPERT USER: SAVE-AS FUNCTION
-// ============================================================
 function saveDesignAs() {
 const data = serializeDesign();
 const name = prompt('Save design as:', 'my-yard-design');
@@ -6289,7 +6130,6 @@ document.body.removeChild(a);
 URL.revokeObjectURL(url);
 showToast('Design saved as: ' + name);
 }
-
 let wizardStep = 0;
 let wizardData = { shape: 'rectangle', width: 50, depth: 100 };
 function renderWizard() {
@@ -6475,23 +6315,15 @@ if (state.terrain) {
 applyTerrainToMesh();
 state.objects.forEach((_, id) => updateObjectHeight(id));
 } else {
-// PERF: Lazy voxel init - only build voxels when actually needed
 if (_buildVoxelsLazy) _buildVoxelsLazy();
 else { initVoxelsFromTerrain(); buildVoxelMesh(); }
 }
 updateAllBuriedIndicators();
 updateVoxelInfoDisplay();
 requestRender();
-
-// First-time user onboarding: show a welcome hint guiding them to start
 showWelcomeOnboarding();
 }
-
-// ============================================================
-// FIRST-TIME USER ONBOARDING
-// ============================================================
 function showWelcomeOnboarding() {
-// Show a persistent welcome hint for first-time users
 const hint = document.getElementById('context-hint');
 if (hint) {
 hint.textContent = '👋 Click an item from the left panel to add it to your yard';
@@ -6518,18 +6350,12 @@ hint.style.textAlign = '';
 hint.style.lineHeight = '';
 };
 }
-
-// Show a toast welcoming the user
 setTimeout(() => {
-  // Skip the old toast if the new onboarding system is showing the welcome prompt
   const newWP = document.getElementById('welcome-prompt');
   if (newWP && newWP.classList.contains('visible')) return;
   showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.', 'info');
 }, 500);
 }
-// ============================================================
-// HELP MODAL — with focus management for accessibility
-// ============================================================
 let _modalLastFocus = null;
 function openModal(modalId) {
 const modal = document.getElementById(modalId);
@@ -6537,7 +6363,6 @@ if (!modal) return;
 _modalLastFocus = document.activeElement;
 modal.classList.add('visible');
 modal.setAttribute('aria-hidden', 'false');
-// Move focus to first focusable element inside modal
 const focusable = modal.querySelector('button, a, input, select, textarea, [tabindex]');
 if (focusable) focusable.focus();
 else { modal.setAttribute('tabindex', '-1'); modal.focus(); }
@@ -6547,7 +6372,6 @@ const modal = document.getElementById(modalId);
 if (!modal) return;
 modal.classList.remove('visible');
 modal.setAttribute('aria-hidden', 'true');
-// Return focus to the trigger element
 if (_modalLastFocus) _modalLastFocus.focus();
 }
 document.getElementById('btn-help').addEventListener('click', () => {
@@ -6556,7 +6380,6 @@ openModal('help-modal');
 document.getElementById('help-modal').addEventListener('click', e => {
 if (e.target.id === 'help-modal') closeModal('help-modal');
 });
-// Close help modal on Escape key
 document.addEventListener('keydown', e => {
 if (e.key === 'Escape') {
 const helpModal = document.getElementById('help-modal');
@@ -6566,7 +6389,6 @@ e.stopPropagation();
 }
 }
 }, true);
-// Close help modal via "Got It!" button
 document.getElementById('help-close-btn')?.addEventListener('click', () => {
 closeModal('help-modal');
 });
@@ -6577,8 +6399,6 @@ toast.textContent = msg;
 toast.classList.add('visible');
 if (toastTimer) clearTimeout(toastTimer);
 toastTimer = setTimeout(() => toast.classList.remove('visible'), 3000);
-// Toast has aria-live="polite", so the text update is auto-announced.
-// Also call announceForScreenReader as a fallback for older AT.
 announceForScreenReader(msg);
 }
 let hintTimer = null;
@@ -6593,7 +6413,6 @@ document.getElementById('context-hint').classList.remove('visible');
 }
 document.addEventListener('keydown', e => {
 if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-// Close command palette on Escape regardless
 if (cmdPaletteOpen && e.key === 'Escape') { e.preventDefault(); closeCommandPalette(); return; }
 if (cmdPaletteOpen) return; // Let palette handle its own keys
 if (e.ctrlKey || e.metaKey) {
@@ -6929,7 +6748,6 @@ pos.setY(i, 0);
 }
 pos.needsUpdate = true;
 geo.computeVertexNormals();
-// SPRINT 10: Restore flat terrain vertex colors
 applyTerrainVertexColors();
 if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay();
 state.objects.forEach((_, id) => updateObjectHeight(id));
@@ -6941,7 +6759,6 @@ redo: () => { state.terrain = null; state.terrainDeformed = false; const geo2 = 
 requestRender();
 showToast('Terrain flattened', 'success');
 });
-// Smooth Terrain button — applies Laplacian smoothing pass
 (function() {
 const btn = document.getElementById('terrain-smooth-pass');
 if (btn) {
@@ -7002,9 +6819,6 @@ const h01 = state.terrain[iz1 * (segs + 1) + ix0] || 0;
 const h11 = state.terrain[iz1 * (segs + 1) + ix1] || 0;
 return (1-tx)*(1-tz)*h00 + tx*(1-tz)*h10 + (1-tx)*tz*h01 + tx*tz*h11;
 }
-// Average terrain height across an object's footprint — used to find the
-// mean surface level for wide objects so they sit on the average ground
-// rather than just the center point.
 function getTerrainHeightAvg(worldX, worldZ, halfW, halfD) {
 const samples = [
 [worldX, worldZ],
@@ -7021,9 +6835,6 @@ let sum = 0;
 for (const [sx, sz] of samples) sum += getTerrainHeight(sx, sz);
 return sum / samples.length;
 }
-// Per-object-type embedding offset (feet). Positive = sink into ground so
-// there's no visible gap between the object base and the terrain surface.
-// Trees get a trunk embed; flat objects sit flush; furniture rests on top.
 const EMBED_OFFSETS = {
 tree_deciduous: 0.5,
 tree_evergreen: 0.5,
@@ -7047,10 +6858,7 @@ lounge: 0.0,
 grill: 0.0,
 lawn: 0.0,
 };
-// Terrain-deforming (heavy) object types — placement flattens the terrain
-// beneath them to create a level building pad.
 const HEAVY_OBJECT_TYPES = new Set(['shed', 'pool_inground', 'retaining_wall']);
-// Flat-surface object types that get visible foundation walls on sloped terrain.
 const FLAT_OBJECT_TYPES = new Set(['patio', 'deck', 'walkway', 'shed', 'raised_bed']);
 const EARTH_DEPTH_BELOW_MIN = 15;
 const EXCAVATION_EARTH_COLOR = 0x5C4033;
@@ -7149,7 +6957,6 @@ if (state.terrain[i] < minH) minH = state.terrain[i];
 if (minH === Infinity) minH = 0;
 return minH - EARTH_DEPTH_BELOW_MIN;
 }
-/** Compute voxel grid dimensions from yard size and constants. */
 function computeVoxelDims() {
 voxelNX = Math.ceil(state.yard.width / VOXEL_SIZE);
 voxelNZ = Math.ceil(state.yard.depth / VOXEL_SIZE);
@@ -7159,7 +6966,6 @@ voxelNY = Math.ceil((topY - bottomY) / VOXEL_SIZE);
 voxelOriginX = -state.yard.width / 2;
 voxelOriginZ = -state.yard.depth / 2;
 }
-/** Convert voxel indices to world coordinates (center of the voxel). */
 function voxelToWorld(ix, iy, iz) {
 const bottomY = state.gridLevel - VOXEL_DEPTH;
 return {
@@ -7168,7 +6974,6 @@ y: bottomY + (iy + 0.5) * VOXEL_SIZE,
 z: voxelOriginZ + (iz + 0.5) * VOXEL_SIZE,
 };
 }
-/** Convert world coordinates to voxel indices (floor). Returns null if out of range. */
 function worldToVoxel(wx, wy, wz) {
 const bottomY = state.gridLevel - VOXEL_DEPTH;
 const ix = Math.floor((wx - voxelOriginX) / VOXEL_SIZE);
@@ -7177,23 +6982,16 @@ const iz = Math.floor((wz - voxelOriginZ) / VOXEL_SIZE);
 if (ix < 0 || ix >= voxelNX || iy < 0 || iy >= voxelNY || iz < 0 || iz >= voxelNZ) return null;
 return { ix, iy, iz };
 }
-/** Get voxel value at indices. Returns 0 (empty) for out-of-bounds. */
 function getVoxel(ix, iy, iz) {
 if (!state.voxels) return 0;
 if (ix < 0 || ix >= voxelNX || iy < 0 || iy >= voxelNY || iz < 0 || iz >= voxelNZ) return 0;
 return state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix];
 }
-/** Set voxel value at indices. No-op if out of bounds. */
 function setVoxel(ix, iy, iz, val) {
 if (!state.voxels) return;
 if (ix < 0 || ix >= voxelNX || iy < 0 || iy >= voxelNY || iz < 0 || iz >= voxelNZ) return;
 state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = val;
 }
-/**
-* Initialize the voxel grid from the terrain array.
-* All voxels below the terrain surface are solid, all above are empty.
-* The terrain surface height is bilinearly sampled at each voxel column.
-*/
 function initVoxelsFromTerrain() {
 computeVoxelDims();
 const total = voxelNX * voxelNY * voxelNZ;
@@ -7212,13 +7010,6 @@ state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = 1;
 }
 }
 }
-/**
-* Update the voxel grid to match terrain after a terrain edit.
-* Only modifies the surface column — preserves user carvings below.
-* For each column, ensures voxels are solid from bottom up to the new
-* terrain surface, but does NOT fill in voxels that were carved out
-* below the new surface (preserving tunnels/rooms).
-*/
 function updateVoxelsFromTerrain() {
 if (!state.voxels) { initVoxelsFromTerrain(); return; }
 computeVoxelDims();
@@ -7239,11 +7030,6 @@ state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = 0;
 }
 }
 }
-/**
-* Build the voxel surface mesh using a merged BufferGeometry.
-* Only renders faces that are on the boundary (adjacent to an empty voxel).
-* Uses greedy face merging per-slice for performance.
-*/
 function buildVoxelMesh() {
 if (voxelMesh) {
 scene.remove(voxelMesh);
@@ -7379,7 +7165,6 @@ if (typeof wireframeActive !== 'undefined' && wireframeActive) {
 voxelMesh.material.wireframe = true;
 }
 }
-/** Full rebuild: init voxels from terrain (if needed) then build mesh. */
 function rebuildVoxelVolume() {
 if (!state.voxels) {
 initVoxelsFromTerrain();
@@ -7387,14 +7172,12 @@ initVoxelsFromTerrain();
 buildVoxelMesh();
 requestRender();
 }
-/** Count solid voxels — for diagnostics. */
 function countSolidVoxels() {
 if (!state.voxels) return 0;
 let c = 0;
 for (let i = 0; i < state.voxels.length; i++) if (state.voxels[i]) c++;
 return c;
 }
-/** Count surface faces — for diagnostics. */
 function countVoxelFaces() {
 if (!state.voxels) return 0;
 let c = 0;
@@ -7411,16 +7194,6 @@ if (getVoxel(ix+dx, iy+dy, iz+dz) === 0) c++;
 }
 return c;
 }
-/**
-* Carve (remove) voxels within a given shape.
-* @param {string} shape - 'box' | 'cylinder' | 'sphere'
-* @param {number} cx - world center X
-* @param {number} cy - world center Y
-* @param {number} cz - world center Z
-* @param {number} size - radius (sphere/cylinder) or half-extent (box) in ft
-* @param {number} depth - depth extent in ft (for cylinder/box, half-height)
-* @returns {Array} list of {ix,iy,iz,oldVal} for undo
-*/
 function carveShape(shape, cx, cy, cz, size, depth) {
 if (!state.voxels) return [];
 const changed = [];
@@ -7470,9 +7243,6 @@ changed.push({ ix, iy, iz, oldVal: 1 });
 }
 }
 }
-/**
-* Add (fill) voxels within a given shape — for the raise brush in carving mode.
-*/
 function fillShape(shape, cx, cy, cz, size, depth) {
 if (!state.voxels) return [];
 const changed = [];
@@ -7513,26 +7283,16 @@ changed.push({ ix, iy, iz, oldVal: 0 });
 if (changed.length > 0) buildVoxelMesh();
 return changed;
 }
-/**
-* Carve using the terrain excavate brush — a sphere of brushSize radius.
-* Removes voxels centered at the click point.
-*/
 function carveWithBrush(wx, wy, wz) {
 if (!state.voxels) return [];
 const changed = carveShape('sphere', wx, wy, wz, terrainBrushSize, terrainBrushSize);
 return changed;
 }
-/**
-* Fill using the terrain raise brush — a sphere of brushSize radius.
-*/
 function fillWithBrush(wx, wy, wz) {
 if (!state.voxels) return [];
 const changed = fillShape('sphere', wx, wy, wz, terrainBrushSize, terrainBrushSize);
 return changed;
 }
-/**
-* Show a wireframe preview of the carving shape at the given position.
-*/
 function showCarvingPreview(shape, cx, cy, cz, size, depth) {
 if (carvingPreviewMesh) {
 scene.remove(carvingPreviewMesh);
@@ -7569,7 +7329,6 @@ carvingPreviewMesh = null;
 requestRender();
 }
 }
-/** Serialize voxels to a compact RLE-encoded array. */
 function serializeVoxels() {
 if (!state.voxels) return null;
 const rle = [];
@@ -7587,7 +7346,6 @@ runLen = 1;
 rle.push(runVal, runLen);
 return { dims: [voxelNX, voxelNY, voxelNZ], rle, voxelSize: VOXEL_SIZE, depth: VOXEL_DEPTH };
 }
-/** Deserialize RLE-encoded voxels back into state.voxels. */
 function deserializeVoxels(data) {
 if (!data || !data.rle || !data.dims) return false;
 const [nx, ny, nz] = data.dims;
@@ -7610,19 +7368,16 @@ computeVoxelDims();
 state.voxels = arr;
 return true;
 }
-/** Snapshot the entire voxel grid for undo. */
 function snapshotVoxels() {
 if (!state.voxels) return null;
 return new Uint8Array(state.voxels);
 }
-/** Restore a voxel snapshot. */
 function restoreVoxelSnapshot(snap) {
 if (!snap || !state.voxels || snap.length !== state.voxels.length) return;
 state.voxels.set(snap);
 buildVoxelMesh();
 requestRender();
 }
-/** Push a voxel undo/redo command with before/after snapshots. */
 function pushVoxelUndo(beforeSnap, afterSnap) {
 if (!beforeSnap || !afterSnap) return;
 pushCommand({
@@ -7637,7 +7392,6 @@ if (gridHelper) gridHelper.position.y = newLevel + 0.01;
 if (groundPlane) groundPlane.constant = -newLevel;
 if (boundaryLines) boundaryLines.position.y = newLevel + 0.03;
 if (state.voxels) {
-// PERF: Lazy voxel init - only build voxels when actually needed
 if (_buildVoxelsLazy) _buildVoxelsLazy();
 else { initVoxelsFromTerrain(); buildVoxelMesh(); }
 }
@@ -7683,9 +7437,7 @@ pos.setY(i, h);
 }
 pos.needsUpdate = true;
 geo.computeVertexNormals();
-// SPRINT 10: Apply natural vertex colors after terrain deformation
 applyTerrainVertexColors();
-// Update snow overlay if in winter
 if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay();
 if (terrainHeightColorsActive) applyHeightColors();
 if (typeof contourEnabled !== 'undefined' && contourEnabled && typeof buildContourLines === 'function') buildContourLines();
@@ -7699,7 +7451,6 @@ if (state.voxels) {
 updateVoxelsFromTerrain();
 buildVoxelMesh();
 } else {
-// PERF: Lazy voxel init - only build voxels when actually needed
 if (_buildVoxelsLazy) _buildVoxelsLazy();
 else { initVoxelsFromTerrain(); buildVoxelMesh(); }
 updateVoxelInfoDisplay();
@@ -7722,12 +7473,8 @@ const wz = (iz / segs) * state.yard.depth - halfD;
 const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
 if (dist > radius) continue;
 const t = dist / radius;
-// Smooth cosine falloff: (cos(π*t) + 1) / 2 — gives smooth blend at edges
 const falloff = (Math.cos(t * Math.PI) + 1) * 0.5;
 const vi = iz * (segs + 1) + ix;
-/* Edge feathering: smoothly reduce terrain modification near yard boundaries
-   to prevent visible cliffs at edges. The feather zone is 10% of the grid
-   dimension from each border, blending the brush effect to zero. */
 const edgeFade = 0.1;
 const fadeX = Math.min(ix / segs, 1 - ix / segs) / edgeFade;
 const fadeZ = Math.min(iz / segs, 1 - iz / segs) / edgeFade;
@@ -7737,7 +7484,6 @@ state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) + terrainBrushSt
 } else if (terrainBrushMode === 'lower') {
 state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) - terrainBrushStrength * falloff * edgeFactor);
 } else if (terrainBrushMode === 'smooth') {
-// 5x5 smoothing kernel with Gaussian-like weights [1,4,6,4,1] for smoother results
 const smoothRadius = 2;
 const weights = [1, 4, 6, 4, 1];
 let sum = 0, count = 0;
@@ -7783,12 +7529,6 @@ if (dist < radius + 5) updateObjectHeight(id);
 updateAllBuriedIndicators();
 requestRender();
 }
-/**
- * Subdivision smoothing pass: Laplacian smoothing that averages each vertex
- * with its neighbors to remove jagged edges. Called after sculpting operations.
- * @param {number} iterations - Number of smoothing passes (1-3 recommended)
- * @param {number} blendFactor - 0..1, how much of the smoothed result to blend in
- */
 function smoothTerrainPass(iterations, blendFactor) {
 if (!state.terrain || state.terrain.length === 0) return;
 const segs = state.terrainSegs;
@@ -7799,12 +7539,10 @@ const smoothed = new Float32Array(src.length);
 for (let iz = 0; iz < size; iz++) {
 for (let ix = 0; ix < size; ix++) {
 const vi = iz * size + ix;
-// Skip edge vertices to maintain boundary
 if (ix === 0 || ix === segs || iz === 0 || iz === segs) {
 smoothed[vi] = src[vi];
 continue;
 }
-// Laplacian: average of 4 direct neighbors
 const avg = (
 (src[vi - 1] || 0) + (src[vi + 1] || 0) +
 (src[vi - size] || 0) + (src[vi + size] || 0)
@@ -7812,7 +7550,6 @@ const avg = (
 smoothed[vi] = clampTerrainHeight(src[vi] * (1 - blendFactor) + avg * blendFactor);
 }
 }
-// Copy smoothed back for next iteration
 for (let i = 0; i < src.length; i++) src[i] = smoothed[i];
 }
 applyTerrainToMesh();
@@ -7825,9 +7562,6 @@ if (!obj) return;
 const group = sceneObjects.get(id);
 if (!group) return;
 const cat = CATALOG[obj.type];
-// For wide/flat objects, sample the average terrain height across the
-// footprint so they sit on the mean surface rather than just center.
-// Vertical objects (trees, bushes, fences, furniture) use center point only.
 let h;
 if (cat && typeof cat.footprint === 'function' && FLAT_OBJECT_TYPES.has(obj.type)) {
 const fp = cat.footprint(obj.params);
@@ -7841,22 +7575,16 @@ h = getTerrainHeight(obj.position.x, obj.position.z);
 } else {
 h = getTerrainHeight(obj.position.x, obj.position.z);
 }
-// Apply per-type embedding offset so object bases sink slightly into ground.
 const embed = EMBED_OFFSETS[obj.type] || 0;
 const finalY = h - embed;
 obj.position.y = finalY;
 group.position.set(obj.position.x, finalY, obj.position.z);
-// Add or refresh foundation walls for flat objects on sloped terrain.
 updateFoundationWalls(id);
 updateBuriedIndicator(id);
 }
 const buriedIndicatorMeshes = new Map();
-// Foundation walls: for flat objects on sloped terrain, create visible
-// retaining walls around the base to prevent the object from appearing
-// to float on the downhill side or clip into the uphill side.
 const foundationWallMeshes = new Map();
 function updateFoundationWalls(id) {
-// Remove existing foundation walls for this object.
 if (foundationWallMeshes.has(id)) {
 const old = foundationWallMeshes.get(id);
 scene.remove(old);
@@ -7876,7 +7604,6 @@ const fp = cat.footprint(obj.params);
 const w = fp.w || 1, d = fp.d || 1;
 const hw = w / 2, hd = d / 2;
 const baseY = obj.position.y;
-// Sample terrain at the four corners and edges to determine max gap.
 const samples = [
 [-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd],
 [-hw, 0], [hw, 0], [0, -hd], [0, hd],
@@ -7887,13 +7614,11 @@ const terrainY = getTerrainHeight(obj.position.x + dx, obj.position.z + dz);
 const gap = baseY - terrainY;
 if (gap > maxGap) maxGap = gap;
 }
-// Only add foundation walls if there's a meaningful gap (> 0.3 ft).
 if (maxGap < 0.3) return;
 const wallHeight = Math.min(maxGap + 0.2, 8);
 const wallThickness = 0.3;
 const wallMat = new THREE.MeshLambertMaterial({ color: 0x807070 });
 const group = new THREE.Group();
-// Four walls around the perimeter.
 const walls = [
 [0, -hd, w, wallHeight, wallThickness],   // front
 [0, hd, w, wallHeight, wallThickness],     // back
@@ -7915,8 +7640,6 @@ scene.add(group);
 foundationWallMeshes.set(id, group);
 requestRender();
 }
-// Terrain deformation: flatten terrain beneath heavy objects to create a
-// level building pad. Returns true if terrain was modified.
 function flattenTerrainForObject(obj) {
 if (!state.terrain) return false;
 if (!HEAVY_OBJECT_TYPES.has(obj.type)) return false;
@@ -7925,20 +7648,16 @@ if (!cat || typeof cat.footprint !== 'function') return false;
 const fp = cat.footprint(obj.params);
 const w = fp.w || 1, d = fp.d || 1;
 const hw = w / 2, hd = d / 2;
-// Sample the average terrain height at the center to use as pad level.
 const padLevel = getTerrainHeightAvg(obj.position.x, obj.position.z, hw, hd);
 const segs = state.terrainSegs;
 const halfWY = state.yard.width / 2;
 const halfDY = state.yard.depth / 2;
-// Flatten all terrain vertices within the object footprint.
 for (let iz = 0; iz <= segs; iz++) {
 for (let ix = 0; ix <= segs; ix++) {
 const worldX = (ix / segs) * state.yard.width - halfWY;
 const worldZ = (iz / segs) * state.yard.depth - halfDY;
 const dx = worldX - obj.position.x;
 const dz = worldZ - obj.position.z;
-// Check if this vertex is within the footprint (plus small margin).
-// Rotate the delta by -obj.rotation to account for object orientation.
 const cos = Math.cos(-obj.rotation);
 const sin = Math.sin(-obj.rotation);
 const rdx = dx * cos - dz * sin;
@@ -9449,8 +9168,7 @@ break;
 state.terrain[vi] = clampTerrainHeight(h);
 }
 }
-/* Apply edge feathering to presets so terrain smoothly returns to zero
-   at yard boundaries, preventing visible cliffs. */
+/* Preset edge feathering */
 const edgeFadePreset = 0.08;
 for (let iz2 = 0; iz2 <= segs; iz2++) {
 for (let ix2 = 0; ix2 <= segs; ix2++) {
@@ -9529,7 +9247,7 @@ if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yard
 }
 function removeHeightColors() {
 if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yardMesh.material.needsUpdate = true; }
-// SPRINT 10: Restore natural terrain vertex colors instead of deleting color attribute
+// Restore natural vertex colors instead of deleting
 if (typeof applyTerrainVertexColors === 'function') {
 applyTerrainVertexColors();
 } else {
@@ -10464,7 +10182,6 @@ if (group) {
 obj.position.y = 0;
 group.position.y = 0;
 }
-// Remove foundation walls during flat compare mode.
 if (foundationWallMeshes.has(id)) {
 const fw = foundationWallMeshes.get(id);
 scene.remove(fw);
@@ -11235,7 +10952,6 @@ const wz = (iz / segs) * d - halfD;
 const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
 if (dist > radius) continue;
 const t = dist / radius;
-// Smooth cosine falloff for natural blending
 const falloff = (Math.cos(t * Math.PI) + 1) * 0.5;
 const vi = iz * (segs + 1) + ix;
 const current = state.terrain[vi] || 0;
@@ -16551,7 +16267,6 @@ const Onboarding = (function() {
 
 // Initialize onboarding system
 Onboarding.init();
-
 
 // SPRINT 9: MICRO-INTERACTION POLISH — JavaScript
 // Toast variants, confirm dialog, loading spinners, empty states,
