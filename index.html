@@ -1242,6 +1242,145 @@ contain-intrinsic-size: 600px 400px;
 content-visibility: auto;
 contain-intrinsic-size: 300px 200px;
 }
+/* ============================================================
+   SPRINT 9: ONBOARDING ARCHITECT — Comprehensive onboarding system
+   ============================================================ */
+
+/* --- Welcome prompt modal --- */
+#welcome-prompt {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 250;
+  display: none; align-items: center; justify-content: center; backdrop-filter: blur(6px);
+}
+#welcome-prompt.visible { display: flex; }
+.welcome-prompt-panel {
+  background: white; border-radius: 18px; padding: 40px 44px; max-width: 520px; width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; animation: wpFadeIn 0.3s ease;
+}
+@keyframes wpFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.welcome-prompt-panel h2 { font-size: 26px; margin-bottom: 8px; color: var(--text); }
+.welcome-prompt-panel .wp-subtitle { color: var(--text-muted); font-size: 15px; margin-bottom: 32px; }
+.welcome-prompt-panel .wp-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+.wp-quick-actions { display: flex; flex-direction: column; gap: 12px; }
+.wp-quick-action {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+  border: 2px solid var(--border); border-radius: 12px; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 600; color: var(--text);
+  background: white; transition: all 0.2s; text-align: left; min-height: 44px;
+}
+.wp-quick-action:hover { border-color: var(--primary); background: #f8f5ff; transform: translateX(2px); }
+.wp-quick-action .wp-qa-icon { font-size: 24px; flex-shrink: 0; width: 32px; text-align: center; }
+.wp-quick-action .wp-qa-text { flex: 1; }
+.wp-quick-action .wp-qa-desc { font-size: 12px; font-weight: 400; color: var(--text-muted); display: block; margin-top: 2px; }
+.wp-quick-action.wp-secondary { background: #f5f5f5; border-color: #e0e0e0; }
+.wp-quick-action.wp-secondary:hover { background: #ececec; border-color: #ccc; }
+
+/* --- Guided tour overlay --- */
+#tour-overlay {
+  position: fixed; inset: 0; z-index: 240; display: none; pointer-events: none;
+}
+#tour-overlay.visible { display: block; }
+#tour-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6); pointer-events: auto;
+  transition: opacity 0.3s;
+}
+#tour-spotlight {
+  position: fixed; border: 3px solid var(--primary); border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.6); transition: all 0.3s ease;
+  pointer-events: none; z-index: 241;
+}
+#tour-spotlight.no-target { display: none; }
+#tour-bubble {
+  position: fixed; background: white; border-radius: 12px; padding: 20px 24px;
+  max-width: 340px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); z-index: 242;
+  pointer-events: auto; transition: all 0.3s ease;
+}
+.tour-bubble-step { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.tour-bubble-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+.tour-bubble-text { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+.tour-bubble-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tour-btn-primary {
+  background: var(--primary); color: white; border: none; padding: 8px 20px;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  min-height: 36px; transition: background 0.2s;
+}
+.tour-btn-primary:hover { background: var(--primary-dark); }
+.tour-btn-secondary {
+  background: none; color: var(--text-muted); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; font-family: inherit;
+  min-height: 36px;
+}
+.tour-btn-secondary:hover { background: #f5f5f5; }
+.tour-progress { display: flex; gap: 4px; margin-top: 12px; }
+.tour-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; transition: background 0.2s; }
+.tour-dot.active { background: var(--primary); }
+.tour-dot.done { background: var(--primary); opacity: 0.4; }
+
+/* --- Contextual tooltip --- */
+#ctx-tooltip {
+  position: fixed; background: #333; color: white; padding: 8px 14px;
+  border-radius: 8px; font-size: 13px; z-index: 230; display: none;
+  pointer-events: none; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: ttSlide 0.2s ease;
+}
+#ctx-tooltip.visible { display: block; }
+#ctx-tooltip::after {
+  content: ''; position: absolute; border: 6px solid transparent;
+}
+#ctx-tooltip.tt-bottom::after { top: -12px; left: 50%; transform: translateX(-50%); border-bottom-color: #333; }
+#ctx-tooltip.tt-top::after { bottom: -12px; left: 50%; transform: translateX(-50%); border-top-color: #333; }
+@keyframes ttSlide { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- Feature discovery badge --- */
+.discovery-badge {
+  position: absolute; top: -6px; right: -6px; background: #ff6b35; color: white;
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+  z-index: 50; pointer-events: none; animation: badgePulse 2s ease infinite;
+  box-shadow: 0 2px 6px rgba(255,107,53,0.4); white-space: nowrap;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* --- Progressive hint (inactivity-based) --- */
+#progressive-hint {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+  padding: 14px 24px; border-radius: 24px; font-size: 14px; z-index: 220;
+  display: none; pointer-events: auto; cursor: pointer; box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+  max-width: 400px; text-align: center; line-height: 1.4;
+  animation: phSlideUp 0.4s ease;
+}
+#progressive-hint.visible { display: block; }
+@keyframes phSlideUp { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+#progressive-hint .ph-close { margin-left: 10px; font-weight: bold; opacity: 0.7; }
+#progressive-hint .ph-close:hover { opacity: 1; }
+
+/* --- Onboarding restart button --- */
+#onboarding-restart-btn {
+  position: fixed; bottom: 16px; right: 16px; z-index: 100;
+  background: var(--primary); color: white; border: none; padding: 8px 14px;
+  border-radius: 20px; font-size: 12px; cursor: pointer; font-family: inherit;
+  display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-height: 36px;
+  transition: all 0.2s;
+}
+#onboarding-restart-btn.visible { display: block; }
+#onboarding-restart-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .welcome-prompt-panel { padding: 28px 24px; }
+  .welcome-prompt-panel h2 { font-size: 22px; }
+  #tour-bubble { max-width: calc(100vw - 32px); }
+  #progressive-hint { max-width: calc(100vw - 32px); font-size: 13px; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .welcome-prompt-panel, #ctx-tooltip, #progressive-hint, .discovery-badge { animation: none; }
+  #tour-spotlight, #tour-bubble { transition: none; }
+}
+
 </style>
 <script type="importmap">
 {
@@ -2325,6 +2464,18 @@ Close
 </div>
 <div id="wizard">
 <div class="wizard-panel" id="wizard-panel"></div>
+<!-- SPRINT 9: ONBOARDING — Welcome prompt modal -->
+<div id="welcome-prompt" role="dialog" aria-modal="true" aria-labelledby="wp-title">
+  <div class="welcome-prompt-panel">
+    <span class="wp-emoji">🌿</span>
+    <h2 id="wp-title">What would you like to do?</h2>
+    <p class="wp-subtitle">Welcome to Backyard Designer 3D — let's create your dream yard.</p>
+    <div class="wp-quick-actions">
+      <button class="wp-quick-action" id="wp-template">
+        <span class="wp-qa-icon">📋</span>
+        <span class="wp-qa-text">Start with a template<span class="wp-qa-desc">Pre-made designs to customize</span></span>
+      </button>
+
 <button id="wizard-skip" style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:12px 20px;min-height:44px;" title="Skip setup and start with a default yard">Skip — use default yard</button>
 </div>
 <div id="gallery-modal">
@@ -5664,7 +5815,10 @@ hint.style.lineHeight = '';
 
 // Show a toast welcoming the user
 setTimeout(() => {
-showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.');
+  // Skip the old toast if the new onboarding system is showing the welcome prompt
+  const newWP = document.getElementById('welcome-prompt');
+  if (newWP && newWP.classList.contains('visible')) return;
+  showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.');
 }, 500);
 }
 // ============================================================
@@ -14798,6 +14952,623 @@ window.print();
 });
 
 console.log('[Sprint 8] Print/Export PDF feature initialized');
+
+// ============================================================
+// SPRINT 9: ONBOARDING ARCHITECT — Complete onboarding system
+// ============================================================
+
+const Onboarding = (function() {
+  'use strict';
+
+  // --- localStorage tracking ---
+  const STORAGE_KEY = 'backyard-onboarding-state';
+  function getState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return { completedSteps: [], tourCompleted: false, welcomeShown: false, dismissedAt: 0, featuresUsed: {} };
+  }
+  function saveState(s) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch(e) {}
+  }
+  function markStepComplete(stepId) {
+    const s = getState();
+    if (!s.completedSteps.includes(stepId)) {
+      s.completedSteps.push(stepId);
+      saveState(s);
+    }
+    updateDiscoveryBadges();
+  }
+  function markFeatureUsed(featureId) {
+    const s = getState();
+    if (!s.featuresUsed) s.featuresUsed = {};
+    s.featuresUsed[featureId] = true;
+    saveState(s);
+    updateDiscoveryBadges();
+  }
+
+  // --- Welcome prompt ---
+  function showWelcomePrompt() {
+    const s = getState();
+    if (s.welcomeShown) return;
+    s.welcomeShown = true;
+    saveState(s);
+    const wp = document.getElementById('welcome-prompt');
+    if (!wp) return;
+    wp.classList.add('visible');
+    wp.setAttribute('aria-hidden', 'false');
+    // Focus first action button
+    setTimeout(() => {
+      const firstBtn = wp.querySelector('.wp-quick-action');
+      if (firstBtn) firstBtn.focus();
+    }, 100);
+  }
+  function hideWelcomePrompt() {
+    const wp = document.getElementById('welcome-prompt');
+    if (!wp) return;
+    wp.classList.remove('visible');
+    wp.setAttribute('aria-hidden', 'true');
+  }
+
+  // Wire up welcome prompt buttons
+  document.getElementById('wp-scratch')?.addEventListener('click', () => {
+    hideWelcomePrompt();
+    markStepComplete('welcome-scratch');
+    // Use default wizard yard
+    showToast('Your empty yard is ready! Click items on the left to add them.');
+    // Start progressive hint system
+    startProgressiveHints();
+  });
+  document.getElementById('wp-template')?.addEventListener('click', () => {
+    hideWelcomePrompt();
+    markStepComplete('welcome-template');
+    // Open the wizard to set up yard, then we'd add a template
+    showToast('Choose your yard shape and size to get started.');
+    startProgressiveHints();
+  });
+  document.getElementById('wp-import')?.addEventListener('click', () => {
+    hideWelcomePrompt();
+    markStepComplete('welcome-import');
+    document.getElementById('btn-load')?.click();
+    showToast('Select a saved design file to import.');
+    startProgressiveHints();
+  });
+  document.getElementById('wp-tour')?.addEventListener('click', () => {
+    hideWelcomePrompt();
+    startTour();
+  });
+  document.getElementById('wp-remind-later')?.addEventListener('click', () => {
+    hideWelcomePrompt();
+    markStepComplete('welcome-remind-later');
+    const s = getState();
+    s.welcomeShown = false; // Reset so it can show again later
+    s.remindLaterAt = Date.now();
+    saveState(s);
+    showToast('No problem! You can take the tour anytime with the 🎓 button.');
+    startProgressiveHints();
+  });
+
+  // --- Guided Tour ---
+  const tourSteps = [
+    {
+      id: 'welcome',
+      title: 'Welcome to Backyard Designer 3D!',
+      text: 'In the next few steps, you\'ll learn to set up your yard, add objects, sculpt terrain, and save your design. Let\'s begin!',
+      target: null,
+    },
+    {
+      id: 'yard-setup',
+      title: 'Set Up Your Yard',
+      text: 'Click "New" or use the setup wizard to choose your yard shape and dimensions. This defines the space you\'ll design in.',
+      target: '#topbar',
+      action: 'The wizard at startup lets you choose yard shape (rectangle or L-shape) and dimensions in feet.',
+    },
+    {
+      id: 'add-object',
+      title: 'Add Objects to Your Yard',
+      text: 'The left panel has your object library. Click any item — trees, plants, structures, pools — to add it to your yard. Then drag to position it.',
+      target: '#library',
+      action: 'Try clicking an item like a tree to add it to your yard!',
+    },
+    {
+      id: 'sculpt-terrain',
+      title: 'Sculpt the Terrain',
+      text: 'Click the Terrain button in the dock to open terrain tools. Then click-drag on the ground to raise, excavate, or smooth the surface.',
+      target: '#tool-dock',
+      action: 'Open the Terrain dock and try raising or lowering the ground.',
+    },
+    {
+      id: 'object-properties',
+      title: 'Adjust Object Properties',
+      text: 'Click an object to select it. The right panel shows properties — size, rotation, color, position. You can also duplicate or delete from here.',
+      target: '#properties',
+      action: 'Click an object in your yard to see its properties.',
+    },
+    {
+      id: 'save-design',
+      title: 'Save Your Design',
+      text: 'Click Save in the top bar to download your design as a file. Your work also auto-saves to the browser. Use Share to get a QR code link.',
+      target: '#btn-save',
+      action: 'Click Save to download your design!',
+    },
+  ];
+
+  let currentTourStep = 0;
+  let tourActive = false;
+
+  function startTour() {
+    if (tourActive) return;
+    tourActive = true;
+    currentTourStep = 0;
+    const overlay = document.getElementById('tour-overlay');
+    if (!overlay) return;
+    overlay.classList.add('visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.getElementById('onboarding-restart-btn')?.classList.remove('visible');
+    renderTourStep();
+  }
+
+  function endTour(completed) {
+    tourActive = false;
+    const overlay = document.getElementById('tour-overlay');
+    if (overlay) {
+      overlay.classList.remove('visible');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+    const spotlight = document.getElementById('tour-spotlight');
+    if (spotlight) spotlight.classList.add('no-target');
+    if (completed) {
+      const s = getState();
+      s.tourCompleted = true;
+      saveState(s);
+      showToast('🎉 Tour complete! You\'re ready to design your backyard.');
+      markStepComplete('tour-complete');
+    }
+    // Show restart button
+    const restartBtn = document.getElementById('onboarding-restart-btn');
+    if (restartBtn) restartBtn.classList.add('visible');
+    // Start progressive hints after tour
+    startProgressiveHints();
+  }
+
+  function renderTourStep() {
+    if (!tourActive || currentTourStep < 0 || currentTourStep >= tourSteps.length) return;
+    const step = tourSteps[currentTourStep];
+    const stepLabel = document.getElementById('tour-step-label');
+    const title = document.getElementById('tour-title');
+    const text = document.getElementById('tour-text');
+    const nextBtn = document.getElementById('tour-next');
+    const backBtn = document.getElementById('tour-back');
+    const progress = document.getElementById('tour-progress');
+
+    if (stepLabel) stepLabel.textContent = `Step ${currentTourStep + 1} of ${tourSteps.length}`;
+    if (title) title.textContent = step.title;
+    if (text) text.textContent = step.text;
+    if (nextBtn) nextBtn.textContent = currentTourStep === tourSteps.length - 1 ? 'Finish ✓' : 'Next →';
+    if (backBtn) backBtn.style.display = currentTourStep === 0 ? 'none' : 'inline-block';
+
+    // Render progress dots
+    if (progress) {
+      progress.innerHTML = tourSteps.map((_, i) =>
+        `<div class="tour-dot ${i === currentTourStep ? 'active' : (i < currentTourStep ? 'done' : '')}"></div>`
+      ).join('');
+    }
+
+    // Position spotlight and bubble
+    positionTourSpotlight(step.target);
+    markStepComplete(step.id);
+  }
+
+  function positionTourSpotlight(selector) {
+    const spotlight = document.getElementById('tour-spotlight');
+    const bubble = document.getElementById('tour-bubble');
+    if (!spotlight || !bubble) return;
+
+    if (!selector) {
+      // Center bubble with no spotlight
+      spotlight.classList.add('no-target');
+      bubble.style.top = '50%';
+      bubble.style.left = '50%';
+      bubble.style.transform = 'translate(-50%, -50%)';
+      return;
+    }
+
+    const targetEl = document.querySelector(selector);
+    if (!targetEl) {
+      spotlight.classList.add('no-target');
+      bubble.style.top = '50%';
+      bubble.style.left = '50%';
+      bubble.style.transform = 'translate(-50%, -50%)';
+      return;
+    }
+
+    spotlight.classList.remove('no-target');
+    const rect = targetEl.getBoundingClientRect();
+    const pad = 8;
+    spotlight.style.top = (rect.top - pad) + 'px';
+    spotlight.style.left = (rect.left - pad) + 'px';
+    spotlight.style.width = (rect.width + pad * 2) + 'px';
+    spotlight.style.height = (rect.height + pad * 2) + 'px';
+
+    // Position bubble below or above target
+    const bubbleRect = bubble.getBoundingClientRect();
+    let bubbleTop = rect.bottom + 16;
+    let bubbleLeft = rect.left + rect.width / 2 - bubbleRect.width / 2;
+    let transform = '';
+
+    // If bubble would go below viewport, place above
+    if (bubbleTop + bubbleRect.height > window.innerHeight - 20) {
+      bubbleTop = rect.top - bubbleRect.height - 16;
+    }
+    // Clamp horizontal
+    if (bubbleLeft < 16) bubbleLeft = 16;
+    if (bubbleLeft + bubbleRect.width > window.innerWidth - 16) {
+      bubbleLeft = window.innerWidth - bubbleRect.width - 16;
+    }
+    // Clamp vertical
+    if (bubbleTop < 16) bubbleTop = 16;
+    if (bubbleTop + bubbleRect.height > window.innerHeight - 16) {
+      bubbleTop = window.innerHeight - bubbleRect.height - 16;
+    }
+
+    bubble.style.top = bubbleTop + 'px';
+    bubble.style.left = bubbleLeft + 'px';
+    bubble.style.transform = '';
+  }
+
+  // Tour navigation buttons
+  document.getElementById('tour-next')?.addEventListener('click', () => {
+    const step = tourSteps[currentTourStep];
+    if (step && step.id === 'add-object') markFeatureUsed('library');
+    if (step && step.id === 'sculpt-terrain') markFeatureUsed('terrain');
+    if (step && step.id === 'save-design') markFeatureUsed('save');
+    currentTourStep++;
+    if (currentTourStep >= tourSteps.length) {
+      endTour(true);
+    } else {
+      renderTourStep();
+    }
+  });
+  document.getElementById('tour-back')?.addEventListener('click', () => {
+    if (currentTourStep > 0) {
+      currentTourStep--;
+      renderTourStep();
+    }
+  });
+  document.getElementById('tour-skip')?.addEventListener('click', () => {
+    endTour(false);
+    showToast('Tour skipped. You can restart it anytime with the 🎓 Tour button.');
+  });
+
+  // Reposition on resize
+  window.addEventListener('resize', () => {
+    if (tourActive && currentTourStep < tourSteps.length) {
+      positionTourSpotlight(tourSteps[currentTourStep].target);
+    }
+  });
+
+  // Restart button
+  document.getElementById('onboarding-restart-btn')?.addEventListener('click', () => {
+    startTour();
+  });
+
+  // --- Contextual Tooltips ---
+  const tooltipEl = document.getElementById('ctx-tooltip');
+  let tooltipTimer = null;
+
+  function showContextTooltip(element, text, position) {
+    if (!tooltipEl || !element) return;
+    tooltipEl.textContent = text;
+    tooltipEl.classList.add('visible');
+    tooltipEl.setAttribute('aria-hidden', 'false');
+
+    const rect = element.getBoundingClientRect();
+    let top, left;
+    position = position || 'bottom';
+    if (position === 'bottom') {
+      top = rect.bottom + 8;
+      left = rect.left + rect.width / 2;
+      tooltipEl.classList.add('tt-bottom');
+      tooltipEl.classList.remove('tt-top');
+    } else {
+      top = rect.top - tooltipEl.offsetHeight - 8;
+      left = rect.left + rect.width / 2;
+      tooltipEl.classList.add('tt-top');
+      tooltipEl.classList.remove('tt-bottom');
+    }
+    // Clamp to viewport
+    const ttRect = tooltipEl.getBoundingClientRect();
+    left -= ttRect.width / 2;
+    if (left < 8) left = 8;
+    if (left + ttRect.width > window.innerWidth - 8) left = window.innerWidth - ttRect.width - 8;
+    if (top < 8) top = rect.bottom + 8;
+    if (top + ttRect.height > window.innerHeight - 8) top = rect.top - ttRect.height - 8;
+
+    tooltipEl.style.top = top + 'px';
+    tooltipEl.style.left = left + 'px';
+  }
+
+  function hideContextTooltip() {
+    if (!tooltipEl) return;
+    tooltipEl.classList.remove('visible');
+    tooltipEl.setAttribute('aria-hidden', 'true');
+  }
+
+  // Contextual tooltip zones — appear when user hovers near key areas
+  const tooltipZones = [
+    { selector: '#library', text: 'Click any item to add it to your yard', position: 'bottom' },
+    { selector: '#btn-save', text: 'Save your design as a file', position: 'bottom' },
+    { selector: '#btn-load', text: 'Load a previously saved design', position: 'bottom' },
+    { selector: '#btn-help', text: 'Open the help guide for all features', position: 'bottom' },
+    { selector: '#btn-screenshot', text: 'Capture a PNG image of your view', position: 'bottom' },
+    { selector: '#btn-cost', text: 'See cost estimates for your design', position: 'bottom' },
+    { selector: '#btn-walk', text: 'Explore your yard in first-person mode', position: 'bottom' },
+    { selector: '#btn-share', text: 'Share your design via QR code or link', position: 'bottom' },
+    { selector: '#btn-undo', text: 'Undo your last action', position: 'bottom' },
+    { selector: '#btn-redo', text: 'Redo an undone action', position: 'bottom' },
+    { selector: '#properties', text: 'Adjust size, rotation, and position of selected objects', position: 'left' },
+    { selector: '#tool-dock', text: 'Sculpt terrain, measure, and more', position: 'top' },
+  ];
+
+  function setupContextTooltips() {
+    tooltipZones.forEach(zone => {
+      const el = document.querySelector(zone.selector);
+      if (!el) return;
+      el.addEventListener('mouseenter', () => {
+        if (tourActive) return;
+        clearTimeout(tooltipTimer);
+        tooltipTimer = setTimeout(() => {
+          showContextTooltip(el, zone.text, zone.position);
+        }, 400);
+      });
+      el.addEventListener('mouseleave', () => {
+        clearTimeout(tooltipTimer);
+        hideContextTooltip();
+      });
+      el.addEventListener('click', () => {
+        clearTimeout(tooltipTimer);
+        hideContextTooltip();
+      });
+    });
+  }
+
+  // --- Feature Discovery Badges ---
+  // Features that get "New!" badges if user hasn't used them
+  const badgeableFeatures = [
+    { id: 'walk-mode', selector: '#btn-walk', label: 'New!' },
+    { id: 'share', selector: '#btn-share', label: 'New!' },
+    { id: 'command-palette', selector: null, label: 'New!' }, // Ctrl+K, no button
+    { id: 'layers', selector: '#btn-layers', label: 'New!' },
+    { id: 'terrain-analysis', selector: '#terrain-analysis-btn', label: 'New!' },
+    { id: 'innovation', selector: '#innovation-btn', label: 'New!' },
+    { id: 'cross-section', selector: '#cross-section-toggle', label: 'New!' },
+  ];
+
+  function updateDiscoveryBadges() {
+    const s = getState();
+    if (!s.featuresUsed) s.featuresUsed = {};
+    badgeableFeatures.forEach(feature => {
+      if (!feature.selector) return;
+      const el = document.querySelector(feature.selector);
+      if (!el) return;
+      // Skip if already used
+      if (s.featuresUsed[feature.id]) {
+        const badge = el.parentElement?.querySelector('.discovery-badge');
+        if (badge) badge.remove();
+        return;
+      }
+      // Add badge if not present
+      const existingBadge = el.parentElement?.querySelector('.discovery-badge');
+      if (!existingBadge) {
+        // Ensure parent has position relative
+        if (el.parentElement) {
+          const computed = getComputedStyle(el.parentElement).position;
+          if (computed === 'static') el.parentElement.style.position = 'relative';
+          const badge = document.createElement('span');
+          badge.className = 'discovery-badge';
+          badge.textContent = feature.label;
+          badge.setAttribute('aria-label', 'New feature: ' + feature.id);
+          el.parentElement.appendChild(badge);
+        }
+      }
+    });
+  }
+
+  // Mark features as used when interacted with
+  function setupFeatureTracking() {
+    const trackMap = [
+      { selector: '#btn-walk', featureId: 'walk-mode' },
+      { selector: '#btn-share', featureId: 'share' },
+      { selector: '#btn-layers', featureId: 'layers' },
+      { selector: '#terrain-analysis-btn', featureId: 'terrain-analysis' },
+      { selector: '#innovation-btn', featureId: 'innovation' },
+      { selector: '#cross-section-toggle', featureId: 'cross-section' },
+    ];
+    trackMap.forEach(t => {
+      const el = document.querySelector(t.selector);
+      if (el) {
+        el.addEventListener('click', () => markFeatureUsed(t.featureId), { once: true });
+      }
+    });
+    // Track command palette (Ctrl+K)
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        markFeatureUsed('command-palette');
+      }
+    });
+    // Track save
+    const saveBtn = document.getElementById('btn-save');
+    if (saveBtn) saveBtn.addEventListener('click', () => markFeatureUsed('save'), { once: true });
+    // Track library clicks
+    const library = document.getElementById('library');
+    if (library) library.addEventListener('click', (e) => {
+      if (e.target.closest('.lib-item')) markFeatureUsed('library');
+    }, { once: true });
+    // Track terrain dock
+    const terrainBtn = document.querySelector('[data-dock="terrain"]');
+    if (terrainBtn) terrainBtn.addEventListener('click', () => markFeatureUsed('terrain'), { once: true });
+  }
+
+  // --- Progressive Hint System ---
+  let inactivityTimer = null;
+  let progressiveHintActive = false;
+  let hintsShown = 0;
+  const HINT_DELAY = 5000; // 5 seconds of inactivity
+  const progressiveHints = [
+    { text: '💡 Tip: Click an item in the left panel to add it to your yard', feature: 'library' },
+    { text: '💡 Tip: Click and drag on the ground with Terrain tools to sculpt the surface', feature: 'terrain' },
+    { text: '💡 Tip: Press Ctrl+K to open the command palette and search any feature', feature: 'command-palette' },
+    { text: '💡 Tip: Click Walk Mode to explore your yard in first-person', feature: 'walk-mode' },
+    { text: '💡 Tip: Use the Cost Estimator to see material costs for your design', feature: 'cost' },
+    { text: '💡 Tip: Click Save to download your design, or use Share for a QR code link', feature: 'save' },
+  ];
+
+  function showProgressiveHint() {
+    if (tourActive) return;
+    const s = getState();
+    // Find a hint whose feature hasn't been used
+    const availableHints = progressiveHints.filter(h => !s.featuresUsed || !s.featuresUsed[h.feature]);
+    if (availableHints.length === 0) return;
+
+    // Pick the next hint in sequence, or cycle
+    const hint = availableHints[hintsShown % availableHints.length];
+    hintsShown++;
+
+    const el = document.getElementById('progressive-hint');
+    if (!el) return;
+    el.innerHTML = hint.text + ' <span class="ph-close">×</span>';
+    el.classList.add('visible');
+    progressiveHintActive = true;
+
+    // Click to dismiss
+    el.onclick = () => {
+      el.classList.remove('visible');
+      progressiveHintActive = false;
+      resetInactivityTimer();
+    };
+  }
+
+  function hideProgressiveHint() {
+    const el = document.getElementById('progressive-hint');
+    if (el) el.classList.remove('visible');
+    progressiveHintActive = false;
+  }
+
+  function resetInactivityTimer() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      if (!tourActive) {
+        showProgressiveHint();
+      }
+    }, HINT_DELAY);
+  }
+
+  function startProgressiveHints() {
+    // Reset inactivity timer on any interaction
+    ['mousemove', 'click', 'keydown', 'touchstart', 'scroll'].forEach(evt => {
+      document.addEventListener(evt, () => {
+        if (progressiveHintActive) {
+          hideProgressiveHint();
+        }
+        resetInactivityTimer();
+      }, { passive: true });
+    });
+    resetInactivityTimer();
+  }
+
+  // --- Keyboard shortcuts for onboarding ---
+  document.addEventListener('keydown', (e) => {
+    // Escape closes onboarding overlays
+    if (e.key === 'Escape') {
+      const wp = document.getElementById('welcome-prompt');
+      if (wp && wp.classList.contains('visible')) {
+        hideWelcomePrompt();
+        startProgressiveHints();
+        return;
+      }
+      if (tourActive) {
+        endTour(false);
+        return;
+      }
+      hideProgressiveHint();
+      hideContextTooltip();
+    }
+  });
+
+  // --- Init ---
+  function init() {
+    setupContextTooltips();
+    setupFeatureTracking();
+    updateDiscoveryBadges();
+
+    const s = getState();
+
+    // If tour was completed, show restart button
+    if (s.tourCompleted) {
+      document.getElementById('onboarding-restart-btn')?.classList.add('visible');
+    }
+
+    // Don't show welcome prompt if tour already completed or dismissed recently
+    if (!s.tourCompleted && !s.welcomeShown) {
+      // Show welcome prompt after wizard completes (delay to let scene init)
+      // The wizard runs first; we show the prompt after initWithYard
+      // We'll use a flag and check when initWithYard runs
+    }
+
+    // Always start progressive hints
+    startProgressiveHints();
+
+    console.log('[Sprint 9] Onboarding system initialized');
+  }
+
+  // Public API
+  // Expose to window for Playwright tests and external access
+  window.Onboarding = {
+    init,
+    showWelcomePrompt,
+    hideWelcomePrompt,
+    startTour,
+    endTour,
+    markStepComplete,
+    markFeatureUsed,
+    getState,
+    showProgressiveHint,
+    hideProgressiveHint,
+    startProgressiveHints,
+  };
+  return window.Onboarding;
+})();
+
+// Initialize onboarding after scene setup
+// After the wizard finishes (initWithYard is called), show welcome prompt
+// We use a MutationObserver on the wizard element to detect when it's hidden
+(function setupWizardObserver() {
+  const wizard = document.getElementById('wizard');
+  if (!wizard) return;
+  
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.attributeName === 'style') {
+        const isHidden = wizard.style.display === 'none';
+        if (isHidden) {
+          const s = Onboarding.getState();
+          if (!s.welcomeShown && !s.tourCompleted) {
+            // Small delay to let scene initialize
+            setTimeout(() => {
+              Onboarding.showWelcomePrompt();
+            }, 600);
+          }
+        }
+      }
+    }
+  });
+  observer.observe(wizard, { attributes: true, attributeFilter: ['style'] });
+})();
+
+// Initialize onboarding system
+Onboarding.init();
+
 </script>
 </body>
 </html>
