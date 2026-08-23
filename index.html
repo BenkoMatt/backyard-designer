@@ -2652,7 +2652,9 @@ function sanitizeColor(val, fallback) {
 if (typeof val !== 'string') return fallback;
 if (/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3}([0-9a-fA-F]{2})?)?$/.test(val)) return val;
 if (/^[a-zA-Z]+$/.test(val) && val.length < 30) {
-try { new THREE.Color(val); return val; } catch(e) { /* fall through */ }
+// Validate against a known set of CSS color names to avoid false positives
+const CSS_COLOR_NAMES = ['aliceblue','antiquewhite','aqua','aquamarine','azure','beige','bisque','black','blanchedalmond','blue','blueviolet','brown','burlywood','cadetblue','chartreuse','chocolate','coral','cornflowerblue','cornsilk','crimson','cyan','darkblue','darkcyan','darkgoldenrod','darkgray','darkgreen','darkgrey','darkkhaki','darkmagenta','darkolivegreen','darkorange','darkorchid','darkred','darksalmon','darkseagreen','darkslateblue','darkslategray','darkslategrey','darkturquoise','darkviolet','deeppink','deepskyblue','dimgray','dimgrey','dodgerblue','firebrick','floralwhite','forestgreen','fuchsia','gainsboro','ghostwhite','gold','goldenrod','gray','green','greenyellow','grey','honeydew','hotpink','indianred','indigo','ivory','khaki','lavender','lavenderblush','lawngreen','lemonchiffon','lightblue','lightcoral','lightcyan','lightgoldenrodyellow','lightgray','lightgreen','lightgrey','lightpink','lightsalmon','lightseagreen','lightskyblue','lightslategray','lightslategrey','lightsteelblue','lightyellow','lime','limegreen','linen','magenta','maroon','mediumaquamarine','mediumblue','mediumorchid','mediumpurple','mediumseagreen','mediumslateblue','mediumspringgreen','mediumturquoise','mediumvioletred','midnightblue','mintcream','mistyrose','moccasin','navajowhite','navy','oldlace','olive','olivedrab','orange','orangered','orchid','palegoldenrod','palegreen','paleturquoise','palevioletred','papayawhip','peachpuff','peru','pink','plum','powderblue','purple','rebeccapurple','red','rosybrown','royalblue','saddlebrown','salmon','sandybrown','seagreen','seashell','sienna','silver','skyblue','slateblue','slategray','slategrey','snow','springgreen','steelblue','tan','teal','thistle','tomato','turquoise','violet','wheat','white','whitesmoke','yellow','yellowgreen'];
+if (CSS_COLOR_NAMES.includes(val.toLowerCase())) return val;
 }
 return fallback;
 }
@@ -4589,13 +4591,20 @@ document.getElementById('btn-redo').disabled = state.redoStack.length === 0;
 document.getElementById('btn-undo').addEventListener('click', undo);
 document.getElementById('btn-redo').addEventListener('click', redo);
 let autosaveTimer = null;
+let _autosaveQuotaWarned = false;
 function debouncedAutosave() {
 if (autosaveTimer) clearTimeout(autosaveTimer);
 autosaveTimer = setTimeout(() => {
 try {
 const data = serializeDesign();
 localStorage.setItem('backyard-design-autosave', JSON.stringify(data));
-} catch(e) { /* localStorage might be full */ }
+_autosaveQuotaWarned = false; // reset on success
+} catch(e) {
+if (!_autosaveQuotaWarned) {
+showToast('Autosave skipped — storage full. Use "Save Design" to download instead.');
+_autosaveQuotaWarned = true;
+}
+}
 }, 2000);
 }
 function serializeDesign() {
@@ -4611,15 +4620,21 @@ gridLevel: state.gridLevel,
 };
 }
 function saveDesign() {
+try {
 const data = serializeDesign();
 const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
 const url = URL.createObjectURL(blob);
 const a = document.createElement('a');
 a.href = url;
 a.download = 'my-backyard-design.json';
+document.body.appendChild(a);
 a.click();
+document.body.removeChild(a);
 URL.revokeObjectURL(url);
 showToast('Design saved! Check your downloads folder.');
+} catch(e) {
+showToast('Could not save design: ' + (e.message || 'unknown error'));
+}
 }
 function loadDesign(data) {
 if (!data || !data.objects) {
@@ -4721,16 +4736,27 @@ updateAllBuriedIndicators();
 requestRender();
 showToast('Design loaded successfully!');
 }
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB max design file
 function loadFromFile(file) {
+if (!file) { showToast('No file selected.'); return; }
+if (file.size > MAX_FILE_SIZE) {
+showToast('File too large (' + (file.size / 1024 / 1024).toFixed(1) + 'MB). Max 50MB.');
+return;
+}
+if (!file.name.endsWith('.json') && file.type !== 'application/json') {
+showToast('Please select a JSON design file.');
+return;
+}
 const reader = new FileReader();
 reader.onload = e => {
 try {
 const data = JSON.parse(e.target.result);
 loadDesign(data);
 } catch(err) {
-showToast('Error: Could not read this file');
+showToast('Error: Could not read this file — ' + (err.message || 'invalid JSON'));
 }
 };
+reader.onerror = () => { showToast('Error: Could not read this file.'); };
 reader.readAsText(file);
 }
 document.getElementById('btn-save').addEventListener('click', saveDesign);
@@ -13544,6 +13570,19 @@ window._bydRenderGallery = renderGalleryGrid;
 window._bydPlayTimelapse = playTimelapse;
 window._bydTimelapseFrames = () => timelapseFrames;
 window._bydGenerateCard = generateSocialCard;
+window._bydUndo = undo;
+window._bydRedo = redo;
+window._bydPushCommand = pushCommand;
+window._bydSanitizeNumber = sanitizeNumber;
+window._bydSanitizeColor = sanitizeColor;
+window._bydSanitizeObjectParams = sanitizeObjectParams;
+window._bydClampTerrainHeight = clampTerrainHeight;
+window._bydDeserializeVoxels = deserializeVoxels;
+window._bydBuildVoxelMesh = buildVoxelMesh;
+window._bydInitWithYard = initWithYard;
+window._bydBuildSceneObject = buildSceneObject;
+window._bydSetGalleryDesigns = setGalleryDesigns;
+window._bydTHREE = THREE;
 (function setupTechFrontier() {
 function collectSceneMeshes() {
 const meshes = [];
