@@ -1,0 +1,270 @@
+{
+  "total": 52,
+  "passed": 52,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pass_rate": 100.0,
+  "results": [
+    {
+      "name": "static:interior_wall_function_exists",
+      "status": "pass",
+      "detail": "addInteriorWall function found"
+    },
+    {
+      "name": "static:wall_height_threshold_exists",
+      "status": "pass",
+      "detail": "WALL_HEIGHT_THRESHOLD defined"
+    },
+    {
+      "name": "static:wall_threshold_is_1ft",
+      "status": "pass",
+      "detail": "threshold = 1.0 ft"
+    },
+    {
+      "name": "static:grid_scan_loop_exists",
+      "status": "pass",
+      "detail": "terrain grid scan loop found"
+    },
+    {
+      "name": "static:dug_area_filter_exists",
+      "status": "pass",
+      "detail": "dug area filter (skip walls above ground)"
+    },
+    {
+      "name": "static:geo_color_function_used",
+      "status": "pass",
+      "detail": "_getNamedGeoLayerColor referenced"
+    },
+    {
+      "name": "static:transition_band_exists",
+      "status": "pass",
+      "detail": "TRANSITION_BAND defined"
+    },
+    {
+      "name": "static:smooth_transition_exists",
+      "status": "pass",
+      "detail": "smooth transition function found"
+    },
+    {
+      "name": "static:brightness_boost_exists",
+      "status": "pass",
+      "detail": "UNDERGROUND_BRIGHTNESS_BOOST defined"
+    },
+    {
+      "name": "static:brightness_boost_25pct",
+      "status": "pass",
+      "detail": "boost = 0.25 (25%)"
+    },
+    {
+      "name": "static:all_geo_layer_names",
+      "status": "pass",
+      "detail": "topsoil/subsoil/clay/bedrock all present"
+    },
+    {
+      "name": "static:named_geo_layers_array",
+      "status": "pass",
+      "detail": "NAMED_GEO_LAYERS array found"
+    },
+    {
+      "name": "static:underground_hemi_exists",
+      "status": "pass",
+      "detail": "underground HemisphereLight found"
+    },
+    {
+      "name": "static:underground_point_exists",
+      "status": "pass",
+      "detail": "underground PointLight found"
+    },
+    {
+      "name": "static:lights_exported",
+      "status": "pass",
+      "detail": "lights exported via _test"
+    },
+    {
+      "name": "static:lights_below_ground",
+      "status": "pass",
+      "detail": "lights positioned below ground"
+    },
+    {
+      "name": "static:bottom_cap_vertices",
+      "status": "pass",
+      "detail": "bottom cap vertices found"
+    },
+    {
+      "name": "static:bottom_cap_indices",
+      "status": "pass",
+      "detail": "bottom cap indices found"
+    },
+    {
+      "name": "static:bottom_y_defined",
+      "status": "pass",
+      "detail": "bottomY used in buildSolidEarth"
+    },
+    {
+      "name": "geo:below_zero_vertices_exist",
+      "status": "pass",
+      "detail": "428 vertices below 0"
+    },
+    {
+      "name": "geo:below_zero_shows_geo_colors",
+      "status": "pass",
+      "detail": "428 geo-colored vs 0 grass-colored"
+    },
+    {
+      "name": "geo:below_zero_not_grass",
+      "status": "pass",
+      "detail": "0 grass-colored below 0"
+    },
+    {
+      "name": "walls:flat_terrain_vertex_count",
+      "status": "pass",
+      "detail": "3204 vertices with flat terrain"
+    },
+    {
+      "name": "walls:dug_terrain_more_vertices",
+      "status": "pass",
+      "detail": "3468 vertices (was 3204, +264)"
+    },
+    {
+      "name": "walls:interior_walls_in_dug_areas",
+      "status": "pass",
+      "detail": "+264 vertices from interior walls"
+    },
+    {
+      "name": "walls:no_interior_walls_above_ground",
+      "status": "pass",
+      "detail": "+0 vertices above ground (expected minimal)"
+    },
+    {
+      "name": "bottom:bottom_y_exists",
+      "status": "pass",
+      "detail": "minY=-12.0"
+    },
+    {
+      "name": "bottom:bottom_vertices_exist",
+      "status": "pass",
+      "detail": "1604 vertices at bottom"
+    },
+    {
+      "name": "bottom:bottom_faces_visible",
+      "status": "pass",
+      "detail": "2 bottom triangles"
+    },
+    {
+      "name": "transition:layers_sampled",
+      "status": "pass",
+      "detail": "14 depth samples"
+    },
+    {
+      "name": "transition:smooth_transitions",
+      "status": "pass",
+      "detail": "max color jump=0.314 at depths [2, 3]"
+    },
+    {
+      "name": "transition:layers_have_different_colors",
+      "status": "pass",
+      "detail": "topsoil \u2260 bedrock"
+    },
+    {
+      "name": "transition:topsoil_is_brown",
+      "status": "pass",
+      "detail": "topsoil r=0.231 g=0.157"
+    },
+    {
+      "name": "transition:bedrock_is_gray",
+      "status": "pass",
+      "detail": "bedrock r=0.439 g=0.439 b=0.447"
+    },
+    {
+      "name": "lighting:hemisphere_light_exists",
+      "status": "pass",
+      "detail": "intensity=0.35"
+    },
+    {
+      "name": "lighting:point_light_exists",
+      "status": "pass",
+      "detail": "intensity=0.30"
+    },
+    {
+      "name": "lighting:lights_have_intensity",
+      "status": "pass",
+      "detail": "hemi=0.35, point=0.30"
+    },
+    {
+      "name": "lighting:lights_below_ground",
+      "status": "pass",
+      "detail": "hemiY=-20, pointY=-15"
+    },
+    {
+      "name": "lighting:hemi_warm_earth_tone",
+      "status": "pass",
+      "detail": "r=0.147 b=0.042"
+    },
+    {
+      "name": "brighten:boost_is_25pct",
+      "status": "pass",
+      "detail": "boost=0.25 (expected 0.25)"
+    },
+    {
+      "name": "transition:samples_near_zero",
+      "status": "pass",
+      "detail": "23919 samples near y=0"
+    },
+    {
+      "name": "transition:no_abrupt_jump_at_zero",
+      "status": "pass",
+      "detail": "max jump=0.030"
+    },
+    {
+      "name": "geo:four_layers_exist",
+      "status": "pass",
+      "detail": "4 layers"
+    },
+    {
+      "name": "geo:correct_layer_names",
+      "status": "pass",
+      "detail": "names=['topsoil', 'subsoil', 'clay', 'bedrock']"
+    },
+    {
+      "name": "geo:correct_max_depths",
+      "status": "pass",
+      "detail": "depths=[2, 6, 12, 15]"
+    },
+    {
+      "name": "fps:painting_ops_per_sec",
+      "status": "pass",
+      "detail": "5431 ops/s (10863 ops in 2000ms)"
+    },
+    {
+      "name": "fps:solid_earth_with_walls",
+      "status": "pass",
+      "detail": "3468 vertices (interior walls present)"
+    },
+    {
+      "name": "regression:height_limits_correct",
+      "status": "pass",
+      "detail": "max=15, min=-15"
+    },
+    {
+      "name": "regression:clamp_enforces_limits",
+      "status": "pass",
+      "detail": "35\u219215, -35\u2192-15"
+    },
+    {
+      "name": "regression:dig_creates_depression",
+      "status": "pass",
+      "detail": "0.0\u2192-3.0"
+    },
+    {
+      "name": "regression:fill_raises_terrain",
+      "status": "pass",
+      "detail": "-3.0\u21923.0"
+    },
+    {
+      "name": "console:no_errors",
+      "status": "pass",
+      "detail": "0 errors"
+    }
+  ]
+}

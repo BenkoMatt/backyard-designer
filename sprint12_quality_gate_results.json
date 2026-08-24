@@ -199,7 +199,7 @@
     {
       "name": "perf:render_time",
       "status": "pass",
-      "detail": "4.30ms per frame"
+      "detail": "37.10ms per frame"
     },
     {
       "name": "perf:terrain_array_size",

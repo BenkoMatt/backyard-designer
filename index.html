@@ -4364,9 +4364,21 @@ scaleBarDebounce = null;
 const ambient = new THREE.AmbientLight(0xffffff, 0.65);
 scene.add(ambient);
 sunAmbient = ambient;
-const hemi = new THREE.HemisphereLight(0x87CEEB, 0x6b5a3a, 0.55);
+// Sprint 15: Warmer hemisphere light — warmer sky/ground colors to illuminate dug areas from below
+const hemi = new THREE.HemisphereLight(0xffeedd, 0x8b6f47, 0.55);
 scene.add(hemi);
 sunHemi = hemi;
+// Sprint 15: Underground lighting — hemisphere light below ground for underground visibility.
+// Sky color = warm earth tone (below), ground color = cool tone (above). Low intensity.
+const undergroundHemi = new THREE.HemisphereLight(0x6b5a3a, 0x4a3a2a, 0.35);
+undergroundHemi.position.set(0, -20, 0);
+scene.add(undergroundHemi);
+window._undergroundHemi = undergroundHemi;
+// Sprint 15: Point light below ground center for additional underground fill.
+const undergroundPoint = new THREE.PointLight(0xffd0a0, 0.3, 80, 2);
+undergroundPoint.position.set(0, -15, 0);
+scene.add(undergroundPoint);
+window._undergroundPoint = undergroundPoint;
 const sun = new THREE.DirectionalLight(0xffffff, 0.9);
 sun.position.set(30, 50, 20);
 sun.castShadow = true;
@@ -4648,12 +4660,37 @@ tmpSlope.lerpColors(grassColor, dirtColor, tGrassDirt);
 tmpSlope.lerpColors(dirtColor, rockColor, tDirtRock);
 }
 
-// Below 0ft: blend toward dark earth (proportional to how far below 0)
-// Above 20ft: blend toward rock (proportional to how far above 20)
+// Sprint 15: Below 0ft — use geological layer colors instead of generic dark earth.
+// Uses _getNamedGeoLayerColor(-py) which gives proper geological coloring by depth.
+// Smooth transition at y≈0 from grass/slope color to geological color.
+const TRANSITION_BAND = 0.5; // feet — smooth blend band around y=0
 let heightT = 0;
-if (py < 0) {
-heightT = Math.max(0, Math.min(1, -py / 5)); // full dark earth at -5ft
-tmpHeight.lerpColors(tmpSlope, darkEarthColor, heightT * 0.6);
+if (py < -TRANSITION_BAND) {
+// Below transition band — full geological color
+const depthBelowSurface = -py; // depth below 0 (positive)
+const geoColor = _getNamedGeoLayerColor(depthBelowSurface);
+// Brighten underground colors 25% for visibility
+const boost = 1.25;
+tmpHeight.setRGB(
+Math.min(1, geoColor.r * boost),
+Math.min(1, geoColor.g * boost),
+Math.min(1, geoColor.b * boost)
+);
+} else if (py < 0) {
+// In transition band (−0.5 to 0) — blend from slope color to geological color
+const depthBelowSurface = -py;
+const geoColor = _getNamedGeoLayerColor(depthBelowSurface);
+const boost = 1.25;
+const geoR = Math.min(1, geoColor.r * boost);
+const geoG = Math.min(1, geoColor.g * boost);
+const geoB = Math.min(1, geoColor.b * boost);
+const blendT = (-py) / TRANSITION_BAND; // 0 at y=0, 1 at y=-0.5
+const sm = blendT * blendT * (3 - 2 * blendT);
+tmpHeight.setRGB(
+tmpSlope.r + (geoR - tmpSlope.r) * sm,
+tmpSlope.g + (geoG - tmpSlope.g) * sm,
+tmpSlope.b + (geoB - tmpSlope.b) * sm
+);
 } else if (py > 20) {
 heightT = Math.max(0, Math.min(1, (py - 20) / 10)); // full rock at 30ft
 tmpHeight.lerpColors(tmpSlope, rockColor, heightT * 0.7);
@@ -7261,6 +7298,132 @@ x: -halfW,
 z: halfD - (i / segs) * state.yard.depth,
 h: terrainAt(0, segs - i)
 }), segs);
+// Sprint 15: Interior earth walls — scan terrain grid for height differences >1ft between
+// adjacent cells and build wall quads from the higher terrain down to the lower terrain
+// (and further down to bottomY). Only in dug areas (terrain < 0).
+const WALL_HEIGHT_THRESHOLD = 1.0; // feet — minimum height difference to generate a wall
+function addInteriorWall(ax, az, bx, bz, ah, bh, bottomY, positions, indices, surfaceHeights) {
+// Wall from higher terrain edge down to lower terrain edge (the "step" face),
+// then continues down to bottomY.
+// We create a quad: top edge follows the higher terrain, bottom edge at the lower terrain.
+const higherH = Math.max(ah, bh);
+const lowerH = Math.min(ah, bh);
+// Only build interior walls in dug areas (terrain < 0)
+if (higherH >= 0 && lowerH >= 0) return;
+// Top vertices at the higher terrain surface
+const t0 = positions.length / 3;
+positions.push(ax, higherH, az); surfaceHeights.push(higherH);
+const t1 = positions.length / 3;
+positions.push(bx, higherH, bz); surfaceHeights.push(higherH);
+// Mid vertices at the lower terrain surface (the step)
+const m0 = positions.length / 3;
+positions.push(ax, lowerH, az); surfaceHeights.push(higherH);
+const m1 = positions.length / 3;
+positions.push(bx, lowerH, bz); surfaceHeights.push(higherH);
+// Bottom vertices at bottomY
+const b0 = positions.length / 3;
+positions.push(ax, bottomY, az); surfaceHeights.push(higherH);
+const b1 = positions.length / 3;
+positions.push(bx, bottomY, bz); surfaceHeights.push(higherH);
+// Upper wall quad (step face): higher terrain → lower terrain
+indices.push(t0, t1, m1);
+indices.push(t0, m1, m0);
+// Lower wall quad: lower terrain → bottomY
+indices.push(m0, m1, b1);
+indices.push(m0, b1, b0);
+}
+// Scan the terrain grid for interior walls
+for (let iz = 0; iz < segs; iz++) {
+for (let ix = 0; ix < segs; ix++) {
+const h00 = terrainAt(ix, iz);
+const h10 = terrainAt(ix + 1, iz);
+const h01 = terrainAt(ix, iz + 1);
+// X-direction walls (between (ix,iz) and (ix+1,iz))
+if (Math.abs(h00 - h10) > WALL_HEIGHT_THRESHOLD) {
+const x0 = (ix / segs) * state.yard.width - halfW;
+const x1 = ((ix + 1) / segs) * state.yard.width - halfW;
+const z = (iz / segs) * state.yard.depth - halfD;
+addInteriorWall(x0, z, x1, z, h00, h10, bottomY, positions, indices, surfaceHeights);
+}
+// Z-direction walls (between (ix,iz) and (ix,iz+1))
+if (Math.abs(h00 - h01) > WALL_HEIGHT_THRESHOLD) {
+const x = (ix / segs) * state.yard.width - halfW;
+const z0 = (iz / segs) * state.yard.depth - halfD;
+const z1 = ((iz + 1) / segs) * state.yard.depth - halfD;
+addInteriorWall(x, z0, x, z1, h00, h01, bottomY, positions, indices, surfaceHeights);
+}
+}
+}
+// Sprint 15: Bottom cap for dug areas — subdivided floor grid.
+// When terrain dips below 0, the deep bottom quad (bottomY = minH - 17ft) is too far
+// below to be a visible floor. Build a subdivided "floor" cap at the lowest terrain
+// point in the yard, but only covering cells where terrain < 0. This floor sits just
+// below the deepest terrain vertex so it's visible when looking into a hole.
+// Color: geological layer matching the dig depth (bedrock for deep holes).
+const floorVertexGlobalIndices = []; // global indices of floor vertices (empty if no dig)
+if (minH < 0) {
+const floorY = minH - 0.3;
+const floorStep = Math.max(4, Math.floor(segs / 25)); // coarser grid: ~25×25 cells max
+const floorSegs = Math.floor(segs / floorStep);
+const floorPositions = [];
+const floorIndices = [];
+const vertexIndexMap = {}; // key "ix,iz" -> index into floorPositions
+function terrainHeightAtGrid(gx, gz) {
+return terrainAt(gx * floorStep, gz * floorStep);
+}
+for (let gz = 0; gz <= floorSegs; gz++) {
+for (let gx = 0; gx <= floorSegs; gx++) {
+// Check if this vertex is needed: at least one adjacent cell is dug
+let needed = false;
+for (let cz = Math.max(0, gz - 1); cz <= Math.min(floorSegs - 1, gz); cz++) {
+for (let cx = Math.max(0, gx - 1); cx <= Math.min(floorSegs - 1, gx); cx++) {
+const cix = cx * floorStep + Math.floor(floorStep / 2);
+const ciz = cz * floorStep + Math.floor(floorStep / 2);
+const cellH = terrainAt(cix, ciz);
+if (cellH < 0) { needed = true; break; }
+}
+if (needed) break;
+}
+if (!needed) continue;
+const key = gx + ',' + gz;
+const vi = floorPositions.length / 3;
+vertexIndexMap[key] = vi;
+const wx = (gx / floorSegs) * state.yard.width - halfW;
+const wz = (gz / floorSegs) * state.yard.depth - halfD;
+floorPositions.push(wx, floorY, wz);
+surfaceHeights.push(terrainHeightAtGrid(gx, gz));
+}
+}
+// Build indices: for each cell, if all 4 corners exist, emit 2 triangles
+for (let gz = 0; gz < floorSegs; gz++) {
+for (let gx = 0; gx < floorSegs; gx++) {
+const v00 = vertexIndexMap[(gx) + ',' + (gz)];
+const v10 = vertexIndexMap[(gx + 1) + ',' + (gz)];
+const v01 = vertexIndexMap[(gx) + ',' + (gz + 1)];
+const v11 = vertexIndexMap[(gx + 1) + ',' + (gz + 1)];
+if (v00 === undefined || v10 === undefined || v01 === undefined || v11 === undefined) continue;
+// Check cell center is dug
+const cix = gx * floorStep + Math.floor(floorStep / 2);
+const ciz = gz * floorStep + Math.floor(floorStep / 2);
+if (terrainAt(cix, ciz) >= 0) continue;
+// Flip winding so normals face UP (visible from above when looking into hole)
+floorIndices.push(v00, v10, v11);
+floorIndices.push(v00, v11, v01);
+}
+}
+// Append floor geometry to the main arrays
+const floorBaseIndex = positions.length / 3;
+for (let i = 0; i < floorPositions.length; i++) {
+positions.push(floorPositions[i]);
+}
+for (let i = 0; i < floorIndices.length; i++) {
+indices.push(floorIndices[i] + floorBaseIndex);
+}
+// Record global indices of floor vertices for geological coloring
+for (let i = 0; i < floorPositions.length / 3; i++) {
+floorVertexGlobalIndices.push(floorBaseIndex + i);
+}
+}
 const geo = new THREE.BufferGeometry();
 geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
 geo.setIndex(indices);
@@ -7268,15 +7431,37 @@ geo.computeVertexNormals();
 
 // Sprint 14: Apply geological layer vertex colors based on depth below terrain surface.
 // Uses named layers (topsoil/subsoil/clay/bedrock) with smooth lerp transitions at boundaries.
+// Sprint 15: Brighten underground vertex colors 20-30% for better visibility.
+// Sprint 15: Floor-cap vertices (bottom of dug areas) are colored based on the dig depth
+// (how far below 0ft the terrain surface is at that point), representing the geological
+// layer exposed at the bottom of the hole.
+const UNDERGROUND_BRIGHTNESS_BOOST = 0.25; // 25% brighter for underground vertices
+const floorVertexSet = new Set(floorVertexGlobalIndices);
 const seColors = new Float32Array((positions.length / 3) * 3);
 for (let i = 0; i < positions.length / 3; i++) {
 const py = positions[i * 3 + 1];
 const surfY = surfaceHeights[i] !== undefined ? surfaceHeights[i] : minH;
-const depthBelowSurface = surfY - py; // positive = below surface
-const geoColor = _getNamedGeoLayerColor(depthBelowSurface);
+let geoColor;
+let depthBelowSurface;
+if (floorVertexSet.has(i)) {
+// Floor cap: color based on how deep the terrain surface is below 0ft.
+const digDepth = Math.max(0, -surfY);
+geoColor = _getNamedGeoLayerColor(digDepth);
+depthBelowSurface = digDepth; // treat as underground for brightness boost
+} else {
+depthBelowSurface = surfY - py; // positive = below surface
+geoColor = _getNamedGeoLayerColor(depthBelowSurface);
+}
+// Brighten colors that are below the terrain surface (underground)
+if (depthBelowSurface > 0.1) {
+seColors[i * 3] = Math.min(1, geoColor.r * (1 + UNDERGROUND_BRIGHTNESS_BOOST));
+seColors[i * 3 + 1] = Math.min(1, geoColor.g * (1 + UNDERGROUND_BRIGHTNESS_BOOST));
+seColors[i * 3 + 2] = Math.min(1, geoColor.b * (1 + UNDERGROUND_BRIGHTNESS_BOOST));
+} else {
 seColors[i * 3] = geoColor.r;
 seColors[i * 3 + 1] = geoColor.g;
 seColors[i * 3 + 2] = geoColor.b;
+}
 }
 geo.setAttribute('color', new THREE.Float32BufferAttribute(seColors, 3));
 
@@ -7394,7 +7579,6 @@ if (typeof cutFillEnabled !== 'undefined' && cutFillEnabled && typeof updateCutF
 if (typeof waterFlowEnabled !== 'undefined' && waterFlowEnabled && typeof buildWaterFlowPaths === 'function') buildWaterFlowPaths();
 if (typeof elevHeatmapEnabled !== 'undefined' && elevHeatmapEnabled && typeof buildElevationHeatmap === 'function') buildElevationHeatmap();
 if (typeof ghostModeEnabled !== 'undefined' && ghostModeEnabled && typeof updateGhostMode === 'function') updateGhostMode();
-buildSolidEarth();
 buildSolidEarth();
 }
 
@@ -8463,6 +8647,9 @@ const dayFactor = Math.max(0, Math.min(1, pos.elevation / 30));
 if (sunAmbient) sunAmbient.intensity = 0.35 + 0.3 * dayFactor;
 if (sunHemi) sunHemi.intensity = 0.3 + 0.25 * dayFactor;
 sunLight.intensity = 0.2 + 0.7 * dayFactor;
+// Sprint 15: Keep underground fill light steady — dug areas need consistent illumination
+if (window._undergroundPoint) window._undergroundPoint.intensity = 0.20 + 0.15 * dayFactor;
+if (window._undergroundHemi) window._undergroundHemi.intensity = 0.25 + 0.15 * dayFactor;
 const warm = new THREE.Color(0xff8844);
 const noon = new THREE.Color(0xffffff);
 sunLight.color.copy(noon).lerp(warm, 1 - dayFactor);
@@ -8559,6 +8746,9 @@ sunLight.shadow.camera.updateProjectionMatrix();
 }
 if (sunAmbient) sunAmbient.intensity = 0.65;
 if (sunHemi) sunHemi.intensity = 0.55;
+// Sprint 15: Reset underground fill lights to default intensity
+if (window._undergroundPoint) window._undergroundPoint.intensity = 0.3;
+if (window._undergroundHemi) window._undergroundHemi.intensity = 0.35;
 requestRender();
 });
 })();
@@ -12636,6 +12826,8 @@ get EARTH_DEPTH_BELOW_MIN() { return EARTH_DEPTH_BELOW_MIN; },
 _getGeologicalLayerColor, GEOLOGICAL_LAYERS,
 _getNamedGeoLayerColor, NAMED_GEO_LAYERS,
 get crossSectionClipPlane() { return crossSectionClipPlane; },
+get undergroundHemi() { return window._undergroundHemi || null; },
+get undergroundPoint() { return window._undergroundPoint || null; },
 clampTerrainHeight,
 };
 try {
@@ -15224,7 +15416,6 @@ state.terrain[iz * size + ix] = clampTerrainHeight(h);
 state.terrainDeformed = true;
 applyTerrainToMesh();
 buildSolidEarth();
-buildSolidEarth();
 const elapsed = (performance.now() - t0).toFixed(1);
 const vertCount = size * size;
 if (log) log.innerHTML += `<div>✓ Generated ${vertCount}-vertex terrain (${segs}×${segs}) in ${elapsed}ms</div>`;
@@ -16651,6 +16842,16 @@ if (typeof addObject !== 'undefined') window.addObject = addObject;
 if (typeof selectObject !== 'undefined') window.selectObject = selectObject;
 if (typeof ensureTerrainArray !== 'undefined') window.ensureTerrainArray = ensureTerrainArray;
 if (typeof applyTerrainToMesh !== 'undefined') window.applyTerrainToMesh = applyTerrainToMesh;
+// Sprint 15: Expose terrain color functions for testing
+if (typeof applyTerrainVertexColors !== 'undefined') window.applyTerrainVertexColors = applyTerrainVertexColors;
+if (typeof _getNamedGeoLayerColor !== 'undefined') window._getNamedGeoLayerColor = _getNamedGeoLayerColor;
+if (typeof NAMED_GEO_LAYERS !== 'undefined') window.NAMED_GEO_LAYERS = NAMED_GEO_LAYERS;
+if (typeof smoothstep !== 'undefined') window.smoothstep = smoothstep;
+if (typeof yardMesh !== 'undefined') window.yardMesh = yardMesh;
+if (typeof rebuildYardMesh !== 'undefined') window.rebuildYardMesh = rebuildYardMesh;
+if (typeof buildYardMesh !== 'undefined') window.buildYardMesh = buildYardMesh;
+if (typeof applyTerrainFull !== 'undefined') window.applyTerrainFull = applyTerrainFull;
+if (typeof applyTerrainPositions !== 'undefined') window.applyTerrainPositions = applyTerrainPositions;
 
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
