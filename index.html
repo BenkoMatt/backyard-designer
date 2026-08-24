@@ -2816,23 +2816,6 @@ Sun
 </button>
 <div class="viewport-overlay" id="sun-panel">
 <div class="sun-row">
-<label>Location</label>
-<button class="sun-geo-btn" id="sun-geo" aria-label="Use my current location for sun simulation">Use My Location</button>
-</div>
-<div class="sun-row">
-<label>Latitude</label>
-<input type="number" id="sun-lat" value="42.33" step="0.01" min="-90" max="90" aria-label="Latitude">
-</div>
-<div class="sun-row">
-<label>Longitude</label>
-<input type="number" id="sun-lng" value="-83.05" step="0.01" min="-180" max="180" aria-label="Longitude">
-</div>
-<div class="sun-presets" id="sun-presets"></div>
-<div class="sun-row">
-<label>Date</label>
-<input type="date" id="sun-date" aria-label="Date for sun position">
-</div>
-<div class="sun-row">
 <label>Time</label>
 <input type="range" id="sun-time" min="0" max="24" step="0.25" value="12" aria-label="Time of day in hours">
 <span class="sun-time-display" id="sun-time-display">12:00</span>
@@ -8602,39 +8585,22 @@ const sunCityPresets = [
 { name: 'Miami, FL', lat: 25.76, lng: -80.19 },
 { name: 'Denver, CO', lat: 39.74, lng: -104.99 },
 ];
+// Simple day/night cycle — no geolocation needed.
+// 12:00 = noon (sun directly overhead), 6:00 = sunrise (east), 18:00 = sunset (west), 0:00 = midnight (below).
+// The sun arcs from east to west through the day. Elevation peaks at noon, drops below horizon at night.
 function solarPosition(latDeg, lngDeg, date, hoursUTC) {
-const rad = Math.PI / 180, deg = 180 / Math.PI;
-const lat = latDeg * rad;
-const start = new Date(date.getFullYear(), 0, 0);
-const diff = date - start;
-const doy = Math.floor(diff / 86400000);
-const gamma = 2 * Math.PI / 365 * (doy - 1 + (hoursUTC - 12) / 24);
-const eqTime = 229.18 * (0.000075 + 0.106876 * Math.cos(gamma) - 0.122058 * Math.sin(gamma)
-- 0.157828 * Math.cos(2 * gamma) - 0.156023 * Math.sin(2 * gamma));
-const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma)
-- 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma)
-- 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
-const timeOffset = eqTime + 4 * lngDeg;
-const tst = hoursUTC * 60 + timeOffset;
-const ha = tst / 4 - 180;
-const haRad = ha * rad;
-const cosZen = Math.sin(lat) * Math.sin(decl) + Math.cos(lat) * Math.cos(decl) * Math.cos(haRad);
-const zen = Math.acos(Math.max(-1, Math.min(1, cosZen)));
-const elevation = 90 - zen * deg;
-let az = Math.acos((Math.sin(decl) - Math.sin(lat) * Math.cos(zen)) / (Math.cos(lat) * Math.sin(zen)));
-if (ha > 0) az = 360 - az * deg;
-else az = az * deg;
-if (isNaN(az)) az = 0;
-return { azimuth: az, elevation: Math.max(-10, elevation) };
+const hour = hoursUTC;
+// Elevation: peaks at noon (90°), drops to -15° at midnight. Smooth cosine curve.
+const elevation = Math.sin((hour - 6) / 12 * Math.PI) * 90;
+// Azimuth: sun rises in the east (90° at 6am), moves to south (180° at noon), sets in the west (270° at 6pm).
+// At night the azimuth continues rotating (north at midnight = 0°/360°).
+const azimuth = (90 + hour * 180 / 12) % 360;
+return { azimuth, elevation: Math.max(-15, elevation) };
 }
 function applySunPosition() {
 if (!sunLight) return;
-const lat = parseFloat(document.getElementById('sun-lat').value) || 0;
-const lng = parseFloat(document.getElementById('sun-lng').value) || 0;
-const dateStr = document.getElementById('sun-date').value;
 const timeVal = parseFloat(document.getElementById('sun-time').value);
-const date = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
-const pos = solarPosition(lat, lng, date, timeVal);
+const pos = solarPosition(0, 0, new Date(), timeVal);
 const elRad = pos.elevation * Math.PI / 180;
 const azRad = pos.azimuth * Math.PI / 180;
 const dist = 100;
@@ -8692,52 +8658,21 @@ requestAnimationFrame(sunAnimate);
 const sunBtn = document.getElementById('sun-btn');
 const sunPanel = document.getElementById('sun-panel');
 if (!sunBtn || !sunPanel) return;
-const presetsEl = document.getElementById('sun-presets');
-sunCityPresets.forEach(c => {
-const b = document.createElement('button');
-b.className = 'sun-preset';
-b.textContent = c.name.split(',')[0];
-b.addEventListener('click', () => {
-document.getElementById('sun-lat').value = c.lat;
-document.getElementById('sun-lng').value = c.lng;
-applySunPosition();
-});
-presetsEl.appendChild(b);
-});
-const today = new Date();
-document.getElementById('sun-date').value = today.toISOString().slice(0, 10);
+// City presets removed — simple day/night cycle only
 sunBtn.addEventListener('click', () => {
 const open = sunPanel.classList.toggle('visible');
 sunBtn.classList.toggle('active', open);
 if (open) applySunPosition();
 });
-document.getElementById('sun-geo').addEventListener('click', () => {
-if (!navigator.geolocation) { showToast('Geolocation not available', 'error'); return; }
-const btn = document.getElementById('sun-geo');
-btn.disabled = true; btn.textContent = 'Locating...';
-navigator.geolocation.getCurrentPosition(
-pos => {
-document.getElementById('sun-lat').value = pos.coords.latitude.toFixed(2);
-document.getElementById('sun-lng').value = pos.coords.longitude.toFixed(2);
-btn.disabled = false; btn.textContent = 'Use My Location';
-applySunPosition();
-},
-() => {
-showToast('Could not get location', 'error');
-btn.disabled = false; btn.textContent = 'Use My Location';
-},
-{ timeout: 8000 }
-);
-});
-['sun-lat', 'sun-lng', 'sun-date'].forEach(id => {
+// Geolocation button removed — simple day/night cycle only
+// City presets removed — no lat/lng needed
+['sun-time'].forEach(id => {
 document.getElementById(id).addEventListener('input', applySunPosition);
 });
-document.getElementById('sun-time').addEventListener('input', () => { if (!_suppressSunInput) applySunPosition(); });
 document.getElementById('sun-play').addEventListener('click', toggleSunPlay);
 document.getElementById('sun-reset').addEventListener('click', () => {
 if (sunPlaying) toggleSunPlay();
 document.getElementById('sun-time').value = 12;
-document.getElementById('sun-date').value = new Date().toISOString().slice(0, 10);
 if (sunLight) {
 sunLight.position.set(30, 50, 20);
 sunLight.intensity = 0.9;
@@ -13712,14 +13647,6 @@ const sunTimeEl = document.getElementById('sun-time');
 if (sunTimeEl) {
 sunTimeEl.addEventListener('input', updateAtmosphereFromSun);
 }
-const sunDateEl = document.getElementById('sun-date');
-if (sunDateEl) {
-sunDateEl.addEventListener('input', updateAtmosphereFromSun);
-}
-const sunLatEl = document.getElementById('sun-lat');
-const sunLngEl = document.getElementById('sun-lng');
-if (sunLatEl) sunLatEl.addEventListener('input', updateAtmosphereFromSun);
-if (sunLngEl) sunLngEl.addEventListener('input', updateAtmosphereFromSun);
 let _lastSunTime = -1;
 setInterval(() => {
 if (typeof sunPlaying !== 'undefined' && sunPlaying) {
@@ -13826,11 +13753,7 @@ console.log('[Sprint 7] Immersive Experience initialized — Atmosphere, Sound, 
 }
 function updateAtmosphereFromSun() {
 const timeVal = parseFloat(document.getElementById('sun-time')?.value || 12);
-const lat = parseFloat(document.getElementById('sun-lat')?.value || 0);
-const lng = parseFloat(document.getElementById('sun-lng')?.value || 0);
-const dateStr = document.getElementById('sun-date')?.value;
-const date = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
-const pos = typeof solarPosition === 'function' ? solarPosition(lat, lng, date, timeVal) : { elevation: 45 };
+const pos = typeof solarPosition === 'function' ? solarPosition(0, 0, new Date(), timeVal) : { elevation: 45 };
 Atmosphere.update(timeVal, pos.elevation);
 if (AmbientSound.isEnabled()) {
 AmbientSound.updateFromTimeOfDay(timeVal, pos.elevation);
@@ -13857,11 +13780,7 @@ fall: '10-15',
 winter: '01-15',
 };
 function applySeasonToSun() {
-const sunDateEl = document.getElementById('sun-date');
-if (!sunDateEl) return;
-const year = new Date().getFullYear();
-const dateStr = year + '-' + SEASON_DATES[currentSeason];
-sunDateEl.value = dateStr;
+// Season now just sets a default time — no date input needed
 const sunTimeEl = document.getElementById('sun-time');
 if (sunTimeEl) {
 const times = { spring: 13, summer: 13, fall: 12, winter: 11 };
