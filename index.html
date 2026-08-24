@@ -204,6 +204,40 @@ background: none; border: none; cursor: pointer; font-size: 18px;
 color: var(--text-muted); padding: 0 4px; line-height: 1;
 }
 .dock-panel-header .close:hover { color: var(--text); }
+/* Sprint 13: Panel minimize buttons */
+.dock-panel-header .header-btns { display: flex; align-items: center; gap: 2px; }
+.dock-panel-header .minimize {
+background: none; border: none; cursor: pointer; font-size: 16px;
+color: var(--text-muted); padding: 0 4px; line-height: 1;
+}
+.dock-panel-header .minimize:hover { color: var(--text); }
+.dock-panel.minimized .dock-panel-body { display: none; }
+.dock-panel.minimized { min-height: auto; }
+/* Sculpt restore pill — shown when dock-terrain is minimized */
+#sculpt-restore-pill {
+position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+z-index: 25; display: none;
+background: var(--terrain); color: white; border: none; border-radius: 20px;
+padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+box-shadow: var(--shadow-lg); font-family: inherit;
+transition: all 0.2s; gap: 6px; align-items: center;
+}
+#sculpt-restore-pill:hover { background: var(--primary); transform: translateX(-50%) translateY(-2px); }
+#sculpt-restore-pill.visible { display: flex; }
+@media (max-width: 768px) {
+#sculpt-restore-pill { bottom: 8px; font-size: 14px; padding: 10px 20px; min-height: 44px; }
+}
+/* Terrain controls panel minimize */
+#terrain-controls .terrain-controls-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+#terrain-controls .terrain-controls-header .minimize {
+background: none; border: none; cursor: pointer; font-size: 16px;
+color: var(--text-muted); padding: 0 4px; line-height: 1;
+}
+#terrain-controls .terrain-controls-header .minimize:hover { color: var(--text); }
+#terrain-controls.minimized .terrain-controls-body { display: none; }
+/* Sprint 13: terrain controls body may be moved to dock-terrain-content at runtime */
+.dock-panel-body.minimized .terrain-controls-body,
+#dock-terrain-content.minimized .terrain-controls-body { display: none; }
 .advanced-toggle {
 display: flex; align-items: center; gap: 6px; padding: 8px 10px;
 border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -2003,9 +2037,9 @@ Click any item below to add it to your yard. Then drag to position it.
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20L8 8L14 14L18 6L22 20Z"/></svg>
 Terrain Sculpting
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-terrain-content"></div>
+<div id="dock-terrain-content" class="dock-panel-body"></div>
 </div>
 <div class="dock-panel" id="dock-underground">
 <div class="dock-panel-header">
@@ -2013,9 +2047,9 @@ Terrain Sculpting
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
 Underground View
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-underground-content"></div>
+<div id="dock-underground-content" class="dock-panel-body"></div>
 </div>
 <div class="dock-panel" id="dock-analyze">
 <div class="dock-panel-header">
@@ -2023,9 +2057,9 @@ Underground View
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l4-4 4 4 4-8 6 6"/><path d="M3 21h18" stroke-width="1.5"/></svg>
 Terrain Analysis
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-analyze-content"></div>
+<div id="dock-analyze-content" class="dock-panel-body"></div>
 </div>
 <div class="dock-panel" id="dock-innovate">
 <div class="dock-panel-header">
@@ -2033,9 +2067,9 @@ Terrain Analysis
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
 Pro Terrain Tools
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-innovate-content"></div>
+<div id="dock-innovate-content" class="dock-panel-body"></div>
 </div>
 <div class="dock-panel" id="dock-sun">
 <div class="dock-panel-header">
@@ -2043,9 +2077,9 @@ Pro Terrain Tools
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
 Sun & Shadow
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-sun-content"></div>
+<div id="dock-sun-content" class="dock-panel-body"></div>
 </div>
 <div class="dock-panel" id="dock-measure">
 <div class="dock-panel-header">
@@ -2053,9 +2087,9 @@ Sun & Shadow
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
 Measure
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-measure-content">
+<div id="dock-measure-content" class="dock-panel-body">
 <button class="innov-tool-btn" id="dock-tape-toggle" style="width:100%;">
 <div>
 <div>Tape Measure</div>
@@ -2071,9 +2105,9 @@ Measure
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2 5h5l-4 3 1.5 5L12 13l-4.5 3L9 11 5 8h5z"/></svg>
 Atmosphere
 </div>
-<button class="close" data-dock-close aria-label="Close panel">&times;</button>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
 </div>
-<div id="dock-experience-content">
+<div id="dock-experience-content" class="dock-panel-body">
 <div class="exp-section">
 <div class="exp-section-title">
 <svg class="exp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -2196,6 +2230,8 @@ Tape Measure
 Terrain
 </button>
 <div class="viewport-overlay" id="terrain-controls">
+<div class="terrain-controls-header"><span class="title" style="font-weight:700;font-size:13px;">Terrain Controls</span><button class="minimize" data-terrain-minimize aria-label="Minimize terrain controls">&#8722;</button></div>
+<div class="terrain-controls-body">
 <div class="terrain-instructions" style="background:var(--hover-bg-primary);padding:8px 12px;border-radius:var(--radius-sm);margin-bottom:8px;font-size:11px;color:var(--text-muted);line-height:1.4;">
 💡 <strong>How to sculpt:</strong> Pick a mode (Raise, Excavate, etc.), then <strong>click and drag</strong> on the ground to shape the terrain. Adjust brush size and strength as needed.
 </div>
@@ -2354,7 +2390,8 @@ Carving Tools
 </div>
 <button id="terrain-flatten" aria-label="Flatten all terrain to zero elevation">Flatten All Terrain</button>
 <button id="terrain-smooth-pass" aria-label="Apply smoothing pass to terrain" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; margin-top: 4px;">Smooth Terrain</button>
-</div>
+</div><!-- /terrain-controls-body -->
+</div><!-- /terrain-controls -->
 <div id="terrain-height-legend">
 <div class="height-legend-title">Elevation (ft)</div>
 <div class="height-legend-container">
@@ -4300,6 +4337,9 @@ controls.target.set(0, 0, 0);
 controls.maxPolarAngle = Math.PI / 2 - 0.05;
 controls.minDistance = 5;
 controls.maxDistance = 300;
+// Sprint 13: explicit zoom enablement and speed
+controls.enableZoom = true;
+controls.zoomSpeed = 1.2;
 if (IS_MOBILE) {
 controls.touches = {
 ONE: THREE.TOUCH.PAN,
@@ -4370,6 +4410,40 @@ window._bydContextLost = false;
 showToast('Graphics restored', 'success');
 requestRender();
 });
+// Sprint 13: Forward wheel events from non-scrollable panels to canvas for zoom.
+// When a panel can't scroll further, the wheel event should reach OrbitControls for camera zoom.
+document.addEventListener('wheel', (e) => {
+// If the event target is the canvas or viewport, OrbitControls handles it — do nothing.
+if (e.target === renderer.domElement || e.target === viewport) return;
+// Find the closest scrollable container that the target is directly within
+let el = e.target;
+while (el && el !== document.body) {
+const style = getComputedStyle(el);
+const canScroll = el.scrollHeight > el.clientHeight && (style.overflowY === 'auto' || style.overflowY === 'scroll');
+if (canScroll) {
+// This element can scroll — check if it can scroll further in the wheel direction
+const canScrollUp = el.scrollTop > 0;
+const canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+if (e.deltaY < 0 && canScrollUp) return; // scrolling up and can scroll up → let it scroll
+if (e.deltaY > 0 && canScrollDown) return; // scrolling down and can scroll down → let it scroll
+// Can't scroll further — forward to canvas
+break;
+}
+el = el.parentElement;
+}
+// Forward the wheel event to the canvas so OrbitControls zooms
+const newEvent = new WheelEvent('wheel', {
+deltaY: e.deltaY,
+deltaX: e.deltaX,
+deltaZ: e.deltaZ,
+deltaMode: e.deltaMode,
+clientX: e.clientX,
+clientY: e.clientY,
+bubbles: true,
+cancelable: true,
+});
+renderer.domElement.dispatchEvent(newEvent);
+}, { passive: true });
 window.addEventListener('resize', onResize);
 animate();
 }
@@ -6689,6 +6763,29 @@ _origMoveSelected(key, fine);
 };
 const terrainBtn = document.getElementById('terrain-btn');
 const terrainControls = document.getElementById('terrain-controls');
+// Sprint 13: terrain controls panel minimize button
+const terrainMinBtn = terrainControls && terrainControls.querySelector('[data-terrain-minimize]');
+// The terrain-controls content is moved to dock-terrain-content at setup time,
+// so we also need to check there for the minimize button.
+const terrainMinBtnAlt = document.querySelector('#dock-terrain-content [data-terrain-minimize]');
+const _terrainMinBtn = terrainMinBtn || terrainMinBtnAlt;
+if (_terrainMinBtn) {
+_terrainMinBtn.addEventListener('click', (e) => {
+e.stopPropagation();
+// Toggle minimized on the container that holds the terrain-controls-body
+const body = _terrainMinBtn.parentElement && _terrainMinBtn.parentElement.parentElement 
+? _terrainMinBtn.parentElement.parentElement.querySelector('.terrain-controls-body') : null;
+const container = body ? body.parentElement : null;
+if (!container) return;
+const isMin = container.classList.toggle('minimized');
+_terrainMinBtn.setAttribute('aria-label', isMin ? 'Restore terrain controls' : 'Minimize terrain controls');
+_terrainMinBtn.innerHTML = isMin ? '&#43;' : '&#8722;';
+/* Show sculpt restore pill when terrain controls are minimized */
+const sculptRestorePill = document.getElementById('sculpt-restore-pill');
+if (sculptRestorePill) sculptRestorePill.classList.toggle('visible', isMin);
+if (typeof requestRender === 'function') requestRender();
+});
+}
 const terrainBrushSizeInput = document.getElementById('terrain-brush-size');
 const terrainBrushValEl = document.getElementById('terrain-brush-val');
 const terrainStrengthInput = document.getElementById('terrain-strength');
@@ -7247,6 +7344,11 @@ state.voxels[iy * voxelNX * voxelNZ + iz * voxelNX + ix] = 0;
 }
 }
 }
+// ── Sprint 13: Debounced voxel mesh rebuild during carving ──
+let _voxelMeshDebounceTimer = null;
+let _voxelMeshRebuildPending = false;
+const VOXEL_MESH_DEBOUNCE_MS = 60;
+
 function buildVoxelMesh() {
 if (voxelMesh) {
 scene.remove(voxelMesh);
@@ -7402,6 +7504,29 @@ if (typeof wireframeActive !== 'undefined' && wireframeActive) {
 voxelMesh.material.wireframe = true;
 }
 }
+// Sprint 13: debounced voxel mesh rebuild — coalesces rapid carving calls for smooth FPS.
+function debouncedBuildVoxelMesh() {
+_voxelMeshRebuildPending = true;
+if (_voxelMeshDebounceTimer) clearTimeout(_voxelMeshDebounceTimer);
+_voxelMeshDebounceTimer = setTimeout(() => {
+_voxelMeshDebounceTimer = null;
+_voxelMeshRebuildPending = false;
+buildVoxelMesh();
+requestRender();
+}, VOXEL_MESH_DEBOUNCE_MS);
+}
+// Flush any pending debounced voxel rebuild immediately (used on pointer-up).
+function _flushVoxelMeshRebuild() {
+if (_voxelMeshDebounceTimer) {
+clearTimeout(_voxelMeshDebounceTimer);
+_voxelMeshDebounceTimer = null;
+}
+if (_voxelMeshRebuildPending) {
+_voxelMeshRebuildPending = false;
+buildVoxelMesh();
+requestRender();
+}
+}
 function rebuildVoxelVolume() {
 if (!state.voxels) {
 initVoxelsFromTerrain();
@@ -7448,7 +7573,11 @@ _carveShapeRange(shape, cx, cy, cz, halfSize, halfDepth, clampedMin, clampedMax,
 } else {
 _carveShapeRange(shape, cx, cy, cz, halfSize, halfDepth, minV, maxV, changed);
 }
-if (changed.length > 0) buildVoxelMesh();
+if (changed.length > 0) {
+// Sprint 13: debounce voxel rebuild during active painting for smooth FPS
+if (isTerrainPainting) debouncedBuildVoxelMesh();
+else buildVoxelMesh();
+}
 return changed;
 }
 function _carveShapeRange(shape, cx, cy, cz, halfSize, halfDepth, minV, maxV, changed) {
@@ -7517,7 +7646,11 @@ changed.push({ ix, iy, iz, oldVal: 0 });
 }
 }
 }
-if (changed.length > 0) buildVoxelMesh();
+if (changed.length > 0) {
+// Sprint 13: debounce voxel rebuild during active painting for smooth FPS
+if (isTerrainPainting) debouncedBuildVoxelMesh();
+else buildVoxelMesh();
+}
 return changed;
 }
 function carveWithBrush(wx, wy, wz) {
@@ -7653,7 +7786,41 @@ const facesEl = document.getElementById('voxel-faces');
 if (countEl) countEl.textContent = countSolidVoxels().toLocaleString();
 if (facesEl) facesEl.textContent = countVoxelFaces().toLocaleString();
 }
-function applyTerrainToMesh() {
+// ── Sprint 13: Terrain/voxel performance split ──
+// applyTerrainPositions: FAST — updates vertex Y positions only, no normals/colors/voxels.
+// Used during active painting for smooth FPS; applyTerrainFull is debounced afterward.
+let _terrainFullDebounceTimer = null;
+let _terrainFullPending = false;
+const TERRAIN_FULL_DEBOUNCE_MS = 80;
+
+function applyTerrainPositions() {
+if (!state.terrain) return;
+const segs = state.terrainSegs;
+const geo = yardMesh.geometry;
+const pos = geo.attributes.position;
+const expectedCount = (segs + 1) * (segs + 1);
+if (pos.count === expectedCount) {
+for (let iz = 0; iz <= segs; iz++) {
+for (let ix = 0; ix <= segs; ix++) {
+const vi = iz * (segs + 1) + ix;
+pos.setY(vi, state.terrain[vi] || 0);
+}
+}
+} else {
+const halfW = state.yard.width / 2;
+const halfD = state.yard.depth / 2;
+for (let i = 0; i < pos.count; i++) {
+const wx = pos.getX(i);
+const wz = pos.getZ(i);
+const h = getTerrainHeight(wx, wz);
+pos.setY(i, h);
+}
+}
+pos.needsUpdate = true;
+// NOTE: deliberately skip computeVertexNormals for speed during painting
+}
+
+function applyTerrainFull() {
 if (!state.terrain) return;
 const segs = state.terrainSegs;
 const geo = yardMesh.geometry;
@@ -7696,6 +7863,36 @@ if (_buildVoxelsLazy) _buildVoxelsLazy();
 else { initVoxelsFromTerrain(); buildVoxelMesh(); }
 updateVoxelInfoDisplay();
 }
+}
+
+// Debounced full update — called during painting; coalesces rapid calls.
+function _debouncedApplyTerrainFull() {
+_terrainFullPending = true;
+if (_terrainFullDebounceTimer) clearTimeout(_terrainFullDebounceTimer);
+_terrainFullDebounceTimer = setTimeout(() => {
+_terrainFullDebounceTimer = null;
+_terrainFullPending = false;
+applyTerrainFull();
+requestRender();
+}, TERRAIN_FULL_DEBOUNCE_MS);
+}
+
+// Flush any pending debounced full update immediately (used on pointer-up).
+function _flushTerrainFull() {
+if (_terrainFullDebounceTimer) {
+clearTimeout(_terrainFullDebounceTimer);
+_terrainFullDebounceTimer = null;
+}
+if (_terrainFullPending) {
+_terrainFullPending = false;
+applyTerrainFull();
+requestRender();
+}
+}
+
+// Backward-compatible wrapper: callers that need the complete update use this.
+function applyTerrainToMesh() {
+applyTerrainFull();
 }
 function paintTerrain(worldX, worldZ) {
 ensureTerrainArray();
@@ -7800,7 +7997,14 @@ state.terrain[vi2] = clampTerrainHeight(state.terrain[vi2] * 0.9 + avg2 * 0.1);
 }
 }
 }
-applyTerrainToMesh();
+// Sprint 13: during active painting use fast position-only update + debounced full update.
+// Skip voxel rebuild during terrain painting (voxels are updated on pointer-up via applyTerrainFull).
+if (isTerrainPainting) {
+applyTerrainPositions();
+_debouncedApplyTerrainFull();
+} else {
+applyTerrainFull();
+}
 state.terrainDeformed = true;
 state.objects.forEach((obj, id) => {
 const dist = Math.sqrt((obj.position.x - worldX) ** 2 + (obj.position.z - worldZ) ** 2);
@@ -8156,6 +8360,10 @@ _voxelSnapBeforeBrush = null;
 isTerrainPainting = false;
 terrainHistory = null;
 controls.enabled = true;
+// Sprint 13: flush any pending debounced terrain full update immediately
+_flushTerrainFull();
+// Sprint 13: flush any pending debounced voxel mesh rebuild immediately
+_flushVoxelMeshRebuild();
 if (terrainDrainageActive) updateDrainageArrows();
 updateHeightLegend();
 updateVoxelInfoDisplay();
@@ -12784,6 +12992,11 @@ applyTerrainVertexColors, createTerrainMaterial, createTerrainNoiseTexture, upda
 saveDesign, loadFromFile, deleteObjectWithCommand, removeObject, showToast, requestRender,
 get terrainMode() { return terrainMode; }, set terrainMode(v) { terrainMode = v; },
 get isTerrainPainting() { return isTerrainPainting; }, set isTerrainPainting(v) { isTerrainPainting = v; },
+// Sprint 13: expose new perf functions
+applyTerrainPositions, applyTerrainFull, _debouncedApplyTerrainFull, _flushTerrainFull,
+debouncedBuildVoxelMesh, _flushVoxelMeshRebuild,
+get _terrainFullPending() { return _terrainFullPending; },
+get _voxelMeshRebuildPending() { return _voxelMeshRebuildPending; },
 get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; },
 get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; },
 get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; },
@@ -12925,10 +13138,54 @@ if (typeof requestRender === 'function') requestRender();
 dockPanelContainer.querySelectorAll('[data-dock-close]').forEach(btn => {
 btn.addEventListener('click', closeDockPanel);
 });
+// Sprint 13: Panel minimize/restore logic
+const sculptRestorePill = document.getElementById('sculpt-restore-pill');
+dockPanelContainer.querySelectorAll('[data-dock-minimize]').forEach(btn => {
+btn.addEventListener('click', (e) => {
+e.stopPropagation();
+const panel = e.target.closest('.dock-panel');
+if (!panel) return;
+const isMin = panel.classList.toggle('minimized');
+btn.setAttribute('aria-label', isMin ? 'Restore panel' : 'Minimize panel');
+btn.innerHTML = isMin ? '&#43;' : '&#8722;';
+/* When dock-terrain is minimized, show the Sculpt restore pill */
+if (panel.id === 'dock-terrain') {
+if (sculptRestorePill) sculptRestorePill.classList.toggle('visible', isMin);
+}
+if (typeof requestRender === 'function') requestRender();
+});
+});
+/* Sculpt restore pill — clicking it restores the dock-terrain panel */
+if (sculptRestorePill) {
+sculptRestorePill.addEventListener('click', function() {
+const terrainPanel = document.getElementById('dock-terrain');
+if (terrainPanel && terrainPanel.classList.contains('minimized')) {
+terrainPanel.classList.remove('minimized');
+const minBtn = terrainPanel.querySelector('[data-dock-minimize]');
+if (minBtn) { minBtn.innerHTML = '&#8722;'; minBtn.setAttribute('aria-label', 'Minimize panel'); }
+}
+/* Also restore the floating terrain-controls if it was minimized */
+const tc = document.getElementById('terrain-controls');
+if (tc && tc.classList.contains('minimized')) {
+tc.classList.remove('minimized');
+const tcMinBtn = tc.querySelector('[data-dock-minimize]');
+if (tcMinBtn) { tcMinBtn.innerHTML = '&#8722;'; tcMinBtn.setAttribute('aria-label', 'Minimize terrain controls'); }
+}
+sculptRestorePill.classList.remove('visible');
+if (typeof requestRender === 'function') requestRender();
+});
+}
 function closeDockPanel() {
 if (!activeDockTab) return;
 const panel = document.getElementById('dock-' + activeDockTab);
-if (panel) panel.classList.remove('visible');
+if (panel) {
+panel.classList.remove('visible');
+// Sprint 13: reset minimized state on close + hide sculpt pill
+panel.classList.remove('minimized');
+const minBtn = panel.querySelector('[data-dock-minimize]');
+if (minBtn) { minBtn.setAttribute('aria-label', 'Minimize panel'); minBtn.innerHTML = '&#8722;'; }
+}
+if (sculptRestorePill) sculptRestorePill.classList.remove('visible');
 const tab = toolDock.querySelector('.td-tab[data-dock="' + activeDockTab + '"]');
 if (tab) {
 tab.classList.remove('active');
@@ -16807,5 +17064,6 @@ if (typeof applyTerrainToMesh !== 'undefined') window.applyTerrainToMesh = apply
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
 </script>
+<button id="sculpt-restore-pill" aria-label="Restore terrain sculpt panel">Sculpt &#9656;</button>
 </body>
 </html>

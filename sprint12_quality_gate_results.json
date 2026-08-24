@@ -194,7 +194,7 @@
     {
       "name": "perf:render_time",
       "status": "pass",
-      "detail": "2.10ms per frame"
+      "detail": "2.50ms per frame"
     },
     {
       "name": "perf:voxel_array_size",

@@ -1,0 +1,181 @@
+{
+  "timestamp": "2026-08-24T13:11:53",
+  "total": 34,
+  "passed": 34,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pass_rate": 1.0,
+  "results": [
+    {
+      "name": "code:applyTerrainPositions_exists",
+      "status": "pass",
+      "detail": "Function found in source"
+    },
+    {
+      "name": "code:applyTerrainFull_exists",
+      "status": "pass",
+      "detail": "Function found in source"
+    },
+    {
+      "name": "code:applyTerrainPositions_no_computeVertexNormals",
+      "status": "pass",
+      "detail": "No computeVertexNormals call (fast path)"
+    },
+    {
+      "name": "code:applyTerrainFull_has_computeVertexNormals",
+      "status": "pass",
+      "detail": "computeVertexNormals called (complete update)"
+    },
+    {
+      "name": "code:applyTerrainFull_has_buildVoxelMesh",
+      "status": "pass",
+      "detail": "buildVoxelMesh called (complete update)"
+    },
+    {
+      "name": "code:debouncedBuildVoxelMesh_exists",
+      "status": "pass",
+      "detail": "Function found"
+    },
+    {
+      "name": "code:enableZoom_true",
+      "status": "pass",
+      "detail": "controls.enableZoom = true found"
+    },
+    {
+      "name": "code:zoomSpeed_1_2",
+      "status": "pass",
+      "detail": "controls.zoomSpeed = 1.2 found"
+    },
+    {
+      "name": "code:dock_minimize_buttons_count",
+      "status": "pass",
+      "detail": "11 minimize buttons found (need >= 7)"
+    },
+    {
+      "name": "code:terrain_minimize_button_exists",
+      "status": "pass",
+      "detail": "Terrain minimize button found"
+    },
+    {
+      "name": "code:wheel_forwarding_exists",
+      "status": "pass",
+      "detail": "Wheel forwarding code found"
+    },
+    {
+      "name": "code:paintTerrain_uses_fast_path",
+      "status": "pass",
+      "detail": "Fast path used during painting"
+    },
+    {
+      "name": "code:voxel_debounced_during_painting",
+      "status": "pass",
+      "detail": "Voxel rebuild debounced during painting"
+    },
+    {
+      "name": "runtime:applyTerrainPositions_is_function",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "runtime:applyTerrainFull_is_function",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "runtime:debouncedBuildVoxelMesh_is_function",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "runtime:flushTerrainFull_is_function",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "runtime:flushVoxelMeshRebuild_is_function",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "perf:terrain_paint_ops_per_sec",
+      "status": "pass",
+      "detail": "756 ops/s (1830 ops in 2419ms)"
+    },
+    {
+      "name": "perf:voxel_carve_ops_per_sec",
+      "status": "pass",
+      "detail": "98 ops/s (214 ops in 2182ms)"
+    },
+    {
+      "name": "perf:voxel_mesh_valid_after_carve",
+      "status": "pass",
+      "detail": "positionCount=6235"
+    },
+    {
+      "name": "perf:applyTerrainPositions_faster_than_full",
+      "status": "pass",
+      "detail": "pos=5.6ms vs full=220.4ms (ratio 39.4x)"
+    },
+    {
+      "name": "perf:voxel_not_rebuilt_during_painting",
+      "status": "pass",
+      "detail": "sameReference=True, pendingRebuild=False"
+    },
+    {
+      "name": "minimize:dock_terrain",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:dock_underground",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:dock_analyze",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:dock_innovate",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:dock_sun",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:dock_measure",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:dock_experience",
+      "status": "pass",
+      "detail": "min=True, hidden=True, restored=True, visible=True"
+    },
+    {
+      "name": "minimize:terrain_controls",
+      "status": "pass",
+      "detail": "before=True, hidden=True, after=True"
+    },
+    {
+      "name": "zoom:scroll_wheel_changes_distance",
+      "status": "pass",
+      "detail": "dist 68.7 \u2192 74.0"
+    },
+    {
+      "name": "zoom:scroll_over_panel_zooms_camera",
+      "status": "pass",
+      "detail": "dist 74.0 \u2192 78.7 (non-scrollable panel)"
+    },
+    {
+      "name": "console:no_errors",
+      "status": "pass",
+      "detail": "0 errors"
+    }
+  ]
+}

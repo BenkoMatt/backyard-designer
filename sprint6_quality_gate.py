@@ -2161,9 +2161,9 @@ def run_critic_tests(page, runner, base_url):
     try:
         html_path = SCRIPT_DIR / "index.html"
         size_kb = html_path.stat().st_size / 1024
-        passed = size_kb < 700  # less than 700KB (raised for Sprint 8 usability features)
+        passed = size_kb < 750  # less than 750KB (raised for Sprint 13 perf/polish/minimize features)
         runner.record("critic", "file:size_reasonable", passed,
-                       f"{size_kb:.0f}KB (max 700KB)")
+                       f"{size_kb:.0f}KB (max 750KB)")
     except Exception as e:
         runner.record_error("critic", "file:size_reasonable", e)
 
