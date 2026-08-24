@@ -1,0 +1,215 @@
+{
+  "total": 41,
+  "pass": 41,
+  "fail": 0,
+  "error": 0,
+  "skip": 0,
+  "pass_rate": 1.0,
+  "results": [
+    {
+      "name": "constants:window_test_exists",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "name": "constants:voxel_size_is_1",
+      "status": "pass",
+      "detail": "VOXEL_SIZE=1, expected 1"
+    },
+    {
+      "name": "constants:voxel_depth_is_32",
+      "status": "pass",
+      "detail": "VOXEL_DEPTH=32, expected 32"
+    },
+    {
+      "name": "constants:earth_depth_below_min_is_32",
+      "status": "pass",
+      "detail": "EARTH_DEPTH_BELOW_MIN=32, expected 32"
+    },
+    {
+      "name": "constants:terrain_segs_is_300",
+      "status": "pass",
+      "detail": "terrainSegs=300, expected 300"
+    },
+    {
+      "name": "ui:dig_button_exists",
+      "status": "pass",
+      "detail": "text=Dig"
+    },
+    {
+      "name": "ui:fill_button_exists",
+      "status": "pass",
+      "detail": "text=Fill"
+    },
+    {
+      "name": "smoothness:vertex_normals_computed",
+      "status": "pass",
+      "detail": "1000/1000 non-zero normals"
+    },
+    {
+      "name": "smoothness:normals_ratio",
+      "status": "pass",
+      "detail": "100.00% normals are non-zero"
+    },
+    {
+      "name": "smoothness:vertex_colors_present",
+      "status": "pass",
+      "detail": "hasVertexColors=True"
+    },
+    {
+      "name": "carving:voxels_initialized",
+      "status": "pass",
+      "detail": "165032 solid voxels before"
+    },
+    {
+      "name": "carving:dig_carves_voxels",
+      "status": "pass",
+      "detail": "carved 2104 voxels, solid 165032\u2192162928"
+    },
+    {
+      "name": "carving:voxel_mesh_rebuilt",
+      "status": "pass",
+      "detail": "voxelMesh exists=True"
+    },
+    {
+      "name": "fill:fill_restores_voxels",
+      "status": "pass",
+      "detail": "filled 2000 voxels, solid 162928\u2192164928"
+    },
+    {
+      "name": "limits:clamp_function_exists",
+      "status": "pass",
+      "detail": "clampTerrainHeight available=True"
+    },
+    {
+      "name": "limits:high_clamped_to_30",
+      "status": "pass",
+      "detail": "35\u219230"
+    },
+    {
+      "name": "limits:low_clamped_to_minus_30",
+      "status": "pass",
+      "detail": "-35\u2192-30"
+    },
+    {
+      "name": "limits:normal_value_unchanged",
+      "status": "pass",
+      "detail": "5\u21925"
+    },
+    {
+      "name": "depth:voxel_depth_is_32",
+      "status": "pass",
+      "detail": "VOXEL_DEPTH=32"
+    },
+    {
+      "name": "depth:earth_depth_matches",
+      "status": "pass",
+      "detail": "EARTH_DEPTH_BELOW_MIN=32"
+    },
+    {
+      "name": "depth:within_30ft_limit",
+      "status": "pass",
+      "detail": "voxelBottom=-32, gridLevel=0"
+    },
+    {
+      "name": "geo:layers_array_exists",
+      "status": "pass",
+      "detail": "8 geological layers defined"
+    },
+    {
+      "name": "geo:color_function_exists",
+      "status": "pass",
+      "detail": "_getGeologicalLayerColor available=True"
+    },
+    {
+      "name": "geo:unique_colors_at_depths",
+      "status": "pass",
+      "detail": "6 unique colors across 6 depth samples"
+    },
+    {
+      "name": "blend:terrain_height_exists",
+      "status": "pass",
+      "detail": "terrainH=5"
+    },
+    {
+      "name": "blend:solid_earth_exists",
+      "status": "pass",
+      "detail": "solidEarthMesh exists=True"
+    },
+    {
+      "name": "blend:voxel_mesh_exists",
+      "status": "pass",
+      "detail": "voxelMesh exists=True"
+    },
+    {
+      "name": "blend:solid_earth_bottom_valid",
+      "status": "pass",
+      "detail": "bottomY=-32"
+    },
+    {
+      "name": "save_load:serialize_has_terrain",
+      "status": "pass",
+      "detail": "terrain in serialized data: True"
+    },
+    {
+      "name": "save_load:serialize_has_voxels",
+      "status": "pass",
+      "detail": "voxels in serialized data: True"
+    },
+    {
+      "name": "save_load:serialize_has_300_segs",
+      "status": "pass",
+      "detail": "terrainSegs=True"
+    },
+    {
+      "name": "save_load:load_succeeds",
+      "status": "pass",
+      "detail": "loadSuccess=True, error=None"
+    },
+    {
+      "name": "save_load:terrain_segs_after_load",
+      "status": "pass",
+      "detail": "terrainSegsAfter=300"
+    },
+    {
+      "name": "save_load:voxels_after_load",
+      "status": "pass",
+      "detail": "hasVoxelsAfter=True"
+    },
+    {
+      "name": "voxel_normals:has_normals",
+      "status": "pass",
+      "detail": "1852 normals"
+    },
+    {
+      "name": "voxel_normals:unique_variety",
+      "status": "pass",
+      "detail": "1 unique normal directions (>=1 required)"
+    },
+    {
+      "name": "voxel_normals:has_vertex_colors",
+      "status": "pass",
+      "detail": "vertexColors=True"
+    },
+    {
+      "name": "perf:render_time",
+      "status": "pass",
+      "detail": "2.10ms per frame"
+    },
+    {
+      "name": "perf:voxel_array_size",
+      "status": "pass",
+      "detail": "315000 voxels"
+    },
+    {
+      "name": "perf:terrain_array_size",
+      "status": "pass",
+      "detail": "90601 terrain points (expected 90601 for 300 segs)"
+    },
+    {
+      "name": "console:no_errors",
+      "status": "pass",
+      "detail": "0 errors found"
+    }
+  ]
+}

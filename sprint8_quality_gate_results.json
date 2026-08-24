@@ -234,7 +234,7 @@
     {
       "status": "PASS",
       "name": "Contrast: .help-panel h2",
-      "detail": "Ratio 13.49:1 >= 3.0:1"
+      "detail": "Ratio 5.36:1 >= 3.0:1"
     },
     {
       "status": "PASS",
@@ -279,7 +279,7 @@
     {
       "status": "PASS",
       "name": "Focus moves inside modal when opened",
-      "detail": "Active element: ? Help"
+      "detail": "Active element: Got It!"
     },
     {
       "status": "PASS",
@@ -324,7 +324,7 @@
     {
       "status": "PASS",
       "name": "Terrain mode buttons have aria-pressed",
-      "detail": "Buttons: 4, all have aria-pressed: True"
+      "detail": "Buttons: 6, all have aria-pressed: True"
     },
     {
       "status": "PASS",

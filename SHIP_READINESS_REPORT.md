@@ -1,5 +1,5 @@
 # SHIP READINESS REPORT — Backyard Designer 3D
-Generated: 2026-08-23T16:01:38.901839
+Generated: 2026-08-24T11:44:05.125501
 
 ## Executive Summary
 
@@ -59,8 +59,8 @@ Generated: 2026-08-23T16:01:38.901839
 #### Edge Cases
 - ✅ **edge:zero_objects_save**: Save with 0 objects: count=0
 - ✅ **edge:zero_objects_load**: Load with 0 objects: count=0
-- ✅ **edge:hundred_objects_load**: 100 objects loaded in 1003ms, count=100
-- ✅ **edge:thousand_objects_load**: 1000 objects loaded in 1559ms, count=1000
+- ✅ **edge:hundred_objects_load**: 100 objects loaded in 5660ms, count=100
+- ✅ **edge:thousand_objects_load**: 1000 objects loaded in 6155ms, count=1000
 - ✅ **edge:undo_100_times**: Undid 0 times, stack empty: True, error=None
 - ✅ **edge:redo_100_times**: Redid 0 times, error=None
 - ✅ **edge:rapid_terrain_toggle**: Rapid terrain toggle: 20 rapid toggles OK
@@ -80,7 +80,7 @@ Generated: 2026-08-23T16:01:38.901839
 - ✅ **validation:file_size_check**: File size check in code: True
 - ✅ **validation:prototype_pollution_safe**: Prototype pollution: No prototype pollution
 - ✅ **validation:invalid_terrain_handled**: Invalid terrain: Invalid terrain data handled
-- ✅ **validation:extreme_terrain_segs**: Extreme segs: Extreme segs clamped, segs=200
+- ✅ **validation:extreme_terrain_segs**: Extreme segs: Extreme segs clamped, segs=300
 - ✅ **validation:grid_level_clamped**: Grid level: Grid level clamped, value=30
 - ✅ **validation:invalid_yard_shape**: Yard shape: Invalid shape corrected, shape=rectangle
 
@@ -90,8 +90,8 @@ Generated: 2026-08-23T16:01:38.901839
 - ✅ **structure:critical_elements_present**: All critical elements present
 - ✅ **structure:threejs_loaded**: Three.js: v160
 - ✅ **structure:state_object_intact**: State: []
-- ✅ **structure:file_size_ok**: File size: 694KB (max 750KB)
-- ✅ **structure:line_count_ok**: Lines: 16643 (max 20000)
+- ✅ **structure:file_size_ok**: File size: 700KB (max 750KB)
+- ✅ **structure:line_count_ok**: Lines: 16811 (max 20000)
 
 #### Console Error Check
 - ✅ **console:no_errors_during_workflow**: Errors: 0
