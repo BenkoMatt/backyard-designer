@@ -12,24 +12,24 @@
       "detail": ""
     },
     {
-      "name": "constants:voxel_size_is_1",
+      "name": "constants:max_terrain_height_is_15",
       "status": "pass",
-      "detail": "VOXEL_SIZE=1, expected 1"
+      "detail": "MAX_TERRAIN_HEIGHT=15, expected 15"
     },
     {
-      "name": "constants:voxel_depth_is_32",
+      "name": "constants:min_terrain_height_is_neg15",
       "status": "pass",
-      "detail": "VOXEL_DEPTH=32, expected 32"
+      "detail": "MIN_TERRAIN_HEIGHT=-15, expected -15"
     },
     {
-      "name": "constants:earth_depth_below_min_is_32",
+      "name": "constants:earth_depth_below_min_is_17",
       "status": "pass",
-      "detail": "EARTH_DEPTH_BELOW_MIN=32, expected 32"
+      "detail": "EARTH_DEPTH_BELOW_MIN=17, expected 17"
     },
     {
-      "name": "constants:terrain_segs_is_300",
+      "name": "constants:terrain_segs_is_200",
       "status": "pass",
-      "detail": "terrainSegs=300, expected 300"
+      "detail": "terrainSegs=200, expected 200"
     },
     {
       "name": "ui:dig_button_exists",
@@ -57,24 +57,24 @@
       "detail": "hasVertexColors=True"
     },
     {
-      "name": "carving:voxels_initialized",
+      "name": "dig:terrain_initialized",
       "status": "pass",
-      "detail": "165032 solid voxels before"
+      "detail": "Terrain initialized"
     },
     {
-      "name": "carving:dig_carves_voxels",
+      "name": "dig:lowers_terrain",
       "status": "pass",
-      "detail": "carved 2104 voxels, solid 165032\u2192162928"
+      "detail": "height 0.00\u2192-1.50"
     },
     {
-      "name": "carving:voxel_mesh_rebuilt",
+      "name": "dig:terrain_mesh_valid",
       "status": "pass",
-      "detail": "voxelMesh exists=True"
+      "detail": "terrainMesh exists=True"
     },
     {
-      "name": "fill:fill_restores_voxels",
+      "name": "fill:raises_terrain",
       "status": "pass",
-      "detail": "filled 2000 voxels, solid 162928\u2192164928"
+      "detail": "height -1.50\u21920.00"
     },
     {
       "name": "limits:clamp_function_exists",
@@ -82,14 +82,14 @@
       "detail": "clampTerrainHeight available=True"
     },
     {
-      "name": "limits:high_clamped_to_30",
+      "name": "limits:high_clamped_to_15",
       "status": "pass",
-      "detail": "35\u219230"
+      "detail": "35\u219215"
     },
     {
-      "name": "limits:low_clamped_to_minus_30",
+      "name": "limits:low_clamped_to_minus_15",
       "status": "pass",
-      "detail": "-35\u2192-30"
+      "detail": "-35\u2192-15"
     },
     {
       "name": "limits:normal_value_unchanged",
@@ -97,19 +97,19 @@
       "detail": "5\u21925"
     },
     {
-      "name": "depth:voxel_depth_is_32",
+      "name": "depth:earth_depth_below_min_is_17",
       "status": "pass",
-      "detail": "VOXEL_DEPTH=32"
+      "detail": "EARTH_DEPTH_BELOW_MIN=17"
     },
     {
-      "name": "depth:earth_depth_matches",
+      "name": "depth:max_terrain_is_15",
       "status": "pass",
-      "detail": "EARTH_DEPTH_BELOW_MIN=32"
+      "detail": "MAX_TERRAIN_HEIGHT=15"
     },
     {
-      "name": "depth:within_30ft_limit",
+      "name": "depth:min_terrain_is_neg15",
       "status": "pass",
-      "detail": "voxelBottom=-32, gridLevel=0"
+      "detail": "MIN_TERRAIN_HEIGHT=-15"
     },
     {
       "name": "geo:layers_array_exists",
@@ -127,6 +127,11 @@
       "detail": "6 unique colors across 6 depth samples"
     },
     {
+      "name": "geo:solid_earth_has_vertex_colors",
+      "status": "pass",
+      "detail": "solid earth vertex colors: 3204 vertices"
+    },
+    {
       "name": "blend:terrain_height_exists",
       "status": "pass",
       "detail": "terrainH=5"
@@ -137,14 +142,14 @@
       "detail": "solidEarthMesh exists=True"
     },
     {
-      "name": "blend:voxel_mesh_exists",
+      "name": "blend:solid_earth_mesh_exists",
       "status": "pass",
-      "detail": "voxelMesh exists=True"
+      "detail": "solidEarthMesh exists=True"
     },
     {
       "name": "blend:solid_earth_bottom_valid",
       "status": "pass",
-      "detail": "bottomY=-32"
+      "detail": "bottomY=-17"
     },
     {
       "name": "save_load:serialize_has_terrain",
@@ -152,12 +157,12 @@
       "detail": "terrain in serialized data: True"
     },
     {
-      "name": "save_load:serialize_has_voxels",
+      "name": "save_load:no_voxels_in_serialize",
       "status": "pass",
-      "detail": "voxels in serialized data: True"
+      "detail": "voxels removed from serialized data: True"
     },
     {
-      "name": "save_load:serialize_has_300_segs",
+      "name": "save_load:serialize_has_200_segs",
       "status": "pass",
       "detail": "terrainSegs=True"
     },
@@ -169,42 +174,37 @@
     {
       "name": "save_load:terrain_segs_after_load",
       "status": "pass",
-      "detail": "terrainSegsAfter=300"
+      "detail": "terrainSegsAfter=200 (expected 200)"
     },
     {
-      "name": "save_load:voxels_after_load",
+      "name": "save_load:no_voxels_after_load",
       "status": "pass",
-      "detail": "hasVoxelsAfter=True"
+      "detail": "hasVoxelsAfter=False (should be false)"
     },
     {
-      "name": "voxel_normals:has_normals",
+      "name": "solid_earth:has_normals",
       "status": "pass",
-      "detail": "1852 normals"
+      "detail": "3204 normals"
     },
     {
-      "name": "voxel_normals:unique_variety",
+      "name": "solid_earth:unique_variety",
       "status": "pass",
-      "detail": "1 unique normal directions (>=1 required)"
+      "detail": "2 unique normal directions (>=1 required)"
     },
     {
-      "name": "voxel_normals:has_vertex_colors",
+      "name": "solid_earth:has_vertex_colors",
       "status": "pass",
       "detail": "vertexColors=True"
     },
     {
       "name": "perf:render_time",
       "status": "pass",
-      "detail": "2.50ms per frame"
-    },
-    {
-      "name": "perf:voxel_array_size",
-      "status": "pass",
-      "detail": "315000 voxels"
+      "detail": "4.30ms per frame"
     },
     {
       "name": "perf:terrain_array_size",
       "status": "pass",
-      "detail": "90601 terrain points (expected 90601 for 300 segs)"
+      "detail": "40401 terrain points (expected 40401 for 200 segs)"
     },
     {
       "name": "console:no_errors",

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-24T13:11:53",
+  "timestamp": "2026-08-24T15:40:00",
   "total": 34,
   "passed": 34,
   "failed": 0,
@@ -28,12 +28,12 @@
       "detail": "computeVertexNormals called (complete update)"
     },
     {
-      "name": "code:applyTerrainFull_has_buildVoxelMesh",
+      "name": "code:applyTerrainFull_has_buildSolidEarth",
       "status": "pass",
-      "detail": "buildVoxelMesh called (complete update)"
+      "detail": "buildSolidEarth called (complete update)"
     },
     {
-      "name": "code:debouncedBuildVoxelMesh_exists",
+      "name": "code:debouncedApplyTerrainFull_exists",
       "status": "pass",
       "detail": "Function found"
     },
@@ -68,9 +68,9 @@
       "detail": "Fast path used during painting"
     },
     {
-      "name": "code:voxel_debounced_during_painting",
+      "name": "code:terrain_debounced_during_painting",
       "status": "pass",
-      "detail": "Voxel rebuild debounced during painting"
+      "detail": "Terrain full update debounced during painting"
     },
     {
       "name": "runtime:applyTerrainPositions_is_function",
@@ -83,7 +83,7 @@
       "detail": ""
     },
     {
-      "name": "runtime:debouncedBuildVoxelMesh_is_function",
+      "name": "runtime:debouncedApplyTerrainFull_is_function",
       "status": "pass",
       "detail": ""
     },
@@ -93,34 +93,34 @@
       "detail": ""
     },
     {
-      "name": "runtime:flushVoxelMeshRebuild_is_function",
+      "name": "runtime:applyTerrainPositions_is_function2",
       "status": "pass",
       "detail": ""
     },
     {
       "name": "perf:terrain_paint_ops_per_sec",
       "status": "pass",
-      "detail": "756 ops/s (1830 ops in 2419ms)"
+      "detail": "1513 ops/s (3310 ops in 2187ms)"
     },
     {
-      "name": "perf:voxel_carve_ops_per_sec",
+      "name": "perf:dig_ops_per_sec",
       "status": "pass",
-      "detail": "98 ops/s (214 ops in 2182ms)"
+      "detail": "2249 ops/s (4572 ops in 2033ms)"
     },
     {
-      "name": "perf:voxel_mesh_valid_after_carve",
+      "name": "perf:terrain_mesh_valid_after_dig",
       "status": "pass",
-      "detail": "positionCount=6235"
+      "detail": "positionCount=40401"
     },
     {
       "name": "perf:applyTerrainPositions_faster_than_full",
       "status": "pass",
-      "detail": "pos=5.6ms vs full=220.4ms (ratio 39.4x)"
+      "detail": "pos=0.8ms vs full=36.5ms (ratio 45.6x)"
     },
     {
-      "name": "perf:voxel_not_rebuilt_during_painting",
+      "name": "perf:terrain_debounced_during_painting",
       "status": "pass",
-      "detail": "sameReference=True, pendingRebuild=False"
+      "detail": "sameReference=True, pendingRebuild=True"
     },
     {
       "name": "minimize:dock_terrain",

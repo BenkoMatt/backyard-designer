@@ -1,59 +1,58 @@
-# Sprint 13 Quality Gate Report
+# Sprint 6 Quality Gate Report — Backyard Designer 3D
+
+**Generated:** 2026-08-24 15:37:11
+**Total runtime:** 208.7s
+**Agent:** Agent 5 (Critic / Quality Gate Architect)
 
 ## Summary
-- **Sprint**: 13 (Performance, Polish & Panel Minimize)
-- **Date**: 2026-08-24
-- **Status**: ✅ ALL TESTS PASSING
 
-## Quality Gate Results
+| Metric | Value |
+|--------|-------|
+| Total tests | 209 |
+| Passed | 209 ✅ |
+| Failed | 0 ❌ |
+| Errors | 0 💥 |
+| Skipped | 0 ⏭ |
+| Pass rate | 100.0% |
 
-| Sprint | Tests | Passed | Failed | Status |
-|--------|-------|--------|--------|--------|
-| Sprint 6 | 209 | 209 | 0 | ✅ PASS |
-| Sprint 8 | 75 | 75 | 0 | ✅ PASS |
-| Sprint 9 | 49 | 49 | 0 | ✅ PASS (includes S6+S8) |
-| Sprint 11 | 143 | 143 | 0 | ✅ PASS |
-| Sprint 12 | 41 | 41 | 0 | ✅ PASS |
-| Sprint 13 | 34 | 34 | 0 | ✅ PASS |
-| **Total** | **551** | **551** | **0** | **🎉 ALL PASS** |
+## Per-Category Breakdown
 
-## Sprint 13 Test Categories
+| Category | Total | Passed | Failed | Errors | Skipped | Pass Rate |
+|----------|-------|--------|--------|--------|---------|-----------|
+| functional | 100 | 100 | 0 | 0 | 0 | 100% |
+| perf | 13 | 13 | 0 | 0 | 0 | 100% |
+| mobile | 35 | 35 | 0 | 0 | 0 | 100% |
+| chaos | 24 | 24 | 0 | 0 | 0 | 100% |
+| critic | 37 | 37 | 0 | 0 | 0 | 100% |
 
-1. **Terrain Paint Performance**: 756 ops/s (threshold: 30)
-2. **Voxel Carve Performance**: 98 ops/s (threshold: 30)
-3. **applyTerrainPositions Speed**: 5.6ms vs 220.4ms full (39.4x faster)
-4. **Voxel Mesh Not Rebuilt During Painting**: Confirmed (debounced)
-5. **Panel Minimize**: All 7 dock panels + terrain controls minimize/restore
-6. **Zoom**: Scroll wheel changes camera distance; zoom over non-scrollable panels works
-7. **Console Errors**: 0 errors
+## Performance Measurements
 
-## Changes Applied
+### FPS Measurements
 
-### Agent 1 (Terrain Paint Perf)
-- Split `applyTerrainToMesh()` into `applyTerrainPositions()` (fast, Y-only) and `applyTerrainFull()` (complete)
-- Debounced `applyTerrainFull` during painting (150ms)
-- Finalize on pointer up via `_flushTerrainFull()`
+| Scene | FPS |
+|------|-----|
+| empty | 12.5 |
+| 20_objects | 13.0 |
+| 50_objects | 12.7 |
+| terrain_deformed | 11.5 |
 
-### Agent 2 (Voxel Mesh Perf)
-- Debounced `buildVoxelMesh()` during carving (60ms via `debouncedBuildVoxelMesh()`)
-- `_voxelMeshRebuildPending` flag
-- Final rebuild via `_flushVoxelMeshRebuild()` on pointer up
-- `mergeVertices()` for smooth surfaces
+### Load Times
 
-### Agent 3 (Panel Minimize)
-- Minimize buttons (−) on all 7 dock panel headers + terrain controls panel
-- CSS `.minimized` state hides panel body
-- Sculpt restore pill at bottom of screen (patched from Agent 3 into Agent 5 base)
-- Tool stays active while minimized
+- 2620ms
 
-### Agent 4 (Zoom Fix)
-- `controls.enableZoom = true`, `controls.zoomSpeed = 1.2`
-- Wheel event forwarding from non-scrollable panels to canvas
+### Memory Usage
 
-### Agent 5 (Integration Gate)
-- Implemented all 4 changes in one file
-- Created `sprint13_quality_gate.py` (34 tests)
-- Used as base for this merge
+- {'point': 'after_load', 'used_mb': 13.637542724609375, 'total_mb': 28.03802490234375}
+- {'point': 'leak_test', 'diff_mb': 0.0}
 
-## File Size
-- 712KB (limit raised from 700KB to 750KB for Sprint 13 features)
+### Render Times
+
+- avg: 12.1ms, min: 8.3ms, max: 23.2ms
+
+## Failures
+
+🎉 **No failures!** All tests passed.
+
+## Verdict
+
+✅ **QUALITY GATE: PASSED** — All tests passed.

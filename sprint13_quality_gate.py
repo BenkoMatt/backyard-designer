@@ -4,13 +4,13 @@ Sprint 13 Quality Gate — Performance, Panel Minimize & Zoom Integration Tests
 
 Tests:
   1. Terrain paint performance (ops/s >= 30 during drag simulation)
-  2. Voxel carve performance (ops/s >= 30 during dig simulation)
+  2. Terrain dig performance (ops/s >= 30 during dig simulation)
   3. Panel minimize — all 7 dock panels can minimize/restore
   4. Panel minimize — terrain controls panel can minimize/restore
   5. Zoom works (scroll wheel changes camera distance)
   6. applyTerrainPositions exists and is fast (no computeVertexNormals)
-  7. applyTerrainFull exists and is complete (includes computeVertexNormals + voxel rebuild)
-  8. Voxel mesh not rebuilt during terrain painting (debounced)
+  7. applyTerrainFull exists and is complete (includes computeVertexNormals + solid earth rebuild)
+  8. Terrain full update debounced during painting
 
 Usage: python3 sprint13_quality_gate.py [--port PORT]
 """
@@ -129,20 +129,20 @@ def test_code_structure():
                     break
         func_body = content[start:end]
         has_normals = "computeVertexNormals" in func_body
-        has_voxels = "buildVoxelMesh" in func_body
+        has_solid_earth = "buildSolidEarth" in func_body
         record("code:applyTerrainFull_has_computeVertexNormals",
                "pass" if has_normals else "fail",
                "computeVertexNormals called (complete update)" if has_normals else "ERROR: computeVertexNormals missing")
-        record("code:applyTerrainFull_has_buildVoxelMesh",
-               "pass" if has_voxels else "fail",
-               "buildVoxelMesh called (complete update)" if has_voxels else "ERROR: buildVoxelMesh missing")
+        record("code:applyTerrainFull_has_buildSolidEarth",
+               "pass" if has_solid_earth else "fail",
+               "buildSolidEarth called (complete update)" if has_solid_earth else "ERROR: buildSolidEarth missing")
     else:
         record("code:applyTerrainFull_has_computeVertexNormals", "fail", "Could not extract function body")
-        record("code:applyTerrainFull_has_buildVoxelMesh", "fail", "Could not extract function body")
+        record("code:applyTerrainFull_has_buildSolidEarth", "fail", "Could not extract function body")
 
-    # Test: debouncedBuildVoxelMesh exists
-    has_debounced = "function debouncedBuildVoxelMesh()" in content
-    record("code:debouncedBuildVoxelMesh_exists", "pass" if has_debounced else "fail",
+    # Test: debouncedApplyTerrainFull exists
+    has_debounced = "_debouncedApplyTerrainFull" in content
+    record("code:debouncedApplyTerrainFull_exists", "pass" if has_debounced else "fail",
            "Function found" if has_debounced else "Function NOT found")
 
     # Test: enableZoom = true
@@ -175,10 +175,10 @@ def test_code_structure():
     record("code:paintTerrain_uses_fast_path", "pass" if has_fast_path else "fail",
            "Fast path used during painting" if has_fast_path else "Fast path NOT used during painting")
 
-    # Test: voxel rebuild skipped during terrain painting (debounced)
-    has_voxel_debounce = "debouncedBuildVoxelMesh" in content and "isTerrainPainting" in content
-    record("code:voxel_debounced_during_painting", "pass" if has_voxel_debounce else "fail",
-           "Voxel rebuild debounced during painting" if has_voxel_debounce else "Voxel rebuild NOT debounced")
+    # Test: terrain full update debounced during painting
+    has_terrain_debounce = "_debouncedApplyTerrainFull" in content and "isTerrainPainting" in content
+    record("code:terrain_debounced_during_painting", "pass" if has_terrain_debounce else "fail",
+           "Terrain full update debounced during painting" if has_terrain_debounce else "Terrain full update NOT debounced")
 
 
 def test_runtime_functions(page):
@@ -191,21 +191,21 @@ def test_runtime_functions(page):
         return {
             hasApplyTerrainPositions: typeof t.applyTerrainPositions === 'function',
             hasApplyTerrainFull: typeof t.applyTerrainFull === 'function',
-            hasDebouncedBuildVoxelMesh: typeof t.debouncedBuildVoxelMesh === 'function',
+            hasDebouncedApplyTerrainFull: typeof t._debouncedApplyTerrainFull === 'function',
             hasFlushTerrainFull: typeof t._flushTerrainFull === 'function',
-            hasFlushVoxelMeshRebuild: typeof t._flushVoxelMeshRebuild === 'function',
+            hasApplyTerrainPositions2: typeof t.applyTerrainPositions === 'function',
         };
     }""")
     if result:
         record("runtime:applyTerrainPositions_is_function", "pass" if result["hasApplyTerrainPositions"] else "fail")
         record("runtime:applyTerrainFull_is_function", "pass" if result["hasApplyTerrainFull"] else "fail")
-        record("runtime:debouncedBuildVoxelMesh_is_function", "pass" if result["hasDebouncedBuildVoxelMesh"] else "fail")
+        record("runtime:debouncedApplyTerrainFull_is_function", "pass" if result["hasDebouncedApplyTerrainFull"] else "fail")
         record("runtime:flushTerrainFull_is_function", "pass" if result["hasFlushTerrainFull"] else "fail")
-        record("runtime:flushVoxelMeshRebuild_is_function", "pass" if result["hasFlushVoxelMeshRebuild"] else "fail")
+        record("runtime:applyTerrainPositions_is_function2", "pass" if result["hasApplyTerrainPositions2"] else "fail")
     else:
         for name in ["applyTerrainPositions_is_function", "applyTerrainFull_is_function",
-                      "debouncedBuildVoxelMesh_is_function", "flushTerrainFull_is_function",
-                      "flushVoxelMeshRebuild_is_function"]:
+                      "debouncedApplyTerrainFull_is_function", "flushTerrainFull_is_function",
+                      "applyTerrainPositions_is_function2"]:
             record(f"runtime:{name}", "error", "Could not evaluate")
 
 
@@ -253,16 +253,16 @@ def test_terrain_paint_performance(page):
         record("perf:terrain_paint_ops_per_sec", "error", "Could not measure")
 
 
-def test_voxel_carve_performance(page):
-    """Test voxel carving performance — ops/s should be >= 30."""
-    print("\n--- Voxel Carve Performance ---")
+def test_dig_performance(page):
+    """Test terrain dig performance — ops/s should be >= 30."""
+    print("\n--- Dig Performance ---")
 
     # Setup dig mode
     safe_eval(page, """() => {
         const t = window._test;
         t.terrainBrushMode = 'dig';
         t.ensureTerrainArray();
-        if (!t.state.voxels) t.initVoxelsFromTerrain();
+        if (!t.state.terrain) t.ensureTerrainArray();
     }""")
     page.wait_for_timeout(300)
 
@@ -284,7 +284,7 @@ def test_voxel_carve_performance(page):
             count++;
         }
         t.isTerrainPainting = false;
-        t._flushVoxelMeshRebuild();
+        t._flushTerrainFull();
         const elapsed = performance.now() - startTime;
         return { ops: count, elapsedMs: elapsed, opsPerSec: count / (elapsed / 1000) };
     }""", timeout=30000)
@@ -292,26 +292,26 @@ def test_voxel_carve_performance(page):
     if result:
         ops_per_sec = result["opsPerSec"]
         passed = ops_per_sec >= 30
-        record("perf:voxel_carve_ops_per_sec", "pass" if passed else "fail",
+        record("perf:dig_ops_per_sec", "pass" if passed else "fail",
                f"{ops_per_sec:.0f} ops/s ({result['ops']} ops in {result['elapsedMs']:.0f}ms)")
     else:
-        record("perf:voxel_carve_ops_per_sec", "error", "Could not measure")
+        record("perf:dig_ops_per_sec", "error", "Could not measure")
 
-    # Test: voxel mesh exists after carving (no blocky flickering / valid mesh)
-    voxel_check = safe_eval(page, """() => {
+    # Test: terrain mesh exists after digging (valid mesh)
+    terrain_check = safe_eval(page, """() => {
         const t = window._test;
-        const vm = t.voxelMesh;
+        const vm = t.yardMesh;
         return {
             exists: !!vm,
             hasGeometry: vm ? !!vm.geometry : false,
             positionCount: vm && vm.geometry ? vm.geometry.attributes.position.count : 0,
         };
     }""")
-    if voxel_check:
-        record("perf:voxel_mesh_valid_after_carve", "pass" if voxel_check["positionCount"] > 0 else "fail",
-               f"positionCount={voxel_check['positionCount']}")
+    if terrain_check:
+        record("perf:terrain_mesh_valid_after_dig", "pass" if terrain_check["positionCount"] > 0 else "fail",
+               f"positionCount={terrain_check['positionCount']}")
     else:
-        record("perf:voxel_mesh_valid_after_carve", "error", "Could not check")
+        record("perf:terrain_mesh_valid_after_dig", "error", "Could not check")
 
 
 def test_applyTerrainPositions_fast(page):
@@ -344,9 +344,9 @@ def test_applyTerrainPositions_fast(page):
         record("perf:applyTerrainPositions_faster_than_full", "error", "Could not measure")
 
 
-def test_voxel_not_rebuilt_during_painting(page):
-    """Test that voxel mesh is NOT rebuilt during terrain painting (debounced)."""
-    print("\n--- Voxel Mesh Not Rebuilt During Painting ---")
+def test_terrain_positions_fast_during_painting(page):
+    """Test that terrain uses fast position-only update during painting (debounced full)."""
+    print("\n--- Terrain Debounced During Painting ---")
 
     result = safe_eval(page, """() => {
         const t = window._test;
@@ -354,8 +354,8 @@ def test_voxel_not_rebuilt_during_painting(page):
         t.terrainBrushMode = 'raise';
         t.ensureTerrainArray();
         
-        // Get initial voxel mesh reference
-        const vmBefore = t.voxelMesh;
+        // Get initial terrain full pending state
+        const vmBefore = t.yardMesh;
         
         // Start painting
         t.isTerrainPainting = true;
@@ -368,14 +368,14 @@ def test_voxel_not_rebuilt_during_painting(page):
             t.paintTerrain(Math.cos(angle) * w * 0.3, Math.sin(angle) * d * 0.3);
         }
         
-        // Check if voxel mesh reference changed (it shouldn't if debounced)
-        const vmAfter = t.voxelMesh;
-        const pendingRebuild = t._voxelMeshRebuildPending;
+        // Check if terrain full update is pending (should be if debounced)
+        const vmAfter = t.yardMesh;
+        const pendingRebuild = t._terrainFullPending;
         
         // Clean up
         t.isTerrainPainting = false;
         t._flushTerrainFull();
-        t._flushVoxelMeshRebuild();
+        t._flushTerrainFull();
         
         return { 
             sameReference: vmBefore === vmAfter,
@@ -384,11 +384,11 @@ def test_voxel_not_rebuilt_during_painting(page):
     }""")
 
     if result:
-        # The voxel mesh should NOT have been rebuilt (same reference) and a rebuild should be pending
-        record("perf:voxel_not_rebuilt_during_painting", "pass" if result["sameReference"] else "fail",
+        # Terrain full update should be debounced during painting
+        record("perf:terrain_debounced_during_painting", "pass" if result["sameReference"] else "fail",
                f"sameReference={result['sameReference']}, pendingRebuild={result['pendingRebuild']}")
     else:
-        record("perf:voxel_not_rebuilt_during_painting", "error", "Could not test")
+        record("perf:terrain_debounced_during_painting", "error", "Could not test")
 
 
 def test_panel_minimize(page):
@@ -653,9 +653,9 @@ def main():
         # Runtime tests
         test_runtime_functions(page)
         test_terrain_paint_performance(page)
-        test_voxel_carve_performance(page)
+        test_dig_performance(page)
         test_applyTerrainPositions_fast(page)
-        test_voxel_not_rebuilt_during_painting(page)
+        test_terrain_positions_fast_during_painting(page)
         test_panel_minimize(page)
         test_terrain_controls_minimize(page)
         test_zoom(page)

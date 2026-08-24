@@ -324,7 +324,7 @@
     {
       "status": "PASS",
       "name": "Terrain mode buttons have aria-pressed",
-      "detail": "Buttons: 6, all have aria-pressed: True"
+      "detail": "Buttons: 7, all have aria-pressed: True"
     },
     {
       "status": "PASS",

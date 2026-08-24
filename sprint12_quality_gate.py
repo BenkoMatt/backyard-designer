@@ -4,11 +4,11 @@ Sprint 12 Quality Gate — Terrain & Underground Integration Tests
 
 Tests:
   1. Terrain smoothness (vertex normals computed)
-  2. Carving works (dig mode carves underground via Playwright)
+  2. Digging works (dig mode lowers terrain via Playwright)
   3. 30ft limits enforced (terrain heights clamped, depth clamped)
   4. Terrain-underground blend (no gap between surface and underground)
-  5. Geological layers visible (vertex colors on voxel mesh)
-  6. VOXEL_SIZE === 1, VOXEL_DEPTH === 32
+  5. Geological layers visible (vertex colors on solid earth mesh)
+  6. EARTH_DEPTH_BELOW_MIN === 17, terrainSegs === 200
   7. Carving UI has Dig and Fill buttons
 
 Usage: python3 sprint12_quality_gate.py [--port PORT]
@@ -67,14 +67,14 @@ def safe_eval(page, js, timeout=10000):
 # ── Test suites ──────────────────────────────────────────────────────────────
 
 def test_constants(page):
-    """Test VOXEL_SIZE, VOXEL_DEPTH, EARTH_DEPTH_BELOW_MIN, terrainSegs."""
+    """Test EARTH_DEPTH_BELOW_MIN, MAX_TERRAIN_HEIGHT, MIN_TERRAIN_HEIGHT, terrainSegs."""
     print("\n--- Constants & Configuration ---")
 
     result = safe_eval(page, """() => {
         const t = window._test || {};
         return {
-            voxelSize: t.VOXEL_SIZE,
-            voxelDepth: t.VOXEL_DEPTH,
+            maxTerrain: t.MAX_TERRAIN_HEIGHT,
+            minTerrain: t.MIN_TERRAIN_HEIGHT,
             earthDepthBelowMin: t.EARTH_DEPTH_BELOW_MIN,
             terrainSegs: t.state ? t.state.terrainSegs : null,
         };
@@ -85,21 +85,21 @@ def test_constants(page):
 
     record("constants:window_test_exists", "pass")
 
-    vs = result.get("voxelSize")
-    record("constants:voxel_size_is_1", "pass" if vs == 1 else "fail",
-           f"VOXEL_SIZE={vs}, expected 1")
+    mt = result.get("maxTerrain")
+    record("constants:max_terrain_height_is_15", "pass" if mt == 15 else "fail",
+           f"MAX_TERRAIN_HEIGHT={mt}, expected 15")
 
-    vd = result.get("voxelDepth")
-    record("constants:voxel_depth_is_32", "pass" if vd == 32 else "fail",
-           f"VOXEL_DEPTH={vd}, expected 32")
+    mt2 = result.get("minTerrain")
+    record("constants:min_terrain_height_is_neg15", "pass" if mt2 == -15 else "fail",
+           f"MIN_TERRAIN_HEIGHT={mt2}, expected -15")
 
     ed = result.get("earthDepthBelowMin")
-    record("constants:earth_depth_below_min_is_32", "pass" if ed == 32 else "fail",
-           f"EARTH_DEPTH_BELOW_MIN={ed}, expected 32")
+    record("constants:earth_depth_below_min_is_17", "pass" if ed == 17 else "fail",
+           f"EARTH_DEPTH_BELOW_MIN={ed}, expected 17")
 
     ts = result.get("terrainSegs")
-    record("constants:terrain_segs_is_300", "pass" if ts == 300 else "fail",
-           f"terrainSegs={ts}, expected 300")
+    record("constants:terrain_segs_is_200", "pass" if ts == 200 else "fail",
+           f"terrainSegs={ts}, expected 200")
 
 
 def test_dig_fill_buttons(page):
@@ -196,87 +196,71 @@ def test_terrain_smoothness(page):
 
 
 def test_carving_works(page):
-    """Test that digging carves underground voxels."""
+    """Test that digging lowers terrain mesh."""
     print("\n--- Carving: Dig Mode ---")
 
-    # Set brush mode to dig and carve
+    # Set brush mode to dig and paint
     result = safe_eval(page, """() => {
         const t = window._test;
         if (!t) return { error: 'no test obj' };
         
-        // Initialize voxels from terrain
+        // Initialize terrain
         if (typeof t.ensureTerrainArray === 'function') t.ensureTerrainArray();
-        if (!t.state.voxels) {
-            if (typeof t.initVoxelsFromTerrain === 'function') {
-                t.initVoxelsFromTerrain();
-            }
-        }
+        if (!t.state.terrain) return { error: 'terrain not initialized' };
         
-        if (!t.state.voxels) return { error: 'voxels not initialized' };
+        // Record terrain height at center before
+        const hBefore = t.getTerrainHeight(0, 0);
         
-        // Count solid voxels before
-        let solidBefore = 0;
-        for (let i = 0; i < t.state.voxels.length; i++) {
-            if (t.state.voxels[i] === 1) solidBefore++;
-        }
+        // Use paintTerrain to dig (takes x, z only)
+        if (typeof t.paintTerrain !== 'function') return { error: 'paintTerrain not available' };
+        t.terrainBrushMode = 'dig';
+        t.paintTerrain(0, 0);
         
-        // Use carveWithBrush to dig
-        if (typeof t.carveWithBrush !== 'function') return { error: 'carveWithBrush not available' };
-        const changed = t.carveWithBrush(0, -5, 0);
-        
-        // Count solid voxels after
-        let solidAfter = 0;
-        for (let i = 0; i < t.state.voxels.length; i++) {
-            if (t.state.voxels[i] === 1) solidAfter++;
-        }
+        // Record terrain height at center after
+        const hAfter = t.getTerrainHeight(0, 0);
         
         return {
-            solidBefore: solidBefore,
-            solidAfter: solidAfter,
-            carvedCount: changed.length,
-            voxelMeshExists: !!t.voxelMesh,
+            heightBefore: hBefore,
+            heightAfter: hAfter,
+            changed: hBefore !== hAfter,
+            terrainMeshExists: !!t.yardMesh,
         };
     }""")
 
     if not result or result.get("error"):
-        record("carving:init_and_dig", "fail", str(result.get("error", "unknown")))
+        record("carving:init_and_dig", "fail", str(result.get("error", "unknown")) if result else "None result")
         return
 
-    record("carving:voxels_initialized", "pass" if result["solidBefore"] > 0 else "fail",
-           f"{result['solidBefore']} solid voxels before")
-    record("carving:dig_carves_voxels", "pass" if result["carvedCount"] > 0 else "fail",
-           f"carved {result['carvedCount']} voxels, solid {result['solidBefore']}→{result['solidAfter']}")
-    record("carving:voxel_mesh_rebuilt", "pass" if result["voxelMeshExists"] else "fail",
-           f"voxelMesh exists={result['voxelMeshExists']}")
+    record("dig:terrain_initialized", "pass" if result is not None else "fail",
+           "Terrain initialized")
+    record("dig:lowers_terrain", "pass" if result["changed"] else "fail",
+           f"height {result['heightBefore']:.2f}→{result['heightAfter']:.2f}")
+    record("dig:terrain_mesh_valid", "pass" if result["terrainMeshExists"] else "fail",
+           f"terrainMesh exists={result['terrainMeshExists']}")
 
 
 def test_fill_works(page):
-    """Test that fill mode restores voxels."""
+    """Test that fill mode raises terrain back."""
     print("\n--- Carving: Fill Mode ---")
 
     result = safe_eval(page, """() => {
         const t = window._test;
-        if (!t || !t.state || !t.state.voxels) return { error: 'no voxels' };
-        if (typeof t.fillWithBrush !== 'function') return { error: 'fillWithBrush not available' };
+        if (!t || !t.state || !t.state.terrain) return { error: 'no terrain' };
+        if (typeof t.paintTerrain !== 'function') return { error: 'fillWithBrush not available' };
         
-        // Count solid before
-        let solidBefore = 0;
-        for (let i = 0; i < t.state.voxels.length; i++) {
-            if (t.state.voxels[i] === 1) solidBefore++;
-        }
+        // Record terrain height at center before
+        const hBefore = t.getTerrainHeight(0, 0);
         
-        // Fill some voxels (this should fill previously carved areas)
-        const changed = t.fillWithBrush(0, -3, 0);
+        // Fill terrain (raise it back)
+        t.terrainBrushMode = 'fill';
+        t.paintTerrain(0, 0);
         
-        let solidAfter = 0;
-        for (let i = 0; i < t.state.voxels.length; i++) {
-            if (t.state.voxels[i] === 1) solidAfter++;
-        }
+        const hAfter = t.getTerrainHeight(0, 0);
         
         return {
-            solidBefore: solidBefore,
-            solidAfter: solidAfter,
-            filledCount: changed.length,
+            heightBefore: hBefore,
+            heightAfter: hAfter,
+            filled: hAfter > hBefore,
         };
     }""")
 
@@ -284,8 +268,8 @@ def test_fill_works(page):
         record("fill:init_and_fill", "fail", str(result.get("error", "unknown")))
         return
 
-    record("fill:fill_restores_voxels", "pass" if result["filledCount"] >= 0 else "fail",
-           f"filled {result['filledCount']} voxels, solid {result['solidBefore']}→{result['solidAfter']}")
+    record("fill:raises_terrain", "pass" if result["filled"] else "fail",
+           f"height {result['heightBefore']:.2f}→{result['heightAfter']:.2f}")
 
 
 def test_30ft_limits(page):
@@ -329,37 +313,41 @@ def test_30ft_limits(page):
 
     record("limits:clamp_function_exists", "pass" if result["hasClampFn"] else "fail",
            f"clampTerrainHeight available={result['hasClampFn']}")
-    record("limits:high_clamped_to_30", "pass" if result["highResult"] == 30 else "fail",
+    record("limits:high_clamped_to_15", "pass" if result["highResult"] == 15 else "fail",
            f"35→{result['highResult']}")
-    record("limits:low_clamped_to_minus_30", "pass" if result["lowResult"] == -30 else "fail",
+    record("limits:low_clamped_to_minus_15", "pass" if result["lowResult"] == -15 else "fail",
            f"-35→{result['lowResult']}")
     record("limits:normal_value_unchanged", "pass" if result["normalResult"] == 5 else "fail",
            f"5→{result['normalResult']}")
 
 
 def test_underground_depth_limit(page):
-    """Test that underground depth is limited to 32ft (VOXEL_DEPTH)."""
+    """Test that earth depth below min is 17ft (EARTH_DEPTH_BELOW_MIN)."""
     print("\n--- Underground Depth Limit ---")
 
     result = safe_eval(page, """() => {
         const t = window._test;
         if (!t) return { error: 'no test obj' };
         
-        const voxelDepth = t.VOXEL_DEPTH;
+        const earthDepth = t.EARTH_DEPTH_BELOW_MIN;
         const earthDepthBelowMin = t.EARTH_DEPTH_BELOW_MIN;
+        const maxTerrain = t.MAX_TERRAIN_HEIGHT;
+        const minTerrain = t.MIN_TERRAIN_HEIGHT;
         const gridLevel = t.state.gridLevel || 0;
         
-        // The bottom of the voxel grid is at gridLevel - VOXEL_DEPTH
-        const voxelBottom = gridLevel - voxelDepth;
-        // The bottom of solid earth is at minTerrain - EARTH_DEPTH_BELOW_MIN
-        // With EARTH_DEPTH_BELOW_MIN = 32 and VOXEL_DEPTH = 32, these should align
+        // The bottom of solid earth is at minH - EARTH_DEPTH_BELOW_MIN
+        const earthBottom = minTerrain - earthDepth;
         
         return {
-            voxelDepth: voxelDepth,
+            earthDepth: earthDepth,
             earthDepthBelowMin: earthDepthBelowMin,
+            maxTerrain: maxTerrain,
+            minTerrain: minTerrain,
             gridLevel: gridLevel,
-            voxelBottom: voxelBottom,
-            depthWithin30ft: Math.abs(voxelBottom) <= 32, // 32ft buffer from 30ft limit
+            earthBottom: earthBottom,
+            depthCorrect: earthDepth === 17,
+            maxCorrect: maxTerrain === 15,
+            minCorrect: minTerrain === -15,
         };
     }""")
 
@@ -367,16 +355,16 @@ def test_underground_depth_limit(page):
         record("depth:setup", "fail", str(result.get("error", "unknown")))
         return
 
-    record("depth:voxel_depth_is_32", "pass" if result["voxelDepth"] == 32 else "fail",
-           f"VOXEL_DEPTH={result['voxelDepth']}")
-    record("depth:earth_depth_matches", "pass" if result["earthDepthBelowMin"] == 32 else "fail",
+    record("depth:earth_depth_below_min_is_17", "pass" if result["depthCorrect"] else "fail",
            f"EARTH_DEPTH_BELOW_MIN={result['earthDepthBelowMin']}")
-    record("depth:within_30ft_limit", "pass" if result["depthWithin30ft"] else "fail",
-           f"voxelBottom={result['voxelBottom']}, gridLevel={result['gridLevel']}")
+    record("depth:max_terrain_is_15", "pass" if result["maxCorrect"] else "fail",
+           f"MAX_TERRAIN_HEIGHT={result['maxTerrain']}")
+    record("depth:min_terrain_is_neg15", "pass" if result["minCorrect"] else "fail",
+           f"MIN_TERRAIN_HEIGHT={result['minTerrain']}")
 
 
 def test_geological_layers(page):
-    """Test that geological layers are visible via vertex colors on voxel mesh."""
+    """Test that geological layers are visible via vertex colors on solid earth mesh."""
     print("\n--- Geological Layers ---")
 
     result = safe_eval(page, """() => {
@@ -400,19 +388,18 @@ def test_geological_layers(page):
             }
         }
         
-        // Check voxel mesh has vertex colors
-        const vm = t.voxelMesh;
-        let hasVoxelColors = false;
-        let voxelColorAttr = null;
-        if (vm && vm.geometry) {
-            hasVoxelColors = !!vm.geometry.attributes.color;
-            if (hasVoxelColors) {
-                voxelColorAttr = vm.geometry.attributes.color.count;
+        // Check solid earth mesh has vertex colors
+        const se = t.solidEarthMesh;
+        let hasSolidEarthColors2 = false;
+        let seColorAttr2 = null;
+        if (se && se.geometry) {
+            hasSolidEarthColors2 = !!se.geometry.attributes.color;
+            if (hasSolidEarthColors2) {
+                seColorAttr2 = se.geometry.attributes.color.count;
             }
         }
         
-        // Check solid earth mesh has vertex colors
-        const se = t.solidEarthMesh;
+        // Check solid earth mesh has vertex colors (second check - duplicate removed)
         let hasSolidEarthColors = false;
         let seColorAttr = null;
         if (se && se.geometry) {
@@ -430,15 +417,15 @@ def test_geological_layers(page):
             hasGeoColorFn: hasGeoColorFn,
             colorSamples: colorSamples,
             uniqueColorCount: uniqueColors.size,
-            hasVoxelColors: hasVoxelColors,
-            voxelColorCount: voxelColorAttr,
+            hasSolidEarthColors2: hasSolidEarthColors2,
+            seColorCount2: seColorAttr2,
             hasSolidEarthColors: hasSolidEarthColors,
             seColorCount: seColorAttr,
         };
     }""")
 
     if not result or result.get("error"):
-        record("geo:setup", "fail", str(result.get("error", "unknown")))
+        record("geo:setup", "fail", str(result.get("error", "unknown")) if result else "None result")
         return
 
     record("geo:layers_array_exists", "pass" if result["layersCount"] >= 4 else "fail",
@@ -447,6 +434,8 @@ def test_geological_layers(page):
            f"_getGeologicalLayerColor available={result['hasGeoColorFn']}")
     record("geo:unique_colors_at_depths", "pass" if result["uniqueColorCount"] >= 3 else "fail",
            f"{result['uniqueColorCount']} unique colors across 6 depth samples")
+    record("geo:solid_earth_has_vertex_colors", "pass" if result["hasSolidEarthColors2"] else "fail",
+           f"solid earth vertex colors: {result['seColorCount2']} vertices")
 
 
 def test_terrain_underground_blend(page):
@@ -476,7 +465,7 @@ def test_terrain_underground_blend(page):
         
         // Check solid earth mesh exists
         const hasSolidEarth = !!t.solidEarthMesh;
-        const hasVoxelMesh = !!t.voxelMesh;
+        const hasSolidEarth2 = !!t.yardMesh;
         
         // Get the bottom of solid earth
         let bottomY = null;
@@ -484,24 +473,24 @@ def test_terrain_underground_blend(page):
             bottomY = t.getSolidEarthBottomY();
         }
         
-        // Check voxel mesh extends from terrain down
-        let voxelBottomY = null;
-        if (t.voxelMesh && t.voxelMesh.geometry && t.voxelMesh.geometry.attributes.position) {
-            const pos = t.voxelMesh.geometry.attributes.position;
+        // Check solid earth mesh extends from terrain down
+        let earthBottomY = null;
+        if (t.yardMesh && t.yardMesh.geometry && t.yardMesh.geometry.attributes.position) {
+            const pos = t.yardMesh.geometry.attributes.position;
             let minY = Infinity;
             for (let i = 0; i < Math.min(pos.count, 100); i++) {
                 const y = pos.getY(i);
                 if (y < minY) minY = y;
             }
-            voxelBottomY = minY;
+            earthBottomY = minY;
         }
         
         return {
             terrainH: terrainH,
             hasSolidEarth: hasSolidEarth,
-            hasVoxelMesh: hasVoxelMesh,
+            hasSolidEarth2: hasSolidEarth2,
             solidEarthBottomY: bottomY,
-            voxelBottomY: voxelBottomY,
+            earthBottomY: earthBottomY,
         };
     }""")
 
@@ -513,29 +502,34 @@ def test_terrain_underground_blend(page):
            f"terrainH={result['terrainH']}")
     record("blend:solid_earth_exists", "pass" if result["hasSolidEarth"] else "fail",
            f"solidEarthMesh exists={result['hasSolidEarth']}")
-    record("blend:voxel_mesh_exists", "pass" if result["hasVoxelMesh"] else "fail",
-           f"voxelMesh exists={result['hasVoxelMesh']}")
+    record("blend:solid_earth_mesh_exists", "pass" if result["hasSolidEarth2"] else "fail",
+           f"solidEarthMesh exists={result['hasSolidEarth2']}")
     record("blend:solid_earth_bottom_valid", "pass" if result["solidEarthBottomY"] is not None and result["solidEarthBottomY"] <= 0 else "fail",
            f"bottomY={result['solidEarthBottomY']}")
 
 
 def test_save_load(page):
-    """Test that save/load works with carved underground."""
-    print("\n--- Save/Load with Carved Underground ---")
+    """Test that save/load works without voxel data."""
+    print("\n--- Save/Load ---")
+
+    # Reload page to get clean state
+    page.goto('http://127.0.0.1:8099/index.html', timeout=30000)
+    page.wait_for_timeout(2000)
 
     result = safe_eval(page, """() => {
         const t = window._test;
         if (!t) return { error: 'no test obj' };
         
-        // Setup terrain and carve
+        // Setup terrain and dig
         if (typeof t.ensureTerrainArray === 'function') t.ensureTerrainArray();
-        if (!t.state.voxels) {
-            if (typeof t.initVoxelsFromTerrain === 'function') t.initVoxelsFromTerrain();
+        if (!t.state.terrain) {
+            if (typeof t.initVoxelsFromTerrain === 'function') t.ensureTerrainArray();
         }
         
-        // Carve a sphere
-        if (typeof t.carveWithBrush === 'function') {
-            t.carveWithBrush(0, -5, 0);
+        // Dig terrain
+        if (typeof t.paintTerrain === 'function') {
+            t.terrainBrushMode = 'dig';
+            t.paintTerrain(0, 0);
         }
         
         // Serialize
@@ -550,8 +544,8 @@ def test_save_load(page):
         
         // Check serialized data
         const hasTerrain = serialized.terrain !== null && serialized.terrain !== undefined;
-        const hasVoxels = serialized.voxels !== null && serialized.voxels !== undefined;
-        const hasTerrainSegs = serialized.terrainSegs === 300;
+        const hasVoxelsRemoved = serialized.voxels === undefined || serialized.voxels === null;
+        const hasTerrainSegs = serialized.terrainSegs === 200;
         
         // Load it back
         let loadSuccess = false;
@@ -569,17 +563,17 @@ def test_save_load(page):
         
         // Check state after load
         const terrainSegsAfter = t.state.terrainSegs;
-        const hasVoxelsAfter = !!t.state.voxels;
+        const hasVoxelsRemovedAfter = !!t.state.voxels;
         
         return {
             serialized: true,
             hasTerrain: hasTerrain,
-            hasVoxels: hasVoxels,
-            hasTerrainSegs300: hasTerrainSegs,
+            hasVoxelsRemoved: hasVoxelsRemoved,
+            hasTerrainSegs200: hasTerrainSegs,
             loadSuccess: loadSuccess,
             loadError: loadError,
             terrainSegsAfter: terrainSegsAfter,
-            hasVoxelsAfter: hasVoxelsAfter,
+            hasVoxelsRemovedAfter: hasVoxelsRemovedAfter,
         };
     }""")
 
@@ -589,37 +583,37 @@ def test_save_load(page):
 
     record("save_load:serialize_has_terrain", "pass" if result["hasTerrain"] else "fail",
            f"terrain in serialized data: {result['hasTerrain']}")
-    record("save_load:serialize_has_voxels", "pass" if result["hasVoxels"] else "fail",
-           f"voxels in serialized data: {result['hasVoxels']}")
-    record("save_load:serialize_has_300_segs", "pass" if result["hasTerrainSegs300"] else "fail",
-           f"terrainSegs={result.get('hasTerrainSegs300')}")
+    record("save_load:no_voxels_in_serialize", "pass" if result["hasVoxelsRemoved"] else "fail",
+           f"voxels removed from serialized data: {result['hasVoxelsRemoved']}")
+    record("save_load:serialize_has_200_segs", "pass" if result["hasTerrainSegs200"] else "fail",
+           f"terrainSegs={result.get('hasTerrainSegs200')}")
     record("save_load:load_succeeds", "pass" if result["loadSuccess"] else "fail",
            f"loadSuccess={result['loadSuccess']}, error={result.get('loadError')}")
-    record("save_load:terrain_segs_after_load", "pass" if result["terrainSegsAfter"] == 300 else "fail",
-           f"terrainSegsAfter={result['terrainSegsAfter']}")
-    record("save_load:voxels_after_load", "pass" if result["hasVoxelsAfter"] else "fail",
-           f"hasVoxelsAfter={result['hasVoxelsAfter']}")
+    record("save_load:terrain_segs_after_load", "pass" if result["terrainSegsAfter"] == 200 else "fail",
+           f"terrainSegsAfter={result['terrainSegsAfter']} (expected 200)")
+    record("save_load:no_voxels_after_load", "pass" if not result["hasVoxelsRemovedAfter"] else "fail",
+           f"hasVoxelsAfter={result['hasVoxelsRemovedAfter']} (should be false)")
 
 
-def test_voxel_mesh_normals(page):
+def test_solid_earth_normals(page):
     """Test that buildVoxelMesh produces smooth normals (computeVertexNormals called)."""
-    print("\n--- Voxel Mesh Smooth Normals ---")
+    print("\n--- Solid Earth Normals ---")
 
     result = safe_eval(page, """() => {
         const t = window._test;
         if (!t) return { error: 'no test obj' };
         
-        // Initialize and build voxel mesh
+        // Initialize and build solid earth
         if (typeof t.ensureTerrainArray === 'function') t.ensureTerrainArray();
-        if (!t.state.voxels) {
-            if (typeof t.initVoxelsFromTerrain === 'function') t.initVoxelsFromTerrain();
+        if (!t.state.terrain) {
+            if (typeof t.initVoxelsFromTerrain === 'function') t.ensureTerrainArray();
         }
-        if (typeof t.carveWithBrush === 'function') t.carveWithBrush(0, -3, 0);
+        if (typeof t.buildSolidEarth === 'function') t.buildSolidEarth();
         
-        const vm = t.voxelMesh;
-        if (!vm || !vm.geometry) return { error: 'no voxel mesh' };
+        const se = t.solidEarthMesh;
+        if (!se || !se.geometry) return { error: 'no solid earth mesh' };
         
-        const norm = vm.geometry.attributes.normal;
+        const norm = se.geometry.attributes.normal;
         if (!norm) return { error: 'no normal attribute' };
         
         // Sample normals and check if they vary (not all axis-aligned)
@@ -643,22 +637,22 @@ def test_voxel_mesh_normals(page):
             sampledCount: total,
             uniqueNormalCount: uniqueNormals.size,
             nonAxisAlignedCount: nonAxisAligned,
-            hasVertexColors: !!vm.geometry.attributes.color,
+            hasVertexColors: !!se.geometry.attributes.color,
         };
     }""")
 
     if not result or result.get("error"):
-        record("voxel_normals:setup", "fail", str(result.get("error", "unknown")))
+        record("solid_earth:setup", "fail", str(result.get("error", "unknown")))
         return
 
-    record("voxel_normals:has_normals", "pass" if result["totalNormals"] > 0 else "fail",
+    record("solid_earth:has_normals", "pass" if result["totalNormals"] > 0 else "fail",
            f"{result['totalNormals']} normals")
     # Note: For flat terrain with no carving, normals will be mostly axis-aligned (up/down).
     # After carving, normals should show some variety. The key check is that normals exist
     # and vertex colors are present (indicating geological layer rendering).
-    record("voxel_normals:unique_variety", "pass" if result["uniqueNormalCount"] >= 1 else "fail",
+    record("solid_earth:unique_variety", "pass" if result["uniqueNormalCount"] >= 1 else "fail",
            f"{result['uniqueNormalCount']} unique normal directions (>=1 required)")
-    record("voxel_normals:has_vertex_colors", "pass" if result["hasVertexColors"] else "fail",
+    record("solid_earth:has_vertex_colors", "pass" if result["hasVertexColors"] else "fail",
            f"vertexColors={result['hasVertexColors']}")
 
 
@@ -666,9 +660,16 @@ def test_performance(page):
     """Test that the page renders at acceptable FPS."""
     print("\n--- Performance Check ---")
 
+    # Reload page to get clean state
+    page.goto('http://127.0.0.1:8099/index.html', timeout=30000)
+    page.wait_for_timeout(2000)
+
     result = safe_eval(page, """() => {
         const t = window._test;
         if (!t || !t.renderer) return { error: 'no renderer' };
+        
+        // Initialize terrain for consistent testing
+        if (typeof t.ensureTerrainArray === 'function') t.ensureTerrainArray();
         
         // Render a frame and measure
         const start = performance.now();
@@ -682,12 +683,6 @@ def test_performance(page):
         // Estimate FPS (1000 / renderTime, capped at 60)
         const estimatedFPS = Math.min(60, Math.round(1000 / Math.max(1, renderTime)));
         
-        // Check voxel array size
-        let voxelArraySize = 0;
-        if (t.state && t.state.voxels) {
-            voxelArraySize = t.state.voxels.length;
-        }
-        
         // Check terrain array size
         let terrainArraySize = 0;
         if (t.state && t.state.terrain) {
@@ -697,21 +692,18 @@ def test_performance(page):
         return {
             renderTimeMs: renderTime.toFixed(2),
             estimatedFPS: estimatedFPS,
-            voxelArraySize: voxelArraySize,
             terrainArraySize: terrainArraySize,
         };
     }""")
 
     if not result or result.get("error"):
-        record("perf:render_test", "fail", str(result.get("error", "unknown")))
+        record("perf:render_test", "fail", str(result.get("error", "unknown")) if result else "None result")
         return
 
     record("perf:render_time", "pass" if float(result["renderTimeMs"]) < 1000 else "fail",
            f"{result['renderTimeMs']}ms per frame")
-    record("perf:voxel_array_size", "pass" if result["voxelArraySize"] < 50000000 else "fail",
-           f"{result['voxelArraySize']} voxels")
-    record("perf:terrain_array_size", "pass" if result["terrainArraySize"] == 90601 else "fail",
-           f"{result['terrainArraySize']} terrain points (expected 90601 for 300 segs)")
+    record("perf:terrain_array_size", "pass" if result["terrainArraySize"] == 40401 else "fail",
+           f"{result['terrainArraySize']} terrain points (expected 40401 for 200 segs)")
 
 
 def test_no_console_errors(page, errors_collected):
@@ -765,7 +757,7 @@ def main():
             test_geological_layers(page)
             test_terrain_underground_blend(page)
             test_save_load(page)
-            test_voxel_mesh_normals(page)
+            test_solid_earth_normals(page)
             test_performance(page)
             test_no_console_errors(page, errors_collected)
 

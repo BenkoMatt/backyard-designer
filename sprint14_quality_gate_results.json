@@ -1,0 +1,215 @@
+{
+  "total": 41,
+  "passed": 41,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "pass_rate": 100.0,
+  "results": [
+    {
+      "name": "no_voxels:function_definitions_removed",
+      "status": "pass",
+      "detail": "0 voxel functions found"
+    },
+    {
+      "name": "no_voxels:mergeVertices_import_removed",
+      "status": "pass",
+      "detail": "mergeVertices import removed"
+    },
+    {
+      "name": "no_voxels:voxel_constants_removed",
+      "status": "pass",
+      "detail": "VOXEL constants removed"
+    },
+    {
+      "name": "no_voxels:state_voxels_removed",
+      "status": "pass",
+      "detail": "state.voxels removed"
+    },
+    {
+      "name": "no_voxels:voxelMesh_removed",
+      "status": "pass",
+      "detail": "voxelMesh removed"
+    },
+    {
+      "name": "constants:max_terrain_height_15",
+      "status": "pass",
+      "detail": "MAX_TERRAIN_HEIGHT = 15"
+    },
+    {
+      "name": "constants:min_terrain_height_neg15",
+      "status": "pass",
+      "detail": "MIN_TERRAIN_HEIGHT = -15"
+    },
+    {
+      "name": "constants:terrain_segs_200",
+      "status": "pass",
+      "detail": "terrainSegs = 200"
+    },
+    {
+      "name": "constants:earth_depth_below_min_17",
+      "status": "pass",
+      "detail": "EARTH_DEPTH_BELOW_MIN = 17"
+    },
+    {
+      "name": "dig:lowers_terrain",
+      "status": "pass",
+      "detail": "height 0.00\u2192-1.50 (delta 1.50)"
+    },
+    {
+      "name": "dig:smooth_depression",
+      "status": "pass",
+      "detail": "1557 vertices changed (smooth=True)"
+    },
+    {
+      "name": "fill:raises_terrain",
+      "status": "pass",
+      "detail": "height -1.50\u21920.00 (delta 1.50)"
+    },
+    {
+      "name": "geo:layers_array_exists",
+      "status": "pass",
+      "detail": "8 geological layers defined"
+    },
+    {
+      "name": "geo:color_function_exists",
+      "status": "pass",
+      "detail": "_getGeologicalLayerColor available=True"
+    },
+    {
+      "name": "geo:unique_colors_at_depths",
+      "status": "pass",
+      "detail": "6 unique colors across 6 depth samples"
+    },
+    {
+      "name": "geo:solid_earth_has_vertex_colors",
+      "status": "pass",
+      "detail": "solid earth vertex colors: 3204 vertices"
+    },
+    {
+      "name": "geo:solid_earth_has_walls",
+      "status": "pass",
+      "detail": "solid earth has 3204 vertices (walls + bottom)"
+    },
+    {
+      "name": "brush:getBrushColor_exists",
+      "status": "pass",
+      "detail": "getBrushColor function available=True"
+    },
+    {
+      "name": "brush:BRUSH_COLORS_exists",
+      "status": "pass",
+      "detail": "BRUSH_COLORS object available=True"
+    },
+    {
+      "name": "brush:all_modes_color_coded",
+      "status": "pass",
+      "detail": "Modes with colors: {'raise': True, 'lower': True, 'smooth': True, 'erode': True, 'flatten': True, 'dig': True, 'fill': True}"
+    },
+    {
+      "name": "precision:mode_exists",
+      "status": "pass",
+      "detail": "Precision mode available=True"
+    },
+    {
+      "name": "precision:size_step_0_5",
+      "status": "pass",
+      "detail": "Precision size step=0.5 (expected 0.5)"
+    },
+    {
+      "name": "precision:strength_step_0_005",
+      "status": "pass",
+      "detail": "Precision strength step=0.005 (expected 0.005)"
+    },
+    {
+      "name": "flatten:button_exists",
+      "status": "pass",
+      "detail": "Flatten button in UI"
+    },
+    {
+      "name": "flatten:mode_in_brush_colors",
+      "status": "pass",
+      "detail": "Flatten in BRUSH_COLORS=True"
+    },
+    {
+      "name": "flatten:smooths_terrain",
+      "status": "pass",
+      "detail": "height 5.00\u21925.00"
+    },
+    {
+      "name": "limits:max_is_15",
+      "status": "pass",
+      "detail": "MAX_TERRAIN_HEIGHT=15"
+    },
+    {
+      "name": "limits:min_is_neg15",
+      "status": "pass",
+      "detail": "MIN_TERRAIN_HEIGHT=-15"
+    },
+    {
+      "name": "limits:high_clamped_to_15",
+      "status": "pass",
+      "detail": "35\u219215"
+    },
+    {
+      "name": "limits:low_clamped_to_neg15",
+      "status": "pass",
+      "detail": "-35\u2192-15"
+    },
+    {
+      "name": "save_load:has_terrain",
+      "status": "pass",
+      "detail": "terrain in serialized: True"
+    },
+    {
+      "name": "save_load:no_voxels_in_serialize",
+      "status": "pass",
+      "detail": "voxels absent from serialize: True"
+    },
+    {
+      "name": "save_load:version_is_4",
+      "status": "pass",
+      "detail": "version=4"
+    },
+    {
+      "name": "save_load:load_succeeds",
+      "status": "pass",
+      "detail": "loadSuccess=True"
+    },
+    {
+      "name": "save_load:no_voxels_after_load",
+      "status": "pass",
+      "detail": "no voxels after load: True"
+    },
+    {
+      "name": "cross_section:button_exists",
+      "status": "pass",
+      "detail": "Cross-section toggle button exists=True"
+    },
+    {
+      "name": "cross_section:clip_plane_accessible",
+      "status": "pass",
+      "detail": "terrainClipPlane accessible=True"
+    },
+    {
+      "name": "cross_section:yard_supports_clipping",
+      "status": "pass",
+      "detail": "yardMesh supports clipping=True"
+    },
+    {
+      "name": "cross_section:solid_earth_supports_clipping",
+      "status": "pass",
+      "detail": "solidEarthMesh supports clipping=True"
+    },
+    {
+      "name": "fps:painting_ops_per_sec",
+      "status": "pass",
+      "detail": "1893 ops/s (3949 ops in 2086ms)"
+    },
+    {
+      "name": "console:no_errors",
+      "status": "pass",
+      "detail": "0 errors found"
+    }
+  ]
+}
