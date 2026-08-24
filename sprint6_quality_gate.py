@@ -1908,8 +1908,9 @@ def run_critic_tests(page, runner, base_url):
     }
     for dock_name, (content_id, tab_selector) in dock_panel_map.items():
         try:
-            page_errors_before = []
-            page.on("pageerror", lambda err: page_errors_before.append(str(err)))
+            errs = []
+            _handler = lambda err: errs.append(str(err))
+            page.on("pageerror", _handler)
 
             el = page.query_selector(tab_selector)
             if el and el.is_visible():
@@ -1919,11 +1920,12 @@ def run_critic_tests(page, runner, base_url):
                 content = page.query_selector(f"#{content_id}")
                 content_visible = content and content.is_visible()
                 runner.record("critic", f"panel:{dock_name}_dock_opens_clean",
-                              content_visible and len(page_errors_before) == 0,
-                              f"content visible={content_visible}, errors={len(page_errors_before)}")
+                              content_visible and len(errs) == 0,
+                              f"content visible={content_visible}, errors={len(errs)}" + (f": {errs[:2]}" if errs else ""))
                 # Close
                 el.evaluate("el => el.click()")
                 page.wait_for_timeout(200)
+                page.remove_listener("pageerror", _handler)
             else:
                 runner.record_skip("critic", f"panel:{dock_name}_dock_opens_clean",
                                    f"tab not visible")
@@ -1933,8 +1935,9 @@ def run_critic_tests(page, runner, base_url):
     # Cost and layer via topbar buttons
     for panel_id, btn_id in [("cost-panel", "btn-cost"), ("layer-panel", "btn-layers")]:
         try:
-            page_errors_before = []
-            page.on("pageerror", lambda err: page_errors_before.append(str(err)))
+            errs = []
+            _handler = lambda err: errs.append(str(err))
+            page.on("pageerror", _handler)
 
             el = page.query_selector(f"#{btn_id}")
             if el and el.is_visible():
@@ -1944,11 +1947,12 @@ def run_critic_tests(page, runner, base_url):
                 panel = page.query_selector(f"#{panel_id}")
                 panel_visible = panel and panel.is_visible()
                 runner.record("critic", f"panel:{panel_id}_opens_clean",
-                              panel_visible and len(page_errors_before) == 0,
-                              f"visible={panel_visible}, errors={len(page_errors_before)}")
+                              panel_visible and len(errs) == 0,
+                              f"visible={panel_visible}, errors={len(errs)}" + (f": {errs[:2]}" if errs else ""))
                 # Close
                 el.evaluate("el => el.click()")
                 page.wait_for_timeout(200)
+                page.remove_listener("pageerror", _handler)
             else:
                 runner.record_skip("critic", f"panel:{panel_id}_opens_clean",
                                    f"#{btn_id} not visible")

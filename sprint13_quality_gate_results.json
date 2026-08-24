@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-24T17:02:13",
+  "timestamp": "2026-08-24T18:43:09",
   "total": 34,
   "passed": 34,
   "failed": 0,
@@ -100,12 +100,12 @@
     {
       "name": "perf:terrain_paint_ops_per_sec",
       "status": "pass",
-      "detail": "1897 ops/s (3978 ops in 2097ms)"
+      "detail": "693 ops/s (1582 ops in 2281ms)"
     },
     {
       "name": "perf:dig_ops_per_sec",
       "status": "pass",
-      "detail": "2563 ops/s (5392 ops in 2103ms)"
+      "detail": "647 ops/s (1465 ops in 2263ms)"
     },
     {
       "name": "perf:terrain_mesh_valid_after_dig",
@@ -115,7 +115,7 @@
     {
       "name": "perf:applyTerrainPositions_faster_than_full",
       "status": "pass",
-      "detail": "pos=0.3ms vs full=87.5ms (ratio 291.7x)"
+      "detail": "pos=0.7ms vs full=224.1ms (ratio 320.1x)"
     },
     {
       "name": "perf:terrain_debounced_during_painting",
@@ -170,7 +170,7 @@
     {
       "name": "zoom:scroll_over_panel_zooms_camera",
       "status": "pass",
-      "detail": "dist 74.0 \u2192 78.7 (non-scrollable panel)"
+      "detail": "dist 74.0 \u2192 81.4 (non-scrollable panel)"
     },
     {
       "name": "console:no_errors",

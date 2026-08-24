@@ -129,7 +129,7 @@
     {
       "name": "geo:solid_earth_has_vertex_colors",
       "status": "pass",
-      "detail": "solid earth vertex colors: 3204 vertices"
+      "detail": "solid earth vertex colors: 3236 vertices"
     },
     {
       "name": "blend:terrain_height_exists",
@@ -184,7 +184,7 @@
     {
       "name": "solid_earth:has_normals",
       "status": "pass",
-      "detail": "3204 normals"
+      "detail": "3236 normals"
     },
     {
       "name": "solid_earth:unique_variety",
@@ -199,7 +199,7 @@
     {
       "name": "perf:render_time",
       "status": "pass",
-      "detail": "37.10ms per frame"
+      "detail": "67.10ms per frame"
     },
     {
       "name": "perf:terrain_array_size",

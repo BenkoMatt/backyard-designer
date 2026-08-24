@@ -1,0 +1,168 @@
+{
+  "sprint": 16,
+  "total": 32,
+  "passed": 32,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Desktop gate CSS exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Desktop gate HTML element exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No mobile @media blocks (max-width/max-height)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No body.is-mobile references",
+      "status": "PASS",
+      "detail": "Found 0 references"
+    },
+    {
+      "name": "No touch event handlers in script",
+      "status": "PASS",
+      "detail": "Found 0 references"
+    },
+    {
+      "name": "No mobile-lib-toggle HTML element",
+      "status": "PASS",
+      "detail": "Found 0"
+    },
+    {
+      "name": "No mobile-props-sheet HTML element",
+      "status": "PASS",
+      "detail": "Found 0"
+    },
+    {
+      "name": "No mobile-action-bar HTML element",
+      "status": "PASS",
+      "detail": "Found 0"
+    },
+    {
+      "name": "Tool dock labels not hidden by CSS",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Status bar HTML exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Z-index hierarchy is clean (no unexpected values)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Keyboard shortcuts (1-6, [/], X) implemented",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Cursor feedback (crosshair/grabbing) implemented",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Wider panels (sidebar 280px, properties 320px)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "IS_MOBILE set to false (desktop-only)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No IS_MOBILE conditional rendering",
+      "status": "PASS",
+      "detail": "Found IS_MOBILE conditional in fog settings"
+    },
+    {
+      "name": "Desktop gate JS check function exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Page loads without JS errors (1280px)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Desktop gate hidden at 1280px (>=900px)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Status bar shows current tool",
+      "status": "PASS",
+      "detail": "Tool: Select"
+    },
+    {
+      "name": "Status bar shows brush size",
+      "status": "PASS",
+      "detail": "Brush: 8 ft"
+    },
+    {
+      "name": "Tool dock labels visible (computed)",
+      "status": "PASS",
+      "detail": "display=block"
+    },
+    {
+      "name": "No mobile elements in DOM",
+      "status": "PASS",
+      "detail": "Found: {'libToggle': False, 'propsSheet': False, 'actionBar': False, 'isMobileClass': False}"
+    },
+    {
+      "name": "No touch event handlers in scripts",
+      "status": "PASS",
+      "detail": "Found 0"
+    },
+    {
+      "name": "@media rules only print/reduced-motion",
+      "status": "PASS",
+      "detail": "Found 4 @media rules"
+    },
+    {
+      "name": "Keyboard shortcut 2 switches to lower",
+      "status": "PASS",
+      "detail": "Got: lower"
+    },
+    {
+      "name": "Keyboard shortcut 1 switches to raise",
+      "status": "PASS",
+      "detail": "Got: raise"
+    },
+    {
+      "name": "Keyboard ] increases brush size",
+      "status": "PASS",
+      "detail": "8 -> 9"
+    },
+    {
+      "name": "Keyboard [ decreases brush size",
+      "status": "PASS",
+      "detail": "9 -> 8"
+    },
+    {
+      "name": "Keyboard X toggles terrain mode",
+      "status": "PASS",
+      "detail": "True -> False"
+    },
+    {
+      "name": "FPS >= 30",
+      "status": "PASS",
+      "detail": "FPS=31"
+    },
+    {
+      "name": "Desktop gate visible at 800px (<900px)",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}

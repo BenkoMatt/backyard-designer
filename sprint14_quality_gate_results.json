@@ -204,7 +204,7 @@
     {
       "name": "fps:painting_ops_per_sec",
       "status": "pass",
-      "detail": "1797 ops/s (3800 ops in 2115ms)"
+      "detail": "1291 ops/s (2788 ops in 2160ms)"
     },
     {
       "name": "console:no_errors",

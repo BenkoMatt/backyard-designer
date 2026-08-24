@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 6L6 28v30h16V42h20v16h16V28z' fill='%234a8b5c'/%3E%3Cpath d='M32 6L6 28h52z' fill='%233a6b46'/%3E%3Crect x='24' y='44' width='16' height='14' fill='%23f5f5f0'/%3E%3C/svg%3E">
 <title>Backyard Designer 3D</title>
 <style>
-* { -webkit-tap-highlight-color: transparent; }
 :root {
 --bg: #f5f5f0;
 --surface: #ffffff;
@@ -44,9 +43,9 @@
 --z-modal: 30;
 --z-toast: 40;
 --topbar-h: 52px;
---sidebar-w: 250px;
---props-w: 270px;
---app-height: 100vh;
+--sidebar-w: 280px;
+--props-w: 320px;
+
 
 --hover-bg: #f0f0f0;
 --hover-bg-alt: #f5f5f0;
@@ -84,8 +83,8 @@
 --close-font-size: 16px;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100vh; overscroll-behavior: none; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; height: 100dvh; height: var(--app-height); -webkit-font-smoothing: antialiased; }
+html, body { height: 100vh; overflow: hidden; overscroll-behavior: none; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; -webkit-font-smoothing: antialiased; }
 canvas { display: block; }
 #topbar { height: var(--topbar-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 12px; z-index: 100; position: relative; box-shadow: var(--shadow); }
 .topbar-brand { font-size: 17px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
@@ -103,7 +102,7 @@ canvas { display: block; }
 .view-toggle { display: flex; background: var(--hover-bg); border-radius: var(--radius-sm); padding: 3px; gap: 2px; }
 .view-toggle button { border: none; background: none; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; color: var(--text-muted); font-family: inherit; }
 .view-toggle button.active { background: white; color: var(--primary); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-#main { display: flex; height: calc(var(--app-height) - var(--topbar-h)); }
+#main { display: flex; height: calc(100vh - var(--topbar-h)); }
 #sidebar { width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; }
 .sidebar-header { padding: 14px 16px 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
 .cat-section { margin-bottom: 2px; }
@@ -120,8 +119,8 @@ canvas { display: block; }
 .lib-item svg { width: 28px; height: 28px; flex-shrink: 0; }
 .lib-item span { line-height: 1.3; }
 .lib-item small { color: var(--text-muted); font-size: 11px; display: block; margin-top: 1px; }
-#viewport { flex: 1; position: relative; overflow: hidden; touch-action: none; }
-#viewport canvas { position: absolute; top: 0; left: 0; touch-action: none; }
+#viewport { flex: 1; position: relative; overflow: hidden; }
+#viewport canvas { position: absolute; top: 0; left: 0; }
 .viewport-overlay { position: absolute; z-index: 10; }
 #view-controls { bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 6px; }
 .vc-btn { width: 40px; height: 40px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: all 0.15s; }
@@ -224,9 +223,6 @@ transition: all 0.2s; gap: 6px; align-items: center;
 }
 #sculpt-restore-pill:hover { background: var(--primary); transform: translateX(-50%) translateY(-2px); }
 #sculpt-restore-pill.visible { display: flex; }
-@media (max-width: 768px) {
-#sculpt-restore-pill { bottom: 8px; font-size: 14px; padding: 10px 20px; min-height: 44px; }
-}
 /* Terrain controls panel minimize */
 #terrain-controls .terrain-controls-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 #terrain-controls .terrain-controls-header .minimize {
@@ -258,11 +254,11 @@ display: none !important;
 #terrain-controls, #excavate-panel, #terrain-analysis-panel, #innovation-panel, #sun-panel {
 display: none !important;
 }
-#terrain-analysis-btn { position: absolute; bottom: 16px; left: 480px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; z-index: 11; }
+#terrain-analysis-btn { position: absolute; bottom: 16px; left: 480px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 14px; font-size: 12px; font-family: inherit; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 6px; color: var(--text); transition: all 0.15s; z-index: 10; }
 #terrain-analysis-btn:hover { border-color: var(--primary); background: white; }
 #terrain-analysis-btn.active { background: var(--analysis); color: white; border-color: var(--analysis); }
 #terrain-analysis-btn svg { width: 16px; height: 16px; }
-#terrain-analysis-panel { position: absolute; bottom: 56px; left: 480px; background: var(--panel-bg-95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 260px; z-index: 60; max-height: calc(100vh - 80px); overflow-y: auto; }
+#terrain-analysis-panel { position: absolute; bottom: 56px; left: 480px; background: var(--panel-bg-95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 12px; box-shadow: var(--shadow); display: none; flex-direction: column; gap: 8px; min-width: 260px; z-index: 50; max-height: calc(100vh - 80px); overflow-y: auto; }
 #terrain-analysis-panel.visible { display: flex; }
 .ta-section-title { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
 .ta-section-title:first-child { margin-top: 0; }
@@ -281,7 +277,7 @@ display: none !important;
 .ta-btn { padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; transition: all 0.15s; }
 .ta-btn:hover { border-color: var(--primary); background: var(--hover-bg-primary); }
 .ta-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-#ta-cross-section-overlay { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); display: none; flex-direction: column; z-index: 70; min-width: 400px; max-width: 600px; }
+#ta-cross-section-overlay { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); display: none; flex-direction: column; z-index: 50; min-width: 400px; max-width: 600px; }
 #ta-cross-section-overlay.visible { display: flex; }
 #ta-cross-section-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 12px; }
 #ta-cross-section-close { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-muted); padding: 0 4px; line-height: 1; }
@@ -291,7 +287,7 @@ display: none !important;
 #ta-cross-section-stats { display: flex; gap: 12px; padding: 0 12px 10px; font-size: 10px; color: var(--text-muted); flex-wrap: wrap; }
 #ta-cross-section-stats span { white-space: nowrap; }
 #ta-cross-section-stats b { color: var(--text); }
-#cut-fill-panel { position: absolute; top: 16px; right: 340px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 52; min-width: 200px; }
+#cut-fill-panel { position: absolute; top: 16px; right: 340px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 50; min-width: 200px; }
 #cut-fill-panel.visible { display: flex; }
 .cf-header { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); padding: 8px 12px 4px; }
 .cf-row { display: flex; justify-content: space-between; padding: 2px 12px; font-size: 12px; }
@@ -330,7 +326,7 @@ display: none !important;
 .terrain-height-readout.negative .readout-value { color: var(--danger); }
 .excavation-depth-hint { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: rgba(91,74,139,0.08); border-radius: var(--radius-sm); font-size: 10px; color: var(--carve); }
 .excavation-depth-hint .depth-hint-icon { font-size: 14px; }
-#terrain-height-legend { position: absolute; top: 16px; left: 16px; z-index: 45; background: var(--panel-bg-95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 11px; box-shadow: var(--shadow); display: none; }
+#terrain-height-legend { position: absolute; top: 16px; left: 16px; z-index: 40; background: var(--panel-bg-95); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 11px; box-shadow: var(--shadow); display: none; }
 #terrain-height-legend.visible { display: block; }
 .height-legend-title { font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; color: var(--text-muted); }
 .height-legend-bar { display: flex; flex-direction: column; gap: 0; }
@@ -338,29 +334,6 @@ display: none !important;
 .height-legend-labels { display: flex; flex-direction: column; gap: 0; margin-left: 8px; }
 .height-legend-label { height: 16px; font-size: 10px; line-height: 16px; color: var(--text); white-space: nowrap; }
 .height-legend-container { display: flex; align-items: stretch; }
-@media (max-width: 768px) {
-#terrain-btn { bottom: 16px; left: 16px; padding: 10px 16px; font-size: 14px; min-height: 44px; }
-#terrain-btn svg { width: 20px; height: 20px; }
-#terrain-controls {
-position: fixed; bottom: 0; left: 0; right: 0; z-index: 65;
-background: var(--surface); border: 1px solid var(--border);
-border-radius: 16px 16px 0 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
-display: none; flex-direction: column; gap: 12px;
-max-height: 70vh; overflow-y: auto;
-transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-#terrain-controls.visible { display: flex; transform: translateY(0); }
-#terrain-controls .terrain-row { flex-wrap: wrap; }
-#terrain-controls .terrain-row label { font-size: 15px; }
-.terrain-mode-btn { padding: 10px 12px; font-size: 14px; min-height: 44px; }
-.terrain-preset-btn { padding: 12px 6px; font-size: 13px; min-height: 44px; }
-.terrain-toggle-btn { padding: 10px 8px; font-size: 12px; min-height: 44px; }
-#terrain-flatten { padding: 12px 16px; font-size: 14px; min-height: 44px; }
-#terrain-smooth-pass { padding: 12px 16px; font-size: 14px; min-height: 44px; }
-#terrain-controls input[type="range"] { min-height: 28px; }
-#terrain-height-legend { top: 60px; left: 8px; font-size: 12px; }
-}
 #measure-readout { position: absolute; background: rgba(45,45,45,0.9); color: white; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; pointer-events: none; white-space: nowrap; display: none; z-index: 50; transform: translate(-50%, -130%); }
 #measure-readout.visible { display: block; }
 #grid-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; display: none; }
@@ -379,7 +352,7 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 #excavate-btn:hover { border-color: var(--primary); background: white; }
 #excavate-btn.active { background: var(--carve); color: white; border-color: var(--carve); }
 #excavate-btn svg { width: 16px; height: 16px; }
-#excavate-panel { position: absolute; bottom: 56px; left: 460px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 270px; max-width: 320px; z-index: 11; max-height: calc(100vh - 80px); overflow-y: auto; }
+#excavate-panel { position: absolute; bottom: 56px; left: 460px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 270px; max-width: 320px; z-index: 10; max-height: calc(100vh - 80px); overflow-y: auto; }
 #excavate-panel.visible { display: flex; }
 .excavate-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 .excavate-header .title { font-size: 13px; font-weight: 700; color: var(--carve); display: flex; align-items: center; gap: 6px; }
@@ -410,7 +383,7 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 #buried-objects-panel .buried-item .buried-name { flex: 1; font-weight: 500; }
 #buried-objects-panel .buried-item .buried-depth { font-weight: 600; color: var(--danger); }
 #buried-objects-panel .buried-empty { font-size: 11px; color: var(--text-muted); padding: 6px 0; text-align: center; }
-#cross-section-panel { position: absolute; top: 16px; right: 340px; z-index: 51; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-lg); font-size: 12px; min-width: 320px; max-width: 420px; display: none; flex-direction: column; gap: 8px; }
+#cross-section-panel { position: absolute; top: 16px; right: 340px; z-index: 50; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow-lg); font-size: 12px; min-width: 320px; max-width: 420px; display: none; flex-direction: column; gap: 8px; }
 #cross-section-panel.visible { display: flex; }
 .cs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 .cs-header .title { font-size: 13px; font-weight: 700; color: var(--carve); display: flex; align-items: center; gap: 6px; }
@@ -424,11 +397,6 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 .cs-info { font-size: 10px; color: var(--text-muted); line-height: 1.4; }
 .cs-instruction { font-size: 11px; color: var(--text-muted); padding: 6px 8px; background: var(--hover-bg); border-radius: var(--radius-sm); text-align: center; }
 .cs-line-marker { pointer-events: none; }
-@media (max-width: 768px) {
-#excavate-btn { left: 16px; bottom: 130px; }
-#excavate-panel { left: 16px; bottom: 180px; max-width: 280px; }
-#cross-section-panel { right: 8px; left: 8px; top: 60px; max-width: none; min-width: 0; }
-}
 #properties { width: var(--props-w); background: var(--surface); border-left: 1px solid var(--border); overflow-y: auto; flex-shrink: 0; display: none; }
 #properties.visible { display: block; }
 .props-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
@@ -491,162 +459,13 @@ transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2
 .help-panel .close-btn { margin-top: 20px; width: 100%; }
 .help-panel .close-btn:hover { background: var(--primary-dark); }
 #import-input { display: none; }
-#mobile-lib-toggle { display: none; }
-@media (max-width: 768px), (max-height: 500px) and (max-width: 900px) {
-body.is-mobile #sidebar, #sidebar { display: none; }
-}
-body.is-mobile #sidebar.mobile-visible { display: flex !important; position: absolute; z-index: 55; width: 200px; }
-body.is-mobile #mobile-lib-toggle {
-display: block;
-position: fixed;
-bottom: 200px;
-right: 16px;
-z-index: 60;
-width: 48px;
-height: 48px;
-border-radius: 50%;
-background: var(--primary);
-color: white;
-border: none;
-font-size: 24px;
-cursor: pointer;
-box-shadow: var(--shadow);
-}
-body.is-mobile #properties { position: absolute; right: 0; top: 0; bottom: 0; z-index: 50; width: 240px; }
-@media (max-width: 768px) {
-#sidebar { display: none; }
-#sidebar.mobile-visible { display: flex !important; position: absolute; z-index: 55; width: 200px; }
-#mobile-lib-toggle {
-display: block;
-position: fixed;
-bottom: 200px;
-right: 16px;
-z-index: 60;
-width: 48px;
-height: 48px;
-border-radius: 50%;
-background: var(--primary);
-color: white;
-border: none;
-font-size: 24px;
-cursor: pointer;
-box-shadow: var(--shadow);
-}
-#properties { position: absolute; right: 0; top: 0; bottom: 0; z-index: 50; width: 240px; }
-}
-#mobile-props-sheet { display: none; }
-@media (max-width: 768px) {
-#properties { display: none !important; }
-#mobile-props-sheet {
-display: none;
-position: fixed;
-left: 0; right: 0; bottom: 0;
-z-index: 70;
-background: var(--surface);
-border-top: 1px solid var(--border);
-border-radius: 16px 16px 0 0;
-box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-max-height: 70vh;
-transform: translateY(100%);
-transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-overflow: hidden;
-flex-direction: column;
-}
-#mobile-props-sheet.expanded { display: flex; transform: translateY(0); }
-#mobile-props-sheet .sheet-grabber {
-flex-shrink: 0; height: 28px;
-display: flex; align-items: center; justify-content: center;
-cursor: grab; background: var(--surface);
-}
-#mobile-props-sheet .sheet-grabber-bar { width: 40px; height: 5px; border-radius: 3px; background: var(--border); }
-#mobile-props-sheet .sheet-header {
-flex-shrink: 0; padding: 4px 16px 10px;
-border-bottom: 1px solid var(--border);
-display: flex; align-items: center; gap: 10px;
-}
-#mobile-props-sheet .sheet-header svg { width: 32px; height: 32px; }
-#mobile-props-sheet .sheet-header .name { font-size: 15px; font-weight: 700; }
-#mobile-props-sheet .sheet-header .type { font-size: 12px; color: var(--text-muted); }
-#mobile-props-sheet .sheet-body {
-overflow-y: auto; padding: 14px 16px 16px;
--webkit-overflow-scrolling: touch; flex: 1;
-}
-#mobile-action-bar {
-display: none; flex-shrink: 0;
-border-top: 1px solid var(--border);
-padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-gap: 8px; justify-content: space-around; background: var(--surface);
-}
-#mobile-props-sheet.expanded #mobile-action-bar { display: flex; }
-#mobile-props-sheet .prop-row input[type="number"],
-#mobile-props-sheet .prop-row select { min-height: 40px; font-size: 16px; }
-#mobile-props-sheet .prop-row label { font-size: 15px; }
-#mobile-props-sheet .prop-actions button { min-height: 44px; font-size: 15px; }
-#mobile-props-sheet .rotate-btn { width: 44px; height: 44px; font-size: 20px; }
-#mobile-props-sheet .prop-actions { display: none; }
-}
-body.is-mobile #properties { display: none !important; }
-body.is-mobile #mobile-props-sheet {
-display: none;
-position: fixed;
-left: 0; right: 0; bottom: 0;
-z-index: 70;
-background: var(--surface);
-border-top: 1px solid var(--border);
-border-radius: 16px 16px 0 0;
-box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-max-height: 70vh;
-transform: translateY(100%);
-transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-overflow: hidden;
-flex-direction: column;
-}
-body.is-mobile #mobile-props-sheet.expanded { display: flex; transform: translateY(0); }
-body.is-mobile #mobile-props-sheet .sheet-grabber {
-flex-shrink: 0; height: 28px; display: flex; align-items: center; justify-content: center;
-cursor: grab; background: var(--surface);
-}
-body.is-mobile #mobile-props-sheet .sheet-grabber-bar { width: 40px; height: 5px; border-radius: 3px; background: var(--border); }
-body.is-mobile #mobile-props-sheet .sheet-header {
-flex-shrink: 0; padding: 4px 16px 10px; border-bottom: 1px solid var(--border);
-display: flex; align-items: center; gap: 10px;
-}
-body.is-mobile #mobile-props-sheet .sheet-header svg { width: 32px; height: 32px; }
-body.is-mobile #mobile-props-sheet .sheet-header .name { font-size: 15px; font-weight: 700; }
-body.is-mobile #mobile-props-sheet .sheet-header .type { font-size: 12px; color: var(--text-muted); }
-body.is-mobile #mobile-props-sheet .sheet-body {
-overflow-y: auto; padding: 14px 16px 16px; -webkit-overflow-scrolling: touch; flex: 1;
-}
-body.is-mobile #mobile-action-bar {
-display: none; flex-shrink: 0; border-top: 1px solid var(--border);
-padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-gap: 8px; justify-content: space-around; background: var(--surface);
-}
-body.is-mobile #mobile-props-sheet.expanded #mobile-action-bar { display: flex; }
-body.is-mobile #mobile-props-sheet .prop-row input[type="number"],
-body.is-mobile #mobile-props-sheet .prop-row select { min-height: 40px; font-size: 16px; }
-body.is-mobile #mobile-props-sheet .prop-row label { font-size: 15px; }
-body.is-mobile #mobile-props-sheet .prop-actions button { min-height: 44px; font-size: 15px; }
-body.is-mobile #mobile-props-sheet .rotate-btn { width: 44px; height: 44px; font-size: 20px; }
-body.is-mobile #mobile-props-sheet .prop-actions { display: none; }
-.mab-btn {
-flex: 1; min-height: 44px;
-border: 1px solid var(--border); border-radius: var(--radius-sm);
-background: var(--surface); color: var(--text);
-font-size: 13px; font-family: inherit; cursor: pointer;
-display: flex; flex-direction: column; align-items: center; gap: 2px;
-padding: 6px 4px;
-}
-.mab-btn svg { width: 20px; height: 20px; }
-.mab-btn:active { background: var(--hover-bg); }
-.mab-btn.danger { color: var(--danger); }
 #cost-panel {
 position: absolute; top: 16px; right: 16px; z-index: 50;
 background: var(--panel-bg-96); border: 1px solid var(--border);
 border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow-lg);
 font-size: 13px; min-width: 240px; max-width: 300px; display: none;
 }
-#cost-panel.shifted { right: 280px; }
+#cost-panel.shifted { right: 340px; }
 #cost-panel.visible { display: block; }
 .cost-panel-header {
 display: flex; align-items: center; justify-content: space-between;
@@ -662,7 +481,7 @@ margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border)
 .cost-line.total .val { color: var(--primary); }
 .cost-note { font-size: 10px; color: var(--text-muted); margin-top: 8px; line-height: 1.3; }
 #layer-panel {
-position: absolute; top: 200px; right: 16px; z-index: 49;
+position: absolute; top: 200px; right: 16px; z-index: 50;
 background: rgba(255,255,255,0.96); border: 1px solid var(--border);
 border-radius: var(--radius); padding: 12px 14px; box-shadow: var(--shadow-lg);
 font-size: 13px; min-width: 200px; display: none;
@@ -726,12 +545,12 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 .share-too-long.visible { display: block; }
 #walk-controls { position: absolute; inset: 0; display: none; z-index: 150; pointer-events: none; }
 #walk-controls.visible { display: block; }
-#walk-exit { position: absolute; top: 16px; right: 16px; background: rgba(220,53,53,0.92); color: white; border: none; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: var(--shadow); pointer-events: auto; z-index: 201; }
+#walk-exit { position: absolute; top: 16px; right: 16px; background: rgba(220,53,53,0.92); color: white; border: none; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: var(--shadow); pointer-events: auto; z-index: 200; }
 #walk-exit:hover { background: rgba(180,40,40,0.95); }
 #walk-hint { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 8px 18px; border-radius: 20px; font-size: 12px; pointer-events: none; white-space: nowrap; }
 #walk-joystick { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: auto; }
 .walk-joy-row { display: flex; gap: 6px; }
-.walk-joy-btn { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.9); border: 1px solid var(--border); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); user-select: none; -webkit-user-select: none; touch-action: none; font-family: inherit; }
+.walk-joy-btn { width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.9); border: 1px solid var(--border); font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); user-select: none; -webkit-user-select: none; font-family: inherit; }
 .walk-joy-btn:active { background: var(--primary); color: white; }
 .walk-joy-btn.spacer { background: transparent; border: none; box-shadow: none; cursor: default; }
 #walk-motion-btn { position: absolute; bottom: 96px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: var(--shadow); pointer-events: auto; display: none; }
@@ -740,7 +559,7 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 #innovation-btn:hover { border-color: var(--primary); background: white; }
 #innovation-btn.active { background: var(--analysis); color: white; border-color: var(--analysis); }
 #innovation-btn svg { width: 16px; height: 16px; }
-#innovation-panel { position: absolute; bottom: 56px; left: 530px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 280px; max-width: 340px; z-index: 11; max-height: calc(100vh - 80px); overflow-y: auto; }
+#innovation-panel { position: absolute; bottom: 56px; left: 530px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 12px; box-shadow: var(--shadow-lg); display: none; flex-direction: column; gap: 10px; min-width: 280px; max-width: 340px; z-index: 10; max-height: calc(100vh - 80px); overflow-y: auto; }
 #innovation-panel.visible { display: flex; }
 .innov-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
 .innov-header .title { font-size: 13px; font-weight: 700; color: var(--analysis); display: flex; align-items: center; gap: 6px; }
@@ -766,10 +585,6 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 .innov-btns button:hover { border-color: var(--analysis); background: var(--hover-bg-primary); }
 .innov-btns button.primary { background: var(--analysis); color: white; border-color: var(--analysis); }
 .innov-btns button.primary:hover { background: var(--primary-dark); }
-@media (max-width: 768px) {
-#innovation-btn { left: 16px; bottom: 190px; }
-#innovation-panel { left: 16px; bottom: 240px; max-width: 300px; }
-}
 .grid-level-section { display: flex; flex-direction: column; gap: 4px; padding: 6px 0; border-top: 1px solid var(--border); margin-top: 4px; }
 .grid-level-label { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; }
 .grid-level-row { display: flex; align-items: center; gap: 8px; }
@@ -777,7 +592,7 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 .grid-level-val { font-weight: 700; color: var(--carve); min-width: 50px; text-align: right; font-size: 13px; }
 .grid-level-hint { font-size: 10px; color: var(--text-muted); line-height: 1.4; padding: 2px 0; }
 .grid-level-hint strong { color: var(--carve); }
-#grid-level-badge { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(91,74,139,0.95); color: white; padding: 5px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; box-shadow: var(--shadow); z-index: 46; display: none; pointer-events: none; }
+#grid-level-badge { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(91,74,139,0.95); color: white; padding: 5px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; box-shadow: var(--shadow); z-index: 50; display: none; pointer-events: none; }
 #grid-level-badge.visible { display: block; }
 #grid-level-badge .badge-icon { font-size: 14px; vertical-align: middle; margin-right: 4px; }
 .carving-section { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; border-top: 1px solid var(--border); margin-top: 4px; }
@@ -808,7 +623,7 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 #vc-underground.active { background: var(--carve); border-color: var(--carve); }
 #vc-underground.active svg { color: white; }
 #vc-underground svg { width: 18px; height: 18px; color: var(--text); }
-#depth-gauge-overlay { position: absolute; top: 16px; right: 16px; background: rgba(91,74,139,0.95); color: white; border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; box-shadow: var(--shadow); display: none; z-index: 47; pointer-events: none; }
+#depth-gauge-overlay { position: absolute; top: 16px; right: 16px; background: rgba(91,74,139,0.95); color: white; border-radius: var(--radius-sm); padding: 8px 12px; font-size: 12px; box-shadow: var(--shadow); display: none; z-index: 50; pointer-events: none; }
 #depth-gauge-overlay.visible { display: block; }
 #depth-gauge-overlay .dg-label { font-size: 10px; text-transform: uppercase; opacity: 0.8; }
 #depth-gauge-overlay .dg-value { font-size: 18px; font-weight: 700; }
@@ -826,86 +641,13 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 .voxel-layer-info { display: flex; align-items: center; gap: 8px; padding: 4px 8px; background: rgba(92,64,51,0.08); border-radius: var(--radius-sm); font-size: 10px; }
 .voxel-layer-swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(0,0,0,0.2); }
 .voxel-layer-label { color: var(--text-muted); font-weight: 600; }
-@media (max-width: 768px) {
-.grid-level-row { padding: 8px 10px; }
-.grid-level-row label { font-size: 15px; }
-.grid-level-row input[type="range"] { min-height: 32px; }
-.grid-level-val { font-size: 14px; }
-.depth-gauge-inline { padding: 8px 10px; font-size: 13px; }
-.depth-gauge-inline .dg-value { font-size: 15px; }
-.depth-gauge-inline-bar { min-width: 60px; height: 8px; }
-.depth-gauge-inline-indicator { width: 14px; height: 14px; }
-.excavate-row { min-height: 36px; }
-.excavate-row label { font-size: 14px; }
-.excavate-row input[type="range"] { min-height: 32px; }
-.excavate-btns button { min-height: 44px; padding: 8px 10px; font-size: 13px; }
-}
-@media (max-width: 768px) {
-#tool-dock { width: 56px; padding: 4px; gap: 2px; }
-.td-tab { padding: 6px 6px; min-height: 44px; min-width: 44px; }
-.td-tab .td-label { display: none; }
-#dock-panel-container { left: 76px; right: 8px; bottom: 72px; max-height: calc(100% - 88px); max-width: calc(100vw - 84px); }
-.dock-panel { min-width: 0; max-width: min(340px, calc(100vw - 84px)); max-height: calc(100vh - 100px); overflow-y: auto; }
-/* Mobile responsive topbar — scrollable with visible indicator */
-#topbar { padding: 0 4px; gap: 2px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.25) transparent; position: relative; }
-#topbar::-webkit-scrollbar { height: 3px; display: block; }
-#topbar::-webkit-scrollbar-track { background: transparent; }
-#topbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 2px; }
-.topbar-brand { font-size: 0; flex-shrink: 0; }
-.topbar-brand svg { width: 22px; height: 22px; margin-right: 2px; }
-.topbar-spacer { min-width: 0; }
-.tb-btn { padding: 6px 8px; font-size: 0; flex-shrink: 0; min-height: 44px; min-width: 44px; }
-.tb-btn svg { width: 18px; height: 18px; }
-.tb-btn:disabled { opacity: 0.3; }
-.view-toggle { flex-shrink: 0; }
-.view-toggle button { padding: 4px 6px; font-size: 10px; min-height: 44px; }
-.tb-divider { margin: 0 1px; flex-shrink: 0; }
-#btn-screenshot, #btn-help { display: flex; align-items: center; justify-content: center; }
-/* Mobile topbar overflow indicator — shows when buttons extend beyond viewport */
-#topbar::after { content: ''; position: absolute; right: 0; top: 0; bottom: 3px; width: 24px; background: linear-gradient(to left, var(--surface) 30%, transparent); pointer-events: none; opacity: 1; transition: opacity 0.2s; z-index: 1; }
-#topbar.scrolled-end::after { opacity: 0; }
-}
-@media (max-width: 768px) and (max-height: 500px) {
-#tool-dock { gap: 1px; padding: 2px; }
-.td-tab { min-height: 36px; padding: 4px 6px; }
-.td-group-label { display: none; }
-#dock-panel-container { bottom: 8px; max-height: calc(100% - 70px); }
-.dock-panel { max-height: calc(100vh - 80px); }
-#view-controls { bottom: 8px; }
-.vc-btn { width: 36px; height: 36px; }
-#context-hint { display: none !important; }
-#scale-bar { display: none !important; }
-#mobile-lib-toggle { bottom: 60px; width: 40px; height: 40px; font-size: 20px; }
-}
 *:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius-sm); }
 *:focus:not(:focus-visible) { outline: none; }
 .tb-btn.primary:focus-visible,
 #sun-btn.active:focus-visible,
 #walk-exit:focus-visible { outline-color: white; outline-offset: 1px; }
-@media (max-width: 768px) {
-.tb-btn { min-height: 44px !important; min-width: 44px !important; }
-#tape-measure-btn, #terrain-btn, #excavate-btn, #terrain-analysis-btn, #innovation-btn, #sun-btn {
-min-height: 44px !important; padding: 10px 16px !important; font-size: 14px !important;
-}
-.innov-tool-btn { min-height: 44px; padding: 10px 12px; font-size: 13px; }
-.innov-btns button { min-height: 44px; padding: 10px 8px; font-size: 13px; }
-.ta-btn { min-height: 44px; padding: 10px 12px; font-size: 13px; }
-.ta-toggle { width: 44px; height: 26px; }
-.ta-toggle::after { width: 22px; height: 22px; }
-.ta-toggle.on::after { transform: translateX(18px); }
-.precision-toggle { width: 44px; height: 26px; }
-.precision-toggle-knob { width: 22px; height: 22px; }
-.precision-toggle.on .precision-toggle-knob { transform: translateX(18px); }
-.ta-contour-interval input { min-height: 44px; font-size: 16px; }
-.carving-shape-btn { min-height: 44px; padding: 10px 8px; font-size: 13px; }
-.carving-commit-btn { min-height: 44px !important; padding: 10px 12px !important; font-size: 13px !important; }
-#carving-clear-btn { min-height: 44px !important; padding: 10px 12px !important; font-size: 13px !important; }
-.sun-row input[type="number"], .sun-row input[type="date"] { min-height: 44px; font-size: 16px; }
-.sun-preset { min-height: 36px; padding: 8px 10px; font-size: 12px; }
-.sun-geo-btn, .sun-play-btn { min-height: 44px; padding: 10px 14px; font-size: 14px; }
-}
 #season-panel {
-position: absolute; top: 200px; right: 16px; z-index: 48;
+position: absolute; top: 200px; right: 16px; z-index: 50;
 background: rgba(255,255,255,0.96); border: 1px solid var(--border);
 border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow-lg);
 font-size: 13px; min-width: 220px; max-width: 300px; display: none;
@@ -950,11 +692,11 @@ body * { visibility: hidden; }
 #print-view .print-table .num { text-align: right; }
 #print-view .print-total { font-size: 14px; font-weight: 700; margin-top: 8px; text-align: right; }
 #print-view .print-footer { margin-top: 24px; font-size: 11px; color: var(--text-muted); text-align: center; border-top: 1px solid var(--border); padding-top: 10px; }
-.print-overlay-btn { background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); padding: 10px 24px; cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit; position: fixed; top: 20px; right: 20px; z-index: 210; }
+.print-overlay-btn { background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); padding: 10px 24px; cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit; position: fixed; top: 20px; right: 20px; z-index: 200; }
 .season-info { font-size: 11px; color: var(--text-muted); line-height: 1.4; padding-top: 8px; border-top: 1px solid var(--border); }
 .season-info strong { color: var(--text); }
 #growth-panel {
-position: absolute; top: 380px; right: 16px; z-index: 48;
+position: absolute; top: 380px; right: 16px; z-index: 50;
 background: rgba(255,255,255,0.96); border: 1px solid var(--border);
 border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow-lg);
 font-size: 13px; min-width: 240px; max-width: 300px; display: none;
@@ -1008,7 +750,7 @@ font-size: 12px; line-height: 1.4;
 width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; font-family: inherit;
 }
 .permit-config-row select { width: 120px; }
-#sky-dome { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+#sky-dome { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 .exp-section { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 .exp-section:last-child { border-bottom: none; }
 .exp-section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
@@ -1032,7 +774,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 .exp-sound-channel input[type="range"] { flex: 1; height: 4px; }
 #vr-btn-container { display: none; }
 #vr-btn-container.available { display: inline-flex; }
-#atmosphere-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 16px; font-size: 11px; z-index: 12; display: none; pointer-events: none; }
+#atmosphere-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 16px; font-size: 11px; z-index: 15; display: none; pointer-events: none; }
 #atmosphere-badge.visible { display: block; }
 #templates-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
 #templates-modal.visible { display: flex; }
@@ -1173,7 +915,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
    EXPERT USER: RIGHT-CLICK CONTEXT MENU
    ============================================================ */
 #ctx-menu {
-  position: fixed; z-index: 250; background: var(--surface); border-radius: var(--radius-sm);
+  position: fixed; z-index: 200; background: var(--surface); border-radius: var(--radius-sm);
   box-shadow: 0 8px 24px rgba(0,0,0,0.15); border: 1px solid var(--border);
   min-width: 180px; padding: 6px 0; display: none;
 }
@@ -1270,35 +1012,6 @@ text-decoration: none; transition: left 0.2s;
 .skip-link:focus { left: 0; }
 
 /* Mobile usability fixes — in main style block (separate JS-injected version also exists) */
-@media (max-width: 768px) {
-/* View controls — 44px min touch target */
-.vc-btn { width: 44px !important; height: 44px !important; }
-.vc-btn svg { width: 20px; height: 20px; }
-#vc-underground { width: 44px !important; height: 44px !important; }
-/* Library categories — larger touch targets */
-.cat-title { padding: 12px 16px; font-size: 15px; min-height: 44px; }
-.lib-item { padding: 12px 16px 12px 32px; min-height: 44px; font-size: 15px; }
-.lib-item svg { width: 24px; height: 24px; }
-/* Close buttons — 44px min */
-.cost-panel-header .close, .layer-panel-header .close { min-width: 44px; min-height: 44px; font-size: 24px; display: flex; align-items: center; justify-content: center; }
-/* Walk mode — larger joystick and exit */
-#walk-joystick { bottom: 30px; }
-.walk-joy-btn { width: 56px; height: 56px; font-size: 26px; }
-#walk-exit { min-height: 44px !important; padding: 12px 20px !important; font-size: 15px; }
-#walk-motion-btn { padding: 12px 20px; font-size: 15px; min-height: 44px; }
-#walk-hint-mobile { color: white; background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 20px; font-size: 13px; pointer-events: none; white-space: nowrap; }
-/* Mobile responsive cost/layer panels */
-#cost-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
-#cost-panel.shifted { right: 16px; }
-#layer-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
-#ta-cross-section-overlay { min-width: 0; max-width: calc(100vw - 16px); left: 8px; right: 8px; transform: none; }
-#cut-fill-panel { right: 16px; left: 16px; min-width: 0; max-width: calc(100vw - 32px); }
-/* Extra-small phones — hide disabled Undo/Redo */
-#btn-undo:disabled, #btn-redo:disabled { display: none; }
-/* Dock panel max-width for tablet */
-#dock-panel-container { max-width: calc(100vw - 84px); }
-.dock-panel { max-width: min(340px, calc(100vw - 84px)); }
-}
 
 /* PERF: content-visibility auto skips rendering/layout for hidden panels — major DOM optimization */
 #gallery-modal, #timelapse-modal, #socialcard-modal, #templates-modal,
@@ -1309,7 +1022,7 @@ contain-intrinsic-size: 600px 400px;
 /* PERF: Skip layout for panels that are hidden by default */
 #terrain-controls, #sun-panel, #excavate-panel, #terrain-analysis-panel,
 #innovation-panel, #cross-section-panel, #cost-panel, #layer-panel, #cut-fill-panel,
-#walk-controls, #batch-bar, #ctx-menu, #mobile-props-sheet {
+#walk-controls, #batch-bar, #ctx-menu {
 content-visibility: auto;
 contain-intrinsic-size: 300px 200px;
 }
@@ -1347,7 +1060,7 @@ contain-intrinsic-size: 300px 200px;
 
 /* --- Guided tour overlay --- */
 #tour-overlay {
-  position: fixed; inset: 0; z-index: 240; display: none; pointer-events: none;
+  position: fixed; inset: 0; z-index: 200; display: none; pointer-events: none;
 }
 #tour-overlay.visible { display: block; }
 #tour-backdrop {
@@ -1357,12 +1070,12 @@ contain-intrinsic-size: 300px 200px;
 #tour-spotlight {
   position: fixed; border: 3px solid var(--primary); border-radius: var(--radius-sm);
   box-shadow: 0 0 0 9999px rgba(0,0,0,0.6); transition: all 0.3s ease;
-  pointer-events: none; z-index: 241;
+  pointer-events: none; z-index: 200;
 }
 #tour-spotlight.no-target { display: none; }
 #tour-bubble {
   position: fixed; background: var(--surface); border-radius: var(--radius); padding: 20px 24px;
-  max-width: 340px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); z-index: 242;
+  max-width: 340px; box-shadow: 0 8px 30px rgba(0,0,0,0.25); z-index: 200;
   pointer-events: auto; transition: all 0.3s ease;
 }
 .tour-bubble-step { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -1389,7 +1102,7 @@ contain-intrinsic-size: 300px 200px;
 /* --- Contextual tooltip --- */
 #ctx-tooltip {
   position: fixed; background: var(--text); color: white; padding: 8px 14px;
-  border-radius: 8px; font-size: 13px; z-index: 230; display: none;
+  border-radius: 8px; font-size: 13px; z-index: 200; display: none;
   pointer-events: none; max-width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   animation: ttSlide 0.2s ease;
 }
@@ -1417,7 +1130,7 @@ contain-intrinsic-size: 300px 200px;
 #progressive-hint {
   position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
   background: linear-gradient(135deg, var(--primary), var(--carve)); color: white;
-  padding: 14px 24px; border-radius: 24px; font-size: 14px; z-index: 220;
+  padding: 14px 24px; border-radius: 24px; font-size: 14px; z-index: 200;
   display: none; pointer-events: auto; cursor: pointer; box-shadow: 0 6px 20px rgba(102,126,234,0.4);
   max-width: 400px; text-align: center; line-height: 1.4;
   animation: phSlideUp 0.4s ease;
@@ -1439,12 +1152,6 @@ contain-intrinsic-size: 300px 200px;
 #onboarding-restart-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
 /* Mobile adjustments */
-@media (max-width: 600px) {
-  .welcome-prompt-panel { padding: 28px 24px; }
-  .welcome-prompt-panel h2 { font-size: 22px; }
-  #tour-bubble { max-width: calc(100vw - 32px); }
-  #progressive-hint { max-width: calc(100vw - 32px); font-size: 13px; }
-}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -1491,18 +1198,7 @@ button:active,
 .layer-panel-header .close:active,
 .excavate-header .close:active,
 .cs-header .close:active,
-.mab-btn:active,
-.walk-joy-btn:active,
-#label-delete-btn:active,
-.gallery-card-delete:active,
-#gallery-save-current-btn:active,
-#gallery-close-btn:active,
-#share-close-btn:active,
-#help-close-btn:active,
-.cmd-item:active {
-  transform: scale(0.95) !important;
-  transition: transform 0.08s ease-out !important;
-}
+
 
 /* --- Button ripple effect on click --- */
 .ripple {
@@ -1556,9 +1252,7 @@ select:focus-visible,
 #depth-gauge-overlay,
 #grid-level-badge,
 #ta-cross-section-overlay,
-#safety-warnings,
-#mobile-props-sheet,
-#mobile-lib-toggle {
+#safety-warnings {
   transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -1831,6 +1525,32 @@ button.mi-loading .mi-spinner {
   button:active { transform: none !important; }
 }
 
+
+/* SPRINT 16: Desktop gate overlay — shown when viewport < 900px */
+#desktop-gate {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg); color: var(--text);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 40px; gap: 16px; overflow-y: auto;
+}
+#desktop-gate.visible { display: flex; }
+#desktop-gate .gate-icon { font-size: 64px; margin-bottom: 8px; }
+#desktop-gate h2 { font-size: 22px; font-weight: 700; color: var(--primary); }
+#desktop-gate p { font-size: 14px; color: var(--text-muted); max-width: 400px; line-height: 1.6; }
+#desktop-gate .gate-hint { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+/* SPRINT 16: Status bar at bottom */
+#status-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+  background: var(--surface); border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px; padding: 4px 16px;
+  font-size: 11px; color: var(--text-muted); font-family: -apple-system, sans-serif;
+  min-height: 24px; user-select: none; -webkit-user-select: none; pointer-events: none;
+}
+#status-bar .sb-item { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+#status-bar .sb-item .sb-label { color: var(--text-muted); }
+#status-bar .sb-item .sb-val { color: var(--text); font-weight: 600; }
+#status-bar .sb-sep { width: 1px; height: 12px; background: var(--border); }
 </style>
 <!-- Sprint 9: Confirmation dialog for destructive actions -->
 <div id="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-dialog-title" aria-hidden="true">
@@ -1859,6 +1579,24 @@ button.mi-loading .mi-spinner {
 <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js">
 </head>
 <body>
+
+<!-- SPRINT 16: Desktop gate overlay for small screens -->
+<div id="desktop-gate">
+  <div class="gate-icon">🖥️</div>
+  <h2>Desktop Required</h2>
+  <p>Backyard Designer 3D is optimized for desktop screens. Please use a browser window at least 900 pixels wide for the best experience.</p>
+  <p class="gate-hint">Resize your browser window wider to continue.</p>
+</div>
+<!-- SPRINT 16: Status bar -->
+<div id="status-bar">
+  <div class="sb-item"><span class="sb-label">Tool:</span> <span class="sb-val" id="sb-tool">Select</span></div>
+  <div class="sb-sep"></div>
+  <div class="sb-item"><span class="sb-label">Brush:</span> <span class="sb-val" id="sb-brush">8 ft</span></div>
+  <div class="sb-sep"></div>
+  <div class="sb-item"><span class="sb-label">Height:</span> <span class="sb-val" id="sb-height">0 ft</span></div>
+  <div class="sb-sep"></div>
+  <div class="sb-item"><span class="sb-label">FPS:</span> <span class="sb-val" id="sb-fps">—</span></div>
+</div>
 
 <!-- SPRINT 8: Skip-to-content link for keyboard users -->
 <a href="#viewport" class="skip-link">Skip to 3D design canvas</a>
@@ -1995,7 +1733,6 @@ Click any item below to add it to your yard. Then drag to position it.
 </div>
 <div id="library"></div>
 </div>
-<button id="mobile-lib-toggle" title="Show object library" aria-label="Show object library">+</button>
 <div id="viewport" role="application" aria-label="3D backyard design canvas" aria-describedby="viewport-desc">
 <div id="tool-dock" role="toolbar" aria-label="Tool dock">
 <div class="td-group-label">Sculpt</div>
@@ -2894,29 +2631,7 @@ Plants at <strong>mature size</strong>. Drag the slider to see how your yard gro
 Checks: property setbacks, structure heights, fence heights, pool fence requirements, fire safety clearances. Always verify with your local building department.
 </div>
 </div>
-<div id="mobile-props-sheet">
-<div class="sheet-grabber" id="sheet-grabber"><div class="sheet-grabber-bar"></div></div>
-<div class="sheet-header" id="mobile-props-header"></div>
-<div class="sheet-body" id="mobile-props-body"></div>
-<div id="mobile-action-bar">
-<button class="mab-btn" id="mab-duplicate">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-Duplicate
-</button>
-<button class="mab-btn" id="mab-rotate">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6M3 17a9 9 0 0115-6.7L21 13"/></svg>
-Rotate
-</button>
-<button class="mab-btn danger" id="mab-delete">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-Delete
-</button>
-<button class="mab-btn" id="mab-close">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-Close
-</button>
-</div>
-</div>
+
 <div id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-title" aria-hidden="true">
 <div class="share-panel">
 <h2 id="share-title">Share Your Design</h2>
@@ -2930,6 +2645,7 @@ Close
 </div>
 </div>
 </div>
+
 <div id="walk-controls" role="region" aria-label="Walk mode controls">
 <button id="walk-exit" aria-label="Exit walk mode">Exit Walk</button>
 <div id="walk-hint" role="status" aria-live="polite">WASD/Arrows to move - Drag to look - Esc to exit</div>
@@ -3244,11 +2960,10 @@ Generated by Backyard Designer 3D — This is a planning tool only; verify all m
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-const IS_MOBILE = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768 || (navigator.maxTouchPoints > 1 && window.innerWidth < 1024);
-if (IS_MOBILE) document.body.classList.add('is-mobile');
-const PIXEL_RATIO = Math.min(window.devicePixelRatio, IS_MOBILE ? 1 : 2);
+const IS_MOBILE = false; // Sprint 16: Desktop-only — mobile detection disabled
+const PIXEL_RATIO = Math.min(window.devicePixelRatio, 2);
 // PERF: Adaptive shadow map size based on screen resolution
-let SHADOW_MAP_SIZE = IS_MOBILE ? 1024 : 2048;
+let SHADOW_MAP_SIZE = 2048;
 
 // PERF: Geometry cache — reuse common geometries to reduce GPU memory and creation time
 // Keyed by "type:args" string. Geometries are shared across objects of the same type.
@@ -3268,45 +2983,7 @@ _matCache.set(key, mat);
 return mat;
 }
 
-// ============================================================
-// MOBILE CSS INJECTION (bypasses 500-rule inline stylesheet limit)
-// Injects mobile-specific CSS via a <style> tag appended to <head>
-// ============================================================
-if (IS_MOBILE) {
-const mobileCSS = `
-@media (max-width: 768px) {
-/* View controls — 44px min touch target */
-.vc-btn { width: 44px !important; height: 44px !important; }
-.vc-btn svg { width: 20px; height: 20px; }
-#vc-underground { width: 44px !important; height: 44px !important; }
-/* Library categories — larger touch targets */
-.cat-title { padding: 12px 16px; font-size: 15px; min-height: 44px; }
-.lib-item { padding: 12px 16px 12px 32px; min-height: 44px; font-size: 15px; }
-.lib-item svg { width: 24px; height: 24px; }
-/* Close buttons — 44px min */
-.cost-panel-header .close, .layer-panel-header .close { min-width: 44px; min-height: 44px; font-size: 24px; display: flex; align-items: center; justify-content: center; }
-/* Walk mode — larger joystick and exit */
-#walk-joystick { bottom: 30px; }
-.walk-joy-btn { width: 56px; height: 56px; font-size: 26px; }
-#walk-exit { min-height: 44px !important; padding: 12px 20px !important; font-size: 15px; }
-#walk-motion-btn { padding: 12px 20px; font-size: 15px; min-height: 44px; }
-#walk-hint-mobile { color: white; background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 20px; font-size: 13px; pointer-events: none; white-space: nowrap; }
-/* Mobile responsive cost/layer panels */
-#cost-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
-#cost-panel.shifted { right: 16px; }
-#layer-panel { min-width: 0; max-width: calc(100vw - 32px); right: 16px; left: 16px; width: auto; }
-#ta-cross-section-overlay { min-width: 0; max-width: calc(100vw - 16px); left: 8px; right: 8px; transform: none; }
-#cut-fill-panel { right: 16px; left: 16px; min-width: 0; max-width: calc(100vw - 32px); }
-/* Extra-small phones — hide disabled Undo/Redo */
-#btn-undo:disabled, #btn-redo:disabled { display: none; }
-}
-`;
-const styleEl = document.createElement('style');
-styleEl.id = 'mobile-usability-css';
-styleEl.textContent = mobileCSS;
-(document.head || document.documentElement).appendChild(styleEl);
-console.log('[Mobile] CSS injection complete, IS_MOBILE=' + IS_MOBILE);
-}
+
 
 // ============================================================
 // MOBILE TOPBAR SCROLL INDICATOR
@@ -3334,13 +3011,6 @@ setTimeout(updateTopbarScroll, 500);
 });
 window.addEventListener('resize', updateTopbarScroll, { passive: true });
 })();
-
-function setAppHeight() {
-document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
-}
-window.addEventListener('resize', setAppHeight);
-window.addEventListener('orientationchange', setAppHeight);
-setAppHeight();
 function escHtml(str) {
 if (typeof str !== 'string') return '';
 return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -4236,7 +3906,7 @@ viewMode: '3d',
 undoStack: [],
 redoStack: [],
 nextId: 1,
-shadowEnabled: !IS_MOBILE,
+shadowEnabled: true,
 terrain: null,
 terrainSegs: 200, 
 terrainDeformed: false,
@@ -4297,19 +3967,19 @@ if (!checkWebGLSupport()) {
 }
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x87CEEB);
-scene.fog = new THREE.Fog(0x87CEEB, IS_MOBILE ? 80 : 100, IS_MOBILE ? 300 : 500);
+scene.fog = new THREE.Fog(0x87CEEB, 100, 500);
 try {
-renderer = new THREE.WebGLRenderer({ antialias: !IS_MOBILE, powerPreference: 'high-performance', failIfMajorPerformanceCaveat: false });
+renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance', failIfMajorPerformanceCaveat: false });
 } catch(e) {
   showWebGLError('Failed to initialize WebGL renderer: ' + e.message);
   return;
 }
-renderer.setPixelRatio(Math.min(PIXEL_RATIO, IS_MOBILE ? 1 : 1.5));
+renderer.setPixelRatio(Math.min(PIXEL_RATIO, 1.5));
 renderer.setSize(viewport.clientWidth, viewport.clientHeight);
 renderer.localClippingEnabled = true;
 renderer.shadowMap.enabled = state.shadowEnabled;
-renderer.shadowMap.type = IS_MOBILE ? THREE.BasicShadowMap : THREE.PCFSoftShadowMap;
-SHADOW_MAP_SIZE = IS_MOBILE ? 1024 : (window.innerWidth < 1280 ? 1536 : 2048);
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+SHADOW_MAP_SIZE = window.innerWidth < 1280 ? 1536 : 2048;
 viewport.appendChild(renderer.domElement);
 const aspect = viewport.clientWidth / viewport.clientHeight;
 camera3D = new THREE.PerspectiveCamera(50, aspect, 0.1, 1000);
@@ -4329,12 +3999,12 @@ controls.maxDistance = 300;
 // Sprint 13: explicit zoom enablement and speed
 controls.enableZoom = true;
 controls.zoomSpeed = 1.2;
-if (IS_MOBILE) {
-controls.touches = {
-ONE: THREE.TOUCH.PAN,
-TWO: THREE.TOUCH.DOLLY_PAN,
-};
-}
+// Sprint 16: Desktop-only — touch config removed
+
+
+
+
+
 let scaleBarDebounce = null;
 controls.addEventListener('change', () => {
 if (state.viewMode !== '3d') return;
@@ -4461,7 +4131,7 @@ camera2D.right = fs / 2;
 camera2D.top = fs / 2;
 camera2D.bottom = -fs / 2;
 camera2D.updateProjectionMatrix();
-if (IS_MOBILE && (w < 300 || h < 300)) {
+if (false && (w < 300 || h < 300)) {
 renderer.setPixelRatio(Math.min(PIXEL_RATIO, 0.75));
 } else {
 renderer.setPixelRatio(PIXEL_RATIO);
@@ -4975,7 +4645,7 @@ return refinedPoint;
 return roughPoint;
 }
 function onTouchPointerDown(e) {
-if (!IS_MOBILE) return;
+// Sprint 16: Desktop-only — mobile guard removed
 if (e.pointerType !== 'touch') return;
 if (terrainMode) return;
 if (tapeMeasureActive) return;
@@ -5009,7 +4679,7 @@ touchState.startOnObject = null;
 }
 }
 function onTouchPointerMove(e) {
-if (!IS_MOBILE) return;
+// Sprint 16: Desktop-only — mobile guard removed
 if (e.pointerType !== 'touch') return;
 if (!touchState.active) return;
 if (touchState.multiTouch) return;
@@ -5052,7 +4722,7 @@ e.stopPropagation();
 }
 }
 function onTouchPointerUp(e) {
-if (!IS_MOBILE) return;
+// Sprint 16: Desktop-only — mobile guard removed
 if (e.pointerType !== 'touch') return;
 if (terrainMode) return;
 if (touchState.multiTouch) {
@@ -5120,7 +4790,7 @@ const menu = document.createElement('div');
 menu.id = 'mobile-ctx-menu';
 menu.style.cssText = [
 'position:fixed',
-'z-index:300',
+'z-index:200',
 'background:var(--surface)',
 'border:1px solid var(--border)',
 'border-radius:var(--radius)',
@@ -5202,7 +4872,7 @@ return;
 return;
 }
 if (e.button !== 0) return;
-if (IS_MOBILE && e.pointerType === 'touch') return;
+// Sprint 16: Desktop-only
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -5234,7 +4904,7 @@ deselectObject();
 }
 function onPointerMove(e) {
 if (!isDragging || !dragObject) return;
-if (IS_MOBILE && e.pointerType === 'touch') return;
+// Sprint 16: Desktop-only
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -5267,7 +4937,7 @@ showDimReadout(dragObject);
 requestRender();
 }
 function onPointerUp(e) {
-if (IS_MOBILE && e.pointerType === 'touch') return;
+// Sprint 16: Desktop-only
 if (isDragging && dragObject) {
 const newPos = { x: dragObject.position.x, z: dragObject.position.z };
 if (dragStartPos && (Math.abs(newPos.x - dragStartPos.x) > 0.1 || Math.abs(newPos.z - dragStartPos.z) > 0.1)) {
@@ -5291,23 +4961,14 @@ viewport.addEventListener('pointerup', onPointerUp);
 const propsEl = document.getElementById('properties');
 const propsHeader = document.getElementById('props-header');
 const propsBody = document.getElementById('props-body');
-const mobileSheetEl = document.getElementById('mobile-props-sheet');
-const mobilePropsHeader = document.getElementById('mobile-props-header');
-const mobilePropsBody = document.getElementById('mobile-props-body');
-const mobileActionBar = document.getElementById('mobile-action-bar');
 function showProperties(id) {
 const obj = state.objects.get(id);
 if (!obj) return;
 const cat = CATALOG[obj.type];
 if (!cat) return;
-const isMob = IS_MOBILE;
-const headerEl = isMob ? mobilePropsHeader : propsHeader;
-const bodyEl = isMob ? mobilePropsBody : propsBody;
-if (isMob) {
-mobileSheetEl.classList.add('expanded');
-} else {
+const headerEl = propsHeader;
+const bodyEl = propsBody;
 propsEl.classList.add('visible');
-}
 headerEl.innerHTML = `${cat.icon}<div><div class="name">${escHtml(cat.name)}</div><div class="type">Object #${id}</div></div>`;
 let html = '';
 const buried = isObjectBuried(id);
@@ -5457,11 +5118,11 @@ checkSafetyWarnings(obj);
 }
 function hideProperties() {
 propsEl.classList.remove('visible');
-mobileSheetEl.classList.remove('expanded');
+/* Sprint 16: mobile removed */
 propsHeader.innerHTML = '';
 propsBody.innerHTML = '';
-mobilePropsHeader.innerHTML = '';
-mobilePropsBody.innerHTML = '';
+/* Sprint 16: removed */
+/* Sprint 16: removed */
 }
 function deleteObjectWithCommand(id) {
 const obj = state.objects.get(id);
@@ -6261,7 +5922,8 @@ hideContextMenu();
 });
 }
 function hideContextMenu() {
-document.getElementById('ctx-menu').classList.remove('visible');
+const m = document.getElementById('ctx-menu');
+if (m) m.classList.remove('visible');
 }
 function handleContextAction(action, objectId) {
 const obj = state.objects.get(objectId);
@@ -8098,7 +7760,7 @@ return roughPoint;
 }
 // On mobile, offset the brush cursor upward so the finger doesn't occlude it
 function _getTerrainEventPoint(e) {
-if (IS_MOBILE && e.pointerType === 'touch') {
+if (false) {
 // Offset touch point upward by 40px so finger doesn't occlude the brush
 const adjustedY = e.clientY - 40;
 return _getGroundPointFromScreen(e.clientX, adjustedY);
@@ -8108,7 +7770,7 @@ return getGroundPointFromEvent(e);
 viewport.addEventListener('pointerdown', e => {
 if (terrainMode) {
 // On mobile touch, offset the point upward so the finger doesn't occlude it
-if (IS_MOBILE && e.pointerType === 'touch') {
+if (false) {
 const point = _getTerrainEventPoint(e);
 if (point) {
 e._terrainPoint = point;
@@ -8119,7 +7781,7 @@ e.stopPropagation();
 }
 }, true);
 viewport.addEventListener('pointermove', e => { if (terrainMode) {
-if (IS_MOBILE && e.pointerType === 'touch') {
+if (false) {
 const point = _getTerrainEventPoint(e);
 if (point) e._terrainPoint = point;
 }
@@ -8543,39 +8205,7 @@ if (csPanel && csPanel.classList.contains('visible')) { csPanel.classList.remove
 }
 }
 document.getElementById('btn-layers').addEventListener('click', toggleLayerPanel);
-(function setupMobileSheet() {
-const grabber = document.getElementById('sheet-grabber');
-if (!grabber) return;
-grabber.addEventListener('click', () => {
-if (mobileSheetEl.classList.contains('expanded')) {
-mobileSheetEl.classList.remove('expanded');
-if (state.selectedId !== null) deselectObject();
-}
-});
-document.getElementById('mab-duplicate')?.addEventListener('click', () => {
-if (state.selectedId !== null) duplicateObject(state.selectedId);
-});
-document.getElementById('mab-rotate')?.addEventListener('click', () => {
-if (state.selectedId === null) return;
-const obj = state.objects.get(state.selectedId);
-if (!obj) return;
-const oldRot = obj.rotation;
-const newRot = oldRot + Math.PI / 2;
-obj.rotation = newRot;
-buildSceneObject(state.selectedId);
-pushCommand({
-undo: () => { obj.rotation = oldRot; buildSceneObject(state.selectedId); showProperties(state.selectedId); },
-redo: () => { obj.rotation = newRot; buildSceneObject(state.selectedId); showProperties(state.selectedId); },
-});
-showProperties(state.selectedId);
-});
-document.getElementById('mab-delete')?.addEventListener('click', () => {
-if (state.selectedId !== null) deleteObjectWithCommand(state.selectedId);
-});
-document.getElementById('mab-close')?.addEventListener('click', () => {
-if (state.selectedId !== null) deselectObject();
-});
-})();
+// Sprint 16: Mobile action bar event listeners removed
 const sunCityPresets = [
 { name: 'Detroit, MI', lat: 42.33, lng: -83.05 },
 { name: 'New York, NY', lat: 40.71, lng: -74.01 },
@@ -9007,13 +8637,13 @@ walkPitch = 0;
 camera3D.position.copy(walkPos);
 camera3D.rotation.set(walkPitch, walkYaw, 0, 'YXZ');
 document.getElementById('walk-controls').classList.add('visible');
-if (IS_MOBILE && typeof DeviceOrientationEvent !== 'undefined') {
+if (false && typeof DeviceOrientationEvent !== 'undefined') {
 document.getElementById('walk-motion-btn').classList.add('visible');
 }
 // Show mobile-appropriate hint
 const hintEl = document.getElementById('walk-hint');
 const hintMobileEl = document.getElementById('walk-hint-mobile');
-if (IS_MOBILE && hintEl && hintMobileEl) {
+if (false && hintEl && hintMobileEl) {
 hintEl.style.display = 'none';
 hintMobileEl.style.display = 'block';
 }
@@ -9092,19 +8722,19 @@ canvas.addEventListener('mousedown', e => {
 if (!walkMode) return;
 walkDragging = true; walkLastX = e.clientX; walkLastY = e.clientY;
 });
-canvas.addEventListener('touchstart', e => {
-if (!walkMode) return;
-const t = e.touches[0]; walkDragging = true; walkLastX = t.clientX; walkLastY = t.clientY;
-}, { passive: true });
-canvas.addEventListener('touchmove', e => {
-if (!walkMode || !walkDragging) return;
-const t = e.touches[0];
-const dx = t.clientX - walkLastX, dy = t.clientY - walkLastY;
-walkLastX = t.clientX; walkLastY = t.clientY;
-walkYaw -= dx * 0.005;
-walkPitch = Math.max(-0.6, Math.min(0.6, walkPitch - dy * 0.005));
-}, { passive: true });
-canvas.addEventListener('touchend', () => { walkDragging = false; });
+// Sprint 16: Touch handler removed
+
+
+
+// Sprint 16: Touch handler removed
+
+
+
+
+
+
+
+// Sprint 16: Touch handler removed
 }
 window.addEventListener('mousemove', e => {
 if (!walkMode || !walkDragging) return;
@@ -9129,8 +8759,8 @@ if (dir === 'left' || dir === 'right') walkMoveDir.right = 0;
 btn.addEventListener('mousedown', press);
 btn.addEventListener('mouseup', release);
 btn.addEventListener('mouseleave', release);
-btn.addEventListener('touchstart', e => { e.preventDefault(); press(); }, { passive: false });
-btn.addEventListener('touchend', release);
+// Sprint 16: Touch handler removed
+// Sprint 16: Touch handler removed
 });
 document.getElementById('walk-motion-btn').addEventListener('click', async () => {
 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -9271,25 +8901,7 @@ skipBtn.click();
 }
 });
 })();
-(function setupMobileLibToggle() {
-const toggleBtn = document.getElementById('mobile-lib-toggle');
-const sidebar = document.getElementById('sidebar');
-if (!toggleBtn || !sidebar) return;
-toggleBtn.addEventListener('click', () => {
-const isVisible = sidebar.classList.toggle('mobile-visible');
-toggleBtn.textContent = isVisible ? '✕' : '+';
-toggleBtn.setAttribute('aria-label', isVisible ? 'Hide object library' : 'Show object library');
-toggleBtn.title = isVisible ? 'Hide object library' : 'Show object library';
-});
-sidebar.addEventListener('click', (e) => {
-if (e.target.closest('.lib-item') && sidebar.classList.contains('mobile-visible')) {
-sidebar.classList.remove('mobile-visible');
-toggleBtn.textContent = '+';
-toggleBtn.setAttribute('aria-label', 'Show object library');
-toggleBtn.title = 'Show object library';
-}
-});
-})();
+
 function applyTerrainPreset(presetName) {
 ensureTerrainArray();
 const segs = state.terrainSegs;
@@ -10386,9 +9998,9 @@ requestRender();
 taCompareBtn.addEventListener('mousedown', e => { e.preventDefault(); startCompare(); });
 taCompareBtn.addEventListener('mouseup', e => { e.preventDefault(); endCompare(); });
 taCompareBtn.addEventListener('mouseleave', () => { if (compareActive) endCompare(); });
-taCompareBtn.addEventListener('touchstart', e => { e.preventDefault(); startCompare(); }, { passive: false });
-taCompareBtn.addEventListener('touchend', e => { e.preventDefault(); endCompare(); }, { passive: false });
-taCompareBtn.addEventListener('touchcancel', () => { if (compareActive) endCompare(); });
+// Sprint 16: Touch handler removed
+// Sprint 16: Touch handler removed
+// Sprint 16: Touch handler removed
 let excavatePanelVisible = false;
 let crossSectionMode = false;
 let crossSectionPoints = [];
@@ -11389,7 +11001,7 @@ function showInnovStats() {
 if (!innovStatsOverlay) {
 innovStatsOverlay = document.createElement('div');
 innovStatsOverlay.id = 'innov-stats-overlay';
-innovStatsOverlay.style.cssText = 'position:absolute;top:60px;right:16px;z-index:55;background:rgba(255,255,255,0.97);border:1px solid var(--analysis);border-radius:var(--radius-sm);padding:14px 16px;font-size:12px;box-shadow:0 4px 20px rgba(0,0,0,0.12);min-width:240px;max-width:320px;pointer-events:none;';
+innovStatsOverlay.style.cssText = 'position:absolute;top:60px;right:16px;z-index:50;background:rgba(255,255,255,0.97);border:1px solid var(--analysis);border-radius:var(--radius-sm);padding:14px 16px;font-size:12px;box-shadow:0 4px 20px rgba(0,0,0,0.12);min-width:240px;max-width:320px;pointer-events:none;';
 viewport.appendChild(innovStatsOverlay);
 }
 updateInnovStats();
@@ -13273,8 +12885,8 @@ scene.fog.far = 150 + (1 - weatherIntensity) * 200;
 scene.fog.near = 30;
 scene.fog.far = 120 + (1 - weatherIntensity) * 180;
 } else {
-scene.fog.near = IS_MOBILE ? 80 : 100;
-scene.fog.far = IS_MOBILE ? 300 : 500;
+scene.fog.near = 100;
+scene.fog.far = 500;
 }
 }
 const nightFactor = 1 - dayFactor;
@@ -13353,8 +12965,8 @@ setWeather(w) {
 currentWeather = w;
 if (w === 'rain' || w === 'snow') startWeatherAnimation();
 if (w === 'clear' && scene.fog) {
-scene.fog.near = IS_MOBILE ? 80 : 100;
-scene.fog.far = IS_MOBILE ? 300 : 500;
+scene.fog.near = 100;
+scene.fog.far = 500;
 }
 },
 setWeatherIntensity(v) { weatherIntensity = v; },
@@ -16458,7 +16070,7 @@ const Onboarding = (function() {
 
   function startProgressiveHints() {
     // Reset inactivity timer on any interaction
-    ['mousemove', 'click', 'keydown', 'touchstart', 'scroll'].forEach(evt => {
+    ['mousemove', 'click', 'keydown', 'scroll'].forEach(evt => {
       document.addEventListener(evt, () => {
         if (progressiveHintActive) {
           hideProgressiveHint();
@@ -16766,6 +16378,188 @@ if (typeof applyTerrainFull !== 'undefined') window.applyTerrainFull = applyTerr
 if (typeof applyTerrainPositions !== 'undefined') window.applyTerrainPositions = applyTerrainPositions;
 
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
+
+// ============================================================
+// SPRINT 16: Desktop gate — show overlay when viewport < 900px
+// ============================================================
+(function setupDesktopGate() {
+  const gate = document.getElementById('desktop-gate');
+  if (!gate) return;
+  function checkViewport() {
+    if (window.innerWidth < 900) {
+      gate.classList.add('visible');
+    } else {
+      gate.classList.remove('visible');
+    }
+  }
+  checkViewport();
+  window.addEventListener('resize', checkViewport);
+})();
+
+// ============================================================
+// SPRINT 16: Status bar — shows current tool, brush size, height, FPS
+// ============================================================
+(function setupStatusBar() {
+  const sbTool = document.getElementById('sb-tool');
+  const sbBrush = document.getElementById('sb-brush');
+  const sbHeight = document.getElementById('sb-height');
+  const sbFps = document.getElementById('sb-fps');
+  
+  function updateToolName() {
+    if (typeof terrainBrushMode !== 'undefined' && typeof terrainMode !== 'undefined' && terrainMode) {
+      const names = { raise: 'Raise', lower: 'Excavate', smooth: 'Smooth', erode: 'Erode', flatten: 'Flatten', dig: 'Dig', fill: 'Fill' };
+      if (sbTool) sbTool.textContent = names[terrainBrushMode] || terrainBrushMode;
+    } else if (typeof crossSectionMode !== 'undefined' && crossSectionMode) {
+      if (sbTool) sbTool.textContent = 'Cross-Section';
+    } else if (typeof activeDockTab !== 'undefined' && activeDockTab) {
+      const tabNames = { terrain: 'Terrain', underground: 'Underground', analyze: 'Analyze', innovate: 'Pro Tools', sun: 'Sun & Shadow', measure: 'Measure', experience: 'Atmosphere' };
+      if (sbTool) sbTool.textContent = tabNames[activeDockTab] || activeDockTab;
+    } else {
+      if (sbTool) sbTool.textContent = 'Select';
+    }
+  }
+  
+  function updateBrushSize() {
+    if (sbBrush && typeof terrainBrushSize !== 'undefined') {
+      sbBrush.textContent = terrainBrushSize + ' ft';
+    }
+  }
+  
+  function updateHeight() {
+    if (sbHeight && typeof state !== 'undefined' && state.terrain) {
+      const segs = state.terrainSegs || 40;
+      const cx = Math.floor(segs / 2);
+      const cz = Math.floor(segs / 2);
+      if (state.terrain[cx] && state.terrain[cx][cz] !== undefined) {
+        sbHeight.textContent = Math.round(state.terrain[cx][cz] * 10) / 10 + ' ft';
+      }
+    }
+  }
+  
+  let fpsFrameCount = 0;
+  let fpsLastTime = performance.now();
+  function updateFPS() {
+    fpsFrameCount++;
+    const now = performance.now();
+    if (now - fpsLastTime >= 2000) {
+      const fps = Math.round(fpsFrameCount * 1000 / (now - fpsLastTime));
+      if (sbFps) sbFps.textContent = fps;
+      fpsFrameCount = 0;
+      fpsLastTime = now;
+    }
+    requestAnimationFrame(updateFPS);
+  }
+  
+  updateToolName();
+  updateBrushSize();
+  updateHeight();
+  updateFPS();
+  
+  setInterval(() => {
+    updateToolName();
+    updateBrushSize();
+    updateHeight();
+  }, 500);
+  
+  window._sbUpdate = { updateToolName, updateBrushSize, updateHeight };
+})();
+
+// ============================================================
+// SPRINT 16: Keyboard shortcuts
+// ============================================================
+(function setupKeyboardShortcuts() {
+  const brushModes = ['raise', 'lower', 'smooth', 'erode', 'flatten', 'dig'];
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+    if (e.target.isContentEditable) return;
+    if (e.ctrlKey || e.metaKey) return;
+    
+    // 1-6: switch terrain brush modes
+    if (e.key >= '1' && e.key <= '6') {
+      const idx = parseInt(e.key) - 1;
+      if (idx < brushModes.length) {
+        const btn = document.querySelector('.terrain-mode-btn[data-tmode="' + brushModes[idx] + '"]');
+        if (btn) {
+          btn.click();
+          e.preventDefault();
+          if (typeof terrainMode !== 'undefined' && !terrainMode) {
+            const terrainBtn = document.getElementById('terrain-btn');
+            if (terrainBtn) terrainBtn.click();
+          }
+          if (window._sbUpdate) window._sbUpdate.updateToolName();
+        }
+      }
+    }
+    
+    // [ and ]: decrease/increase brush size
+    if (e.key === '[') {
+      if (typeof terrainBrushSize !== 'undefined' && terrainBrushSize > 1) {
+        terrainBrushSize = Math.max(1, terrainBrushSize - 1);
+        const input = document.getElementById('terrain-brush-size');
+        if (input) input.value = terrainBrushSize;
+        const valEl = document.getElementById('terrain-brush-val');
+        if (valEl) valEl.textContent = terrainBrushSize + ' ft';
+        if (window._sbUpdate) window._sbUpdate.updateBrushSize();
+        e.preventDefault();
+      }
+    }
+    if (e.key === ']') {
+      if (typeof terrainBrushSize !== 'undefined' && terrainBrushSize < 30) {
+        terrainBrushSize = Math.min(30, terrainBrushSize + 1);
+        const input = document.getElementById('terrain-brush-size');
+        if (input) input.value = terrainBrushSize;
+        const valEl = document.getElementById('terrain-brush-val');
+        if (valEl) valEl.textContent = terrainBrushSize + ' ft';
+        if (window._sbUpdate) window._sbUpdate.updateBrushSize();
+        e.preventDefault();
+      }
+    }
+    
+    // X: toggle terrain mode
+    if (e.key === 'x' || e.key === 'X') {
+      const terrainBtn = document.getElementById('terrain-btn');
+      if (terrainBtn) {
+        terrainBtn.click();
+        e.preventDefault();
+        if (window._sbUpdate) window._sbUpdate.updateToolName();
+      }
+    }
+  });
+})();
+
+// ============================================================
+// SPRINT 16: Cursor feedback — crosshair for brushes, grabbing for objects
+// ============================================================
+(function setupCursorFeedback() {
+  const canvas = document.getElementById('viewport');
+  if (!canvas) return;
+  
+  function updateCursor() {
+    if (typeof terrainMode !== 'undefined' && terrainMode) {
+      canvas.style.cursor = 'crosshair';
+    } else {
+      canvas.style.cursor = 'grab';
+    }
+    requestAnimationFrame(updateCursor);
+  }
+  updateCursor();
+  
+  canvas.addEventListener('mousedown', () => {
+    if (typeof terrainMode !== 'undefined' && terrainMode) {
+      canvas.style.cursor = 'crosshair';
+    } else {
+      canvas.style.cursor = 'grabbing';
+    }
+  });
+  canvas.addEventListener('mouseup', () => {
+    if (typeof terrainMode !== 'undefined' && terrainMode) {
+      canvas.style.cursor = 'crosshair';
+    } else {
+      canvas.style.cursor = 'grab';
+    }
+  });
+})();
 
 </script>
 <button id="sculpt-restore-pill" aria-label="Restore terrain sculpt panel">Sculpt &#9656;</button>

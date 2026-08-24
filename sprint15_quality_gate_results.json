@@ -124,12 +124,12 @@
     {
       "name": "walls:dug_terrain_more_vertices",
       "status": "pass",
-      "detail": "3468 vertices (was 3204, +264)"
+      "detail": "3472 vertices (was 3204, +268)"
     },
     {
       "name": "walls:interior_walls_in_dug_areas",
       "status": "pass",
-      "detail": "+264 vertices from interior walls"
+      "detail": "+268 vertices from interior walls"
     },
     {
       "name": "walls:no_interior_walls_above_ground",
@@ -234,12 +234,12 @@
     {
       "name": "fps:painting_ops_per_sec",
       "status": "pass",
-      "detail": "5431 ops/s (10863 ops in 2000ms)"
+      "detail": "1737 ops/s (3479 ops in 2003ms)"
     },
     {
       "name": "fps:solid_earth_with_walls",
       "status": "pass",
-      "detail": "3468 vertices (interior walls present)"
+      "detail": "3808 vertices (interior walls present)"
     },
     {
       "name": "regression:height_limits_correct",
