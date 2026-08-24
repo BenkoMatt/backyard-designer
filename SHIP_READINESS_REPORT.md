@@ -1,14 +1,14 @@
 # SHIP READINESS REPORT — Backyard Designer 3D
-Generated: 2026-08-24T17:00:11.900132
+Generated: 2026-08-24T18:47:43.018265
 
 ## Executive Summary
 
-**✅ SHIP READY — All tests passed**
+**❌ NOT READY — 1 tests failed**
 
 | Gate | Status |
 |------|--------|
 | Sprint 6 Quality Gate (209 tests) | ✅ PASSED |
-| Sprint 8 Quality Gate (75 tests) | ✅ PASSED |
+| Sprint 8 Quality Gate (75 tests) | ❌ FAILED |
 | Ship-Readiness Tests (47 tests) | ✅ ALL PASSED |
 
 ## Test Summary
@@ -16,13 +16,13 @@ Generated: 2026-08-24T17:00:11.900132
 | Category | Total | Passed | Failed |
 |----------|-------|--------|--------|
 | Sprint 6 (existing) | 209 | 209 | 0 |
-| Sprint 8 (existing) | 75 | 75 | 0 |
+| Sprint 8 (existing) | 75 | — | — |
 | Error Handling | 18 | 18 | 0 |
 | Edge Cases | 11 | 11 | 0 |
 | Data Validation | 13 | 13 | 0 |
 | Structural Integrity | 7 | 7 | 0 |
 | Console Errors | 1 | 1 | 0 |
-| **TOTAL** | **333** | **333** | **0** |
+| **TOTAL** | **333** | **257** | **76** |
 
 ## Detailed Results
 
@@ -31,7 +31,7 @@ Generated: 2026-08-24T17:00:11.900132
 - Covers: functional, performance, mobile, chaos, critic
 
 ### Sprint 8 Quality Gate
-- **Status**: ✅ ALL 75 TESTS PASSED
+- **Status**: ❌ FAILURES DETECTED
 - Covers: keyboard navigation, ARIA labels, color contrast, focus management, screen reader support
 
 ### Ship-Readiness Tests
@@ -59,8 +59,8 @@ Generated: 2026-08-24T17:00:11.900132
 #### Edge Cases
 - ✅ **edge:zero_objects_save**: Save with 0 objects: count=0
 - ✅ **edge:zero_objects_load**: Load with 0 objects: count=0
-- ✅ **edge:hundred_objects_load**: 100 objects loaded in 68ms, count=100
-- ✅ **edge:thousand_objects_load**: 1000 objects loaded in 403ms, count=1000
+- ✅ **edge:hundred_objects_load**: 100 objects loaded in 180ms, count=100
+- ✅ **edge:thousand_objects_load**: 1000 objects loaded in 948ms, count=1000
 - ✅ **edge:undo_100_times**: Undid 0 times, stack empty: True, error=None
 - ✅ **edge:redo_100_times**: Redid 0 times, error=None
 - ✅ **edge:rapid_terrain_toggle**: Rapid terrain toggle: 20 rapid toggles OK
@@ -90,8 +90,8 @@ Generated: 2026-08-24T17:00:11.900132
 - ✅ **structure:critical_elements_present**: All critical elements present
 - ✅ **structure:threejs_loaded**: Three.js: v160
 - ✅ **structure:state_object_intact**: State: []
-- ✅ **structure:file_size_ok**: File size: 711KB (max 750KB)
-- ✅ **structure:line_count_ok**: Lines: 16861 (max 20000)
+- ✅ **structure:file_size_ok**: File size: 694KB (max 750KB)
+- ✅ **structure:line_count_ok**: Lines: 16567 (max 20000)
 
 #### Console Error Check
 - ✅ **console:no_errors_during_workflow**: Errors: 0
@@ -121,4 +121,4 @@ Generated: 2026-08-24T17:00:11.900132
 
 ## Ship Recommendation
 
-**APPROVED FOR SHIP** — All quality gates pass, error handling is robust, edge cases are handled, and data validation is comprehensive.
+**NOT APPROVED FOR SHIP** — 1 test(s) failed and must be fixed before release.

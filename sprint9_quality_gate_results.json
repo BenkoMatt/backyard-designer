@@ -1,354 +1,354 @@
 {
-  "timestamp": "2026-08-24T17:00:11.900921",
+  "timestamp": "2026-08-24T18:47:43.024659",
   "sprint6_passed": true,
-  "sprint8_passed": true,
+  "sprint8_passed": false,
   "total_tests": 333,
-  "total_passed": 333,
-  "total_failed": 0,
-  "ship_ready": true,
+  "total_passed": 257,
+  "total_failed": 76,
+  "ship_ready": false,
   "results": [
     {
       "name": "sprint6:quality_gate",
       "category": "existing",
       "passed": true,
       "details": "Sprint 6: 209 passed, 0 failed",
-      "timestamp": "2026-08-24T16:59:37.881047"
+      "timestamp": "2026-08-24T18:46:27.851178"
     },
     {
       "name": "sprint8:quality_gate",
       "category": "existing",
-      "passed": true,
-      "details": "Sprint 8: 75/75 passed",
-      "timestamp": "2026-08-24T16:59:53.522842"
+      "passed": false,
+      "details": "Sprint 8: 0/0 passed",
+      "timestamp": "2026-08-24T18:47:10.537096"
     },
     {
       "name": "error:save_serialize_no_crash",
       "category": "ship",
       "passed": true,
       "details": "version=4, objects=0, error=None",
-      "timestamp": "2026-08-24T16:59:57.786851"
+      "timestamp": "2026-08-24T18:47:16.300924"
     },
     {
       "name": "error:save_context_lost_handled",
       "category": "ship",
       "passed": true,
       "details": "Context lost flag handled gracefully",
-      "timestamp": "2026-08-24T16:59:58.859737"
+      "timestamp": "2026-08-24T18:47:17.782670"
     },
     {
       "name": "error:webgl_context_loss_listener",
       "category": "ship",
       "passed": true,
       "details": "Context loss handler registered: True",
-      "timestamp": "2026-08-24T16:59:58.867254"
+      "timestamp": "2026-08-24T18:47:17.827976"
     },
     {
       "name": "error:webgl_context_loss_simulated",
       "category": "ship",
       "passed": true,
       "details": "Context loss detected: True",
-      "timestamp": "2026-08-24T16:59:58.879083"
+      "timestamp": "2026-08-24T18:47:17.865645"
     },
     {
       "name": "error:corrupted_json_rejected",
       "category": "ship",
       "passed": true,
       "details": "Invalid JSON properly rejected: Unexpected token 'o', \"not valid json {{{\" is not valid JSON",
-      "timestamp": "2026-08-24T16:59:58.885718"
+      "timestamp": "2026-08-24T18:47:17.880703"
     },
     {
       "name": "error:invalid_design_structure_handled",
       "category": "ship",
       "passed": true,
       "details": "Invalid design structure handled: Handled invalid structure",
-      "timestamp": "2026-08-24T16:59:58.894998"
+      "timestamp": "2026-08-24T18:47:17.893739"
     },
     {
       "name": "error:non_array_objects_handled",
       "category": "ship",
       "passed": true,
       "details": "Non-array objects handled: Handled non-array objects",
-      "timestamp": "2026-08-24T16:59:58.920557"
+      "timestamp": "2026-08-24T18:47:17.964541"
     },
     {
       "name": "error:null_data_handled",
       "category": "ship",
       "passed": true,
       "details": "Null data handled: Handled null",
-      "timestamp": "2026-08-24T16:59:58.926998"
+      "timestamp": "2026-08-24T18:47:17.981638"
     },
     {
       "name": "error:nan_infinity_yard_handled",
       "category": "ship",
       "passed": true,
       "details": "NaN/Infinity yard handled: Handled NaN/Infinity",
-      "timestamp": "2026-08-24T16:59:58.975696"
+      "timestamp": "2026-08-24T18:47:18.135065"
     },
     {
       "name": "error:negative_yard_handled",
       "category": "ship",
       "passed": true,
       "details": "Negative yard handled: Handled negative dimensions",
-      "timestamp": "2026-08-24T16:59:59.004100"
+      "timestamp": "2026-08-24T18:47:18.183546"
     },
     {
       "name": "error:extreme_positions_handled",
       "category": "ship",
       "passed": true,
       "details": "Extreme positions handled: Handled extreme positions",
-      "timestamp": "2026-08-24T16:59:59.050277"
+      "timestamp": "2026-08-24T18:47:18.260307"
     },
     {
       "name": "error:invalid_object_type_filtered",
       "category": "ship",
       "passed": true,
       "details": "Invalid type filtered: Handled invalid type, remaining=0",
-      "timestamp": "2026-08-24T16:59:59.094643"
+      "timestamp": "2026-08-24T18:47:18.424941"
     },
     {
       "name": "error:localStorage_quota_handled",
       "category": "ship",
       "passed": true,
       "details": "Quota exceeded: No crash on quota exceeded",
-      "timestamp": "2026-08-24T16:59:59.138483"
+      "timestamp": "2026-08-24T18:47:18.558768"
     },
     {
       "name": "error:gallery_storage_full_handled",
       "category": "ship",
       "passed": true,
       "details": "Gallery quota: Gallery save has try/catch with toast",
-      "timestamp": "2026-08-24T16:59:59.150735"
+      "timestamp": "2026-08-24T18:47:18.623645"
     },
     {
       "name": "error:showtoast_available",
       "category": "ship",
       "passed": true,
       "details": "Toast system: showToast available",
-      "timestamp": "2026-08-24T16:59:59.156116"
+      "timestamp": "2026-08-24T18:47:18.645721"
     },
     {
       "name": "error:toast_element_exists",
       "category": "ship",
       "passed": true,
       "details": "Toast element present: True",
-      "timestamp": "2026-08-24T16:59:59.216449"
+      "timestamp": "2026-08-24T18:47:18.801065"
     },
     {
       "name": "edge:zero_objects_save",
       "category": "ship",
       "passed": true,
       "details": "Save with 0 objects: count=0",
-      "timestamp": "2026-08-24T16:59:59.241347"
+      "timestamp": "2026-08-24T18:47:18.827195"
     },
     {
       "name": "edge:zero_objects_load",
       "category": "ship",
       "passed": true,
       "details": "Load with 0 objects: count=0",
-      "timestamp": "2026-08-24T16:59:59.266094"
+      "timestamp": "2026-08-24T18:47:18.868391"
     },
     {
       "name": "edge:hundred_objects_load",
       "category": "ship",
       "passed": true,
-      "details": "100 objects loaded in 68ms, count=100",
-      "timestamp": "2026-08-24T16:59:59.342338"
+      "details": "100 objects loaded in 180ms, count=100",
+      "timestamp": "2026-08-24T18:47:19.075756"
     },
     {
       "name": "edge:thousand_objects_load",
       "category": "ship",
       "passed": true,
-      "details": "1000 objects loaded in 403ms, count=1000",
-      "timestamp": "2026-08-24T16:59:59.765226"
+      "details": "1000 objects loaded in 948ms, count=1000",
+      "timestamp": "2026-08-24T18:47:20.071175"
     },
     {
       "name": "edge:undo_100_times",
       "category": "ship",
       "passed": true,
       "details": "Undid 0 times, stack empty: True, error=None",
-      "timestamp": "2026-08-24T16:59:59.782915"
+      "timestamp": "2026-08-24T18:47:20.110733"
     },
     {
       "name": "edge:redo_100_times",
       "category": "ship",
       "passed": true,
       "details": "Redid 0 times, error=None",
-      "timestamp": "2026-08-24T16:59:59.791078"
+      "timestamp": "2026-08-24T18:47:20.119703"
     },
     {
       "name": "edge:rapid_terrain_toggle",
       "category": "ship",
       "passed": true,
       "details": "Rapid terrain toggle: 20 rapid toggles OK",
-      "timestamp": "2026-08-24T16:59:59.892244"
+      "timestamp": "2026-08-24T18:47:20.368815"
     },
     {
       "name": "edge:rapid_sun_toggle",
       "category": "ship",
       "passed": true,
       "details": "Rapid sun toggle: 20 rapid toggles OK",
-      "timestamp": "2026-08-24T16:59:59.907156"
+      "timestamp": "2026-08-24T18:47:20.462860"
     },
     {
       "name": "edge:rapid_all_toggle",
       "category": "ship",
       "passed": true,
       "details": "Rapid all-button toggle: 5 rounds of all toggles OK",
-      "timestamp": "2026-08-24T16:59:59.950356"
+      "timestamp": "2026-08-24T18:47:20.566625"
     },
     {
       "name": "edge:rapid_view_toggle",
       "category": "ship",
       "passed": true,
       "details": "Rapid view toggle: 20 rapid view toggles OK",
-      "timestamp": "2026-08-24T17:00:00.025996"
+      "timestamp": "2026-08-24T18:47:20.721807"
     },
     {
       "name": "edge:rapid_panel_toggle",
       "category": "ship",
       "passed": true,
       "details": "Rapid panel toggle: 10 rounds of panel toggles OK",
-      "timestamp": "2026-08-24T17:00:00.235085"
+      "timestamp": "2026-08-24T18:47:21.171315"
     },
     {
       "name": "validation:sanitize_number",
       "category": "ship",
       "passed": true,
       "details": "sanitizeNumber: All sanitizeNumber tests passed",
-      "timestamp": "2026-08-24T17:00:00.254152"
+      "timestamp": "2026-08-24T18:47:21.221121"
     },
     {
       "name": "validation:sanitize_color",
       "category": "ship",
       "passed": true,
       "details": "sanitizeColor: All sanitizeColor tests passed",
-      "timestamp": "2026-08-24T17:00:00.259112"
+      "timestamp": "2026-08-24T18:47:21.227396"
     },
     {
       "name": "validation:clamp_terrain_height",
       "category": "ship",
       "passed": true,
       "details": "clampTerrainHeight: All clampTerrainHeight tests passed",
-      "timestamp": "2026-08-24T17:00:00.265410"
+      "timestamp": "2026-08-24T18:47:21.232496"
     },
     {
       "name": "validation:missing_params",
       "category": "ship",
       "passed": true,
       "details": "Missing params: Missing params handled",
-      "timestamp": "2026-08-24T17:00:00.269754"
+      "timestamp": "2026-08-24T18:47:21.237195"
     },
     {
       "name": "validation:invalid_type_params",
       "category": "ship",
       "passed": true,
       "details": "Invalid type: Invalid type returns null",
-      "timestamp": "2026-08-24T17:00:00.274972"
+      "timestamp": "2026-08-24T18:47:21.240792"
     },
     {
       "name": "validation:clamped_numbers",
       "category": "ship",
       "passed": true,
       "details": "Clamped: Numbers clamped",
-      "timestamp": "2026-08-24T17:00:00.283430"
+      "timestamp": "2026-08-24T18:47:21.265474"
     },
     {
       "name": "validation:file_accept_attr",
       "category": "ship",
       "passed": true,
       "details": "accept='.json'",
-      "timestamp": "2026-08-24T17:00:00.337739"
+      "timestamp": "2026-08-24T18:47:21.443560"
     },
     {
       "name": "validation:file_size_check",
       "category": "ship",
       "passed": true,
       "details": "File size check in code: True",
-      "timestamp": "2026-08-24T17:00:00.367868"
+      "timestamp": "2026-08-24T18:47:21.457779"
     },
     {
       "name": "validation:prototype_pollution_safe",
       "category": "ship",
       "passed": true,
       "details": "Prototype pollution: No prototype pollution",
-      "timestamp": "2026-08-24T17:00:00.466703"
+      "timestamp": "2026-08-24T18:47:21.850197"
     },
     {
       "name": "validation:invalid_terrain_handled",
       "category": "ship",
       "passed": true,
       "details": "Invalid terrain: Invalid terrain data handled",
-      "timestamp": "2026-08-24T17:00:00.502635"
+      "timestamp": "2026-08-24T18:47:21.926733"
     },
     {
       "name": "validation:extreme_terrain_segs",
       "category": "ship",
       "passed": true,
       "details": "Extreme segs: Extreme segs clamped, segs=200",
-      "timestamp": "2026-08-24T17:00:00.554502"
+      "timestamp": "2026-08-24T18:47:22.005788"
     },
     {
       "name": "validation:grid_level_clamped",
       "category": "ship",
       "passed": true,
       "details": "Grid level: Grid level clamped, value=30",
-      "timestamp": "2026-08-24T17:00:00.580291"
+      "timestamp": "2026-08-24T18:47:22.123812"
     },
     {
       "name": "validation:invalid_yard_shape",
       "category": "ship",
       "passed": true,
       "details": "Yard shape: Invalid shape corrected, shape=rectangle",
-      "timestamp": "2026-08-24T17:00:00.605464"
+      "timestamp": "2026-08-24T18:47:22.316595"
     },
     {
       "name": "structure:no_js_errors_on_load",
       "category": "ship",
       "passed": true,
       "details": "JS errors: 0",
-      "timestamp": "2026-08-24T17:00:03.217236"
+      "timestamp": "2026-08-24T18:47:25.111265"
     },
     {
       "name": "structure:critical_elements_present",
       "category": "ship",
       "passed": true,
       "details": "All critical elements present",
-      "timestamp": "2026-08-24T17:00:08.312234"
+      "timestamp": "2026-08-24T18:47:36.364631"
     },
     {
       "name": "structure:threejs_loaded",
       "category": "ship",
       "passed": true,
       "details": "Three.js: v160",
-      "timestamp": "2026-08-24T17:00:08.328697"
+      "timestamp": "2026-08-24T18:47:36.380589"
     },
     {
       "name": "structure:state_object_intact",
       "category": "ship",
       "passed": true,
       "details": "State: []",
-      "timestamp": "2026-08-24T17:00:08.337930"
+      "timestamp": "2026-08-24T18:47:36.383549"
     },
     {
       "name": "structure:file_size_ok",
       "category": "ship",
       "passed": true,
-      "details": "File size: 711KB (max 750KB)",
-      "timestamp": "2026-08-24T17:00:08.338099"
+      "details": "File size: 694KB (max 750KB)",
+      "timestamp": "2026-08-24T18:47:36.383885"
     },
     {
       "name": "structure:line_count_ok",
       "category": "ship",
       "passed": true,
-      "details": "Lines: 16861 (max 20000)",
-      "timestamp": "2026-08-24T17:00:08.343407"
+      "details": "Lines: 16567 (max 20000)",
+      "timestamp": "2026-08-24T18:47:36.390276"
     },
     {
       "name": "console:no_errors_during_workflow",
       "category": "ship",
       "passed": true,
       "details": "Errors: 0",
-      "timestamp": "2026-08-24T17:00:11.751714"
+      "timestamp": "2026-08-24T18:47:42.509542"
     }
   ]
 }

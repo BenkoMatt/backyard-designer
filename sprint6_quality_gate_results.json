@@ -47,26 +47,26 @@
     "fps": [
       {
         "scene": "empty",
-        "fps": 41.21518314296702
+        "fps": 40.59359818863668
       },
       {
         "scene": "20_objects",
-        "fps": 47.41222108170206
+        "fps": 47.73586156751059
       },
       {
         "scene": "50_objects",
-        "fps": 46.45144165220148
+        "fps": 46.00269444064853
       },
       {
         "scene": "terrain_deformed",
-        "fps": 49.486864391139044
+        "fps": 45.58764807956047
       }
     ],
     "memory": [
       {
         "point": "after_load",
         "used_mb": 15.354156494140625,
-        "total_mb": 29.754638671875
+        "total_mb": 28.03802490234375
       },
       {
         "point": "leak_test",
@@ -74,13 +74,13 @@
       }
     ],
     "load_times": [
-      2574.857234954834
+      3265.74444770813
     ],
     "render_times": [
       {
-        "avg_ms": 9.229999995231628,
+        "avg_ms": 9.745000004768372,
         "max_ms": 14.100000381469727,
-        "min_ms": 7.900000095367432
+        "min_ms": 8.099999904632568
       }
     ]
   },
@@ -461,148 +461,148 @@
       "category": "functional",
       "name": "add_object:fence_privacy",
       "status": "PASS",
-      "details": "id=1, 8.7ms",
-      "duration_ms": 8
+      "details": "id=1, 11.2ms",
+      "duration_ms": 11
     },
     {
       "category": "functional",
       "name": "add_object:fence_picket",
       "status": "PASS",
-      "details": "id=2, 6.1ms",
-      "duration_ms": 6
+      "details": "id=2, 3775.3ms",
+      "duration_ms": 3775
     },
     {
       "category": "functional",
       "name": "add_object:pergola",
       "status": "PASS",
-      "details": "id=3, 5.1ms",
-      "duration_ms": 5
+      "details": "id=3, 4781.2ms",
+      "duration_ms": 4781
     },
     {
       "category": "functional",
       "name": "add_object:shed",
       "status": "PASS",
-      "details": "id=4, 5.0ms",
-      "duration_ms": 4
+      "details": "id=4, 6179.3ms",
+      "duration_ms": 6179
     },
     {
       "category": "functional",
       "name": "add_object:pool_inground",
       "status": "PASS",
-      "details": "id=5, 10.3ms",
-      "duration_ms": 10
+      "details": "id=5, 4271.3ms",
+      "duration_ms": 4271
     },
     {
       "category": "functional",
       "name": "add_object:hot_tub",
       "status": "PASS",
-      "details": "id=6, 5.3ms",
-      "duration_ms": 5
+      "details": "id=6, 4443.5ms",
+      "duration_ms": 4443
     },
     {
       "category": "functional",
       "name": "add_object:tree_deciduous",
       "status": "PASS",
-      "details": "id=7, 15.5ms",
-      "duration_ms": 15
+      "details": "id=7, 4819.3ms",
+      "duration_ms": 4819
     },
     {
       "category": "functional",
       "name": "add_object:tree_evergreen",
       "status": "PASS",
-      "details": "id=8, 7.7ms",
-      "duration_ms": 7
+      "details": "id=8, 4532.7ms",
+      "duration_ms": 4532
     },
     {
       "category": "functional",
       "name": "add_object:bush",
       "status": "PASS",
-      "details": "id=9, 6.2ms",
-      "duration_ms": 6
+      "details": "id=9, 5302.8ms",
+      "duration_ms": 5302
     },
     {
       "category": "functional",
       "name": "add_object:hedge",
       "status": "PASS",
-      "details": "id=10, 927.5ms",
-      "duration_ms": 927
+      "details": "id=10, 3887.6ms",
+      "duration_ms": 3887
     },
     {
       "category": "functional",
       "name": "add_object:patio",
       "status": "PASS",
-      "details": "id=11, 762.0ms",
-      "duration_ms": 761
+      "details": "id=11, 6277.6ms",
+      "duration_ms": 6277
     },
     {
       "category": "functional",
       "name": "add_object:deck",
       "status": "PASS",
-      "details": "id=12, 620.5ms",
-      "duration_ms": 620
+      "details": "id=12, 4915.9ms",
+      "duration_ms": 4915
     },
     {
       "category": "functional",
       "name": "add_object:walkway",
       "status": "PASS",
-      "details": "id=13, 716.4ms",
-      "duration_ms": 716
+      "details": "id=13, 4586.2ms",
+      "duration_ms": 4586
     },
     {
       "category": "functional",
       "name": "add_object:raised_bed",
       "status": "PASS",
-      "details": "id=14, 874.0ms",
-      "duration_ms": 873
+      "details": "id=14, 3296.8ms",
+      "duration_ms": 3296
     },
     {
       "category": "functional",
       "name": "add_object:retaining_wall",
       "status": "PASS",
-      "details": "id=15, 593.5ms",
-      "duration_ms": 593
+      "details": "id=15, 3115.4ms",
+      "duration_ms": 3115
     },
     {
       "category": "functional",
       "name": "add_object:fire_pit",
       "status": "PASS",
-      "details": "id=16, 666.3ms",
-      "duration_ms": 666
+      "details": "id=16, 3834.7ms",
+      "duration_ms": 3834
     },
     {
       "category": "functional",
       "name": "add_object:chair",
       "status": "PASS",
-      "details": "id=17, 875.6ms",
-      "duration_ms": 875
+      "details": "id=17, 2683.2ms",
+      "duration_ms": 2683
     },
     {
       "category": "functional",
       "name": "add_object:table",
       "status": "PASS",
-      "details": "id=18, 659.0ms",
-      "duration_ms": 658
+      "details": "id=18, 1962.3ms",
+      "duration_ms": 1962
     },
     {
       "category": "functional",
       "name": "add_object:lounge",
       "status": "PASS",
-      "details": "id=19, 615.0ms",
-      "duration_ms": 615
+      "details": "id=19, 1280.6ms",
+      "duration_ms": 1280
     },
     {
       "category": "functional",
       "name": "add_object:grill",
       "status": "PASS",
-      "details": "id=20, 626.5ms",
-      "duration_ms": 626
+      "details": "id=20, 1036.9ms",
+      "duration_ms": 1036
     },
     {
       "category": "functional",
       "name": "add_object:lawn",
       "status": "PASS",
-      "details": "id=21, 644.2ms",
-      "duration_ms": 644
+      "details": "id=21, 1425.3ms",
+      "duration_ms": 1425
     },
     {
       "category": "functional",
@@ -790,42 +790,42 @@
       "category": "perf",
       "name": "load:page_load_time",
       "status": "PASS",
-      "details": "2575ms (max 5000ms)",
-      "duration_ms": 2574
+      "details": "3266ms (max 5000ms)",
+      "duration_ms": 3265
     },
     {
       "category": "perf",
       "name": "fps:empty_scene",
       "status": "PASS",
-      "details": "41.2 FPS (min 10)",
-      "duration_ms": 3008
+      "details": "40.6 FPS (min 10)",
+      "duration_ms": 3005
     },
     {
       "category": "perf",
       "name": "fps:20_objects",
       "status": "PASS",
-      "details": "47.4 FPS (min 10)",
+      "details": "47.7 FPS (min 10)",
       "duration_ms": 3016
     },
     {
       "category": "perf",
       "name": "fps:50_objects",
       "status": "PASS",
-      "details": "46.5 FPS with 50 objects (min 8)",
-      "duration_ms": 3013
+      "details": "46.0 FPS with 50 objects (min 8)",
+      "duration_ms": 3043
     },
     {
       "category": "perf",
       "name": "fps:terrain_deformed",
       "status": "PASS",
-      "details": "49.5 FPS with terrain (min 7)",
-      "duration_ms": 3010
+      "details": "45.6 FPS with terrain (min 7)",
+      "duration_ms": 3005
     },
     {
       "category": "perf",
       "name": "memory:heap_usage",
       "status": "PASS",
-      "details": "Used: 15.4MB, Total: 29.8MB, Limit: 3585.8MB",
+      "details": "Used: 15.4MB, Total: 28.0MB, Limit: 3585.8MB",
       "duration_ms": 0
     },
     {
@@ -839,50 +839,50 @@
       "category": "perf",
       "name": "render:single_frame_time",
       "status": "PASS",
-      "details": "avg=9.2ms, min=7.9ms, max=14.1ms",
+      "details": "avg=9.7ms, min=8.1ms, max=14.1ms",
       "duration_ms": 0
     },
     {
       "category": "perf",
       "name": "create:patio_performance",
       "status": "PASS",
-      "details": "avg=2.8ms per object (max 50ms)",
+      "details": "avg=0.5ms per object (max 50ms)",
       "duration_ms": 0
     },
     {
       "category": "perf",
       "name": "create:tree_deciduous_performance",
       "status": "PASS",
-      "details": "avg=4.1ms per object (max 50ms)",
+      "details": "avg=3.6ms per object (max 50ms)",
       "duration_ms": 0
     },
     {
       "category": "perf",
       "name": "create:pool_inground_performance",
       "status": "PASS",
-      "details": "avg=0.6ms per object (max 50ms)",
+      "details": "avg=0.9ms per object (max 50ms)",
       "duration_ms": 0
     },
     {
       "category": "perf",
       "name": "create:fence_privacy_performance",
       "status": "PASS",
-      "details": "avg=0.8ms per object (max 50ms)",
+      "details": "avg=1.2ms per object (max 50ms)",
       "duration_ms": 0
     },
     {
       "category": "perf",
       "name": "dom:query_all_elements",
       "status": "PASS",
-      "details": "100x querySelectorAll('*') in 3.8ms",
+      "details": "100x querySelectorAll('*') in 3.0ms",
       "duration_ms": 0
     },
     {
       "category": "mobile",
       "name": "load:iPhone SE_loads",
       "status": "PASS",
-      "details": "2732ms",
-      "duration_ms": 2731
+      "details": "2981ms",
+      "duration_ms": 2980
     },
     {
       "category": "mobile",
@@ -902,7 +902,7 @@
       "category": "mobile",
       "name": "fps:iPhone SE_performance",
       "status": "PASS",
-      "details": "59.4 FPS (min 8 for mobile)",
+      "details": "60.1 FPS (min 8 for mobile)",
       "duration_ms": 3013
     },
     {
@@ -930,8 +930,8 @@
       "category": "mobile",
       "name": "load:iPhone 14_loads",
       "status": "PASS",
-      "details": "2685ms",
-      "duration_ms": 2684
+      "details": "2714ms",
+      "duration_ms": 2713
     },
     {
       "category": "mobile",
@@ -951,8 +951,8 @@
       "category": "mobile",
       "name": "fps:iPhone 14_performance",
       "status": "PASS",
-      "details": "60.3 FPS (min 8 for mobile)",
-      "duration_ms": 3000
+      "details": "60.1 FPS (min 8 for mobile)",
+      "duration_ms": 3013
     },
     {
       "category": "mobile",
@@ -979,8 +979,8 @@
       "category": "mobile",
       "name": "load:Galaxy S20_loads",
       "status": "PASS",
-      "details": "2689ms",
-      "duration_ms": 2688
+      "details": "2725ms",
+      "duration_ms": 2725
     },
     {
       "category": "mobile",
@@ -1000,8 +1000,8 @@
       "category": "mobile",
       "name": "fps:Galaxy S20_performance",
       "status": "PASS",
-      "details": "60.1 FPS (min 8 for mobile)",
-      "duration_ms": 3009
+      "details": "60.2 FPS (min 8 for mobile)",
+      "duration_ms": 3006
     },
     {
       "category": "mobile",
@@ -1028,8 +1028,8 @@
       "category": "mobile",
       "name": "load:iPad Mini_loads",
       "status": "PASS",
-      "details": "2693ms",
-      "duration_ms": 2692
+      "details": "2695ms",
+      "duration_ms": 2694
     },
     {
       "category": "mobile",
@@ -1049,8 +1049,8 @@
       "category": "mobile",
       "name": "fps:iPad Mini_performance",
       "status": "PASS",
-      "details": "60.3 FPS (min 8 for mobile)",
-      "duration_ms": 3015
+      "details": "60.4 FPS (min 8 for mobile)",
+      "duration_ms": 3013
     },
     {
       "category": "mobile",
@@ -1077,8 +1077,8 @@
       "category": "mobile",
       "name": "load:iPad Pro_loads",
       "status": "PASS",
-      "details": "2714ms",
-      "duration_ms": 2713
+      "details": "2709ms",
+      "duration_ms": 2708
     },
     {
       "category": "mobile",
@@ -1098,8 +1098,8 @@
       "category": "mobile",
       "name": "fps:iPad Pro_performance",
       "status": "PASS",
-      "details": "33.3 FPS (min 8 for mobile)",
-      "duration_ms": 3029
+      "details": "22.6 FPS (min 8 for mobile)",
+      "duration_ms": 3006
     },
     {
       "category": "mobile",
@@ -1126,7 +1126,7 @@
       "category": "chaos",
       "name": "rapid:add_50_objects",
       "status": "PASS",
-      "details": "added=50, 69ms",
+      "details": "added=50, 59ms",
       "duration_ms": 0
     },
     {
@@ -1525,8 +1525,8 @@
       "category": "critic",
       "name": "stability:idle_10s",
       "status": "PASS",
-      "details": "47.6 FPS over 10s idle, state OK",
-      "duration_ms": 10008
+      "details": "48.8 FPS over 10s idle, state OK",
+      "duration_ms": 10012
     },
     {
       "category": "critic",
@@ -1550,6 +1550,6 @@
       "duration_ms": 0
     }
   ],
-  "generated_at": "2026-08-24T18:41:31.872583",
-  "total_runtime_s": 192.620055437088
+  "generated_at": "2026-08-24T18:46:27.752739",
+  "total_runtime_s": 281.24653148651123
 }
