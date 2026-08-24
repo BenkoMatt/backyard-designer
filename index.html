@@ -130,7 +130,7 @@ canvas { display: block; }
 #dim-readout { top: 16px; left: 16px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; box-shadow: var(--shadow); display: none; max-width: 280px; }
 #dim-readout.visible { display: block; }
 #dim-readout strong { color: var(--primary); }
-#scale-bar { position: absolute; bottom: 16px; left: 16px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 11px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0; user-select: none; -webkit-user-select: none; pointer-events: none; }
+#scale-bar { position: absolute; bottom: 16px; left: 16px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 11px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 0; user-select: none; -webkit-user-select: none; pointer-events: none; z-index: 15; }
 .scale-bar-visual { display: flex; align-items: center; gap: 2px; margin-right: 8px; }
 .scale-segment { height: 8px; border: 1px solid var(--text); }
 .scale-segment.dark { background: var(--text); }
@@ -179,7 +179,7 @@ padding: 4px 8px 2px; border-top: 1px solid var(--border); margin-top: 2px;
 }
 .td-group-label:first-child { border-top: none; margin-top: 0; padding-top: 0; }
 #dock-panel-container {
-position: absolute; bottom: 16px; left: 120px; z-index: 19;
+position: absolute; bottom: 16px; left: 90px; z-index: 19;
 max-height: calc(100% - 80px); display: none;
 }
 #dock-panel-container.visible { display: block; }
@@ -1429,7 +1429,7 @@ contain-intrinsic-size: 300px 200px;
 
 /* --- Onboarding restart button --- */
 #onboarding-restart-btn {
-  position: fixed; bottom: 16px; right: 16px; z-index: 100;
+  position: fixed; bottom: 16px; right: 200px; z-index: 100;
   background: var(--primary); color: white; border: none; padding: 8px 14px;
   border-radius: 20px; font-size: 12px; cursor: pointer; font-family: inherit;
   display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-height: 36px;
@@ -4410,8 +4410,9 @@ window._bydContextLost = false;
 showToast('Graphics restored', 'success');
 requestRender();
 });
-// Sprint 13: Forward wheel events from non-scrollable panels to canvas for zoom.
-// When a panel can't scroll further, the wheel event should reach OrbitControls for camera zoom.
+// Fix: Forward wheel events from non-scrollable panels to canvas for zoom.
+// Instead of dispatching a synthetic WheelEvent (which OrbitControls may ignore),
+// directly manipulate the camera distance and call controls.update().
 document.addEventListener('wheel', (e) => {
 // If the event target is the canvas or viewport, OrbitControls handles it — do nothing.
 if (e.target === renderer.domElement || e.target === viewport) return;
@@ -4426,24 +4427,24 @@ const canScrollUp = el.scrollTop > 0;
 const canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight - 1;
 if (e.deltaY < 0 && canScrollUp) return; // scrolling up and can scroll up → let it scroll
 if (e.deltaY > 0 && canScrollDown) return; // scrolling down and can scroll down → let it scroll
-// Can't scroll further — forward to canvas
+// Can't scroll further — zoom the camera
 break;
 }
 el = el.parentElement;
 }
-// Forward the wheel event to the canvas so OrbitControls zooms
-const newEvent = new WheelEvent('wheel', {
-deltaY: e.deltaY,
-deltaX: e.deltaX,
-deltaZ: e.deltaZ,
-deltaMode: e.deltaMode,
-clientX: e.clientX,
-clientY: e.clientY,
-bubbles: true,
-cancelable: true,
-});
-renderer.domElement.dispatchEvent(newEvent);
-}, { passive: true });
+// Directly zoom the camera instead of forwarding a synthetic event
+e.preventDefault();
+const zoomFactor = e.deltaY > 0 ? 1.1 : 0.9;
+const offset = camera3D.position.clone().sub(controls.target);
+offset.multiplyScalar(zoomFactor);
+// Clamp zoom distance
+const dist = offset.length();
+if (dist > 5 && dist < 500) {
+camera3D.position.copy(controls.target).add(offset);
+controls.update();
+requestRender();
+}
+}, { passive: false });
 window.addEventListener('resize', onResize);
 animate();
 }
@@ -16332,19 +16333,11 @@ const Onboarding = (function() {
     });
   }
 
-  // --- Feature Discovery Badges ---
-  // Features that get "New!" badges if user hasn't used them
-  const badgeableFeatures = [
-    { id: 'walk-mode', selector: '#btn-walk', label: 'New!' },
-    { id: 'share', selector: '#btn-share', label: 'New!' },
-    { id: 'command-palette', selector: null, label: 'New!' }, // Ctrl+K, no button
-    { id: 'layers', selector: '#btn-layers', label: 'New!' },
-    { id: 'terrain-analysis', selector: '#terrain-analysis-btn', label: 'New!' },
-    { id: 'innovation', selector: '#innovation-btn', label: 'New!' },
-    { id: 'cross-section', selector: '#cross-section-toggle', label: 'New!' },
-  ];
+  // --- Feature Discovery Badges --- removed — features are no longer "new"
 
   function updateDiscoveryBadges() {
+    // Badges removed — no-op
+    return;
     const s = getState();
     if (!s.featuresUsed) s.featuresUsed = {};
     badgeableFeatures.forEach(feature => {
