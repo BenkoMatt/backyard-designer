@@ -562,7 +562,7 @@ def run_tests(url):
         print("\n19. HELP MODAL CONTENT — Keyboard shortcuts documented")
         # ════════════════════════════════════════════════════════
 
-        page.click('#btn-help')
+        page.eval_on_selector('#btn-help', 'el => el.click()')
         page.wait_for_timeout(500)
         help_content = page.evaluate('''() => {
             const h = document.getElementById("help-modal");

@@ -157,7 +157,7 @@
     {
       "name": "FPS >= 30",
       "status": "PASS",
-      "detail": "FPS=31"
+      "detail": "FPS=48"
     },
     {
       "name": "Desktop gate visible at 800px (<900px)",

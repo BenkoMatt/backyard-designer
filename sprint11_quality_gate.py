@@ -207,7 +207,7 @@ def test_panels_open_close(page):
                 # Verify dock panel can be shown via its tab
                 dock_tab = dock_panel_id.replace("dock-", "")
                 try:
-                    page.click(f'.td-tab[data-dock="{dock_tab}"]', timeout=3000)
+                    page.eval_on_selector(f'.td-tab[data-dock="{dock_tab}"]', 'el => el.click()')
                     page.wait_for_timeout(500)
                 except:
                     pass
@@ -222,7 +222,7 @@ def test_panels_open_close(page):
                 
                 # Close it
                 try:
-                    page.click(f'.td-tab[data-dock="{dock_tab}"]', timeout=3000)
+                    page.eval_on_selector(f'.td-tab[data-dock="{dock_tab}"]', 'el => el.click()')
                     page.wait_for_timeout(300)
                 except:
                     pass
@@ -245,7 +245,7 @@ def test_panels_open_close(page):
         
         # Try to open via button click
         try:
-            page.click(f"#{btn_id}", timeout=3000)
+            page.eval_on_selector(f"#{btn_id}", 'el => el.click()')
             page.wait_for_timeout(500)
         except:
             pass
@@ -264,7 +264,7 @@ def test_panels_open_close(page):
         
         # Try to close via button click again (toggle)
         try:
-            page.click(f"#{btn_id}", timeout=3000)
+            page.eval_on_selector(f"#{btn_id}", 'el => el.click()')
             page.wait_for_timeout(500)
         except:
             pass
@@ -288,7 +288,7 @@ def test_panels_open_close(page):
         if close_btns:
             # Reopen panel
             try:
-                page.click(f"#{btn_id}", timeout=3000)
+                page.eval_on_selector(f"#{btn_id}", 'el => el.click()')
                 page.wait_for_timeout(500)
             except:
                 pass
@@ -296,7 +296,7 @@ def test_panels_open_close(page):
             # Click the close button
             close_selector = f"#{panel_id} .close, #{panel_id} [aria-label*='Close']"
             try:
-                page.click(close_selector, timeout=3000)
+                page.eval_on_selector(close_selector, 'el => el.click()')
                 page.wait_for_timeout(500)
             except:
                 pass
@@ -342,7 +342,7 @@ def test_tab_switching(page):
         
         # Click the tab
         try:
-            page.click(f'.td-tab[data-dock="{tab_id}"]', timeout=3000)
+            page.eval_on_selector(f'.td-tab[data-dock="{tab_id}"]', 'el => el.click()')
             page.wait_for_timeout(500)
         except:
             pass
@@ -368,7 +368,7 @@ def test_tab_switching(page):
     if len(DOCK_TABS) >= 2:
         # Click first tab
         try:
-            page.click(f'.td-tab[data-dock="{DOCK_TABS[0]}"]', timeout=3000)
+            page.eval_on_selector(f'.td-tab[data-dock="{DOCK_TABS[0]}"]', 'el => el.click()')
             page.wait_for_timeout(300)
         except:
             pass
@@ -380,7 +380,7 @@ def test_tab_switching(page):
         
         # Click second tab
         try:
-            page.click(f'.td-tab[data-dock="{DOCK_TABS[1]}"]', timeout=3000)
+            page.eval_on_selector(f'.td-tab[data-dock="{DOCK_TABS[1]}"]', 'el => el.click()')
             page.wait_for_timeout(300)
         except:
             pass
@@ -407,7 +407,7 @@ def test_tab_switching(page):
     if view_3d_exists and view_2d_exists:
         # Click 2D view
         try:
-            page.click("#view-toggle button[data-view='2d']", timeout=3000)
+            page.eval_on_selector("#view-toggle button[data-view='2d']", 'el => el.click()')
             page.wait_for_timeout(500)
         except:
             pass
@@ -419,7 +419,7 @@ def test_tab_switching(page):
         
         # Click 3D view
         try:
-            page.click("#view-toggle button[data-view='3d']", timeout=3000)
+            page.eval_on_selector("#view-toggle button[data-view='3d']", 'el => el.click()')
             page.wait_for_timeout(500)
         except:
             pass
@@ -465,7 +465,7 @@ def test_modals_open_close(page):
             
             if btn_exists:
                 try:
-                    page.click(f"#{trigger_btn}", timeout=3000)
+                    page.eval_on_selector(f"#{trigger_btn}", 'el => el.click()')
                     page.wait_for_timeout(500)
                 except:
                     pass

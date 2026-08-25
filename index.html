@@ -102,6 +102,39 @@ canvas { display: block; }
 .view-toggle { display: flex; background: var(--hover-bg); border-radius: var(--radius-sm); padding: 3px; gap: 2px; }
 .view-toggle button { border: none; background: none; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; color: var(--text-muted); font-family: inherit; }
 .view-toggle button.active { background: white; color: var(--primary); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+/* --- Sprint 17: Basic/Advanced Mode Toggle --- */
+#mode-toggle { display: flex; background: var(--hover-bg); border-radius: var(--radius-sm); padding: 3px; gap: 2px; }
+#mode-toggle button { border: none; background: none; padding: 5px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; color: var(--text-muted); font-family: inherit; transition: all 0.15s; }
+#mode-toggle button.active { background: white; color: var(--primary); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+#mode-toggle button:hover:not(.active) { color: var(--text); background: rgba(0,0,0,0.04); }
+/* Basic mode: hide advanced dock tabs */
+body.byd-basic-mode .td-tab[data-dock="underground"],
+body.byd-basic-mode .td-tab[data-dock="analyze"],
+body.byd-basic-mode .td-tab[data-dock="innovate"],
+body.byd-basic-mode .td-tab[data-dock="experience"],
+body.byd-basic-mode .td-tab[data-dock="measure"] { display: none; }
+/* Basic mode: hide advanced topbar buttons */
+body.byd-basic-mode #btn-export,
+body.byd-basic-mode #btn-gallery,
+body.byd-basic-mode #btn-timelapse,
+body.byd-basic-mode #btn-socialcard,
+body.byd-basic-mode #btn-season,
+body.byd-basic-mode #btn-growth,
+body.byd-basic-mode #btn-permit,
+body.byd-basic-mode #btn-print,
+body.byd-basic-mode #btn-label,
+body.byd-basic-mode #btn-templates { display: none; }
+/* Basic mode: hide advanced command palette items */
+body.byd-basic-mode .cmd-item[data-advanced="true"] { display: none; }
+/* Advanced mode: all features visible (explicit override for clarity) */
+body.byd-advanced-mode .td-tab,
+body.byd-advanced-mode .tb-btn { display: flex; }
+/* Mode badge for help panel */
+.mode-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+.mode-badge.basic { background: #e8f5e9; color: #2e7d32; }
+.mode-badge.advanced { background: #e3f2fd; color: #1565c0; }
+
 #main { display: flex; height: calc(100vh - var(--topbar-h)); }
 #sidebar { width: var(--sidebar-w); background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; flex-shrink: 0; }
 .sidebar-header { padding: 14px 16px 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
@@ -287,7 +320,7 @@ display: none !important;
 #ta-cross-section-stats { display: flex; gap: 12px; padding: 0 12px 10px; font-size: 10px; color: var(--text-muted); flex-wrap: wrap; }
 #ta-cross-section-stats span { white-space: nowrap; }
 #ta-cross-section-stats b { color: var(--text); }
-#cut-fill-panel { position: absolute; top: 16px; right: 340px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 50; min-width: 200px; }
+#cut-fill-panel { position: absolute; top: 16px; right: 340px; background: var(--panel-bg-97); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow); display: none; flex-direction: column; z-index: 40; min-width: 200px; }
 #cut-fill-panel.visible { display: flex; }
 .cf-header { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--text-muted); padding: 8px 12px 4px; }
 .cf-row { display: flex; justify-content: space-between; padding: 2px 12px; font-size: 12px; }
@@ -1609,6 +1642,10 @@ button.mi-loading .mi-spinner {
 <svg viewBox="0 0 32 32" fill="none"><rect x="4" y="20" width="24" height="8" rx="2" fill="#4a8b5c"/><path d="M8 20V12M16 20V10M24 20V12" stroke="#c97b4f" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="8" r="5" fill="#4a8b5c" opacity="0.6"/></svg>
 Backyard Designer 3D
 </div>
+<div id="mode-toggle" role="tablist" aria-label="Interface mode">
+<button class="active" data-mode="basic" role="tab" aria-selected="true" title="Basic mode — essential tools only">Basic</button>
+<button data-mode="advanced" role="tab" aria-selected="false" title="Advanced mode — all tools and features">Advanced</button>
+</div>
 <div class="topbar-spacer"></div>
 <div class="topbar-group" role="toolbar" aria-label="Undo/Redo">
 <button class="tb-btn" id="btn-undo" title="Undo" aria-label="Undo last action" disabled>
@@ -2821,13 +2858,21 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <div id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-panel">
-<h2 id="help-title">How to Use Backyard Designer 3D</h2>
+<h2 id="help-title">How to Use Backyard Designer 3D<span id="help-mode-badge" class="mode-badge basic">Basic</span></h2>
 <h3>Getting Started</h3>
 <ul>
 <li><strong>Click an item</strong> from the left panel to add it to your yard</li>
 <li><strong>Click an object</strong> in the 3D view to select it</li>
 <li><strong>Click and drag an object</strong> to reposition it</li>
 <li><strong>Use the right panel</strong> to adjust size, color, and other properties</li>
+</ul>
+<h3>Basic vs Advanced Mode</h3>
+<ul>
+<li><strong>Basic mode</strong> (default) shows essential tools: Terrain sculpting, Sun &amp; Shadow, and core object placement</li>
+<li><strong>Advanced mode</strong> reveals all features: Underground excavation, Terrain Analysis, Pro Tools, Measure, Atmosphere, Export, Gallery, Seasonal Planning, and more</li>
+<li>Toggle between modes using the <strong>Basic/Advanced</strong> buttons in the top bar, or press <strong>M</strong></li>
+<li>Your mode choice is saved and will persist across sessions</li>
+<li>Most keyboard shortcuts work in both modes — the <strong>Command Palette (Ctrl+K)</strong> shows only relevant commands in Basic mode</li>
 </ul>
 <h3>Camera Controls</h3>
 <ul>
@@ -5774,18 +5819,19 @@ const CMD_ITEMS = [
 { cat: 'File', icon: '💾', label: 'Save As...', shortcut: 'Ctrl+Shift+S', action: () => saveDesignAs() },
 { cat: 'File', icon: '📂', label: 'Load Design', action: () => document.getElementById('import-input').click() },
 { cat: 'File', icon: '📸', label: 'Take Screenshot', action: () => document.getElementById('btn-screenshot').click() },
-{ cat: 'File', icon: '🔄', label: 'Reset Terrain (Flatten All)', action: () => document.getElementById('terrain-flatten')?.click() },
+{ cat: 'File', icon: '🔄', label: 'Reset Terrain (Flatten All)', action: () => document.getElementById('terrain-flatten')?.click(), advanced: true },
 { cat: 'Tools', icon: '⛰️', label: 'Terrain Sculpting', shortcut: 'T', action: () => openDockByTab('terrain') },
-{ cat: 'Tools', icon: '⛏️', label: 'Underground / Excavate', action: () => openDockByTab('underground') },
-{ cat: 'Tools', icon: '📊', label: 'Terrain Analysis', action: () => openDockByTab('analyze') },
-{ cat: 'Tools', icon: '💡', label: 'Pro Terrain Tools', action: () => openDockByTab('innovate') },
+{ cat: 'Tools', icon: '⛏️', label: 'Underground / Excavate', action: () => openDockByTab('underground'), advanced: true },
+{ cat: 'Tools', icon: '📊', label: 'Terrain Analysis', action: () => openDockByTab('analyze'), advanced: true },
+{ cat: 'Tools', icon: '💡', label: 'Pro Terrain Tools', action: () => openDockByTab('innovate'), advanced: true },
 { cat: 'Tools', icon: '☀️', label: 'Sun & Shadow', action: () => openDockByTab('sun') },
-{ cat: 'Tools', icon: '📏', label: 'Tape Measure', action: () => openDockByTab('measure') },
-{ cat: 'Tools', icon: '🌟', label: 'Atmosphere (Sky, Weather, Sound)', action: () => openDockByTab('experience') },
+{ cat: 'Tools', icon: '📏', label: 'Tape Measure', action: () => openDockByTab('measure'), advanced: true },
+{ cat: 'Tools', icon: '🌟', label: 'Atmosphere (Sky, Weather, Sound)', action: () => openDockByTab('experience'), advanced: true },
 { cat: 'Tools', icon: '💰', label: 'Cost Estimator', action: () => document.getElementById('btn-cost').click() },
 { cat: 'Tools', icon: '📚', label: 'Layers', action: () => document.getElementById('btn-layers').click() },
 { cat: 'Tools', icon: '📤', label: 'Share Design', action: () => document.getElementById('btn-share').click() },
 { cat: 'Help', icon: '❓', label: 'Help & Shortcuts', action: () => document.getElementById('btn-help').click() },
+{ cat: 'View', icon: '🔧', label: 'Toggle Basic/Advanced Mode', shortcut: 'M', action: () => toggleMode() },
 ];
 function openDockByTab(dockId) {
 const tab = document.querySelector(`.td-tab[data-dock="${dockId}"]`);
@@ -5816,11 +5862,12 @@ cmdPaletteOpen = false;
 function renderCommandPalette(query) {
 const results = document.getElementById('cmd-palette-results');
 if (!query) {
-cmdFilteredItems = CMD_ITEMS;
+cmdFilteredItems = CMD_ITEMS.filter(item => currentMode !== 'basic' || !item.advanced);
 } else {
 const q = query.toLowerCase();
 cmdFilteredItems = CMD_ITEMS.filter(item =>
-item.label.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)
+(item.label.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)) &&
+(currentMode !== 'basic' || !item.advanced)
 );
 }
 cmdSelectedIdx = 0;
@@ -5832,14 +5879,14 @@ if (item.cat !== lastCat) {
 html += `<div class="cmd-category">${escHtml(item.cat)}</div>`;
 lastCat = item.cat;
 }
-html += `<div class="cmd-item ${i === cmdSelectedIdx ? 'selected' : ''}" data-idx="${i}">
+html += `<div class="cmd-item ${i === cmdSelectedIdx ? 'selected' : ''}" data-idx="${i}" data-advanced="${item.advanced ? 'true' : 'false'}">
 <span class="cmd-icon">${item.icon}</span>
 <span>${escHtml(item.label)}</span>
 ${item.shortcut ? `<span class="cmd-shortcut">${escHtml(item.shortcut)}</span>` : ''}
 </div>`;
 }
 if (cmdFilteredItems.length === 0) {
-html = '<div class="cmd-item" style="color:var(--text-muted);">No commands found</div>';
+html = '<div class="cmd-empty-msg" style="color:var(--text-muted);padding:12px;text-align:center;">No commands found</div>';
 }
 results.innerHTML = html;
 results.querySelectorAll('.cmd-item[data-idx]').forEach(el => {
@@ -6255,6 +6302,65 @@ hint.classList.add('visible');
 if (hintTimer) clearTimeout(hintTimer);
 hintTimer = setTimeout(() => hint.classList.remove('visible'), 4000);
 }
+// --- Sprint 17: Basic/Advanced Mode Toggle ---
+const MODE_STORAGE_KEY = 'byd-design-mode';
+let currentMode = 'basic';
+
+function applyMode(mode) {
+  currentMode = mode;
+  document.body.classList.remove('byd-basic-mode', 'byd-advanced-mode');
+  document.body.classList.add(mode === 'advanced' ? 'byd-advanced-mode' : 'byd-basic-mode');
+  document.querySelectorAll('#mode-toggle button').forEach(btn => {
+    const isActive = btn.dataset.mode === mode;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  try { localStorage.setItem(MODE_STORAGE_KEY, mode); } catch(e) {}
+  const badge = document.getElementById('help-mode-badge');
+  if (badge) {
+    badge.textContent = mode === 'advanced' ? 'Advanced' : 'Basic';
+    badge.className = 'mode-badge ' + mode;
+  }
+  if (mode === 'basic' && typeof window._dockActiveTab === 'function') {
+    const activeTab = window._dockActiveTab();
+    if (activeTab) {
+      const dockId = activeTab.getAttribute('data-dock');
+      const hiddenInBasic = ['underground', 'analyze', 'innovate', 'experience', 'measure'];
+      if (hiddenInBasic.includes(dockId) && typeof window._dockClosePanel === 'function') {
+        window._dockClosePanel();
+      }
+    }
+  }
+  showToast(mode === 'advanced' ? 'Advanced mode: all tools available' : 'Basic mode: essential tools only');
+}
+
+function setMode(mode) {
+  if (mode !== 'basic' && mode !== 'advanced') return;
+  applyMode(mode);
+}
+
+function toggleMode() {
+  setMode(currentMode === 'basic' ? 'advanced' : 'basic');
+}
+
+function initMode() {
+  let savedMode = 'basic';
+  try { savedMode = localStorage.getItem(MODE_STORAGE_KEY) || 'basic'; } catch(e) {}
+  if (savedMode !== 'basic' && savedMode !== 'advanced') savedMode = 'basic';
+  applyMode(savedMode);
+}
+
+document.querySelectorAll('#mode-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => setMode(btn.dataset.mode));
+});
+// Expose mode functions to global scope for testing
+window.setMode = setMode;
+window.toggleMode = toggleMode;
+window.initMode = initMode;
+window.applyMode = applyMode;
+window.getCurrentMode = () => currentMode;
+
+
 function hideHint() {
 document.getElementById('context-hint').classList.remove('visible');
 }
@@ -6359,6 +6465,9 @@ requestRender();
 } else if (e.key === 'r' || e.key === 'R') {
 e.preventDefault();
 document.getElementById('vc-reset')?.click();
+} else if (e.key === 'm' || e.key === 'M') {
+e.preventDefault();
+toggleMode();
 }
 });
 function cycleObjectSelection(direction) {
@@ -16468,7 +16577,7 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
 // SPRINT 16: Keyboard shortcuts
 // ============================================================
 (function setupKeyboardShortcuts() {
-  const brushModes = ['raise', 'lower', 'smooth', 'erode', 'flatten', 'dig'];
+  const brushModes = ['raise', 'lower', 'smooth', 'erode', 'dig', 'fill'];
   
   document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
@@ -16561,6 +16670,7 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   });
 })();
 
+initMode(); // Sprint 17
 </script>
 <button id="sculpt-restore-pill" aria-label="Restore terrain sculpt panel">Sculpt &#9656;</button>
 </body>
