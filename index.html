@@ -9036,18 +9036,30 @@ selectedId: () => state.selectedId,
 selectedIds: () => Array.from(state.selectedIds),
 };
 })();
+// Event delegation for wizard skip button — attached to #wizard, not the button itself,
+// to bypass the same stacking/interception issue that affects innerHTML elements.
 (function setupWizardSkip() {
-const skipBtn = document.getElementById('wizard-skip');
-if (!skipBtn) return;
-skipBtn.addEventListener('click', () => {
-document.getElementById('wizard').style.display = 'none';
-if (typeof initWithYard === 'function') initWithYard(wizardData);
-});
-document.addEventListener('keydown', (e) => {
-if (e.key === 'Escape' && document.getElementById('wizard').style.display !== 'none') {
-skipBtn.click();
-}
-});
+  const wizard = document.getElementById('wizard');
+  if (!wizard) return;
+  wizard.addEventListener('mousedown', function(e) {
+    if (e.target.closest('#wizard-skip')) {
+      e.preventDefault();
+      document.getElementById('wizard').style.display = 'none';
+      if (typeof initWithYard === 'function') initWithYard(wizardData);
+    }
+  });
+  wizard.addEventListener('click', function(e) {
+    if (e.target.closest('#wizard-skip')) {
+      document.getElementById('wizard').style.display = 'none';
+      if (typeof initWithYard === 'function') initWithYard(wizardData);
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('wizard').style.display !== 'none') {
+      document.getElementById('wizard').style.display = 'none';
+      if (typeof initWithYard === 'function') initWithYard(wizardData);
+    }
+  });
 })();
 
 function applyTerrainPreset(presetName) {
