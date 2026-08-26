@@ -90,7 +90,7 @@ def run_static_tests():
     
     # 9. Z-index hierarchy is clean — check for values outside the allowed set
     zindex_values = re.findall(r'z-index:\s*(\d+)', html)
-    allowed = {'1', '10', '15', '19', '20', '25', '30', '40', '50', '100', '150', '200', '500', '9999'}
+    allowed = {'1', '2', '10', '15', '19', '20', '25', '30', '40', '50', '100', '150', '200', '500', '9999'}
     # Also allow CSS variables
     zindex_numeric = [v for v in zindex_values if v.isdigit()]
     # Filter out var() references

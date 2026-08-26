@@ -145,10 +145,10 @@ def test_code_structure():
     record("code:debouncedApplyTerrainFull_exists", "pass" if has_debounced else "fail",
            "Function found" if has_debounced else "Function NOT found")
 
-    # Test: enableZoom = true
-    has_zoom = "controls.enableZoom = true" in content
+    # Test: enableZoom = false (Sprint 18: OrbitControls zoom disabled, unified wheel handler owns zoom)
+    has_zoom = "controls.enableZoom = false" in content
     record("code:enableZoom_true", "pass" if has_zoom else "fail",
-           "controls.enableZoom = true found" if has_zoom else "controls.enableZoom = true NOT found")
+           "controls.enableZoom = false found (Sprint 18)" if has_zoom else "controls.enableZoom = false NOT found")
 
     # Test: zoomSpeed = 1.2
     has_zoom_speed = "controls.zoomSpeed = 1.2" in content
@@ -165,10 +165,10 @@ def test_code_structure():
     record("code:terrain_minimize_button_exists", "pass" if has_terrain_min else "fail",
            "Terrain minimize button found" if has_terrain_min else "Terrain minimize button NOT found")
 
-    # Test: wheel event forwarding exists
-    has_wheel = "Forward wheel events" in content or "dispatchEvent" in content and "WheelEvent" in content
+    # Test: wheel event zoom handler exists (Sprint 18: unified document-level wheel listener)
+    has_wheel = "Sprint 18 zoom fix" in content or "Forward wheel events" in content or ("dispatchEvent" in content and "WheelEvent" in content)
     record("code:wheel_forwarding_exists", "pass" if has_wheel else "fail",
-           "Wheel forwarding code found" if has_wheel else "Wheel forwarding code NOT found")
+           "Wheel zoom handler code found" if has_wheel else "Wheel zoom handler code NOT found")
 
     # Test: paintTerrain uses applyTerrainPositions during painting
     has_fast_path = "applyTerrainPositions()" in content and "isTerrainPainting" in content

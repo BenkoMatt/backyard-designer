@@ -1,0 +1,413 @@
+{
+  "sprint": 17,
+  "total": 81,
+  "passed": 81,
+  "failed": 0,
+  "results": [
+    {
+      "name": "Mode toggle HTML element exists in topbar",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode button exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode button exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "CSS rule body.byd-basic-mode exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "CSS rule body.byd-advanced-mode exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Underground tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Analyze tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Pro Tools tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Atmosphere tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Measure tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode does NOT hide Terrain tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode does NOT hide Sun tab",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "applyMode() function exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "setMode() function exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "toggleMode() function exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "initMode() function exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "localStorage key 'byd-design-mode' exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "initMode() is called on page load",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "setMode exposed to window scope",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "toggleMode exposed to window scope",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "M keyboard shortcut for mode toggle exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Help panel has mode badge element",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Help panel has Basic/Advanced mode section",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Command palette has mode toggle command",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced command palette items marked with advanced property",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Command palette filters by mode",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "data-advanced attribute on cmd-item elements",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Export button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Gallery button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode CSS hides Season button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Three.js v0.160.0 via importmap",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No body.is-mobile references (regression)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No touch event handlers (regression)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Desktop gate still exists (regression)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Status bar still exists (regression)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Tool dock still exists (regression)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Mode toggle visible in topbar (browser)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic button element found in DOM",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced button element found in DOM",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Body has byd-basic-mode class on load",
+      "status": "PASS",
+      "detail": "Got: byd-basic-mode"
+    },
+    {
+      "name": "Basic mode: Terrain tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Sun tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Underground tab hidden",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Analyze tab hidden",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Pro Tools tab hidden",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Measure tab hidden",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Atmosphere tab hidden",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Basic mode: Export button hidden",
+      "status": "PASS",
+      "detail": "Got: none"
+    },
+    {
+      "name": "Basic mode: Gallery button hidden",
+      "status": "PASS",
+      "detail": "Got: none"
+    },
+    {
+      "name": "Advanced mode: body has byd-advanced-mode",
+      "status": "PASS",
+      "detail": "Got: byd-advanced-mode"
+    },
+    {
+      "name": "Advanced mode: Terrain tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Sun tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Underground tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Analyze tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Pro Tools tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Measure tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Atmosphere tab visible",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Advanced mode: Export button visible",
+      "status": "PASS",
+      "detail": "Got: flex"
+    },
+    {
+      "name": "Advanced mode persists in localStorage",
+      "status": "PASS",
+      "detail": "Got: advanced"
+    },
+    {
+      "name": "Basic mode persists in localStorage",
+      "status": "PASS",
+      "detail": "Got: basic"
+    },
+    {
+      "name": "M shortcut switches to advanced mode",
+      "status": "PASS",
+      "detail": "Got: byd-advanced-mode"
+    },
+    {
+      "name": "M shortcut switches back to basic mode",
+      "status": "PASS",
+      "detail": "Got: byd-basic-mode"
+    },
+    {
+      "name": "V shortcut works in basic mode (3D view)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "B shortcut works in basic mode (Bird's-eye)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "V shortcut works in advanced mode (3D view)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Ctrl+Z shortcut works in advanced mode (no crash)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "No console errors on page load",
+      "status": "PASS",
+      "detail": "Errors: []"
+    },
+    {
+      "name": "No console errors after mode switching",
+      "status": "PASS",
+      "detail": "Errors: []"
+    },
+    {
+      "name": "Sidebar panel renders correctly",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Topbar renders correctly",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "3D canvas renders correctly",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Tool dock renders correctly",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Properties panel exists in DOM",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Properties panel has correct structure",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Status bar renders correctly",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "FPS >= 30",
+      "status": "PASS",
+      "detail": "FPS: 60"
+    },
+    {
+      "name": "Command palette opens in basic mode",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Command palette hides Underground in basic mode",
+      "status": "PASS",
+      "detail": "Found 0 items"
+    },
+    {
+      "name": "Command palette shows Underground in advanced mode",
+      "status": "PASS",
+      "detail": "Found 1 items"
+    },
+    {
+      "name": "Mode persists across page reload (advanced)",
+      "status": "PASS",
+      "detail": "Got: byd-advanced-mode"
+    },
+    {
+      "name": "Total console errors check",
+      "status": "PASS",
+      "detail": "Errors: []"
+    }
+  ]
+}
