@@ -455,8 +455,12 @@ display: none !important;
 .btn-delete:hover { background: var(--danger-light); }
 .btn-duplicate { color: var(--text); }
 .btn-duplicate:hover { background: var(--hover-bg); }
-#wizard { position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z); display: flex; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
-.wizard-panel { background: white; border-radius: 16px; padding: 36px 40px; max-width: 540px; width: 90%; box-shadow: var(--shadow-lg); }
+#wizard { position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z); display: flex; align-items: center; justify-content: center; }
+.wizard-panel {
+  background: white; border-radius: 16px; padding: 36px 40px;
+  max-width: 540px; width: 90%; box-shadow: var(--shadow-lg);
+  position: relative; z-index: 1;
+}
 .wizard-panel h1 { font-size: 24px; margin-bottom: 6px; color: var(--text); }
 .wizard-panel .subtitle { color: var(--text-muted); margin-bottom: 28px; font-size: 14px; }
 .wizard-step-num { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -477,7 +481,7 @@ display: none !important;
 .wizard-dims input { flex: 1; padding: 10px 12px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 15px; font-family: inherit; }
 .wizard-dims label { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; display: block; }
 .wizard-dims .dim-field { flex: 1; }
-.wizard-btn { background: var(--primary); color: white; border: none; padding: 12px 32px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; width: 100%; transition: background 0.2s; }
+.wizard-btn { background: var(--primary); color: white; border: none; padding: 12px 32px; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; width: 100%; transition: background 0.2s; position: relative; }
 .wizard-btn:hover { background: var(--primary-dark); }
 .wizard-back { background: none; color: var(--text-muted); border: none; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 12px; }
 #toast { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: var(--text-dark); color: white; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 13px; z-index: 150; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
@@ -1324,7 +1328,6 @@ select:focus-visible,
   to { opacity: 1; }
 }
 .help-panel,
-.wizard-panel,
 .share-panel,
 .gallery-modal-content,
 #cmd-palette-box {
@@ -6054,32 +6057,6 @@ try { return localStorage.getItem('backyard-design-autosave') ? '<button class="
 </div>
 <button class="wizard-btn" id="wizard-next">Next Step →</button>
 `;
-panel.querySelectorAll('.shape-card').forEach(card => {
-card.addEventListener('click', () => {
-panel.querySelectorAll('.shape-card').forEach(c => c.classList.remove('selected'));
-card.classList.add('selected');
-wizardData.shape = card.dataset.shape;
-});
-});
-const continueBtn = document.getElementById('wizard-continue');
-if (continueBtn) {
-continueBtn.addEventListener('click', () => {
-try {
-const saved = localStorage.getItem('backyard-design-autosave');
-if (saved) {
-const data = JSON.parse(saved);
-document.getElementById('wizard').style.display = 'none';
-initWithYard(data.yard || wizardData);
-loadDesign(data);
-showToast('Previous design restored!', 'success');
-}
-} catch(e) { showToast('Could not restore previous design', 'error'); }
-});
-}
-document.getElementById('wizard-next').addEventListener('click', () => {
-wizardStep = 1;
-renderWizard();
-});
 } else if (wizardStep === 1) {
 panel.innerHTML = `
 <div class="wizard-step-num">Step 2 of 2</div>
@@ -6100,24 +6077,86 @@ panel.innerHTML = `
 <button class="wizard-btn" id="wizard-finish">Start Designing! →</button>
 <button class="wizard-back" id="wizard-back">← Back</button>
 `;
-document.getElementById('qs-small').addEventListener('click', e => { e.preventDefault(); document.getElementById('wiz-width').value = 30; document.getElementById('wiz-depth').value = 50; });
-document.getElementById('qs-med').addEventListener('click', e => { e.preventDefault(); document.getElementById('wiz-width').value = 50; document.getElementById('wiz-depth').value = 100; });
-document.getElementById('qs-large').addEventListener('click', e => { e.preventDefault(); document.getElementById('wiz-width').value = 75; document.getElementById('wiz-depth').value = 150; });
-document.getElementById('wizard-back').addEventListener('click', () => { wizardStep = 0; renderWizard(); });
-document.getElementById('wizard-finish').addEventListener('click', () => {
-let w = parseInt(document.getElementById('wiz-width').value);
-let d = parseInt(document.getElementById('wiz-depth').value);
-if (!Number.isFinite(w) || w < 10) w = 50;
-if (!Number.isFinite(d) || d < 10) d = 100;
-w = Math.min(500, w);
-d = Math.min(500, d);
-wizardData.width = w;
-wizardData.depth = d;
-document.getElementById('wizard').style.display = 'none';
-initWithYard(wizardData);
-});
 }
 }
+// Event delegation for wizard buttons — uses mousedown+mouseup at the panel level
+// to bypass any stacking/interception issues with innerHTML-created elements.
+(function setupWizardClicks() {
+  const panel = document.getElementById('wizard-panel');
+  if (!panel) return;
+  let downTarget = null;
+  panel.addEventListener('mousedown', function(e) {
+    downTarget = e.target;
+  });
+  panel.addEventListener('mouseup', function(e) {
+    // Find what was clicked from the mouseup target
+    const shapeCard = e.target.closest('.shape-card');
+    if (shapeCard) {
+      this.querySelectorAll('.shape-card').forEach(c => c.classList.remove('selected'));
+      shapeCard.classList.add('selected');
+      wizardData.shape = shapeCard.dataset.shape;
+      return;
+    }
+    if (e.target.closest('#wizard-continue')) {
+      try {
+        const saved = localStorage.getItem('backyard-design-autosave');
+        if (saved) {
+          const data = JSON.parse(saved);
+          document.getElementById('wizard').style.display = 'none';
+          initWithYard(data.yard || wizardData);
+          loadDesign(data);
+          showToast('Previous design restored!', 'success');
+        }
+      } catch(err) { showToast('Could not restore previous design', 'error'); }
+      return;
+    }
+    if (e.target.closest('#wizard-next')) {
+      wizardStep = 1;
+      renderWizard();
+      return;
+    }
+    if (e.target.closest('#wizard-back')) {
+      wizardStep = 0;
+      renderWizard();
+      return;
+    }
+    if (e.target.closest('#wizard-finish')) {
+      let w = parseInt(document.getElementById('wiz-width').value);
+      let d = parseInt(document.getElementById('wiz-depth').value);
+      if (!Number.isFinite(w) || w < 10) w = 50;
+      if (!Number.isFinite(d) || d < 10) d = 100;
+      w = Math.min(500, w);
+      d = Math.min(500, d);
+      wizardData.width = w;
+      wizardData.depth = d;
+      document.getElementById('wizard').style.display = 'none';
+      initWithYard(wizardData);
+      return;
+    }
+    const qs = e.target.closest('[id^="qs-"]');
+    if (qs) {
+      e.preventDefault();
+      const w = document.getElementById('wiz-width');
+      const d = document.getElementById('wiz-depth');
+      if (qs.id === 'qs-small') { w.value = 30; d.value = 50; }
+      else if (qs.id === 'qs-med') { w.value = 50; d.value = 100; }
+      else if (qs.id === 'qs-large') { w.value = 75; d.value = 150; }
+      return;
+    }
+  });
+  // Also keep click handler as fallback
+  panel.addEventListener('click', function(e) {
+    if (e.target.closest('#wizard-next')) { wizardStep = 1; renderWizard(); return; }
+    if (e.target.closest('#wizard-back')) { wizardStep = 0; renderWizard(); return; }
+    if (e.target.closest('.shape-card')) {
+      const card = e.target.closest('.shape-card');
+      this.querySelectorAll('.shape-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      wizardData.shape = card.dataset.shape;
+      return;
+    }
+  });
+})();
 function initWithYard(data) {
 const yardWidth = Math.max(10, Math.min(500, data.width || 50));
 const yardDepth = Math.max(10, Math.min(500, data.depth || 100));
