@@ -16886,6 +16886,46 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   });
 })();
 
+// ===== GLOBAL SCOPE EXPORTS =====
+// The main script is type="module", so all function declarations are module-scoped
+// and NOT accessible from inline event handlers or the global scope. This caused
+// every button that called functions like initWithYard(), renderWizard(), switchView()
+// to silently fail with ReferenceError. Expose every function/variable that event
+// handlers reference to window.
+window.initScene = initScene;
+window.initWithYard = initWithYard;
+window.renderWizard = renderWizard;
+window.wizardStep = wizardStep;
+window.wizardData = wizardData;
+window.switchView = switchView;
+window.applyViewMode = applyViewMode;
+window.startTour = typeof startTour !== 'undefined' ? startTour : (Onboarding ? Onboarding.startTour : undefined);
+window.loadDesign = typeof loadDesign !== 'undefined' ? loadDesign : undefined;
+window.saveDesignAs = saveDesignAs;
+window.addObject = addObject;
+window.removeObject = removeObject;
+window.selectObject = selectObject;
+window.deselectObject = deselectObject;
+window.showProperties = showProperties;
+window.hideProperties = hideProperties;
+window.requestRender = requestRender;
+window.animate = animate;
+window.onResize = onResize;
+window.state = state;
+window.scene = scene;
+window.camera3D = camera3D;
+window.camera2D = camera2D;
+window.controls = controls;
+window.renderer = renderer;
+window.yardMesh = yardMesh;
+window.solidEarthMesh = solidEarthMesh;
+window.gridHelper = gridHelper;
+window.boundaryLines = boundaryLines;
+window.activeCamera = activeCamera;
+window.showToast = showToast;
+window.Onboarding = Onboarding;
+window.startProgressiveHints = startProgressiveHints;
+
 initMode(); // Sprint 17
 </script>
 <button id="sculpt-restore-pill" aria-label="Restore terrain sculpt panel">Sculpt &#9656;</button>
