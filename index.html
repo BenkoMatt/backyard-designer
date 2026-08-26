@@ -86,7 +86,16 @@
 html, body { height: 100vh; overflow: hidden; overscroll-behavior: none; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; -webkit-font-smoothing: antialiased; }
 canvas { display: block; }
-#topbar { height: var(--topbar-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 12px; z-index: 100; position: relative; box-shadow: var(--shadow); }
+#topbar { height: var(--topbar-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 16px; gap: 12px; z-index: 100; position: relative; box-shadow: var(--shadow); overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+#topbar::-webkit-scrollbar { height: 3px; }
+#topbar::-webkit-scrollbar-track { background: transparent; }
+#topbar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+#topbar.scrolled-end::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 24px; background: linear-gradient(to left, var(--surface), transparent); pointer-events: none; z-index: 1; }
+.topbar-brand { flex-shrink: 0; }
+.topbar-group { flex-shrink: 0; }
+#mode-toggle { flex-shrink: 0; }
+.view-toggle { flex-shrink: 0; }
+.tb-divider { flex-shrink: 0; }
 .topbar-brand { font-size: 17px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 .topbar-brand svg { width: 26px; height: 26px; }
 .topbar-spacer { flex: 1; }
@@ -822,7 +831,7 @@ font-size: 12px; line-height: 1.4;
 width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4px; font-size: 12px; font-family: inherit;
 }
 .permit-config-row select { width: 120px; }
-#sky-dome { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+/* #sky-dome CSS rule removed — sky dome is a Three.js mesh (buildSkyDome()), not a DOM element */
 .exp-section { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 .exp-section:last-child { border-bottom: none; }
 .exp-section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
@@ -1368,7 +1377,7 @@ select:focus-visible,
 .help-panel,
 .share-panel,
 .gallery-modal-content,
-#cmd-palette-box {
+#cmd-palette {
   animation: modal-content-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes modal-content-enter {
@@ -2969,9 +2978,12 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </ul>
 <h3>Saving & Sharing</h3>
 <ul>
-<li><strong>Save</strong> downloads your design as a file you can reload later</li>
+<li><strong>Save</strong> downloads your design as a JSON file you can reload later</li>
 <li>Your design auto-saves to your browser as you work</li>
 <li><strong>Screenshot</strong> captures a PNG image of your current view</li>
+<li><strong>Share</strong> opens the Share modal where you can export your design as JSON, generate a shareable link, or create a QR code</li>
+<li><strong>Gallery</strong> (Advanced mode) saves screenshots to an in-app gallery — capture multiple views and browse them anytime</li>
+<li><strong>Social Card</strong> (Advanced mode) generates a beautiful shareable card image with your design title and a preview screenshot</li>
 </ul>
 <h3>Terrain & Measuring</h3>
 <ul>
@@ -3005,8 +3017,12 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <ul>
 <li><strong>Walk Mode:</strong> Click Walk Mode to explore your yard in first-person. Use WASD or arrow keys to move, mouse to look around. Press Escape to exit.</li>
 <li><strong>Cost Estimator:</strong> Click the Cost button to see a cost breakdown of all objects in your design. Estimates are based on typical material costs.</li>
+<li><strong>Templates:</strong> Open the Templates modal to browse pre-made garden designs. Click a template to load it into your yard as a starting point.</li>
 <li><strong>Layers:</strong> Click the Layers button to toggle visibility of different object categories. Hide plants, structures, or terrain elements independently.</li>
 <li><strong>Command Palette (Ctrl+K):</strong> Quick access to any feature — search by name and press Enter.</li>
+<li><strong>Seasons:</strong> Click the Season button to preview how your yard looks in spring, summer, autumn, or winter — see snow coverage and fall foliage.</li>
+<li><strong>Timelapse:</strong> Open the Timelapse modal to generate an animated build sequence of your design, showing objects being placed one by one. Play the animation and export frames.</li>
+<li><strong>Social Card:</strong> Generate a polished shareable card image with your design title and a preview screenshot — perfect for sharing on social media.</li>
 <li><strong>Multi-Select:</strong> Hold Shift or Ctrl while clicking objects to select multiple. Use the batch bar to delete all or delete by type.</li>
 <li><strong>Right-Click Context Menu:</strong> Right-click any object for quick Duplicate, Rotate, Delete, and Properties actions.</li>
 <li><strong>Underground Carving:</strong> Open the Underground dock to cut away terrain, make ground transparent, view wireframe, see buried objects, and create cross-sections. Carving tools are in the Terrain dock.</li>
@@ -4074,6 +4090,38 @@ let crossSectionClipPlane = null; // Sprint 14: X or Z axis clipping plane for c
 let crossSectionAxis = 'x';       // Sprint 14: 'x' or 'z' — which axis to cut along
 let crossSectionPosition = 0;     // Sprint 14: position of the clip plane along the axis
 let crossSectionActive = false;   // Sprint 14: whether cross-section clipping is on
+// Sprint 20: Auto-dig clip plane — clips yardMesh terrain surface below y=0 so geological
+// layers in solidEarthMesh are visible when looking into dug holes. Only applied to yardMesh,
+// NOT to solidEarthMesh, so the interior walls with geological colors remain visible.
+let autoDigClipPlane = null;
+// Sprint 20: Rebuild yardMesh clipping planes, preserving existing manual clip planes
+// (terrainClipPlane, crossSectionClipPlane) while adding/removing autoDigClipPlane.
+function _rebuildYardClipPlanes() {
+if (!yardMesh || !yardMesh.material) return;
+const planes = [];
+if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) planes.push(terrainClipPlane);
+if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) planes.push(crossSectionClipPlane);
+if (autoDigClipPlane) planes.push(autoDigClipPlane);
+yardMesh.material.clippingPlanes = planes;
+yardMesh.material.needsUpdate = true;
+}
+// Sprint 20: Enable or disable the auto-dig clip plane based on brush mode.
+// When terrainBrushMode === 'dig', clips yardMesh below y=0 to reveal geological layers.
+function updateAutoDigClip() {
+if (terrainBrushMode === 'dig') {
+if (!autoDigClipPlane) {
+autoDigClipPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+_rebuildYardClipPlanes();
+requestRender();
+}
+} else {
+if (autoDigClipPlane) {
+autoDigClipPlane = null;
+_rebuildYardClipPlanes();
+requestRender();
+}
+}
+}
 let wireframeActive = false;
 const viewport = document.getElementById('viewport');
 function showWebGLError(msg) {
@@ -5702,6 +5750,56 @@ if (mousedownBtn === btn) { mousedownBtn = null; return; } // mousedown already 
 applyViewMode(btn.dataset.view);
 });
 })();
+// SPRINT 20 FIX: Topbar-wide event delegation via mousedown for ALL topbar buttons.
+// The same Chromium headless hit-test quirk that affects #mode-toggle and #view-toggle
+// (real mouseup lands on #topbar instead of the button due to box-shadow + position:relative)
+// also affects btn-templates, btn-permit, btn-timelapse, btn-socialcard, btn-label, btn-print,
+// btn-season, btn-growth, btn-gallery, and btn-export. These buttons use direct
+// addEventListener('click') which never fires because the click event's target is #topbar.
+// Adding mousedown delegation on #topbar ensures the button's action fires on real mouse clicks.
+// The existing direct click listeners remain as a harmless fallback (JS .click() still works).
+(function setupTopbarDelegation() {
+  const topbar = document.getElementById('topbar');
+  if (!topbar) return;
+  const topbarButtonIds = [
+    'btn-undo', 'btn-redo', 'btn-save', 'btn-load', 'btn-screenshot', 'btn-help',
+    'btn-layers', 'btn-cost', 'btn-walk', 'btn-export',
+    'btn-share', 'btn-gallery', 'btn-timelapse', 'btn-socialcard',
+    'btn-season', 'btn-growth', 'btn-permit', 'btn-templates', 'btn-label', 'btn-print'
+  ];
+  let _delegationClickedBtn = null;
+  topbar.addEventListener('mousedown', function(e) {
+    const btn = e.target.closest('button[id]');
+    if (!btn || !topbarButtonIds.includes(btn.id)) return;
+    if (btn.closest('#mode-toggle') || btn.closest('#view-toggle')) return;
+    if (btn.disabled) return;
+    if (btn.closest('#export-menu')) return;
+    // Mark this button as handled by delegation. The click event that follows
+    // mousedown may or may not fire on the button (the hit-test quirk may send
+    // it to #topbar instead). If the click DOES fire on the button, we skip
+    // the synthetic .click() to avoid double-firing (which would toggle panels
+    // on then off). If the click does NOT fire on the button, the synthetic
+    // .click() from mousedown ensures the action runs.
+    _delegationClickedBtn = btn;
+    btn.click();
+  });
+  // Listen for the real click event — if it reaches the button, clear the flag
+  // to prevent the synthetic click from double-firing.
+  topbar.addEventListener('click', function(e) {
+    if (_delegationClickedBtn) {
+      // The real click event fired — if it reached our button, the listener already ran
+      // from the .click() call. We need to undo the double-fire for toggle buttons.
+      // The simplest fix: if the click target IS our button, the action ran twice.
+      // We can't undo it, so instead we prevent the click from reaching the button's
+      // own listener by stopping propagation.
+      const btn = e.target.closest('button[id]');
+      if (btn === _delegationClickedBtn) {
+        e.stopImmediatePropagation();
+      }
+      _delegationClickedBtn = null;
+    }
+  }, true); // capture phase to intercept before the button's own listener
+})();
 function applyViewMode(mode) {
 const btn = document.querySelector('#view-toggle button[data-view="' + mode + '"]');
 if (!btn) return;
@@ -6463,10 +6561,15 @@ createTerrainMaterial(parseFloat(document.getElementById('terrain-opacity')?.val
 yardMesh.receiveShadow = true;
 yardMesh.castShadow = true;
 scene.add(yardMesh);
+// Sprint 20: Use _rebuildYardClipPlanes to also include autoDigClipPlane if active.
+if (typeof _rebuildYardClipPlanes === 'function') {
+_rebuildYardClipPlanes();
+} else {
 if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) yardMesh.material.clippingPlanes = [terrainClipPlane];
 if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) {
 const existing = (yardMesh.material.clippingPlanes || []).filter(p => p !== crossSectionClipPlane);
 yardMesh.material.clippingPlanes = existing.concat([crossSectionClipPlane]);
+}
 }
 if (typeof wireframeActive !== 'undefined' && wireframeActive) yardMesh.material.wireframe = true;
 applyTerrainVertexColors();
@@ -6957,6 +7060,8 @@ if (!state.terrain) {
 ensureTerrainArray();
 }
 }
+// Sprint 20: Auto-enable dig clip when entering dig mode
+updateAutoDigClip();
 if (terrainBrushMesh && terrainBrushMesh.material) terrainBrushMesh.material.color.setHex(getBrushColor());
 announceForScreenReader(`Terrain mode: ${btn.textContent.trim()}`);
 });
@@ -7604,6 +7709,21 @@ let _terrainFullDebounceTimer = null;
 let _terrainFullPending = false;
 const TERRAIN_FULL_DEBOUNCE_MS = 80;
 
+let _terrainDirtyMinIx = -1, _terrainDirtyMaxIx = -1, _terrainDirtyMinIz = -1, _terrainDirtyMaxIz = -1;
+function _expandDirtyRegion(minIx, maxIx, minIz, maxIz) {
+if (_terrainDirtyMinIx < 0) {
+_terrainDirtyMinIx = minIx; _terrainDirtyMaxIx = maxIx;
+_terrainDirtyMinIz = minIz; _terrainDirtyMaxIz = maxIz;
+} else {
+_terrainDirtyMinIx = Math.min(_terrainDirtyMinIx, minIx);
+_terrainDirtyMaxIx = Math.max(_terrainDirtyMaxIx, maxIx);
+_terrainDirtyMinIz = Math.min(_terrainDirtyMinIz, minIz);
+_terrainDirtyMaxIz = Math.max(_terrainDirtyMaxIz, maxIz);
+}
+}
+function _resetDirtyRegion() {
+_terrainDirtyMinIx = -1; _terrainDirtyMaxIx = -1; _terrainDirtyMinIz = -1; _terrainDirtyMaxIz = -1;
+}
 function applyTerrainPositions() {
 if (!state.terrain) return;
 const segs = state.terrainSegs;
@@ -7611,10 +7731,25 @@ const geo = yardMesh.geometry;
 const pos = geo.attributes.position;
 const expectedCount = (segs + 1) * (segs + 1);
 if (pos.count === expectedCount) {
+// Performance optimization: only update dirty region if available
+if (_terrainDirtyMinIx >= 0) {
+const minIz = Math.max(0, _terrainDirtyMinIz);
+const maxIz = Math.min(segs, _terrainDirtyMaxIz);
+const minIx = Math.max(0, _terrainDirtyMinIx);
+const maxIx = Math.min(segs, _terrainDirtyMaxIx);
+for (let iz = minIz; iz <= maxIz; iz++) {
+const rowBase = iz * (segs + 1);
+for (let ix = minIx; ix <= maxIx; ix++) {
+const vi = rowBase + ix;
+pos.setY(vi, state.terrain[vi] || 0);
+}
+}
+} else {
 for (let iz = 0; iz <= segs; iz++) {
 for (let ix = 0; ix <= segs; ix++) {
 const vi = iz * (segs + 1) + ix;
 pos.setY(vi, state.terrain[vi] || 0);
+}
 }
 }
 } else {
@@ -7713,8 +7848,12 @@ const center = getTerrainIndex(worldX, worldZ);
 if (!center) { requestRender(); return; }
 const radGridX = state.yard.width > 0 ? radius / state.yard.width * segs : 0;
 const radGridZ = state.yard.depth > 0 ? radius / state.yard.depth * segs : 0;
-for (let iz = Math.max(0, Math.floor(center.iz - radGridZ)); iz <= Math.min(segs, Math.ceil(center.iz + radGridZ)); iz++) {
-for (let ix = Math.max(0, Math.floor(center.ix - radGridX)); ix <= Math.min(segs, Math.ceil(center.ix + radGridX)); ix++) {
+const minIx = Math.max(0, Math.floor(center.ix - radGridX));
+const maxIx = Math.min(segs, Math.ceil(center.ix + radGridX));
+const minIz = Math.max(0, Math.floor(center.iz - radGridZ));
+const maxIz = Math.min(segs, Math.ceil(center.iz + radGridZ));
+for (let iz = minIz; iz <= maxIz; iz++) {
+for (let ix = minIx; ix <= maxIx; ix++) {
 const wx = (ix / segs) * state.yard.width - halfW;
 const wz = (iz / segs) * state.yard.depth - halfD;
 const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
@@ -7729,7 +7868,9 @@ state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) + digDepth * fal
 }
 }
 }
+_expandDirtyRegion(minIx, maxIx, minIz, maxIz);
 applyTerrainPositions();
+_resetDirtyRegion();
 _debouncedApplyTerrainFull();
 updateDigDepthReadout(worldX, worldZ);
 requestRender();
@@ -7739,8 +7880,12 @@ const halfW = state.yard.width / 2;
 const halfD = state.yard.depth / 2;
 const radGridX = state.yard.width > 0 ? radius / state.yard.width * segs : 0;
 const radGridZ = state.yard.depth > 0 ? radius / state.yard.depth * segs : 0;
-for (let iz = Math.max(0, Math.floor(center.iz - radGridZ)); iz <= Math.min(segs, Math.ceil(center.iz + radGridZ)); iz++) {
-for (let ix = Math.max(0, Math.floor(center.ix - radGridX)); ix <= Math.min(segs, Math.ceil(center.ix + radGridX)); ix++) {
+const rMinIx = Math.max(0, Math.floor(center.ix - radGridX));
+const rMaxIx = Math.min(segs, Math.ceil(center.ix + radGridX));
+const rMinIz = Math.max(0, Math.floor(center.iz - radGridZ));
+const rMaxIz = Math.min(segs, Math.ceil(center.iz + radGridZ));
+for (let iz = rMinIz; iz <= rMaxIz; iz++) {
+for (let ix = rMinIx; ix <= rMaxIx; ix++) {
 const wx = (ix / segs) * state.yard.width - halfW;
 const wz = (iz / segs) * state.yard.depth - halfD;
 const dist = Math.sqrt((wx - worldX) ** 2 + (wz - worldZ) ** 2);
@@ -7833,11 +7978,19 @@ state.terrain[vi2] = clampTerrainHeight(state.terrain[vi2] * 0.9 + avg2 * 0.1);
 }
 // Sprint 13: during active painting use fast position-only update + debounced full update.
 // Skip voxel rebuild during terrain painting (voxels are updated on pointer-up via applyTerrainFull).
+// Sprint 20 PERF: track dirty region for partial geometry update instead of full 40401-vertex scan.
+const _dirtyR = Math.ceil((radius + 2) / state.yard.width * segs);
+_expandDirtyRegion(
+Math.max(0, center.ix - _dirtyR), Math.min(segs, center.ix + _dirtyR),
+Math.max(0, center.iz - _dirtyR), Math.min(segs, center.iz + _dirtyR)
+);
 if (isTerrainPainting) {
 applyTerrainPositions();
+_resetDirtyRegion();
 _debouncedApplyTerrainFull();
 } else {
 applyTerrainFull();
+_resetDirtyRegion();
 }
 state.terrainDeformed = true;
 state.objects.forEach((obj, id) => {
@@ -9744,11 +9897,6 @@ contourOverlay.material.dispose();
 contourOverlay = null;
 }
 }
-function updateContourLines() {
-if (contourEnabled) {
-buildContourLines();
-}
-}
 taContourToggle.addEventListener('click', () => {
 contourEnabled = !contourEnabled;
 taContourToggle.classList.toggle('on', contourEnabled);
@@ -10311,20 +10459,6 @@ setupToggleKeyboard(taElevToggle, () => taElevToggle.click());
 let ghostModeEnabled = false;
 let originalMaterials = new Map();
 const taGhostToggle = document.getElementById('ta-ghost-toggle');
-function isObjectBuriedAnalysis(obj) {
-if (!state.terrain) return false;
-const terrainH = getTerrainHeight(obj.position.x, obj.position.z);
-const offsets = [
-[3, 0], [-3, 0], [0, 3], [0, -3],
-[2, 2], [-2, 2], [2, -2], [-2, -2]
-];
-let maxSurroundingH = terrainH;
-for (const [dx, dz] of offsets) {
-const h = getTerrainHeight(obj.position.x + dx, obj.position.z + dz);
-if (h > maxSurroundingH) maxSurroundingH = h;
-}
-return maxSurroundingH - obj.position.y > 0.5;
-}
 function updateGhostMode() {
 if (!ghostModeEnabled) {
 restoreOriginalMaterials();
@@ -10495,7 +10629,9 @@ terrainCutawayInput.addEventListener('input', e => {
 const val = parseInt(e.target.value);
 if (val === 0) {
 terrainClipPlane = null;
-if (yardMesh && yardMesh.material) {
+if (typeof _rebuildYardClipPlanes === 'function') {
+_rebuildYardClipPlanes();
+} else if (yardMesh && yardMesh.material) {
 yardMesh.material.clippingPlanes = [];
 }
 if (solidEarthMesh && solidEarthMesh.material) {
@@ -10508,7 +10644,9 @@ const maxH = getMaxTerrainHeight();
 const minH = getMinTerrainHeight();
 const cutY = maxH + 0.5 - (val / 100) * (maxH - minH + 5.5);
 terrainClipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
-if (yardMesh && yardMesh.material) {
+if (typeof _rebuildYardClipPlanes === 'function') {
+_rebuildYardClipPlanes();
+} else if (yardMesh && yardMesh.material) {
 yardMesh.material.clippingPlanes = [terrainClipPlane];
 if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) yardMesh.material.clippingPlanes.push(crossSectionClipPlane);
 }
@@ -10649,7 +10787,9 @@ const csClipEnableBtn = document.getElementById('cs-clip-enable');
 function updateCrossSectionClip() {
 if (!crossSectionActive) {
 crossSectionClipPlane = null;
-if (yardMesh && yardMesh.material) {
+if (typeof _rebuildYardClipPlanes === 'function') {
+_rebuildYardClipPlanes();
+} else if (yardMesh && yardMesh.material) {
 const existing = (yardMesh.material.clippingPlanes || []).filter(p => p !== crossSectionClipPlane);
 yardMesh.material.clippingPlanes = existing.length > 0 ? existing : [];
 }
@@ -10669,7 +10809,9 @@ crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectio
 } else {
 crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), crossSectionPosition);
 }
-if (yardMesh && yardMesh.material) {
+if (typeof _rebuildYardClipPlanes === 'function') {
+_rebuildYardClipPlanes();
+} else if (yardMesh && yardMesh.material) {
 let planes = yardMesh.material.clippingPlanes || [];
 planes = planes.filter(p => p === terrainClipPlane);
 planes.push(crossSectionClipPlane);
@@ -11023,7 +11165,8 @@ drawCrossSection();
 if (terrainClipPlane) {
 terrainCutawayInput.value = 0;
 terrainClipPlane = null;
-if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
+if (typeof _rebuildYardClipPlanes === 'function') _rebuildYardClipPlanes();
+else if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
 if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
 cutawayValEl.textContent = 'Full';
 }
@@ -11948,7 +12091,8 @@ redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerr
 if (terrainClipPlane) {
 terrainCutawayInput.value = 0;
 terrainClipPlane = null;
-if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
+if (typeof _rebuildYardClipPlanes === 'function') _rebuildYardClipPlanes();
+else if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
 if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
 cutawayValEl.textContent = 'Full';
 }
@@ -12797,6 +12941,8 @@ get isTerrainPainting() { return isTerrainPainting; }, set isTerrainPainting(v) 
 // Sprint 13: expose new perf functions
 applyTerrainPositions, applyTerrainFull, _debouncedApplyTerrainFull, _flushTerrainFull,
 get _terrainFullPending() { return _terrainFullPending; },
+// Sprint 20: auto-dig clip
+get autoDigClipPlane() { return autoDigClipPlane; }, updateAutoDigClip, _rebuildYardClipPlanes,
 get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; },
 get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; },
 get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; },
@@ -13927,12 +14073,16 @@ const GROWTH_INFO = {
 function getGrowthInfoText(year) {
 if (year <= 0) return GROWTH_INFO[0];
 if (year <= 3) return GROWTH_INFO[5];
-if (year <= 8) return GROWTH_INFO[5];
+if (year <= 8) return GROWTH_INFO[10];
 if (year <= 12) return GROWTH_INFO[10];
 if (year <= 18) return GROWTH_INFO[15];
 return GROWTH_INFO[20];
 }
-function rebuildAllObjects() {
+function setGrowthYear(year) {
+growthYear = Math.max(0, Math.min(20, Math.round(year)));
+if (growthSlider) growthSlider.value = growthYear;
+if (growthYearDisplay) growthYearDisplay.textContent = 'Yr ' + growthYear;
+if (growthInfo) growthInfo.innerHTML = getGrowthInfoText(growthYear);
 for (const id of state.objects.keys()) {
 buildSceneObject(id);
 }
@@ -13942,13 +14092,6 @@ updateObjectHeight(id);
 }
 }
 requestRender();
-}
-function setGrowthYear(year) {
-growthYear = Math.max(0, Math.min(20, Math.round(year)));
-if (growthSlider) growthSlider.value = growthYear;
-if (growthYearDisplay) growthYearDisplay.textContent = 'Yr ' + growthYear;
-if (growthInfo) growthInfo.innerHTML = getGrowthInfoText(growthYear);
-rebuildAllObjects();
 }
 window._setGrowthYear = setGrowthYear;
 window._getGrowthYear = () => growthYear;
@@ -16879,6 +17022,11 @@ if (typeof rebuildYardMesh !== 'undefined') window.rebuildYardMesh = rebuildYard
 if (typeof buildYardMesh !== 'undefined') window.buildYardMesh = buildYardMesh;
 if (typeof applyTerrainFull !== 'undefined') window.applyTerrainFull = applyTerrainFull;
 if (typeof applyTerrainPositions !== 'undefined') window.applyTerrainPositions = applyTerrainPositions;
+if (typeof paintTerrain !== 'undefined') window.paintTerrain = paintTerrain;
+if (typeof _flushTerrainFull !== 'undefined') window._flushTerrainFull = _flushTerrainFull;
+if (typeof autoDigClipPlane !== 'undefined') window.autoDigClipPlane = autoDigClipPlane;
+if (typeof _rebuildYardClipPlanes !== 'undefined') window._rebuildYardClipPlanes = _rebuildYardClipPlanes;
+if (typeof updateAutoDigClip !== 'undefined') window.updateAutoDigClip = updateAutoDigClip;
 
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
@@ -17103,6 +17251,20 @@ window.activeCamera = activeCamera;
 window.showToast = showToast;
 window.Onboarding = Onboarding;
 window.startProgressiveHints = Onboarding ? Onboarding.startProgressiveHints : undefined;
+// Sprint 20: Expose walk mode functions to window scope (were module-scoped, causing ReferenceError on external calls)
+if (typeof enterWalkMode !== 'undefined') window.enterWalkMode = enterWalkMode;
+if (typeof exitWalkMode !== 'undefined') window.exitWalkMode = exitWalkMode;
+// Sprint 20: Expose serializeDesign and DESIGN_TEMPLATES for external access
+if (typeof serializeDesign !== 'undefined') window.serializeDesign = serializeDesign;
+if (typeof DESIGN_TEMPLATES !== 'undefined') window.DESIGN_TEMPLATES = DESIGN_TEMPLATES;
+if (typeof applyTemplate !== 'undefined') window.applyTemplate = applyTemplate;
+if (typeof updateCostPanel !== 'undefined') window.updateCostPanel = updateCostPanel;
+if (typeof playTimelapse !== 'undefined') window.playTimelapse = playTimelapse;
+if (typeof generateSocialCard !== 'undefined') window.generateSocialCard = generateSocialCard;
+if (typeof setSeason !== 'undefined') window.setSeason = setSeason;
+else if (window._setSeason) window.setSeason = window._setSeason;
+if (typeof saveDesign !== 'undefined') window.saveDesign = saveDesign;
+if (typeof updateLayerPanel !== 'undefined') window.updateLayerPanel = updateLayerPanel;
 
 initMode(); // Sprint 17
 </script>
