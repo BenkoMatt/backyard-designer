@@ -486,7 +486,7 @@ display: none !important;
 .wizard-back { background: none; color: var(--text-muted); border: none; padding: 8px 16px; font-size: 13px; cursor: pointer; font-family: inherit; margin-top: 12px; }
 #toast { position: fixed; bottom: 70px; left: 50%; transform: translateX(-50%); background: var(--text-dark); color: white; padding: 10px 20px; border-radius: var(--radius-sm); font-size: 13px; z-index: 150; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
 #toast.visible { opacity: 1; transform: translateX(-50%) translateY(-8px); }
-#help-modal { position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z); display: none; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#help-modal { position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z); display: none; align-items: center; justify-content: center; }
 #help-modal.visible { display: flex; }
 .help-panel { background: white; border-radius: 16px; padding: 32px 36px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: var(--shadow-lg); }
 .help-panel h2 { font-size: 20px; margin-bottom: 16px; color: var(--primary); }
@@ -565,7 +565,7 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 .sun-play-btn { background: var(--sun); color: white; border: none; padding: 6px 10px; border-radius: var(--radius-sm); font-size: 12px; cursor: pointer; font-family: inherit; }
 .sun-play-btn:hover { background: var(--primary-dark); }
 .sun-time-display { font-weight: 700; color: var(--primary); min-width: 48px; text-align: right; }
-#share-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#share-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); }
 #share-modal.visible { display: flex; }
 .share-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 24px; max-width: 340px; width: 90%; text-align: center; }
 .share-panel h2 { font-size: 18px; margin-bottom: 6px; color: var(--text); }
@@ -813,7 +813,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 #vr-btn-container.available { display: inline-flex; }
 #atmosphere-badge { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: rgba(255,255,255,0.9); padding: 4px 12px; border-radius: 16px; font-size: 11px; z-index: 15; display: none; pointer-events: none; }
 #atmosphere-badge.visible { display: block; }
-#templates-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#templates-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); }
 #templates-modal.visible { display: flex; }
 .templates-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 28px; max-width: 680px; width: 90%; max-height: 85vh; overflow-y: auto; }
 .templates-panel h2 { font-size: 20px; margin-bottom: 4px; color: var(--text); }
@@ -830,7 +830,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 .templates-close button:hover { background: var(--border); }
 .templates-confirm { background: rgba(0,0,0,0.6); color: white; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: none; }
 .templates-confirm.visible { display: block; }
-#label-edit-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#label-edit-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); }
 #label-edit-modal.visible { display: flex; }
 .label-edit-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 24px; max-width: 380px; width: 90%; }
 .label-edit-panel h3 { font-size: 16px; margin-bottom: 12px; color: var(--text); }
@@ -857,7 +857,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 #compass-label-s { position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); font-size: 9px; color: var(--text-muted); font-family: inherit; }
 #compass-label-e { position: absolute; right: 3px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-family: inherit; }
 #compass-label-w { position: absolute; left: 3px; top: 50%; transform: translateY(-50%); font-size: 9px; color: var(--text-muted); font-family: inherit; }
-#gallery-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: flex-start; justify-content: center; z-index: var(--modal-z); overflow-y: auto; padding: 20px; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#gallery-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: flex-start; justify-content: center; z-index: var(--modal-z); overflow-y: auto; padding: 20px; }
 #gallery-modal.visible { display: flex; }
 .gallery-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); max-width: 900px; width: 100%; padding: 24px; margin: auto; }
 .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
@@ -882,7 +882,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 .gallery-save-btn { padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; cursor: pointer; font-family: inherit; }
 .gallery-save-btn:hover { background: var(--primary-dark); }
 .btn-gallery {  }
-#timelapse-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#timelapse-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); }
 #timelapse-modal.visible { display: flex; }
 .timelapse-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 24px; max-width: 520px; width: 90%; text-align: center; }
 .timelapse-panel h2 { margin: 0 0 8px 0; font-size: 22px; color: var(--text); }
@@ -892,7 +892,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 .timelapse-progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s; }
 .timelapse-stage-label { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; min-height: 20px; }
 .timelapse-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-#socialcard-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+#socialcard-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); }
 #socialcard-modal.visible { display: flex; }
 .socialcard-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 24px; max-width: 640px; width: 90%; }
 .socialcard-panel h2 { margin: 0 0 8px 0; font-size: 22px; color: var(--text); text-align: center; }
@@ -912,7 +912,7 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 #cmd-palette-overlay {
   position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z);
   display: none; align-items: flex-start; justify-content: center;
-  padding-top: 120px; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  padding-top: 120px;
 }
 #cmd-palette-overlay.visible { display: flex; }
 #cmd-palette {
@@ -1070,14 +1070,14 @@ contain-intrinsic-size: 300px 200px;
 /* --- Welcome prompt modal --- */
 #welcome-prompt {
   position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z);
-  display: none; align-items: center; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
 }
 #welcome-prompt.visible { display: flex; }
 .welcome-prompt-panel {
   background: var(--surface); border-radius: var(--radius); padding: 40px 44px; max-width: 520px; width: 90%;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; animation: wpFadeIn 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center;
 }
-@keyframes wpFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes wpFadeIn { from { opacity: 0; } to { opacity: 1; } }
 .welcome-prompt-panel h2 { font-size: 26px; margin-bottom: 8px; color: var(--text); }
 .welcome-prompt-panel .wp-subtitle { color: var(--text-muted); font-size: 15px; margin-bottom: 32px; }
 .welcome-prompt-panel .wp-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
@@ -1088,7 +1088,7 @@ contain-intrinsic-size: 300px 200px;
   font-family: inherit; font-size: 15px; font-weight: 600; color: var(--text);
   background: white; transition: all 0.2s; text-align: left; min-height: 44px;
 }
-.wp-quick-action:hover { border-color: var(--primary); background: var(--hover-bg-primary); transform: translateX(2px); }
+.wp-quick-action:hover { border-color: var(--primary); background: var(--hover-bg-primary); }
 .wp-quick-action .wp-qa-icon { font-size: 24px; flex-shrink: 0; width: 32px; text-align: center; }
 .wp-quick-action .wp-qa-text { flex: 1; }
 .wp-quick-action .wp-qa-desc { font-size: 12px; font-weight: 400; color: var(--text-muted); display: block; margin-top: 2px; }
@@ -1334,8 +1334,8 @@ select:focus-visible,
   animation: modal-content-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes modal-content-enter {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* --- Loading Spinner --- */
@@ -1467,7 +1467,6 @@ button.mi-loading .mi-spinner {
   display: none;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
   animation: modal-backdrop-enter 0.2s ease;
 }
 #confirm-dialog.visible { display: flex; }
@@ -15783,43 +15782,51 @@ const Onboarding = (function() {
     wp.setAttribute('aria-hidden', 'true');
   }
 
-  // Wire up welcome prompt buttons
-  document.getElementById('wp-scratch')?.addEventListener('click', () => {
-    hideWelcomePrompt();
-    markStepComplete('welcome-scratch');
-    // Use default wizard yard
-    showToast('Your empty yard is ready! Click items on the left to add them.');
-    // Start progressive hint system
-    startProgressiveHints();
-  });
-  document.getElementById('wp-template')?.addEventListener('click', () => {
-    hideWelcomePrompt();
-    markStepComplete('welcome-template');
-    // Open the wizard to set up yard, then we'd add a template
-    showToast('Choose your yard shape and size to get started.');
-    startProgressiveHints();
-  });
-  document.getElementById('wp-import')?.addEventListener('click', () => {
-    hideWelcomePrompt();
-    markStepComplete('welcome-import');
-    document.getElementById('btn-load')?.click();
-    showToast('Select a saved design file to import.');
-    startProgressiveHints();
-  });
-  document.getElementById('wp-tour')?.addEventListener('click', () => {
-    hideWelcomePrompt();
-    startTour();
-  });
-  document.getElementById('wp-remind-later')?.addEventListener('click', () => {
-    hideWelcomePrompt();
-    markStepComplete('welcome-remind-later');
-    const s = getState();
-    s.welcomeShown = false; // Reset so it can show again later
-    s.remindLaterAt = Date.now();
-    saveState(s);
-    showToast('No problem! You can take the tour anytime with the 🎓 button.');
-    startProgressiveHints();
-  });
+  // Wire up welcome prompt buttons via event delegation on the container
+  // (bypasses the same stacking/interception issue as the wizard buttons)
+  const wpContainer = document.getElementById('welcome-prompt');
+  if (wpContainer) {
+    wpContainer.addEventListener('click', function(e) {
+      if (e.target.closest('#wp-scratch')) {
+        hideWelcomePrompt();
+        markStepComplete('welcome-scratch');
+        showToast('Your empty yard is ready! Click items on the left to add them.');
+        startProgressiveHints();
+        return;
+      }
+      if (e.target.closest('#wp-template')) {
+        hideWelcomePrompt();
+        markStepComplete('welcome-template');
+        showToast('Choose your yard shape and size to get started.');
+        startProgressiveHints();
+        return;
+      }
+      if (e.target.closest('#wp-import')) {
+        hideWelcomePrompt();
+        markStepComplete('welcome-import');
+        document.getElementById('btn-load')?.click();
+        showToast('Select a saved design file to import.');
+        startProgressiveHints();
+        return;
+      }
+      if (e.target.closest('#wp-tour')) {
+        hideWelcomePrompt();
+        startTour();
+        return;
+      }
+      if (e.target.closest('#wp-remind-later')) {
+        hideWelcomePrompt();
+        markStepComplete('welcome-remind-later');
+        const s = getState();
+        s.welcomeShown = false;
+        s.remindLaterAt = Date.now();
+        saveState(s);
+        showToast('No problem! You can take the tour anytime with the 🎓 button.');
+        startProgressiveHints();
+        return;
+      }
+    });
+  }
 
   // --- Guided Tour ---
   const tourSteps = [
