@@ -1,0 +1,167 @@
+[
+  {
+    "test": "Wizard tip text present in page source",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help modal opens (btn-help click)",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Alt+Tab documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Terrain keys 1-6 documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Brush size [/] documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: X toggle documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: M mode toggle documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Underground flow: Excavate button",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Go Underground documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Dock collapsible sections documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Geological layers documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Help content: Dig brush key 5 documented",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Escape closes help modal",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Key 4 selects Erode brush (help says 1-6 = brush modes)",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Key 4 auto-opens Terrain dock",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Key [ decreases brush size (7 ft after 8)",
+    "status": "PASS",
+    "evidence": "7 ft"
+  },
+  {
+    "test": "Key ] increases brush size (back to 8 ft)",
+    "status": "PASS",
+    "evidence": "8 ft"
+  },
+  {
+    "test": "Key 5 selects Dig brush (docs say Dig = 5)",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "X toggles Terrain dock closed",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "X toggles Terrain dock open again",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "B switches to Bird's-eye (2D)",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "V switches to 3D view",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Alt+Tab cycles placed objects (SR announce)",
+    "status": "PASS",
+    "evidence": "Selected Privacy Fence"
+  },
+  {
+    "test": "Ctrl+K opens command palette",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Palette 'Terrain Sculpting' entry (registry shortcut T)",
+    "status": "PASS",
+    "evidence": "\u26f0\ufe0f\nTerrain Sculpting\nT"
+  },
+  {
+    "test": "Excavate button opens Underground View dock",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Cutaway slider present in Underground panel",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Go Underground button activates underground view",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Depth gauge overlay appears underground",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Terrain dock 'Carving' accordion expands on header click",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Carving Tools section expands on header click",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "Carving Tools section collapses on second click",
+    "status": "PASS",
+    "evidence": ""
+  },
+  {
+    "test": "No page errors during session",
+    "status": "PASS",
+    "evidence": ""
+  }
+]

@@ -1770,7 +1770,7 @@ button.mi-loading .mi-spinner {
 <a href="#viewport" class="skip-link">Skip to 3D design canvas</a>
 
 <!-- SPRINT 8: Screen reader description of the 3D viewport -->
-<div id="viewport-desc" class="sr-only" aria-hidden="true">This is an interactive 3D backyard design canvas. Use keyboard shortcuts: Arrow keys move selected objects, Delete removes selected object, Ctrl+Z undoes, Ctrl+Shift+Z or Ctrl+Y redoes, Escape deselects or closes panels, Alt+Tab cycles through placed objects.</div>
+<div id="viewport-desc" class="sr-only" aria-hidden="true">This is an interactive 3D backyard design canvas. Use keyboard shortcuts: Arrow keys move selected objects, Delete removes selected object, Ctrl+Z undoes, Ctrl+Shift+Z or Ctrl+Y redoes, Escape deselects or closes panels, Ctrl+D duplicates the selected object, Ctrl+S saves your design, Ctrl+K opens the command palette, Alt+Tab cycles through placed objects.</div>
 
 <div id="topbar">
 <div class="topbar-brand">
@@ -3097,7 +3097,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </ul>
 <h3>Terrain & Measuring</h3>
 <ul>
-<li><strong>Terrain:</strong> Click the Terrain button, then click-drag on the ground to raise/excavate/smooth the surface to match slopes and grade changes</li>
+<li><strong>Terrain:</strong> Click the Terrain button (or press T to open it, X to toggle it), then click-drag on the ground to sculpt. Six brush modes — Raise, Lower (Excavate), Smooth, Erode, Dig, Fill — switch with keys <strong>1</strong>–<strong>6</strong>; press <strong>[</strong> / <strong>]</strong> to change brush size (1–30 ft)</li>
 <li>Adjust brush size and strength in the panel that appears. Use <strong>Precision Mode</strong> for fine adjustments (brush limited to 10 ft, strength to 0.2)</li>
 <li>Objects automatically follow the terrain height when you move them</li>
 <li><strong>Tape Measure:</strong> Click two points to measure the distance between them</li>
@@ -3108,9 +3108,15 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </ul>
 <h3>Keyboard Shortcuts</h3>
 <p style="font-size:13px;line-height:1.6;color:var(--text);margin-bottom:12px;">Press <strong>?</strong> or <strong>F1</strong> (or click <strong>⌨ Shortcuts</strong> in the top bar) for the complete Keyboard Shortcuts guide — every key for terrain, camera, editing, files, and modes, organized by category.</p>
+<ul>
+<li><strong>Ctrl+K</strong> — Command Palette (search any feature)</li>
+<li><strong>Ctrl+Z</strong> — Undo • <strong>Ctrl+Y</strong> / <strong>Ctrl+Shift+Z</strong> — Redo • <strong>Ctrl+D</strong> — Duplicate • <strong>Ctrl+A</strong> — Select All (Advanced)</li>
+<li><strong>Alt+Tab</strong> — Cycle Through Objects • <strong>Shift+Alt+Tab</strong> — Reverse</li>
+<li><strong>Escape</strong> — Deselect / Close Panels</li>
+</ul>
 <h3>Advanced Features</h3>
 <ul>
-<li><strong>Walk Mode:</strong> Click Walk Mode to explore your yard in first-person. Use WASD or arrow keys to move, mouse to look around. Press Escape to exit.</li>
+<li><strong>Walk Mode:</strong> Click Walk Mode to explore your yard in first-person. Use WASD or arrow keys to move (hold Shift with arrow keys to move faster), mouse to look around. Press Escape to exit.</li>
 <li><strong>Cost Estimator:</strong> Click the Cost button to see a cost breakdown of all objects in your design. Estimates are based on typical material costs.</li>
 <li><strong>Templates:</strong> Open the Templates modal to browse pre-made garden designs. Click a template to load it into your yard as a starting point.</li>
 <li><strong>Layers:</strong> Click the Layers button to toggle visibility of different object categories. Hide plants, structures, or terrain elements independently.</li>
@@ -3120,7 +3126,9 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <li><strong>Social Card:</strong> Generate a polished shareable card image with your design title and a preview screenshot — perfect for sharing on social media.</li>
 <li><strong>Multi-Select:</strong> Hold Shift or Ctrl while clicking objects to select multiple. Use the batch bar to delete all or delete by type.</li>
 <li><strong>Right-Click Context Menu:</strong> Right-click any object for quick Duplicate, Rotate, Delete, and Properties actions.</li>
-<li><strong>Underground Carving:</strong> Open the Underground dock to cut away terrain, make ground transparent, view wireframe, see buried objects, and create cross-sections. Carving tools are in the Terrain dock.</li>
+<li><strong>Underground Carving:</strong> Click the <strong>Excavate</strong> button (bottom-left) or press <strong>M</strong> to open the <strong>Underground View</strong> dock — use the Cutaway slider to slice terrain from the top down, the Opacity slider to make the ground translucent, or toggle Wireframe to see buried objects and geological layers (topsoil, subsoil, clay, bedrock). For shaped holes, open the Terrain dock, expand <strong>Carving Tools</strong>, pick Box, Round, or Trench, then click the ground to preview and commit the carve</li>
+<li><strong>Underground View:</strong> After digging with the Dig brush (key <strong>5</strong>) or carving, click the <strong>Go Underground</strong> button (bottom-right icon) to angle the camera below grade and orbit around your holes</li>
+<li><strong>Terrain Dock Sections:</strong> In the Terrain dock, the <strong>Grid Level &amp; Depth</strong> and <strong>Carving</strong> sections are collapsed by default — click a section header to expand or collapse it, keeping the main brush controls visible without scrolling</li>
 <li><strong>Pro Terrain Tools:</strong> Open the Pro Tools dock for pool excavation wizard, precision flatten, elevation markers, ADA slope tool, terrain statistics, auto retaining wall, underground structures, geological layers, volume calculator, exploded view, and water table visualization.</li>
 </ul>
 <h3>Safety Reminders</h3>
@@ -6543,6 +6551,7 @@ panel.innerHTML = `
 <p style="font-size:12px;color:var(--text-muted);margin:-8px 0 16px;">Tip: press <strong>?</strong> or <strong>F1</strong> anytime for the Keyboard Shortcuts guide.</p>
 <button class="wizard-btn" id="wizard-finish">Start Designing! →</button>
 <button class="wizard-back" id="wizard-back">← Back</button>
+<p style="font-size:12px;color:var(--text-muted);margin:14px 0 0;text-align:center;">Tip: open <strong>? Help</strong> (top bar) anytime — see Keyboard Shortcuts for terrain keys, view modes, and the underground workflow.</p>
 `;
 }
 // Attach direct click handlers after innerHTML rebuilds the DOM
