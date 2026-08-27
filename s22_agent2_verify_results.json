@@ -1,0 +1,96 @@
+{
+ "pass": 18,
+ "fail": 0,
+ "tests": [
+  {
+   "name": "STATIC: all static <button> tags carry title or aria-label (icon-only)",
+   "status": "PASS",
+   "detail": "all covered"
+  },
+  {
+   "name": "STATIC: CSS cursor classes defined",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "name": "STATIC: cursor system is event-driven (no per-frame rAF loop)",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "name": "STATIC: CSS braces balanced",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "name": "Wizard step 1 shown at boot",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "name": "Wizard step 2 reached via real click; dims + quick sizes render",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "name": "Wizard completes via real click; yard initialized",
+   "status": "PASS",
+   "detail": "{'wizardHidden': True, 'yard': True}"
+  },
+  {
+   "name": "Empty-state progressive hint appears after idle",
+   "status": "PASS",
+   "detail": "{'visible': True, 'text': '\ud83d\udca1 Tip: Click an item in the left panel to add it to your yard \u00d7'}"
+  },
+  {
+   "name": "Cursor over canvas (idle, 3D) = grab",
+   "status": "PASS",
+   "detail": "grab"
+  },
+  {
+   "name": "Terrain mode ON -> cursor crosshair (brush)",
+   "status": "PASS",
+   "detail": "crosshair"
+  },
+  {
+   "name": "Terrain mode OFF -> cursor back to grab",
+   "status": "PASS",
+   "detail": "grab"
+  },
+  {
+   "name": "Object drag press -> cursor move",
+   "status": "PASS",
+   "detail": "held=move"
+  },
+  {
+   "name": "Object drag release -> cursor back to grab",
+   "status": "PASS",
+   "detail": "grab"
+  },
+  {
+   "name": "2D pan press -> cursor grabbing",
+   "status": "PASS",
+   "detail": "grabbing"
+  },
+  {
+   "name": "2D pan release -> cursor grab",
+   "status": "PASS",
+   "detail": "grab"
+  },
+  {
+   "name": "Tab key focus shows visible outline (focus-visible)",
+   "status": "PASS",
+   "detail": "{'tag': 'BUTTON', 'id': None, 'cls': '', 'ow': '2px', 'os': 'solid', 'oc': 'rgb(61, 117, 73)', 'vis': True}"
+  },
+  {
+   "name": "12 Tab stops all show focus outline",
+   "status": "PASS",
+   "detail": "[]"
+  },
+  {
+   "name": "No page/console errors during interactions",
+   "status": "PASS",
+   "detail": ""
+  }
+ ]
+}
