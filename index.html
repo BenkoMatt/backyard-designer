@@ -4117,13 +4117,21 @@ if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) plane
 solidEarthMesh.material.clippingPlanes = planes;
 solidEarthMesh.material.needsUpdate = true;
 }
-// Sprint 21 STABILITY: enforce autoDigClipPlane ↔ terrainBrushMode === 'dig' invariant.
-// Other clip-plane writers used to drop autoDigClipPlane (cutaway slider rebuilt the
-// array without it), silently killing dig-mode reveal until the user re-picked the
-// dig brush. Calling this after any clip-plane state change re-arms the plane if dig
-// mode is still active and clears it if not; no-ops (no rebuild/render) when in sync.
-function syncAutoDigClip() {
-if (terrainBrushMode === 'dig') {
+// Sprint 21: CANONICAL ground-visibility state (root-cause fix for "Excavate shows only
+// the green plane"). ONE function computes the auto-dig clip-plane state from ALL inputs
+// that mean "the user wants to see into the ground":
+//   - excavatePanelVisible: Excavate/Underground panel is open (button, dock tab, command palette)
+//   - undergroundViewActive: vc-underground camera view
+//   - terrainBrushMode === 'dig': Terrain dock Dig brush active (Sprint 20 behavior, preserved)
+// When any input is true, yardMesh is clipped below y=0 so previously-dug holes reveal the
+// geological layers (topsoil/subsoil/clay/bedrock) rendered on solidEarthMesh. When ALL are
+// false the normal surface view is restored. Manual clip planes (terrainClipPlane from the
+// cutaway slider, crossSectionClipPlane) compose WITH the dig clip — all active planes apply.
+// (Sprint 21 STABILITY merge: this supersedes syncAutoDigClip's brush-only invariant —
+// updateGroundVisibility's condition is a strict superset of it.)
+function updateGroundVisibility() {
+const wantDigClip = excavatePanelVisible || undergroundViewActive || terrainBrushMode === 'dig';
+if (wantDigClip) {
 if (!autoDigClipPlane) {
 autoDigClipPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 _rebuildYardClipPlanes();
@@ -4139,10 +4147,28 @@ requestRender();
 }
 // Sprint 20: Enable or disable the auto-dig clip plane based on brush mode.
 // When terrainBrushMode === 'dig', clips yardMesh below y=0 to reveal geological layers.
-// Sprint 21 STABILITY: updateAutoDigClip is now an alias of syncAutoDigClip (the
-// canonical invariant-enforcer) so all entry points share one code path.
+// Sprint 21 (merged excavate-visibility + stability): updateAutoDigClip is a legacy shim
+// feeding the canonical updateGroundVisibility(), which enforces the full invariant
+// (excavatePanelVisible || undergroundViewActive || brush==='dig') — a strict superset of
+// stability's brush-only syncAutoDigClip. Kept TDZ-guarded for the pre-declaration window
+// during module load.
 function updateAutoDigClip() {
-syncAutoDigClip();
+let declared = false;
+try { declared = (typeof excavatePanelVisible !== 'undefined') && (typeof undergroundViewActive !== 'undefined'); } catch (e) { declared = false; }
+if (!declared) {
+// Declarations not yet executed (script still loading) — brush-mode-only fallback
+if (terrainBrushMode === 'dig' && !autoDigClipPlane) {
+autoDigClipPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+_rebuildYardClipPlanes();
+requestRender();
+} else if (terrainBrushMode !== 'dig' && autoDigClipPlane) {
+autoDigClipPlane = null;
+_rebuildYardClipPlanes();
+requestRender();
+}
+return;
+}
+updateGroundVisibility();
 }
 let wireframeActive = false;
 const viewport = document.getElementById('viewport');
@@ -10637,6 +10663,9 @@ excavatePanel.classList.toggle('visible', excavatePanelVisible);
 if (excavatePanelVisible) {
 updateBuriedObjects();
 }
+// Sprint 21: Entering the Excavate flow MUST reveal the underground — arm the dig clip
+// (root-cause fix: this handler previously only toggled panel visibility).
+updateGroundVisibility();
 requestRender();
 });
 excavateCloseBtn.addEventListener('click', () => {
@@ -10644,6 +10673,8 @@ excavatePanelVisible = false;
 excavateBtn.classList.remove('active');
 excavateBtn.setAttribute('aria-pressed', 'false');
 excavatePanel.classList.remove('visible');
+// Sprint 21: Restore normal surface view unless the Dig brush mode is still active.
+updateGroundVisibility();
 requestRender();
 });
 // Sprint 21 STABILITY: autoDigClipPlane is intentionally NOT tied to excavatePanelVisible.
@@ -12120,6 +12151,8 @@ undergroundViewActive = !undergroundViewActive;
 vcUndergroundBtn.classList.toggle('active', undergroundViewActive);
 vcUndergroundBtn.setAttribute('aria-pressed', undergroundViewActive);
 if (undergroundViewActive) {
+// Sprint 21: underground view is a route into the ground — arm the dig clip.
+updateGroundVisibility();
 const w = state.yard.width;
 const d = state.yard.depth;
 const minH = getMinTerrainHeight();
@@ -12141,6 +12174,9 @@ solidEarthMesh.material.transparent = true;
 }
 showToast('Underground view active — orbit to explore carved spaces', 'info');
 } else {
+// Sprint 21: Leaving underground view restores surface view (unless another
+// route into the ground — Excavate panel or Dig brush — is still active).
+updateGroundVisibility();
 controls.maxPolarAngle = Math.PI / 2 - 0.05;
 controls.minDistance = 5;
 camera3D.position.set(state.yard.width * 0.5, state.yard.depth * 0.4, state.yard.depth * 0.5);
@@ -12935,6 +12971,17 @@ applyTerrainPositions, applyTerrainFull, _debouncedApplyTerrainFull, _flushTerra
 get _terrainFullPending() { return _terrainFullPending; },
 // Sprint 20: auto-dig clip
 get autoDigClipPlane() { return autoDigClipPlane; }, updateAutoDigClip, _rebuildYardClipPlanes,
+// Sprint 21: canonical ground-visibility state + diagnostics
+updateGroundVisibility,
+_groundVisibilityDebug: () => ({
+autoDigClipActive: !!autoDigClipPlane,
+terrainClipActive: !!terrainClipPlane,
+crossSectionClipActive: !!crossSectionClipPlane,
+excavatePanelVisible,
+undergroundViewActive,
+terrainBrushMode,
+wireframeActive,
+}),
 get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; },
 get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; },
 get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; },
@@ -13070,9 +13117,13 @@ applySunPosition();
 }
 }
 if (dockId === 'underground') {
-if (typeof updateBuriedObjects === 'function') {
+// Sprint 21: Opening the Underground dock arms the dig clip so the owner sees
+// geological layers in previously-dug holes — not just the flat green plane.
+excavatePanelVisible = true;
+const eb = document.getElementById('excavate-btn');
+if (eb) { eb.classList.add('active'); eb.setAttribute('aria-pressed', 'true'); }
 updateBuriedObjects();
-}
+updateGroundVisibility();
 }
 if (typeof requestRender === 'function') requestRender();
 });
@@ -13144,6 +13195,14 @@ const innovBtn = document.getElementById('innovation-btn');
 if (innovBtn && typeof innovPanelVisible !== 'undefined' && innovPanelVisible) {
 innovBtn.click();
 }
+}
+// Sprint 21: Closing the Underground dock restores the normal surface view
+// (unless the Terrain Dig brush mode is still active).
+if (activeDockTab === 'underground') {
+excavatePanelVisible = false;
+const eb = document.getElementById('excavate-btn');
+if (eb) { eb.classList.remove('active'); eb.setAttribute('aria-pressed', 'false'); }
+if (typeof updateGroundVisibility === 'function') updateGroundVisibility();
 }
 dockPanelContainer.classList.remove('visible');
 activeDockTab = null;
@@ -17019,9 +17078,12 @@ if (typeof _flushTerrainFull !== 'undefined') window._flushTerrainFull = _flushT
 if (typeof autoDigClipPlane !== 'undefined') window.autoDigClipPlane = autoDigClipPlane;
 if (typeof _rebuildYardClipPlanes !== 'undefined') window._rebuildYardClipPlanes = _rebuildYardClipPlanes;
 if (typeof updateAutoDigClip !== 'undefined') window.updateAutoDigClip = updateAutoDigClip;
-// Sprint 21 STABILITY: expose canonical clip-plane writers for tests/debug
+// Sprint 21 (merged): expose BOTH canonical clip-plane writers + ground-visibility diagnostics
 if (typeof _rebuildSolidEarthClipPlanes !== 'undefined') window._rebuildSolidEarthClipPlanes = _rebuildSolidEarthClipPlanes;
 if (typeof syncAutoDigClip !== 'undefined') window.syncAutoDigClip = syncAutoDigClip;
+if (typeof updateGroundVisibility !== 'undefined') window.updateGroundVisibility = updateGroundVisibility;
+if (typeof _groundVisibilityDebug === 'function') window._groundVisibilityDebug = _groundVisibilityDebug;
+else if (window._test && typeof window._test._groundVisibilityDebug === 'function') window._groundVisibilityDebug = window._test._groundVisibilityDebug;
 
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
