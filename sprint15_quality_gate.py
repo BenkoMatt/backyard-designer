@@ -139,10 +139,10 @@ def test_static_geo_colors():
     record("static:brightness_boost_exists", "pass" if has_brighten else "fail",
            "UNDERGROUND_BRIGHTNESS_BOOST defined" if has_brighten else "no brightness boost")
 
-    # Check boost is 0.25 (25%)
-    has_boost_25 = "UNDERGROUND_BRIGHTNESS_BOOST = 0.25" in content
+    # Check boost matches the shipped constant (0.45 since Sprint 19, up from 0.25)
+    has_boost_25 = "UNDERGROUND_BRIGHTNESS_BOOST = 0.45" in content
     record("static:brightness_boost_25pct", "pass" if has_boost_25 else "fail",
-           "boost = 0.25 (25%)" if has_boost_25 else "boost not 0.25")
+           "boost = 0.45 (Sprint 19 value)" if has_boost_25 else "boost not 0.45")
 
     # Check for geological layer names
     has_topsoil = "'topsoil'" in content

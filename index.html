@@ -925,7 +925,6 @@ width: 70px; padding: 3px 6px; border: 1px solid var(--border); border-radius: 4
 .gallery-cat-input { padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; min-width: 130px; }
 .gallery-save-btn { padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; cursor: pointer; font-family: inherit; }
 .gallery-save-btn:hover { background: var(--primary-dark); }
-.btn-gallery {  }
 #timelapse-modal { position: fixed; inset: 0; background: var(--modal-backdrop); display: none; align-items: center; justify-content: center; z-index: var(--modal-z); }
 #timelapse-modal.visible { display: flex; }
 .timelapse-panel { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 24px; max-width: 520px; width: 90%; text-align: center; pointer-events: auto;}
@@ -4105,9 +4104,25 @@ if (autoDigClipPlane) planes.push(autoDigClipPlane);
 yardMesh.material.clippingPlanes = planes;
 yardMesh.material.needsUpdate = true;
 }
-// Sprint 20: Enable or disable the auto-dig clip plane based on brush mode.
-// When terrainBrushMode === 'dig', clips yardMesh below y=0 to reveal geological layers.
-function updateAutoDigClip() {
+// Sprint 21 STABILITY: single canonical writer for solidEarthMesh clipping planes.
+// Previous independent writers (cutaway slider, buildSolidEarth tail, flatten/clear
+// handlers) built ad-hoc arrays that clobbered each other — e.g. cutaway→0 wiped the
+// cross-section plane from solidEarth, and flatten wiped it entirely. All solidEarth
+// plane writes now go through here so planes COMPOSE instead of overwrite.
+function _rebuildSolidEarthClipPlanes() {
+if (!solidEarthMesh || !solidEarthMesh.material) return;
+const planes = [];
+if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) planes.push(terrainClipPlane);
+if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) planes.push(crossSectionClipPlane);
+solidEarthMesh.material.clippingPlanes = planes;
+solidEarthMesh.material.needsUpdate = true;
+}
+// Sprint 21 STABILITY: enforce autoDigClipPlane ↔ terrainBrushMode === 'dig' invariant.
+// Other clip-plane writers used to drop autoDigClipPlane (cutaway slider rebuilt the
+// array without it), silently killing dig-mode reveal until the user re-picked the
+// dig brush. Calling this after any clip-plane state change re-arms the plane if dig
+// mode is still active and clears it if not; no-ops (no rebuild/render) when in sync.
+function syncAutoDigClip() {
 if (terrainBrushMode === 'dig') {
 if (!autoDigClipPlane) {
 autoDigClipPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
@@ -4121,6 +4136,13 @@ _rebuildYardClipPlanes();
 requestRender();
 }
 }
+}
+// Sprint 20: Enable or disable the auto-dig clip plane based on brush mode.
+// When terrainBrushMode === 'dig', clips yardMesh below y=0 to reveal geological layers.
+// Sprint 21 STABILITY: updateAutoDigClip is now an alias of syncAutoDigClip (the
+// canonical invariant-enforcer) so all entry points share one code path.
+function updateAutoDigClip() {
+syncAutoDigClip();
 }
 let wireframeActive = false;
 const viewport = document.getElementById('viewport');
@@ -7210,6 +7232,10 @@ pos.setY(i, 0);
 pos.needsUpdate = true;
 geo.computeVertexNormals();
 applyTerrainVertexColors();
+// Sprint 21 STABILITY: rebuild solidEarth to match the flattened terrain. The redo
+// command already disposes the mesh on flatten; without this the main path left a
+// stale (pre-flatten) earth mesh in the scene until the next full rebuild.
+buildSolidEarth();
 if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay();
 state.objects.forEach((_, id) => updateObjectHeight(id));
 updateAllBuriedIndicators();
@@ -7670,13 +7696,9 @@ solidEarthMesh = new THREE.Mesh(geo, mat);
 solidEarthMesh.receiveShadow = true;
 solidEarthMesh.castShadow = true;
 scene.add(solidEarthMesh);
-if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) {
-solidEarthMesh.material.clippingPlanes = [terrainClipPlane];
-}
-if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) {
-const existing = solidEarthMesh.material.clippingPlanes || [];
-solidEarthMesh.material.clippingPlanes = existing.concat([crossSectionClipPlane]);
-}
+// Sprint 21 STABILITY: route through the canonical writer so terrain + cross-section
+// planes COMPOSE (the old sequential ad-hoc array writes could clobber each other).
+_rebuildSolidEarthClipPlanes();
 }
 function getSolidEarthBottomY() {
 if (!state.terrain) return -EARTH_DEPTH_BELOW_MIN;
@@ -10624,35 +10646,30 @@ excavateBtn.setAttribute('aria-pressed', 'false');
 excavatePanel.classList.remove('visible');
 requestRender();
 });
+// Sprint 21 STABILITY: autoDigClipPlane is intentionally NOT tied to excavatePanelVisible.
+// Rationale: the excavate panel is a passive info/profile surface — auto-arming a clip
+// plane on open would cut away terrain the user did not ask for, and closing the panel
+// would then need to restore prior clip state. Instead, ALL clip-plane state is owned
+// by the canonical functions (_rebuildYardClipPlanes / _rebuildSolidEarthClipPlanes /
+// syncAutoDigClip), which compose terrain + cross-section + auto-dig planes. Route into
+// the ground = activate the dig brush (auto-arms autoDigClipPlane via syncAutoDigClip).
+// Cutaway, cross-section and dig compose safely through the same writers.
 terrainCutawayInput.addEventListener('input', e => {
 const val = parseInt(e.target.value);
 if (val === 0) {
 terrainClipPlane = null;
-if (typeof _rebuildYardClipPlanes === 'function') {
+// Sprint 21 STABILITY: canonical writers — compose terrain/x-section/auto-dig planes
+// (the old ad-hoc array writes wiped autoDigClipPlane and each other).
 _rebuildYardClipPlanes();
-} else if (yardMesh && yardMesh.material) {
-yardMesh.material.clippingPlanes = [];
-}
-if (solidEarthMesh && solidEarthMesh.material) {
-solidEarthMesh.material.clippingPlanes = [];
-if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) solidEarthMesh.material.clippingPlanes.push(crossSectionClipPlane);
-}
+_rebuildSolidEarthClipPlanes();
 cutawayValEl.textContent = 'Full';
 } else {
 const maxH = getMaxTerrainHeight();
 const minH = getMinTerrainHeight();
 const cutY = maxH + 0.5 - (val / 100) * (maxH - minH + 5.5);
 terrainClipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
-if (typeof _rebuildYardClipPlanes === 'function') {
 _rebuildYardClipPlanes();
-} else if (yardMesh && yardMesh.material) {
-yardMesh.material.clippingPlanes = [terrainClipPlane];
-if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) yardMesh.material.clippingPlanes.push(crossSectionClipPlane);
-}
-if (solidEarthMesh && solidEarthMesh.material) {
-solidEarthMesh.material.clippingPlanes = [terrainClipPlane];
-if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) solidEarthMesh.material.clippingPlanes.push(crossSectionClipPlane);
-}
+_rebuildSolidEarthClipPlanes();
 if (val === 100) {
 cutawayValEl.textContent = 'Hidden';
 } else {
@@ -10786,18 +10803,9 @@ const csClipEnableBtn = document.getElementById('cs-clip-enable');
 function updateCrossSectionClip() {
 if (!crossSectionActive) {
 crossSectionClipPlane = null;
-if (typeof _rebuildYardClipPlanes === 'function') {
+// Sprint 21 STABILITY: canonical writers (compose with terrain + auto-dig planes).
 _rebuildYardClipPlanes();
-} else if (yardMesh && yardMesh.material) {
-const existing = (yardMesh.material.clippingPlanes || []).filter(p => p !== crossSectionClipPlane);
-yardMesh.material.clippingPlanes = existing.length > 0 ? existing : [];
-}
-if (solidEarthMesh && solidEarthMesh.material) {
-const existing = (solidEarthMesh.material.clippingPlanes || []).filter(p => p !== crossSectionClipPlane);
-solidEarthMesh.material.clippingPlanes = existing.length > 0 ? existing : [];
-}
-if (yardMesh && yardMesh.material) yardMesh.material.needsUpdate = true;
-if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.needsUpdate = true;
+_rebuildSolidEarthClipPlanes();
 requestRender();
 return;
 }
@@ -10808,24 +10816,9 @@ crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectio
 } else {
 crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), crossSectionPosition);
 }
-if (typeof _rebuildYardClipPlanes === 'function') {
+// Sprint 21 STABILITY: canonical writers (compose with terrain + auto-dig planes).
 _rebuildYardClipPlanes();
-} else if (yardMesh && yardMesh.material) {
-let planes = yardMesh.material.clippingPlanes || [];
-planes = planes.filter(p => p === terrainClipPlane);
-planes.push(crossSectionClipPlane);
-if (terrainClipPlane) planes.push(terrainClipPlane);
-yardMesh.material.clippingPlanes = planes;
-yardMesh.material.needsUpdate = true;
-}
-if (solidEarthMesh && solidEarthMesh.material) {
-let planes = solidEarthMesh.material.clippingPlanes || [];
-planes = planes.filter(p => p === terrainClipPlane);
-planes.push(crossSectionClipPlane);
-if (terrainClipPlane) planes.push(terrainClipPlane);
-solidEarthMesh.material.clippingPlanes = planes;
-solidEarthMesh.material.needsUpdate = true;
-}
+_rebuildSolidEarthClipPlanes();
 csClipPosVal.textContent = csClipPosInput.value + '%';
 requestRender();
 }
@@ -11164,9 +11157,9 @@ drawCrossSection();
 if (terrainClipPlane) {
 terrainCutawayInput.value = 0;
 terrainClipPlane = null;
-if (typeof _rebuildYardClipPlanes === 'function') _rebuildYardClipPlanes();
-else if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
-if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
+// Sprint 21 STABILITY: canonical writers (preserve cross-section + auto-dig planes).
+_rebuildYardClipPlanes();
+_rebuildSolidEarthClipPlanes();
 cutawayValEl.textContent = 'Full';
 }
 }, 50);
@@ -12090,9 +12083,9 @@ redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerr
 if (terrainClipPlane) {
 terrainCutawayInput.value = 0;
 terrainClipPlane = null;
-if (typeof _rebuildYardClipPlanes === 'function') _rebuildYardClipPlanes();
-else if (yardMesh && yardMesh.material) yardMesh.material.clippingPlanes = [];
-if (solidEarthMesh && solidEarthMesh.material) solidEarthMesh.material.clippingPlanes = [];
+// Sprint 21 STABILITY: canonical writers (preserve cross-section + auto-dig planes).
+_rebuildYardClipPlanes();
+_rebuildSolidEarthClipPlanes();
 cutawayValEl.textContent = 'Full';
 }
 showToast('All carvings cleared', 'success');
@@ -17026,6 +17019,9 @@ if (typeof _flushTerrainFull !== 'undefined') window._flushTerrainFull = _flushT
 if (typeof autoDigClipPlane !== 'undefined') window.autoDigClipPlane = autoDigClipPlane;
 if (typeof _rebuildYardClipPlanes !== 'undefined') window._rebuildYardClipPlanes = _rebuildYardClipPlanes;
 if (typeof updateAutoDigClip !== 'undefined') window.updateAutoDigClip = updateAutoDigClip;
+// Sprint 21 STABILITY: expose canonical clip-plane writers for tests/debug
+if (typeof _rebuildSolidEarthClipPlanes !== 'undefined') window._rebuildSolidEarthClipPlanes = _rebuildSolidEarthClipPlanes;
+if (typeof syncAutoDigClip !== 'undefined') window.syncAutoDigClip = syncAutoDigClip;
 
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
