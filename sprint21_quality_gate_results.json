@@ -3,28 +3,28 @@
   "total": 54,
   "passed": 54,
   "failed": 0,
-  "index_html_bytes": 759219,
-  "index_html_lines": 17494,
+  "index_html_bytes": 760580,
+  "index_html_lines": 17506,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "759219 bytes"
+      "detail": "760580 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "759219 bytes"
+      "detail": "760580 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "17494 lines (info only)"
+      "detail": "17506 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
       "status": "PASS",
-      "detail": "934 opening vs 934 closing braces"
+      "detail": "936 opening vs 936 closing braces"
     },
     {
       "name": "Three.js v0.160.0 via importmap unchanged",
@@ -224,12 +224,12 @@
     {
       "name": "Underground dock opens and Cutaway control is visible",
       "status": "PASS",
-      "detail": "{'panelVisible': True, 'panelRect': {'x': 370, 'y': 579, 'w': 279.359375, 'h': 205}, 'cutFound': True, 'cutVisible': True, 'cutRect': {'x': 442.359375, 'y': 658, 'w': 129, 'h': 16}}"
+      "detail": "{'panelVisible': True, 'panelRect': {'x': 370, 'y': 576, 'w': 279.359375, 'h': 208}, 'cutFound': True, 'cutVisible': True, 'cutRect': {'x': 442.359375, 'y': 658, 'w': 129, 'h': 16}}"
     },
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=9560 vs flat=11622 (revealed delta=-2062); clay=61 subsoil=241 topsoil=292 bedrock=8966"
+      "detail": "geo pixels: pit=9555 vs flat=11618 (revealed delta=-2063); clay=61 subsoil=241 topsoil=292 bedrock=8961"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -264,12 +264,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=138606 vs flat baseline=134262 (ratio 1.03)"
+      "detail": "grass restored=138607 vs flat baseline=134274 (ratio 1.03)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 430"
+      "detail": "|geo_restored - geo_flat| = 425"
     },
     {
       "name": "No console errors during the entire run",
