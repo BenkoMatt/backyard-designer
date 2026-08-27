@@ -1,0 +1,881 @@
+{
+  "basic-help-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-help-modal.png",
+    "scroll": {
+      "scrollH": 800,
+      "clientH": 800,
+      "scrollW": 1280,
+      "clientW": 1280,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 800
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 800,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-templates-modal": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1981ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-share-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-share-modal.png",
+    "scroll": {
+      "scrollH": 800,
+      "clientH": 800,
+      "scrollW": 1280,
+      "clientW": 1280,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 800
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 800,
+      "controls": 2,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-command-palette": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-command-palette.png",
+    "scroll": {
+      "scrollH": 412,
+      "clientH": 412,
+      "scrollW": 520,
+      "clientW": 520,
+      "rect": {
+        "x": 380,
+        "y": 120,
+        "w": 520,
+        "h": 412
+      },
+      "overflowY": "hidden",
+      "overflowX": "hidden"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 532,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-cost-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-cost-panel.png",
+    "scroll": {
+      "scrollH": 148,
+      "clientH": 148,
+      "scrollW": 298,
+      "clientW": 298,
+      "rect": {
+        "x": 964,
+        "y": 132,
+        "w": 300,
+        "h": 150
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 282,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-layer-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-layer-panel.png",
+    "scroll": {
+      "scrollH": 226,
+      "clientH": 226,
+      "scrollW": 262,
+      "clientW": 262,
+      "rect": {
+        "x": 1000.140625,
+        "y": 132,
+        "w": 263.859375,
+        "h": 228
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 360,
+      "controls": 6,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-season-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1988ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-growth-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1982ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-permit-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1985ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-terrain": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-dock-terrain.png",
+    "scroll": {
+      "scrollH": 390,
+      "clientH": 390,
+      "scrollW": 310,
+      "clientW": 310,
+      "rect": {
+        "x": 385,
+        "y": 381,
+        "w": 310,
+        "h": 390
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 20,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-dock-underground": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1987ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-analyze": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1989ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-innovate": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1991ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-sun": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-dock-sun.png",
+    "scroll": {
+      "scrollH": 45,
+      "clientH": 45,
+      "scrollW": 230,
+      "clientW": 230,
+      "rect": {
+        "x": 385,
+        "y": 726,
+        "w": 230,
+        "h": 45
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 3,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-dock-measure": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1988ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-experience": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1991ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-excavate-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-excavate-panel.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-cross-section": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-cross-section.png",
+    "scroll": {
+      "scrollH": 189,
+      "clientH": 189,
+      "scrollW": 418,
+      "clientW": 418,
+      "rect": {
+        "x": 844,
+        "y": 132,
+        "w": 420,
+        "h": 190.5625
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 323,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-terrain-analysis": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-terrain-analysis.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-innovation-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-innovation-panel.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-sun-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-sun-panel.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "basic-context-menu": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/basic-context-menu.png"
+  },
+  "advanced-help-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-help-modal.png",
+    "scroll": {
+      "scrollH": 800,
+      "clientH": 800,
+      "scrollW": 1280,
+      "clientW": 1280,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 800
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 800,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-templates-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-templates-modal.png",
+    "scroll": {
+      "scrollH": 800,
+      "clientH": 800,
+      "scrollW": 1280,
+      "clientW": 1280,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 800
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 800,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-share-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-share-modal.png",
+    "scroll": {
+      "scrollH": 800,
+      "clientH": 800,
+      "scrollW": 1280,
+      "clientW": 1280,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 800
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 800,
+      "controls": 2,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-command-palette": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-command-palette.png",
+    "scroll": {
+      "scrollH": 412,
+      "clientH": 412,
+      "scrollW": 520,
+      "clientW": 520,
+      "rect": {
+        "x": 380,
+        "y": 120,
+        "w": 520,
+        "h": 412
+      },
+      "overflowY": "hidden",
+      "overflowX": "hidden"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 532,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-cost-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-cost-panel.png",
+    "scroll": {
+      "scrollH": 148,
+      "clientH": 148,
+      "scrollW": 298,
+      "clientW": 298,
+      "rect": {
+        "x": 964,
+        "y": 132,
+        "w": 300,
+        "h": 150
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 282,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-layer-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-layer-panel.png",
+    "scroll": {
+      "scrollH": 226,
+      "clientH": 226,
+      "scrollW": 262,
+      "clientW": 262,
+      "rect": {
+        "x": 1000.140625,
+        "y": 132,
+        "w": 263.859375,
+        "h": 228
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 360,
+      "controls": 6,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-season-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-season-panel.png",
+    "scroll": {
+      "scrollH": 260,
+      "clientH": 260,
+      "scrollW": 298,
+      "clientW": 298,
+      "rect": {
+        "x": 964,
+        "y": 132,
+        "w": 300,
+        "h": 261.78125
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 394,
+      "controls": 5,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-growth-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-growth-panel.png",
+    "scroll": {
+      "scrollH": 165,
+      "clientH": 165,
+      "scrollW": 298,
+      "clientW": 298,
+      "rect": {
+        "x": 964,
+        "y": 132,
+        "w": 300,
+        "h": 166.78125
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 299,
+      "controls": 3,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-permit-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-permit-panel.png",
+    "scroll": {
+      "scrollH": 312,
+      "clientH": 312,
+      "scrollW": 338,
+      "clientW": 338,
+      "rect": {
+        "x": 924,
+        "y": 132,
+        "w": 340,
+        "h": 313.5625
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 446,
+      "controls": 5,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-terrain": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-terrain.png",
+    "scroll": {
+      "scrollH": 390,
+      "clientH": 390,
+      "scrollW": 310,
+      "clientW": 310,
+      "rect": {
+        "x": 385,
+        "y": 381,
+        "w": 310,
+        "h": 390
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 20,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-underground": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-underground.png",
+    "scroll": {
+      "scrollH": 142,
+      "clientH": 142,
+      "scrollW": 249,
+      "clientW": 249,
+      "rect": {
+        "x": 385,
+        "y": 629,
+        "w": 249.359375,
+        "h": 142
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 5,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-analyze": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-analyze.png",
+    "scroll": {
+      "scrollH": 489,
+      "clientH": 489,
+      "scrollW": 310,
+      "clientW": 310,
+      "rect": {
+        "x": 385,
+        "y": 282,
+        "w": 310,
+        "h": 489
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 9,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-innovate": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-innovate.png",
+    "scroll": {
+      "scrollH": 473,
+      "clientH": 473,
+      "scrollW": 310,
+      "clientW": 310,
+      "rect": {
+        "x": 385,
+        "y": 298,
+        "w": 310,
+        "h": 473
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 13,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-sun": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-sun.png",
+    "scroll": {
+      "scrollH": 45,
+      "clientH": 45,
+      "scrollW": 230,
+      "clientW": 230,
+      "rect": {
+        "x": 385,
+        "y": 726,
+        "w": 230,
+        "h": 45
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 3,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-measure": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-measure.png",
+    "scroll": {
+      "scrollH": 67,
+      "clientH": 67,
+      "scrollW": 310,
+      "clientW": 310,
+      "rect": {
+        "x": 385,
+        "y": 704,
+        "w": 310,
+        "h": 67
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-dock-experience": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-dock-experience.png",
+    "scroll": {
+      "scrollH": 435,
+      "clientH": 435,
+      "scrollW": 257,
+      "clientW": 257,
+      "rect": {
+        "x": 385,
+        "y": 336,
+        "w": 257.03125,
+        "h": 435
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 771,
+      "controls": 14,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-excavate-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-excavate-panel.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-cross-section": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-cross-section.png",
+    "scroll": {
+      "scrollH": 189,
+      "clientH": 189,
+      "scrollW": 418,
+      "clientW": 418,
+      "rect": {
+        "x": 844,
+        "y": 132,
+        "w": 420,
+        "h": 190.5625
+      },
+      "overflowY": "visible",
+      "overflowX": "visible"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 323,
+      "controls": 1,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-terrain-analysis": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-terrain-analysis.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-innovation-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-innovation-panel.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-sun-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-sun-panel.png",
+    "scroll": {
+      "scrollH": 0,
+      "clientH": 0,
+      "scrollW": 0,
+      "clientW": 0,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "overflowY": "auto",
+      "overflowX": "auto"
+    },
+    "offscreen": [],
+    "controls": {
+      "panelBottom": 0,
+      "controls": 0,
+      "belowFold": 0,
+      "lastBelow": null
+    }
+  },
+  "advanced-context-menu": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/after/advanced-context-menu.png"
+  },
+  "advanced-switch-to-basic-orphan-panels": []
+}
