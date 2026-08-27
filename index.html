@@ -7359,7 +7359,7 @@ return { r: last.color[0], g: last.color[1], b: last.color[2] };
 const NAMED_GEO_LAYERS = [
 { name: 'topsoil',  maxDepth: 2,  color: [0x4a/255, 0x30/255, 0x1e/255] },  // rich dark brown
 { name: 'subsoil',  maxDepth: 6,  color: [0x9b/255, 0x7a/255, 0x4f/255] },  // warm brown, clearly lighter
-{ name: 'clay',     maxDepth: 12, color: [0xb8/255, 0x55/255, 0x30/255] },  // clearly red/orange
+{ name: 'clay',     maxDepth: 12, color: [0xa0/255, 0x42/255, 0x24/255] },  // clearly red/orange (darkened to prevent oversaturation with 1.45 boost)
 { name: 'bedrock',  maxDepth: 15, color: [0x60/255, 0x60/255, 0x68/255] },  // clearly gray
 ];
 const GEO_LAYER_TRANSITION_WIDTH = 0.75; // feet of smooth blend at each boundary
@@ -7836,6 +7836,7 @@ function paintTerrain(worldX, worldZ) {
 ensureTerrainArray();
 const segs = state.terrainSegs;
 const radius = Math.max(0.1, terrainBrushSize);
+// Reuse center from first call — avoids computing the same grid indices twice
 const center = getTerrainIndex(worldX, worldZ);
 if (!center) return;
 
@@ -7843,9 +7844,7 @@ if (terrainBrushMode === 'dig' || terrainBrushMode === 'fill') {
 const surfY = getTerrainHeight(worldX, worldZ);
 const halfW = state.yard.width / 2;
 const halfD = state.yard.depth / 2;
-const radius = Math.max(0.1, terrainBrushSize);
-const center = getTerrainIndex(worldX, worldZ);
-if (!center) { requestRender(); return; }
+// center already computed above — no need to recompute
 const radGridX = state.yard.width > 0 ? radius / state.yard.width * segs : 0;
 const radGridZ = state.yard.depth > 0 ? radius / state.yard.depth * segs : 0;
 const minIx = Math.max(0, Math.floor(center.ix - radGridX));
