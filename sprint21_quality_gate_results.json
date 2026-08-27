@@ -1,30 +1,30 @@
 {
   "sprint": 21,
   "total": 54,
-  "passed": 50,
-  "failed": 4,
-  "index_html_bytes": 744366,
-  "index_html_lines": 17272,
+  "passed": 54,
+  "failed": 0,
+  "index_html_bytes": 759219,
+  "index_html_lines": 17494,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "744366 bytes"
+      "detail": "759219 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "744366 bytes"
+      "detail": "759219 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "17272 lines (info only)"
+      "detail": "17494 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
       "status": "PASS",
-      "detail": "884 opening vs 884 closing braces"
+      "detail": "934 opening vs 934 closing braces"
     },
     {
       "name": "Three.js v0.160.0 via importmap unchanged",
@@ -154,12 +154,12 @@
     {
       "name": "Dig button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "dig rect=(733, 255, 39, 28)"
+      "detail": "dig rect=(500, 576, 51, 21)"
     },
     {
       "name": "Fill button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "fill rect=(775, 255, 36, 28)"
+      "detail": "fill rect=(555, 576, 51, 21)"
     },
     {
       "name": "ALL 7 terrain mode buttons rects fully visible at 1280x800",
@@ -173,13 +173,13 @@
     },
     {
       "name": "MANDATE: every .terrain-mode-btn user-clickable without scrolling (elementFromPoint hits the button)",
-      "status": "FAIL",
-      "detail": "dig:hit=False,target=CANVAS; fill:hit=False,target=CANVAS"
+      "status": "PASS",
+      "detail": "all 7 hit-test clean"
     },
     {
-      "name": "Raw CDP click activates every unclipped mode button (5/7 unclipped on this baseline)",
+      "name": "Raw CDP click activates every unclipped mode button (7/7 unclipped on this baseline)",
       "status": "PASS",
-      "detail": "raw clicks OK: raise,lower,smooth,erode,flatten"
+      "detail": "raw clicks OK: raise,lower,smooth,erode,flatten,dig,fill"
     },
     {
       "name": "Dig/Fill clickable after scroll-into-view (handler wiring intact; dig-depth row shows)",
@@ -188,8 +188,8 @@
     },
     {
       "name": "CDP click on Dig activates it without scrolling the page (dock scroll may be required pre-fix)",
-      "status": "FAIL",
-      "detail": "dig active=False pageScrollY=0"
+      "status": "PASS",
+      "detail": "dig active=True pageScrollY=0"
     },
     {
       "name": "Terrain dock closes via its close button (real click)",
@@ -213,13 +213,13 @@
     },
     {
       "name": "MANDATE: #excavate-btn visible & CDP-clickable (primary entry point)",
-      "status": "FAIL",
-      "detail": "PRE-EXISTING baseline failure: CSS '#tape-measure-btn, #terrain-btn, #excavate-btn, \u2026 { display:none !important }' force-hides the bottom toolbar; documented in QUALITY_REPORT.md (owned by excavate-visibility fix)"
+      "status": "PASS",
+      "detail": "{'found': True, 'display': 'flex', 'visible': True, 'hitAtCenter': True, 'active': False, 'pressed': 'false'}"
     },
     {
       "name": "CDP click on Excavate toggles it open (aria-pressed)",
-      "status": "FAIL",
-      "detail": "CANNOT-CLICK on baseline: button is display:none (pre-existing, documented in QUALITY_REPORT.md)"
+      "status": "PASS",
+      "detail": "{'found': True, 'display': 'flex', 'visible': True, 'hitAtCenter': True, 'active': True, 'pressed': 'true'}"
     },
     {
       "name": "Underground dock opens and Cutaway control is visible",
@@ -229,7 +229,7 @@
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=9669 vs flat=11938 (revealed delta=-2269); clay=61 subsoil=241 topsoil=315 bedrock=9052"
+      "detail": "geo pixels: pit=9560 vs flat=11622 (revealed delta=-2062); clay=61 subsoil=241 topsoil=292 bedrock=8966"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -239,7 +239,7 @@
     {
       "name": "Cutaway 50 arms clip plane (downward normal in clippingPlanes)",
       "status": "PASS",
-      "detail": "planes=[{'ny': -1, 'c': -9.75}]"
+      "detail": "planes=[{'ny': -1, 'c': -9.75}, {'ny': 1, 'c': 0}]"
     },
     {
       "name": "Cutaway slider to 0: input value == 0 (Full)",
@@ -249,7 +249,7 @@
     {
       "name": "Cutaway 0 removes clip plane",
       "status": "PASS",
-      "detail": "planes=[]"
+      "detail": "planes=[{'ny': 1, 'c': 0}]"
     },
     {
       "name": "Underground dock closes via its close button (real click)",
@@ -264,12 +264,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=143066 vs flat baseline=139803 (ratio 1.02)"
+      "detail": "grass restored=138606 vs flat baseline=134262 (ratio 1.03)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 17"
+      "detail": "|geo_restored - geo_flat| = 430"
     },
     {
       "name": "No console errors during the entire run",
