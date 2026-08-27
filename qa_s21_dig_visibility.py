@@ -38,8 +38,11 @@ def record(name, ok, detail=""):
     print(("PASS  " if ok else "FAIL  ") + name + ("  -- " + str(detail)[:180] if detail else ""))
 
 
-def classify_pixels(png_path, max_dim=420):
+def classify_pixels(png_path, max_dim=420, canvas_only=False):
     img = Image.open(png_path).convert("RGB")
+    if canvas_only:
+        # Crop to the 3D canvas region (right of the item-library panel, above status bar)
+        img = img.crop((340, 0, img.width, 620))
     img.thumbnail((max_dim, max_dim))
     px = img.load()
     w, h = img.size
@@ -148,6 +151,7 @@ def main():
         set_camera(page)
         page.screenshot(path=f"{DIR}/0_before.png")
         before = classify_pixels(f"{DIR}/0_before.png")
+        before_canvas = classify_pixels(f"{DIR}/0_before.png", canvas_only=True)
         print("BEFORE bands:", json.dumps(before))
         record("setup:grass_visible_before", frac(before, "grass") > 0.05,
                f"grass frac={frac(before, 'grass'):.3f}")
@@ -231,17 +235,19 @@ def main():
         record("vc-underground:off_disarms", bool(d and not d.get("autoDigClipActive")), f"diag={d}")
 
         # -- 5b. Clean-state grass restoration ---------------------------------
-        # Everything is off again. Close the still-open Underground dock via its tab
-        # (real user path; triggers closeDockPanel -> updateGroundVisibility), then
-        # re-aim the camera (vc-underground's off path reset it) and verify the
-        # normal grass surface is back in the pixels.
-        page.locator('.td-tab[data-dock="underground"]').click()
-        page.wait_for_timeout(500)
+        # Everything is off again. The Underground dock may have already auto-closed
+        # (the excavate-close handler closes it); clicking its tab now would RE-OPEN
+        # it (openDockPanel sets excavatePanelVisible=true). Only click to close if
+        # the dock is actually still visible.
+        ug_panel = page.locator('#dock-underground')
+        if ug_panel.count() > 0 and 'visible' in (ug_panel.get_attribute('class') or ''):
+            page.locator('.td-tab[data-dock="underground"]').click()
+            page.wait_for_timeout(500)
         set_camera(page)
         page.screenshot(path=f"{DIR}/5_restored.png")
-        b5 = classify_pixels(f"{DIR}/5_restored.png")
-        record("close:grass_restored", frac(b5, "grass") >= frac(before, "grass") - 0.02,
-               f"grass {frac(b5, 'grass'):.4f} vs before {frac(before, 'grass'):.4f}")
+        b5 = classify_pixels(f"{DIR}/5_restored.png", canvas_only=True)
+        record("close:grass_restored", frac(b5, "grass") >= frac(before_canvas, "grass") - 0.02,
+               f"grass {frac(b5, 'grass'):.4f} vs before(canvas) {frac(before_canvas, 'grass'):.4f}")
 
         # -- 6. Terrain dock Dig brush regression ------------------------------
         page.locator('.td-tab[data-dock="terrain"]').click()
