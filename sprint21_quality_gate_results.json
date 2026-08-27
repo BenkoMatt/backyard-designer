@@ -1,0 +1,280 @@
+{
+  "sprint": 21,
+  "total": 54,
+  "passed": 50,
+  "failed": 4,
+  "index_html_bytes": 744366,
+  "index_html_lines": 17272,
+  "results": [
+    {
+      "name": "index.html size <= 750KB (hard limit)",
+      "status": "PASS",
+      "detail": "744366 bytes"
+    },
+    {
+      "name": "index.html size <= 768KB (safety margin)",
+      "status": "PASS",
+      "detail": "744366 bytes"
+    },
+    {
+      "name": "index.html line count recorded",
+      "status": "PASS",
+      "detail": "17272 lines (info only)"
+    },
+    {
+      "name": "CSS <style> block braces balanced",
+      "status": "PASS",
+      "detail": "884 opening vs 884 closing braces"
+    },
+    {
+      "name": "Three.js v0.160.0 via importmap unchanged",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "#excavate-btn element exists in HTML",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "#excavate-btn click handler wired (excavatePanelVisible toggle)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "excavate close button wired",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "updateAutoDigClip() defined",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "updateAutoDigClip() called from terrain mode handler",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "_rebuildYardClipPlanes preserves terrain+crossSection+autoDig planes",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "NAMED_GEO_LAYERS defines topsoil (base 0x4a\u2026)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "NAMED_GEO_LAYERS defines subsoil (base 0x9b\u2026)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "NAMED_GEO_LAYERS defines clay (base 0xa0\u2026)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "NAMED_GEO_LAYERS defines bedrock (base 0x60\u2026)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has raise mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has lower mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has smooth mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has erode mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has flatten mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has dig mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain dock has fill mode button",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "window.applyTerrainFull exported",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "window._test exposes state/yardMesh",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "window.controls exported for camera setup",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "App boots: wizard dismissed via real click, yard initialized",
+      "status": "PASS",
+      "detail": "{'wizardHidden': True, 'welcomeHidden': True, 'yardReady': True}"
+    },
+    {
+      "name": "Terrain dock opens on tab click",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Dig button present in Terrain dock",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Fill button present in Terrain dock",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Dig button rect fully inside viewport (no scrolling needed)",
+      "status": "PASS",
+      "detail": "dig rect=(733, 255, 39, 28)"
+    },
+    {
+      "name": "Fill button rect fully inside viewport (no scrolling needed)",
+      "status": "PASS",
+      "detail": "fill rect=(775, 255, 36, 28)"
+    },
+    {
+      "name": "ALL 7 terrain mode buttons rects fully visible at 1280x800",
+      "status": "PASS",
+      "detail": "; offscreen: "
+    },
+    {
+      "name": "No page scrolling after dock open (scrollX/Y == 0)",
+      "status": "PASS",
+      "detail": "pageScroll=[0, 0, 0]"
+    },
+    {
+      "name": "MANDATE: every .terrain-mode-btn user-clickable without scrolling (elementFromPoint hits the button)",
+      "status": "FAIL",
+      "detail": "dig:hit=False,target=CANVAS; fill:hit=False,target=CANVAS"
+    },
+    {
+      "name": "Raw CDP click activates every unclipped mode button (5/7 unclipped on this baseline)",
+      "status": "PASS",
+      "detail": "raw clicks OK: raise,lower,smooth,erode,flatten"
+    },
+    {
+      "name": "Dig/Fill clickable after scroll-into-view (handler wiring intact; dig-depth row shows)",
+      "status": "PASS",
+      "detail": "dig+fill OK"
+    },
+    {
+      "name": "CDP click on Dig activates it without scrolling the page (dock scroll may be required pre-fix)",
+      "status": "FAIL",
+      "detail": "dig active=False pageScrollY=0"
+    },
+    {
+      "name": "Terrain dock closes via its close button (real click)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain state setup: camera positioned over yard center",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain state setup: pit dug + applyTerrainFull",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "#excavate-btn exists in DOM",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "MANDATE: #excavate-btn visible & CDP-clickable (primary entry point)",
+      "status": "FAIL",
+      "detail": "PRE-EXISTING baseline failure: CSS '#tape-measure-btn, #terrain-btn, #excavate-btn, \u2026 { display:none !important }' force-hides the bottom toolbar; documented in QUALITY_REPORT.md (owned by excavate-visibility fix)"
+    },
+    {
+      "name": "CDP click on Excavate toggles it open (aria-pressed)",
+      "status": "FAIL",
+      "detail": "CANNOT-CLICK on baseline: button is display:none (pre-existing, documented in QUALITY_REPORT.md)"
+    },
+    {
+      "name": "Underground dock opens and Cutaway control is visible",
+      "status": "PASS",
+      "detail": "{'panelVisible': True, 'panelRect': {'x': 370, 'y': 579, 'w': 279.359375, 'h': 205}, 'cutFound': True, 'cutVisible': True, 'cutRect': {'x': 442.359375, 'y': 658, 'w': 129, 'h': 16}}"
+    },
+    {
+      "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
+      "status": "PASS",
+      "detail": "geo pixels: pit=9669 vs flat=11938 (revealed delta=-2269); clay=61 subsoil=241 topsoil=315 bedrock=9052"
+    },
+    {
+      "name": "Cutaway slider to 50: input value == 50",
+      "status": "PASS",
+      "detail": "value=50"
+    },
+    {
+      "name": "Cutaway 50 arms clip plane (downward normal in clippingPlanes)",
+      "status": "PASS",
+      "detail": "planes=[{'ny': -1, 'c': -9.75}]"
+    },
+    {
+      "name": "Cutaway slider to 0: input value == 0 (Full)",
+      "status": "PASS",
+      "detail": "value=0 label=Full"
+    },
+    {
+      "name": "Cutaway 0 removes clip plane",
+      "status": "PASS",
+      "detail": "planes=[]"
+    },
+    {
+      "name": "Underground dock closes via its close button (real click)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain state setup: flattened back",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "MANDATE: after closing excavate + flattening, grass green returns",
+      "status": "PASS",
+      "detail": "grass restored=143066 vs flat baseline=139803 (ratio 1.02)"
+    },
+    {
+      "name": "After restore: geological browns gone (back to flat baseline)",
+      "status": "PASS",
+      "detail": "|geo_restored - geo_flat| = 17"
+    },
+    {
+      "name": "No console errors during the entire run",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}
