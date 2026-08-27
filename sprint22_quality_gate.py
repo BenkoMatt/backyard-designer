@@ -144,7 +144,7 @@ MODAL_TEXT_CHECK = """(sel) => {
         exists: true,
         text: (el.textContent || ''),
         kbds: el.querySelectorAll('kbd').length,
-        sections: el.querySelectorAll('h3, h4, [class*="section"], [class*="category"]').length,
+        sections: el.querySelectorAll('h3, h4, [class*="section"], [class*="category"], .sc-sec').length,
         linksWithText: Array.from(el.querySelectorAll('a, button'))
             .filter(e2 => /guide|shortcut/i.test(e2.textContent || ''))
             .map(e2 => (e2.textContent || '').trim().slice(0, 60))
@@ -408,8 +408,9 @@ def run_browser_tests(base_url):
                 page.keyboard.press('Escape')
                 page.wait_for_timeout(300)
 
-                # topbar '?' button — real mouse click at its center
-                help_btn = page.locator('#btn-help')
+                # topbar Shortcuts button — real mouse click at its center
+                # (Agent 1's guide button is #btn-shortcuts; #btn-help opens the Help modal)
+                help_btn = page.locator('#btn-shortcuts')
                 if help_btn.count() > 0:
                     help_btn.click()
                     page.wait_for_timeout(400)
@@ -420,7 +421,7 @@ def run_browser_tests(base_url):
                     page.wait_for_timeout(300)
                 else:
                     test("Topbar '?' button opens the shortcuts guide (real click)", False,
-                         "#btn-help not found")
+                         "#btn-shortcuts not found")
 
             # ========================================================
             # GROUP B1 + C — doc-drift lock against rendered content
