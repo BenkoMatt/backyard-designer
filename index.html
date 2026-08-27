@@ -591,6 +591,23 @@ display: none !important;
 .help-panel ul { margin-left: 18px; margin-bottom: 12px; }
 .help-panel .close-btn { margin-top: 20px; width: 100%; }
 .help-panel .close-btn:hover { background: var(--primary-dark); }
+/* Sprint 22: Keyboard Shortcuts Guide */
+#shortcuts-modal { position: fixed; inset: 0; background: var(--modal-backdrop); z-index: var(--modal-z); display: none; align-items: center; justify-content: center; }
+#shortcuts-modal.visible { display: flex; }
+.sc-panel { background: white; border-radius: 16px; padding: 22px 26px 18px; max-width: 680px; width: 92%; max-height: 84vh; overflow-y: auto; box-shadow: var(--shadow-lg); pointer-events: auto; }
+.sc-panel h2 { font-size: 18px; margin-bottom: 2px; color: var(--primary); display: flex; align-items: center; justify-content: space-between; }
+.sc-panel .sc-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+.sc-close { border: none; background: var(--hover-bg); color: var(--text-muted); width: 30px; height: 30px; border-radius: 50%; font-size: 16px; cursor: pointer; line-height: 1; }
+.sc-close:hover { background: var(--border); color: var(--text); }
+.sc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 22px; }
+.sc-sec { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--primary); margin: 8px 0 2px; }
+.sc-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 0; border-bottom: 1px solid var(--hover-bg); }
+.sc-row .sc-desc { font-size: 12px; color: var(--text); }
+.sc-row .sc-keys { white-space: nowrap; display: flex; gap: 3px; }
+.sc-row kbd { font-family: inherit; font-size: 11px; font-weight: 600; background: var(--hover-bg); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 1px 6px; color: var(--text); }
+.sc-badge { display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase; background: #e3f2fd; color: #1565c0; border-radius: 3px; padding: 1px 5px; margin-left: 6px; vertical-align: 1px; }
+.sc-mouse { font-size: 11px; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+.sc-panel .close-btn { margin-top: 14px; width: 100%; }
 #import-input { display: none; }
 #cost-panel {
 position: absolute; top: 16px; right: 16px; z-index: 40;
@@ -1791,6 +1808,7 @@ Save
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
 Capture
 </button>
+<button class="tb-btn" id="btn-shortcuts" title="Keyboard Shortcuts Guide (?) / F1" aria-label="Open keyboard shortcuts guide">⌨ Shortcuts</button>
 <button class="tb-btn" id="btn-help" title="Help" aria-label="Open help dialog">? Help</button>
 </div>
 <div class="tb-divider"></div>
@@ -3046,6 +3064,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <div id="help-modal" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-hidden="true">
 <div class="help-panel">
 <h2 id="help-title">How to Use Backyard Designer 3D<span id="help-mode-badge" class="mode-badge basic">Basic</span></h2>
+<p style="font-size:12px;margin:-8px 0 10px;"><a href="#" id="help-open-shortcuts" style="color:var(--primary);font-weight:600;">View Keyboard Shortcuts</a> — press <strong>?</strong> or <strong>F1</strong> anytime</p>
 <h3>Getting Started</h3>
 <ul>
 <li><strong>Click an item</strong> from the left panel to add it to your yard</li>
@@ -3088,22 +3107,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <li>In <strong>Bird's-eye view</strong>, grid labels show foot measurements along the edges</li>
 </ul>
 <h3>Keyboard Shortcuts</h3>
-<ul>
-<li><strong>Ctrl+Z</strong> — Undo • <strong>Ctrl+Y</strong> or <strong>Ctrl+Shift+Z</strong> — Redo</li>
-<li><strong>Ctrl+S</strong> — Save Design • <strong>Ctrl+Shift+S</strong> — Save As...</li>
-<li><strong>Ctrl+D</strong> — Duplicate Selected Object</li>
-<li><strong>Ctrl+A</strong> — Select All Objects</li>
-<li><strong>Ctrl+K</strong> — Command Palette (search any feature)</li>
-<li><strong>Delete</strong> / <strong>Backspace</strong> — Delete Selected Object</li>
-<li><strong>Tab</strong> — Cycle Through Objects • <strong>Shift+Tab</strong> — Reverse</li>
-<li><strong>Arrow Keys</strong> — Move Selected Object (1 ft) • <strong>Shift+Arrows</strong> — Fine Move (0.1 ft)</li>
-<li><strong>V</strong> — 3D View • <strong>B</strong> — Bird's-eye View</li>
-<li><strong>W</strong> — Walk Mode • <strong>T</strong> — Terrain Dock</li>
-<li><strong>G</strong> — Toggle Grid • <strong>R</strong> — Reset View</li>
-<li><strong>Shift+Click</strong> / <strong>Ctrl+Click</strong> — Multi-Select Objects</li>
-<li><strong>Right-Click</strong> on object — Context Menu (Duplicate, Rotate, Delete, Properties)</li>
-<li><strong>Escape</strong> — Deselect / Close Panels</li>
-</ul>
+<p style="font-size:13px;line-height:1.6;color:var(--text);margin-bottom:12px;">Press <strong>?</strong> or <strong>F1</strong> (or click <strong>⌨ Shortcuts</strong> in the top bar) for the complete Keyboard Shortcuts guide — every key for terrain, camera, editing, files, and modes, organized by category.</p>
 <h3>Advanced Features</h3>
 <ul>
 <li><strong>Walk Mode:</strong> Click Walk Mode to explore your yard in first-person. Use WASD or arrow keys to move, mouse to look around. Press Escape to exit.</li>
@@ -3135,6 +3139,43 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <li>If you prefer reduced motion, enable "Reduce motion" in your system settings — animations will be minimized</li>
 </ul>
 <button class="wizard-btn close-btn" id="help-close-btn">Got It!</button>
+</div>
+</div>
+<!-- Sprint 22: Keyboard Shortcuts Guide -->
+<div id="shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="sc-title" aria-hidden="true">
+<div class="sc-panel">
+<h2 id="sc-title">Keyboard Shortcuts<span id="sc-mode-badge" class="mode-badge basic">Basic</span><button type="button" class="sc-close" id="shortcuts-close-btn" aria-label="Close shortcuts guide">✕</button></h2>
+<div class="sc-sub">Press <kbd>?</kbd> or <kbd>F1</kbd> anytime to open this guide</div>
+<div class="sc-grid">
+<div class="sc-sec">Terrain</div>
+<div class="sc-sec">View &amp; Camera</div>
+<div class="sc-row"><span class="sc-desc"><kbd>1</kbd>–<kbd>6</kbd> Brush mode (Raise, Excavate, Smooth, Erode, Flatten, Fill)</span><span class="sc-keys"><kbd>1</kbd>–<kbd>6</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>V</kbd> 3D view</span><span class="sc-keys"><kbd>V</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>[</kbd> / <kbd>]</kbd> Brush size down / up (1–30 ft)</span><span class="sc-keys"><kbd>[</kbd><kbd>]</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>B</kbd> Bird's-eye (2D) view</span><span class="sc-keys"><kbd>B</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>X</kbd> Toggle Terrain dock</span><span class="sc-keys"><kbd>X</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>W</kbd> Walk mode (<kbd>Esc</kbd> exits)</span><span class="sc-keys"><kbd>W</kbd></span></div>
+<div class="sc-sec">Selection &amp; Edit</div>
+<div class="sc-row"><span class="sc-desc"><kbd>R</kbd> Reset view</span><span class="sc-keys"><kbd>R</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Move selected object (1 ft; Shift = fine 0.1 ft)</span><span class="sc-keys"><kbd>↑↓←→</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>G</kbd> Toggle grid</span><span class="sc-keys"><kbd>G</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Delete selected object</span><span class="sc-keys"><kbd>Del</kbd><kbd>⌫</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>T</kbd> Terrain dock</span><span class="sc-keys"><kbd>T</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Deselect / close panels</span><span class="sc-keys"><kbd>Esc</kbd></span></div>
+<div class="sc-sec">Modes</div>
+<div class="sc-row"><span class="sc-desc">Cycle placed objects</span><span class="sc-keys"><kbd>Alt+Tab</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>M</kbd> Toggle Basic / Advanced mode</span><span class="sc-keys"><kbd>M</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Select all objects<span class="sc-badge">Adv</span></span><span class="sc-keys"><kbd>Ctrl+A</kbd></span></div>
+<div class="sc-sec">Files &amp; Tools</div>
+<div class="sc-row"><span class="sc-desc">Duplicate selected object</span><span class="sc-keys"><kbd>Ctrl+D</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Save design</span><span class="sc-keys"><kbd>Ctrl+S</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Undo / Redo</span><span class="sc-keys"><kbd>Ctrl+Z</kbd><kbd>Ctrl+Y</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Save as…</span><span class="sc-keys"><kbd>Ctrl+Shift+S</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Performance panel<span class="sc-badge">Adv</span></span><span class="sc-keys"><kbd>Ctrl+Shift+P</kbd></span></div>
+<div class="sc-row"><span class="sc-desc">Command palette — search any feature</span><span class="sc-keys"><kbd>Ctrl+K</kbd></span></div>
+</div>
+<div class="sc-mouse"><strong>Mouse:</strong> Left-drag orbit • Scroll zoom • Right-drag pan • Click select • Drag move • Right-click object for context menu</div>
+<button class="wizard-btn close-btn" id="shortcuts-got-btn">Got It!</button>
 </div>
 </div>
 <!-- SPRINT 8: Print View (Agent 5 — Comparative) -->
@@ -5902,7 +5943,7 @@ applyViewMode(btn.dataset.view);
   const topbar = document.getElementById('topbar');
   if (!topbar) return;
   const topbarButtonIds = [
-    'btn-undo', 'btn-redo', 'btn-save', 'btn-load', 'btn-screenshot', 'btn-help',
+    'btn-undo', 'btn-redo', 'btn-save', 'btn-load', 'btn-screenshot', 'btn-shortcuts', 'btn-help',
     'btn-layers', 'btn-cost', 'btn-walk', 'btn-export',
     'btn-share', 'btn-gallery', 'btn-timelapse', 'btn-socialcard',
     'btn-season', 'btn-growth', 'btn-permit', 'btn-templates', 'btn-label', 'btn-print'
@@ -6499,6 +6540,7 @@ panel.innerHTML = `
 </div>
 </div>
 <p style="font-size:12px;color:var(--text-muted);margin-bottom:16px;">Quick sizes: <a href="#" id="qs-small" style="color:var(--primary)">Small (30×50)</a> • <a href="#" id="qs-med" style="color:var(--primary)">Medium (50×100)</a> • <a href="#" id="qs-large" style="color:var(--primary)">Large (75×150)</a></p>
+<p style="font-size:12px;color:var(--text-muted);margin:-8px 0 16px;">Tip: press <strong>?</strong> or <strong>F1</strong> anytime for the Keyboard Shortcuts guide.</p>
 <button class="wizard-btn" id="wizard-finish">Start Designing! →</button>
 <button class="wizard-back" id="wizard-back">← Back</button>
 `;
@@ -6827,6 +6869,22 @@ e.stopPropagation();
 document.getElementById('help-close-btn')?.addEventListener('click', () => {
 closeModal('help-modal');
 });
+// --- Sprint 22: Keyboard Shortcuts Guide ---
+function openShortcuts() { openModal('shortcuts-modal'); }
+window.openShortcuts = openShortcuts;
+document.getElementById('btn-shortcuts').addEventListener('click', openShortcuts);
+document.getElementById('help-open-shortcuts')?.addEventListener('click', e => {
+e.preventDefault();
+closeModal('help-modal');
+openShortcuts();
+});
+document.getElementById('shortcuts-close-btn')?.addEventListener('click', () => closeModal('shortcuts-modal'));
+document.getElementById('shortcuts-got-btn')?.addEventListener('click', () => closeModal('shortcuts-modal'));
+document.getElementById('shortcuts-modal').addEventListener('click', e => { if (e.target.id === 'shortcuts-modal') closeModal('shortcuts-modal'); });
+document.addEventListener('keydown', e => {
+if (e.key === 'F1') { e.preventDefault(); openShortcuts(); }
+else if (e.key === '?') { e.preventDefault(); openShortcuts(); }
+}, true);
 let toastTimer = null;
 function showToast(msg) {
 const toast = document.getElementById('toast');
@@ -6862,6 +6920,11 @@ function applyMode(mode) {
   if (badge) {
     badge.textContent = mode === 'advanced' ? 'Advanced' : 'Basic';
     badge.className = 'mode-badge ' + mode;
+  }
+  const scBadge = document.getElementById('sc-mode-badge');
+  if (scBadge) {
+    scBadge.textContent = mode === 'advanced' ? 'Advanced' : 'Basic';
+    scBadge.className = 'mode-badge ' + mode;
   }
   if (mode === 'basic' && typeof window._dockActiveTab === 'function') {
     /* Sprint 21 fix: _dockActiveTab() returns the dock id STRING (not an element). */
@@ -6961,6 +7024,8 @@ deleteObjectWithCommand(state.selectedId);
 let modalClosed = false;
 const helpModal = document.getElementById('help-modal');
 if (helpModal && helpModal.classList.contains('visible')) { closeModal('help-modal'); modalClosed = true; }
+const shortcutsModal = document.getElementById('shortcuts-modal');
+if (shortcutsModal && shortcutsModal.classList.contains('visible')) { closeModal('shortcuts-modal'); modalClosed = true; }
 const shareModal = document.getElementById('share-modal');
 if (shareModal && shareModal.classList.contains('visible')) { closeModal('share-modal'); modalClosed = true; }
 const templatesModal = document.getElementById('templates-modal');
