@@ -1,0 +1,206 @@
+{
+  "basic-help-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-help-modal.png"
+  },
+  "basic-templates-modal": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1987ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-share-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-share-modal.png"
+  },
+  "basic-command-palette": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-command-palette.png"
+  },
+  "basic-cost-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-cost-panel.png"
+  },
+  "basic-layer-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-layer-panel.png"
+  },
+  "basic-season-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1989ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-growth-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1989ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-permit-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1990ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-terrain": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-dock-terrain.png"
+  },
+  "basic-dock-underground": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1982ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-analyze": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1989ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-innovate": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1987ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-sun": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-dock-sun.png"
+  },
+  "basic-dock-measure": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1980ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-dock-experience": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1982ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-excavate-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1966ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-cross-section": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1989ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-terrain-analysis": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1981ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-innovation-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1993ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-sun-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1992ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "basic-context-menu": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/basic-context-menu.png"
+  },
+  "advanced-help-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-help-modal.png"
+  },
+  "advanced-templates-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-templates-modal.png"
+  },
+  "advanced-share-modal": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-share-modal.png"
+  },
+  "advanced-command-palette": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-command-palette.png"
+  },
+  "advanced-cost-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-cost-panel.png"
+  },
+  "advanced-layer-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-layer-panel.png"
+  },
+  "advanced-season-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-season-panel.png"
+  },
+  "advanced-growth-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-growth-panel.png"
+  },
+  "advanced-permit-panel": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-permit-panel.png"
+  },
+  "advanced-dock-terrain": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-terrain.png"
+  },
+  "advanced-dock-underground": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-underground.png"
+  },
+  "advanced-dock-analyze": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-analyze.png"
+  },
+  "advanced-dock-innovate": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-innovate.png"
+  },
+  "advanced-dock-sun": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-sun.png"
+  },
+  "advanced-dock-measure": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-measure.png"
+  },
+  "advanced-dock-experience": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-dock-experience.png"
+  },
+  "advanced-excavate-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1849ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "advanced-cross-section": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1985ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "advanced-terrain-analysis": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1987ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "advanced-innovation-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1980ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "advanced-sun-panel": {
+    "open_ok": false,
+    "shot": null,
+    "error": "Locator.scroll_into_view_if_needed: Timeout 1984ms exceeded.\nCall log:\n  - attempting scroll into view action\n    2 \u00d7 waiting for element to be stable\n      - element is not visible\n    - retrying scr"
+  },
+  "advanced-context-menu": {
+    "open_ok": true,
+    "shot": "/root/byd21-visual-audit/reports/sprint21_shots/before/advanced-context-menu.png"
+  },
+  "advanced-switch-to-basic-orphan-panels": [
+    "dock-panel-container",
+    "dock-underground"
+  ],
+  "advanced-jserrors": [
+    "activeTab.getAttribute is not a function",
+    "activeTab.getAttribute is not a function",
+    "activeTab.getAttribute is not a function"
+  ]
+}

@@ -372,8 +372,12 @@ justify-content: center; font-weight: 600;
 display: none; flex-direction: column; gap: 8px;
 }
 .advanced-section.visible { display: flex; }
-#tape-measure-btn, #terrain-btn, #excavate-btn, #terrain-analysis-btn, #innovation-btn, #sun-btn {
-display: none !important;
+/* Sprint 21: quick-access buttons restored (Sprint 5 had hidden them when the
+dock replaced them; the bottom-left toolbar is their container and was empty).
+They act as 1-click launchers that open the matching dock/panel. */
+#bottom-left-toolbar #tape-measure-btn, #bottom-left-toolbar #terrain-btn, #bottom-left-toolbar #excavate-btn,
+#bottom-left-toolbar #terrain-analysis-btn, #bottom-left-toolbar #innovation-btn, #bottom-left-toolbar #sun-btn {
+display: flex !important; position: relative !important; left: auto !important; bottom: auto !important;
 }
 #terrain-controls, #excavate-panel, #terrain-analysis-panel, #innovation-panel, #sun-panel {
 display: none !important;
@@ -515,7 +519,7 @@ display: none !important;
 .cs-header .title { font-size: 13px; font-weight: 700; color: var(--carve); display: flex; align-items: center; gap: 6px; }
 .cs-header .close { cursor: pointer; border: none; background: none; font-size: 16px; color: var(--text-muted); padding: 0 4px; }
 .cs-header .close:hover { color: var(--text); }
-#cross-section-canvas { width: 100%; height: 200px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+#cross-section-canvas { width: 100%; height: 176px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); display: block; }
 .cs-legend { display: flex; gap: 12px; font-size: 10px; color: var(--text-muted); flex-wrap: wrap; }
 .cs-legend-item { display: flex; align-items: center; gap: 4px; }
 .cs-legend-item .cs-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
@@ -728,6 +732,17 @@ border-radius: 50%; background: white; transition: left 0.2s; box-shadow: 0 1px 
 #grid-level-badge { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(91,74,139,0.95); color: white; padding: 5px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; box-shadow: var(--shadow); z-index: 10; display: none; pointer-events: none; }
 #grid-level-badge.visible { display: block; }
 #grid-level-badge .badge-icon { font-size: 14px; vertical-align: middle; margin-right: 4px; }
+/* Sprint 21: collapsible secondary sections — keep primary controls scroll-free */
+.s21-collapse-btn { display: flex; align-items: center; justify-content: space-between; width: 100%;
+padding: 5px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+background: var(--hover-bg); cursor: pointer; font-size: 11px; font-weight: 700;
+text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);
+font-family: inherit; transition: all 0.15s; }
+.s21-collapse-btn:hover { border-color: var(--primary); background: var(--hover-bg-primary); }
+.s21-collapse-btn .s21-arrow { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.6; }
+.s21-collapse-btn.expanded .s21-arrow { transform: rotate(180deg); }
+.s21-collapse-btn .s21-chev { font-size: 9px; margin-left: auto; }
+.s21-collapsed { display: none !important; }
 .carving-section { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; border-top: 1px solid var(--border); margin-top: 4px; }
 .carving-section-title { font-weight: 700; font-size: 11px; text-transform: uppercase; color: var(--carve); letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
 .carving-section-title svg { width: 14px; height: 14px; }
@@ -2156,12 +2171,12 @@ Terrain
 <div class="viewport-overlay" id="terrain-controls">
 <div class="terrain-controls-header"><span class="title" style="font-weight:700;font-size:13px;">Terrain Controls</span><button class="minimize" data-terrain-minimize aria-label="Minimize terrain controls">&#8722;</button></div>
 <div class="terrain-controls-body">
-<div class="terrain-instructions" style="background:var(--hover-bg-primary);padding:8px 12px;border-radius:var(--radius-sm);margin-bottom:8px;font-size:11px;color:var(--text-muted);line-height:1.4;">
-💡 <strong>How to sculpt:</strong> Pick a mode (Raise, Excavate, etc.), then <strong>click and drag</strong> on the ground to shape the terrain. Adjust brush size and strength as needed.
+<div class="terrain-instructions" style="background:var(--hover-bg-primary);padding:4px 8px;border-radius:var(--radius-sm);margin-bottom:6px;font-size:10px;color:var(--text-muted);line-height:1.3;">
+💡 Pick a mode, then <strong>click + drag</strong> on the ground to sculpt.
 </div>
 <div class="terrain-row">
 <label>Mode:</label>
-<div class="terrain-mode-btns">
+<div class="terrain-mode-btns" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;">
 <button class="terrain-mode-btn active" data-tmode="raise" aria-label="Raise terrain mode" aria-pressed="true">Raise</button>
 <button class="terrain-mode-btn" data-tmode="lower" aria-label="Excavate terrain mode" aria-pressed="false">Excavate</button>
 <button class="terrain-mode-btn" data-tmode="smooth" aria-label="Smooth terrain mode" aria-pressed="false">Smooth</button>
@@ -2209,7 +2224,9 @@ Terrain
 </button>
 <div class="tc-acc-panel" id="tc-panel-ground">
 <div class="grid-level-section">
-<div class="grid-level-label">Grid Level (Ground Plane)</div>
+<button class="s21-collapse-btn" id="gridlevel-section-toggle" type="button" aria-expanded="false" aria-controls="gridlevel-section-body"><span>Grid Level (Ground Plane)</span><span class="s21-arrow">▾</span></button>
+<div id="gridlevel-section-body" class="s21-collapsed">
+<div class="grid-level-label" style="display:none;">Grid Level (Ground Plane)</div>
 <div class="grid-level-row">
 <input type="range" id="grid-level-slider" min="-30" max="30" value="0" step="1" aria-label="Grid level ground plane elevation in feet">
 <span class="grid-level-val" id="grid-level-val">0 ft</span>
@@ -2226,6 +2243,7 @@ Terrain
 <span class="dg-value" id="dg-inline-value">0.0 ft</span>
 <div class="depth-gauge-inline-bar" id="dg-inline-bar"><div class="depth-gauge-inline-indicator" id="dg-inline-indicator"></div></div>
 </div>
+</div><!-- /gridlevel-section-body -->
 </div>
 </div><!-- /tc-panel-ground -->
 <div class="voxel-info" id="voxel-info" style="font-size: 10px; color: var(--text-muted); display: none;">
@@ -2262,6 +2280,8 @@ Terrain
 Click on terrain to preview, click again to carve. Right-click to cancel.
 </div>
 <div class="carving-section">
+<button class="s21-collapse-btn" id="carving-section-toggle" type="button" aria-expanded="false" aria-controls="carving-section-body"><span>Carving Tools</span><span class="s21-arrow">▾</span></button>
+<div id="carving-section-body" class="s21-collapsed">
 <div class="carving-section-title">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
 Carving Tools
@@ -2303,6 +2323,7 @@ Carving Tools
 <button class="carving-commit-btn" id="carving-commit-btn" disabled aria-label="Commit carving to terrain">Click ground first</button>
 </div>
 <button id="carving-clear-btn" title="Reset all terrain to flat (clears all carvings)" aria-label="Clear all terrain carvings">Clear All Carvings</button>
+</div><!-- /carving-section-body -->
 </div>
 </div><!-- /tc-panel-carving -->
 <button type="button" class="tc-acc" data-tc-acc aria-expanded="false" aria-controls="tc-panel-presets" aria-label="Toggle Terrain presets section">
@@ -2327,6 +2348,7 @@ Carving Tools
 <button class="terrain-toggle-btn" id="terrain-toggle-height" aria-label="Toggle height color overlay">Height Colors</button>
 <button class="terrain-toggle-btn" id="terrain-toggle-drainage" aria-label="Toggle drainage overlay">Drainage</button>
 </div>
+</div><!-- /presets-section-body -->
 <button id="terrain-flatten" aria-label="Flatten all terrain to zero elevation">Flatten All Terrain</button>
 <button id="terrain-smooth-pass" aria-label="Apply smoothing pass to terrain" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: white; cursor: pointer; font-size: 11px; font-family: inherit; text-align: center; margin-top: 4px;">Smooth Terrain</button>
 </div><!-- /tc-panel-presets -->
@@ -6842,11 +6864,12 @@ function applyMode(mode) {
     badge.className = 'mode-badge ' + mode;
   }
   if (mode === 'basic' && typeof window._dockActiveTab === 'function') {
+    /* Sprint 21 fix: _dockActiveTab() returns the dock id STRING (not an element). */
     const activeTab = window._dockActiveTab();
     if (activeTab) {
-      const dockId = activeTab.getAttribute('data-dock');
+      const dockId = typeof activeTab === 'string' ? activeTab : (activeTab.getAttribute ? activeTab.getAttribute('data-dock') : null);
       const hiddenInBasic = ['underground', 'analyze', 'innovate', 'experience', 'measure'];
-      if (hiddenInBasic.includes(dockId) && typeof window._dockClosePanel === 'function') {
+      if (dockId && hiddenInBasic.includes(dockId) && typeof window._dockClosePanel === 'function') {
         window._dockClosePanel();
       }
     }
@@ -10725,13 +10748,41 @@ const csInstruction = document.getElementById('cs-instruction');
 const csInfo = document.getElementById('cs-info');
 const buriedCountEl = document.getElementById('buried-count');
 const buriedListEl = document.getElementById('buried-list');
+/* Sprint 21: unify ALL routes to the underground into one canonical state.
+Entering the underground must REVEAL the subsurface (auto-dig clip plane),
+not just toggle a panel — root cause of "I only see the flat green plane". */
+let excavateUgDockWasOpen = false;
+function _setUndergroundReveal(on) {
+/* canonical clip-plane state for underground viewing */
+if (on) {
+if (!state.terrain) { if (typeof ensureTerrainArray === 'function') ensureTerrainArray(); }
+terrainBrushMode = 'dig';
+updateAutoDigClip();
+} else {
+if (terrainBrushMode === 'dig') terrainBrushMode = 'raise';
+updateAutoDigClip();
+}
+if (typeof requestRender === 'function') requestRender();
+}
+window._setUndergroundReveal = _setUndergroundReveal;
 excavateBtn.addEventListener('click', () => {
 excavatePanelVisible = !excavatePanelVisible;
 excavateBtn.classList.toggle('active', excavatePanelVisible);
-excavateBtn.setAttribute('aria-pressed', excavatePanelVisible);
+excavateBtn.setAttribute('aria-pressed', String(excavatePanelVisible));
 excavatePanel.classList.toggle('visible', excavatePanelVisible);
+/* Panel content lives in dock-underground since Sprint 13 — drive that dock */
+const ugTab = document.querySelector('.td-tab[data-dock="underground"]');
+const ugPanel = document.getElementById('dock-underground');
+const ugOpen = ugPanel && ugPanel.classList.contains('visible');
 if (excavatePanelVisible) {
+excavateUgDockWasOpen = ugOpen;
+if (ugTab && !ugOpen) ugTab.click();
+_setUndergroundReveal(true);
 updateBuriedObjects();
+if (typeof showHint === 'function') showHint('Underground view active — Cutaway/Opacity below reveal the layers');
+} else {
+if (ugTab && ugPanel && ugPanel.classList.contains('visible') && !excavateUgDockWasOpen) ugTab.click();
+_setUndergroundReveal(false);
 }
 // Sprint 21: Entering the Excavate flow MUST reveal the underground — arm the dig clip
 // (root-cause fix: this handler previously only toggled panel visibility).
@@ -10743,18 +10794,24 @@ excavatePanelVisible = false;
 excavateBtn.classList.remove('active');
 excavateBtn.setAttribute('aria-pressed', 'false');
 excavatePanel.classList.remove('visible');
-// Sprint 21: Restore normal surface view unless the Dig brush mode is still active.
+// Sprint 21 (merged): restore normal surface view via the canonical state function
+// unless the Dig brush / underground view is still active. The Underground dock tab,
+// if open, is closed as well (visual-audit behavior).
+_setUndergroundReveal(false);
+const ugPanel = document.getElementById('dock-underground');
+if (ugPanel && ugPanel.classList.contains('visible')) {
+const tab = document.querySelector('.td-tab[data-dock="underground"]');
+if (tab) tab.click();
+}
 updateGroundVisibility();
 requestRender();
 });
-// Sprint 21 STABILITY: autoDigClipPlane is intentionally NOT tied to excavatePanelVisible.
-// Rationale: the excavate panel is a passive info/profile surface — auto-arming a clip
-// plane on open would cut away terrain the user did not ask for, and closing the panel
-// would then need to restore prior clip state. Instead, ALL clip-plane state is owned
-// by the canonical functions (_rebuildYardClipPlanes / _rebuildSolidEarthClipPlanes /
-// syncAutoDigClip), which compose terrain + cross-section + auto-dig planes. Route into
-// the ground = activate the dig brush (auto-arms autoDigClipPlane via syncAutoDigClip).
-// Cutaway, cross-section and dig compose safely through the same writers.
+// Sprint 21 (merged): autoDigClipPlane IS tied to the ground-visibility state —
+// updateGroundVisibility() arms it when excavatePanelVisible || undergroundViewActive
+// || terrainBrushMode==="dig" (the root-cause fix: Excavate must reveal the ground).
+// ALL clip-plane writes go through the canonical composers (_rebuildYardClipPlanes /
+// _rebuildSolidEarthClipPlanes / updateGroundVisibility) so terrain, cutaway,
+// cross-section and dig planes COMPOSE instead of clobbering each other.
 terrainCutawayInput.addEventListener('input', e => {
 const val = parseInt(e.target.value);
 if (val === 0) {
@@ -13133,6 +13190,19 @@ while (excavatePanel.firstChild) {
 dockUndergroundContent.appendChild(excavatePanel.firstChild);
 }
 }
+/* Sprint 21: wire collapsible secondary sections in the terrain dock.
+Delegated on the container so it survives the Sprint 13 content move. */
+dockPanelContainer.addEventListener('click', (e) => {
+const btn = e.target.closest('.s21-collapse-btn');
+if (!btn) return;
+const bodyId = btn.getAttribute('aria-controls');
+const body = bodyId ? document.getElementById(bodyId) : null;
+if (!body) return;
+const expanded = btn.classList.toggle('expanded');
+body.classList.toggle('s21-collapsed', !expanded);
+btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+if (typeof requestRender === 'function') requestRender();
+});
 const terrainAnalysisPanel = document.getElementById('terrain-analysis-panel');
 const dockAnalyzeContent = document.getElementById('dock-analyze-content');
 if (terrainAnalysisPanel && dockAnalyzeContent) {
