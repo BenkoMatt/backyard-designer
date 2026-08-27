@@ -1,0 +1,225 @@
+{
+  "sprint": 22,
+  "total": 43,
+  "passed": 33,
+  "failed": 10,
+  "index_html_bytes": 759219,
+  "index_html_lines": 17494,
+  "results": [
+    {
+      "name": "File size <= 768,000 bytes (Sprint 22 hard limit)",
+      "status": "PASS",
+      "detail": "759219 bytes (741.4 KB), headroom 8781"
+    },
+    {
+      "name": "CSS brace balance",
+      "status": "PASS",
+      "detail": "934 open / 934 close"
+    },
+    {
+      "name": "Topbar '?' button (#btn-help) exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Help modal exists",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: V -> 3D view",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: B -> bird's-eye",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: W -> walk mode",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: M -> mode toggle",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: Ctrl+K -> palette",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: Delete/Backspace",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Key handler present: Escape handler",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Terrain brush modes registry (1-6 -> raise/lower/smooth/erode/dig/fill)",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Brush size display (#terrain-brush-val) present",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Help modal source mentions Underground flow",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "App boots (yard ready, Basic mode)",
+      "status": "PASS",
+      "detail": "boot={'yardReady': True, 'mode': 'basic'}"
+    },
+    {
+      "name": "Key '1': terrain brush mode = raise (active .terrain-mode-btn)",
+      "status": "PASS",
+      "detail": "activeTMode=raise"
+    },
+    {
+      "name": "Key '1': Terrain dock auto-opens (brief: 'auto-opens Terrain dock')",
+      "status": "PASS",
+      "detail": "dock=True terrainBtnActive=True"
+    },
+    {
+      "name": "Key '5': terrain brush mode = dig",
+      "status": "PASS",
+      "detail": "activeTMode=dig"
+    },
+    {
+      "name": "Key ']': brush size increases (8 -> 9 via #terrain-brush-val)",
+      "status": "PASS",
+      "detail": "size=None valEl='9 ft'"
+    },
+    {
+      "name": "Key ']': #terrain-brush-val shows ' ft' unit",
+      "status": "PASS",
+      "detail": "valEl='9 ft'"
+    },
+    {
+      "name": "Key '[': brush size decreases back (9 -> 8)",
+      "status": "PASS",
+      "detail": "valEl='8 ft'"
+    },
+    {
+      "name": "Key 'V': switches to 3D view",
+      "status": "PASS",
+      "detail": "viewMode=3d activeBtn=3d"
+    },
+    {
+      "name": "Key 'B': switches to bird's-eye (2D) view",
+      "status": "PASS",
+      "detail": "viewMode=2d activeBtn=2d"
+    },
+    {
+      "name": "Key 'W': walk mode activates (#walk-controls visible)",
+      "status": "PASS",
+      "detail": "walkVisible=True"
+    },
+    {
+      "name": "Walk mode exits with Escape",
+      "status": "PASS",
+      "detail": "walkVisible=False"
+    },
+    {
+      "name": "Key 'M': toggles to Advanced mode",
+      "status": "PASS",
+      "detail": "currentMode=advanced"
+    },
+    {
+      "name": "Key 'M' again: toggles back to Basic",
+      "status": "PASS",
+      "detail": "currentMode=basic"
+    },
+    {
+      "name": "Ctrl+K: command palette opens",
+      "status": "PASS",
+      "detail": "cmdPaletteVisible=True"
+    },
+    {
+      "name": "Command palette closes with Escape",
+      "status": "PASS",
+      "detail": "cmdPaletteVisible=False"
+    },
+    {
+      "name": "Setup: object placed + selected via test handles (not a key path)",
+      "status": "PASS",
+      "detail": "placed={'id': 1, 'selected': 1, 'count': 1}"
+    },
+    {
+      "name": "Key 'Delete': selected object deleted (deselected, removed)",
+      "status": "PASS",
+      "detail": "selectedId=None count=0"
+    },
+    {
+      "name": "Guide modal #shortcuts-modal exists",
+      "status": "FAIL",
+      "detail": "NOT PRESENT on this tree \u2014 Sprint 22 Agent 1 deliverable not merged yet (expected pre-merge failures below)"
+    },
+    {
+      "name": "'?' opens the shortcuts guide",
+      "status": "FAIL",
+      "detail": "#shortcuts-modal not present"
+    },
+    {
+      "name": "Escape closes the shortcuts guide",
+      "status": "FAIL",
+      "detail": "#shortcuts-modal not present"
+    },
+    {
+      "name": "F1 opens the shortcuts guide",
+      "status": "FAIL",
+      "detail": "#shortcuts-modal not present"
+    },
+    {
+      "name": "Topbar '?' button opens the shortcuts guide",
+      "status": "FAIL",
+      "detail": "no #shortcuts-modal contract to verify against"
+    },
+    {
+      "name": "Guide modal renders content to lock (doc-drift)",
+      "status": "FAIL",
+      "detail": "#shortcuts-modal not present \u2014 cannot parse rendered guide (Agent 1 deliverable not merged yet)"
+    },
+    {
+      "name": "All 26 grounded inventory shortcuts documented",
+      "status": "FAIL",
+      "detail": "guide not present"
+    },
+    {
+      "name": "Guide uses <kbd> key chips",
+      "status": "FAIL",
+      "detail": "guide not present"
+    },
+    {
+      "name": "Guide organized by category sections",
+      "status": "FAIL",
+      "detail": "guide not present"
+    },
+    {
+      "name": "Help modal exists and mentions Underground flow",
+      "status": "PASS",
+      "detail": "help mentionsUnderground=True"
+    },
+    {
+      "name": "Shortcuts guide link exists (Help modal and/or guide)",
+      "status": "FAIL",
+      "detail": "helpLinks=[]"
+    },
+    {
+      "name": "No console errors during the entire run",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}
