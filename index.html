@@ -195,6 +195,12 @@ body.byd-advanced-mode .tb-btn { display: flex; }
 .vc-btn { width: 40px; height: 40px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: all 0.15s; }
 .vc-btn:hover { background: white; border-color: var(--primary); }
 .vc-btn svg { width: 18px; height: 18px; color: var(--text); }
+/* Sprint 22: cursor feedback — canvas reflects the active tool (event-driven, no rAF loop) */
+#viewport { cursor: grab; }
+#viewport.cursor-brush { cursor: crosshair; }
+#viewport.cursor-painting { cursor: crosshair; }
+#viewport.cursor-drag { cursor: move; }
+#viewport.cursor-grabbing { cursor: grabbing; }
 #dim-readout { top: 16px; left: 16px; background: var(--panel-bg-92); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 14px; font-size: 13px; box-shadow: var(--shadow); display: none; max-width: 280px; }
 #dim-readout.visible { display: block; }
 #dim-readout strong { color: var(--primary); }
@@ -1994,7 +2000,7 @@ Click any item below to add it to your yard. Then drag to position it.
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20L8 8L14 14L18 6L22 20Z"/></svg>
 Terrain Sculpting
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-terrain-content" class="dock-panel-body"></div>
 </div>
@@ -2004,7 +2010,7 @@ Terrain Sculpting
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
 Underground View
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-underground-content" class="dock-panel-body"></div>
 </div>
@@ -2014,7 +2020,7 @@ Underground View
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18l4-4 4 4 4-8 6 6"/><path d="M3 21h18" stroke-width="1.5"/></svg>
 Terrain Analysis
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-analyze-content" class="dock-panel-body"></div>
 </div>
@@ -2024,7 +2030,7 @@ Terrain Analysis
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
 Pro Terrain Tools
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-innovate-content" class="dock-panel-body"></div>
 </div>
@@ -2034,7 +2040,7 @@ Pro Terrain Tools
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
 Sun & Shadow
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-sun-content" class="dock-panel-body"></div>
 </div>
@@ -2044,7 +2050,7 @@ Sun & Shadow
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
 Measure
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-measure-content" class="dock-panel-body">
 <button class="innov-tool-btn" id="dock-tape-toggle" style="width:100%;">
@@ -2062,7 +2068,7 @@ Measure
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2 5h5l-4 3 1.5 5L12 13l-4.5 3L9 11 5 8h5z"/></svg>
 Atmosphere
 </div>
-<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel">&times;</button></div>
+<div class="header-btns"><button class="minimize" data-dock-minimize aria-label="Minimize panel" title="Minimize panel">&#8722;</button><button class="close" data-dock-close aria-label="Close panel" title="Close panel">&times;</button></div>
 </div>
 <div id="dock-experience-content" class="dock-panel-body">
 <div class="exp-section">
@@ -2182,12 +2188,12 @@ VR Mode
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M5 12v3M9 12v4M13 12v3M17 12v4M21 12v3"/></svg>
 Tape Measure
 </button>
-<button class="viewport-overlay" id="terrain-btn" aria-label="Toggle terrain editing mode" aria-pressed="false">
+<button class="viewport-overlay" id="terrain-btn" aria-label="Toggle terrain editing mode" aria-pressed="false" title="Terrain Sculpting — click &amp; drag the ground to raise, lower, or smooth (shortcut: X)">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20L8 8L14 14L18 6L22 20Z"/></svg>
 Terrain
 </button>
 <div class="viewport-overlay" id="terrain-controls">
-<div class="terrain-controls-header"><span class="title" style="font-weight:700;font-size:13px;">Terrain Controls</span><button class="minimize" data-terrain-minimize aria-label="Minimize terrain controls">&#8722;</button></div>
+<div class="terrain-controls-header"><span class="title" style="font-weight:700;font-size:13px;">Terrain Controls</span><button class="minimize" data-terrain-minimize aria-label="Minimize terrain controls" title="Minimize terrain controls">&#8722;</button></div>
 <div class="terrain-controls-body">
 <div class="terrain-instructions" style="background:var(--hover-bg-primary);padding:4px 8px;border-radius:var(--radius-sm);margin-bottom:6px;font-size:10px;color:var(--text-muted);line-height:1.3;">
 💡 Pick a mode, then <strong>click + drag</strong> on the ground to sculpt.
@@ -2389,7 +2395,7 @@ Excavate
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18h18M6 14v4M10 10v8M14 12v6M18 8v10M3 18l3-4 3 2 4-6 3 3 5-5"/></svg>
 Underground View
 </div>
-<button class="close" id="excavate-close" aria-label="Close excavate panel">&times;</button>
+<button class="close" id="excavate-close" aria-label="Close excavate panel" title="Close excavate panel">&times;</button>
 </div>
 <div class="excavate-row">
 <label>Cutaway</label>
@@ -2444,7 +2450,7 @@ Buried Objects
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20 M12 2v20"/><path d="M5 7l7-5 7 5"/></svg>
 Cross-Section Profile
 </div>
-<button class="close" id="cs-close" aria-label="Close cross-section panel">&times;</button>
+<button class="close" id="cs-close" aria-label="Close cross-section panel" title="Close cross-section panel">&times;</button>
 </div>
 <div class="cs-instruction" id="cs-instruction">Click two points on the ground to define a cross-section line</div>
 <canvas id="cross-section-canvas"></canvas>
@@ -2520,7 +2526,7 @@ Analyze
 <div id="ta-cross-section-overlay">
 <div id="ta-cross-section-header">
 <span>Elevation Profile</span>
-<button id="ta-cross-section-close" aria-label="Close profile">×</button>
+<button class="close" id="ta-cross-section-close" aria-label="Close profile" title="Close elevation profile">×</button>
 </div>
 <div id="ta-cross-section-canvas-wrap">
 <canvas id="ta-cross-section-canvas" width="560" height="140"></canvas>
@@ -2548,7 +2554,7 @@ Innovate
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.3 1 2.1V18h6v-1.2c0-.8.4-1.6 1-2.1A7 7 0 0012 2z"/></svg>
 Innovation Lab
 </div>
-<button class="close" id="innov-close" aria-label="Close innovation panel">&times;</button>
+<button class="close" id="innov-close" aria-label="Close innovation panel" title="Close innovation panel">&times;</button>
 </div>
 <div class="innov-hint" id="innov-hint">Select a tool below, then click on the terrain to apply.</div>
 <div class="innov-section-title">Pool Excavation Wizard</div>
@@ -2789,7 +2795,7 @@ Innovation Lab
 <button id="innov-ghostpreview-toggle">Toggle Ghost Preview</button>
 </div>
 </div>
-<button class="viewport-overlay" id="sun-btn" aria-label="Toggle sun and shadow simulator">
+<button class="viewport-overlay" id="sun-btn" aria-label="Toggle sun and shadow simulator" title="Sun &amp; Shadow — set time of day, season, and shadows">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
 Sun
 </button>
@@ -2813,7 +2819,7 @@ Sun
 <div class="viewport-overlay" id="season-panel">
 <div class="season-panel-header">
 <div class="title">Seasonal Planning</div>
-<button class="close" id="season-close">x</button>
+<button class="close" id="season-close" aria-label="Close seasonal planning panel" title="Close seasonal planning panel">x</button>
 </div>
 <div class="season-buttons">
 <button class="season-btn active" data-season="summer"><span class="season-icon">☀️</span>Summer</button>
@@ -2828,7 +2834,7 @@ Sun
 <div class="viewport-overlay" id="growth-panel">
 <div class="growth-panel-header">
 <div class="title">Plant Growth Timeline</div>
-<button class="close" id="growth-close">x</button>
+<button class="close" id="growth-close" aria-label="Close plant growth timeline panel" title="Close plant growth timeline panel">x</button>
 </div>
 <div class="growth-slider-row">
 <input type="range" id="growth-slider" min="0" max="20" step="1" value="20" aria-label="Years of growth">
@@ -2842,7 +2848,7 @@ Plants at <strong>mature size</strong>. Drag the slider to see how your yard gro
 <div class="viewport-overlay" id="permit-panel">
 <div class="permit-panel-header">
 <div class="title">Permit Checker</div>
-<button class="close" id="permit-close">x</button>
+<button class="close" id="permit-close" aria-label="Close permit checker panel" title="Close permit checker panel">x</button>
 </div>
 <div class="permit-config-row">
 <label for="permit-setback">Property setback (ft)</label>
@@ -2894,13 +2900,13 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <div id="walk-hint-mobile" style="display:none;">Joystick to move - Drag to look - Tap Exit to leave</div>
 <button id="walk-motion-btn" aria-label="Toggle motion look mode">Enable Motion Look</button>
 <div id="walk-joystick" role="group" aria-label="Movement joystick">
-<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="forward" aria-label="Walk forward">▲</button></div>
+<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="forward" aria-label="Walk forward" title="Walk forward">▲</button></div>
 <div class="walk-joy-row">
-<button class="walk-joy-btn" data-dir="left" aria-label="Walk left">◀</button>
+<button class="walk-joy-btn" data-dir="left" aria-label="Walk left" title="Walk left">◀</button>
 <button class="walk-joy-btn spacer" aria-hidden="true" tabindex="-1" disabled></button>
-<button class="walk-joy-btn" data-dir="right" aria-label="Walk right">▶</button>
+<button class="walk-joy-btn" data-dir="right" aria-label="Walk right" title="Walk right">▶</button>
 </div>
-<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="back" aria-label="Walk backward">▼</button></div>
+<div class="walk-joy-row"><button class="walk-joy-btn" data-dir="back" aria-label="Walk backward" title="Walk backward">▼</button></div>
 </div>
 </div>
 <div id="wizard">
@@ -8920,7 +8926,7 @@ grandTotal += cost;
 itemCount++;
 }
 const catNames = { structures: 'Fences & Structures', water: 'Pools & Water', plants: 'Trees & Plants', hardscape: 'Patios & Paths', living: 'Outdoor Living' };
-let html = '<div class="cost-panel-header"><div class="title">Cost Estimate</div><button class="close" id="cost-close">x</button></div>';
+let html = '<div class="cost-panel-header"><div class="title">Cost Estimate</div><button class="close" id="cost-close" aria-label="Close cost estimator panel" title="Close cost estimator panel">x</button></div>';
 if (itemCount === 0) {
 html += '<div style="color:var(--text-muted);padding:8px 0">No objects yet. Add items to see estimated costs.</div>';
 } else {
@@ -8959,13 +8965,13 @@ for (const obj of state.objects.values()) {
 const cat = CATALOG[obj.type]?.category;
 if (cat) counts[cat] = (counts[cat] || 0) + 1;
 }
-let html = '<div class="layer-panel-header"><div class="title">Layers</div><button class="close" id="layer-close">x</button></div>';
+let html = '<div class="layer-panel-header"><div class="title">Layers</div><button class="close" id="layer-close" aria-label="Close layers panel" title="Close layers panel">x</button></div>';
 for (const cat of CATEGORIES) {
 const count = counts[cat.key] || 0;
 const isOff = hiddenLayers.has(cat.key);
 html += '<div class="layer-row" data-layer="' + cat.key + '">';
 html += '<div class="layer-name"><span class="layer-icon">' + cat.icon + '</span><span>' + cat.name + '</span><span class="layer-count">(' + count + ')</span></div>';
-html += '<button class="layer-toggle ' + (isOff ? 'off' : '') + '" data-layer-toggle="' + cat.key + '" title="' + (isOff ? 'Show' : 'Hide') + '"></button>';
+html += '<button class="layer-toggle ' + (isOff ? 'off' : '') + '" data-layer-toggle="' + cat.key + '" aria-label="' + (isOff ? 'Show' : 'Hide') + ' ' + cat.name + ' objects" title="' + (isOff ? 'Show ' : 'Hide ') + cat.name + '"></button>';
 html += '</div>';
 }
 html += '<div style="font-size:10px;color:var(--text-muted);margin-top:8px">Tap a toggle to show/hide all objects in that category.</div>';
@@ -15669,7 +15675,7 @@ font-family: monospace; color: var(--text);
 perfPanel.innerHTML = `
 <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--primary);">
 📊 Performance Profiler
-<button id="perf-close" style="float:right; border:none; background:none; cursor:pointer; font-size:16px; color:var(--text-muted);">×</button>
+<button id="perf-close" aria-label="Close performance panel" title="Close performance panel" style="float:right; border:none; background:none; cursor:pointer; font-size:16px; color:var(--text-muted);">×</button>
 </div>
 <div style="display:grid; grid-template-columns: 1fr auto; gap: 4px 12px; margin-bottom: 10px;">
 <span>FPS:</span><span id="perf-fps" style="font-weight:700;">—</span>
@@ -17476,35 +17482,54 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
 
 // ============================================================
 // SPRINT 16: Cursor feedback — crosshair for brushes, grabbing for objects
+// SPRINT 22: event-driven cursor classes on #viewport (no per-frame rAF).
+// Priority: terrain brush crosshair > object drag move > 2D pan grabbing >
+// walk default > orbit grab. terrainMode only flips via #terrain-btn clicks,
+// so a delegated click listener keeps the brush cursor in sync for mouse AND
+// keyboard (X key) activation.
 // ============================================================
 (function setupCursorFeedback() {
   const canvas = document.getElementById('viewport');
   if (!canvas) return;
-  
-  function updateCursor() {
+
+  const CURSOR_CLASSES = ['cursor-brush', 'cursor-drag', 'cursor-grabbing', 'cursor-painting'];
+  function applyCursor() {
+    CURSOR_CLASSES.forEach(c => canvas.classList.remove(c));
     if (typeof terrainMode !== 'undefined' && terrainMode) {
-      canvas.style.cursor = 'crosshair';
+      canvas.classList.add('cursor-brush');
+    } else if (typeof walkMode !== 'undefined' && walkMode) {
+      // walk mode: default cursor (UI-first)
     } else {
-      canvas.style.cursor = 'grab';
+      canvas.classList.add('cursor-grab');
     }
-    requestAnimationFrame(updateCursor);
   }
-  updateCursor();
-  
-  canvas.addEventListener('mousedown', () => {
-    if (typeof terrainMode !== 'undefined' && terrainMode) {
-      canvas.style.cursor = 'crosshair';
+  window._s22UpdateCursor = applyCursor;
+  applyCursor();
+
+  document.addEventListener('click', (e) => {
+    if (e.target && e.target.closest && e.target.closest('#terrain-btn')) {
+      // toggle happens in the app's own handler; run after it
+      setTimeout(applyCursor, 0);
+    }
+  }, true);
+
+  canvas.addEventListener('pointerdown', (e) => {
+    if (typeof terrainMode !== 'undefined' && terrainMode) return; // brush cursor already set
+    if (e.button === 2) return;
+    if (typeof dragObject !== 'undefined' && dragObject) {
+      canvas.classList.add('cursor-drag');
+      canvas.classList.remove('cursor-grab');
     } else {
-      canvas.style.cursor = 'grabbing';
+      // orbit (3D) or pan (2D) — grabbing feedback, matches old mousedown behavior
+      canvas.classList.add('cursor-grabbing');
+      canvas.classList.remove('cursor-grab');
     }
   });
-  canvas.addEventListener('mouseup', () => {
-    if (typeof terrainMode !== 'undefined' && terrainMode) {
-      canvas.style.cursor = 'crosshair';
-    } else {
-      canvas.style.cursor = 'grab';
-    }
-  });
+  ['pointerup', 'pointercancel'].forEach(evt => window.addEventListener(evt, () => {
+    canvas.classList.remove('cursor-drag', 'cursor-grabbing');
+    if (!(typeof terrainMode !== 'undefined' && terrainMode)) canvas.classList.add('cursor-grab');
+  }));
+  // Terrain brush painting keeps crosshair via .cursor-brush (no extra state needed)
 })();
 
 // ===== GLOBAL SCOPE EXPORTS =====
