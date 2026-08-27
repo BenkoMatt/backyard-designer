@@ -49,6 +49,10 @@ RESULTS = []
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
 
+# Sprint 21: URL derived from --port arg (set in main()); the three page.goto call
+# sites below previously hardcoded port 8099, ignoring --port.
+SPRINT15_URL = 'http://127.0.0.1:8099/index.html'
+
 
 def record(name, status, detail=""):
     global PASS, FAIL, ERR_COUNT, SKIP
@@ -216,8 +220,8 @@ def test_geo_colors_below_zero(page):
     """Test that terrain below 0 shows geological colors (not grass)."""
     print("\n--- Geological Colors Below 0 ---")
 
-    # Reload for clean state
-    page.goto('http://127.0.0.1:8099/index.html', timeout=30000)
+    # Reload for clean state (uses args.port-derived URL set in main())
+    page.goto(SPRINT15_URL, timeout=30000)
     page.wait_for_timeout(2000)
 
     result = safe_eval(page, """() => {
@@ -303,8 +307,8 @@ def test_interior_walls(page):
     """Test that interior walls exist in dug areas — buildSolidEarth produces more vertices when terrain is dug."""
     print("\n--- Interior Walls in Dug Areas ---")
 
-    # Reload for clean state
-    page.goto('http://127.0.0.1:8099/index.html', timeout=30000)
+    # Reload for clean state (uses args.port-derived URL set in main())
+    page.goto(SPRINT15_URL, timeout=30000)
     page.wait_for_timeout(2000)
 
     result = safe_eval(page, """() => {
@@ -826,8 +830,8 @@ def test_sprint14_regressions(page):
     """Test Sprint 14 regressions — basic terrain carving still works."""
     print("\n--- Sprint 14 Regression Checks ---")
 
-    # Reload for clean state
-    page.goto('http://127.0.0.1:8099/index.html', timeout=30000)
+    # Reload for clean state (uses args.port-derived URL set in main())
+    page.goto(SPRINT15_URL, timeout=30000)
     page.wait_for_timeout(2000)
 
     result = safe_eval(page, """() => {
@@ -898,6 +902,8 @@ def main():
     args = parser.parse_args()
 
     url = f"http://127.0.0.1:{args.port}/index.html"
+    global SPRINT15_URL
+    SPRINT15_URL = url  # used by test_* page.goto call sites
     print(f"{'='*70}")
     print(f"SPRINT 15 QUALITY GATE — INTERIOR WALLS, GEO COLORS, UNDERGROUND LIGHTING")
     print(f"{'='*70}")
