@@ -1,0 +1,142 @@
+[
+ {
+  "claim": "S23-V01 drag-undo",
+  "pass": true,
+  "detail": "before=-15 after=-7.653252569882543 undo=-15 count=1"
+ },
+ {
+  "claim": "S23-V02 props panel docked+visible",
+  "pass": true,
+  "detail": "{'vis': True, 'top': 52, 'w': 320, 'parent': 'main', 'canvasTop': 0}"
+ },
+ {
+  "claim": "S23-V02 focus-scroll keeps canvas in place",
+  "pass": true,
+  "detail": "canvasTop=0"
+ },
+ {
+  "claim": "S23-V02 canvas narrows with panel open",
+  "pass": true,
+  "detail": "canvasW=680"
+ },
+ {
+  "claim": "S23-V03 F1 ignored in input (palette)",
+  "pass": true,
+  "detail": "{'sc': False, 'focus': 'cmd-palette-input'}"
+ },
+ {
+  "claim": "S23-V03 ? ignored in wizard input",
+  "pass": true,
+  "detail": "inputVal=505045"
+ },
+ {
+  "claim": "S23-V04 one Escape closes topmost only",
+  "pass": true,
+  "detail": "before={'wiz': True, 'guide': True} after={'wiz': True, 'guide': False}"
+ },
+ {
+  "claim": "S23-V04 second Escape closes wizard",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "claim": "S23-V04 help->shortcuts topmost-only",
+  "pass": true,
+  "detail": "{'help': True, 'sc': False}"
+ },
+ {
+  "claim": "S23-V05 scoped input guard",
+  "pass": true,
+  "detail": "palette=True delWhileFocused=1 delAfterBlur=0"
+ },
+ {
+  "claim": "S23-V06 slider flood coalesced, add undoable",
+  "pass": true,
+  "detail": "undoStack=2 afterUndoObjects=0"
+ },
+ {
+  "claim": "S23-V07 Ctrl+Shift+Z desktop redo",
+  "pass": true,
+  "detail": "undo=1 redo=0"
+ },
+ {
+  "claim": "S23-V15 Ctrl+Shift+S desktop save-as",
+  "pass": true,
+  "detail": "dialogs=['Save design as:']"
+ },
+ {
+  "claim": "S23-V08 non-catalog params preserved on load",
+  "pass": true,
+  "detail": "{'species': 'maple', 'size': 'M', 'seasonColor': '#ff8844'}"
+ },
+ {
+  "claim": "S23-V09 sun reset syncs clock+light",
+  "pass": true,
+  "detail": "at20=20:00 after={'slider': '12', 'clock': '12:00', 'light': ['-0.0', '100.0', '0.0']}"
+ },
+ {
+  "claim": "S23-V10 sun launcher opens dock",
+  "pass": true,
+  "detail": "dockVisible=True"
+ },
+ {
+  "claim": "S23-V11 analyze launcher opens dock",
+  "pass": true,
+  "detail": "dockVisible=True"
+ },
+ {
+  "claim": "S23-V12 innovate launcher opens dock",
+  "pass": true,
+  "detail": "dockVisible=True"
+ },
+ {
+  "claim": "S23-V13 dup-id warning + no silent loss",
+  "pass": true,
+  "detail": "{'count': 2, 'nextId': 9, 'toast': '\u26a0Design loaded with 1 duplicate-id object skipped.', 'types': ['bush', 'tree_deciduous']}"
+ },
+ {
+  "claim": "S23-V14 nextId reconciled, no replace",
+  "pass": true,
+  "detail": "{'count': 3, 'has8': True, 'newId': 9}"
+ },
+ {
+  "claim": "S23-V16 plain click registers in multi-select",
+  "pass": true,
+  "detail": "afterPlain={'sel': 2, 'multi': [2]} afterShift={'sel': 1, 'multi': [2, 1]}"
+ },
+ {
+  "claim": "S23-V17 library items spread",
+  "pass": true,
+  "detail": "[[-15, 0], [-10, 0], [-5, 0]]"
+ },
+ {
+  "claim": "S23-V18 lower button labeled 'Lower'",
+  "pass": true,
+  "detail": "{'mode': 'lower', 'label': 'Lower', 'aria': 'Lower terrain mode (key 2)'}"
+ },
+ {
+  "claim": "S23-V18 key 7 selects Flatten",
+  "pass": true,
+  "detail": "True"
+ },
+ {
+  "claim": "S23-V18 keys 1-6 unchanged (1=raise)",
+  "pass": true,
+  "detail": "True"
+ },
+ {
+  "claim": "S23-V19 load toast not clobbered by welcome",
+  "pass": true,
+  "detail": "200ms='\u2713Design loaded successfully!' 1100ms='\u2713Design loaded successfully!' 2100ms='\u2713Design loaded successfully!'"
+ },
+ {
+  "claim": "S23-V20 modal focus trap (0/14 tabs escape)",
+  "pass": true,
+  "detail": "escaped=0/14"
+ },
+ {
+  "claim": "S23-V20 Escape restores focus",
+  "pass": true,
+  "detail": "activeAfterEsc="
+ }
+]

@@ -3,23 +3,23 @@
   "total": 54,
   "passed": 54,
   "failed": 0,
-  "index_html_bytes": 759614,
-  "index_html_lines": 15964,
+  "index_html_bytes": 765929,
+  "index_html_lines": 16089,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "759614 bytes"
+      "detail": "765929 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "759614 bytes"
+      "detail": "765929 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "15964 lines (info only)"
+      "detail": "16089 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
@@ -154,12 +154,12 @@
     {
       "name": "Dig button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "dig rect=(500, 576, 51, 21)"
+      "detail": "dig rect=(520, 576, 44, 21)"
     },
     {
       "name": "Fill button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "fill rect=(555, 576, 51, 21)"
+      "detail": "fill rect=(568, 576, 44, 21)"
     },
     {
       "name": "ALL 7 terrain mode buttons rects fully visible at 1280x800",
@@ -229,7 +229,7 @@
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=9552 vs flat=11618 (revealed delta=-2066); clay=61 subsoil=241 topsoil=291 bedrock=8959"
+      "detail": "geo pixels: pit=9557 vs flat=11684 (revealed delta=-2127); clay=61 subsoil=241 topsoil=291 bedrock=8964"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -264,12 +264,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=138615 vs flat baseline=134280 (ratio 1.03)"
+      "detail": "grass restored=138622 vs flat baseline=134064 (ratio 1.03)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 419"
+      "detail": "|geo_restored - geo_flat| = 362"
     },
     {
       "name": "No console errors during the entire run",

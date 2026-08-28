@@ -234,7 +234,7 @@
     {
       "name": "fps:painting_ops_per_sec",
       "status": "pass",
-      "detail": "4958 ops/s (9915 ops in 2000ms)"
+      "detail": "5470 ops/s (10939 ops in 2000ms)"
     },
     {
       "name": "fps:solid_earth_with_walls",

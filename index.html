@@ -573,7 +573,7 @@ Terrain
 <label>Mode:</label>
 <div class="terrain-mode-btns" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;">
 <button class="terrain-mode-btn active" data-tmode="raise" aria-label="Raise terrain mode" aria-pressed="true">Raise</button>
-<button class="terrain-mode-btn" data-tmode="lower" aria-label="Excavate terrain mode" aria-pressed="false">Excavate</button>
+<button class="terrain-mode-btn" data-tmode="lower" aria-label="Lower terrain mode (key 2)" aria-pressed="false">Lower</button>
 <button class="terrain-mode-btn" data-tmode="smooth" aria-label="Smooth terrain mode" aria-pressed="false">Smooth</button>
 <button class="terrain-mode-btn" data-tmode="erode" aria-label="Erode terrain mode" aria-pressed="false">Erode</button>
 <button class="terrain-mode-btn" data-tmode="flatten" aria-label="Flatten terrain mode" aria-pressed="false">Flatten</button>
@@ -1181,7 +1181,7 @@ Sun
 <button class="tb-btn" id="sun-reset" style="border:1px solid var(--border);padding:6px 10px;" aria-label="Reset sun position to defaults">Reset</button>
 </div>
 </div>
-</div>
+<!-- Sprint 23 fix (S23-V02): #properties docked inside #main as third flex child. -->
 <div id="properties" role="region" aria-label="Object properties panel">
 <div class="props-header" id="props-header"></div>
 <div class="props-body" id="props-body"></div>
@@ -1474,7 +1474,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </ul>
 <h3>Terrain & Measuring</h3>
 <ul>
-<li><strong>Terrain:</strong> Click the Terrain button (or press T; X toggles), then click-drag the ground to sculpt. Six brush modes — Raise, Lower, Smooth, Erode, Dig, Fill — via keys <strong>1</strong>–<strong>6</strong>; <strong>[</strong> / <strong>]</strong> changes brush size (1–30 ft)</li>
+<li><strong>Terrain:</strong> Click the Terrain button (or press T; X toggles), then click-drag the ground to sculpt. Seven brush modes — Raise, Lower, Smooth, Erode, Dig, Fill, Flatten — via keys <strong>1</strong>–<strong>7</strong>; <strong>[</strong> / <strong>]</strong> changes brush size (1–30 ft)</li>
 <li>Adjust brush size and strength in the panel that appears. Use <strong>Precision Mode</strong> for fine adjustments (brush limited to 10 ft, strength to 0.2)</li>
 <li>Objects automatically follow the terrain height when you move them</li>
 <li><strong>Tape Measure:</strong> Click two points to measure the distance between them</li>
@@ -1534,7 +1534,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <div class="sc-grid">
 <div class="sc-sec">Terrain</div>
 <div class="sc-sec">View &amp; Camera</div>
-<div class="sc-row"><span class="sc-desc"><kbd>1</kbd>–<kbd>6</kbd> Brush mode: 1 Raise • 2 Lower • 3 Smooth • 4 Erode • 5 Dig • 6 Fill</span><span class="sc-keys"><kbd>1</kbd>–<kbd>6</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>1</kbd>–<kbd>7</kbd> Brush mode: 1 Raise • 2 Lower • 3 Smooth • 4 Erode • 5 Dig • 6 Fill • 7 Flatten</span><span class="sc-keys"><kbd>1</kbd>–<kbd>7</kbd></span></div>
 <div class="sc-row"><span class="sc-desc"><kbd>V</kbd> 3D view</span><span class="sc-keys"><kbd>V</kbd></span></div>
 <div class="sc-row"><span class="sc-desc"><kbd>[</kbd> / <kbd>]</kbd> Brush size down / up (1–30 ft)</span><span class="sc-keys"><kbd>[</kbd><kbd>]</kbd></span></div>
 <div class="sc-row"><span class="sc-desc"><kbd>B</kbd> Bird's-eye (2D) view</span><span class="sc-keys"><kbd>B</kbd></span></div>
@@ -1703,6 +1703,7 @@ function sanitizeObjectParams(obj) {
 const cat = CATALOG[obj.type];
 if (!cat) return null;
 if (!obj.params || typeof obj.params !== 'object') return { ...cat.defaults };
+// Sprint 23 fix (S23-V08): keep non-catalog params (e.g. seasonColor) on load.
 const sanitized = {};
 for (const param of cat.params) {
 const val = obj.params[param.key];
@@ -1716,6 +1717,9 @@ sanitized[param.key] = validOpt ? validOpt.v : cat.defaults[param.key];
 } else {
 sanitized[param.key] = cat.defaults[param.key];
 }
+}
+for (const key of Object.keys(obj.params)) {
+if (!(key in sanitized)) sanitized[key] = obj.params[key];
 }
 return sanitized;
 }
@@ -3309,6 +3313,9 @@ requestRender();
 }
 function selectObject(id) {
 state.selectedId = id;
+// Sprint 23 fix (S23-V16): plain clicks register in selectedIds for shift-click multi-select.
+state.selectedIds.clear();
+state.selectedIds.add(id);
 const obj = state.objects.get(id);
 if (!obj) return;
 showProperties(id);
@@ -3768,9 +3775,13 @@ return;
 if (isDragging && dragObject) {
 const newPos = { x: dragObject.position.x, z: dragObject.position.z };
 if (dragStartPos && (Math.abs(newPos.x - dragStartPos.x) > 0.1 || Math.abs(newPos.z - dragStartPos.z) > 0.1)) {
+// Sprint 23 fix (S23-V01): capture by value (module vars are nulled below).
+const movedObj = dragObject;
+const startPos = { x: dragStartPos.x, z: dragStartPos.z };
+const objId = movedObj.id;
 pushCommand({
-undo: () => { dragObject.position.x = dragStartPos.x; dragObject.position.z = dragStartPos.z; updateObjectHeight(dragObject.id); },
-redo: () => { dragObject.position.x = newPos.x; dragObject.position.z = newPos.z; updateObjectHeight(dragObject.id); },
+undo: () => { movedObj.position.x = startPos.x; movedObj.position.z = startPos.z; updateObjectHeight(objId); },
+redo: () => { movedObj.position.x = newPos.x; movedObj.position.z = newPos.z; updateObjectHeight(objId); },
 });
 }
 checkSafetyWarnings(dragObject);
@@ -3797,6 +3808,8 @@ if (!cat) return;
 const headerEl = propsHeader;
 const bodyEl = propsBody;
 propsEl.classList.add('visible');
+// Sprint 23 fix (S23-V02): refit canvas for the docked panel
+if (typeof onResize === 'function') onResize();
 headerEl.innerHTML = `${cat.icon}<div><div class="name">${escHtml(cat.name)}</div><div class="type">Object #${id}</div></div>`;
 let html = '';
 const buried = isObjectBuried(id);
@@ -3877,21 +3890,25 @@ showProperties(id);
 });
 const rotSlider = document.getElementById('rot-slider');
 if (rotSlider) {
-let oldRot = obj.rotation;
+// Sprint 23 fix (S23-V06): one undo entry per slider session (commits on blur).
+let sessionStartRot = null;
 rotSlider.addEventListener('input', e => {
 const deg = parseInt(e.target.value);
+if (sessionStartRot === null) sessionStartRot = obj.rotation;
 obj.rotation = deg * Math.PI / 180;
 buildSceneObject(id);
 document.getElementById('rot-val').textContent = deg + '°';
 });
-rotSlider.addEventListener('change', e => {
-const newRot = parseInt(e.target.value) * Math.PI / 180;
-const prevRot = oldRot;
+rotSlider.addEventListener('blur', () => {
+if (sessionStartRot === null) return;
+const startRot = sessionStartRot;
+const endRot = obj.rotation;
+sessionStartRot = null;
+if (startRot === endRot) return;
 pushCommand({
-undo: () => { obj.rotation = prevRot; buildSceneObject(id); showProperties(id); },
-redo: () => { obj.rotation = newRot; buildSceneObject(id); showProperties(id); },
+undo: () => { obj.rotation = startRot; buildSceneObject(id); showProperties(id); },
+redo: () => { obj.rotation = endRot; buildSceneObject(id); showProperties(id); },
 });
-oldRot = newRot;
 });
 }
 const posX = document.getElementById('pos-x');
@@ -3946,7 +3963,8 @@ checkSafetyWarnings(obj);
 }
 function hideProperties() {
 propsEl.classList.remove('visible');
-/* Sprint 16: mobile removed */
+// Sprint 23 fix (S23-V02): refit canvas when the panel closes
+if (typeof onResize === 'function') onResize();
 propsHeader.innerHTML = '';
 propsBody.innerHTML = '';
 /* Sprint 16: removed */
@@ -4168,7 +4186,21 @@ data.yard.shape = 'rectangle';
 sceneObjects.forEach((_, id) => removeObject(id));
 state.objects.clear();
 state.yard = data.yard || state.yard;
-state.nextId = typeof data.nextId === 'number' && data.nextId > 0 ? data.nextId : 1;
+// Sprint 23 fix (S23-V14): nextId >= max loaded id + 1 (no replace on add)
+let maxLoadedId = 0;
+const seenIds = new Set(); // Sprint 23 fix (S23-V13): detect duplicate ids in the file
+let droppedDupes = 0;
+for (const obj of data.objects) {
+const oid = typeof obj.id === 'number' ? obj.id : null;
+if (oid !== null) {
+if (seenIds.has(oid)) { droppedDupes++; continue; }
+seenIds.add(oid);
+if (oid > maxLoadedId) maxLoadedId = oid;
+}
+}
+state.nextId = typeof data.nextId === 'number' && data.nextId > 0
+? Math.max(data.nextId, maxLoadedId + 1)
+: maxLoadedId + 1;
 if (data.terrain && Array.isArray(data.terrain)) {
 const expectedLen = (state.terrainSegs + 1) * (state.terrainSegs + 1);
 if (data.terrain.length === expectedLen) {
@@ -4226,6 +4258,8 @@ z: sanitizeNumber(obj.position?.z, -state.yard.depth / 2, state.yard.depth / 2, 
 rotation: sanitizeNumber(obj.rotation, 0, Math.PI * 2, 0),
 scale: sanitizeNumber(obj.scale, 0.1, 10, 1),
 };
+// Sprint 23 fix (S23-V13): skip duplicate ids
+if (state.objects.has(sanitizedObj.id)) continue;
 state.objects.set(sanitizedObj.id, sanitizedObj);
 buildSceneObject(sanitizedObj.id);
 if (state.terrain) updateObjectHeight(sanitizedObj.id);
@@ -4235,7 +4269,12 @@ state.redoStack = [];
 updateUndoRedoButtons();
 updateAllBuriedIndicators();
 requestRender();
+// Sprint 23 fix (S23-V13): warn when dup-id objects were dropped
+if (droppedDupes > 0) {
+showToast(`Design loaded with ${droppedDupes} duplicate-id object${droppedDupes === 1 ? '' : 's'} skipped.`, 'warning');
+} else {
 showToast('Design loaded successfully!', 'success');
+}
 }
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB max design file
 function loadFromFile(file) {
@@ -4457,7 +4496,8 @@ el.setAttribute('tabindex', '0');
 el.setAttribute('aria-label', `Add ${item.name} to yard`);
 el.innerHTML = `${item.icon}<div><span>${item.name}</span><small>${item.desc || ''}</small></div>`;
 el.addEventListener('click', () => {
-const id = addObject(key, {}, { x: 0, y: 0, z: 0 });
+// Sprint 23 fix (S23-V17): no explicit position -> addObject's grid spread applies.
+const id = addObject(key);
 const obj = state.objects.get(id);
 
 if (state.terrainDeformed && HEAVY_OBJECT_TYPES.has(key)) {
@@ -5216,16 +5256,44 @@ hint.style.lineHeight = '';
 setTimeout(() => {
   const newWP = document.getElementById('welcome-prompt');
   if (newWP && newWP.classList.contains('visible')) return;
+  // Sprint 23 fix (S23-V19): never clobber a toast that is already showing.
+  const toast = document.getElementById('toast');
+  if (toast && toast.classList.contains('visible')) return;
   showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.', 'info');
 }, 500);
 }
 let _modalLastFocus = null;
+// Sprint 23 fix (S23-V20): Tab focus trap in open modal + focus restore on close.
+function _getModalFocusable(modal) {
+return Array.from(modal.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+.filter(el => !el.disabled && el.offsetParent !== null);
+}
+document.addEventListener('keydown', e => {
+if (e.key !== 'Tab') return;
+const modal = ['help-modal', 'shortcuts-modal', 'share-modal', 'templates-modal', 'gallery-modal', 'timelapse-modal', 'socialcard-modal', 'label-edit-modal']
+.map(id => document.getElementById(id))
+.find(m => m && m.classList.contains('visible'));
+if (!modal) return;
+const focusables = _getModalFocusable(modal);
+if (focusables.length === 0) { e.preventDefault(); modal.focus(); return; }
+const first = focusables[0];
+const last = focusables[focusables.length - 1];
+const active = document.activeElement;
+if (e.shiftKey) {
+if (active === first || !modal.contains(active)) { e.preventDefault(); last.focus(); }
+} else {
+if (active === last || !modal.contains(active)) { e.preventDefault(); first.focus(); }
+}
+});
 function openModal(modalId) {
 const modal = document.getElementById(modalId);
 if (!modal) return;
 _modalLastFocus = document.activeElement;
 modal.classList.add('visible');
 modal.setAttribute('aria-hidden', 'false');
+// Sprint 23 fix (S23-V04): stack tracks open order; Escape closes topmost first.
+if (!window._modalOpenStack) window._modalOpenStack = [];
+if (!window._modalOpenStack.includes(modalId)) window._modalOpenStack.push(modalId);
 const focusable = modal.querySelector('button, a, input, select, textarea, [tabindex]');
 if (focusable) focusable.focus();
 else { modal.setAttribute('tabindex', '-1'); modal.focus(); }
@@ -5235,6 +5303,10 @@ const modal = document.getElementById(modalId);
 if (!modal) return;
 modal.classList.remove('visible');
 modal.setAttribute('aria-hidden', 'true');
+if (window._modalOpenStack) {
+const si = window._modalOpenStack.indexOf(modalId);
+if (si >= 0) window._modalOpenStack.splice(si, 1);
+}
 if (_modalLastFocus) _modalLastFocus.focus();
 }
 document.getElementById('btn-help').addEventListener('click', () => {
@@ -5246,7 +5318,10 @@ if (e.target.id === 'help-modal') closeModal('help-modal');
 document.addEventListener('keydown', e => {
 if (e.key === 'Escape') {
 const helpModal = document.getElementById('help-modal');
-if (helpModal && helpModal.classList.contains('visible')) {
+// Sprint 23 fix (S23-V04): help-modal closes only when topmost on the stack.
+if (helpModal && helpModal.classList.contains('visible')
+&& (!window._modalOpenStack || !window._modalOpenStack.length
+|| window._modalOpenStack[window._modalOpenStack.length - 1] === 'help-modal')) {
 closeModal('help-modal');
 e.stopPropagation();
 }
@@ -5268,6 +5343,9 @@ document.getElementById('shortcuts-close-btn')?.addEventListener('click', () => 
 document.getElementById('shortcuts-got-btn')?.addEventListener('click', () => closeModal('shortcuts-modal'));
 document.getElementById('shortcuts-modal').addEventListener('click', e => { if (e.target.id === 'shortcuts-modal') closeModal('shortcuts-modal'); });
 document.addEventListener('keydown', e => {
+// Sprint 23 fix (S23-V03): don't open the guide while the user is typing in a form field
+const tag = e.target.tagName;
+if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
 if (e.key === 'F1') { e.preventDefault(); openShortcuts(); }
 else if (e.key === '?') { e.preventDefault(); openShortcuts(); }
 }, true);
@@ -5380,14 +5458,21 @@ function hideHint() {
 document.getElementById('context-hint').classList.remove('visible');
 }
 document.addEventListener('keydown', e => {
-if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+// Sprint 23 fix (S23-V05): fields keep native keys + text-editing combos (C/V/X/A/Z);
+// app-only combos (S/K/D/Y, Shift+S/Z, Escape) fall through instead of dying.
+const tag = e.target.tagName;
+const hasMod = e.ctrlKey || e.metaKey;
+const textEditingCombo = hasMod && ['c', 'C', 'v', 'V', 'x', 'X', 'a', 'A', 'z', 'Z'].includes(e.key);
+const inFormField = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA';
+if (inFormField && (!hasMod || textEditingCombo)) return;
+if (e.target.isContentEditable) return;
 if (cmdPaletteOpen && e.key === 'Escape') { e.preventDefault(); closeCommandPalette(); return; }
 if (cmdPaletteOpen) return; // Let palette handle its own keys
 if (e.ctrlKey || e.metaKey) {
 if (e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
-else if (e.key === 'z' && e.shiftKey || e.key === 'y') { e.preventDefault(); redo(); }
+else if ((e.key === 'z' || e.key === 'Z') && e.shiftKey || e.key === 'y' || e.key === 'Y') { e.preventDefault(); redo(); }
 else if (e.key === 's' && !e.shiftKey) { e.preventDefault(); saveDesign(); }
-else if (e.key === 's' && e.shiftKey) { e.preventDefault(); saveDesignAs(); }
+else if (e.key === 's' || e.key === 'S') { e.preventDefault(); saveDesignAs(); }
 else if (e.key === 'd' || e.key === 'D') {
 e.preventDefault();
 if (state.selectedId !== null) duplicateObject(state.selectedId);
@@ -5407,36 +5492,46 @@ deleteAllSelected();
 deleteObjectWithCommand(state.selectedId);
 }
 } else if (e.key === 'Escape') {
+// Sprint 23 fix (S23-V04): Escape closes only the TOPMOST layer (stack first).
 let modalClosed = false;
-const helpModal = document.getElementById('help-modal');
-if (helpModal && helpModal.classList.contains('visible')) { closeModal('help-modal'); modalClosed = true; }
-const shortcutsModal = document.getElementById('shortcuts-modal');
-if (shortcutsModal && shortcutsModal.classList.contains('visible')) { closeModal('shortcuts-modal'); modalClosed = true; }
-const shareModal = document.getElementById('share-modal');
-if (shareModal && shareModal.classList.contains('visible')) { closeModal('share-modal'); modalClosed = true; }
-const templatesModal = document.getElementById('templates-modal');
-if (templatesModal && getComputedStyle(templatesModal).display !== 'none') { templatesModal.style.display = 'none'; modalClosed = true; }
-const galleryModal = document.getElementById('gallery-modal');
-if (galleryModal && getComputedStyle(galleryModal).display !== 'none') { galleryModal.style.display = 'none'; modalClosed = true; }
-const timelapseModal = document.getElementById('timelapse-modal');
-if (timelapseModal && getComputedStyle(timelapseModal).display !== 'none') { timelapseModal.style.display = 'none'; modalClosed = true; }
-const socialcardModal = document.getElementById('socialcard-modal');
-if (socialcardModal && getComputedStyle(socialcardModal).display !== 'none') { socialcardModal.style.display = 'none'; modalClosed = true; }
-const labelModal = document.getElementById('label-edit-modal');
-if (labelModal && getComputedStyle(labelModal).display !== 'none') { labelModal.style.display = 'none'; modalClosed = true; }
-const exportMenu = document.getElementById('export-menu');
-if (exportMenu && getComputedStyle(exportMenu).display !== 'none') { exportMenu.style.display = 'none'; modalClosed = true; }
+if (window._modalOpenStack && window._modalOpenStack.length) {
+for (let si = window._modalOpenStack.length - 1; si >= 0; si--) {
+const mid = window._modalOpenStack[si];
+const mel = document.getElementById(mid);
+if (mel && mel.classList.contains('visible')) { closeModal(mid); modalClosed = true; break; }
+}
+}
+if (!modalClosed) {
+const escapeLayers = [
+['help-modal', 'class', () => closeModal('help-modal')],
+['shortcuts-modal', 'class', () => closeModal('shortcuts-modal')],
+['share-modal', 'class', () => closeModal('share-modal')],
+['templates-modal', 'display', () => { document.getElementById('templates-modal').style.display = 'none'; }],
+['gallery-modal', 'display', () => { document.getElementById('gallery-modal').style.display = 'none'; }],
+['timelapse-modal', 'display', () => { document.getElementById('timelapse-modal').style.display = 'none'; }],
+['socialcard-modal', 'display', () => { document.getElementById('socialcard-modal').style.display = 'none'; }],
+['label-edit-modal', 'display', () => { document.getElementById('label-edit-modal').style.display = 'none'; }],
+['export-menu', 'display', () => { document.getElementById('export-menu').style.display = 'none'; }],
+];
+for (const [layerId, kind, closer] of escapeLayers) {
+const el = document.getElementById(layerId);
+const open = kind === 'class' ? (el && el.classList.contains('visible'))
+: (el && getComputedStyle(el).display !== 'none');
+if (open) { closer(); modalClosed = true; break; }
+}
+if (!modalClosed) {
 // Close dock panels
 if (typeof window._dockClosePanel === 'function' && window._dockActiveTab && window._dockActiveTab()) {
 window._dockClosePanel();
 modalClosed = true;
 }
+}
+if (!modalClosed) {
 // Close right-side floating panels (use exposed close functions for IIFE-scoped panels)
 const floatingPanelIds = [
 'season-panel', 'growth-panel', 'permit-panel',
 'cost-panel', 'layer-panel', 'cross-section-panel', 'cut-fill-panel', 'ta-cross-section-overlay'
 ];
-let panelClosed = false;
 for (const fpId of floatingPanelIds) {
 const el = document.getElementById(fpId);
 if (el && el.classList.contains('visible')) {
@@ -5448,10 +5543,12 @@ el.classList.remove('visible');
 if (fpId === 'cost-panel') { document.getElementById('btn-cost')?.classList.remove('active'); if (typeof costPanelVisible !== 'undefined') costPanelVisible = false; }
 if (fpId === 'layer-panel') { document.getElementById('btn-layers')?.classList.remove('active'); if (typeof layerPanelVisible !== 'undefined') layerPanelVisible = false; }
 }
-panelClosed = true;
+modalClosed = true;
+break; // Sprint 23 fix (S23-V04): topmost layer only
 }
 }
-if (panelClosed) modalClosed = true;
+}
+}
 if (!modalClosed) { deselectObject(); clearMultiSelect(); hideContextMenu(); }
 } else if (e.key === 'Tab' && e.altKey) {
 e.preventDefault();
@@ -7475,6 +7572,9 @@ const sunPanel = document.getElementById('sun-panel');
 if (!sunBtn || !sunPanel) return;
 // City presets removed — simple day/night cycle only
 sunBtn.addEventListener('click', () => {
+// Sprint 23 fix (S23-V10): drive the sun dock tab (legacy panel is force-hidden).
+const tab = document.querySelector('.td-tab[data-dock="sun"]');
+if (tab) { tab.click(); return; }
 const open = sunPanel.classList.toggle('visible');
 sunBtn.classList.toggle('active', open);
 if (open) applySunPosition();
@@ -7488,17 +7588,8 @@ document.getElementById('sun-play').addEventListener('click', toggleSunPlay);
 document.getElementById('sun-reset').addEventListener('click', () => {
 if (sunPlaying) toggleSunPlay();
 document.getElementById('sun-time').value = 12;
-if (sunLight) {
-sunLight.position.set(30, 50, 20);
-sunLight.intensity = 0.9;
-sunLight.color.setHex(0xffffff);
-sunLight.shadow.camera.updateProjectionMatrix();
-}
-if (sunAmbient) sunAmbient.intensity = 0.65;
-if (sunHemi) sunHemi.intensity = 0.55;
-// Sprint 15: Reset underground fill lights to default intensity
-if (window._undergroundPoint) window._undergroundPoint.intensity = 0.3;
-if (window._undergroundHemi) window._undergroundHemi.intensity = 0.35;
+// Sprint 23 fix (S23-V09): reset drives light + clock via applySunPosition().
+applySunPosition();
 requestRender();
 });
 })();
@@ -8092,10 +8183,22 @@ selectedIds: () => Array.from(state.selectedIds),
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.getElementById('wizard').style.display !== 'none') {
+      // Sprint 23 fix (S23-V04): wizard is the BOTTOM layer — react only when
+      // nothing above it is open; otherwise the sweep closes the top layer.
+      const aboveOpen =
+        (document.getElementById('help-modal')?.classList.contains('visible')) ||
+        (document.getElementById('shortcuts-modal')?.classList.contains('visible')) ||
+        (document.getElementById('share-modal')?.classList.contains('visible')) ||
+        (() => { const m = document.getElementById('templates-modal'); return m && getComputedStyle(m).display !== 'none'; })() ||
+        (document.getElementById('gallery-modal') && getComputedStyle(document.getElementById('gallery-modal')).display !== 'none') ||
+        (() => { const cp = document.getElementById('cmd-palette-overlay'); return cp && cp.classList.contains('visible'); })() ||
+        (typeof window._dockActiveTab === 'function' && window._dockActiveTab());
+      if (aboveOpen) return;
+      e.stopPropagation();
       document.getElementById('wizard').style.display = 'none';
       if (typeof initWithYard === 'function') initWithYard(wizardData);
     }
-  });
+  }, true);
 })();
 
 function applyTerrainPreset(presetName) {
@@ -8365,6 +8468,9 @@ const cfCutVal = document.getElementById('cf-cut-val');
 const cfFillVal = document.getElementById('cf-fill-val');
 const cfNetVal = document.getElementById('cf-net-val');
 terrainAnalysisBtn.addEventListener('click', () => {
+// Sprint 23 fix (S23-V11): drive the analyze dock tab (legacy panel is force-hidden).
+const tab = document.querySelector('.td-tab[data-dock="analyze"]');
+if (tab) { tab.click(); return; }
 const visible = terrainAnalysisPanel.classList.toggle('visible');
 terrainAnalysisBtn.classList.toggle('active', visible);
 terrainAnalysisBtn.setAttribute('aria-pressed', visible);
@@ -9837,6 +9943,9 @@ const innovRetWallThreshVal = document.getElementById('innov-retwall-thresh-val'
 const innovRetWallScanBtn = document.getElementById('innov-retwall-scan');
 const innovRetWallClearBtn = document.getElementById('innov-retwall-clear');
 innovBtn.addEventListener('click', () => {
+// Sprint 23 fix (S23-V12): drive the innovate dock tab (legacy panel is force-hidden).
+const tab = document.querySelector('.td-tab[data-dock="innovate"]');
+if (tab) { tab.click(); return; }
 innovPanelVisible = !innovPanelVisible;
 innovBtn.classList.toggle('active', innovPanelVisible);
 innovBtn.setAttribute('aria-pressed', innovPanelVisible);
@@ -15676,6 +15785,8 @@ if (typeof activeCamera !== 'undefined') window.activeCamera = activeCamera;
 window.getViewState = () => ({ viewMode: state.viewMode, activeCameraIs2D: activeCamera === camera2D, controlsEnabled: controls.enabled, gridVisible: gridHelper.visible });
 if (typeof addObject !== 'undefined') window.addObject = addObject;
 if (typeof selectObject !== 'undefined') window.selectObject = selectObject;
+// Sprint 23: expose multi-select for harnesses (V16)
+if (typeof selectObjectMulti !== 'undefined') window.selectObjectMulti = selectObjectMulti;
 if (typeof ensureTerrainArray !== 'undefined') window.ensureTerrainArray = ensureTerrainArray;
 if (typeof applyTerrainToMesh !== 'undefined') window.applyTerrainToMesh = applyTerrainToMesh;
 // Sprint 15: Expose terrain color functions for testing
@@ -15812,6 +15923,20 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
           }
           if (window._sbUpdate) window._sbUpdate.updateToolName();
         }
+      }
+    }
+    
+    // Sprint 23 fix (S23-V18): key 7 selects Flatten (was mouse-only).
+    if (e.key === '7') {
+      const flattenBtn = document.querySelector('.terrain-mode-btn[data-tmode="flatten"]');
+      if (flattenBtn) {
+        flattenBtn.click();
+        e.preventDefault();
+        if (typeof terrainMode !== 'undefined' && !terrainMode) {
+          const terrainBtn = document.getElementById('terrain-btn');
+          if (terrainBtn) terrainBtn.click();
+        }
+        if (window._sbUpdate) window._sbUpdate.updateToolName();
       }
     }
     

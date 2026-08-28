@@ -407,6 +407,11 @@ def run_browser_tests(base_url):
                 test("F1 opens the shortcuts guide", a3.get('open') is True, f"probe={a3}")
                 page.keyboard.press('Escape')
                 page.wait_for_timeout(300)
+                # Sprint 23: the V04 fix makes Escape topmost-only, so the wizard no
+                # longer closes as a side effect of closing the guide — dismiss it
+                # explicitly so the topbar is clickable.
+                page.keyboard.press('Escape')
+                page.wait_for_timeout(400)
 
                 # topbar Shortcuts button — real mouse click at its center
                 # (Agent 1's guide button is #btn-shortcuts; #btn-help opens the Help modal)

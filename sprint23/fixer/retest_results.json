@@ -1,0 +1,47 @@
+[
+ {
+  "claim": "V01 drag-undo no crash + restores",
+  "pass": false,
+  "detail": "after={'x': -15, 'y': 0, 'z': 0} undo=None"
+ },
+ {
+  "claim": "V02 props panel docked + visible",
+  "pass": true,
+  "detail": "{'vis': True, 'top': 52, 'h': 848, 'w': 320, 'parent': 'main'}"
+ },
+ {
+  "claim": "V02 focus-scroll does not displace canvas",
+  "pass": true,
+  "detail": "canvas top=0"
+ },
+ {
+  "claim": "V03 F1 ignored while typing in input",
+  "pass": true,
+  "detail": "{'shortcuts': False, 'active': 'cmd-palette-input'}"
+ },
+ {
+  "claim": "V04 one Escape closes topmost guide only (wizard stays)",
+  "pass": false,
+  "detail": "before={'wiz': True, 'guide': True} after={'wiz': False, 'guide': False, 'toasts': '\u2139Welcome! Click items on the left to build your yard. Click ? Help anytime.'}"
+ },
+ {
+  "claim": "V05 Ctrl+K opens palette while props input focused",
+  "pass": true,
+  "detail": "objects after app-undo=0"
+ },
+ {
+  "claim": "V06 60 slider presses -> add still undoable",
+  "pass": true,
+  "detail": "undoStack=2 after full undo objects=0"
+ },
+ {
+  "claim": "V07 Ctrl+Shift+Z (desktop key:'Z') redoes",
+  "pass": false,
+  "detail": "after undo=1 after shift-z=0"
+ },
+ {
+  "claim": "V15 Ctrl+Shift+S (desktop key:'S') triggers save-as",
+  "pass": true,
+  "detail": "dialogs=['Save design as:'] toast=\u2139Deleted \u2014 press Undo to restore"
+ }
+]
