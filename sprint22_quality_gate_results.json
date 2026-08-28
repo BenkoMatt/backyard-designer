@@ -1,20 +1,20 @@
 {
   "sprint": 22,
   "total": 43,
-  "passed": 33,
-  "failed": 10,
-  "index_html_bytes": 759219,
-  "index_html_lines": 17494,
+  "passed": 43,
+  "failed": 0,
+  "index_html_bytes": 759791,
+  "index_html_lines": 15964,
   "results": [
     {
       "name": "File size <= 768,000 bytes (Sprint 22 hard limit)",
       "status": "PASS",
-      "detail": "759219 bytes (741.4 KB), headroom 8781"
+      "detail": "759791 bytes (742.0 KB), headroom 8209"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "934 open / 934 close"
+      "detail": "957 open / 957 close"
     },
     {
       "name": "Topbar '?' button (#btn-help) exists",
@@ -162,49 +162,49 @@
       "detail": "selectedId=None count=0"
     },
     {
-      "name": "Guide modal #shortcuts-modal exists",
-      "status": "FAIL",
-      "detail": "NOT PRESENT on this tree \u2014 Sprint 22 Agent 1 deliverable not merged yet (expected pre-merge failures below)"
-    },
-    {
-      "name": "'?' opens the shortcuts guide",
-      "status": "FAIL",
-      "detail": "#shortcuts-modal not present"
+      "name": "'?' (Shift+/) opens the shortcuts guide",
+      "status": "PASS",
+      "detail": "probe={'exists': True, 'open': True}"
     },
     {
       "name": "Escape closes the shortcuts guide",
-      "status": "FAIL",
-      "detail": "#shortcuts-modal not present"
+      "status": "PASS",
+      "detail": "probe={'exists': True, 'open': False}"
     },
     {
       "name": "F1 opens the shortcuts guide",
-      "status": "FAIL",
-      "detail": "#shortcuts-modal not present"
+      "status": "PASS",
+      "detail": "probe={'exists': True, 'open': True}"
     },
     {
-      "name": "Topbar '?' button opens the shortcuts guide",
-      "status": "FAIL",
-      "detail": "no #shortcuts-modal contract to verify against"
+      "name": "Topbar '?' button opens the shortcuts guide (real click)",
+      "status": "PASS",
+      "detail": "probe={'exists': True, 'open': True}"
     },
     {
-      "name": "Guide modal renders content to lock (doc-drift)",
-      "status": "FAIL",
-      "detail": "#shortcuts-modal not present \u2014 cannot parse rendered guide (Agent 1 deliverable not merged yet)"
-    },
-    {
-      "name": "All 26 grounded inventory shortcuts documented",
-      "status": "FAIL",
-      "detail": "guide not present"
+      "name": "All 26 grounded inventory shortcuts appear in rendered guide",
+      "status": "PASS",
+      "detail": "all 26 entries found in rendered text"
     },
     {
       "name": "Guide uses <kbd> key chips",
-      "status": "FAIL",
-      "detail": "guide not present"
+      "status": "PASS",
+      "detail": "kbd count=41"
     },
     {
       "name": "Guide organized by category sections",
-      "status": "FAIL",
-      "detail": "guide not present"
+      "status": "PASS",
+      "detail": "section-ish nodes=5"
+    },
+    {
+      "name": "Guide mentions the Underground flow",
+      "status": "PASS",
+      "detail": "'underground' in rendered guide text"
+    },
+    {
+      "name": "Guide documents walk mode Esc-to-exit",
+      "status": "PASS",
+      "detail": "searched rendered text for 'Esc'"
     },
     {
       "name": "Help modal exists and mentions Underground flow",
@@ -213,8 +213,8 @@
     },
     {
       "name": "Shortcuts guide link exists (Help modal and/or guide)",
-      "status": "FAIL",
-      "detail": "helpLinks=[]"
+      "status": "PASS",
+      "detail": "helpLinks=['View Keyboard Shortcuts']"
     },
     {
       "name": "No console errors during the entire run",
