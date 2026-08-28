@@ -1,25 +1,25 @@
 {
   "sprint": 21,
-  "total": 54,
-  "passed": 54,
+  "total": 55,
+  "passed": 55,
   "failed": 0,
-  "index_html_bytes": 765988,
-  "index_html_lines": 16153,
+  "index_html_bytes": 765999,
+  "index_html_lines": 16141,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "765988 bytes"
+      "detail": "765999 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "765988 bytes"
+      "detail": "765999 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "16153 lines (info only)"
+      "detail": "16141 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
@@ -202,6 +202,11 @@
       "detail": ""
     },
     {
+      "name": "Terrain state setup: baseline flattened",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
       "name": "Terrain state setup: pit dug + applyTerrainFull",
       "status": "PASS",
       "detail": ""
@@ -229,7 +234,7 @@
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=9555 vs flat=11674 (revealed delta=-2119); clay=61 subsoil=241 topsoil=291 bedrock=8962"
+      "detail": "geo pixels: pit=75624 vs flat=11976 (revealed delta=63648); clay=61 subsoil=268 topsoil=55519 bedrock=19776"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -264,12 +269,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=138623 vs flat baseline=134075 (ratio 1.03)"
+      "detail": "grass restored=135121 vs flat baseline=136056 (ratio 0.99)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 366"
+      "detail": "|geo_restored - geo_flat| = 130"
     },
     {
       "name": "No console errors during the entire run",

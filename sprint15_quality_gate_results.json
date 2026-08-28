@@ -17,9 +17,9 @@
       "detail": "WALL_HEIGHT_THRESHOLD defined"
     },
     {
-      "name": "static:wall_threshold_is_1ft",
+      "name": "static:wall_threshold_is_015ft",
       "status": "pass",
-      "detail": "threshold = 1.0 ft"
+      "detail": "threshold = 0.15 ft"
     },
     {
       "name": "static:grid_scan_loop_exists",
@@ -234,7 +234,7 @@
     {
       "name": "fps:painting_ops_per_sec",
       "status": "pass",
-      "detail": "5182 ops/s (10364 ops in 2000ms)"
+      "detail": "5012 ops/s (10024 ops in 2000ms)"
     },
     {
       "name": "fps:solid_earth_with_walls",
