@@ -1,0 +1,721 @@
+{
+ "full_1280": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "dock_terrain": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#context-hint",
+    "x": 616,
+    "y": 720,
+    "w": 327,
+    "h": 40,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "dock_underground": {
+  "error": "trigger not found/visible"
+ },
+ "dock_analyze": {
+  "error": "trigger not found/visible"
+ },
+ "dock_innovate": {
+  "error": "trigger not found/visible"
+ },
+ "dock_sun": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "dock_measure": {
+  "error": "trigger not found/visible"
+ },
+ "dock_experience": {
+  "error": "trigger not found/visible"
+ },
+ "tb_cost": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#cost-panel",
+    "x": 964,
+    "y": 132,
+    "w": 300,
+    "h": 150,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "tb_layers": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "tb_season": {
+  "error": "trigger not found/visible"
+ },
+ "tb_sun_panel": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "tb_terrain_analysis": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "tb_innovation": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "tb_templates": {
+  "error": "trigger not found/visible"
+ },
+ "tb_share": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "tb_help": {
+  "vw": 1280,
+  "vh": 800,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 776,
+    "w": 1280,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1280,
+    "h": 52,
+    "clipped": false,
+    "hscroll": true,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 748,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 690,
+    "w": 540,
+    "h": 70,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "full_1920": {
+  "vw": 1920,
+  "vh": 1080,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 1056,
+    "w": 1920,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 52,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 1068,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 1008,
+    "w": 614,
+    "h": 32,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "1920_dock_terrain": {
+  "vw": 1920,
+  "vh": 1080,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 1056,
+    "w": 1920,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 52,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 1068,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#context-hint",
+    "x": 936,
+    "y": 1000,
+    "w": 327,
+    "h": 40,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 1008,
+    "w": 614,
+    "h": 32,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "1920_cost": {
+  "vw": 1920,
+  "vh": 1080,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 1056,
+    "w": 1920,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 52,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 1068,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 1008,
+    "w": 614,
+    "h": 32,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#cost-panel",
+    "x": 1604,
+    "y": 132,
+    "w": 300,
+    "h": 150,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ },
+ "1920_help": {
+  "vw": 1920,
+  "vh": 1080,
+  "docHScroll": false,
+  "els": [
+   {
+    "sel": "#status-bar",
+    "x": 0,
+    "y": 1056,
+    "w": 1920,
+    "h": 24,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#topbar",
+    "x": 0,
+    "y": 0,
+    "w": 1920,
+    "h": 52,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#atmosphere-badge",
+    "x": 1068,
+    "y": 60,
+    "w": 64,
+    "h": 20,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   },
+   {
+    "sel": "#bottom-left-toolbar",
+    "x": 660,
+    "y": 1008,
+    "w": 614,
+    "h": 32,
+    "clipped": false,
+    "hscroll": false,
+    "vscroll": false
+   }
+  ]
+ }
+}
