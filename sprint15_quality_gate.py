@@ -100,10 +100,13 @@ def test_static_interior_walls():
     record("static:wall_height_threshold_exists", "pass" if has_threshold else "fail",
            "WALL_HEIGHT_THRESHOLD defined" if has_threshold else "WALL_HEIGHT_THRESHOLD not found")
 
-    # Check threshold value is 1.0
-    has_threshold_1 = "WALL_HEIGHT_THRESHOLD = 1.0" in content
-    record("static:wall_threshold_is_1ft", "pass" if has_threshold_1 else "fail",
-           "threshold = 1.0 ft" if has_threshold_1 else "threshold not 1.0 ft")
+    # Sprint 25 fix (kanban t_0174b1d0): threshold lowered 1.0 -> 0.15 ft so smooth dig
+    # bowls build interior walls. At 1.0 a smooth multi-stroke bowl (slopes ~0.27 ft/cell)
+    # generated zero walls, so the auto-dig clip plane showed the outerGround plane
+    # straight through the hole as a flat green disc.
+    has_threshold_1 = "WALL_HEIGHT_THRESHOLD = 0.15" in content
+    record("static:wall_threshold_is_015ft", "pass" if has_threshold_1 else "fail",
+           "threshold = 0.15 ft" if has_threshold_1 else "threshold not 0.15 ft")
 
     # Check for grid scan loop
     has_grid_scan = "for (let iz = 0; iz < segs; iz++)" in content and "for (let ix = 0; ix < segs; ix++)" in content

@@ -459,7 +459,13 @@ def run_browser_tests(base_url):
                  bool(cam.get('camera')))
             page.wait_for_timeout(800)
 
-            # FLAT baseline screenshot (no pit, no panel) for the pixel delta
+            # FLAT baseline screenshot (no pit, no panel) for the pixel delta.
+            # t_0174b1d0: flatten explicitly first — section (a) click probes can leave
+            # terrain edits that the old outerGround plane masked; the restored-state
+            # shot below flattens, so the baseline must too.
+            flat0 = page.evaluate(FLAT_TERRAIN_SETUP)
+            test("Terrain state setup: baseline flattened", bool(flat0.get('flat')))
+            page.wait_for_timeout(1200)
             page.screenshot(path=shot_flat)
             flat_px = geo_pixel_counts(shot_flat)
 

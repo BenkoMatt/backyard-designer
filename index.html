@@ -2593,7 +2593,7 @@ let terrainDrainageActive = false;
 let drainageArrowsGroup = null;
 const sceneObjects = new Map();
 let scene, renderer, camera3D, camera2D, controls;
-let raycaster, mouse, groundPlane, gridHelper, yardMesh, boundaryLines;
+let raycaster, mouse, groundPlane, gridHelper, yardMesh, boundaryLines, outerGround;
 let solidEarthMesh = null;
 let activeCamera = camera3D;
 let sunLight = null, sunAmbient = null, sunHemi = null;
@@ -2816,11 +2816,6 @@ const boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(state.yard.wid
 boundaryLines = new THREE.LineSegments(boundaryGeo, new THREE.LineBasicMaterial({ color: 0x333333 }));
 boundaryLines.position.y = state.gridLevel + 0.03;
 scene.add(boundaryLines);
-const outerGround = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshStandardMaterial({ color: 0x5a7a3a, roughness: 0.95, metalness: 0.0 }));
-outerGround.rotation.x = -Math.PI / 2;
-outerGround.position.y = -0.05;
-outerGround.receiveShadow = true;
-scene.add(outerGround);
 window._bydContextLost = false;
 renderer.domElement.addEventListener('webglcontextlost', e => {
 e.preventDefault();
@@ -5157,6 +5152,8 @@ else if (id === 'qs-large') { w.value = 75; d.value = 150; }
     }
   });
 })();
+// _yo(p,v,L): yard outline path (x,z).
+function _yo(p,v,L){const w=v.width/2,h=v.depth/2;p.moveTo(-w,-h);if(!L)p.lineTo(w,-h);else{p.lineTo(0,-h);p.lineTo(0,0);p.lineTo(w,0);}p.lineTo(w,h);p.lineTo(-w,h);return p;}
 function initWithYard(data) {
 const yardWidth = Math.max(10, Math.min(500, data.width || 50));
 const yardDepth = Math.max(10, Math.min(500, data.depth || 100));
@@ -5182,15 +5179,7 @@ boundaryLines.geometry.dispose();
 const segs = state.terrainSegs;
 let groundGeo;
 if (data.shape === 'L') {
-const w = data.width, d = data.depth;
-const lShape = new THREE.Shape();
-lShape.moveTo(-w/2, -d/2);
-lShape.lineTo(0, -d/2);
-lShape.lineTo(0, 0);
-lShape.lineTo(w/2, 0);
-lShape.lineTo(w/2, d/2);
-lShape.lineTo(-w/2, d/2);
-lShape.lineTo(-w/2, -d/2);
+const lShape = _yo(new THREE.Shape(), data, true);
 groundGeo = new THREE.ShapeGeometry(lShape);
 } else {
 groundGeo = new THREE.PlaneGeometry(data.width, data.depth, segs, segs);
@@ -5221,16 +5210,7 @@ scene.add(gridHelper);
 boundaryLines.geometry.dispose();
 let boundaryGeo;
 if (data.shape === 'L') {
-const w = data.width, d = data.depth;
-const lShape = new THREE.Shape();
-lShape.moveTo(-w/2, -d/2);
-lShape.lineTo(0, -d/2);
-lShape.lineTo(0, 0);
-lShape.lineTo(w/2, 0);
-lShape.lineTo(w/2, d/2);
-lShape.lineTo(-w/2, d/2);
-lShape.lineTo(-w/2, -d/2);
-boundaryGeo = new THREE.EdgesGeometry(new THREE.ShapeGeometry(lShape));
+boundaryGeo = new THREE.EdgesGeometry(new THREE.ShapeGeometry(_yo(new THREE.Shape(), data, true)));
 } else {
 boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(data.width, 0.02, data.depth));
 }
@@ -5240,6 +5220,14 @@ new THREE.LineBasicMaterial({ color: 0x333333 })
 );
 boundaryLines.position.y = state.gridLevel + 0.03;
 scene.add(boundaryLines);
+// t_0174b1d0: hole stops outerGround occluding craters.
+outerGround?.geometry.dispose();outerGround?.material.dispose();outerGround?.removeFromParent();
+const og=_yo(new THREE.Shape(),{width:200,depth:200},false);
+og.holes.push(_yo(new THREE.Path(),data,data.shape=='L'));
+outerGround = new THREE.Mesh(new THREE.ShapeGeometry(og).rotateX(-Math.PI/2), new THREE.MeshStandardMaterial({color:0x5a7a3a,roughness:0.95}));
+outerGround.position.y = -.05;
+outerGround.receiveShadow = true;
+scene.add(outerGround);
 camera3D.position.set(data.width * 0.5, data.depth * 0.4, data.depth * 0.5);
 controls.target.set(0, 0, 0);
 controls.update();
@@ -6209,10 +6197,10 @@ x: -halfW,
 z: halfD - (i / segs) * state.yard.depth,
 h: terrainAt(0, segs - i)
 }), segs);
-// Sprint 15: Interior earth walls — scan terrain grid for height differences >1ft between
+// Sprint 15: Interior earth walls — scan terrain grid for height differences >0.15ft between
 // adjacent cells and build wall quads from the higher terrain down to the lower terrain
 // (and further down to bottomY). Only in dug areas (terrain < 0).
-const WALL_HEIGHT_THRESHOLD = 1.0; // feet — minimum height difference to generate a wall
+const WALL_HEIGHT_THRESHOLD = 0.15; // ft — s25 t_0174b1d0
 function addInteriorWall(ax, az, bx, bz, ah, bh, bottomY, positions, indices, surfaceHeights) {
 // Wall from higher terrain edge down to lower terrain edge (the "step" face),
 // then continues down to bottomY.
