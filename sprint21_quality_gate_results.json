@@ -3,23 +3,23 @@
   "total": 54,
   "passed": 54,
   "failed": 0,
-  "index_html_bytes": 765929,
-  "index_html_lines": 16089,
+  "index_html_bytes": 765988,
+  "index_html_lines": 16153,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "765929 bytes"
+      "detail": "765988 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "765929 bytes"
+      "detail": "765988 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "16089 lines (info only)"
+      "detail": "16153 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
@@ -229,7 +229,7 @@
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=9557 vs flat=11684 (revealed delta=-2127); clay=61 subsoil=241 topsoil=291 bedrock=8964"
+      "detail": "geo pixels: pit=9555 vs flat=11674 (revealed delta=-2119); clay=61 subsoil=241 topsoil=291 bedrock=8962"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -264,12 +264,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=138622 vs flat baseline=134064 (ratio 1.03)"
+      "detail": "grass restored=138623 vs flat baseline=134075 (ratio 1.03)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 362"
+      "detail": "|geo_restored - geo_flat| = 366"
     },
     {
       "name": "No console errors during the entire run",

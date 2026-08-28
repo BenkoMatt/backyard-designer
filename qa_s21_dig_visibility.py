@@ -38,9 +38,19 @@ def record(name, ok, detail=""):
     print(("PASS  " if ok else "FAIL  ") + name + ("  -- " + str(detail)[:180] if detail else ""))
 
 
-def classify_pixels(png_path, max_dim=420, canvas_only=False):
+def classify_pixels(png_path, max_dim=420, canvas_only=False, hole_region=False):
     img = Image.open(png_path).convert("RGB")
-    if canvas_only:
+    if hole_region:
+        # Sprint 24 harness update: crop to the second dug hole (12,20). The
+        # on-demand render fix (controls change -> requestRender) made the
+        # before-frame honest — the old whole-canvas `after > before` geo
+        # comparison was passing on the CAMERA POSE change (stale before frame),
+        # not the clip reveal; at an honest pose the global geo delta is a wash
+        # because arming the clip also removes below-ground brown walls while
+        # the dock panel occludes ~260 brown px. The hole region isolates the
+        # actual clip-reveal signal: bedrock appears where grass was.
+        img = img.crop((600, 300, 1000, 560))
+    elif canvas_only:
         # Crop to the 3D canvas region (right of the item-library panel, above status bar)
         img = img.crop((340, 0, img.width, 620))
     img.thumbnail((max_dim, max_dim))
@@ -169,8 +179,11 @@ def main():
         page.screenshot(path=f"{DIR}/1_dock_open.png")
         b1 = classify_pixels(f"{DIR}/1_dock_open.png")
         print("dock open bands:", json.dumps(b1))
-        record("dock:geo_colors_in_pixels", geo_frac(b1) > geo_frac(before),
-               f"geo {geo_frac(before):.4f} -> {geo_frac(b1):.4f} (brown={b1['brown']} clay={b1['clay']} bedrock={b1['bedrock']})")
+        # Sprint 24: clip-reveal asserted in the hole region (see classify_pixels)
+        h0 = classify_pixels(f"{DIR}/0_before.png", hole_region=True)
+        h1 = classify_pixels(f"{DIR}/1_dock_open.png", hole_region=True)
+        record("dock:geo_colors_in_pixels", geo_frac(h1) > geo_frac(h0),
+               f"hole-region geo {geo_frac(h0):.4f} -> {geo_frac(h1):.4f} (brown={h1['brown']} clay={h1['clay']} bedrock={h1['bedrock']})")
         record("dock:grass_pixels_dropped", frac(b1, "grass") < frac(before, "grass"),
                f"grass {frac(before, 'grass'):.4f} -> {frac(b1, 'grass'):.4f}")
 
@@ -187,8 +200,10 @@ def main():
         b2 = classify_pixels(f"{DIR}/2_excavate_open.png")
         print("excavate open diag:", json.dumps(d), "bands:", json.dumps(b2))
         record("excavate:clip_armed", bool(d and d.get("autoDigClipActive")), f"diag={d}")
-        record("excavate:geo_colors_in_pixels", geo_frac(b2) > geo_frac(before),
-               f"geo {geo_frac(before):.4f} -> {geo_frac(b2):.4f}")
+        # Sprint 24: clip-reveal asserted in the hole region (see classify_pixels)
+        h2 = classify_pixels(f"{DIR}/2_excavate_open.png", hole_region=True)
+        record("excavate:geo_colors_in_pixels", geo_frac(h2) > geo_frac(h0),
+               f"hole-region geo {geo_frac(h0):.4f} -> {geo_frac(h2):.4f}")
 
         # -- 3. Close -> grass restored ----------------------------------------
         # NOTE: vc-underground's off-branch restores opacity from the slider even while

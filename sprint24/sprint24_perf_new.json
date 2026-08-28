@@ -1,0 +1,23 @@
+{
+  "mode": "new",
+  "port": "8313",
+  "url": "http://127.0.0.1:8313/index.html",
+  "navigation": {
+    "load_ms": 642.7000002861023,
+    "dcl_ms": 642.1000003814697
+  },
+  "idle_frames_5s": 0,
+  "drag": {
+    "frames": 25,
+    "ms": 15052,
+    "fps": 1.7,
+    "camera_pos_after": [
+      -39.27,
+      44.87,
+      34.2
+    ]
+  },
+  "settle_frames_2.5s": 0,
+  "deep_idle_frames_4s": 0,
+  "page_errors": []
+}

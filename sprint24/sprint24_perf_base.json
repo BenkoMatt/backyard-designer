@@ -1,0 +1,23 @@
+{
+  "mode": "old",
+  "port": "8314",
+  "url": "http://127.0.0.1:8314/index.html",
+  "navigation": {
+    "load_ms": 802.4000000953674,
+    "dcl_ms": 799.9000000953674
+  },
+  "idle_frames_5s": 301,
+  "drag": {
+    "frames": 26,
+    "ms": 14801,
+    "fps": 1.8,
+    "camera_pos_after": [
+      -40.76,
+      45.29,
+      31.82
+    ]
+  },
+  "settle_frames_2.5s": 4,
+  "deep_idle_frames_4s": 7,
+  "page_errors": []
+}
