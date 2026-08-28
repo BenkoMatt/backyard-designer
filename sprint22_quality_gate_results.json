@@ -3,18 +3,18 @@
   "total": 43,
   "passed": 43,
   "failed": 0,
-  "index_html_bytes": 765988,
-  "index_html_lines": 16153,
+  "index_html_bytes": 765992,
+  "index_html_lines": 16144,
   "results": [
     {
       "name": "File size <= 768,000 bytes (Sprint 22 hard limit)",
       "status": "PASS",
-      "detail": "765988 bytes (748.0 KB), headroom 2012"
+      "detail": "765992 bytes (748.0 KB), headroom 2008"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "957 open / 957 close"
+      "detail": "958 open / 958 close"
     },
     {
       "name": "Topbar '?' button (#btn-help) exists",
