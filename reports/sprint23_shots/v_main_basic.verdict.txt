@@ -1,0 +1,21 @@
+## 1) Overlapping / clipped elements
+
+- **Clipped: "SCULPT / BUILD / VIEW" floating panel (bottom-left of canvas).** The panel runs off the bottom edge of the viewport — the **BUILD section header is visible with zero items under it**, and the panel is truncated by the status bar. Looks broken; the build tools appear inaccessible. *(Highest-severity issue)*
+- **Minor: Left sidebar's last item ("Patios & Deck…") is cut off** at the bottom of the panel. Fine if the list scrolls, but worth confirming it's not dead space.
+- No true element-on-element overlaps: the tip bubble, bottom tool row, scale bar, "Take Tour" button, and the right-side camera/zoom buttons all have clear separation (tip bubble and SCULPT panel are only ~10px apart — tight but clean).
+
+## 2) Would a new user understand within 5 seconds?
+
+**Yes.** Onboarding is well covered:
+- "Getting Started" callout explicitly says: *"Click any item below to add it to your yard. Then drag to position it."*
+- A follow-up tip bubble reinforces the same instruction in the canvas.
+- "Take Tour" offers a guided path.
+
+## 3) Confusing / ambiguous / broken-looking
+
+- **"Innovate" tool label (bottom toolbar)** — among Tape Measure / Terrain / Excavate / Analyze, "Innovate" reads as a mistake (with the lightbulb icon, did you mean **"Irrigate"** or **"Lighting"**?). *(Medium)*
+- **Empty "RECENTLY USED" section** — header with no items beneath it looks like a rendering gap rather than an intentional empty state. *(Minor)*
+- **Redundant sun controls** — three separate sun-related affordances ("Daytime" chip top-center, a "Sun" button, and "Sun & Shadow" in the panel) may confuse which one is primary. *(Minor)*
+- **"FPS: —" in the status bar** shows an unset placeholder value. *(Nitpick)*
+
+**Verdict: Not CLEAN** — the clipped SCULPT/BUILD panel is the one real defect; everything else is minor polish.

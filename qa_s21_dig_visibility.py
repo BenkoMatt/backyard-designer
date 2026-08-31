@@ -178,10 +178,21 @@ def main():
                f"grass frac={frac(before, 'grass'):.3f}")
 
         # -- 1. Underground dock tab (real CDP click) --------------------------
-        page.locator('.td-tab[data-dock="underground"]').click(timeout=8000, force=True)
-        page.wait_for_timeout(600)
-        dock_visible = page.evaluate(
-            "() => document.getElementById('dock-underground').classList.contains('visible')")
+        # Harness quirk (documented in VISION_QA_REPORT.sprint23_agent4.md): under
+        # swiftshader CPU starvation the CDP click lands but Playwright's post-click
+        # "waiting for scheduled navigations" stage can stall past the timeout. The
+        # tab toggles the dock, so retry ONLY when the dock did not actually open.
+        def open_ug_dock():
+            try:
+                page.locator('.td-tab[data-dock="underground"]').click(timeout=8000, force=True)
+            except Exception:
+                pass
+            page.wait_for_timeout(500)
+            return page.evaluate(
+                "() => document.getElementById('dock-underground').classList.contains('visible')")
+        dock_visible = open_ug_dock()
+        if not dock_visible:
+            dock_visible = open_ug_dock()
         d = diag(page)
         print("after dock open diag:", json.dumps(d))
         record("dock:underground_opens", dock_visible)
@@ -267,8 +278,14 @@ def main():
         # the dock is actually still visible.
         ug_panel = page.locator('#dock-underground')
         if ug_panel.count() > 0 and 'visible' in (ug_panel.get_attribute('class') or ''):
-            page.locator('.td-tab[data-dock="underground"]').click(force=True)
-            page.wait_for_timeout(500)
+            for _ in range(2):
+                try:
+                    page.locator('.td-tab[data-dock="underground"]').click(force=True, timeout=8000)
+                except Exception:
+                    pass  # click landed; only the post-click wait starved (quirk note above)
+                page.wait_for_timeout(500)
+                if 'visible' not in (ug_panel.get_attribute('class') or ''):
+                    break
         # Repair the test pits (pits persist by design in real use; this check verifies UI/clip
         # teardown, not pit removal). Restore flat lawn, then compare against the pre-dig baseline.
         page.evaluate("""() => {
