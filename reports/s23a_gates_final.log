@@ -1,0 +1,19 @@
+=== sprint11 FIXED ===
+  Pass rate:    100.0%
+
+Results written to: /root/byd23-vision-audit/sprint11_quality_gate_results.json
+=== sprint11 BASELINE ===
+  Pass rate:    100.0%
+
+Results written to: /root/byd23-vision-audit/sprint11_quality_gate_results.json
+=== qa_s21 FIXED ===
+PASS  digbrush:raise_disarms  -- diag={'autoDigClipActive': False, 'terrainClipActive': False, 'crossSectionClipActive': False, 'excavatePanelVisible': False, 'undergroundViewActive': False, 'terrainBrushMode': 'r
+PASS  console:no_page_errors
+
+== 16/16 passed ==
+=== qa_s21 BASELINE ===
+PASS  digbrush:raise_disarms  -- diag={'autoDigClipActive': False, 'terrainClipActive': False, 'crossSectionClipActive': False, 'excavatePanelVisible': False, 'undergroundViewActive': False, 'terrainBrushMode': 'r
+PASS  console:no_page_errors
+
+== 16/16 passed ==
+GATESF_DONE

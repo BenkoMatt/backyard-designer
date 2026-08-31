@@ -1,8 +1,8 @@
 {
   "sprint": 16,
   "total": 32,
-  "passed": 32,
-  "failed": 0,
+  "passed": 29,
+  "failed": 3,
   "results": [
     {
       "name": "Desktop gate CSS exists",
@@ -56,8 +56,8 @@
     },
     {
       "name": "Z-index hierarchy is clean (no unexpected values)",
-      "status": "PASS",
-      "detail": ""
+      "status": "FAIL",
+      "detail": "Unexpected z-index values: {'160', '49', '38', '39'}"
     },
     {
       "name": "Keyboard shortcuts (1-6, [/], X) implemented",
@@ -71,7 +71,7 @@
     },
     {
       "name": "Wider panels (sidebar 280px, properties 320px)",
-      "status": "PASS",
+      "status": "FAIL",
       "detail": ""
     },
     {
@@ -156,8 +156,8 @@
     },
     {
       "name": "FPS >= 30",
-      "status": "PASS",
-      "detail": "FPS=60"
+      "status": "FAIL",
+      "detail": "FPS=0"
     },
     {
       "name": "Desktop gate visible at 800px (<900px)",

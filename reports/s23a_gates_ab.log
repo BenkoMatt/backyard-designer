@@ -1,0 +1,25 @@
+=== sprint16_quality_gate FIXED ===
+
+Results saved to: /root/byd23-vision-audit/sprint16_quality_gate_results.json
+=== sprint16_quality_gate BASELINE ===
+
+Results saved to: /root/byd23-vision-audit/sprint16_quality_gate_results.json
+=== sprint17_quality_gate FIXED ===
+
+Results saved to: /root/byd23-vision-audit/sprint17_quality_gate_results.json
+=== sprint17_quality_gate BASELINE ===
+
+Results saved to: /root/byd23-vision-audit/sprint17_quality_gate_results.json
+=== sprint21_quality_gate FIXED ===
+index.html: 766158 bytes (748.2 KB of 750KB limit), 16148 lines
+Results saved to: /root/byd23-vision-audit/sprint21_quality_gate_results.json
+=== sprint21_quality_gate BASELINE ===
+index.html: 766158 bytes (748.2 KB of 750KB limit), 16148 lines
+Results saved to: /root/byd23-vision-audit/sprint21_quality_gate_results.json
+=== sprint22_quality_gate FIXED ===
+index.html: 766158 bytes (748.2 KB of 768,000-byte limit), 16148 lines
+Results saved to: /root/byd23-vision-audit/sprint22_quality_gate_results.json
+=== sprint22_quality_gate BASELINE ===
+index.html: 766158 bytes (748.2 KB of 768,000-byte limit), 16148 lines
+Results saved to: /root/byd23-vision-audit/sprint22_quality_gate_results.json
+AB_DONE

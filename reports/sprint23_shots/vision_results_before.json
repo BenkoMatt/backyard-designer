@@ -1,0 +1,174 @@
+{
+ "01-wizard-step1": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-01-wizard-step1.png"
+ },
+ "02-wizard-step2": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-02-wizard-step2.png"
+ },
+ "02-wizard-step2-scrolled": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-02-wizard-step2-scrolled.png"
+ },
+ "03-main-default": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-03-main-default.png"
+ },
+ "04-toolbar-hover-tape": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-04-toolbar-hover-tape.png"
+ },
+ "05-sidebar-all-expanded": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-05-sidebar-all-expanded.png"
+ },
+ "05b-sidebar-hover-item": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-05b-sidebar-hover-item.png"
+ },
+ "06-toolbar-tape": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-06-toolbar-tape.png"
+ },
+ "07-toolbar-terrain": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-07-toolbar-terrain.png"
+ },
+ "08-toolbar-excavate": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-08-toolbar-excavate.png"
+ },
+ "09-toolbar-analyze": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-09-toolbar-analyze.png"
+ },
+ "10-toolbar-innovate": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-10-toolbar-innovate.png"
+ },
+ "11-toolbar-sun": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-11-toolbar-sun.png"
+ },
+ "p-terrain-controls": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-terrain-controls.png"
+ },
+ "p-excavate": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-excavate.png"
+ },
+ "p-terrain-analysis": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-terrain-analysis.png"
+ },
+ "p-innovation": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-innovation.png"
+ },
+ "p-sun": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-sun.png"
+ },
+ "p-cost": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-cost.png"
+ },
+ "p-layer": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-layer.png"
+ },
+ "p-season": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-season.png"
+ },
+ "p-growth": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-growth.png"
+ },
+ "p-permit": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-permit.png"
+ },
+ "p-cross-section": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-cross-section.png"
+ },
+ "p-cut-fill": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-p-cut-fill.png"
+ },
+ "d-terrain": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-d-terrain.png"
+ },
+ "d-underground": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-d-underground.png"
+ },
+ "m-help": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-help.png"
+ },
+ "m-help-bottom": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-help-bottom.png"
+ },
+ "m-shortcuts": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-shortcuts.png"
+ },
+ "m-shortcuts-f1": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-shortcuts-f1.png"
+ },
+ "m-share": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-share.png"
+ },
+ "m-templates": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-templates.png"
+ },
+ "m-gallery": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-gallery.png"
+ },
+ "m-label-edit": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-label-edit.png"
+ },
+ "m-command-palette": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-m-command-palette.png"
+ },
+ "o-walk-mode": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-o-walk-mode.png"
+ },
+ "o-grid-level-badge": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-o-grid-level-badge.png"
+ },
+ "o-depth-gauge": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-o-depth-gauge.png"
+ },
+ "s-status-bar": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-s-status-bar.png"
+ },
+ "s-context-hint": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-s-context-hint.png"
+ },
+ "t-toast": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-t-toast.png"
+ },
+ "x-print": {
+  "ok": true,
+  "shot": "/root/byd23-vision-audit/reports/sprint23_shots/before-x-print.png"
+ }
+}
