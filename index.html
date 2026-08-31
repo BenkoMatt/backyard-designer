@@ -89,7 +89,6 @@ button.mi-loading{pointer-events:none;opacity:0.7;position:relative;}button.mi-l
 @media (prefers-reduced-motion:reduce){.mi-spinner{animation-duration:1.5s !important;}#toast.visible{animation:none !important;}.panel-enter,.modal-backdrop-enter,.modal-content-enter{animation:none !important;}.mi-skeleton{animation:none !important;}.mi-pulse{animation:none !important;}button:active{transform:none !important;}}
 #desktop-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);color:var(--text);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;gap:16px;overflow-y:auto;}#desktop-gate.visible{display:flex;}#desktop-gate .gate-icon{font-size:64px;margin-bottom:8px;}#desktop-gate h2{font-size:22px;font-weight:700;color:var(--primary);}#desktop-gate p{font-size:14px;color:var(--text-muted);max-width:400px;line-height:1.6;}#desktop-gate .gate-hint{font-size:12px;color:var(--text-muted);margin-top:12px;}
 #status-bar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:4px 16px;font-size:11px;color:var(--text-muted);font-family:-apple-system,sans-serif;min-height:24px;user-select:none;-webkit-user-select:none;pointer-events:none;}#status-bar .sb-item{display:flex;align-items:center;gap:4px;white-space:nowrap;}#status-bar .sb-item .sb-label{color:var(--text-muted);}#status-bar .sb-item .sb-val{color:var(--text);font-weight:600;}#status-bar .sb-sep{width:1px;height:12px;background:var(--border);}</style>
-<!-- Sprint 9: Confirmation dialog for destructive actions -->
 <div id="confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-dialog-title" aria-hidden="true">
   <div class="confirm-dialog-box">
     <div class="confirm-dialog-title" id="confirm-dialog-title"><span class="confirm-icon">⚠️</span><span class="confirm-title-text">Confirm</span></div>
@@ -100,7 +99,6 @@ button.mi-loading{pointer-events:none;opacity:0.7;position:relative;}button.mi-l
     </div>
   </div>
 </div>
-<!-- Sprint 9: Progress bar for async operations -->
 <div class="mi-progress" id="mi-progress" style="width:0;opacity:0;"></div>
 
 <script type="importmap">
@@ -111,19 +109,16 @@ button.mi-loading{pointer-events:none;opacity:0.7;position:relative;}button.mi-l
 }
 }
 </script>
-<!-- PERF: Preload Three.js module to start network fetch earlier -->
 <link rel="modulepreload" href="https://unpkg.com/three@0.160.0/build/three.module.js">
 </head>
 <body>
 
-<!-- SPRINT 16: Desktop gate overlay for small screens -->
 <div id="desktop-gate">
   <div class="gate-icon">🖥️</div>
   <h2>Desktop Required</h2>
   <p>Backyard Designer 3D is optimized for desktop screens. Please use a browser window at least 900 pixels wide for the best experience.</p>
   <p class="gate-hint">Resize your browser window wider to continue.</p>
 </div>
-<!-- SPRINT 16: Status bar -->
 <div id="status-bar">
   <div class="sb-item"><span class="sb-label">Tool:</span> <span class="sb-val" id="sb-tool">Select</span></div>
   <div class="sb-sep"></div>
@@ -134,10 +129,8 @@ button.mi-loading{pointer-events:none;opacity:0.7;position:relative;}button.mi-l
   <div class="sb-item"><span class="sb-label">FPS:</span> <span class="sb-val" id="sb-fps">—</span></div>
 </div>
 
-<!-- SPRINT 8: Skip-to-content link for keyboard users -->
 <a href="#viewport" class="skip-link">Skip to 3D design canvas</a>
 
-<!-- SPRINT 8: Screen reader description of the 3D viewport -->
 <div id="viewport-desc" class="sr-only" aria-hidden="true">Interactive 3D backyard design canvas. Shortcuts: arrows move selection, Delete removes it, Ctrl+Z undo, Ctrl+Shift+Z or Ctrl+Y redo, Ctrl+D duplicate, Ctrl+S save, Ctrl+K palette, Escape close, Alt+Tab cycle objects. Press ? or F1 for the full guide.</div>
 
 <div id="topbar">
@@ -276,10 +269,8 @@ Click any item below to add it to your yard. Then drag to position it.
 </div>
 <div id="viewport" role="application" aria-label="3D backyard design canvas" aria-describedby="viewport-desc">
 <script>
-/* Sprint 19: UI overlap fix — reorganize bottom-left buttons and right-side panels into containers */
 (function() {
   function reorganizeUI() {
-    // 1. Create bottom-left toolbar container and move toolbar buttons into it
     var toolbar = document.getElementById('bottom-left-toolbar');
     if (!toolbar) {
       toolbar = document.createElement('div');
@@ -294,7 +285,6 @@ Click any item below to add it to your yard. Then drag to position it.
       if (el && el.parentElement !== toolbar) toolbar.appendChild(el);
     });
 
-    // 2. Create right-side panel stack container and move panels into it
     var stack = document.getElementById('right-panel-stack');
     if (!stack) {
       stack = document.createElement('div');
@@ -306,7 +296,6 @@ Click any item below to add it to your yard. Then drag to position it.
     panelIds.forEach(function(id) {
       var el = document.getElementById(id);
       if (el && el.parentElement !== stack) {
-        // Skip walk-exit if it's inside walk-controls (walk mode)
         if (id === 'walk-exit' && el.closest('#walk-controls')) return;
         stack.appendChild(el);
       }
@@ -317,7 +306,6 @@ Click any item below to add it to your yard. Then drag to position it.
   } else {
     reorganizeUI();
   }
-  // Also run after a delay to catch dynamically added elements
   setTimeout(reorganizeUI, 100);
   setTimeout(reorganizeUI, 500);
 })();
@@ -1275,7 +1263,6 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <div class="wizard-panel" id="wizard-panel"></div>
 <button id="wizard-skip" style="position:absolute;bottom:24px;left:50%;margin-left:-89px;background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:12px 20px;min-height:44px;z-index:2;pointer-events:auto;" title="Skip setup and start with a default yard">Skip — use default yard</button>
 </div>
-<!-- SPRINT 9: ONBOARDING — Welcome prompt modal -->
 <div id="welcome-prompt" role="dialog" aria-modal="true" aria-labelledby="wp-title">
   <div class="welcome-prompt-panel">
     <span class="wp-emoji">🌿</span>
@@ -1305,7 +1292,6 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
     </div>
   </div>
 </div>
-<!-- SPRINT 9: ONBOARDING — Guided tour overlay -->
 <div id="tour-overlay" aria-hidden="true">
   <div id="tour-backdrop"></div>
   <div id="tour-spotlight" class="no-target"></div>
@@ -1321,11 +1307,8 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
     <div class="tour-progress" id="tour-progress"></div>
   </div>
 </div>
-<!-- SPRINT 9: ONBOARDING — Contextual tooltip -->
 <div id="ctx-tooltip"></div>
-<!-- SPRINT 9: ONBOARDING — Progressive hint -->
 <div id="progressive-hint"></div>
-<!-- SPRINT 9: ONBOARDING — Restart tour button -->
 <button id="onboarding-restart-btn" title="Restart guided tour" aria-label="Restart guided tour">🎓 Take Tour</button>
 <div id="gallery-modal">
 <div class="gallery-panel">
@@ -1522,7 +1505,6 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <button class="wizard-btn close-btn" id="help-close-btn">Got It!</button>
 </div>
 </div>
-<!-- Sprint 22: Keyboard Shortcuts Guide -->
 <div id="shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="sc-title" aria-hidden="true">
 <div class="sc-panel">
 <h2 id="sc-title">Keyboard Shortcuts<span id="sc-mode-badge" class="mode-badge basic">Basic</span><button type="button" class="sc-close" id="shortcuts-close-btn" aria-label="Close shortcuts guide">✕</button></h2>
@@ -1559,7 +1541,6 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <button class="wizard-btn close-btn" id="shortcuts-got-btn">Got It!</button>
 </div>
 </div>
-<!-- SPRINT 8: Print View (Agent 5 — Comparative) -->
 <div id="print-view">
 <div class="print-header">
 <h1>Backyard Design 3D — Project Report</h1>
@@ -1599,7 +1580,6 @@ Generated by Backyard Designer 3D — This is a planning tool only; verify all m
 
 <input type="file" id="import-input" accept=".json">
 
-<!-- Expert User: Command Palette (Ctrl+K) -->
 <div id="cmd-palette-overlay">
 <div id="cmd-palette">
 <input type="text" id="cmd-palette-input" aria-label="Command palette search" placeholder="Type a command... (e.g. 'terrain', 'save', 'walk')" autocomplete="off">
@@ -1607,10 +1587,8 @@ Generated by Backyard Designer 3D — This is a planning tool only; verify all m
 </div>
 </div>
 
-<!-- Expert User: Right-Click Context Menu -->
 <div id="ctx-menu"></div>
 
-<!-- Expert User: Batch Operations Bar -->
 <div id="batch-bar">
 <span class="batch-count" id="batch-count">0 selected</span>
 <button id="batch-delete-all" title="Delete all selected">Delete All</button>
@@ -1623,11 +1601,8 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const IS_MOBILE = false; // Sprint 16: Desktop-only — mobile detection disabled
 const PIXEL_RATIO = Math.min(window.devicePixelRatio, 2);
-// PERF: Adaptive shadow map size based on screen resolution
 let SHADOW_MAP_SIZE = 2048;
 
-// PERF: Geometry cache — reuse common geometries to reduce GPU memory and creation time
-// Keyed by "type:args" string. Geometries are shared across objects of the same type.
 const _geoCache = new Map();
 function getCachedGeo(key, factory) {
 if (_geoCache.has(key)) return _geoCache.get(key);
@@ -1635,7 +1610,6 @@ const geo = factory();
 _geoCache.set(key, geo);
 return geo;
 }
-// PERF: Material cache — reuse materials with same color to reduce draw calls
 const _matCache = new Map();
 function getCachedMat(key, factory) {
 if (_matCache.has(key)) return _matCache.get(key);
@@ -1646,10 +1620,6 @@ return mat;
 
 
 
-// ============================================================
-// MOBILE TOPBAR SCROLL INDICATOR
-// Shows a fade gradient when topbar buttons overflow, hides when scrolled to end
-// ============================================================
 (function() {
 function updateTopbarScroll() {
 const tb = document.getElementById('topbar');
@@ -1667,7 +1637,6 @@ const tb = document.getElementById('topbar');
 if (!tb) return;
 tb.addEventListener('scroll', updateTopbarScroll, { passive: true });
 updateTopbarScroll();
-// Re-check after layout settles
 setTimeout(updateTopbarScroll, 500);
 });
 window.addEventListener('resize', updateTopbarScroll, { passive: true });
@@ -1681,7 +1650,6 @@ function sanitizeColor(val, fallback) {
 if (typeof val !== 'string') return fallback;
 if (/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3}([0-9a-fA-F]{2})?)?$/.test(val)) return val;
 if (/^[a-zA-Z]+$/.test(val) && val.length < 30) {
-// Validate against a known set of CSS color names to avoid false positives
 const CSS_COLOR_NAMES = ['aliceblue','antiquewhite','aqua','aquamarine','azure','beige','bisque','black','blanchedalmond','blue','blueviolet','brown','burlywood','cadetblue','chartreuse','chocolate','coral','cornflowerblue','cornsilk','crimson','cyan','darkblue','darkcyan','darkgoldenrod','darkgray','darkgreen','darkgrey','darkkhaki','darkmagenta','darkolivegreen','darkorange','darkorchid','darkred','darksalmon','darkseagreen','darkslateblue','darkslategray','darkslategrey','darkturquoise','darkviolet','deeppink','deepskyblue','dimgray','dimgrey','dodgerblue','firebrick','floralwhite','forestgreen','fuchsia','gainsboro','ghostwhite','gold','goldenrod','gray','green','greenyellow','grey','honeydew','hotpink','indianred','indigo','ivory','khaki','lavender','lavenderblush','lawngreen','lemonchiffon','lightblue','lightcoral','lightcyan','lightgoldenrodyellow','lightgray','lightgreen','lightgrey','lightpink','lightsalmon','lightseagreen','lightskyblue','lightslategray','lightslategrey','lightsteelblue','lightyellow','lime','limegreen','linen','magenta','maroon','mediumaquamarine','mediumblue','mediumorchid','mediumpurple','mediumseagreen','mediumslateblue','mediumspringgreen','mediumturquoise','mediumvioletred','midnightblue','mintcream','mistyrose','moccasin','navajowhite','navy','oldlace','olive','olivedrab','orange','orangered','orchid','palegoldenrod','palegreen','paleturquoise','palevioletred','papayawhip','peachpuff','peru','pink','plum','powderblue','purple','rebeccapurple','red','rosybrown','royalblue','saddlebrown','salmon','sandybrown','seagreen','seashell','sienna','silver','skyblue','slateblue','slategray','slategrey','snow','springgreen','steelblue','tan','teal','thistle','tomato','turquoise','violet','wheat','white','whitesmoke','yellow','yellowgreen'];
 if (CSS_COLOR_NAMES.includes(val.toLowerCase())) return val;
 }
@@ -2608,7 +2576,6 @@ let crossSectionAxis = 'x';       // Sprint 14: 'x' or 'z' — which axis to cut
 let crossSectionPosition = 0;     // Sprint 14: position of the clip plane along the axis
 let crossSectionActive = false;   // Sprint 14: whether cross-section clipping is on
 let autoDigClipPlane = null;
-// Sprint 20: auto-dig clip plane clips yardMesh below y=0 to expose geological layers in dug holes (yardMesh only); _rebuildYardClipPlanes recomposes it with manual planes.
 function _rebuildYardClipPlanes() {
 if (!yardMesh || !yardMesh.material) return;
 const planes = [];
@@ -2618,7 +2585,6 @@ if (autoDigClipPlane) planes.push(autoDigClipPlane);
 yardMesh.material.clippingPlanes = planes;
 yardMesh.material.needsUpdate = true;
 }
-// Sprint 21 STABILITY: _rebuildSolidEarthClipPlanes is the single canonical writer for solidEarthMesh clipping planes — earlier ad-hoc writers (cutaway slider, buildSolidEarth tail, flatten/clear) clobbered each other; all writes go through here so planes COMPOSE.
 function _rebuildSolidEarthClipPlanes() {
 if (!solidEarthMesh || !solidEarthMesh.material) return;
 const planes = [];
@@ -2627,10 +2593,8 @@ if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) plane
 solidEarthMesh.material.clippingPlanes = planes;
 solidEarthMesh.material.needsUpdate = true;
 }
-/* Sprint 21: updateGroundVisibility computes auto-dig clip state from ALL "see into ground" inputs (excavate panel, underground view, dig brush); manual clip planes compose WITH the dig clip. */
 function updateGroundVisibility() {
 const wantDigClip = excavatePanelVisible || undergroundViewActive || terrainBrushMode === 'dig';
-/* PERF S24: sync-flush clip flips; reveals never wait for rAF. */
 const _flushFrame = () => { try { if (renderer && scene && activeCamera) { renderer.render(scene, activeCamera); window._bydFrames = (window._bydFrames || 0) + 1; } } catch (e) {} };
 if (wantDigClip) {
 if (!autoDigClipPlane) {
@@ -2648,13 +2612,10 @@ _flushFrame();
 }
 }
 }
-/* Sprint 20: auto-dig clip enable/disable by brush mode — see updateGroundVisibility. */
-// Sprint 21: updateAutoDigClip is a legacy shim feeding canonical updateGroundVisibility() (full invariant, strict superset of stability's brush-only syncAutoDigClip); kept TDZ-guarded for the pre-declaration window during module load.
 function updateAutoDigClip() {
 let declared = false;
 try { declared = (typeof excavatePanelVisible !== 'undefined') && (typeof undergroundViewActive !== 'undefined'); } catch (e) { declared = false; }
 if (!declared) {
-// Declarations not yet executed (script still loading) — brush-mode-only fallback
 if (terrainBrushMode === 'dig' && !autoDigClipPlane) {
 autoDigClipPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 _rebuildYardClipPlanes();
@@ -2722,10 +2683,8 @@ controls.target.set(0, 0, 0);
 controls.maxPolarAngle = Math.PI / 2 - 0.05;
 controls.minDistance = 5;
 controls.maxDistance = 300;
-// Sprint 18: OrbitControls' built-in wheel zoom is DISABLED — one document-level wheel listener owns ALL 3D zooming (works on load, no click required; overlay elements zoom like the canvas; no double-zoom).
 controls.enableZoom = false;
 controls.zoomSpeed = 1.2;
-// Sprint 16: Desktop-only — touch config removed
 
 
 
@@ -2740,22 +2699,17 @@ updateScaleBar();
 scaleBarDebounce = null;
 }, 80);
 });
-// PERF S24: feed the chain during orbit/zoom/pan.
 controls.addEventListener('change', () => { requestRender(); });
 const ambient = new THREE.AmbientLight(0xffffff, 0.65);
 scene.add(ambient);
 sunAmbient = ambient;
-// Sprint 15: Warmer hemisphere light — warmer sky/ground colors to illuminate dug areas from below
 const hemi = new THREE.HemisphereLight(0xffeedd, 0x8b6f47, 0.55);
 scene.add(hemi);
 sunHemi = hemi;
-// Sprint 15: Underground lighting — hemisphere light below ground for underground visibility.
-// Sky color = warm earth tone (below), ground color = cool tone (above). Low intensity.
 const undergroundHemi = new THREE.HemisphereLight(0x6b5a3a, 0x4a3a2a, 0.35);
 undergroundHemi.position.set(0, -20, 0);
 scene.add(undergroundHemi);
 window._undergroundHemi = undergroundHemi;
-// Sprint 15: Point light below ground center for additional underground fill.
 const undergroundPoint = new THREE.PointLight(0xffd0a0, 0.3, 80, 2);
 undergroundPoint.position.set(0, -15, 0);
 scene.add(undergroundPoint);
@@ -2803,12 +2757,8 @@ window._bydContextLost = false;
 showToast('Graphics restored', 'success');
 requestRender();
 });
-/* Sprint 18 zoom: one document-level wheel listener owns ALL 3D zoom (scrollable panels scroll normally); OrbitControls zoom DISABLED — no double-zoom. */
 document.addEventListener('wheel', (e) => {
-// Only zoom the 3D camera in 3D mode. In 2D mode, let normal scrolling happen.
 if (state.viewMode !== '3d') return;
-// If the event target is inside a scrollable panel that can still scroll in
-// the wheel direction, let the panel scroll — never hijack real scrolling.
 let el = e.target;
 while (el && el !== document.body) {
 const style = getComputedStyle(el);
@@ -2822,13 +2772,10 @@ break;                                     // panel exhausted → zoom the camer
 }
 el = el.parentElement;
 }
-// Zoom the camera directly so it works without focus/click, everywhere.
 e.preventDefault();
-// 1.1x per notch; scale smoothly for sub-notch (trackpad) deltas.
 const factor = Math.pow(1.1, Math.max(-5, Math.min(5, e.deltaY / 100)));
 const offset = camera3D.position.clone().sub(controls.target);
 offset.multiplyScalar(factor);
-// Clamp to OrbitControls' configured distance range (5–300) — keep direction.
 let dist = offset.length();
 if (dist < controls.minDistance) offset.multiplyScalar(controls.minDistance / dist);
 else if (dist > controls.maxDistance) offset.multiplyScalar(controls.maxDistance / dist);
@@ -2863,9 +2810,6 @@ let needsRender = true;
 let _continuousRenderSources = 0; // walk mode, sun animation, weather, etc.
 function startContinuousRender() { _continuousRenderSources++; _kickRafChain(); }
 function stopContinuousRender() { _continuousRenderSources = Math.max(0, _continuousRenderSources - 1); }
-/* PERF S24: on-demand rAF — animate() drains pending work then stops
-re-scheduling; requestRender()/startContinuousRender()/controls 'change'
-restart it. Idle rAF drops ~120/s to 0. */
 let _bydRafRunning = true;
 window._bydRafRunning = true;
 let _dampWasActive = false; // PERF S24: damping was active last frame
@@ -2883,9 +2827,6 @@ let dampingActive = false;
 if (typeof controls !== 'undefined' && controls) {
 dampingActive = controls.update();
 }
-/* PERF S24: bound the damping tail. controls.update() reports ~65 decay
-frames (~1.1s at 60fps); a starved scheduler stretches that to tens of
-seconds of low-Hz rendering. Cap at 3s — above any real tail. */
 if (dampingActive) {
 if (!_dampWasActive) { _dampWasActive = true; _dampStart = performance.now(); }
 else if (performance.now() - _dampStart > 3000) { dampingActive = false; }
@@ -2898,8 +2839,6 @@ if (renderer.xr && renderer.xr.isPresenting) {
 renderer.render(scene, activeCamera);
 }
 needsRender = false;
-/* PERF S24: burst stamps — burst = frames with <1.5s gaps; idle gaps
-excluded so the meter shows interaction rate. */
 const _fnow = performance.now();
 if (_fnow - (window._bydLastFrameTs || 0) > 1500) {
 window._bydBurstStartTs = _fnow;
@@ -3060,36 +2999,26 @@ const iz = Math.round((pz + halfD) / cellD);
 slope = computeTerrainSlope(ix, iz, segs, cellW, cellD);
 }
 
-// 0 to 15 deg: grass -> dirt (lerp t = slope / 0.2618, clamped 0..1)
-// 15 to 30+ deg: dirt -> rock (lerp t = (slope - 0.2618) / 0.2618, clamped 0..1)
 const tGrassDirt = Math.max(0, Math.min(1, slope / SLOPE_DIRT));
 const tDirtRock = Math.max(0, Math.min(1, (slope - SLOPE_DIRT) / (SLOPE_ROCK - SLOPE_DIRT)));
 if (slope < SLOPE_DIRT) {
-// Grass to dirt transition
 tmpSlope.lerpColors(grassColor, dirtColor, tGrassDirt);
 } else {
-// Dirt to rock transition
 tmpSlope.lerpColors(dirtColor, rockColor, tDirtRock);
 }
 
-// Sprint 19: below 0ft — geological colors by depth (_getNamedGeoLayerColor(-py)), smooth 1.5ft band at y≈0, depth bands every 2ft while digging.
 const TRANSITION_BAND = 1.5; // feet — smooth blend band around y=0 (widened from 0.5)
 let heightT = 0;
 if (py < -TRANSITION_BAND) {
-// Below transition band — full geological color
 const depthBelowSurface = -py; // depth below 0 (positive)
 const geoColor = _getNamedGeoLayerColor(depthBelowSurface);
-// Brighten underground colors 45% for visibility (increased from 25%)
 const boost = 1.45;
 let r = Math.min(1, geoColor.r * boost);
 let g = Math.min(1, geoColor.g * boost);
 let b = Math.min(1, geoColor.b * boost);
-// Sprint 19: Add depth band stripes every 2ft for visual layering
-// Darken slightly at every 2ft boundary to create visible banding
 const bandDepth = depthBelowSurface;
 const bandPhase = (bandDepth % 2) / 2; // 0 to 1 within each 2ft band
 if (bandPhase < 0.12) {
-// Subtle darker stripe at the top of each 2ft band
 r *= 0.85; g *= 0.85; b *= 0.85;
 }
 tmpHeight.setRGB(
@@ -3098,7 +3027,6 @@ Math.max(0, Math.min(1, g)),
 Math.max(0, Math.min(1, b))
 );
 } else if (py < 0) {
-// In transition band (−1.5 to 0) — blend from slope color to geological color
 const depthBelowSurface = -py;
 const geoColor = _getNamedGeoLayerColor(depthBelowSurface);
 const boost = 1.45;
@@ -3153,7 +3081,6 @@ const halfD = state.yard.depth / 2;
 const cellW = state.yard.width / segs;
 const cellD = state.yard.depth / segs;
 
-// This avoids allocating a new 40401-vertex geometry on every terrain change.
 const geo = yardMesh.geometry.clone();
 const pos = geo.attributes.position;
 const colors = new Float32Array(pos.count * 3);
@@ -3248,7 +3175,6 @@ yardMesh.material.userData = yardMesh.material.userData || {};
 yardMesh.material.userData.seasonalGrass = pal.grass;
 yardMesh.material.userData.isWinter = currentSeason === 'winter';
 
-// Setting material.color would double-apply it (material.color * vertexColor = color^2).
 applyTerrainVertexColors();
 updateTerrainSnowOverlay();
 if (typeof requestRender === 'function') requestRender();
@@ -3415,7 +3341,6 @@ return refinedPoint;
 return roughPoint;
 }
 function onTouchPointerDown(e) {
-// Sprint 16: Desktop-only — mobile guard removed
 if (e.pointerType !== 'touch') return;
 if (terrainMode) return;
 if (tapeMeasureActive) return;
@@ -3449,7 +3374,6 @@ touchState.startOnObject = null;
 }
 }
 function onTouchPointerMove(e) {
-// Sprint 16: Desktop-only — mobile guard removed
 if (e.pointerType !== 'touch') return;
 if (!touchState.active) return;
 if (touchState.multiTouch) return;
@@ -3492,7 +3416,6 @@ e.stopPropagation();
 }
 }
 function onTouchPointerUp(e) {
-// Sprint 16: Desktop-only — mobile guard removed
 if (e.pointerType !== 'touch') return;
 if (terrainMode) return;
 if (touchState.multiTouch) {
@@ -3528,7 +3451,6 @@ checkSafetyWarnings(dragObject);
 isDragging = false;
 dragObject = null;
 dragStartPos = null;
-// Sprint 18: Don't re-enable OrbitControls in 2D mode
 controls.enabled = (state.viewMode === '3d');
 hideHint();
 } else if (!touchState.moved && elapsed < TAP_DURATION_MS) {
@@ -3617,13 +3539,11 @@ setTimeout(() => document.addEventListener('pointerdown', closeHandler, true), 1
 let isDragging = false;
 let dragObject = null;
 let dragStartPos = null;
-// Sprint 18: 2D mode drag-to-pan state
 let isPanning2D = false;
 let pan2DStart = null;
 let pan2DCamStart = null;
 function onPointerDown(e) {
 if (!renderer || !scene || !raycaster || !mouse || !activeCamera) return;
-// Sprint 18: In 2D mode, drag on empty space pans the camera
 if (state.viewMode === '2d' && e.button === 0) {
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -3635,7 +3555,6 @@ meshes.push(yardMesh);
 const hits = raycaster.intersectObjects(meshes, false);
 const objHit = hits.find(h => h.object.userData.objectId !== undefined);
 if (objHit) {
-// Clicked an object in 2D — select and allow dragging it (same as 3D)
 const objId = objHit.object.userData.objectId;
 if (e.shiftKey || e.ctrlKey) { selectObjectMulti(objId, true); return; }
 selectObject(objId);
@@ -3645,7 +3564,6 @@ dragStartPos = { x: dragObject.position.x, z: dragObject.position.z };
 controls.enabled = false;
 showHint('Drag to move • Release to place');
 } else {
-// Empty space in 2D — start panning
 isPanning2D = true;
 pan2DStart = { x: e.clientX, y: e.clientY };
 pan2DCamStart = { x: camera2D.position.x, z: camera2D.position.z };
@@ -3677,7 +3595,6 @@ return;
 return;
 }
 if (e.button !== 0) return;
-// Sprint 16: Desktop-only
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -3709,11 +3626,9 @@ deselectObject();
 }
 function onPointerMove(e) {
 if (isPanning2D) {
-// Sprint 18: Pan camera2D by dragging
 const dx = e.clientX - pan2DStart.x;
 const dy = e.clientY - pan2DStart.y;
 const rect = renderer.domElement.getBoundingClientRect();
-// Convert pixel delta to world units: frustum width / canvas width
 const frustumHeight = camera2D.top - camera2D.bottom;
 const worldPerPx = frustumHeight / rect.height / camera2D.zoom;
 camera2D.position.x = pan2DCamStart.x - dx * worldPerPx;
@@ -3723,7 +3638,6 @@ requestRender();
 return;
 }
 if (!isDragging || !dragObject) return;
-// Sprint 16: Desktop-only
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -3756,7 +3670,6 @@ showDimReadout(dragObject);
 requestRender();
 }
 function onPointerUp(e) {
-// Sprint 18: End 2D panning
 if (isPanning2D) {
 isPanning2D = false;
 pan2DStart = null;
@@ -3766,7 +3679,6 @@ updateGridLabels();
 requestRender();
 return;
 }
-// Sprint 16: Desktop-only
 if (isDragging && dragObject) {
 const newPos = { x: dragObject.position.x, z: dragObject.position.z };
 if (dragStartPos && (Math.abs(newPos.x - dragStartPos.x) > 0.1 || Math.abs(newPos.z - dragStartPos.z) > 0.1)) {
@@ -3784,7 +3696,6 @@ checkSafetyWarnings(dragObject);
 isDragging = false;
 dragObject = null;
 dragStartPos = null;
-// Sprint 18: Don't re-enable OrbitControls in 2D mode
 controls.enabled = (state.viewMode === '3d');
 hideHint();
 }
@@ -3962,8 +3873,6 @@ propsEl.classList.remove('visible');
 if (typeof onResize === 'function') onResize();
 propsHeader.innerHTML = '';
 propsBody.innerHTML = '';
-/* Sprint 16: removed */
-/* Sprint 16: removed */
 }
 function deleteObjectWithCommand(id) {
 const obj = state.objects.get(id);
@@ -4102,7 +4011,6 @@ document.getElementById('btn-redo').addEventListener('click', redo);
 let autosaveTimer = null;
 let _autosaveQuotaWarned = false;
 let _autosaveDirty = false;
-// Sprint 26: recovery snapshot under its OWN key (separate from wizard 'backyard-design-autosave') so meta bookkeeping never corrupts wizard continue-state.
 const RECOVERY_SNAPSHOT_KEY = 'backyard-recovery-snapshot';
 const RECOVERY_META_KEY = 'backyard-recovery-meta';
 function _writeRecoverySnapshot() {
@@ -4132,13 +4040,11 @@ _autosaveQuotaWarned = true;
 _writeRecoverySnapshot();
 }, 2000);
 }
-// Sprint 26: 30s interval flush + flush-on-exit (visibilitychange hidden, pagehide, beforeunload); exit flush only writes when the debounced timer has not already captured the latest state.
 setInterval(() => { if (_autosaveDirty) _writeRecoverySnapshot(); }, 30000);
 const _flushRecovery = () => { if (_autosaveDirty) _writeRecoverySnapshot(); };
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') _flushRecovery(); });
 window.addEventListener('pagehide', _flushRecovery);
 window.addEventListener('beforeunload', _flushRecovery);
-// Sprint 26: recovery banner — shows only when a recovery snapshot is NEWER than the last explicit save/load and is non-trivial (has objects or terrain). Restore runs the real loadDesign() path (terrain + objects + gridLevel); Discard clears the snapshot; both hide the banner.
 function showRecoveryBanner() {
 const b = document.getElementById('recovery-banner');
 if (!b) return;
@@ -4333,7 +4239,6 @@ state.gridLevel = Math.max(-30, Math.min(30, data.gridLevel));
 }
 initWithYard(state.yard);
 if (state.terrain) { _recomputeTerrainDeformed(); applyTerrainToMesh(); }
-// Sprint 14: voxel data from old saves is ignored gracefully
 for (const obj of data.objects) {
 const sanitizedParams = sanitizeObjectParams(obj);
 if (!sanitizedParams) continue;
@@ -4424,7 +4329,6 @@ showToast('Screenshot failed: ' + e.message);
 }
 requestRender();
 });
-// SPRINT 18 FIX: #view-toggle mousedown delegation — real mouseup lands on #topbar (Chromium headless hit-test quirk) so 'click' never reaches the button; delegated 'click' kept as fallback.
 (function setupViewToggleDelegation() {
 const vt = document.getElementById('view-toggle');
 if (!vt) return;
@@ -4443,7 +4347,6 @@ if (mousedownBtn === btn) { mousedownBtn = null; return; } // mousedown already 
 applyViewMode(btn.dataset.view);
 });
 })();
-/* SPRINT 20 FIX: topbar mousedown delegation — headless hit-test quirk eats direct click listeners on the listed topbar buttons; direct listeners kept as fallback. */
 (function setupTopbarDelegation() {
   const topbar = document.getElementById('topbar');
   if (!topbar) return;
@@ -4460,11 +4363,9 @@ applyViewMode(btn.dataset.view);
     if (btn.closest('#mode-toggle') || btn.closest('#view-toggle')) return;
     if (btn.disabled) return;
     if (btn.closest('#export-menu')) return;
-    // Mark button as handled by topbar mousedown delegation; skip the synthetic .click() if the real click lands on the button (avoids double-fire → panel toggling on then off).
     _delegationClickedBtn = btn;
     btn.click();
   });
-  // Real click listener: if it reached our button, the .click() listener already ran — stop propagation so the button's own listener doesn't double-fire.
   topbar.addEventListener('click', function(e) {
     if (_delegationClickedBtn) {
       const btn = e.target.closest('button[id]');
@@ -5043,7 +4944,6 @@ panel.innerHTML = `
 <p style="font-size:12px;color:var(--text-muted);margin:14px 0 0;text-align:center;">Tip: open <strong>? Help</strong> (top bar) anytime — see Keyboard Shortcuts for terrain keys, view modes, and the underground workflow.</p>
 `;
 }
-// Attach direct click handlers after innerHTML rebuilds the DOM
 attachWizardHandlers();
 }
 
@@ -5051,7 +4951,6 @@ function attachWizardHandlers() {
 const panel = document.getElementById('wizard-panel');
 if (!panel) return;
 
-// Shape cards
 panel.querySelectorAll('.shape-card').forEach(card => {
 card.addEventListener('click', function() {
 panel.querySelectorAll('.shape-card').forEach(c => c.classList.remove('selected'));
@@ -5060,7 +4959,6 @@ wizardData.shape = this.dataset.shape;
 });
 });
 
-// Continue previous design
 const continueBtn = document.getElementById('wizard-continue');
 if (continueBtn) continueBtn.addEventListener('click', function() {
 try {
@@ -5075,21 +4973,18 @@ showToast('Previous design restored!', 'success');
 } catch(err) { showToast('Could not restore previous design', 'error'); }
 });
 
-// Next step
 const nextBtn = document.getElementById('wizard-next');
 if (nextBtn) nextBtn.addEventListener('click', function() {
 wizardStep = 1;
 renderWizard();
 });
 
-// Back
 const backBtn = document.getElementById('wizard-back');
 if (backBtn) backBtn.addEventListener('click', function() {
 wizardStep = 0;
 renderWizard();
 });
 
-// Finish
 const finishBtn = document.getElementById('wizard-finish');
 if (finishBtn) finishBtn.addEventListener('click', function() {
 let w = parseInt(document.getElementById('wiz-width').value);
@@ -5104,7 +4999,6 @@ document.getElementById('wizard').style.display = 'none';
 initWithYard(wizardData);
 });
 
-// Quick size links
 ['qs-small', 'qs-med', 'qs-large'].forEach(id => {
 const el = document.getElementById(id);
 if (el) el.addEventListener('click', function(e) {
@@ -5117,8 +5011,6 @@ else if (id === 'qs-large') { w.value = 75; d.value = 150; }
 });
 });
 }
-// Event delegation for wizard buttons — uses mousedown+mouseup at the panel level
-// to bypass any stacking/interception issues with innerHTML-created elements.
 (function setupWizardClicks() {
   const panel = document.getElementById('wizard-panel');
   if (!panel) return;
@@ -5127,7 +5019,6 @@ else if (id === 'qs-large') { w.value = 75; d.value = 150; }
     downTarget = e.target;
   });
   panel.addEventListener('mouseup', function(e) {
-    // Find what was clicked from the mouseup target
     const shapeCard = e.target.closest('.shape-card');
     if (shapeCard) {
       this.querySelectorAll('.shape-card').forEach(c => c.classList.remove('selected'));
@@ -5182,7 +5073,6 @@ else if (id === 'qs-large') { w.value = 75; d.value = 150; }
       return;
     }
   });
-  // Also keep click handler as fallback
   panel.addEventListener('click', function(e) {
     if (e.target.closest('#wizard-next')) { wizardStep = 1; renderWizard(); return; }
     if (e.target.closest('#wizard-back')) { wizardStep = 0; renderWizard(); return; }
@@ -5195,7 +5085,6 @@ else if (id === 'qs-large') { w.value = 75; d.value = 150; }
     }
   });
 })();
-// _yo(p,v,L): yard outline path (x,z).
 function _yo(p,v,L){const w=v.width/2,h=v.depth/2;p.moveTo(-w,-h);if(!L)p.lineTo(w,-h);else{p.lineTo(0,-h);p.lineTo(0,0);p.lineTo(w,0);}p.lineTo(w,h);p.lineTo(-w,h);return p;}
 function initWithYard(data) {
 const yardWidth = Math.max(10, Math.min(500, data.width || 50));
@@ -5235,7 +5124,6 @@ createTerrainMaterial(parseFloat(document.getElementById('terrain-opacity')?.val
 yardMesh.receiveShadow = true;
 yardMesh.castShadow = true;
 scene.add(yardMesh);
-// Sprint 20: Use _rebuildYardClipPlanes to also include autoDigClipPlane if active.
 if (typeof _rebuildYardClipPlanes === 'function') {
 _rebuildYardClipPlanes();
 } else {
@@ -5263,7 +5151,6 @@ new THREE.LineBasicMaterial({ color: 0x333333 })
 );
 boundaryLines.position.y = state.gridLevel + 0.03;
 scene.add(boundaryLines);
-// t_0174b1d0: hole stops outerGround occluding craters.
 outerGround?.geometry.dispose();outerGround?.material.dispose();outerGround?.removeFromParent();
 const og=_yo(new THREE.Shape(),{width:200,depth:200},false);
 og.holes.push(_yo(new THREE.Path(),data,data.shape=='L'));
@@ -5356,7 +5243,6 @@ if (!modal) return;
 _modalLastFocus = document.activeElement;
 modal.classList.add('visible');
 modal.setAttribute('aria-hidden', 'false');
-// Reset scroll position — a modal re-opened (or re-rendered) must show its header, not stale scroll.
 modal.querySelectorAll('.help-panel, .sc-panel, .templates-panel, .share-panel, .label-edit-panel').forEach(p => { p.scrollTop = 0; });
 // Sprint 23 fix (S23-V04): stack tracks open order; Escape closes topmost first.
 if (!window._modalOpenStack) window._modalOpenStack = [];
@@ -5397,7 +5283,6 @@ e.stopPropagation();
 document.getElementById('help-close-btn')?.addEventListener('click', () => {
 closeModal('help-modal');
 });
-// --- Sprint 22: Keyboard Shortcuts Guide ---
 function openShortcuts() { openModal('shortcuts-modal'); }
 window.openShortcuts = openShortcuts;
 document.getElementById('btn-shortcuts').addEventListener('click', openShortcuts);
@@ -5433,7 +5318,6 @@ hint.classList.add('visible');
 if (hintTimer) clearTimeout(hintTimer);
 hintTimer = setTimeout(() => hint.classList.remove('visible'), 4000);
 }
-// --- Sprint 17: Basic/Advanced Mode Toggle ---
 const MODE_STORAGE_KEY = 'byd-design-mode';
 let currentMode = 'basic';
 
@@ -5458,7 +5342,6 @@ function applyMode(mode) {
     scBadge.className = 'mode-badge ' + mode;
   }
   if (mode === 'basic' && typeof window._dockActiveTab === 'function') {
-    /* Sprint 21 fix: _dockActiveTab() returns the dock id STRING (not an element). */
     const activeTab = window._dockActiveTab();
     if (activeTab) {
       const dockId = typeof activeTab === 'string' ? activeTab : (activeTab.getAttribute ? activeTab.getAttribute('data-dock') : null);
@@ -5487,7 +5370,6 @@ function initMode() {
   applyMode(savedMode);
 }
 
-// Mode-toggle event delegation on #mode-toggle container (not buttons) — bypasses the same stacking/interception issue as wizard/welcome-prompt buttons; mousedown + click delegation with closest() reliably catches the intended button.
 (function setupModeToggleDelegation() {
   const mt = document.getElementById('mode-toggle');
   if (!mt) return;
@@ -5505,11 +5387,9 @@ function initMode() {
     }
   });
 })();
-// Keep direct listeners as a fallback (harmless if delegation already handled it)
 document.querySelectorAll('#mode-toggle button').forEach(btn => {
   btn.addEventListener('click', () => setMode(btn.dataset.mode));
 });
-// Expose mode functions to global scope for testing
 window.setMode = setMode;
 window.toggleMode = toggleMode;
 window.initMode = initMode;
@@ -5522,7 +5402,6 @@ document.getElementById('context-hint').classList.remove('visible');
 }
 document.addEventListener('keydown', e => {
 // Sprint 23 fix (S23-V05): fields keep native keys + text-editing combos (C/V/X/A/Z);
-// app-only combos (S/K/D/Y, Shift+S/Z, Escape) fall through instead of dying.
 const tag = e.target.tagName;
 const hasMod = e.ctrlKey || e.metaKey;
 const textEditingCombo = hasMod && ['c', 'C', 'v', 'V', 'x', 'X', 'a', 'A', 'z', 'Z'].includes(e.key);
@@ -5583,14 +5462,12 @@ const open = kind === 'class' ? (el && el.classList.contains('visible'))
 if (open) { closer(); modalClosed = true; break; }
 }
 if (!modalClosed) {
-// Close dock panels
 if (typeof window._dockClosePanel === 'function' && window._dockActiveTab && window._dockActiveTab()) {
 window._dockClosePanel();
 modalClosed = true;
 }
 }
 if (!modalClosed) {
-// Close right-side floating panels (use exposed close functions for IIFE-scoped panels)
 const floatingPanelIds = [
 'season-panel', 'growth-panel', 'permit-panel',
 'cost-panel', 'layer-panel', 'cross-section-panel', 'cut-fill-panel', 'ta-cross-section-overlay'
@@ -5725,16 +5602,12 @@ _origMoveSelected(key, fine);
 };
 const terrainBtn = document.getElementById('terrain-btn');
 const terrainControls = document.getElementById('terrain-controls');
-// Sprint 13: terrain controls panel minimize button
 const terrainMinBtn = terrainControls && terrainControls.querySelector('[data-terrain-minimize]');
-// The terrain-controls content is moved to dock-terrain-content at setup time,
-// so we also need to check there for the minimize button.
 const terrainMinBtnAlt = document.querySelector('#dock-terrain-content [data-terrain-minimize]');
 const _terrainMinBtn = terrainMinBtn || terrainMinBtnAlt;
 if (_terrainMinBtn) {
 _terrainMinBtn.addEventListener('click', (e) => {
 e.stopPropagation();
-// Toggle minimized on the container that holds the terrain-controls-body
 const body = _terrainMinBtn.parentElement && _terrainMinBtn.parentElement.parentElement 
 ? _terrainMinBtn.parentElement.parentElement.querySelector('.terrain-controls-body') : null;
 const container = body ? body.parentElement : null;
@@ -5742,7 +5615,6 @@ if (!container) return;
 const isMin = container.classList.toggle('minimized');
 _terrainMinBtn.setAttribute('aria-label', isMin ? 'Restore terrain controls' : 'Minimize terrain controls');
 _terrainMinBtn.innerHTML = isMin ? '&#43;' : '&#8722;';
-/* Show sculpt restore pill when terrain controls are minimized */
 const sculptRestorePill = document.getElementById('sculpt-restore-pill');
 if (sculptRestorePill) sculptRestorePill.classList.toggle('visible', isMin);
 if (typeof requestRender === 'function') requestRender();
@@ -5814,13 +5686,11 @@ if (!state.terrain) {
 ensureTerrainArray();
 }
 }
-// Sprint 20: Auto-enable dig clip when entering dig mode
 updateAutoDigClip();
 if (terrainBrushMesh && terrainBrushMesh.material) terrainBrushMesh.material.color.setHex(getBrushColor());
 announceForScreenReader(`Terrain mode: ${btn.textContent.trim()}`);
 });
 });
-// Sprint 14: Old carve-shape-btns listeners removed
 document.getElementById('grid-level-slider').addEventListener('input', e => {
 setGridLevel(parseInt(e.target.value));
 });
@@ -5964,9 +5834,6 @@ pos.setY(i, 0);
 pos.needsUpdate = true;
 geo.computeVertexNormals();
 applyTerrainVertexColors();
-// Sprint 21 STABILITY: rebuild solidEarth to match the flattened terrain. The redo
-// command already disposes the mesh on flatten; without this the main path left a
-// stale (pre-flatten) earth mesh in the scene until the next full rebuild.
 buildSolidEarth();
 if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay();
 state.objects.forEach((_, id) => updateObjectHeight(id));
@@ -6111,9 +5978,6 @@ b: lo.color[2] + (hi.color[2] - lo.color[2]) * sm,
 const last = GEOLOGICAL_LAYERS[GEOLOGICAL_LAYERS.length - 1];
 return { r: last.color[0], g: last.color[1], b: last.color[2] };
 }
-// Sprint 19: Enhanced geological layer colors — more distinct and vivid for clear visual banding.
-// topsoil: 0 to -2ft (rich dark brown), subsoil: -2 to -6ft (warm brown),
-// clay: -6 to -12ft (clearly red/orange), bedrock: -12 to -15ft (clearly gray).
 const NAMED_GEO_LAYERS = [
 { name: 'topsoil',  maxDepth: 2,  color: [0x4a/255, 0x30/255, 0x1e/255] },  // rich dark brown
 { name: 'subsoil',  maxDepth: 6,  color: [0x9b/255, 0x7a/255, 0x4f/255] },  // warm brown, clearly lighter
@@ -6183,7 +6047,6 @@ if (minH === Infinity) minH = 0;
 const bottomY = minH - EARTH_DEPTH_BELOW_MIN;
 const positions = [];
 const indices = [];
-// Sprint 14: Track terrain surface height per vertex for geological layer coloring.
 const surfaceHeights = [];
 const bv0 = positions.length / 3;
 positions.push(-halfW, bottomY, -halfD); surfaceHeights.push(minH);
@@ -6238,54 +6101,39 @@ x: -halfW,
 z: halfD - (i / segs) * state.yard.depth,
 h: terrainAt(0, segs - i)
 }), segs);
-// Sprint 15: Interior earth walls — scan terrain grid for height differences >0.15ft between
-// adjacent cells and build wall quads from the higher terrain down to the lower terrain
-// (and further down to bottomY). Only in dug areas (terrain < 0).
 const WALL_HEIGHT_THRESHOLD = 0.15; // ft — s25 t_0174b1d0
 function addInteriorWall(ax, az, bx, bz, ah, bh, bottomY, positions, indices, surfaceHeights) {
-// Wall from higher terrain edge down to lower terrain edge (the "step" face),
-// then continues down to bottomY.
-// We create a quad: top edge follows the higher terrain, bottom edge at the lower terrain.
 const higherH = Math.max(ah, bh);
 const lowerH = Math.min(ah, bh);
-// Only build interior walls in dug areas (terrain < 0)
 if (higherH >= 0 && lowerH >= 0) return;
-// Top vertices at the higher terrain surface
 const t0 = positions.length / 3;
 positions.push(ax, higherH, az); surfaceHeights.push(higherH);
 const t1 = positions.length / 3;
 positions.push(bx, higherH, bz); surfaceHeights.push(higherH);
-// Mid vertices at the lower terrain surface (the step)
 const m0 = positions.length / 3;
 positions.push(ax, lowerH, az); surfaceHeights.push(higherH);
 const m1 = positions.length / 3;
 positions.push(bx, lowerH, bz); surfaceHeights.push(higherH);
-// Bottom vertices at bottomY
 const b0 = positions.length / 3;
 positions.push(ax, bottomY, az); surfaceHeights.push(higherH);
 const b1 = positions.length / 3;
 positions.push(bx, bottomY, bz); surfaceHeights.push(higherH);
-// Upper wall quad (step face): higher terrain → lower terrain
 indices.push(t0, t1, m1);
 indices.push(t0, m1, m0);
-// Lower wall quad: lower terrain → bottomY
 indices.push(m0, m1, b1);
 indices.push(m0, b1, b0);
 }
-// Scan the terrain grid for interior walls
 for (let iz = 0; iz < segs; iz++) {
 for (let ix = 0; ix < segs; ix++) {
 const h00 = terrainAt(ix, iz);
 const h10 = terrainAt(ix + 1, iz);
 const h01 = terrainAt(ix, iz + 1);
-// X-direction walls (between (ix,iz) and (ix+1,iz))
 if (Math.abs(h00 - h10) > WALL_HEIGHT_THRESHOLD) {
 const x0 = (ix / segs) * state.yard.width - halfW;
 const x1 = ((ix + 1) / segs) * state.yard.width - halfW;
 const z = (iz / segs) * state.yard.depth - halfD;
 addInteriorWall(x0, z, x1, z, h00, h10, bottomY, positions, indices, surfaceHeights);
 }
-// Z-direction walls (between (ix,iz) and (ix,iz+1))
 if (Math.abs(h00 - h01) > WALL_HEIGHT_THRESHOLD) {
 const x = (ix / segs) * state.yard.width - halfW;
 const z0 = (iz / segs) * state.yard.depth - halfD;
@@ -6294,7 +6142,6 @@ addInteriorWall(x, z0, x, z1, h00, h01, bottomY, positions, indices, surfaceHeig
 }
 }
 }
-// Sprint 15: bottom cap for dug areas — floor grid at lowest terrain point, only over cells with terrain < 0; bedrock-colored.
 const floorVertexGlobalIndices = []; // global indices of floor vertices (empty if no dig)
 if (minH < 0) {
 const floorY = minH - 0.3;
@@ -6308,7 +6155,6 @@ return terrainAt(gx * floorStep, gz * floorStep);
 }
 for (let gz = 0; gz <= floorSegs; gz++) {
 for (let gx = 0; gx <= floorSegs; gx++) {
-// Check if this vertex is needed: at least one adjacent cell is dug
 let needed = false;
 for (let cz = Math.max(0, gz - 1); cz <= Math.min(floorSegs - 1, gz); cz++) {
 for (let cx = Math.max(0, gx - 1); cx <= Math.min(floorSegs - 1, gx); cx++) {
@@ -6329,7 +6175,6 @@ floorPositions.push(wx, floorY, wz);
 surfaceHeights.push(terrainHeightAtGrid(gx, gz));
 }
 }
-// Build indices: for each cell, if all 4 corners exist, emit 2 triangles
 for (let gz = 0; gz < floorSegs; gz++) {
 for (let gx = 0; gx < floorSegs; gx++) {
 const v00 = vertexIndexMap[(gx) + ',' + (gz)];
@@ -6337,16 +6182,13 @@ const v10 = vertexIndexMap[(gx + 1) + ',' + (gz)];
 const v01 = vertexIndexMap[(gx) + ',' + (gz + 1)];
 const v11 = vertexIndexMap[(gx + 1) + ',' + (gz + 1)];
 if (v00 === undefined || v10 === undefined || v01 === undefined || v11 === undefined) continue;
-// Check cell center is dug
 const cix = gx * floorStep + Math.floor(floorStep / 2);
 const ciz = gz * floorStep + Math.floor(floorStep / 2);
 if (terrainAt(cix, ciz) >= 0) continue;
-// Flip winding so normals face UP (visible from above when looking into hole)
 floorIndices.push(v00, v10, v11);
 floorIndices.push(v00, v11, v01);
 }
 }
-// Append floor geometry to the main arrays
 const floorBaseIndex = positions.length / 3;
 for (let i = 0; i < floorPositions.length; i++) {
 positions.push(floorPositions[i]);
@@ -6354,7 +6196,6 @@ positions.push(floorPositions[i]);
 for (let i = 0; i < floorIndices.length; i++) {
 indices.push(floorIndices[i] + floorBaseIndex);
 }
-// Record global indices of floor vertices for geological coloring
 for (let i = 0; i < floorPositions.length / 3; i++) {
 floorVertexGlobalIndices.push(floorBaseIndex + i);
 }
@@ -6364,7 +6205,6 @@ geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
 geo.setIndex(indices);
 geo.computeVertexNormals();
 
-// Sprint 19: geological vertex colors by depth — named layers with lerp; underground +45%; 2ft bands; floor caps colored by dig depth.
 const UNDERGROUND_BRIGHTNESS_BOOST = 0.45; // 45% brighter for underground vertices (up from 25%)
 const floorVertexSet = new Set(floorVertexGlobalIndices);
 const seColors = new Float32Array((positions.length / 3) * 3);
@@ -6374,7 +6214,6 @@ const surfY = surfaceHeights[i] !== undefined ? surfaceHeights[i] : minH;
 let geoColor;
 let depthBelowSurface;
 if (floorVertexSet.has(i)) {
-// Floor cap: color based on how deep the terrain surface is below 0ft.
 const digDepth = Math.max(0, -surfY);
 geoColor = _getNamedGeoLayerColor(digDepth);
 depthBelowSurface = digDepth; // treat as underground for brightness boost
@@ -6382,12 +6221,10 @@ depthBelowSurface = digDepth; // treat as underground for brightness boost
 depthBelowSurface = surfY - py; // positive = below surface
 geoColor = _getNamedGeoLayerColor(depthBelowSurface);
 }
-// Brighten colors that are below the terrain surface (underground)
 if (depthBelowSurface > 0.1) {
 let r = Math.min(1, geoColor.r * (1 + UNDERGROUND_BRIGHTNESS_BOOST));
 let g = Math.min(1, geoColor.g * (1 + UNDERGROUND_BRIGHTNESS_BOOST));
 let b = Math.min(1, geoColor.b * (1 + UNDERGROUND_BRIGHTNESS_BOOST));
-// Sprint 19: Depth banding — darker stripe at top of each 2ft band
 const bandPhase = (depthBelowSurface % 2) / 2;
 if (bandPhase < 0.12) {
 r *= 0.85; g *= 0.85; b *= 0.85;
@@ -6417,8 +6254,6 @@ solidEarthMesh = new THREE.Mesh(geo, mat);
 solidEarthMesh.receiveShadow = true;
 solidEarthMesh.castShadow = true;
 scene.add(solidEarthMesh);
-// Sprint 21 STABILITY: route through the canonical writer so terrain + cross-section
-// planes COMPOSE (the old sequential ad-hoc array writes could clobber each other).
 _rebuildSolidEarthClipPlanes();
 }
 function getSolidEarthBottomY() {
@@ -6445,9 +6280,6 @@ const slider = document.getElementById('grid-level-slider');
 if (slider) slider.value = newLevel;
 requestRender();
 }
-// ── Sprint 13: Terrain/voxel performance split ──
-// applyTerrainPositions: FAST — updates vertex Y positions only, no normals/colors/voxels.
-// Used during active painting for smooth FPS; applyTerrainFull is debounced afterward.
 let _terrainFullDebounceTimer = null;
 let _terrainFullPending = false;
 const TERRAIN_FULL_DEBOUNCE_MS = 80;
@@ -6474,7 +6306,6 @@ const geo = yardMesh.geometry;
 const pos = geo.attributes.position;
 const expectedCount = (segs + 1) * (segs + 1);
 if (pos.count === expectedCount) {
-// Performance optimization: only update dirty region if available
 if (_terrainDirtyMinIx >= 0) {
 const minIz = Math.max(0, _terrainDirtyMinIz);
 const maxIz = Math.min(segs, _terrainDirtyMaxIz);
@@ -6506,7 +6337,6 @@ pos.setY(i, h);
 }
 }
 pos.needsUpdate = true;
-// NOTE: deliberately skip computeVertexNormals for speed during painting
 }
 
 function applyTerrainFull() {
@@ -6546,7 +6376,6 @@ if (typeof ghostModeEnabled !== 'undefined' && ghostModeEnabled && typeof update
 buildSolidEarth();
 }
 
-// Debounced full update — called during painting; coalesces rapid calls.
 function _debouncedApplyTerrainFull() {
 _terrainFullPending = true;
 if (_terrainFullDebounceTimer) clearTimeout(_terrainFullDebounceTimer);
@@ -6558,7 +6387,6 @@ requestRender();
 }, TERRAIN_FULL_DEBOUNCE_MS);
 }
 
-// Flush any pending debounced full update immediately (used on pointer-up).
 function _flushTerrainFull() {
 if (_terrainFullDebounceTimer) {
 clearTimeout(_terrainFullDebounceTimer);
@@ -6571,7 +6399,6 @@ requestRender();
 }
 }
 
-// Backward-compatible wrapper: callers that need the complete update use this.
 function applyTerrainToMesh() {
 applyTerrainFull();
 }
@@ -6579,7 +6406,6 @@ function paintTerrain(worldX, worldZ) {
 ensureTerrainArray();
 const segs = state.terrainSegs;
 const radius = Math.max(0.1, terrainBrushSize);
-// Reuse center from first call — avoids computing the same grid indices twice
 const center = getTerrainIndex(worldX, worldZ);
 if (!center) return;
 
@@ -6587,7 +6413,6 @@ if (terrainBrushMode === 'dig' || terrainBrushMode === 'fill') {
 const surfY = getTerrainHeight(worldX, worldZ);
 const halfW = state.yard.width / 2;
 const halfD = state.yard.depth / 2;
-// center already computed above — no need to recompute
 const radGridX = state.yard.width > 0 ? radius / state.yard.width * segs : 0;
 const radGridZ = state.yard.depth > 0 ? radius / state.yard.depth * segs : 0;
 const minIx = Math.max(0, Math.floor(center.ix - radGridX));
@@ -6718,7 +6543,6 @@ state.terrain[vi2] = clampTerrainHeight(state.terrain[vi2] * 0.9 + avg2 * 0.1);
 }
 }
 }
-// Sprint 13/20: during active painting use fast position-only update + debounced full update (voxels update on pointer-up); dirty-region tracking avoids full 40401-vertex scans.
 const _dirtyR = Math.ceil((radius + 2) / state.yard.width * segs);
 _expandDirtyRegion(
 Math.max(0, center.ix - _dirtyR), Math.min(segs, center.ix + _dirtyR),
@@ -7018,7 +6842,6 @@ pos.setXYZ(i, px, h + 0.08, pz);
 }
 pos.needsUpdate = true;
 terrainBrushMesh.visible = true;
-// Sprint 14: color-coded brush cursor
 if (terrainBrushMesh.material) {
 terrainBrushMesh.material.color.setHex(getBrushColor());
 }
@@ -7065,7 +6888,6 @@ redo: () => { state.terrain = after; _recomputeTerrainDeformed(); applyTerrainTo
 isTerrainPainting = false;
 terrainHistory = null;
 controls.enabled = true;
-// Sprint 13: flush any pending debounced terrain full update immediately
 _flushTerrainFull();
 if (terrainDrainageActive) updateDrainageArrows();
 updateHeightLegend();
@@ -7091,10 +6913,8 @@ return refinedPoint;
 }
 return roughPoint;
 }
-// On mobile, offset the brush cursor upward so the finger doesn't occlude it
 function _getTerrainEventPoint(e) {
 if (false) {
-// Offset touch point upward by 40px so finger doesn't occlude the brush
 const adjustedY = e.clientY - 40;
 return _getGroundPointFromScreen(e.clientX, adjustedY);
 }
@@ -7102,7 +6922,6 @@ return getGroundPointFromEvent(e);
 }
 viewport.addEventListener('pointerdown', e => {
 if (terrainMode) {
-// On mobile touch, offset the point upward so the finger doesn't occlude it
 if (false) {
 const point = _getTerrainEventPoint(e);
 if (point) {
@@ -7463,7 +7282,6 @@ html += '<div class="cost-line total"><span>Total (' + itemCount + ' item' + (it
 html += '<div class="cost-note">Rough estimates for planning only. Actual costs vary by region, materials, and labor.</div>';
 costPanelEl.innerHTML = html;
 
-// No direct listener here to avoid double-fire with delegated listener
 }
 function toggleCostPanel() {
 costPanelVisible = !costPanelVisible;
@@ -7540,7 +7358,6 @@ if (csPanel && csPanel.classList.contains('visible')) { csPanel.classList.remove
 }
 }
 document.getElementById('btn-layers').addEventListener('click', toggleLayerPanel);
-// Sprint 16: Mobile action bar event listeners removed
 const sunCityPresets = [
 { name: 'Detroit, MI', lat: 42.33, lng: -83.05 },
 { name: 'New York, NY', lat: 40.71, lng: -74.01 },
@@ -7551,13 +7368,9 @@ const sunCityPresets = [
 { name: 'Miami, FL', lat: 25.76, lng: -80.19 },
 { name: 'Denver, CO', lat: 39.74, lng: -104.99 },
 ];
-// Simple day/night cycle — no geolocation needed. 12:00=noon (sun overhead), 6:00=sunrise (east), 18:00=sunset (west), 0:00=midnight (below); sun arcs east→west, elevation peaks at noon.
 function solarPosition(latDeg, lngDeg, date, hoursUTC) {
 const hour = hoursUTC;
-// Elevation: peaks at noon (90°), drops to -15° at midnight. Smooth cosine curve.
 const elevation = Math.sin((hour - 6) / 12 * Math.PI) * 90;
-// Azimuth: sun rises in the east (90° at 6am), moves to south (180° at noon), sets in the west (270° at 6pm).
-// At night the azimuth continues rotating (north at midnight = 0°/360°).
 const azimuth = (90 + hour * 180 / 12) % 360;
 return { azimuth, elevation: Math.max(-15, elevation) };
 }
@@ -7577,7 +7390,6 @@ const dayFactor = Math.max(0, Math.min(1, pos.elevation / 30));
 if (sunAmbient) sunAmbient.intensity = 0.35 + 0.3 * dayFactor;
 if (sunHemi) sunHemi.intensity = 0.3 + 0.25 * dayFactor;
 sunLight.intensity = 0.2 + 0.7 * dayFactor;
-// Sprint 15: Keep underground fill light steady — dug areas need consistent illumination
 if (window._undergroundPoint) window._undergroundPoint.intensity = 0.20 + 0.15 * dayFactor;
 if (window._undergroundHemi) window._undergroundHemi.intensity = 0.25 + 0.15 * dayFactor;
 const warm = new THREE.Color(0xff8844);
@@ -7622,7 +7434,6 @@ requestAnimationFrame(sunAnimate);
 const sunBtn = document.getElementById('sun-btn');
 const sunPanel = document.getElementById('sun-panel');
 if (!sunBtn || !sunPanel) return;
-// City presets removed — simple day/night cycle only
 sunBtn.addEventListener('click', () => {
 // Sprint 23 fix (S23-V10): drive the sun dock tab (legacy panel is force-hidden).
 const tab = document.querySelector('.td-tab[data-dock="sun"]');
@@ -7631,8 +7442,6 @@ const open = sunPanel.classList.toggle('visible');
 sunBtn.classList.toggle('active', open);
 if (open) applySunPosition();
 });
-// Geolocation button removed — simple day/night cycle only
-// City presets removed — no lat/lng needed
 ['sun-time'].forEach(id => {
 document.getElementById(id).addEventListener('input', applySunPosition);
 });
@@ -7967,7 +7776,6 @@ document.getElementById('walk-controls').classList.add('visible');
 if (false && typeof DeviceOrientationEvent !== 'undefined') {
 document.getElementById('walk-motion-btn').classList.add('visible');
 }
-// Show mobile-appropriate hint
 const hintEl = document.getElementById('walk-hint');
 const hintMobileEl = document.getElementById('walk-hint-mobile');
 if (false && hintEl && hintMobileEl) {
@@ -8049,11 +7857,6 @@ canvas.addEventListener('mousedown', e => {
 if (!walkMode) return;
 walkDragging = true; walkLastX = e.clientX; walkLastY = e.clientY;
 });
-// Sprint 16: Touch handler removed
-
-
-
-// Sprint 16: Touch handler removed
 
 
 
@@ -8061,7 +7864,9 @@ walkDragging = true; walkLastX = e.clientX; walkLastY = e.clientY;
 
 
 
-// Sprint 16: Touch handler removed
+
+
+
 }
 window.addEventListener('mousemove', e => {
 if (!walkMode || !walkDragging) return;
@@ -8086,8 +7891,6 @@ if (dir === 'left' || dir === 'right') walkMoveDir.right = 0;
 btn.addEventListener('mousedown', press);
 btn.addEventListener('mouseup', release);
 btn.addEventListener('mouseleave', release);
-// Sprint 16: Touch handler removed
-// Sprint 16: Touch handler removed
 });
 document.getElementById('walk-motion-btn').addEventListener('click', async () => {
 if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -8123,22 +7926,15 @@ _attachTouchGestureHandlers();
 buildLibrary();
 renderWizard();
 
-// ============================================================
-// EXPERT USER: INITIALIZE POWER-USER FEATURES
-// ============================================================
 (function initExpertFeatures() {
-// Initialize command palette
 setupCommandPalette();
 
-// Wire up batch bar buttons
 document.getElementById('batch-delete-all')?.addEventListener('click', deleteAllSelected);
 document.getElementById('batch-delete-type')?.addEventListener('click', deleteByType);
 document.getElementById('batch-deselect')?.addEventListener('click', () => { clearMultiSelect(); deselectObject(); });
 
-// Prevent default context menu on the viewport (we have our own)
 document.getElementById('viewport')?.addEventListener('contextmenu', e => {
 e.preventDefault();
-// Also try to show our context menu via the contextmenu event
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
 mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -8160,7 +7956,6 @@ return;
 }
 });
 
-// Add recently used section to the sidebar
 const sidebar = document.getElementById('library');
 if (sidebar) {
 const recentDiv = document.createElement('div');
@@ -8169,7 +7964,6 @@ recentDiv.innerHTML = '<div class="recent-title">Recently Used</div><div id="rec
 sidebar.parentNode.insertBefore(recentDiv, sidebar);
 }
 
-// Wire up getting-started-hint close button
 document.getElementById('getting-started-close')?.addEventListener('click', () => {
 const hint = document.getElementById('getting-started-hint');
 if (hint) hint.style.display = 'none';
@@ -8177,7 +7971,6 @@ if (hint) hint.style.display = 'none';
 
 console.log('[Expert] Power-user features initialized: Command Palette, Context Menu, Multi-Select, Batch Ops, Recent Objects');
 
-// Expert: Expose functions for testing/debugging
 window._expertTest = {
 raycastAt: (clientX, clientY) => {
 const rect = renderer.domElement.getBoundingClientRect();
@@ -8215,8 +8008,6 @@ selectedId: () => state.selectedId,
 selectedIds: () => Array.from(state.selectedIds),
 };
 })();
-// Event delegation for wizard skip button — attached to #wizard, not the button itself,
-// to bypass the same stacking/interception issue that affects innerHTML elements.
 (function setupWizardSkip() {
   const wizard = document.getElementById('wizard');
   if (!wizard) return;
@@ -8236,7 +8027,6 @@ selectedIds: () => Array.from(state.selectedIds),
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && document.getElementById('wizard').style.display !== 'none') {
       // Sprint 23 fix (S23-V04): wizard is the BOTTOM layer — react only when
-      // nothing above it is open; otherwise the sweep closes the top layer.
       const aboveOpen =
         (document.getElementById('help-modal')?.classList.contains('visible')) ||
         (document.getElementById('shortcuts-modal')?.classList.contains('visible')) ||
@@ -8303,7 +8093,6 @@ break;
 state.terrain[vi] = clampTerrainHeight(h);
 }
 }
-/* Preset edge feathering */
 const edgeFadePreset = 0.08;
 for (let iz2 = 0; iz2 <= segs; iz2++) {
 for (let ix2 = 0; ix2 <= segs; ix2++) {
@@ -8382,7 +8171,6 @@ if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yard
 }
 function removeHeightColors() {
 if (yardMesh && yardMesh.material) { yardMesh.material.vertexColors = true; yardMesh.material.needsUpdate = true; }
-// Restore natural vertex colors instead of deleting
 if (typeof applyTerrainVertexColors === 'function') {
 applyTerrainVertexColors();
 } else {
@@ -9333,9 +9121,6 @@ requestRender();
 taCompareBtn.addEventListener('mousedown', e => { e.preventDefault(); startCompare(); });
 taCompareBtn.addEventListener('mouseup', e => { e.preventDefault(); endCompare(); });
 taCompareBtn.addEventListener('mouseleave', () => { if (compareActive) endCompare(); });
-// Sprint 16: Touch handler removed
-// Sprint 16: Touch handler removed
-// Sprint 16: Touch handler removed
 let excavatePanelVisible = false;
 let crossSectionMode = false;
 let crossSectionPoints = [];
@@ -9357,12 +9142,8 @@ const csInstruction = document.getElementById('cs-instruction');
 const csInfo = document.getElementById('cs-info');
 const buriedCountEl = document.getElementById('buried-count');
 const buriedListEl = document.getElementById('buried-list');
-/* Sprint 21: unify ALL routes to the underground into one canonical state.
-Entering the underground must REVEAL the subsurface (auto-dig clip plane),
-not just toggle a panel — root cause of "I only see the flat green plane". */
 let excavateUgDockWasOpen = false;
 function _setUndergroundReveal(on) {
-/* canonical clip-plane state for underground viewing */
 if (on) {
 if (!state.terrain) { if (typeof ensureTerrainArray === 'function') ensureTerrainArray(); }
 terrainBrushMode = 'dig';
@@ -9379,7 +9160,6 @@ excavatePanelVisible = !excavatePanelVisible;
 excavateBtn.classList.toggle('active', excavatePanelVisible);
 excavateBtn.setAttribute('aria-pressed', String(excavatePanelVisible));
 excavatePanel.classList.toggle('visible', excavatePanelVisible);
-/* Panel content lives in dock-underground since Sprint 13 — drive that dock */
 const ugTab = document.querySelector('.td-tab[data-dock="underground"]');
 const ugPanel = document.getElementById('dock-underground');
 const ugOpen = ugPanel && ugPanel.classList.contains('visible');
@@ -9393,8 +9173,6 @@ if (typeof showHint === 'function') showHint('Underground view active — Cutawa
 if (ugTab && ugPanel && ugPanel.classList.contains('visible') && !excavateUgDockWasOpen) ugTab.click();
 _setUndergroundReveal(false);
 }
-// Sprint 21: Entering the Excavate flow MUST reveal the underground — arm the dig clip
-// (root-cause fix: this handler previously only toggled panel visibility).
 updateGroundVisibility();
 requestRender();
 });
@@ -9403,9 +9181,6 @@ excavatePanelVisible = false;
 excavateBtn.classList.remove('active');
 excavateBtn.setAttribute('aria-pressed', 'false');
 excavatePanel.classList.remove('visible');
-// Sprint 21 (merged): restore normal surface view via the canonical state function
-// unless the Dig brush / underground view is still active. The Underground dock tab,
-// if open, is closed as well (visual-audit behavior).
 _setUndergroundReveal(false);
 const ugPanel = document.getElementById('dock-underground');
 if (ugPanel && ugPanel.classList.contains('visible')) {
@@ -9415,13 +9190,10 @@ if (tab) tab.click();
 updateGroundVisibility();
 requestRender();
 });
-// Sprint 21: autoDigClipPlane is armed by updateGroundVisibility(); ALL clip-plane writes compose via the canonical composers (_rebuildYardClipPlanes / _rebuildSolidEarthClipPlanes / updateGroundVisibility) instead of clobbering.
 terrainCutawayInput.addEventListener('input', e => {
 const val = parseInt(e.target.value);
 if (val === 0) {
 terrainClipPlane = null;
-// Sprint 21 STABILITY: canonical writers — compose terrain/x-section/auto-dig planes
-// (the old ad-hoc array writes wiped autoDigClipPlane and each other).
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 cutawayValEl.textContent = 'Full';
@@ -9554,7 +9326,6 @@ drawCrossSection();
 }
 }
 }
-// ── Sprint 14: Cross-section clipping plane (replaces voxel cross-section) ──
 const csClipRow = document.getElementById('cs-clip-row');
 const csClipPosRow = document.getElementById('cs-clip-pos-row');
 const csClipBtnRow = document.getElementById('cs-clip-btn-row');
@@ -9565,7 +9336,6 @@ const csClipEnableBtn = document.getElementById('cs-clip-enable');
 function updateCrossSectionClip() {
 if (!crossSectionActive) {
 crossSectionClipPlane = null;
-// Sprint 21 STABILITY: canonical writers (compose with terrain + auto-dig planes).
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 requestRender();
@@ -9578,7 +9348,6 @@ crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectio
 } else {
 crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), crossSectionPosition);
 }
-// Sprint 21 STABILITY: canonical writers (compose with terrain + auto-dig planes).
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 csClipPosVal.textContent = csClipPosInput.value + '%';
@@ -9920,7 +9689,6 @@ drawCrossSection();
 if (terrainClipPlane) {
 terrainCutawayInput.value = 0;
 terrainClipPlane = null;
-// Sprint 21 STABILITY: canonical writers (preserve cross-section + auto-dig planes).
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 cutawayValEl.textContent = 'Full';
@@ -10587,7 +10355,6 @@ terrainHistory = new Float32Array(state.terrain);
 }, true);
 const _innovStatsPollTimer = setInterval(() => {
 if (innovMode === 'stats') updateInnovStats();
-// PERF: Reduced from 500ms to 1000ms - stats update doesn't need sub-second polling
 }, 1000);
 viewport.addEventListener('pointermove', (e) => {
 if (innovMode === 'flatten' && !innovFlattenPainting) {
@@ -10624,11 +10391,6 @@ const carvingWidthInput = document.getElementById('carving-width');
 const carvingWidthVal = document.getElementById('carving-width-val');
 const carvingLengthInput = document.getElementById('carving-length');
 const carvingLengthVal = document.getElementById('carving-length-val');
-/**
-* Apply a new grid level — moves the grid helper to the specified Y,
-* updates the badge, and adjusts the boundary lines to match.
-* @param {number} level - Y offset in feet (default 0)
-*/
 function applyGridLevel(level) {
 state.gridLevel = Math.round(level);
 if (gridHelper) {
@@ -10700,10 +10462,6 @@ uxCarvingLength = parseInt(e.target.value);
 carvingLengthVal.textContent = uxCarvingLength + ' ft';
 if (uxCarvingPendingPoint) updateCarvingPreviewUX(uxCarvingPendingPoint.x, uxCarvingPendingPoint.z);
 });
-/**
-* Create/update the carving preview mesh at the given world position.
-* Shows a semi-transparent purple wireframe of the carving shape.
-*/
 function updateCarvingPreviewUX(worldX, worldZ) {
 clearCarvingPreview();
 if (!carvingShapeMode) return;
@@ -10751,10 +10509,6 @@ uxCarvingPreviewMesh = null;
 uxCarvingPendingPoint = null;
 carvingPreviewInfo.style.display = 'none';
 }
-/**
-* Commit the carving — lowers terrain within the shape area to create
-* an excavation. Uses the existing terrain system.
-*/
 function commitCarving(worldX, worldZ) {
 if (!carvingShapeMode || !uxCarvingPendingPoint) return;
 ensureTerrainArray();
@@ -10849,7 +10603,6 @@ redo: () => { state.terrain = newTerrain; _recomputeTerrainDeformed(); applyTerr
 if (terrainClipPlane) {
 terrainCutawayInput.value = 0;
 terrainClipPlane = null;
-// Sprint 21 STABILITY: canonical writers (preserve cross-section + auto-dig planes).
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 cutawayValEl.textContent = 'Full';
@@ -10886,7 +10639,6 @@ undergroundViewActive = !undergroundViewActive;
 vcUndergroundBtn.classList.toggle('active', undergroundViewActive);
 vcUndergroundBtn.setAttribute('aria-pressed', undergroundViewActive);
 if (undergroundViewActive) {
-// Sprint 21: underground view is a route into the ground — arm the dig clip.
 updateGroundVisibility();
 const w = state.yard.width;
 const d = state.yard.depth;
@@ -10909,8 +10661,6 @@ solidEarthMesh.material.transparent = true;
 }
 showToast('Underground view active — orbit to explore carved spaces', 'info');
 } else {
-// Sprint 21: Leaving underground view restores surface view (unless another
-// route into the ground — Excavate panel or Dig brush — is still active).
 updateGroundVisibility();
 controls.maxPolarAngle = Math.PI / 2 - 0.05;
 controls.minDistance = 5;
@@ -10939,11 +10689,6 @@ depthGaugeVal.textContent = depth.toFixed(1);
 controls.addEventListener('change', () => {
 if (undergroundViewActive) updateDepthGauge();
 });
-/**
-* Add edge highlighting to the terrain mesh to make the polygonal/voxel
-* look read as intentional. Uses EdgesGeometry with a subtle dark line
-* along terrain mesh edges.
-*/
 function applyTerrainEdgeHighlight() {
 if (terrainEdgeLines) {
 scene.remove(terrainEdgeLines);
@@ -10953,7 +10698,6 @@ terrainEdgeLines = null;
 }
 if (!yardMesh || !yardMesh.geometry) return;
 
-// creating EdgesGeometry from 40401 vertices on every terrain change.
 if (state.terrainSegs > 150) return;
 const edgesGeo = new THREE.EdgesGeometry(yardMesh.geometry, 15);
 const edgesMat = new THREE.LineBasicMaterial({
@@ -11364,7 +11108,6 @@ updateVolCalcDisplay();
 if (!volCalcPollTimer) {
 volCalcPollTimer = setInterval(() => {
 if (volCalcActive) updateVolCalcDisplay();
-// PERF: Reduced from 500ms to 1000ms - volume calc doesn't need sub-second updates
 }, 1000);
 }
 } else {
@@ -11701,12 +11444,9 @@ applyTerrainVertexColors, createTerrainMaterial, createTerrainNoiseTexture, upda
 saveDesign, loadFromFile, deleteObjectWithCommand, removeObject, showToast, requestRender,
 get terrainMode() { return terrainMode; }, set terrainMode(v) { terrainMode = v; },
 get isTerrainPainting() { return isTerrainPainting; }, set isTerrainPainting(v) { isTerrainPainting = v; },
-// Sprint 13: expose new perf functions
 applyTerrainPositions, applyTerrainFull, _debouncedApplyTerrainFull, _flushTerrainFull,
 get _terrainFullPending() { return _terrainFullPending; },
-// Sprint 20: auto-dig clip
 get autoDigClipPlane() { return autoDigClipPlane; }, updateAutoDigClip, _rebuildYardClipPlanes,
-// Sprint 21: canonical ground-visibility state + diagnostics
 updateGroundVisibility,
 _groundVisibilityDebug: () => ({
 autoDigClipActive: !!autoDigClipPlane,
@@ -11767,7 +11507,6 @@ while (terrainControls.firstChild) {
 dockTerrainContent.appendChild(terrainControls.firstChild);
 }
 }
-// Sprint 21: terrain dock accordions — secondary sections (Grid Level, Carving, Presets/Tools) collapsed by default so all PRIMARY controls (7 mode buttons, brush size, strength) are visible with zero scrolling at 1280x800; one click expands (≤1 click requirement).
 (function setupTerrainAccordions() {
 if (!dockTerrainContent || dockTerrainContent.dataset.tcAccInit) return;
 dockTerrainContent.dataset.tcAccInit = '1';
@@ -11779,7 +11518,6 @@ const panel = btn.nextElementSibling;
 if (!panel || !panel.classList.contains('tc-acc-panel')) return;
 btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
 panel.classList.toggle('open', !expanded);
-// Keep the freshly expanded section fully in view without manual scrolling
 if (!expanded) {
 requestAnimationFrame(() => {
 try { panel.scrollIntoView({ block: 'nearest' }); } catch (err) { panel.scrollIntoView(); }
@@ -11795,8 +11533,6 @@ while (excavatePanel.firstChild) {
 dockUndergroundContent.appendChild(excavatePanel.firstChild);
 }
 }
-/* Sprint 21: wire collapsible secondary sections in the terrain dock.
-Delegated on the container so it survives the Sprint 13 content move. */
 dockPanelContainer.addEventListener('click', (e) => {
 const btn = e.target.closest('.s21-collapse-btn');
 if (!btn) return;
@@ -11887,8 +11623,6 @@ applySunPosition();
 }
 }
 if (dockId === 'underground') {
-// Sprint 21: Opening the Underground dock arms the dig clip so the owner sees
-// geological layers in previously-dug holes — not just the flat green plane.
 excavatePanelVisible = true;
 const eb = document.getElementById('excavate-btn');
 if (eb) { eb.classList.add('active'); eb.setAttribute('aria-pressed', 'true'); }
@@ -11901,7 +11635,6 @@ if (typeof requestRender === 'function') requestRender();
 dockPanelContainer.querySelectorAll('[data-dock-close]').forEach(btn => {
 btn.addEventListener('click', closeDockPanel);
 });
-// Sprint 13: Panel minimize/restore logic
 const sculptRestorePill = document.getElementById('sculpt-restore-pill');
 dockPanelContainer.querySelectorAll('[data-dock-minimize]').forEach(btn => {
 btn.addEventListener('click', (e) => {
@@ -11911,14 +11644,12 @@ if (!panel) return;
 const isMin = panel.classList.toggle('minimized');
 btn.setAttribute('aria-label', isMin ? 'Restore panel' : 'Minimize panel');
 btn.innerHTML = isMin ? '&#43;' : '&#8722;';
-/* When dock-terrain is minimized, show the Sculpt restore pill */
 if (panel.id === 'dock-terrain') {
 if (sculptRestorePill) sculptRestorePill.classList.toggle('visible', isMin);
 }
 if (typeof requestRender === 'function') requestRender();
 });
 });
-/* Sculpt restore pill — clicking it restores the dock-terrain panel */
 if (sculptRestorePill) {
 sculptRestorePill.addEventListener('click', function() {
 const terrainPanel = document.getElementById('dock-terrain');
@@ -11927,7 +11658,6 @@ terrainPanel.classList.remove('minimized');
 const minBtn = terrainPanel.querySelector('[data-dock-minimize]');
 if (minBtn) { minBtn.innerHTML = '&#8722;'; minBtn.setAttribute('aria-label', 'Minimize panel'); }
 }
-/* Also restore the floating terrain-controls if it was minimized */
 const tc = document.getElementById('terrain-controls');
 if (tc && tc.classList.contains('minimized')) {
 tc.classList.remove('minimized');
@@ -11943,7 +11673,6 @@ if (!activeDockTab) return;
 const panel = document.getElementById('dock-' + activeDockTab);
 if (panel) {
 panel.classList.remove('visible');
-// Sprint 13: reset minimized state on close + hide sculpt pill
 panel.classList.remove('minimized');
 const minBtn = panel.querySelector('[data-dock-minimize]');
 if (minBtn) { minBtn.setAttribute('aria-label', 'Minimize panel'); minBtn.innerHTML = '&#8722;'; }
@@ -11966,8 +11695,6 @@ if (innovBtn && typeof innovPanelVisible !== 'undefined' && innovPanelVisible) {
 innovBtn.click();
 }
 }
-// Sprint 21: Closing the Underground dock restores the normal surface view
-// (unless the Terrain Dig brush mode is still active).
 if (activeDockTab === 'underground') {
 excavatePanelVisible = false;
 const eb = document.getElementById('excavate-btn');
@@ -12673,9 +12400,6 @@ if (typeof scene === 'undefined' || !scene) {
 setTimeout(init, 100);
 return;
 }
-// PERF: Skip Atmosphere.init() — update() already lazy-builds sky/star/moon/weather
-// This saves ~50ms of 3D mesh construction on load (sky dome, star field, moon, rain/snow particles)
-// Atmosphere.init();  // REMOVED: redundant with lazy-build in update()
 const origApplySun = window.applySunPosition || applySunPosition;
 let _origApplySunPosition = applySunPosition;
 const sunTimeEl = document.getElementById('sun-time');
@@ -12816,7 +12540,6 @@ fall: '10-15',
 winter: '01-15',
 };
 function applySeasonToSun() {
-// Season now just sets a default time — no date input needed
 const sunTimeEl = document.getElementById('sun-time');
 if (sunTimeEl) {
 const times = { spring: 13, summer: 13, fall: 12, winter: 11 };
@@ -12864,7 +12587,6 @@ if (costPanelVisible) {
 costPanelVisible = false;
 costPanelEl.classList.remove('visible');
 }
-// Close growth and permit via exposed close functions (keeps IIFE state in sync)
 if (window._closeGrowthPanel) window._closeGrowthPanel();
 if (window._closePermitPanel) window._closePermitPanel();
 }
@@ -12933,7 +12655,6 @@ if (costPanelVisible) {
 costPanelVisible = false;
 costPanelEl.classList.remove('visible');
 }
-// Close season and permit via exposed close functions (keeps IIFE state in sync)
 if (window._closeSeasonPanel) window._closeSeasonPanel();
 if (window._closePermitPanel) window._closePermitPanel();
 }
@@ -13158,7 +12879,6 @@ if (typeof costPanelVisible !== 'undefined' && costPanelVisible) {
 costPanelVisible = false;
 if (costPanelEl) costPanelEl.classList.remove('visible');
 }
-// Close season and growth via exposed close functions (keeps IIFE state in sync)
 if (window._closeSeasonPanel) window._closeSeasonPanel();
 if (window._closeGrowthPanel) window._closeGrowthPanel();
 const csPanel = document.getElementById('cross-section-panel');
@@ -14889,9 +14609,6 @@ setTimeout(() => deserializeLabels(data.labels), 100);
 }
 };
 
-// ============================================================
-// SPRINT 8: PRINT / EXPORT PDF (Agent 5 — Comparative Review)
-// ============================================================
 const COST_ESTIMATES = {
 fence_privacy: { label: 'Privacy Fence', unit: 'linear ft', costPer: 18 },
 fence_picket: { label: 'Picket Fence', unit: 'linear ft', costPer: 15 },
@@ -14928,16 +14645,13 @@ return Math.round(fp.w * fp.d * est.costPer);
 }
 
 function generatePrintView() {
-// Capture screenshot
 renderer.render(scene, activeCamera);
 const dataUrl = renderer.domElement.toDataURL('image/png');
 document.getElementById('print-screenshot-img').src = dataUrl;
 
-// Date
 const now = new Date();
 document.getElementById('print-date').textContent = 'Generated: ' + now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-// Project info
 const objCount = state.objects.size;
 const yardArea = Math.round(state.yard.width * state.yard.depth);
 document.getElementById('print-project-info').innerHTML = `
@@ -14949,7 +14663,6 @@ document.getElementById('print-project-info').innerHTML = `
 </table>
 `;
 
-// Objects table
 const tbody = document.getElementById('print-objects-body');
 const objects = Array.from(state.objects.values());
 let totalCost = 0;
@@ -14973,7 +14686,6 @@ return `<tr>
 
 document.getElementById('print-total-cost').textContent = 'Estimated Total: $' + totalCost.toLocaleString();
 
-// Show print view
 document.getElementById('print-view').classList.add('visible');
 requestRender();
 }
@@ -14988,14 +14700,10 @@ window.print();
 
 console.log('[Sprint 8] Print/Export PDF feature initialized');
 
-// ============================================================
-// SPRINT 9: ONBOARDING ARCHITECT — Complete onboarding system
-// ============================================================
 
 const Onboarding = (function() {
   'use strict';
 
-  // --- localStorage tracking ---
   const STORAGE_KEY = 'backyard-onboarding-state';
   function getState() {
     try {
@@ -15023,7 +14731,6 @@ const Onboarding = (function() {
     updateDiscoveryBadges();
   }
 
-  // --- Welcome prompt ---
   function showWelcomePrompt() {
     const s = getState();
     if (s.welcomeShown) return;
@@ -15033,7 +14740,6 @@ const Onboarding = (function() {
     if (!wp) return;
     wp.classList.add('visible');
     wp.setAttribute('aria-hidden', 'false');
-    // Focus first action button
     setTimeout(() => {
       const firstBtn = wp.querySelector('.wp-quick-action');
       if (firstBtn) firstBtn.focus();
@@ -15046,11 +14752,8 @@ const Onboarding = (function() {
     wp.setAttribute('aria-hidden', 'true');
   }
 
-  // Wire up welcome prompt buttons via event delegation on the container
-  // (bypasses the same stacking/interception issue as the wizard buttons)
   const wpContainer = document.getElementById('welcome-prompt');
   if (wpContainer) {
-    // mousedown delegation: established fix for this codebase's click-interception issue (sibling/overlay elements intercept real pointer clicks); mousedown + closest() catches the intended target reliably.
     wpContainer.addEventListener('mousedown', function(e) {
       const action = e.target.closest('.wp-quick-action');
       if (!action) return;
@@ -15123,7 +14826,6 @@ const Onboarding = (function() {
     });
   }
 
-  // --- Guided Tour ---
   const tourSteps = [
     {
       id: 'welcome',
@@ -15199,10 +14901,8 @@ const Onboarding = (function() {
       showToast('🎉 Tour complete! You\'re ready to design your backyard.');
       markStepComplete('tour-complete');
     }
-    // Show restart button
     const restartBtn = document.getElementById('onboarding-restart-btn');
     if (restartBtn) restartBtn.classList.add('visible');
-    // Start progressive hints after tour
     startProgressiveHints();
   }
 
@@ -15222,14 +14922,12 @@ const Onboarding = (function() {
     if (nextBtn) nextBtn.textContent = currentTourStep === tourSteps.length - 1 ? 'Finish ✓' : 'Next →';
     if (backBtn) backBtn.style.display = currentTourStep === 0 ? 'none' : 'inline-block';
 
-    // Render progress dots
     if (progress) {
       progress.innerHTML = tourSteps.map((_, i) =>
         `<div class="tour-dot ${i === currentTourStep ? 'active' : (i < currentTourStep ? 'done' : '')}"></div>`
       ).join('');
     }
 
-    // Position spotlight and bubble
     positionTourSpotlight(step.target);
     markStepComplete(step.id);
   }
@@ -15240,7 +14938,6 @@ const Onboarding = (function() {
     if (!spotlight || !bubble) return;
 
     if (!selector) {
-      // Center bubble with no spotlight
       spotlight.classList.add('no-target');
       bubble.style.top = '50%';
       bubble.style.left = '50%';
@@ -15265,22 +14962,18 @@ const Onboarding = (function() {
     spotlight.style.width = (rect.width + pad * 2) + 'px';
     spotlight.style.height = (rect.height + pad * 2) + 'px';
 
-    // Position bubble below or above target
     const bubbleRect = bubble.getBoundingClientRect();
     let bubbleTop = rect.bottom + 16;
     let bubbleLeft = rect.left + rect.width / 2 - bubbleRect.width / 2;
     let transform = '';
 
-    // If bubble would go below viewport, place above
     if (bubbleTop + bubbleRect.height > window.innerHeight - 20) {
       bubbleTop = rect.top - bubbleRect.height - 16;
     }
-    // Clamp horizontal
     if (bubbleLeft < 16) bubbleLeft = 16;
     if (bubbleLeft + bubbleRect.width > window.innerWidth - 16) {
       bubbleLeft = window.innerWidth - bubbleRect.width - 16;
     }
-    // Clamp vertical
     if (bubbleTop < 16) bubbleTop = 16;
     if (bubbleTop + bubbleRect.height > window.innerHeight - 16) {
       bubbleTop = window.innerHeight - bubbleRect.height - 16;
@@ -15291,7 +14984,6 @@ const Onboarding = (function() {
     bubble.style.transform = '';
   }
 
-  // Tour navigation buttons
   document.getElementById('tour-next')?.addEventListener('click', () => {
     const step = tourSteps[currentTourStep];
     if (step && step.id === 'add-object') markFeatureUsed('library');
@@ -15315,19 +15007,16 @@ const Onboarding = (function() {
     showToast('Tour skipped. You can restart it anytime with the 🎓 Tour button.');
   });
 
-  // Reposition on resize
   window.addEventListener('resize', () => {
     if (tourActive && currentTourStep < tourSteps.length) {
       positionTourSpotlight(tourSteps[currentTourStep].target);
     }
   });
 
-  // Restart button
   document.getElementById('onboarding-restart-btn')?.addEventListener('click', () => {
     startTour();
   });
 
-  // --- Contextual Tooltips ---
   const tooltipEl = document.getElementById('ctx-tooltip');
   let tooltipTimer = null;
 
@@ -15351,7 +15040,6 @@ const Onboarding = (function() {
       tooltipEl.classList.add('tt-top');
       tooltipEl.classList.remove('tt-bottom');
     }
-    // Clamp to viewport
     const ttRect = tooltipEl.getBoundingClientRect();
     left -= ttRect.width / 2;
     if (left < 8) left = 8;
@@ -15369,7 +15057,6 @@ const Onboarding = (function() {
     tooltipEl.setAttribute('aria-hidden', 'true');
   }
 
-  // Contextual tooltip zones — appear when user hovers near key areas
   const tooltipZones = [
     { selector: '#library', text: 'Click any item to add it to your yard', position: 'bottom' },
     { selector: '#btn-save', text: 'Save your design as a file', position: 'bottom' },
@@ -15407,10 +15094,8 @@ const Onboarding = (function() {
     });
   }
 
-  // --- Feature Discovery Badges --- removed — features are no longer "new"
 
   function updateDiscoveryBadges() {
-    // Badges removed — no-op
     return;
     const s = getState();
     if (!s.featuresUsed) s.featuresUsed = {};
@@ -15418,16 +15103,13 @@ const Onboarding = (function() {
       if (!feature.selector) return;
       const el = document.querySelector(feature.selector);
       if (!el) return;
-      // Skip if already used
       if (s.featuresUsed[feature.id]) {
         const badge = el.parentElement?.querySelector('.discovery-badge');
         if (badge) badge.remove();
         return;
       }
-      // Add badge if not present
       const existingBadge = el.parentElement?.querySelector('.discovery-badge');
       if (!existingBadge) {
-        // Ensure parent has position relative
         if (el.parentElement) {
           const computed = getComputedStyle(el.parentElement).position;
           if (computed === 'static') el.parentElement.style.position = 'relative';
@@ -15441,7 +15123,6 @@ const Onboarding = (function() {
     });
   }
 
-  // Mark features as used when interacted with
   function setupFeatureTracking() {
     const trackMap = [
       { selector: '#btn-walk', featureId: 'walk-mode' },
@@ -15457,26 +15138,21 @@ const Onboarding = (function() {
         el.addEventListener('click', () => markFeatureUsed(t.featureId), { once: true });
       }
     });
-    // Track command palette (Ctrl+K)
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         markFeatureUsed('command-palette');
       }
     });
-    // Track save
     const saveBtn = document.getElementById('btn-save');
     if (saveBtn) saveBtn.addEventListener('click', () => markFeatureUsed('save'), { once: true });
-    // Track library clicks
     const library = document.getElementById('library');
     if (library) library.addEventListener('click', (e) => {
       if (e.target.closest('.lib-item')) markFeatureUsed('library');
     }, { once: true });
-    // Track terrain dock
     const terrainBtn = document.querySelector('[data-dock="terrain"]');
     if (terrainBtn) terrainBtn.addEventListener('click', () => markFeatureUsed('terrain'), { once: true });
   }
 
-  // --- Progressive Hint System ---
   let inactivityTimer = null;
   let progressiveHintActive = false;
   let hintsShown = 0;
@@ -15493,11 +15169,9 @@ const Onboarding = (function() {
   function showProgressiveHint() {
     if (tourActive) return;
     const s = getState();
-    // Find a hint whose feature hasn't been used
     const availableHints = progressiveHints.filter(h => !s.featuresUsed || !s.featuresUsed[h.feature]);
     if (availableHints.length === 0) return;
 
-    // Pick the next hint in sequence, or cycle
     const hint = availableHints[hintsShown % availableHints.length];
     hintsShown++;
 
@@ -15507,7 +15181,6 @@ const Onboarding = (function() {
     el.classList.add('visible');
     progressiveHintActive = true;
 
-    // Click to dismiss
     el.onclick = () => {
       el.classList.remove('visible');
       progressiveHintActive = false;
@@ -15531,7 +15204,6 @@ const Onboarding = (function() {
   }
 
   function startProgressiveHints() {
-    // Reset inactivity timer on any interaction
     ['mousemove', 'click', 'keydown', 'scroll'].forEach(evt => {
       document.addEventListener(evt, () => {
         if (progressiveHintActive) {
@@ -15543,9 +15215,7 @@ const Onboarding = (function() {
     resetInactivityTimer();
   }
 
-  // --- Keyboard shortcuts for onboarding ---
   document.addEventListener('keydown', (e) => {
-    // Escape closes onboarding overlays
     if (e.key === 'Escape') {
       const wp = document.getElementById('welcome-prompt');
       if (wp && wp.classList.contains('visible')) {
@@ -15562,7 +15232,6 @@ const Onboarding = (function() {
     }
   });
 
-  // --- Init ---
   function init() {
     setupContextTooltips();
     setupFeatureTracking();
@@ -15570,26 +15239,18 @@ const Onboarding = (function() {
 
     const s = getState();
 
-    // If tour was completed, show restart button
     if (s.tourCompleted) {
       document.getElementById('onboarding-restart-btn')?.classList.add('visible');
     }
 
-    // Don't show welcome prompt if tour already completed or dismissed recently
     if (!s.tourCompleted && !s.welcomeShown) {
-      // Show welcome prompt after wizard completes (delay to let scene init)
-      // The wizard runs first; we show the prompt after initWithYard
-      // We'll use a flag and check when initWithYard runs
     }
 
-    // Always start progressive hints
     startProgressiveHints();
 
     console.log('[Sprint 9] Onboarding system initialized');
   }
 
-  // Public API
-  // Expose to window for Playwright tests and external access
   window.Onboarding = {
     init,
     showWelcomePrompt,
@@ -15606,9 +15267,6 @@ const Onboarding = (function() {
   return window.Onboarding;
 })();
 
-// Initialize onboarding after scene setup
-// After the wizard finishes (initWithYard is called), show welcome prompt
-// We use a MutationObserver on the wizard element to detect when it's hidden
 (function setupWizardObserver() {
   const wizard = document.getElementById('wizard');
   if (!wizard) return;
@@ -15620,7 +15278,6 @@ const Onboarding = (function() {
         if (isHidden) {
           const s = Onboarding.getState();
           if (!s.welcomeShown && !s.tourCompleted) {
-            // Small delay to let scene initialize
             setTimeout(() => {
               Onboarding.showWelcomePrompt();
             }, 600);
@@ -15632,15 +15289,9 @@ const Onboarding = (function() {
   observer.observe(wizard, { attributes: true, attributeFilter: ['style'] });
 })();
 
-// Initialize onboarding system
 Onboarding.init();
 
-// SPRINT 9: MICRO-INTERACTION POLISH — JavaScript
-// Toast variants, confirm dialog, loading spinners, empty states,
-// skeleton screens, ripple effects, progress bar
-// ============================================================
 
-// ===== Toast Enhancement: success/error/warning/info variants =====
 const TOAST_ICONS = {
   success: '✓',
   error: '✕',
@@ -15648,7 +15299,6 @@ const TOAST_ICONS = {
   info: 'ℹ',
 };
 
-// Override showToast with enhanced version
 const _origShowToast = showToast;
 showToast = function(msg, type) {
   const toast = document.getElementById('toast');
@@ -15657,11 +15307,9 @@ showToast = function(msg, type) {
   const validTypes = ['success', 'error', 'warning', 'info'];
   if (!validTypes.includes(type)) type = 'info';
 
-  // Clear previous variant classes
   toast.classList.remove('toast-success', 'toast-error', 'toast-warning', 'toast-info');
   toast.classList.add('toast-' + type);
 
-  // Build HTML with icon + message
   const icon = TOAST_ICONS[type] || '';
   toast.innerHTML = '<span class="toast-icon">' + icon + '</span><span>' + escHtml(msg) + '</span>';
   toast.classList.add('visible');
@@ -15670,18 +15318,15 @@ showToast = function(msg, type) {
   const duration = type === 'error' ? 5000 : 3000;
   toastTimer = setTimeout(() => toast.classList.remove('visible'), duration);
 
-  // Screen reader announcement
   if (typeof announceForScreenReader === 'function') announceForScreenReader(msg);
 };
 
-// ===== Confirmation Dialog System =====
 function showConfirmDialog(title, message, opts) {
   opts = opts || {};
   const dialog = document.getElementById('confirm-dialog');
   if (!dialog) return Promise.resolve(true); // Fallback: proceed without confirmation
 
   return new Promise((resolve) => {
-    // Set content
     const titleEl = dialog.querySelector('.confirm-title-text');
     const msgEl = dialog.querySelector('.confirm-dialog-message');
     const okBtn = document.getElementById('confirm-ok-btn');
@@ -15692,19 +15337,16 @@ function showConfirmDialog(title, message, opts) {
     if (msgEl) msgEl.textContent = message;
     if (iconEl) iconEl.textContent = opts.icon || '⚠️';
 
-    // Configure OK button
     if (okBtn) {
       okBtn.textContent = opts.okText || 'Confirm';
       okBtn.classList.remove('confirm-danger');
       if (opts.danger) okBtn.classList.add('confirm-danger');
     }
 
-    // Show dialog
     dialog.classList.add('visible');
     dialog.setAttribute('aria-hidden', 'false');
     if (okBtn) okBtn.focus();
 
-    // Clean up any previous listeners
     const newOkBtn = okBtn.cloneNode(true);
     const newCancelBtn = cancelBtn.cloneNode(true);
     if (okBtn) okBtn.parentNode.replaceChild(newOkBtn, okBtn);
@@ -15719,12 +15361,10 @@ function showConfirmDialog(title, message, opts) {
     newOkBtn.addEventListener('click', () => close(true));
     newCancelBtn.addEventListener('click', () => close(false));
 
-    // Close on backdrop click
     dialog.onclick = (e) => {
       if (e.target === dialog) close(false);
     };
 
-    // Close on Escape
     const escHandler = (e) => {
       if (e.key === 'Escape' && dialog.classList.contains('visible')) {
         close(false);
@@ -15735,10 +15375,8 @@ function showConfirmDialog(title, message, opts) {
   });
 }
 
-// ===== Loading Spinner Helpers =====
 function withSpinner(btn, fn) {
   if (!btn) return Promise.resolve(fn());
-  // Store original content and add spinner
   const origHTML = btn.innerHTML;
   btn.classList.add('mi-loading');
   const text = btn.textContent.trim();
@@ -15774,7 +15412,6 @@ function withProgress(fn) {
   });
 }
 
-// ===== Ripple Effect on Button Click =====
 (function attachRipples() {
   document.addEventListener('click', function(e) {
     const btn = e.target.closest('button');
@@ -15794,7 +15431,6 @@ function withProgress(fn) {
   }, true);
 })();
 
-// ===== Empty State Helper =====
 function emptyStateHTML(icon, title, desc) {
   return '<div class="mi-empty-state">' +
     '<div class="mi-empty-icon">' + icon + '</div>' +
@@ -15803,7 +15439,6 @@ function emptyStateHTML(icon, title, desc) {
     '</div>';
 }
 
-// ===== Skeleton Screen Helper =====
 function skeletonCardsHTML(count) {
   count = count || 3;
   let html = '';
@@ -15813,7 +15448,6 @@ function skeletonCardsHTML(count) {
   return html;
 }
 
-// Make functions globally accessible for Playwright tests
 window.showToast = showToast;
 window.showConfirmDialog = showConfirmDialog;
 window.withSpinner = withSpinner;
@@ -15821,22 +15455,18 @@ window.withProgress = withProgress;
 window.emptyStateHTML = emptyStateHTML;
 window.skeletonCardsHTML = skeletonCardsHTML;
 window.announceForScreenReader = announceForScreenReader;
-// Expose state and key Three.js objects for testing/debugging
 if (typeof state !== 'undefined') window.state = state;
 if (typeof gridHelper !== 'undefined') window.gridHelper = gridHelper;
 if (typeof controls !== 'undefined') window.controls = controls;
 if (typeof camera2D !== 'undefined') window.camera2D = camera2D;
 if (typeof camera3D !== 'undefined') window.camera3D = camera3D;
 if (typeof activeCamera !== 'undefined') window.activeCamera = activeCamera;
-// Live getter for view-mode state (activeCamera gets reassigned, so window.activeCamera goes stale)
 window.getViewState = () => ({ viewMode: state.viewMode, activeCameraIs2D: activeCamera === camera2D, controlsEnabled: controls.enabled, gridVisible: gridHelper.visible });
 if (typeof addObject !== 'undefined') window.addObject = addObject;
 if (typeof selectObject !== 'undefined') window.selectObject = selectObject;
-// Sprint 23: expose multi-select for harnesses (V16)
 if (typeof selectObjectMulti !== 'undefined') window.selectObjectMulti = selectObjectMulti;
 if (typeof ensureTerrainArray !== 'undefined') window.ensureTerrainArray = ensureTerrainArray;
 if (typeof applyTerrainToMesh !== 'undefined') window.applyTerrainToMesh = applyTerrainToMesh;
-// Sprint 15: Expose terrain color functions for testing
 if (typeof applyTerrainVertexColors !== 'undefined') window.applyTerrainVertexColors = applyTerrainVertexColors;
 if (typeof _getNamedGeoLayerColor !== 'undefined') window._getNamedGeoLayerColor = _getNamedGeoLayerColor;
 if (typeof NAMED_GEO_LAYERS !== 'undefined') window.NAMED_GEO_LAYERS = NAMED_GEO_LAYERS;
@@ -15851,7 +15481,6 @@ if (typeof _flushTerrainFull !== 'undefined') window._flushTerrainFull = _flushT
 if (typeof autoDigClipPlane !== 'undefined') window.autoDigClipPlane = autoDigClipPlane;
 if (typeof _rebuildYardClipPlanes !== 'undefined') window._rebuildYardClipPlanes = _rebuildYardClipPlanes;
 if (typeof updateAutoDigClip !== 'undefined') window.updateAutoDigClip = updateAutoDigClip;
-// Sprint 21 (merged): expose BOTH canonical clip-plane writers + ground-visibility diagnostics
 if (typeof _rebuildSolidEarthClipPlanes !== 'undefined') window._rebuildSolidEarthClipPlanes = _rebuildSolidEarthClipPlanes;
 if (typeof syncAutoDigClip !== 'undefined') window.syncAutoDigClip = syncAutoDigClip;
 if (typeof updateGroundVisibility !== 'undefined') window.updateGroundVisibility = updateGroundVisibility;
@@ -15860,9 +15489,6 @@ else if (window._test && typeof window._test._groundVisibilityDebug === 'functio
 
 console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, confirm dialog, spinners, ripples, empty states, skeletons');
 
-// ============================================================
-// SPRINT 16: Desktop gate — show overlay when viewport < 900px
-// ============================================================
 (function setupDesktopGate() {
   const gate = document.getElementById('desktop-gate');
   if (!gate) return;
@@ -15877,9 +15503,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   window.addEventListener('resize', checkViewport);
 })();
 
-// ============================================================
-// SPRINT 16: Status bar — shows current tool, brush size, height, FPS
-// ============================================================
 (function setupStatusBar() {
   const sbTool = document.getElementById('sb-tool');
   const sbBrush = document.getElementById('sb-brush');
@@ -15921,7 +15544,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   let fpsLastTime = performance.now();
   let _sbFpsShown = '';
   function updateFPS() {
-    // PERF S24: burst stamps from animate() (window._byd*); no second rAF.
     const total = window._bydFrames || 0;
     const now = performance.now();
     if (total !== fpsFrameCount) {
@@ -15942,7 +15564,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
     return false; // idle — stop until next render
   }
   window._bydArmFps = function() {
-    // PERF S24: re-arm the meter with the render chain (idempotent)
     if (!window._bydFpsTimer) {
       fpsFrameCount = window._bydFrames || 0; // fresh baseline — avoid stale elapsed
       fpsLastTime = performance.now();
@@ -15957,7 +15578,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   updateBrushSize();
   updateHeight();
   
-  // PERF S24: event-driven writes replace the 500ms poll (less churn).
   window._sbUpdate = {
     updateToolName: function() { updateToolName(); updateBrushSize(); updateHeight(); },
     updateToolNameOnly: updateToolName,
@@ -15966,9 +15586,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   };
 })();
 
-// ============================================================
-// SPRINT 16: Keyboard shortcuts
-// ============================================================
 (function setupKeyboardShortcuts() {
   const brushModes = ['raise', 'lower', 'smooth', 'erode', 'dig', 'fill'];
   
@@ -15977,7 +15594,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
     if (e.target.isContentEditable) return;
     if (e.ctrlKey || e.metaKey) return;
     
-    // 1-6: switch terrain brush modes
     if (e.key >= '1' && e.key <= '6') {
       const idx = parseInt(e.key) - 1;
       if (idx < brushModes.length) {
@@ -16008,7 +15624,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
       }
     }
     
-    // [ and ]: decrease/increase brush size
     if (e.key === '[') {
       if (typeof terrainBrushSize !== 'undefined' && terrainBrushSize > 1) {
         terrainBrushSize = Math.max(1, terrainBrushSize - 1);
@@ -16032,7 +15647,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
       }
     }
     
-    // X: toggle terrain mode
     if (e.key === 'x' || e.key === 'X') {
       const terrainBtn = document.getElementById('terrain-btn');
       if (terrainBtn) {
@@ -16044,7 +15658,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   });
 })();
 
-/* SPRINT 16/22: event-driven cursor classes on #viewport (no rAF); priority brush > drag > pan > walk > orbit; delegated click syncs brush cursor for mouse AND keyboard. */
 (function setupCursorFeedback() {
   const canvas = document.getElementById('viewport');
   if (!canvas) return;
@@ -16055,7 +15668,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
     if (typeof terrainMode !== 'undefined' && terrainMode) {
       canvas.classList.add('cursor-brush');
     } else if (typeof walkMode !== 'undefined' && walkMode) {
-      // walk mode: default cursor (UI-first)
     } else if (typeof tapeMeasureActive !== 'undefined' && tapeMeasureActive) {
       canvas.classList.add('cursor-measure');
     } else {
@@ -16067,7 +15679,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
 
   document.addEventListener('click', (e) => {
     if (e.target && e.target.closest && e.target.closest('#terrain-btn')) {
-      // toggle happens in the app's own handler; run after it
       setTimeout(applyCursor, 0);
     }
   }, true);
@@ -16079,7 +15690,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
       canvas.classList.add('cursor-drag');
       canvas.classList.remove('cursor-grab');
     } else {
-      // orbit (3D) or pan (2D) — grabbing feedback, matches old mousedown behavior
       canvas.classList.add('cursor-grabbing');
       canvas.classList.remove('cursor-grab');
     }
@@ -16088,11 +15698,8 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
     canvas.classList.remove('cursor-drag', 'cursor-grabbing');
     if (!(typeof terrainMode !== 'undefined' && terrainMode)) canvas.classList.add((typeof tapeMeasureActive !== 'undefined' && tapeMeasureActive) ? 'cursor-measure' : 'cursor-grab');
   }));
-  // Terrain brush painting keeps crosshair via .cursor-brush (no extra state needed)
 })();
 
-// ===== GLOBAL SCOPE EXPORTS =====
-// type=module traps top-level declarations; expose every function/variable inline handlers reference.
 window.initScene = initScene;
 window.initWithYard = initWithYard;
 window.renderWizard = renderWizard;
@@ -16126,10 +15733,8 @@ window.activeCamera = activeCamera;
 window.showToast = showToast;
 window.Onboarding = Onboarding;
 window.startProgressiveHints = Onboarding ? Onboarding.startProgressiveHints : undefined;
-// Sprint 20: Expose walk mode functions to window scope (were module-scoped, causing ReferenceError on external calls)
 if (typeof enterWalkMode !== 'undefined') window.enterWalkMode = enterWalkMode;
 if (typeof exitWalkMode !== 'undefined') window.exitWalkMode = exitWalkMode;
-// Sprint 20: Expose serializeDesign and DESIGN_TEMPLATES for external access
 if (typeof serializeDesign !== 'undefined') window.serializeDesign = serializeDesign;
 if (typeof DESIGN_TEMPLATES !== 'undefined') window.DESIGN_TEMPLATES = DESIGN_TEMPLATES;
 if (typeof applyTemplate !== 'undefined') window.applyTemplate = applyTemplate;
