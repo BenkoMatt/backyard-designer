@@ -1,0 +1,568 @@
+{
+  "probes": {
+    "initial_orbit": {
+      "walkMode": false,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camPos": {
+        "x": 25,
+        "y": 40,
+        "z": 50
+      },
+      "camRot": {
+        "x": -0.6747,
+        "y": 0.3722,
+        "z": 0.2831
+      },
+      "walkControlsVisible": false,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "after_orbit_drag": {
+      "walkMode": false,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camPos": {
+        "x": 59.831,
+        "y": 4.531,
+        "z": -33.537
+      },
+      "camRot": {
+        "x": -3.0073,
+        "y": 1.056,
+        "z": 3.0245
+      },
+      "walkControlsVisible": false,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "walk_enter_via_W": {
+      "walkMode": true,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camPos": {
+        "x": 0.003,
+        "y": 5.499,
+        "z": 0.092
+      },
+      "camRot": {
+        "x": -1.5541,
+        "y": 0.0343,
+        "z": 0
+      },
+      "walkControlsVisible": true,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "rotation_samples_14x60ms": [
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      },
+      {
+        "r": 3.1416,
+        "x": 0,
+        "z": 0
+      }
+    ],
+    "after_drag_look": {
+      "walkMode": true,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camRot": {
+        "x": 0,
+        "y": 2.4416,
+        "z": 0
+      },
+      "walkControlsVisible": true,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "after_W_1s": {
+      "walkMode": true,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": -1.16,
+        "y": 5.5,
+        "z": 1.377
+      },
+      "camPos": {
+        "x": -1.16,
+        "y": 5.5,
+        "z": 1.377
+      },
+      "camRot": {
+        "x": 0,
+        "y": 2.4416,
+        "z": 0
+      },
+      "walkControlsVisible": true,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "wheel_during_walk": {
+      "before": {
+        "walkMode": true,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camRot": {
+          "x": 0,
+          "y": 2.4416,
+          "z": 0
+        },
+        "walkControlsVisible": true,
+        "objCount": 0,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      },
+      "after": {
+        "walkMode": true,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camRot": {
+          "x": 0,
+          "y": 2.4416,
+          "z": 0
+        },
+        "walkControlsVisible": true,
+        "objCount": 0,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      }
+    },
+    "after_B_key": {
+      "walkMode": true,
+      "viewMode": "2d",
+      "walkPos": {
+        "x": -1.16,
+        "y": 5.5,
+        "z": 1.377
+      },
+      "camPos": {
+        "x": 0,
+        "y": 120,
+        "z": 0
+      },
+      "camRot": {
+        "x": -1.5707,
+        "y": 0,
+        "z": 0
+      },
+      "walkControlsVisible": true,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "esc_exit": {
+      "pre": {
+        "walkMode": true,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camRot": {
+          "x": 0,
+          "y": 2.4416,
+          "z": 0
+        },
+        "walkControlsVisible": true,
+        "objCount": 0,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      },
+      "post": {
+        "walkMode": false,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": -1.16,
+          "y": 5.5,
+          "z": 1.377
+        },
+        "camPos": {
+          "x": 25,
+          "y": 40,
+          "z": 50
+        },
+        "camRot": {
+          "x": -0.6211,
+          "y": 0.4636,
+          "z": 0
+        },
+        "walkControlsVisible": false,
+        "objCount": 0,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      }
+    },
+    "walk_enter_via_btn": {
+      "walkMode": true,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camPos": {
+        "x": 0,
+        "y": 5.5,
+        "z": 0
+      },
+      "camRot": {
+        "x": 0,
+        "y": 3.1416,
+        "z": 0
+      },
+      "walkControlsVisible": true,
+      "objCount": 0,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "joystick_forward": {
+      "before": {
+        "walkMode": true,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": 0,
+          "y": 5.5,
+          "z": 0
+        },
+        "camPos": {
+          "x": 0,
+          "y": 5.5,
+          "z": 0
+        },
+        "camRot": {
+          "x": 0,
+          "y": 3.1416,
+          "z": 0
+        },
+        "walkControlsVisible": true,
+        "objCount": 0,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      },
+      "after": {
+        "walkMode": true,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": -0.0,
+          "y": 5.5,
+          "z": 1.2
+        },
+        "camPos": {
+          "x": -0.0,
+          "y": 5.5,
+          "z": 1.2
+        },
+        "camRot": {
+          "x": 0,
+          "y": 3.1416,
+          "z": 0
+        },
+        "walkControlsVisible": true,
+        "objCount": 0,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      }
+    },
+    "after_shed_setup_exit": {
+      "walkMode": false,
+      "viewMode": "3d",
+      "walkPos": {
+        "x": -0.0,
+        "y": 5.5,
+        "z": 1.2
+      },
+      "camPos": {
+        "x": 25,
+        "y": 40,
+        "z": 50
+      },
+      "camRot": {
+        "x": -0.6211,
+        "y": 0.4636,
+        "z": 0
+      },
+      "walkControlsVisible": false,
+      "objCount": 1,
+      "yard": {
+        "w": 50,
+        "d": 100
+      }
+    },
+    "esc_duality": {
+      "during": {
+        "walkMode": true,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": 0,
+          "y": 5.5,
+          "z": 0
+        },
+        "camPos": {
+          "x": 0,
+          "y": 5.5,
+          "z": 0
+        },
+        "camRot": {
+          "x": 0,
+          "y": 3.1416,
+          "z": 0
+        },
+        "walkControlsVisible": true,
+        "objCount": 1,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      },
+      "after": {
+        "walkMode": false,
+        "viewMode": "3d",
+        "walkPos": {
+          "x": 0,
+          "y": 5.5,
+          "z": 0
+        },
+        "camPos": {
+          "x": 25,
+          "y": 40,
+          "z": 50
+        },
+        "camRot": {
+          "x": -0.6211,
+          "y": 0.4636,
+          "z": 0
+        },
+        "walkControlsVisible": false,
+        "objCount": 1,
+        "yard": {
+          "w": 50,
+          "d": 100
+        }
+      }
+    }
+  },
+  "steps": [
+    {
+      "step": "boot",
+      "ok": true,
+      "detail": "overlays dismissed, elementAt(center)=CANVAS#"
+    },
+    {
+      "step": "orbit-drag",
+      "ok": true,
+      "detail": "camera {'x': 25, 'y': 40, 'z': 50} -> {'x': 59.831, 'y': 4.531, 'z': -33.537}"
+    },
+    {
+      "step": "walk-enter-W",
+      "ok": true,
+      "detail": "walkMode=True, walkPos snapped {'x': 0, 'y': 5.5, 'z': 0} (hard origin; was at {'x': 59.831, 'y': 4.531, 'z': -33.537})"
+    },
+    {
+      "step": "rot-samples",
+      "ok": true,
+      "detail": "14 samples, 1 distinct yaw values (interleaving evidence)"
+    },
+    {
+      "step": "drag-look",
+      "ok": true,
+      "detail": "camRot.y now 2.4416"
+    },
+    {
+      "step": "move-1s-W",
+      "ok": true,
+      "detail": "1s hold moved 1.8 ft (0.6 ft/frame = 36 ft/s @60fps = 24.5 mph)"
+    },
+    {
+      "step": "wheel-jump",
+      "ok": true,
+      "detail": "wheel moved camera 0.0 ft laterally; rot {'x': 0, 'y': 2.4416, 'z': 0}"
+    },
+    {
+      "step": "B-corruption",
+      "ok": true,
+      "detail": "walkMode=True viewMode=2d (walk continues against ortho 2D camera)"
+    },
+    {
+      "step": "esc-teleport",
+      "ok": true,
+      "detail": "exit moved camera 55.2 ft to {'x': 25, 'y': 40, 'z': 50} rot {'x': -0.6211, 'y': 0.4636, 'z': 0} (hard-coded w*.5, d*.4, d*.5; rot 0,0,0)"
+    },
+    {
+      "step": "walk-enter-btn",
+      "ok": true,
+      "detail": "entry #2 walkPos={'x': 0, 'y': 5.5, 'z': 0} \u2014 always (0, terrain+5.5, 0) ignoring orbit position"
+    },
+    {
+      "step": "joystick",
+      "ok": true,
+      "detail": "joystick forward moved 1.2 ft in 0.9s"
+    },
+    {
+      "step": "shed-setup",
+      "ok": true,
+      "detail": "10x10x8 shed at (0,0,-20): walk passes through (no collision \u2014 spec \u00a74)"
+    },
+    {
+      "step": "esc-duality",
+      "ok": true,
+      "detail": "Esc exits walk; global Esc handler also processed the same press (src 5555-5645: deselect/panel-close)"
+    },
+    {
+      "step": "console-errors",
+      "ok": true,
+      "detail": "console errors: []"
+    }
+  ],
+  "screenshots": {
+    "s28_before_01_default3d": "sprint28_shots/s28_before_01_default3d.png",
+    "s28_before_02_orbit_moved": "sprint28_shots/s28_before_02_orbit_moved.png",
+    "s28_before_03_walk_enter_via_W": "sprint28_shots/s28_before_03_walk_enter_via_W.png",
+    "s28_before_04_walk_during": "sprint28_shots/s28_before_04_walk_during.png",
+    "s28_before_05_wheel_jump": "sprint28_shots/s28_before_05_wheel_jump.png",
+    "s28_before_06_B_corrupts_walk": "sprint28_shots/s28_before_06_B_corrupts_walk.png",
+    "s28_before_07_exit_corner": "sprint28_shots/s28_before_07_exit_corner.png",
+    "s28_before_08_walk_enter_btn": "sprint28_shots/s28_before_08_walk_enter_btn.png",
+    "s28_before_09_joystick": "sprint28_shots/s28_before_09_joystick.png",
+    "s28_before_10_shed_placed": "sprint28_shots/s28_before_10_shed_placed.png"
+  }
+}
