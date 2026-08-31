@@ -1,0 +1,15 @@
+**Not clean — issues found:**
+
+**1. Overlapping / clipped:**
+- The **"Terrain Sculpting" modal overlaps the left-side tool dock** (SCULPT/BUILD/VIEW column): the "Terrain" button's right edge is covered, and the "Sun &…" item at the bottom is clipped mid-word.
+- The **"☀ Sun" button overlaps the dark hint tooltip**, cutting off the start of the text — it reads only "…on the ground to sculpt terrain" ("Drag" is hidden).
+- The modal's right edge sits on/under the **"Tape Measure"** button in the bottom toolbar — zero clearance, looks colliding.
+- After the label **"Terrain Controls"** there's a stray empty tooltip/caret stub (thin vertical box) — broken-looking artifact.
+
+**2. 5-second comprehension: borderline.**
+The "Getting Started" note ("click an item to add it") is helpful, but a large terrain-sculpting modal is open dead-center on first load, blocking the yard, and it sits on top of duplicate sculpt tools — the user gets two competing first actions (add items vs. sculpt terrain) and an obscured workspace.
+
+**3. Confusing / broken-looking:**
+- The clipped tooltip text (see #1) reads as a sentence fragment.
+- The duplicated "Terrain" / "Sun" controls (bottom toolbar + left dock + modal) create a disorganized, jumbled layout, worsened by the modal overlap.
+- Status bar shows "FPS: —" (no reading) — minor, but looks unfinished on first load.

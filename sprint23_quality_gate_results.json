@@ -1,0 +1,155 @@
+{
+  "sprint": 23,
+  "expect_open_fixes": false,
+  "total": 29,
+  "passed": 18,
+  "failed": 11,
+  "index_html_bytes": 766138,
+  "results": [
+    {
+      "name": "File size <= 768,000 bytes (hard limit)",
+      "status": "PASS",
+      "detail": "766138 bytes, headroom 1862"
+    },
+    {
+      "name": "CSS brace balance",
+      "status": "PASS",
+      "detail": "968 open / 968 close"
+    },
+    {
+      "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
+      "status": "PASS",
+      "detail": "padding-bottom: 0.0px (merge-lock: Agent 1 owns this fix; PASS=padding present, FAIL=pre-merge baseline)"
+    },
+    {
+      "name": "V02-static: #dock-underground shell has exactly one 'Underground View' title",
+      "status": "PASS",
+      "detail": "found 1 in shell"
+    },
+    {
+      "name": "V03-static: showToast() does not force #toast bottom below 40px",
+      "status": "PASS",
+      "detail": "found a bottom:0-39px inline assignment (would land on the toolbar)"
+    },
+    {
+      "name": "V04-static: openModal() resets panel scrollTop on open",
+      "status": "PASS",
+      "detail": "openModal must call panel.scrollTop = 0"
+    },
+    {
+      "name": "V05-static: content-visibility:auto not applied to .help-panel/.sc-panel",
+      "status": "PASS",
+      "detail": "re-attaching it un-hooks scroll clipping and breaks the help modal"
+    },
+    {
+      "name": "V06-static: .sc-keys has max-width:45% + flex-shrink:0 (badge no-clip)",
+      "status": "PASS",
+      "detail": ".sc-keys{white-space:nowrap;display:flex;gap:3px;flex-shrink:0;max-width:45%;}"
+    },
+    {
+      "name": "V01 [basic]: sidebar bottom padding covers status bar (>= 28px)",
+      "status": "FAIL",
+      "detail": "padding-bottom=0px (merge-lock owned by Agent 1; expected FAIL pre-merge)"
+    },
+    {
+      "name": "V01 [basic]: last .lib-item fully above #status-bar at full scroll",
+      "status": "FAIL",
+      "detail": "lastBottom=798.203125 statusTop=776 overlap=True (atScrollBottom=True)"
+    },
+    {
+      "name": "V01 [advanced]: sidebar bottom padding covers status bar (>= 28px)",
+      "status": "FAIL",
+      "detail": "padding-bottom=0px (merge-lock owned by Agent 1; expected FAIL pre-merge)"
+    },
+    {
+      "name": "V01 [advanced]: last .lib-item fully above #status-bar at full scroll",
+      "status": "FAIL",
+      "detail": "lastBottom=798.203125 statusTop=776 overlap=True (atScrollBottom=True)"
+    },
+    {
+      "name": "V02 [live]: exactly ONE visible 'Underground View' header after opening",
+      "status": "FAIL",
+      "detail": "headerCount=2 \u2014 MERGE-LOCK: Agent 2 owns the mutual-exclusivity fix (expected FAIL pre-merge)"
+    },
+    {
+      "name": "V02 [live]: underground closes with Escape (no visible headers left)",
+      "status": "PASS",
+      "detail": "headerCount=0 dock=None"
+    },
+    {
+      "name": "V03 [live]: toast shown after adding an item",
+      "status": "PASS",
+      "detail": "toastVisible=True"
+    },
+    {
+      "name": "V03 [live]: visible toast does not intersect any toolbar button",
+      "status": "FAIL",
+      "detail": "overlapping=['terrain-btn', 'excavate-btn', 'terrain-analysis-btn', 'innovation-btn'] toastRect=(491.515625,678,722) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
+    },
+    {
+      "name": "V04: help modal opens and is scrollable (scrollHeight > clientHeight)",
+      "status": "PASS",
+      "detail": "scrollH=2416 clientH=640 cv=visible"
+    },
+    {
+      "name": "V04: help modal reopens at scrollTop=0 (header visible, not stale scroll)",
+      "status": "PASS",
+      "detail": "scrollTop on reopen=0"
+    },
+    {
+      "name": "V05 [live]: .help-panel content-visibility is not 'auto'",
+      "status": "PASS",
+      "detail": "content-visibility='visible' (Sprint 23 lock: never re-hook it)"
+    },
+    {
+      "name": "V05 [live]: last help section fully visible when scrolled to bottom",
+      "status": "PASS",
+      "detail": "lastBottom=482.53125 panelBottom=720"
+    },
+    {
+      "name": "V06 [live]: shortcuts guide opens with sc rows",
+      "status": "PASS",
+      "detail": "open=True rows=21"
+    },
+    {
+      "name": "V06 [live]: no sc-row clips its .sc-keys badge (max-width:45% cap works)",
+      "status": "PASS",
+      "detail": "clipped rows: []"
+    },
+    {
+      "name": "V06 [live]: .sc-keys computed max-width = 45%",
+      "status": "PASS",
+      "detail": "max-width=45%"
+    },
+    {
+      "name": "Vision [v_main_basic]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "## 1) Overlapping / clipped elements  - **Clipped: \"SCULPT / BUILD / VIEW\" floating panel (bottom-left of canvas).** The"
+    },
+    {
+      "name": "Vision [v_sidebar_advanced]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**Not CLEAN** \u2014 a few polish issues, nothing blocking.  **1) Overlapping / clipping** - No major overlaps between panels"
+    },
+    {
+      "name": "Vision [v_toolbar_panel_basic]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**Not clean \u2014 issues found:**  **1. Overlapping / clipped:** - The **\"Terrain Sculpting\" modal overlaps the left-side to"
+    },
+    {
+      "name": "Vision [v_underground_advanced]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**Not CLEAN \u2014 several visible problems.**  **(1) Overlapping / clipped:** - **Two duplicated \"Underground View\" panels a"
+    },
+    {
+      "name": "Vision [v_help_modal_basic]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**Not CLEAN** \u2014 a few issues found:  **1. Overlapping / clipped (main defect)** - \ud83d\udd34 **Modal text is clipped mid-sentence"
+    },
+    {
+      "name": "No console errors during the entire run",
+      "status": "PASS",
+      "detail": ""
+    }
+  ]
+}

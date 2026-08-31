@@ -1,0 +1,20 @@
+**Not CLEAN** — a few polish issues, nothing blocking.
+
+**1) Overlapping / clipping**
+- No major overlaps between panels, toolbar, tip banner, or canvas elements — spacing holds up.
+- Minor: the last palette item ("Grill") is cut off mid-render at the bottom of the left panel. It implies a scrollable list, but there's no visible scrollbar/affordance, so it reads as slightly truncated.
+- Minor: "Take Tour" and the lowest right-edge zoom control sit flush against the status bar — very tight, borderline touching.
+- Minor: faint stray diagonal grid/wireframe lines are visible in the sky area (top-left above the horizon), which looks like leftover plane edges rather than intentional scenery.
+
+**2) 5-second comprehension**
+- Yes. The tip banner states the primary action explicitly ("Click an item in the left panel to add it to your yard"), palette items have icons plus plain-language descriptions, and "Take Tour" offers guided help. A new user would know what to do almost immediately.
+
+**3) Confusing / ambiguous / broken-looking**
+- **"Innovate"** (bottom quick bar) is a vague tool label, and it shares the same lightbulb icon as "Pro Tools" in the Sculpt panel — unclear if they're the same feature.
+- **Duplicate controls**: "Terrain" and "Analyze" appear in both the floating SCULPT panel and the bottom quick bar. Presumably shortcuts, but potentially confusing.
+- The **lone "Sun" button** on a second quick-bar row (left-aligned under the main row) looks like an accidental wrap rather than intentional layout.
+- In the **compass**, the red needle overlaps the "S" label, making it hard to read.
+- The tip banner's **✕ close button sits inline inside the wrapped text** ("...yard ✕") instead of at the banner's corner — looks like part of the sentence.
+- Cosmetic: "FPS: —" shows placeholder/no data in the status bar.
+
+All fixable with minor spacing/labeling tweaks; no functional blockers.
