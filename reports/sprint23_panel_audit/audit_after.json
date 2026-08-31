@@ -1,0 +1,157 @@
+{
+ "after_docktab_terrain": {
+  "visible": [
+   "dock-terrain",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_docktab_underground": {
+  "visible": [
+   "dock-underground",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_docktab_analyze": {
+  "visible": [
+   "dock-analyze",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_docktab_innovate": {
+  "visible": [
+   "dock-innovate",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_docktab_sun": {
+  "visible": [
+   "dock-sun",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_docktab_measure": {
+  "visible": [
+   "dock-measure",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_right_stack_all": {
+  "visible": [
+   "permit-panel",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_ug_plus_cost": {
+  "visible": [
+   "cost-panel",
+   "dock-underground",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_ug_plus_cs": {
+  "visible": [
+   "cross-section-panel",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_terrain_then_sun": {
+  "visible": [
+   "dock-sun",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ },
+ "after_innovate_alone": {
+  "visible": [
+   "dock-innovate",
+   "tool-dock",
+   "bottom-left-toolbar",
+   "topbar",
+   "status-bar"
+  ],
+  "overlaps": [],
+  "dupUgHeaders": 0,
+  "dupHeaderDisplay": "hidden/none",
+  "vw": 1280,
+  "vh": 800
+ }
+}
