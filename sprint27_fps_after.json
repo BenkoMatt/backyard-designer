@@ -1,0 +1,115 @@
+{
+  "port": 8344,
+  "started": "2026-08-31T18:53:29-0400",
+  "load01_start": 1.78,
+  "mode_switch_first": {
+    "click_ms": 172.4,
+    "longtasks": [
+      83
+    ],
+    "max_longtask_ms": 83,
+    "raf_gap_ms": 90.6,
+    "progs_before": 14,
+    "progs_after": 14,
+    "compiles": 0,
+    "links": 0
+  },
+  "mode_switch_reentry": {
+    "click_ms": 117.3,
+    "compiles": 0,
+    "links": 0,
+    "max_longtask_ms": 0,
+    "raf_gap_ms": 64.6
+  },
+  "held_dig_stroke": {
+    "avg_fps": 11.32,
+    "worst_1s": 1,
+    "frames": 59,
+    "max_longtask_ms": 0,
+    "longtask_count": 0,
+    "max_raf_gap_ms": 2823.3,
+    "stroke_wall_ms": 5188.185214996338,
+    "load01_end": 2.42
+  },
+  "crater": {
+    "minTerrain": -15,
+    "negativeCells": 5013,
+    "sePresent": true,
+    "seVerts": 39700,
+    "seMinY": -32
+  },
+  "crater_colors": {
+    "geo": 39700,
+    "grass": 0
+  },
+  "programs_final": 12,
+  "results": [
+    {
+      "name": "modeswitch:no_longtask_over_150ms",
+      "ok": true,
+      "detail": "max longtask 83 ms, click 172.4 ms, rAF gap 90.6 ms"
+    },
+    {
+      "name": "modeswitch:zero_new_programs",
+      "ok": true,
+      "detail": "programs 14 -> 14"
+    },
+    {
+      "name": "reentry:zero_shader_compile_link",
+      "ok": true,
+      "detail": "compiles=0 links=0 rAF gap 64.6 ms"
+    },
+    {
+      "name": "stroke:avg_fps_ge_45",
+      "ok": false,
+      "detail": "avg 11.32 fps over 59 rAF ticks, max longtask 0 ms, max rAF gap 2823.3 ms (render ceiling note: SwiftShader flat-lawn ceiling measured ~8 fps)"
+    },
+    {
+      "name": "stroke:worst_1s_ge_30",
+      "ok": false,
+      "detail": "worst 1 s window 1 fps"
+    },
+    {
+      "name": "stroke:fps_meets_box_render_ceiling",
+      "ok": true,
+      "detail": "stroke avg 11.32 fps >= measured box ceiling (flat lawn idle ~7-8 fps on SwiftShader; dig-path CPU now ~5% of samples)"
+    },
+    {
+      "name": "stroke:no_main_thread_blocks_over_150ms",
+      "ok": true,
+      "detail": "max longtask 0 ms (brief stall bar; baseline: up to 14,042 ms, Hunter A)"
+    },
+    {
+      "name": "crater:min_terrain_le_minus15",
+      "ok": true,
+      "detail": "min terrain -15 ft, 5013 cells < 0"
+    },
+    {
+      "name": "crater:solid_earth_present_with_walls",
+      "ok": true,
+      "detail": "solidEarth verts=39700 bottom=-32"
+    },
+    {
+      "name": "crater:strata_colors_geological_not_grass",
+      "ok": true,
+      "detail": "geo-colored 39700 vs grass 0"
+    },
+    {
+      "name": "crater:dig_clip_armed_in_dig_mode",
+      "ok": true,
+      "detail": "diag={'autoDigClipActive': True, 'terrainClipActive': False, 'crossSectionClipActive': False, 'excavatePanelVisible': False, 'undergroundViewActive': False, 'terrainBrushMode': 'dig', 'wireframeActive': False}"
+    },
+    {
+      "name": "programs:stable_across_dig_path",
+      "ok": true,
+      "detail": "14 -> 12"
+    },
+    {
+      "name": "console:no_page_errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": 11,
+  "total": 13
+}

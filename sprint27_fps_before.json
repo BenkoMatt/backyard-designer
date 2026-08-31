@@ -1,0 +1,103 @@
+{
+  "port": 8344,
+  "started": "2026-08-31T18:24:00-0400",
+  "load01_start": 1.27,
+  "mode_switch_first": {
+    "click_ms": 182.1,
+    "longtasks": [
+      87
+    ],
+    "max_longtask_ms": 87,
+    "raf_gap_ms": 101.1,
+    "progs_before": 14,
+    "progs_after": 14,
+    "compiles": 0,
+    "links": 0
+  },
+  "mode_switch_reentry": {
+    "click_ms": 169.9,
+    "compiles": 0,
+    "links": 0,
+    "max_longtask_ms": 51,
+    "raf_gap_ms": 59.0
+  },
+  "held_dig_stroke": {
+    "avg_fps": 9.52,
+    "worst_1s": 1,
+    "frames": 60,
+    "max_longtask_ms": 0,
+    "longtask_count": 0,
+    "load01_end": 1.72
+  },
+  "crater": {
+    "minTerrain": -15,
+    "negativeCells": 5013,
+    "sePresent": true,
+    "seVerts": 39700,
+    "seMinY": -32
+  },
+  "crater_colors": {
+    "geo": 39700,
+    "grass": 0
+  },
+  "programs_final": 14,
+  "results": [
+    {
+      "name": "modeswitch:no_longtask_over_150ms",
+      "ok": true,
+      "detail": "max longtask 87 ms, click 182.1 ms, rAF gap 101.1 ms"
+    },
+    {
+      "name": "modeswitch:zero_new_programs",
+      "ok": true,
+      "detail": "programs 14 -> 14"
+    },
+    {
+      "name": "reentry:zero_shader_compile_link",
+      "ok": true,
+      "detail": "compiles=0 links=0 rAF gap 59.0 ms"
+    },
+    {
+      "name": "stroke:avg_fps_ge_45",
+      "ok": false,
+      "detail": "avg 9.52 fps over 60 rAF ticks, max longtask 0 ms"
+    },
+    {
+      "name": "stroke:worst_1s_ge_30",
+      "ok": false,
+      "detail": "worst 1 s window 1 fps"
+    },
+    {
+      "name": "crater:min_terrain_le_minus15",
+      "ok": true,
+      "detail": "min terrain -15 ft, 5013 cells < 0"
+    },
+    {
+      "name": "crater:solid_earth_present_with_walls",
+      "ok": true,
+      "detail": "solidEarth verts=39700 bottom=-32"
+    },
+    {
+      "name": "crater:strata_colors_geological_not_grass",
+      "ok": true,
+      "detail": "geo-colored 39700 vs grass 0"
+    },
+    {
+      "name": "crater:dig_clip_armed_in_dig_mode",
+      "ok": true,
+      "detail": "diag={'autoDigClipActive': True, 'terrainClipActive': False, 'crossSectionClipActive': False, 'excavatePanelVisible': False, 'undergroundViewActive': False, 'terrainBrushMode': 'dig', 'wireframeActive': False}"
+    },
+    {
+      "name": "programs:stable_across_dig_path",
+      "ok": true,
+      "detail": "14 -> 14"
+    },
+    {
+      "name": "console:no_page_errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "passed": 9,
+  "total": 11
+}
