@@ -3,28 +3,28 @@
   "total": 55,
   "passed": 55,
   "failed": 0,
-  "index_html_bytes": 766138,
-  "index_html_lines": 16148,
+  "index_html_bytes": 740810,
+  "index_html_lines": 15761,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "766138 bytes"
+      "detail": "740810 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "766138 bytes"
+      "detail": "740810 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "16148 lines (info only)"
+      "detail": "15761 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
       "status": "PASS",
-      "detail": "968 opening vs 968 closing braces"
+      "detail": "969 opening vs 969 closing braces"
     },
     {
       "name": "Three.js v0.160.0 via importmap unchanged",
@@ -154,12 +154,12 @@
     {
       "name": "Dig button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "dig rect=(520, 576, 44, 21)"
+      "detail": "dig rect=(595, 474, 44, 21)"
     },
     {
       "name": "Fill button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "fill rect=(568, 576, 44, 21)"
+      "detail": "fill rect=(643, 474, 44, 21)"
     },
     {
       "name": "ALL 7 terrain mode buttons rects fully visible at 1280x800",
@@ -229,12 +229,12 @@
     {
       "name": "Underground dock opens and Cutaway control is visible",
       "status": "PASS",
-      "detail": "{'panelVisible': True, 'panelRect': {'x': 370, 'y': 576, 'w': 279.359375, 'h': 208}, 'cutFound': True, 'cutVisible': True, 'cutRect': {'x': 442.359375, 'y': 658, 'w': 129, 'h': 16}}"
+      "detail": "{'panelVisible': True, 'panelRect': {'x': 445, 'y': 506, 'w': 279.359375, 'h': 176}, 'cutFound': True, 'cutVisible': True, 'cutRect': {'x': 517.359375, 'y': 556, 'w': 129, 'h': 16}}"
     },
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=75105 vs flat=12111 (revealed delta=62994); clay=61 subsoil=268 topsoil=55562 bedrock=19214"
+      "detail": "geo pixels: pit=72747 vs flat=11786 (revealed delta=60961); clay=61 subsoil=268 topsoil=54618 bedrock=17800"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -269,12 +269,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=134203 vs flat baseline=138007 (ratio 0.97)"
+      "detail": "grass restored=133857 vs flat baseline=136257 (ratio 0.98)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 354"
+      "detail": "|geo_restored - geo_flat| = 105"
     },
     {
       "name": "No console errors during the entire run",
