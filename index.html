@@ -2583,12 +2583,7 @@ function _yardClipSig() { return (terrainClipPlane ? 1 : 0) + (crossSectionClipP
 function _rebuildYardClipPlanes() {
 if (!yardMesh || !yardMesh.material) return;
 const sig = _yardClipSig();
-// sprint 27: skip material churn when the plane SET is unchanged — mutating the
-// clippingPlanes array (or needsUpdate on every call) invalidated the cached
-// program and forced a full shader recompile on each dig-mode entry.
 // t_52168e24: the guard now also keys on plane identity+content, not presence
-// alone — handlers mutate persistent instances in place, so this matches; any
-// future fresh-instance assignment (new plane id/content) forces a rebuild.
 const sigWithPlanes = _lastYardClipMat === yardMesh.material ? sig + '|' + _yardClipPlaneStamp() : sig;
 if (yardMesh.material === _lastYardClipMat && sigWithPlanes === _lastYardClipSig &&
 yardMesh.material.clippingPlanes && yardMesh.material.clippingPlanes._bydClipSig === sigWithPlanes) return;
@@ -2626,8 +2621,6 @@ _lastSeClipSig = sigWithPlanes;
 }
 function updateGroundVisibility() {
 const wantDigClip = excavatePanelVisible || undergroundViewActive || terrainBrushMode === 'dig';
-// sprint 27: no synchronous _flushFrame render inside the click handler (mode-switch
-// stall), and the persistent plane instance prevents clip-variant program churn.
 if (wantDigClip) {
 if (!autoDigClipPlane) {
 if (!_autoDigPlaneInstance) _autoDigPlaneInstance = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
@@ -2991,8 +2984,6 @@ const dx = (hR - hL) / (2 * cellW);
 const dz = (hU - hD) / (2 * cellD);
 return Math.sqrt(dx * dx + dz * dz);
 }
-// sprint 27: central-difference normal refresh restricted to the dirty band
-// (replaces full-grid geometry.computeVertexNormals() during strokes).
 function _bandVertexNormals(segs, minIx, maxIx, minIz, maxIz, pad) {
 if (!yardMesh || !yardMesh.geometry) return;
 const geo = yardMesh.geometry;
@@ -3044,7 +3035,6 @@ const halfW = state.yard.width / 2;
 const halfD = state.yard.depth / 2;
 const cellW = state.yard.width / segs;
 const cellD = state.yard.depth / segs;
-// sprint 27: optional dirty-band restriction for stroke ticks.
 const iLo = band ? Math.max(0, band.minIx - 1) : 0;
 const iHi = band ? Math.min(segs, band.maxIx + 1) : segs;
 const jLo = band ? Math.max(0, band.minIz - 1) : 0;
@@ -3143,8 +3133,6 @@ _terrainSnowMesh = null;
 return;
 }
 const segs = state.terrainSegs;
-// sprint 27: during strokes, update the existing snow mesh in place over the
-// dirty band instead of cloning + rebuilding the full overlay each tick.
 const yardPos0 = yardMesh.geometry.attributes.position;
 if (band && _terrainSnowMesh && _terrainSnowMesh.geometry &&
 yardPos0 && yardPos0.count === (segs + 1) * (segs + 1) &&
@@ -4646,7 +4634,6 @@ updateRecentObjects();
 function updateRecentObjects() {
 const container = document.getElementById('recent-items');
 if (!container) return;
-// Sprint 23: keep the section hidden until it actually has chips
 const _sec = container.closest('.recent-section');
 if (_sec && state.recentObjects.length > 0 && typeof window._revealRecent === 'function') window._revealRecent();
 if (state.recentObjects.length === 0) {
@@ -5454,7 +5441,6 @@ document.getElementById('help-close-btn')?.addEventListener('click', () => {
 closeModal('help-modal');
 });
 // Sprint 23 fix (S23-V04b): visible ✕ affordance in the help modal header
-// (vision QA flagged "no visible close button" — same styling as shortcuts modal).
 document.getElementById('help-x-btn')?.addEventListener('click', () => {
 closeModal('help-modal');
 });
@@ -5491,8 +5477,6 @@ const hint = document.getElementById('context-hint');
 hint.textContent = msg;
 hint.classList.add('visible');
 // Sprint 23 fix (S23-V03e): the hint must never sit under a floating panel —
-// nudge it above any visible panel that shares its band (dock-underground,
-// excavate/terrain/sun/innovation/analysis panels, properties).
 (function () {
   const sel = ['.dock-panel.visible', '#dock-underground', '#excavate-panel', '#terrain-controls',
                '#terrain-analysis-panel', '#innovation-panel', '#sun-panel'];
@@ -5505,8 +5489,6 @@ hint.classList.add('visible');
     const r = el.getBoundingClientRect();
     if (r.height > 0) lowest = Math.max(lowest, r.bottom);
   }
-  // default band (bottom:196). If a panel's bottom edge dips into the hint
-  // band, lift the hint above the panel (window-space -> vp-relative bottom).
   const hintH = hint.getBoundingClientRect().height || 30;
   const vpTop = document.getElementById('topbar')
     ? document.getElementById('topbar').getBoundingClientRect().bottom : 52;
@@ -5900,8 +5882,6 @@ if (typeof window._dockClosePanel === 'function') window._dockClosePanel();
 if (terrainMode) {
 if (state.selectedId !== null) deselectObject();
 // Sprint 23 fix (S23-V03e): suppress the broadcast hint when the Terrain
-// Sculpting panel is already open & visible — it inlines the same guidance,
-// and the floating hint used to graze the panel's edge (vision QA finding).
 const _tcEl = document.getElementById('terrain-controls');
 const _dtEl = document.getElementById('dock-terrain');
 const _tcOpen = ((_tcEl && (_tcEl.getBoundingClientRect().height || 0) > 0)
@@ -5943,8 +5923,6 @@ if (window._sbUpdate) window._sbUpdate.updateToolName();
 const digDepthRow = document.getElementById('dig-depth-row');
 if (digDepthRow) {
 digDepthRow.style.display = (terrainBrushMode === 'dig' || terrainBrushMode === 'fill') ? 'flex' : 'none';
-// sprint 27 (Hunter B claim B4): neutral label when Fill is active; readout
-// already switches to 'Filling to:' — the row label now follows.
 const lbl = digDepthRow.querySelector('label');
 if (lbl) lbl.textContent = (terrainBrushMode === 'fill') ? 'Fill Depth' : 'Dig Depth';
 }
@@ -6300,10 +6278,6 @@ return { r: layer.color[0], g: layer.color[1], b: layer.color[2] };
 const last = NAMED_GEO_LAYERS[NAMED_GEO_LAYERS.length - 1];
 return { r: last.color[0], g: last.color[1], b: last.color[2] };
 }
-// sprint 27: singleton geometry/material for the solid-earth mesh. The previous
-// dispose-and-recreate per build call forced a shader program destroy+relink on
-// every stroke tick (44.6-52.9% of main-thread samples mid-stroke, Hunter A) —
-// reusing one geometry+material keeps the program cached for the app lifetime.
 function _teardownSolidEarth() {
 if (solidEarthMesh) { scene.remove(solidEarthMesh); solidEarthMesh = null; }
 if (_seGeo) { _seGeo.dispose(); _seGeo = null; }
@@ -6622,10 +6596,6 @@ const segs = state.terrainSegs;
 const geo = yardMesh.geometry;
 const pos = geo.attributes.position;
 const expectedCount = (segs + 1) * (segs + 1);
-// sprint 27: region = accumulated dirty cell band since the last full pass.
-// During strokes the debounced tick gets the band (positions/normals/colors/
-// snow/solid-earth touch only that band); pointer-up and mode exits pass no
-// region (full-grid pass + analysis overlay rebuilds).
 const minIx = region ? Math.max(0, region.minIx - 2) : 0;
 const maxIx = region ? Math.min(segs, region.maxIx + 2) : segs;
 const minIz = region ? Math.max(0, region.minIz - 2) : 0;
@@ -6684,7 +6654,6 @@ if (_terrainFullDebounceTimer) clearTimeout(_terrainFullDebounceTimer);
 _terrainFullDebounceTimer = setTimeout(() => {
 _terrainFullDebounceTimer = null;
 _terrainFullPending = false;
-// sprint 27: carry the accumulated dirty region into the tick; reset after.
 const region = (_terrainDirtyMinIx >= 0) ? {minIx: _terrainDirtyMinIx, maxIx: _terrainDirtyMaxIx, minIz: _terrainDirtyMinIz, maxIz: _terrainDirtyMaxIz} : null;
 _resetDirtyRegion();
 applyTerrainFull(region);
@@ -6701,7 +6670,6 @@ if (_terrainFullPending) {
 _terrainFullPending = false;
 const region = (_terrainDirtyMinIx >= 0) ? {minIx: _terrainDirtyMinIx, maxIx: _terrainDirtyMaxIx, minIz: _terrainDirtyMinIz, maxIz: _terrainDirtyMaxIz} : null;
 _resetDirtyRegion();
-// pointer-up: full-grid pass incl. analysis overlays (brief 2b/2c)
 applyTerrainFull(null);
 requestRender();
 }
@@ -6745,9 +6713,6 @@ state.terrain[vi] = clampTerrainHeight((state.terrain[vi] || 0) + digDepth * fal
 }
 _expandDirtyRegion(minIx, maxIx, minIz, maxIz);
 applyTerrainPositions();
-// sprint 27: do NOT reset the dirty region here — the debounced tick consumes it
-// (reset happens after the flush). Also fixes Hunter B claim B5: dig/fill strokes
-// now set terrainDeformed like every other brush mode.
 state.terrainDeformed = true;
 _debouncedApplyTerrainFull();
 updateDigDepthReadout(worldX, worldZ);
@@ -6861,8 +6826,6 @@ Math.max(0, center.iz - _dirtyR), Math.min(segs, center.iz + _dirtyR)
 );
 if (isTerrainPainting) {
 applyTerrainPositions();
-// sprint 27: keep the region for the debounced tick (same as dig/fill branch);
-// it is cleared after the tick/flush consumes it.
 _debouncedApplyTerrainFull();
 } else {
 applyTerrainFull();
@@ -7163,8 +7126,6 @@ updateDigDepthReadout(worldX, worldZ);
 } else {
 updateHeightReadout(worldX, worldZ);
 }
-// sprint 27 (Hunter B claim B3): status-bar Height readout was dead — it indexed
-// the flat Float32Array as 2D. Drive it from the same data as the dock readout.
 if (window._sbUpdate && window._sbUpdate.updateHeight) window._sbUpdate.updateHeightAt(worldX, worldZ);
 }
 function onTerrainPointerDown(e) {
@@ -8280,7 +8241,6 @@ recentDiv.className = 'recent-section';
 recentDiv.style.display = 'none';  // Sprint 23: hidden until first use (empty header read as broken)
 recentDiv.innerHTML = '<div class="recent-title">Recently Used</div><div id="recent-items"></div>';
 sidebar.parentNode.insertBefore(recentDiv, sidebar);
-// sprint 23 hygiene: reveal 'Recently Used' only when a chip is added
 const _revealRecent = () => { recentDiv.style.display = ''; };
 if (typeof window !== 'undefined') window._revealRecent = _revealRecent;
 }
@@ -9491,7 +9451,6 @@ _setUndergroundReveal(true);
 updateBuriedObjects();
 if (typeof showHint === 'function') showHint('Underground view active — Cutaway/Opacity below reveal the layers');
 // Sprint 23 fix (S23-V05): status bar must reflect the active underground tool
-// (vision QA flagged status "Tool: Select" while Excavate was armed).
 const sbToolUg = document.getElementById('sb-tool');
 if (sbToolUg) sbToolUg.textContent = 'Underground / Excavate';
 } else {
@@ -9528,7 +9487,6 @@ const minH = getMinTerrainHeight();
 const cutY = maxH + 0.5 - (val / 100) * (maxH - minH + 5.5);
 // t_52168e24: mutate the persistent plane in place — a fresh THREE.Plane here
 // used to slip past the sprint-27 signature guard (presence bitmap unchanged),
-// freezing the previous constant on every slider move after the first.
 if (!_terrainClipPlaneInstance) _terrainClipPlaneInstance = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
 else { _terrainClipPlaneInstance.normal.set(0, -1, 0); _terrainClipPlaneInstance.constant = cutY; }
 terrainClipPlane = _terrainClipPlaneInstance;
@@ -9674,7 +9632,6 @@ return;
 const halfDim = crossSectionAxis === 'x' ? state.yard.width / 2 : state.yard.depth / 2;
 crossSectionPosition = (parseInt(csClipPosInput.value) / 100) * halfDim;
 // t_52168e24: mutate the persistent plane in place (see cutaway handler) —
-// fresh instances froze the previous constant behind the sig guard.
 if (!_csClipPlaneInstance) _csClipPlaneInstance = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectionPosition);
 else { _csClipPlaneInstance.normal.set(crossSectionAxis === 'x' ? -1 : 0, 0, crossSectionAxis === 'x' ? 0 : -1); _csClipPlaneInstance.constant = crossSectionPosition; }
 crossSectionClipPlane = _csClipPlaneInstance;
@@ -12033,10 +11990,6 @@ if (typeof updateGroundVisibility === 'function') updateGroundVisibility();
 }
 dockPanelContainer.classList.remove('visible');
 activeDockTab = null;
-// Sprint 23: dock panels are mutually exclusive with their legacy launcher panels.
-// If a legacy shell (#excavate-panel) was left marked visible while its dock was
-// already open (the old double-panel path), reopening the dock from a fresh state
-// must clear the stale flag instead of restoring a hidden/empty ghost panel.
 if (typeof excavatePanelVisible !== 'undefined' && document.getElementById('excavate-panel').classList.contains('visible')) {
 excavatePanelVisible = false;
 document.getElementById('excavate-panel').classList.remove('visible');
@@ -15708,10 +15661,6 @@ showToast = function(msg, type) {
   if (typeof announceForScreenReader === 'function') announceForScreenReader(msg);
 };
 // Sprint 23 fix (S23-V03b): one deterministic stack resolver for ALL top-center
-// overlays. Priority order top-down: recovery banner, toast, grid-level badge,
-// atmosphere badge. Each visible overlay is placed below the previous one
-// (window-space; badges are viewport-relative so subtract the topbar height).
-// Wired to class mutations so any show/hide re-resolves the stack.
 function _syncTopStack() {
   const t = document.getElementById('toast');
   const b = document.getElementById('grid-level-badge');
@@ -15737,7 +15686,6 @@ function _syncTopStack() {
     else { el.style.top = Math.max(8, y - vpTop) + 'px'; y += h + 4; }
   }
   // Sprint 23 fix (S23-V03d): the selected-object info chip shares the top band;
-  // when a toast is visible drop the chip below it (vp-relative top:16 -> 64+).
   if (dr && dr.classList.contains('visible')) {
     dr.style.top = (t.classList.contains('visible')
       ? Math.max(64, y) - vpTop : 16) + 'px';
@@ -15977,8 +15925,6 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   
   function updateHeight() {
     if (sbHeight && typeof state !== 'undefined' && state.terrain && state.terrainDeformed) {
-      // sprint 27 (Hunter B claim B3): the old code indexed the FLAT Float32Array
-      // as 2D (terrain[cx][cz] — always undefined), so this readout never updated.
       const idx = Math.floor((state.terrainSegs + 1) * (state.terrainSegs / 2 + 0.5));
       const h = state.terrain[idx] || 0;
       const s = (Math.round(h * 10) / 10) + ' ft';
