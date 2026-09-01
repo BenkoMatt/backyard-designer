@@ -15631,7 +15631,9 @@ function _syncTopStack() {
     const el = it[0];
     const h = el.getBoundingClientRect().height || 24;
     if (it[2]) { el.style.top = it[2] + 'px'; y = Math.max(y, it[2] + h); }
-    else if (it[1] === 'fixed') { el.style.top = y + 'px'; y += h + 4; }
+    // Sprint 29 fix (S29-T07): the visible toast carries its own translateY(-8px)
+    // transform, which shifted it 8px up INTO the banner above it when stacked.
+    else if (it[1] === 'fixed') { const adj = el.id === 'toast' ? 8 : 0; el.style.top = (y + adj) + 'px'; y += h + 4 + adj; }
     else { el.style.top = Math.max(8, y - vpTop) + 'px'; y += h + 4; }
   }
   // Sprint 23 fix (S23-V03d): the selected-object info chip shares the top band;
