@@ -5494,7 +5494,7 @@ hint.classList.add('visible');
 // nudge it above any visible panel that shares its band (dock-underground,
 // excavate/terrain/sun/innovation/analysis panels, properties).
 (function () {
-  const sel = ['#dock-underground', '#excavate-panel', '#terrain-controls',
+  const sel = ['.dock-panel.visible', '#dock-underground', '#excavate-panel', '#terrain-controls',
                '#terrain-analysis-panel', '#innovation-panel', '#sun-panel'];
   let lowest = 0;
   for (const s of sel) {
@@ -5511,10 +5511,20 @@ hint.classList.add('visible');
   const vpTop = document.getElementById('topbar')
     ? document.getElementById('topbar').getBoundingClientRect().bottom : 52;
   if (lowest > 0) {
+    // Sprint 29 fix (S29-W02b): a visible dock panel (dock-terrain etc.) also
+    // owns this band — lift the hint clear above it, same rule as the other
+    // floating panels; if there is no room above (panel reaches the toolbar),
+    // hide the hint instead of painting it over the panel's controls.
     const curB = parseFloat(getComputedStyle(hint).bottom) || 196;
     const curBottomWin = window.innerHeight - vpTop - curB + hintH;
     if (curBottomWin > window.innerHeight - lowest - 4) {
-      hint.style.bottom = Math.round(lowest - vpTop + 8) + 'px';
+      const liftB = Math.round(lowest - vpTop + 8);
+      const tbTop = document.getElementById('bottom-left-toolbar')
+        ? document.getElementById('bottom-left-toolbar').getBoundingClientRect().top : Infinity;
+      const hintT = window.innerHeight - liftB - hintH;
+      if (tbTop - vpTop - 8 > hintT) { hint.style.bottom = liftB + 'px'; return; }
+      hint.classList.remove('visible');
+      hint.style.bottom = '';
       return;
     }
   }

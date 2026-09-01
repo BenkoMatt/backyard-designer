@@ -1,25 +1,25 @@
 {
   "sprint": 23,
-  "expect_open_fixes": false,
-  "total": 29,
+  "expect_open_fixes": true,
+  "total": 24,
   "passed": 24,
-  "failed": 5,
-  "index_html_bytes": 762303,
+  "failed": 0,
+  "index_html_bytes": 766548,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "762303 bytes, headroom 5697"
+      "detail": "766548 bytes, headroom 1452"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "970 open / 970 close"
+      "detail": "971 open / 971 close"
     },
     {
       "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
       "status": "PASS",
-      "detail": "padding-bottom: 28.0px (merge-lock: Agent 1 owns this fix; PASS=padding present, FAIL=pre-merge baseline)"
+      "detail": "padding-bottom: 28.0px"
     },
     {
       "name": "V02-static: #dock-underground shell has exactly one 'Underground View' title",
@@ -120,31 +120,6 @@
       "name": "V06 [live]: .sc-keys computed max-width = 45%",
       "status": "PASS",
       "detail": "max-width=45%"
-    },
-    {
-      "name": "Vision [v_main_basic]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**Not CLEAN** \u2014 a few issues, mostly minor:  **(1) Overlaps / clipping** - The compass needle (top-right) pokes out past"
-    },
-    {
-      "name": "Vision [v_sidebar_advanced]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**1) Overlapping / clipped elements** - No hard overlaps or clipping found. Everything stays inside the 1280\u00d7800 frame, "
-    },
-    {
-      "name": "Vision [v_toolbar_panel_basic]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**Review of 1280\u00d7800 screenshot \u2014 issues found (not CLEAN):**  **1) Overlapping / clipped** - **Compass overlaps \"Take T"
-    },
-    {
-      "name": "Vision [v_underground_advanced]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**Not perfect \u2014 a few issues, though nothing is badly broken:**  **1) Overlapping / clipped** - **Minor:** \"Patio\" item "
-    },
-    {
-      "name": "Vision [v_help_modal_basic]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**Mostly clean \u2014 minor notes only:**  1. **Overlaps/clipping:** All occlusion is from the help modal covering the canvas"
     },
     {
       "name": "No console errors during the entire run",
