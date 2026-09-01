@@ -4,18 +4,18 @@
   "total": 33,
   "passed": 33,
   "failed": 0,
-  "index_html_bytes": 765289,
+  "index_html_bytes": 766950,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "765289 bytes, headroom 2711",
+      "detail": "766950 bytes, headroom 1050",
       "merge_locked": false
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "973 open / 973 close",
+      "detail": "974 open / 974 close",
       "merge_locked": false
     },
     {
@@ -69,19 +69,19 @@
     {
       "name": "W01: toast rect intersects NO toolbar button (both rows)",
       "status": "PASS",
-      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.08694458007812, 'right': 788.484375, 'bottom': 108.08694458007812} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.0867919921875, 'right': 788.484375, 'bottom': 108.0867919921875} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W01: toast band does not overlap toolbar container rect",
       "status": "PASS",
-      "detail": "toastRect={'left': 491.515625, 'top': 64.08694458007812, 'right': 788.484375, 'bottom': 108.08694458007812} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "toastRect={'left': 491.515625, 'top': 64.0867919921875, 'right': 788.484375, 'bottom': 108.0867919921875} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W02: with a panel open, toast intersects NO toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.22541046142578, 'right': 788.484375, 'bottom': 108.22541046142578}",
+      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.34718322753906, 'right': 788.484375, 'bottom': 108.34718322753906}",
       "merge_locked": false
     },
     {

@@ -1,25 +1,25 @@
 {
   "sprint": 23,
-  "expect_open_fixes": false,
+  "expect_open_fixes": true,
   "total": 24,
   "passed": 24,
   "failed": 0,
-  "index_html_bytes": 752860,
+  "index_html_bytes": 766950,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "752860 bytes, headroom 15140"
+      "detail": "766950 bytes, headroom 1050"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "970 open / 970 close"
+      "detail": "974 open / 974 close"
     },
     {
       "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
       "status": "PASS",
-      "detail": "padding-bottom: 28.0px (merge-lock: Agent 1 owns this fix; PASS=padding present, FAIL=pre-merge baseline)"
+      "detail": "padding-bottom: 28.0px"
     },
     {
       "name": "V02-static: #dock-underground shell has exactly one 'Underground View' title",
@@ -84,7 +84,7 @@
     {
       "name": "V03 [live]: visible toast does not intersect any toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect=(491.515625,56,100) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
+      "detail": "overlapping=[] toastRect=(491.515625,64,108) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
     },
     {
       "name": "V04: help modal opens and is scrollable (scrollHeight > clientHeight)",
