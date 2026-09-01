@@ -1,16 +1,19 @@
-**1) Overlapping / clipping**
-- No true overlaps: the Take Tour button, compass, zoom stack, floating toolbars, and scale bar all clear each other and the viewport edges.
-- Minor: in the left sidebar, the last list row ("Patio") is cut off mid-row at the bottom of the panel with no scrollbar or fade cue — it reads as slightly clipped rather than "more content below."
+**Not CLEAN** — a few issues, mostly minor:
 
-**2) 5-second comprehension**
-- Yes for the basics: the "Getting Started" callout explicitly says "Click any item below… drag to position it," and a prominent "Take Tour" backs it up. A new user would know to pick from the sidebar.
-- Less clear once in the scene: the bottom toolbar (Tape Measure / Terrain / Excavate / Analyze / Innovate) has no labels explaining modes vs. one-shot actions, and "Terrain" also appears in the floating bottom-left panel — two "Terrain" buttons is ambiguous (are they the same tool? different?).
+**(1) Overlaps / clipping**
+- The compass needle (top-right) pokes out past the white compass circle — small rendering glitch.
+- Last sidebar item ("Patio") is sliced in half at the bottom of the sidebar. Fine if the list scrolls, but there's no visual hint it continues.
+- Otherwise no overlaps — toolbar, floating panel, bottom tool row, and zoom cluster are all clear of each other.
 
-**3) Confusing / broken-looking**
-- "Terrain" appears twice (floating panel + bottom toolbar) and sun-related controls also appear twice ("Sun & Shadow" panel vs. "Sun" pill) — redundant, could confuse.
-- Status bar shows "FPS: —", which looks like a broken/uninitialized readout.
-- "Innovate" is an unusual tool name (Irrigate? Innovate?) — ambiguous label.
-- Compass needle points SE while "N" is up; if the needle is meant to indicate north, it looks wrong (if it's the view direction, it's just unlabeled).
-- The gridded blue → ungridded blue transition around the lot reads as unfinished rather than intentional water/sky.
+**(2) 5-second comprehension**
+- Good: the "Getting Started" tip in the sidebar plus the prominent green "Take Tour" button tell a new user what to do.
+- Caveat: the empty scene reads oddly — a green slope flanked by blue wireframe, with stray triangulated wireframe lines visible in the sky (top-left). It can look like a rendering bug rather than a deliberately empty lot.
 
-Verdict: **close to clean, but not perfect** — the clipped "Patio" row and the duplicated "Terrain" control are the two things I'd fix before ship.
+**(3) Confusing / ambiguous / broken-looking**
+- **Duplicated controls:** a floating panel offers "Terrain / Sun & Shadow" while the bottom toolbar also has "Terrain" and a separate "Sun" button. Two Terrain buttons and two sun controls visible at once is confusing.
+- **"Innovate"** (lightbulb icon) is an unclear tool label for a build/design app — possibly meant to be "Irrigate"?
+- **FPS: —** in the status bar looks unfinished/broken on first load.
+- The "10 ft" scale legend sitting next to the "Sun" toggle is an odd pairing — unrelated controls grouped together.
+- Faint gray wireframe triangles in the sky (upper-left of canvas) look like stray mesh geometry.
+
+**Suggested fixes:** remove or consolidate the floating Terrain/Sun panel with the bottom toolbar; rename or clarify "Innovate"; render a starter state or hint overlay on the empty canvas; clamp the compass needle inside its dial; show "FPS: 60" or hide the field until measured.

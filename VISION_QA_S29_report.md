@@ -65,7 +65,32 @@ final 761,589 / 768,000).
 
 ### 4.6 Status
 
-All 8 fixes committed incrementally on `s29-audit-transients` (Caddy identity), size_budget 4/4 after every
-commit (final headroom +6,411 bytes). Findings appended as JSON lines to `/root/byd29-staging/S29_HANDOFF.md`
-for FIXER-CONVERGENCE (Agent 5). Full gate battery (s11/s15/s17/s21/s22/qa_s21/sprint23/size_budget) run on
-the final tree — see the final battery results table appended below after the run.
+All 10 fixes committed incrementally on `s29-audit-transients` (Caddy identity), size_budget 4/4 after every
+commit (final headroom +5,697 bytes). Findings appended as JSON lines to `/root/byd29-staging/S29_HANDOFF.md`
+for FIXER-CONVERGENCE (Agent 5).
+
+### 4.7 Late additions (final-verify round)
+
+| ID | Bug | Fix | Commit |
+|---|---|---|---|
+| S29-T08 | Ctrl+A "Select All" collapsed multi-select to a single object (selectObject(ids[0]) reset selectedIds) — batch bar said "1 selected" while the toast promised "Selected 3 object(s)" | re-populate selectedIds after the anchor select | 31d174f |
+| S29-T09 | Recovery banner lingered next to a "✓ Design saved!" toast after an explicit save — contradictory state | saveDesign/saveDesignAs clear the stale snapshot + dismiss the banner | 31d174f |
+
+### 4.8 Full gate battery on the final tree (server :8191, my port)
+
+| Gate | Result | Expected |
+|---|---|---|
+| sprint11 | **143 / 143 PASS** | 143 |
+| sprint15 | **52 / 52 PASS** | 52 |
+| sprint17 | **81 / 81 PASS** | 81 |
+| sprint21 | **55 / 55 PASS** | 55 |
+| sprint22 | **43 / 43 PASS** | 43 |
+| qa_s21 (BASE_URL) | **16 / 16 PASS** | 16 |
+| **sprint23** | **24 / 24 DOM gates PASS — V03 toast lock GREEN** | 24/24 required |
+| sprint23 vision spot-checks | 0/5 (pre-existing: identical 5 failures at baseline 644f31c — compass needle / sidebar fold, other agents' surfaces) | informational |
+| size_budget | **4 / 4 PASS** (762,303 / 768,000) | 4/4 |
+| sprint16 (informational) | 29 / 32 | 29/32 pre-existing |
+
+Sprint 23 V03 lock detail: static check PASS (showToast never forces #toast into the toolbar band) and live
+check PASS (visible toast rect intersects zero toolbar buttons) — verified at every toast state during all
+four sweeps (save toast, item toast, copy-link toast, stacked-with-banner toast).
