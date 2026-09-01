@@ -1,25 +1,25 @@
 {
   "sprint": 23,
-  "expect_open_fixes": true,
-  "total": 24,
-  "passed": 23,
-  "failed": 1,
-  "index_html_bytes": 740810,
+  "expect_open_fixes": false,
+  "total": 29,
+  "passed": 24,
+  "failed": 5,
+  "index_html_bytes": 746801,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "740810 bytes, headroom 27190"
+      "detail": "746801 bytes, headroom 21199"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "969 open / 969 close"
+      "detail": "970 open / 970 close"
     },
     {
       "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
       "status": "PASS",
-      "detail": "padding-bottom: 28.0px"
+      "detail": "padding-bottom: 28.0px (merge-lock: Agent 1 owns this fix; PASS=padding present, FAIL=pre-merge baseline)"
     },
     {
       "name": "V02-static: #dock-underground shell has exactly one 'Underground View' title",
@@ -83,13 +83,13 @@
     },
     {
       "name": "V03 [live]: visible toast does not intersect any toolbar button",
-      "status": "FAIL",
-      "detail": "overlapping=['terrain-btn', 'excavate-btn', 'terrain-analysis-btn', 'innovation-btn'] toastRect=(491.515625,678,722) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
+      "status": "PASS",
+      "detail": "overlapping=[] toastRect=(491.515625,56,100) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
     },
     {
       "name": "V04: help modal opens and is scrollable (scrollHeight > clientHeight)",
       "status": "PASS",
-      "detail": "scrollH=2416 clientH=640 cv=visible"
+      "detail": "scrollH=2431 clientH=640 cv=visible"
     },
     {
       "name": "V04: help modal reopens at scrollTop=0 (header visible, not stale scroll)",
@@ -104,7 +104,7 @@
     {
       "name": "V05 [live]: last help section fully visible when scrolled to bottom",
       "status": "PASS",
-      "detail": "lastBottom=482.53125 panelBottom=720"
+      "detail": "lastBottom=474.53125 panelBottom=720"
     },
     {
       "name": "V06 [live]: shortcuts guide opens with sc rows",
@@ -120,6 +120,31 @@
       "name": "V06 [live]: .sc-keys computed max-width = 45%",
       "status": "PASS",
       "detail": "max-width=45%"
+    },
+    {
+      "name": "Vision [v_main_basic]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**1) Overlapping / clipping** - No true overlaps: the Take Tour button, compass, zoom stack, floating toolbars, and scal"
+    },
+    {
+      "name": "Vision [v_sidebar_advanced]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "Not CLEAN \u2014 there's one visible collision at bottom center plus several redundant/ambiguous controls; the rest of the la"
+    },
+    {
+      "name": "Vision [v_toolbar_panel_basic]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "## Review  ### (1) Overlapping / clipped elements - **Minor collision:** The compass rose (top-right) appears to nearly "
+    },
+    {
+      "name": "Vision [v_underground_advanced]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**1) Overlapping / clipped** - No significant overlaps. The floating panels, toast banner, bottom tool row, and scale ba"
+    },
+    {
+      "name": "Vision [v_help_modal_basic]: CLEAN or actionable verdict",
+      "status": "FAIL",
+      "detail": "**Review of the screenshot:**  1. **Overlaps/clipping:** Nothing unintentional. The help modal correctly overlays the ca"
     },
     {
       "name": "No console errors during the entire run",

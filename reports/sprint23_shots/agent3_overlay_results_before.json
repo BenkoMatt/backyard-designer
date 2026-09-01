@@ -1,0 +1,129 @@
+{
+ "mode": "before",
+ "base_url": "http://localhost:8095/index.html",
+ "results": [
+  {
+   "overlay": "toast",
+   "trigger": "REALCLICK:lib-item",
+   "rect": {
+    "left": 491.5,
+    "top": 678,
+    "right": 788.5,
+    "bottom": 722,
+    "visible": 1
+   },
+   "conflicts": [
+    "toolbar-btn:terrain-btn",
+    "toolbar-btn:excavate-btn",
+    "toolbar-btn:terrain-analysis-btn",
+    "toolbar-btn:innovation-btn"
+   ],
+   "co_present": [
+    "context-hint",
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-before-toast.png"
+  },
+  {
+   "overlay": "context-hint",
+   "trigger": "co-present",
+   "rect": null,
+   "conflicts": [],
+   "co_present": [
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-before-context-hint.png"
+  },
+  {
+   "overlay": "grid-level-badge",
+   "trigger": "REALCLICK:slider",
+   "rect": {
+    "left": 706.7,
+    "top": 68,
+    "right": 853.3,
+    "bottom": 94,
+    "visible": 1
+   },
+   "conflicts": [
+    "overlay:atmosphere-badge"
+   ],
+   "co_present": [
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-before-grid-level-badge.png"
+  },
+  {
+   "overlay": "depth-gauge-overlay",
+   "trigger": "REALCLICK:#vc-underground",
+   "rect": {
+    "left": 1161.1,
+    "top": 68,
+    "right": 1264,
+    "bottom": 116,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "grid-level-badge",
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-before-depth-gauge-overlay.png"
+  },
+  {
+   "overlay": "atmosphere-badge",
+   "trigger": "co-present",
+   "rect": {
+    "left": 747.8,
+    "top": 60,
+    "right": 812.2,
+    "bottom": 80,
+    "visible": 1
+   },
+   "conflicts": [
+    "overlay:grid-level-badge"
+   ],
+   "co_present": [
+    "grid-level-badge",
+    "depth-gauge-overlay"
+   ],
+   "shot": "reports/sprint23_shots/agent3-before-atmosphere-badge.png"
+  },
+  {
+   "overlay": "recovery-banner",
+   "trigger": "REALCLICK:recovery",
+   "rect": {
+    "left": 397.3,
+    "top": 16,
+    "right": 882.7,
+    "bottom": 70,
+    "visible": 1
+   },
+   "conflicts": [
+    "topbar"
+   ],
+   "co_present": [
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-before-recovery-banner.png"
+  },
+  {
+   "overlay": "toast+badge-stacked",
+   "rect": {
+    "left": 491.5,
+    "top": 678,
+    "right": 788.5,
+    "bottom": 722,
+    "visible": 1
+   },
+   "conflicts": [],
+   "badge_rect": {
+    "left": 546.7,
+    "top": 68,
+    "right": 693.3,
+    "bottom": 94,
+    "visible": 1
+   },
+   "shot": "reports/sprint23_shots/agent3-before-toast-badge-stack.png"
+  }
+ ]
+}

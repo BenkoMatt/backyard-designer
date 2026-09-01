@@ -1,15 +1,23 @@
-**Not clean — issues found:**
+## Review
 
-**1. Overlapping / clipped:**
-- The **"Terrain Sculpting" modal overlaps the left-side tool dock** (SCULPT/BUILD/VIEW column): the "Terrain" button's right edge is covered, and the "Sun &…" item at the bottom is clipped mid-word.
-- The **"☀ Sun" button overlaps the dark hint tooltip**, cutting off the start of the text — it reads only "…on the ground to sculpt terrain" ("Drag" is hidden).
-- The modal's right edge sits on/under the **"Tape Measure"** button in the bottom toolbar — zero clearance, looks colliding.
-- After the label **"Terrain Controls"** there's a stray empty tooltip/caret stub (thin vertical box) — broken-looking artifact.
+### (1) Overlapping / clipped elements
+- **Minor collision:** The compass rose (top-right) appears to nearly touch / just kiss the right edge of the green "Take Tour" button (~2–4px). Not clearly broken, but visually cramped.
+- **No other clipping found.** The floating "Terrain Sculpting" panel, bottom toolbar row, left catalog, and status bar all clear each other (panel bottom ends just above and to the right of the "Terrain" tab, with no overlap).
+- The item list ends at "Grill" flush against the status bar — if more categories exist, there's no visible scroll affordance.
 
-**2. 5-second comprehension: borderline.**
-The "Getting Started" note ("click an item to add it") is helpful, but a large terrain-sculpting modal is open dead-center on first load, blocking the yard, and it sits on top of duplicate sculpt tools — the user gets two competing first actions (add items vs. sculpt terrain) and an obscured workspace.
+### (2) Would a new user know what to do in 5 seconds?
+**Mostly yes, with caveats:**
+- ✅ "Take Tour" affordance, the inline hint ("Pick a mode, then click + drag on the ground to sculpt"), and the clearly labeled object catalog (trees, patios, chairs) communicate the core idea quickly.
+- ⚠️ The large centered **Terrain Sculpting modal blocks the middle of the viewport on first load** — a new user's first impression is a settings dialog, not the yard they came to design.
+- ⚠️ There's no instruction for *placing* catalog items (drag? click? click-then-click?). Users can guess, but it's not stated.
 
-**3. Confusing / broken-looking:**
-- The clipped tooltip text (see #1) reads as a sentence fragment.
-- The duplicated "Terrain" / "Sun" controls (bottom toolbar + left dock + modal) create a disorganized, jumbled layout, worsened by the modal overlap.
-- Status bar shows "FPS: —" (no reading) — minor, but looks unfinished on first load.
+### (3) Confusing / ambiguous / broken-looking
+- **"Innovate" button** — vague label; a new user has no idea what it does.
+- **"FPS: —"** in the status bar looks like broken/failed telemetry rather than "measuring."
+- **Redundant collapse controls**: the panel has both "−" in the title bar *and* a separate collapse icon next to "Terrain Controls" — two different minimize affordances.
+- **Inconsistent button styling:** "GRID LEVEL & DEPTH ∨ / CARVING ∨ / PRESETS & TOOLS ∨" pills look like a different component family than the mode buttons above them.
+- **Duplicate readouts:** "Height at cursor: 0.0 ft" in the panel and "Height: 0 ft" in the status bar say the same thing with different precision.
+- **"Strength 0.05"** — raw decimal is unintuitive next to the human-friendly "8 ft" brush size.
+- "Daytime" pill floating in the sky has no visible toggle partner (where's night?).
+
+**Verdict: Not CLEAN** — mostly polish-level issues, the biggest being the startup modal blocking the view and the vague "Innovate" label.

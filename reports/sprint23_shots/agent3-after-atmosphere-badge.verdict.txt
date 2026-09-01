@@ -1,0 +1,14 @@
+Not CLEAN — two real defects:
+
+**1. Broken icon in the transient toast (top-center)**
+The notification reads **"u2B06 Grid at Y=4 ft"** — a Unicode escape failed to decode. It should render as an arrow glyph (⬆, U+2B06) but instead shows the literal code text `u2B06` in the purple toast. This directly violates your criteria (2) and (3): the badge itself is legible and not overlapped (the "Daytime" chip below it has only ~5px clearance but does not collide), yet it displays raw escape-sequence text, which looks clearly broken.
+
+**2. Clipped element at the far-right edge of the header**
+At ~x=1276, y=22 there is a partial glyph/marker cut off by the viewport edge, just right of "? Help" — something (an icon or another menu item) is being clipped at the 1280px boundary. This violates criterion (1).
+
+**Minor / borderline items (not blockers but worth noting):**
+- **Daytime chip vs. toast spacing**: only ~5px separation — tight, but no actual overlap or occlusion.
+- **"FPS: 1"** in the status bar suggests severely degraded rendering performance; not a layout bug, but a red flag an evaluator would notice.
+- **Duplicate "Terrain" control** appears both in the SCULPT panel and as a bottom toolbar button — potentially confusing redundancy, not broken.
+
+Everything else checks out: sidebar list (though "Patios & Paths" is cut at the bottom edge, that's normal scrollable content), Camera Depth widget and compass don't collide, bottom-left tool panel, scale bar, and the right-side vertical tool stack are all fully visible and non-overlapping.

@@ -1,0 +1,20 @@
+## Review
+
+**(1) Overlapping / Clipped**
+
+- **Left sidebar bottom edge:** the "Patios & Paths → Patio" item is cut in half by the panel/status-bar boundary. If the list is meant to scroll, there's no visible scroll affordance, so it reads as clipped content. Minor.
+- **Modal occlusion:** the help dialog covers the bottom toolbar ("Analyze", "Innovate", scale bar, "Sun"), the left floating tool labels ("Sun & Shadow" row), and the "Daytime" chip. This is expected while the modal is open and resolves on close — not a layout bug.
+- The modal itself fits fully within the 1280×800 viewport — no internal clipping of text or controls.
+
+**(2) New-user comprehension within 5 seconds**
+
+Yes — this is well handled. The modal opens automatically with a clear "Getting Started" checklist, the sidebar has a dismissible "Getting Started" callout ("Click any item below to add it…"), and a prominent "Take Tour" button is visible. A new user has three redundant cues pointing to the same action.
+
+**(3) Confusing / Ambiguous / Broken**
+
+- **No dimmed backdrop for the modal:** the app behind it stays at full brightness, so it can read as a floating tooltip rather than a blocking state. Minor, but a subtle dim would make the modal state more obvious. (Also a11y: make sure clicks outside are either blocked or intentionally close the modal.)
+- **Compass (top-right):** the needle points down-right toward "S"-area while "N" is labeled at top — possibly correct for the current camera rotation, but at first glance it looks contradictory. Worth verifying.
+- **"FPS: —"** in the status bar is presumably just "not measured yet," but a first-time user may wonder if something is broken. Consider hiding until first value or showing "—".
+- **Fourth zoom-button icon (bottom-right stack)** is unclear at a glance (chart-like?) — low priority.
+
+**Verdict:** No blocking bugs. Fix the sidebar clipping/scroll affordance and consider dimming the modal backdrop; otherwise ship-ready.
