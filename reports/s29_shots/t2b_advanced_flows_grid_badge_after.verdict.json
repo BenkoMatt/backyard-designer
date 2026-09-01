@@ -1,0 +1,6 @@
+{
+ "surface": "t2b_advanced_flows_grid_badge_after",
+ "verdict_raw": "CLEAN \u2014 No overlapping or clipped UI (the left palette's last item is simply mid-scroll), the screen reads instantly as \"sculpt your terrain\" thanks to the labeled Terrain Sculpting modal, its tip text, and the grid-level toast, and all state readouts are consistent (Raise / 8 ft brush / 0.1 ft height / Grid Y=4 ft).",
+ "clean": true,
+ "ctx": "grid-level badge top-center at Y=4 ft, Advanced mode"
+}

@@ -1235,7 +1235,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <h2 id="share-title">Share Your Design</h2>
 <p>Scan the QR code or copy the link to share your backyard design.</p>
 <canvas id="share-qr-canvas" width="200" height="200"></canvas>
-<div class="share-too-long" id="share-too-long">Design is large - QR may be hard to scan. Use the link or Save instead.</div>
+<div class="share-too-long" id="share-too-long">Design is large - QR may be hard to scan. Use the link instead.</div>
 <div id="share-url-box"></div>
 <div class="share-actions">
 <button id="share-copy-btn">Copy Link</button>
@@ -4786,6 +4786,28 @@ if (!bar) return;
 const count = document.getElementById('batch-count');
 if (count) count.textContent = `${state.selectedIds.size} selected`;
 bar.classList.add('visible');
+// Sprint 29 fix (S29-T04): the wrapped bottom-left toolbar (up to 3 rows) and the
+// scale bar share the bottom band with the fixed centered batch bar — lift the bar
+// above whatever is tallest under its x-range instead of covering those controls.
+(function () {
+const tb = document.getElementById('bottom-left-toolbar');
+const sb = document.getElementById('scale-bar');
+let liftTo = 60;
+for (const el of [tb, sb]) {
+if (!el) continue;
+const cs = getComputedStyle(el);
+if (cs.display === 'none') continue;
+const r = el.getBoundingClientRect();
+if (r.width <= 0 || r.height <= 0) continue;
+const barW = bar.getBoundingClientRect().width || 200;
+const cx = window.innerWidth / 2;
+const barL = cx - barW / 2, barR = cx + barW / 2;
+if (r.right > barL && r.left < barR) {
+liftTo = Math.max(liftTo, Math.round(window.innerHeight - r.top + 8));
+}
+}
+bar.style.bottom = (liftTo > 60 ? liftTo : 60) + 'px';
+})();
 }
 function hideBatchBar() {
 const bar = document.getElementById('batch-bar');
@@ -7915,7 +7937,9 @@ const url = base + '#' + encoded;
 document.getElementById('share-url-box').textContent = url;
 const tooLong = url.length > 210;
 const wayTooLong = url.length > 4096;
-document.getElementById('share-too-long').classList.toggle('visible', tooLong);
+// Sprint 29 fix (S29-T05): when the QR cannot render at all, the "may be hard to
+// scan" caption contradicts the canvas message — show it only when a QR exists.
+document.getElementById('share-too-long').classList.toggle('visible', tooLong && !wayTooLong);
 const canvas = document.getElementById('share-qr-canvas');
 if (wayTooLong) {
 const ctx = canvas.getContext('2d');
@@ -13666,6 +13690,21 @@ showToast('GIF generation failed: ' + e.message);
 const btn = document.getElementById('btn-timelapse');
 if (btn) btn.addEventListener('click', () => {
 document.getElementById('timelapse-modal').classList.add('visible');
+// Sprint 29 fix (S29-T06): draw a poster state so the canvas never reads as a
+// broken/empty black box before the user presses Play.
+const cv = document.getElementById('timelapse-canvas');
+const c2 = cv.getContext('2d');
+c2.fillStyle = '#e8efe9';
+c2.fillRect(0, 0, cv.width, cv.height);
+c2.fillStyle = '#3d7549';
+c2.font = '600 20px sans-serif';
+c2.textAlign = 'center';
+c2.fillText('Press Play to preview your build', cv.width / 2, cv.height / 2 - 6);
+c2.font = '12px sans-serif';
+c2.fillStyle = '#5a5a5a';
+c2.fillText('5 stages — terrain, hardscape, then plants', cv.width / 2, cv.height / 2 + 18);
+document.getElementById('timelapse-stage-label').textContent = '';
+document.getElementById('timelapse-progress-bar').style.width = '0%';
 });
 document.getElementById('timelapse-close-btn').addEventListener('click', () => {
 if (window._timelapseStop) window._timelapseStop();
