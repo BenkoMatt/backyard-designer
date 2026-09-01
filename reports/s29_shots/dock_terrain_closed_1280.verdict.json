@@ -1,0 +1,10 @@
+{
+ "surface": "dock_terrain_closed_1280",
+ "label": "Terrain dock closed (tabs visible)",
+ "verdict": "**Not clean \u2014 2 significant issues, a few minor ones.**\n\n**Significant**\n\n1. **Status bar reads `FPS: 1`** (bottom-left). Even if the 3D scene is heavy, showing FPS of 1 makes the app look broken/severely laggy. Either the FPS counter is buggy (e.g., miscomputed divisor) or there's a real perf problem \u2014 either way this is the first thing a reviewer will flag. Fix or hide the metric.\n2. **\"Innovate\" button** in the bottom tool row (next to Tape Measure / Terrain / Excavate / Analyze) is almost certainly a typo for **\"Irrigate\"** \u2014 every neighbor is a ground/yard tool, and \"Innovate\" (with a lightbulb icon) is semantically orphaned in that group. Ambiguous label; new users won't know what it does.\n\n**Minor**\n\n3. **Duplicate controls, unclear which is authoritative.** \"Terrain\" and \"Analyze\" appear both in the floating SCULPT menu and in the bottom toolbar; \"Sun\" (bottom) duplicates \"Sun & Shadow\" (menu). Nothing indicates whether these are the same toggles or separate \u2014 risk of state confusion.\n4. **Bottom-left tool cluster is visually messy:** the floating menu, the scale bar (\"10 ft\"), and the \"Sun\" Button sit in a cramped two-row arrangement right against the menu edge \u2014 looks accidental rather than composed.\n5. **\"Analyze\" is grouped under the SCULPT header** in the floating menu; analyzing isn't a sculpting action. Semantic grouping mismatch.\n6. **Sidebar's last item (\"Patio\") is clipped mid-row** at the panel bottom with no visible scrollbar hint. Acceptable as a scroll affordance, but confirm the list actually scrolls.\n\n**5-second comprehension:** Mostly yes \u2014 header mode toggles, left \"add items\" palette, and a 3D canvas are clear. But the doubled toolbars (floating menu + bottom row) would make a new user unsure which control set to use.\n\nPriority: fix `FPS: 1` and the \"Innovate\"/\"Irrigate\" label before ship; the rest are polish.",
+ "dock_probe": [],
+ "res": [
+  1280,
+  800
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "surface": "dock_innovate_open_1280",
+ "label": "Pro Tools dock panel open",
+ "verdict": "**Not CLEAN** \u2014 no hard overlaps or clipping, but a handful of issues:\n\n**1. Overlapping / clipped UI**\n- No true overlaps, but the \"Pro Terrain Tools\" panel's bottom edge (~y=688) sits only ~3px above the bottom button row (Tape Measure\u2026) \u2014 visually cramped.\n- The \"Patio\" item in the left sidebar is cut off at the panel's bottom edge; acceptable if the list scrolls, but nothing hints at that (no fade/scroll cue).\n- Compass needle appears to extend slightly past the compass circle edge \u2014 minor.\n\n**2. 5-second comprehension**\n- Mostly OK: left palette = add items, center = terrain, panel = terrain tools, Getting Started note is helpful.\n- Confusing though: there are **two competing toolbars** \u2014 the vertical SCULPT/BUILD/VIEW toolbar AND a bottom row (Tape Measure, Terrain, Excavate, Analyze, Innovate). \"Terrain\" and \"Analyze\" appear in both, and \"Measure\" vs \"Tape Measure\" read as duplicates. A new user won't know which set is active (status bar says \"Tool: Select\" while \"Pro Tools\" is highlighted \u2014 contradictory).\n\n**3. Confusing / broken-looking**\n- **\"Innovate\"** button \u2014 meaningless label in a terrain-tools context (Irrigate? Inspect?). Looks like a typo/bug.\n- **\"FPS: 2\"** in the status bar \u2014 displays the app as running at 2 fps, which reads as broken/lagging.\n- **Brush mismatch:** status bar says \"Brush: 8 ft\" while the panel's Brush Radius slider reads \"10 ft\".\n- Small gray artifact floating in the sky above the Pro Tools panel (~x=645, y=175).\n- The Pro Terrain Tools panel occupies ~40% of the viewport with no obvious way it relates to \"Tool: Select\" state.\n\n**Top fixes:** rename/remove \"Innovate\", hide or fix the FPS readout, sync Brush values (8 vs 10 ft), and consolidate the duplicate Terrain/Analyze tool entries.",
+ "dock_probe": [
+  {
+   "id": "dock-innovate",
+   "x": 445,
+   "y": 175,
+   "w": 340,
+   "h": 507,
+   "bottom": 682,
+   "bodyScrollH": 444,
+   "bodyClientH": 444,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

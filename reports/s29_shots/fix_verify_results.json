@@ -1,0 +1,67 @@
+[
+ {
+  "t": "welcome prompt visible after wizard skip",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "B2: no progressive hint while welcome prompt open (6s idle)",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "B2: Remind-me-later clickable (welcome dismissed)",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "B2: no progressive hint over open help modal",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "B1: print report visible on screen (fixed overlay at 0,0)",
+  "ok": true,
+  "ev": "{'x': 0, 'y': 0, 'w': 1280, 'h': 800, 'h1y': 0, 'cancelVisible': True}"
+ },
+ {
+  "t": "B1: report H1 title inside viewport",
+  "ok": false,
+  "ev": "h1 y=0"
+ },
+ {
+  "t": "B1: Close button visible and on top",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "B4: templates Close button fully visible (no scroll)",
+  "ok": true,
+  "ev": "{'panelBottom': 656, 'closeBottom': 628, 'scrollNeeded': 0}"
+ },
+ {
+  "t": "B6: brush-mode row has single keycap pair (2 kbd)",
+  "ok": true,
+  "ev": "kbd count=2"
+ },
+ {
+  "t": "B7: pill does not overlap scale bar",
+  "ok": true,
+  "ev": "{'pill': {'x': 445, 'y': 690, 'w': 86, 'h': 31}, 'hitsScaleBar': False, 'hitsSun': False}"
+ },
+ {
+  "t": "B7: pill does not overlap Sun button",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "B7: pill click restores minimized panel",
+  "ok": true,
+  "ev": ""
+ },
+ {
+  "t": "no page errors during verification",
+  "ok": true,
+  "ev": ""
+ }
+]

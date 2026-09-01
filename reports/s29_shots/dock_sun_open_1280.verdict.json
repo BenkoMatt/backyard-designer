@@ -1,0 +1,23 @@
+{
+ "surface": "dock_sun_open_1280",
+ "label": "Sun dock panel open",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
+ "dock_probe": [
+  {
+   "id": "dock-sun",
+   "x": 445,
+   "y": 574,
+   "w": 260,
+   "h": 108,
+   "bottom": 682,
+   "bodyScrollH": 45,
+   "bodyClientH": 45,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

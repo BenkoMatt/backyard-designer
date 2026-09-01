@@ -1,0 +1,23 @@
+{
+ "surface": "dock_analyze_open_1280",
+ "label": "Analyze dock panel open",
+ "verdict": "**QA findings \u2014 not CLEAN.**\n\n**(1) Overlapping / clipped UI**\n- **Left sidebar, bottom:** the \"Patio\" row under *Patios & Paths* is cut off mid-item by the status bar (icon and description truncated). If this is a scroll list, there's no visible scrollbar or fade to signal more content \u2014 it reads as clipped/broken.\n- **Bottom-left of canvas:** the \"10 ft\" scale bar's right end nearly touches (possibly slightly overlaps) the \"Sun\" pill button. Needs ~8px breathing room.\n- Everything else clears: the Terrain Analysis modal sits ~12px from the tool rail (tight but clean), and it does not collide with the bottom button row.\n\n**(2) 5-second new-user comprehension**\n- Mostly yes \u2014 the \"Getting Started\" callout (\"Click any item below\u2026 drag to position\"), the labeled ADD TO YOUR YARD panel, and top-level View mode toggle make the core purpose clear fast.\n- But the status bar **\"FPS: 2\"** will catch a new user's eye and signal the app is broken/lagging \u2014 a credibility hit within seconds.\n- Minor confusion: status bar says **\"Tool: Select\"** while \"Analyze\" in the tool rail is highlighted active with its dialog open. One of these states is wrong.\n\n**(3) Confusing / ambiguous / broken-looking**\n- **\"Innovate\" button (bottom toolbar) is almost certainly a typo for \"Irrigate\"** \u2014 alongside Terrain / Excavate / Analyze in a landscaping app, \"Innovate\" is nonsensical, and its lightbulb icon duplicates \"Pro Tools.\"\n- **FPS: 2** is a functional red flag (likely the wireframe overlay / open modal tanking performance) \u2014 this should be surfaced as \"degraded\" rather than shown as plain status text, or fixed.\n- The scale-bar/Sun-button crowding noted above.\n- Minor: with the modal covering the canvas center and all analysis toggles OFF, the user gets no feedback that anything \"happened\" after clicking Analyze \u2014 consider an empty-state hint.\n\n**Summary:** Ship-blocking typo (\"Innovate\" \u2192 \"Irrigate\"), critically low FPS readout, and three small layout issues (clipped Patio row, tool-state mismatch, scale-bar/Sun crowding) \u2014 otherwise a clear, well-organized screen.",
+ "dock_probe": [
+  {
+   "id": "dock-analyze",
+   "x": 445,
+   "y": 134,
+   "w": 340,
+   "h": 552,
+   "bottom": 686,
+   "bodyScrollH": 489,
+   "bodyClientH": 489,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "surface": "dock_innovate_adv_1280",
+ "label": "Pro Tools advanced expanded",
+ "verdict": "**QA Findings \u2014 issues found (not CLEAN):**\n\n1. **Overlapping UI (critical):** The floating button row at bottom-center \u2014 \"Tape Measure\", \"Terrain\", \"Excavate\", \"Analyze\", \"Innovate\", plus the circular \"Sun\" button \u2014 sits directly on top of the \"Pro Terrain Tools\" panel. It covers the \"Slope %\" slider, the \"Blend Width\" slider, and the help text (\"Click two points on terrain\u2026\"). It appears these buttons were meant to attach below the panel or be toggled, but they render overlapping it.\n\n2. **Broken-looking data:** Status bar reads **\"FPS: 2\"**, indicating the app is running at a near-frozen frame rate \u2014 a user would perceive the scene as lagging or hung.\n\n3. **Clipped content:** The left \"ADD TO YOUR YARD\" sidebar is cut off mid-item at the bottom \u2014 \"Patio\" under Patios & Paths is truncated at the panel edge (possibly a scroll area, but at 800px height nothing signals more content is available).\n\n4. **Suspicious label:** The \"Innovate\" button in the bottom row is out of place among terrain verbs (Terrain/Excavate/Analyze) \u2014 likely a typo for \"Irrigate\" or a wrong button mapped here.\n\n5. **Minor inconsistency:** In the status bar, \"Brush: 8 ft\" and \"Height: 0 ft\" have divider separators, but \"FPS: 2\" has no leading divider, making the groupings look uneven.\n\n6. **Comprehension (5-second test):** Mostly OK \u2014 palette on the left, 3D terrain center, clearly-titled tool panel. However, the overlapping bottom button row makes it unclear whether those buttons belong to the Pro Tools panel, the left toolbar, or something else, which undermines the initial read.\n\n**Summary:** One hard overlap (bottom tool row vs. Pro Terrain Tools panel), a critical FPS: 2 reading, a clipped sidebar item, and a suspect \"Innovate\" label \u2014 fix overlap and performance before ship.",
+ "dock_probe": [
+  {
+   "id": "dock-innovate",
+   "x": 445,
+   "y": 134,
+   "w": 340,
+   "h": 700,
+   "bottom": 834,
+   "bodyScrollH": 1986,
+   "bodyClientH": 1986,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 1349
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}
