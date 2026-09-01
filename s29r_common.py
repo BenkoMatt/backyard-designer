@@ -113,31 +113,36 @@ def make_page(p, width=1280, height=800):
 
 
 def load_app(page, mode="basic"):
-    """Load, clear recovery seed, dismiss wizard via real click, set mode."""
+    """Load, clear seeds, dismiss wizard + welcome prompt via real clicks, set mode."""
     page.goto(URL + "#t", wait_until="networkidle", timeout=30000)
-    page.wait_for_timeout(1500)
+    page.wait_for_timeout(1200)
     page.evaluate("() => { try{localStorage.removeItem('backyard-recovery-snapshot');}catch(e){} }")
     page.reload(wait_until="networkidle")
     page.wait_for_timeout(1500)
-    # dismiss any recovery banner via its Discard button (real click if present)
-    disc = page.locator("#rb-discard")
-    if disc.count() > 0 and disc.is_visible():
-        try:
-            disc.click(timeout=2000)
-            page.wait_for_timeout(400)
-        except Exception:
-            pass
     skip = page.locator("#wizard-skip")
     if skip.count() > 0:
         skip.click()
-        page.wait_for_timeout(900)
+        page.wait_for_timeout(700)
+    # welcome prompt: dismiss via real click on first quick-action (Start from scratch)
+    wp = page.locator("#welcome-prompt")
+    if wp.count() > 0 and wp.first.is_visible():
+        try:
+            pg_btns = page.locator("#welcome-prompt button")
+            if pg_btns.count() > 0:
+                pg_btns.first.click(timeout=3000)
+                page.wait_for_timeout(600)
+        except Exception:
+            pass
     if mode == "advanced":
         adv = page.locator("#mode-toggle button[data-mode='advanced']")
         if adv.count() > 0:
             adv.click()
             page.wait_for_timeout(700)
-    page.keyboard.press("Escape")  # settle any hint
-    page.wait_for_timeout(300)
+    page.keyboard.press("Escape")  # settle any hint/tooltip
+    page.wait_for_timeout(250)
+    # park pointer mid-viewport to avoid hover tooltips on sidebar/topbar
+    page.mouse.move(640, 350)
+    page.wait_for_timeout(450)
 
 
 def setup_buried(page, n=2):

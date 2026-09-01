@@ -23,7 +23,7 @@ body.byd-basic-mode .td-tab[data-dock="underground"],body.byd-basic-mode .td-tab
 body.byd-basic-mode #btn-export,body.byd-basic-mode #btn-gallery,body.byd-basic-mode #btn-timelapse,body.byd-basic-mode #btn-socialcard,body.byd-basic-mode #btn-season,body.byd-basic-mode #btn-growth,body.byd-basic-mode #btn-permit,body.byd-basic-mode #btn-print,body.byd-basic-mode #btn-label,body.byd-basic-mode #btn-templates{display:none;}
 body.byd-basic-mode .cmd-item[data-advanced="true"]{display:none;}
 body.byd-advanced-mode .td-tab,body.byd-advanced-mode .tb-btn{display:flex;}
-.mode-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-left:8px;}.mode-badge.basic{background:#e8f5e9;color:#2e7d32;}.mode-badge.advanced{background:#e3f2fd;color:#1565c0;}#main{display:flex;height:calc(100vh - var(--topbar-h));}#sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;flex-shrink:0;padding-bottom:28px;}.sidebar-header{padding:14px 16px 10px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);}.cat-section{margin-bottom:2px;}.cat-title{padding:8px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none;-webkit-user-select:none;background:var(--surface);position:sticky;top:0;z-index:2;}.cat-title:hover{background:var(--hover-bg);}.cat-title:focus-visible{outline:2px solid var(--primary);outline-offset:-2px;}.cat-title .arrow{width:12px;height:12px;transition:transform 0.2s;opacity:0.4;}.cat-section.collapsed .cat-title .arrow{transform:rotate(-90deg);}.cat-items{overflow:hidden;transition:max-height 0.3s ease;}.cat-section.collapsed .cat-items{max-height:0;}.lib-item{display:flex;align-items:center;gap:10px;padding:8px 16px 8px 32px;cursor:pointer;font-size:13px;color:var(--text);transition:background 0.1s;user-select:none;-webkit-user-select:none;}.lib-item:hover{background:var(--hover-bg-primary);}.lib-item:focus-visible{outline:2px solid var(--primary);outline-offset:-2px;}.lib-item svg{width:28px;height:28px;flex-shrink:0;}.lib-item span{line-height:1.3;}.lib-item small{color:var(--text-muted);font-size:11px;display:block;margin-top:1px;}#viewport{flex:1;position:relative;overflow:hidden;}#viewport canvas{position:absolute;top:0;left:0;}.viewport-overlay{position:absolute;z-index:10;}
+.mode-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-left:8px;}.mode-badge.basic{background:#e8f5e9;color:#2e7d32;}.mode-badge.advanced{background:#e3f2fd;color:#1565c0;}#main{display:flex;height:calc(100vh - var(--topbar-h));}#sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;flex-shrink:0;padding-bottom:28px;}#sidebar-fade{position:fixed;left:0;width:var(--sidebar-w);bottom:var(--sb-h,24px);height:26px;background:linear-gradient(transparent,var(--surface));pointer-events:none;z-index:31;opacity:0;transition:opacity .2s;}#sidebar-fade.on{opacity:1;}.sidebar-header{padding:14px 16px 10px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-muted);}.cat-section{margin-bottom:2px;}.cat-title{padding:8px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none;-webkit-user-select:none;background:var(--surface);position:sticky;top:0;z-index:2;}.cat-title:hover{background:var(--hover-bg);}.cat-title:focus-visible{outline:2px solid var(--primary);outline-offset:-2px;}.cat-title .arrow{width:12px;height:12px;transition:transform 0.2s;opacity:0.4;}.cat-section.collapsed .cat-title .arrow{transform:rotate(-90deg);}.cat-items{overflow:hidden;transition:max-height 0.3s ease;}.cat-section.collapsed .cat-items{max-height:0;}.lib-item{display:flex;align-items:center;gap:10px;padding:8px 16px 8px 32px;cursor:pointer;font-size:13px;color:var(--text);transition:background 0.1s;user-select:none;-webkit-user-select:none;}.lib-item:hover{background:var(--hover-bg-primary);}.lib-item:focus-visible{outline:2px solid var(--primary);outline-offset:-2px;}.lib-item svg{width:28px;height:28px;flex-shrink:0;}.lib-item span{line-height:1.3;}.lib-item small{color:var(--text-muted);font-size:11px;display:block;margin-top:1px;}#viewport{flex:1;position:relative;overflow:hidden;}#viewport canvas{position:absolute;top:0;left:0;}.viewport-overlay{position:absolute;z-index:10;}
 #bottom-left-toolbar{position:absolute;bottom:40px;left:340px;z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;row-gap:2px;gap:4px 6px;max-width:calc(100% - 400px);}#bottom-left-toolbar > button{position:relative !important;left:auto !important;bottom:auto !important;z-index:30;}
 #right-panel-stack{position:absolute;top:16px;right:16px;z-index:40;display:flex;flex-direction:column;gap:8px;pointer-events:none;}#right-panel-stack > *{pointer-events:auto;position:relative !important;top:auto !important;right:auto !important;}#right-panel-stack > #cost-panel{z-index:38;}#right-panel-stack > #layer-panel{z-index:39;}#right-panel-stack > #cross-section-panel{z-index:50;}#right-panel-stack > #cut-fill-panel{z-index:49;}#right-panel-stack > #compass-indicator{z-index:40;position:relative !important;top:auto !important;right:auto !important;}#right-panel-stack > #depth-gauge-overlay{z-index:40;position:relative !important;top:auto !important;right:auto !important;}#right-panel-stack > #season-panel{z-index:40;}#right-panel-stack > #growth-panel{z-index:40;}#right-panel-stack > #permit-panel{z-index:50;}#right-panel-stack > #walk-exit{z-index:200;}#view-controls{bottom:40px;right:16px;display:flex;flex-direction:column;gap:6px;z-index:20;}.vc-btn{width:40px;height:40px;background:var(--panel-bg-92);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:all 0.15s;}.vc-btn:hover{background:white;border-color:var(--primary);}.vc-btn svg{width:18px;height:18px;color:var(--text);}
 #viewport{cursor:grab;}#viewport.cursor-brush{cursor:crosshair;}#viewport.cursor-painting{cursor:crosshair;}#viewport.cursor-measure{cursor:crosshair;}#viewport.cursor-drag{cursor:move;}#viewport.cursor-grabbing{cursor:grabbing;}#dim-readout{top:16px;left:16px;background:var(--panel-bg-92);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;box-shadow:var(--shadow);display:none;max-width:280px;z-index:149;}#dim-readout.visible{display:block;}#dim-readout strong{color:var(--primary);}#scale-bar{position:absolute;bottom:44px;left:170px;background:var(--panel-bg-92);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;font-size:11px;box-shadow:var(--shadow);display:flex;align-items:center;gap:0;user-select:none;-webkit-user-select:none;pointer-events:none;z-index:15;}.scale-bar-visual{display:flex;align-items:center;gap:2px;margin-right:8px;}.scale-segment{height:8px;border:1px solid var(--text);}.scale-segment.dark{background:var(--text);}.scale-segment.light{background:var(--surface);}.scale-label{font-weight:600;color:var(--text);white-space:nowrap;}#tape-measure-btn{position:absolute;bottom:16px;left:200px;background:var(--panel-bg-92);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 14px;font-size:12px;font-family:inherit;cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;gap:6px;color:var(--text);transition:all 0.15s;}#tape-measure-btn:hover{border-color:var(--primary);background:white;}#tape-measure-btn.active{background:var(--primary);color:white;border-color:var(--primary);}#tape-measure-btn svg{width:16px;height:16px;}#terrain-btn{position:absolute;bottom:16px;left:330px;background:var(--panel-bg-92);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 14px;font-size:12px;font-family:inherit;cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;gap:6px;color:var(--text);transition:all 0.15s;}#terrain-btn:hover{border-color:var(--primary);background:white;}#terrain-btn.active{background:var(--terrain);color:white;border-color:var(--terrain);}#terrain-btn svg{width:16px;height:16px;}#terrain-controls{position:absolute;bottom:56px;left:380px;background:var(--panel-bg-95);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-size:12px;box-shadow:var(--shadow);display:none;flex-direction:column;gap:8px;min-width:220px;max-height:calc(100vh - 80px);overflow-y:auto;z-index:30;}#terrain-controls.visible{display:flex;}.terrain-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}.terrain-row label{font-weight:600;white-space:nowrap;}.terrain-row input[type="range"]{flex:1;min-width:60px;}.terrain-val{font-weight:600;color:var(--primary);min-width:35px;text-align:right;}.terrain-mode-btns{display:flex;gap:4px;}.terrain-mode-btn{flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:white;cursor:pointer;font-size:11px;font-family:inherit;text-align:center;transition:all 0.15s;}.terrain-mode-btn.active{background:var(--terrain);color:white;border-color:var(--terrain);}.terrain-mode-btn:hover:not(.active){border-color:var(--terrain);}
@@ -259,6 +259,7 @@ Print
 </div>
 <div id="main">
 <div id="sidebar">
+<div id="sidebar-fade" aria-hidden="true"></div>
 <div class="sidebar-header">Add to Your Yard</div>
 <div id="getting-started-hint" style="padding:10px 16px;background:linear-gradient(135deg,var(--hover-bg-primary),var(--hover-bg-primary));border-bottom:1px solid var(--border);font-size:11px;color:var(--text-muted);line-height:1.5;position:relative;">
 <span id="getting-started-close" style="position:absolute;top:4px;right:8px;cursor:pointer;color:var(--text-muted);font-size:14px;">&times;</span>
@@ -4553,6 +4554,17 @@ updateGridLabels();
 }
 requestRender();
 });
+// S29-R2: sidebar bottom fade cue — shows while more items sit below the fold
+(function setupSidebarFade() {
+const sbEl = document.getElementById('sidebar');
+const fade = document.getElementById('sidebar-fade');
+if (!sbEl || !fade) return;
+const sync = () => { fade.classList.toggle('on', sbEl.scrollTop + sbEl.clientHeight < sbEl.scrollHeight - 4); };
+sbEl.addEventListener('scroll', sync, { passive: true });
+window.addEventListener('resize', sync);
+setTimeout(sync, 300); setTimeout(sync, 1500);
+if (window._test) window._test._syncSidebarFade = sync;
+})();
 function buildLibrary() {
 const frag = document.createDocumentFragment();
 const lib = document.getElementById('library');
@@ -7196,7 +7208,7 @@ else if (pxPer10ft < 60) scaleFt = 25;
 else if (pxPer10ft > 150) scaleFt = 5;
 const pA = new THREE.Vector3(0, 0, 0).project(activeCamera);
 const pB = new THREE.Vector3(scaleFt, 0, 0).project(activeCamera);
-const pxWidth = Math.abs((pB.x - pA.x) * rect.width / 2);
+const pxWidth = Math.min(92, Math.abs((pB.x - pA.x) * rect.width / 2)); // S29-R2: cap total bar width (92+label+pad) so it never kisses the toolbar's wrapped Sun button (rect-verified overlap at 1280x800)
 const numSegs = Math.min(scaleFt, 5);
 let segsHtml = '<div class="scale-bar-visual">';
 for (let i = 0; i < numSegs; i++) {
@@ -15880,6 +15892,11 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
         const burstMs = (window._bydLastFrameTs || now) - (window._bydBurstStartTs || now);
         if (burstFrames > 0 && burstMs > 60) {
           const fps = Math.round(burstFrames * 1000 / burstMs);
+          // S29-R2: only surface a value from a sustained sample (>=0.4s) at a
+          // believable rate (>=12). Short 2-3 frame bursts under software
+          // rendering reported "FPS: 2" on idle screens — vision flagged the
+          // alarming stale-looking readout on every panel shot.
+          if (burstMs >= 400 && fps >= 12) {
           const s = String(fps);
           if (sbFps && s !== _sbFpsShown) {
             sbFps.textContent = s; _sbFpsShown = s;
@@ -15887,6 +15904,7 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
             // real value — the em-dash placeholder read as broken (vision).
             const item = document.getElementById('sb-fps-item');
             if (item && item.hidden) item.hidden = false;
+          }
           }
         }
       }
