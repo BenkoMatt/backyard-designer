@@ -1,0 +1,25 @@
+{
+ "R3c": {
+  "tbScrollable": true,
+  "scrollW": 1713,
+  "clientW": 1024,
+  "scrollLeft": 0,
+  "atStart": true,
+  "scrolledEndClass": true
+ },
+ "R3d": {
+  "open": true,
+  "dividers": [
+   "kbd-chip",
+   "kbd-chip",
+   "kbd-chip",
+   "kbd-chip"
+  ]
+ },
+ "R3e": {
+  "whiteSpace": "nowrap",
+  "scrollH": 29,
+  "clientH": 29,
+  "fits": true
+ }
+}

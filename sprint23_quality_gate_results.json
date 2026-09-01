@@ -4,12 +4,12 @@
   "total": 24,
   "passed": 24,
   "failed": 0,
-  "index_html_bytes": 766950,
+  "index_html_bytes": 766954,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "766950 bytes, headroom 1050"
+      "detail": "766954 bytes, headroom 1046"
     },
     {
       "name": "CSS brace balance",
