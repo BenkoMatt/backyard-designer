@@ -1,0 +1,9 @@
+{
+ "surface": "r3a_dock_underground_buried_1280_advanced",
+ "label": "dock underground with 2+ buried items (real raise-drag)",
+ "verdict": "Not clean \u2014 a few issues found:\n\n**(1) Overlapping/clipped UI**\n- No true overlaps among panels; the Underground View modal, left tool rail, and bottom action bar all have clear gaps.\n- Left sidebar's \"Patios & Paths\" section is cut off mid-header at the panel bottom \u2014 acceptable if scrollable, but there's no visual scroll/fade affordance.\n\n**(2) 5-second comprehension**\n- Mostly yes: the \"Underground View\" modal explains the wireframe terrain and the buried fence flag, so the core message lands. However, the screen stacks three control layers (left mode rail, center modal, bottom action bar) which feels busy for a first-time user.\n\n**(3) Confusing / broken-looking**\n- **FPS: 2** in the status bar is a serious red flag \u2014 the scene is rendering at 2 frames per second, which reads as a broken/lagging app.\n- **Tool-state inconsistency:** \"Excavate\" is highlighted as the active action, but the status bar says \"Tool: Select.\"\n- **\"Innovate\"** is an ambiguous button label next to Tape Measure / Terrain / Excavate / Analyze \u2014 it doesn't read as a yard-design action (possible mislabel, e.g., \"Irrigate\").\n- In the 3D scene, the privacy fence panels appear to intersect/clip through the hot tub mesh \u2014 worth verifying placement/collision rules.\n- Minor: Brush (16 ft) / Height (0.8 ft) sculpting stats are shown while the Select tool is active.\n\nPriority fixes: the 2 FPS performance issue first, then the tool-state mismatch and the \"Innovate\" label.",
+ "issue": "{\"scrollH\": 110, \"clientH\": 110, \"bodyOverflow\": false, \"deepestScroller\": 0, \"rect\": {\"x\": 445, \"y\": 509, \"w\": 279, \"h\": 173}, \"buried\": 1}",
+ "clean": false,
+ "ts": "09:22:08",
+ "agent": "R3"
+}

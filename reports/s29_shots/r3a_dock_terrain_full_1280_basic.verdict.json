@@ -1,0 +1,9 @@
+{
+ "surface": "r3a_dock_terrain_full_1280_basic",
+ "label": "dock terrain basic",
+ "verdict": "**CLEAN** \u2014 Well-organized 3D yard editor: guided tooltips (\"Getting Started\", \"Basic mode\"), clear tool categories, floating Terrain Sculpting panel, and status bar all render without overlaps; a new user can grasp the add-and-sculpt workflow within seconds. (Non-blocking note: \"FPS: 2\" indicates heavy scene lag worth optimizing, and the bottom sidebar \"Patio\" item is naturally cut by the scroll edge.)",
+ "issue": "{\"scrollH\": 277, \"clientH\": 277, \"bodyOverflow\": false, \"deepestScroller\": 0, \"rect\": {\"x\": 445, \"y\": 342, \"w\": 306, \"h\": 340}, \"buried\": 0}",
+ "clean": true,
+ "ts": "09:17:20",
+ "agent": "R3"
+}

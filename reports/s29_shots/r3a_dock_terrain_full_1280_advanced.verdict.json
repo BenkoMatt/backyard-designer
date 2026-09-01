@@ -1,0 +1,10 @@
+{
+ "surface": "r3a_dock_terrain_full_1280_advanced",
+ "label": "dock terrain accordions open",
+ "verdict": "**Not clean \u2014 3 issues (no overlaps/clipping found):**\n\n1. **`FPS: 1` in status bar (bottom-left) \u2014 High.** Reads as a broken/severe performance state; either the renderer is stalling or this is a placeholder/debug value leaking into the UI. Either way it undermines confidence at first glance.\n\n2. **\"Innovate\" button (bottom toolbar row, far right) \u2014 Medium.** Likely a typo for \"Irrigate\"; it's ambiguous next to Excavate/Analyze and a new user won't know what it does.\n\n3. **Duplicate controls with inconsistent active styling \u2014 Low.** \"Terrain\" and \"Analyze\" appear both in the left tool rail and the bottom button bar, and their active states use different colors (green rail vs. brown bottom bar). Mildly confusing about which is authoritative.\n\nMinor notes (acceptable): \"Terrain Sculpting\" panel sits very close (~10px) to the left tool rail without overlap; the small collapse icon beside \"Terrain Controls\" is cryptic but harmless.\n\n**Positives:** No overlapping or clipped elements; Getting Started tip, \"Pick a mode, then click + drag\" hint, labeled sliders, compass, and scale bar make the screen understandable within ~5 seconds despite its density.",
+ "issue": "{\"scrollH\": 277, \"clientH\": 277, \"bodyOverflow\": false, \"deepestScroller\": 0, \"rect\": {\"x\": 445, \"y\": 342, \"w\": 306, \"h\": 340}, \"buried\": 0}",
+ "clean": false,
+ "ts": "09:16:01",
+ "agent": "R3",
+ "relabelled": true
+}

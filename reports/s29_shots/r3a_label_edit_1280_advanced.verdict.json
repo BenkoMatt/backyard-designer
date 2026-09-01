@@ -1,0 +1,9 @@
+{
+ "surface": "r3a_label_edit_1280_advanced",
+ "label": "label-edit modal typed; sbToolWhileArmed=Select",
+ "verdict": "**Not quite CLEAN \u2014 a few minor issues, no blocking overlaps:**\n\n1. **\"Innovate\" chip (bottom toolbar row)** \u2014 almost certainly a typo for **\"Irrigate\"** (it sits among Tape Measure / Terrain / Excavate / Analyze, all yard actions; \"Innovate\" isn't a yard action).\n2. **\"FPS: 2\" in the status bar** \u2014 reads as a broken/lagging app to any user; even if accurate, it undermines confidence and probably shouldn't be surfaced (or should be hidden unless degraded below a threshold).\n3. **Compass needle** \u2014 the red needle points down-left (toward W/S) rather than N; combined with its dart shape extending below the N label it looks slightly detached/misrendered.\n4. **Duplicate \"Terrain\" + \"Analyze\"** \u2014 both appear in the floating SCULPT panel *and* in the bottom chip row; not wrong, but redundant and slightly confusing about which is active.\n5. **\"Measure\" listed under VIEW** in the floating panel \u2014 measurement is a tool/action, not a view setting; feels misplaced next to Sun & Shadow / Atmosphere.\n6. Minor: \"Brush: 8 ft\" shown while Tool is \"Select\" is mildly inconsistent (brush size applies to paint/sculpt tools).\n\n**Positives:** No overlapping or clipped UI (sidebar \"Patio\" cut-off is normal scroll behavior); modal is centered, clear, and a new user would grasp the screen in ~5 seconds \u2014 left panel = add items, modal = name the item, canvas = the yard.",
+ "issue": "",
+ "clean": false,
+ "ts": "09:14:55",
+ "agent": "R3"
+}
