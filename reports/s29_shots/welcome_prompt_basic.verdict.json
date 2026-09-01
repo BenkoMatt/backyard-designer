@@ -1,0 +1,6 @@
+{
+ "surface": "welcome_prompt_basic",
+ "verdict": "**Not CLEAN \u2014 minor issues found:**\n\n1. **Ambiguous highlight on \"Import a design\"** \u2014 it has a green border/tint as if pre-selected or the default action. On a first-run modal the emphasized option would more sensibly be \"Start from scratch\" (or no highlight at all). As-is, it quietly nudges a brand-new user toward importing.\n\n2. **Welcome toast peeking out from behind the modal** \u2014 a black toast is half-covered by the dialog: the text \"Welcome! Click items on the left to build your yard. Click a\u2026\" is cut mid-line above the modal, and a stray \"\u2026ur yard\" fragment pokes out bottom-left. Looks untidy/broken; suppress or dismiss the toast while the modal is open.\n\n3. **Redundant onboarding cues firing simultaneously** \u2014 the choice modal, the sidebar \"Getting Started\" tip, and the welcome toast all appear at once. Not broken, but slightly noisy; the toast is the redundant one.\n\nOtherwise: no viewport clipping, sidebar/toolbar/status bar/compass/right-side controls all render cleanly, and the modal's question (\"What would you like to do?\") is instantly clear to a new user within ~2 seconds.",
+ "clean": false,
+ "ts": "2026-08-31T22:32:03"
+}

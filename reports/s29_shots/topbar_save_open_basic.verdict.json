@@ -1,0 +1,7 @@
+{
+ "surface": "topbar_save_open_basic",
+ "verdict": "CLEAN \u2014 The onboarding modal (\"What would you like to do?\") sits properly centered over the 3D viewport with clear, self-explanatory options (scratch / template / import / tour / skip), the left item palette, top toolbar, and status bar are all fully rendered and unclipped, and partial elements peeking around the modal (bottom toolbar buttons, slider, top banner) are expected overlay behavior, not defects.",
+ "clean": true,
+ "note": "group2 topbar",
+ "ts": "2026-08-31T22:50:09"
+}

@@ -1,0 +1,6 @@
+{
+ "surface": "wizard_step1_lshape_basic",
+ "verdict": "**Not clean \u2014 issues found:**\n\n1. **Broken overlap (bottom-center cluster)** \u2014 a stray **\"Sun\" tool button** (\u2248x 620\u2013690, y 730\u2013757) collides with the **\"Skip \u2013 use default yard\"** link, and the **\"10 ft\" scale bar** also runs into the Skip text. It looks like detached/broken UI stacked on top of each other. Fix: remove or reposition the Sun button and move the scale bar + skip link clear of each other.\n\n2. **Duplicate \"Terrain\" controls** \u2014 there's a \"Terrain\" button in the bottom-left floating menu *and* a \"Terrain\" button in the bottom toolbar. Ambiguous for a new user; rename one (e.g., \"Terrain Picker\" vs. \"Terrain Tools\").\n\n3. **Minor polish** \u2014 \"FPS: \u2014\" in the status bar is an empty placeholder (acceptable, but slightly unfinished-looking); the \"Innovate\" toolbar label is vague compared to the other tool names.\n\n**5-second test:** Mostly yes \u2014 the \"STEP 1 OF 2\" modal with Rectangle/L-Shape cards and a clear green \"Next Step \u2192\" makes the intended action obvious. However, the jumbled Sun/Skip/scale-bar pile at the bottom makes the screen look buggy and undermines that first impression.\n\nFix the bottom-center overlap first; the rest is minor.",
+ "clean": false,
+ "ts": "2026-08-31T22:35:59"
+}
