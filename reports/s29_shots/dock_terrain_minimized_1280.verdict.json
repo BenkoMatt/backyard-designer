@@ -1,0 +1,23 @@
+{
+ "surface": "dock_terrain_minimized_1280",
+ "label": "Terrain dock minimized",
+ "verdict": "**Not CLEAN** \u2014 one clear overlap issue, plus a couple of minor notes.\n\n**Issues**\n\n1. **Overlapping/clipped bottom-center controls (main bug).** A dark rounded control strip with a slider (roughly x 450\u2013635, y 730\u2013755 \u2014 looks like a brush/size slider, label cut off at \"S\u2026\") sits *underneath* the floating action toolbar (\"Tape Measure / Terrain / Excavate / Analyze / Innovate / Sun\"). The \"Terrain\" and \"Sun\" buttons and the toolbar row visibly overlap and clip it, so its label is unreadable and it looks broken. **Fix:** move the slider strip fully below the floating toolbar (or above it), or shift the toolbar up ~25\u201330px so nothing collides.\n\n2. **Minor \u2014 sidebar bottom clip.** The \"Patio\" item in \"Patios & Paths\" is cut right at the sidebar's bottom edge with no visible scroll affordance; it reads as a rendering bug rather than a scrollable list. **Fix:** add a subtle fade/gradient or partial next-item cutoff so it's clearly scrollable.\n\n3. **Minor \u2014 ambiguous label.** The bottom toolbar button \"Innovate\" (lightbulb icon) doesn't parse as a yard-design action \u2014 it looks like a typo for \"Irrigate\" or a mislabeled tool. **Fix:** rename to something concrete (\"Irrigate,\" \"AI Assist,\" etc.).\n\n**5-second test:** Mostly passes \u2014 the left item catalog, 3D canvas, and clear toolbars tell a new user this is a build-your-backyard tool. The empty green grid with no example objects slightly weakens instant comprehension, but it's acceptable.\n\n**One-line summary:** A well-organized backyard design UI with one clear defect \u2014 a slider/control strip at bottom center is overlapped and clipped by the floating Terrain/Sun toolbar \u2014 plus minor sidebar clipping and the ambiguous \"Innovate\" label.",
+ "dock_probe": [
+  {
+   "id": "dock-terrain",
+   "x": 445,
+   "y": 627,
+   "w": 260,
+   "h": 55,
+   "bottom": 682,
+   "bodyScrollH": 0,
+   "bodyClientH": 0,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

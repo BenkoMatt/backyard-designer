@@ -1,0 +1,152 @@
+[
+ {
+  "surface": "help_open_1280",
+  "label": "Help modal open (topbar)",
+  "verdict": "**CLEAN** \u2014 A well-organized help modal cleanly overlays a clearly labeled 3D design workspace; no overlaps, clipping, or broken-looking UI among the persistent chrome (top bar, left item palette, status bar, zoom/compass controls all render correctly).\n\nNon-blocking micro-observations (not defects):\n- \"Patio\" is partially cut at the bottom of the left palette \u2014 normal scroll-cutoff that signals the list scrolls.\n- The dimmed top-center hint bar and right-toolbar labels (\"SCULPT/BUILD/VIEW\") are occluded by the modal, which is expected overlay behavior, not a bug.",
+  "probe": [
+   {
+    "id": "help-panel",
+    "scroll": true,
+    "scrollH": 2431,
+    "clientH": 640,
+    "scrollW": 600,
+    "clientW": 600,
+    "x": 340,
+    "y": 80
+   }
+  ],
+  "clean": false
+ },
+ {
+  "surface": "help_scrolled_bottom_1280",
+  "label": "Help modal scrolled to bottom",
+  "verdict": "## QA Review: Backyard Designer 3D\n\n**Not clean** \u2014 several issues found.\n\n### (1) Overlapping / Clipped UI \u26a0\ufe0f\n\n- **Modal has no visible title and appears clipped at the top.** The first bullet (\"Underground Carving\u2026\") starts ~7px from the modal's top edge, while every other section has 20\u201340px of spacing. This looks like the content is scrolled/overflowing with the header pushed out of view \u2014 it reads as broken rather than intentional.\n- **Half-covered toolbar button peeking above the modal** (the dark \"Excavate\"-style button at top-center, ~x=780). Because the modal appears to have **no dimming backdrop**, the partially occluded canvas toolbar and dock buttons look like z-order/clipping bugs rather than an intentional overlay.\n- **Left dock labels truncated by the modal edge** \u2014 \"SCULPT\", \"BUILD\u2026\", \"VIEW\u2026\" are cut off mid-word where the modal overlaps the dock (x\u2248340).\n- Minor: the \"Patio\" row at the bottom of the sidebar is cut at the fold (acceptable if it's a scroll list, but it currently looks sliced with no scroll affordance).\n\n### (2) 5-Second Comprehension for a New User \u274c\n\n- **No.** The first thing a new user sees is a dense, headerless wall of text covering ~90% of the 3D viewport \u2014 underground carving, Michigan dig-law phone numbers, slope percentages, accessibility tips. That's reference documentation, not onboarding.\n- There is **no title telling the user what this dialog is** or why it appeared.\n- Two competing onboarding elements are visible at once: this modal **and** the \"Getting Started\" panel in the sidebar.\n- The 3D scene \u2014 the actual product \u2014 is almost entirely hidden.\n\n### (3) Confusing / Ambiguous / Broken-Looking \u26a0\ufe0f\n\n- **\"FPS: 2\"** in the status bar makes the app look frozen or broken. Even if it's a heavy scene, surfacing a 2 FPS readout is alarming.\n- **\"Innovate\"** (and to a lesser extent **\"Analyze\"**) are vague labels \u2014 a new user can't guess what they do.\n- **Bottom slider cluster** (5 segmented tracks + \"50\") has no visible labels for what each slider controls \u2014 the group reads as unlabeled widgets.\n- The modal instructs \"Click **Excavate** (bottom-left)\" while the only visible Excavate button is **top-center** behind the modal \u2014 potentially misleading direction (or at least unverifiable while the dock is covered).\n\n### What's working \u2705\n\nClean top bar with sensible grouping (Basic/Advanced, view toggle, file actions); well-organized categorized sidebar with icons and size hints; compass and zoom controls are familiar; disabled Undo/Redo correctly reflect empty history.\n\n### Priority fixes\n\n1. Add a title/header and proper top padding to the modal (or fix the scroll overflow clipping it).\n2. Replace the dense modal with a short 3-step welcome card; move the safety/reference content behind Help.\n3. Add a dimmed backdrop behind the modal so occluded controls read as intentional.\n4. Investigate the 2 FPS performance and/or hide the readout when it's this low.",
+  "probe": [
+   {
+    "id": "help-panel",
+    "scroll": true,
+    "scrollH": 2431,
+    "clientH": 640,
+    "scrollW": 600,
+    "clientW": 600,
+    "x": 340,
+    "y": 80
+   }
+  ],
+  "clean": false
+ },
+ {
+  "surface": "help_scrolled_back_1280",
+  "label": "Help modal scrolled back to top",
+  "verdict": "**Not CLEAN \u2014 one real overlap plus a couple of oddities.**\n\n**Q1 \u2014 Overlapping/clipped UI (main issue):**\n- \ud83d\udd34 **Toast renders on top of the open modal.** The \"Tip: Press Ctrl+K\u2026\" toast (~x 440\u2013840, y 615\u2013680) sits over the help modal and hides: the tail of the \"Saving &\u2026\" heading (likely \"Saving & Loading\"), the first bullet under it (\"Save do\u2026\"), and the modal's white footer button peeking out beneath the toast (~x 570\u2013900, y 695\u2013720). Two stacked floating layers is a z-order/lifecycle bug \u2014 suppress the tip toast while a modal is open, or force modal above toasts.\n- \ud83d\udfe1 **Modal dimming is inconsistent.** The canvas/right panel/backdrop is dimmed, but the top bar and left sidebar stay full-brightness, so the dialog doesn't read as fully modal. Also a background button fragment peeks out just above the modal's top edge (~x 745\u2013890, y 66\u201380), looking slightly untidy.\n\n**Q2 \u2014 5-second comprehension:**\n- Mostly yes \u2014 \"How to Use Backyard Designer 3D\" is self-explanatory and well-written. However, a new user is hit with three info layers at once (modal + toast + dismissible sidebar tip), and the toast actively blocking modal text undermines it. Defer the tip until the modal is closed.\n\n**Q3 \u2014 Confusing/broken-looking:**\n- \ud83d\udfe1 **\"FPS: 1\"** in the status bar reads as a stalled/broken renderer to any user \u2014 even if technically real, flag or smooth it.\n- Trivial: \"Saving &\" heading appearing mid-sentence (covered by the toast) looks like clipped text; large gap between \"Height: 0 ft\" and \"FPS: 1\" in the status bar makes them look like unrelated groups.\n\n**Priority fix:** modal-vs-toast stacking \u2014 it's the only outright overlap and it hides both textual content and the modal's CTA.",
+  "probe": [
+   {
+    "id": "help-panel",
+    "scroll": true,
+    "scrollH": 2431,
+    "clientH": 640,
+    "scrollW": 600,
+    "clientW": 600,
+    "x": 340,
+    "y": 80
+   }
+  ],
+  "clean": false
+ },
+ {
+  "surface": "shortcuts_qkey_1280",
+  "label": "Shortcuts via ? key",
+  "verdict": "**Verdict: Not perfect \u2014 4 issues worth fixing** (1 layout collision, 1 z-order problem, 2 content/confusion flags)\n\n---\n\n### 1. Overlap: dock panel clips the bottom toolbar\nThe white floating dock (the \"Design\u2026\" panel behind the modal, ~x378\u2013903, y75\u2013725) collides with the bottom toolbar row:\n- **\"Measure\"** label (~x340, y695) is cut off by the dock's left edge \u2014 reads \"Measur\u2026\".\n- **\"Excavate\"** button's left edge (~x900) is clipped by the dock's bottom-right corner.\n- The dock also covers the middle of the slider strip, leaving the odd impression of a split/dual-handle slider with the \"\u2600 Sun\" chip floating between two white segments.\n\n*Fix:* shrink the dock height or move the Measure/Sun row fully below y\u2248730; give the toolbar a z-index above the dock.\n\n### 2. Z-order: bottom toolbar + right-side icon buttons render above the modal scrim\nTop bar, left sidebar, and status bar are correctly dimmed by the modal backdrop, but **Excavate / Analyze / Innovate, the Sun slider, and the right-hand circular icon buttons** appear at full brightness \u2014 i.e., they're layered *above* the scrim. With a modal open, interactive controls visibly floating above it looks broken and invites clicks that hit nothing.\n\n*Fix:* put those floating controls under the scrim like everything else.\n\n### 3. \"FPS: 1\" in the status bar reads as broken\nBottom-left shows **FPS: 1**. Whether it's a real perf problem or a placeholder, a new user will read it as \"this app is frozen/laggy.\" Hide the FPS readout (or show it only in a dev/QA mode) unless it's healthy.\n\n### 4. Minor ambiguity in the shortcuts modal\n- The **\"Advanced\" badge** next to the title is ambiguous \u2014 does it mean these are advanced-only shortcuts, or that the app is in Advanced mode?\n- The Brush-mode row shows the **\"1 \u2014 7\" keycap twice** (left and right ends) \u2014 redundant and slightly confusing; keep it on one side only.\n- \"**5 ft**\" next to the Sun slider is an odd unit for a sun/light control (degrees or a time would read better) \u2014 may be related to issue #1's split-slider appearance.\n\n---\n\n### 5-second test\nPartially passing: \"Backyard Designer 3D\" + a shortcuts guide with a prominent **Got It!** is understandable, but the dense two-column modal is the first thing a brand-new user sees while the actual product is hidden \u2014 consider showing it on demand (or a lighter \"start here\" tip) instead of at first load.\n\n**Priority:** fix #1 and #2 (visual/layout bugs), then #3; #4 is polish.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "shortcuts_f1_1280",
+  "label": "Shortcuts via F1",
+  "verdict": "**Not clean \u2014 a handful of minor issues, no serious layout breakage.**\n\n**1) Overlapping / clipped UI**\n- The modal overlays the canvas/sidebar intentionally, with a proper backdrop \u2014 no unintended collisions between modal, sidebar, bottom toolbar, or status bar.\n- **Minor:** In the modal's \"Brush mode\" row, the `[1 \u2014 7]` keycap appears **twice** \u2014 once leading the row and again dangling at the end of line 1. Looks like a wrapped/duplicated key range.\n- **Minor:** The keycap at the end of the \"Arrows: move selected object\" row appears cramped/clipped (arrow glyphs compressed to illegibility).\n- The sidebar's \"Patio\" row is cut off by the status bar (likely just a scrollable list \u2014 acceptable, but worth verifying).\n\n**2) 5-second comprehension \u2014 mostly yes**\n- Strong: shortcuts guide with a prominent \"Got It!\" button, a \"Getting Started\" card explaining add-then-drag, and a clearly labeled top toolbar. A new user gets the gist quickly.\n- Weakness: the canvas itself is a nearly empty dark green field \u2014 after dismissing the modal there's little visual context of what a \"designed yard\" should look like.\n\n**3) Confusing / broken-looking details**\n- **Typo:** \"Pickert Fence\" in Fences & Structures \u2192 should be \"Picket Fence\".\n- **\"FPS: 1\"** in the status bar looks broken/alarming (performance red flag, or a capture artifact).\n- **Sun slider ambiguity:** the bottom-center slider is split by the \"Sun\" button with no label, and its readout says **\"5 ft\"** \u2014 feet is a puzzling unit for a sun/atmosphere control, and it collides mentally with \"Brush: 8 ft\" in the status bar.\n- **\"Innovate\"** button label is vague next to concrete tools (Tape Measure, Terrain, Excavate, Analyze) \u2014 unclear what it does.\n- Undo/Redo grayed out is correct for an empty scene \u2014 not an issue.\n\n**Summary:** Solid layout with correct modal behavior, but fix the \"Pickert\" typo, the duplicated `[1 \u2014 7]` keycap, the unlabeled/odd-unit Sun slider, and investigate the FPS: 1 readout before ship.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "shortcuts_btn_1280",
+  "label": "Shortcuts via topbar button",
+  "verdict": "**Verdict: Not clean** \u2014 a handful of real-looking issues, mostly in the bottom-center control cluster and status bar.\n\n**Issue list (priority order):**\n\n1. **Broken/ambiguous slider in bottom center (high).** The time-of-day control looks malformed: there are two disconnected white \"fill\" segments (~x455\u2013560 and ~x610\u2013745) with a dark gap between them, the \"Sun\" button floats in the middle overlapping the second segment, and a stray \"**5 ft**\" label sits at the right end of what appears to be a sun/daytime control. It reads like two overlapping widgets or a rendering glitch, and \"5 ft\" is meaningless next to a sun/time control.\n\n2. **\"FPS: 1\" in the status bar (high).** Even if rendering is intentionally paused behind the modal, displaying \"FPS: 1\" makes the app look frozen or severely broken to any user who glances down.\n\n3. **Duplicate identical icons on right rail (medium).** Two visually identical magnifier buttons (y\u2248603 and y\u2248647) stacked with no labels or differentiation \u2014 a user can't tell if one is search and one is zoom, or if it's a bug.\n\n4. **Crowded/overlapping bottom-left toolbar (low).** The \"Measure\" panel is mostly swallowed by the modal and the floating button row (Tape Measure/Terrain/Excavate/Analyze/Innovate) sits directly on top of it; only \"Measure\" and \"Atmosphere\" labels peek out. It works, but it reads as cluttered.\n\n5. **Minor duplication in the modal's Terrain row (low).** The \"1 \u2014 7\" keycap appears both inline in the description and again right-aligned in the key column \u2014 redundant but harmless.\n\nNot an issue: modal placement (well-centered, clear \"Got It!\" CTA), header toggles, sidebar, compass, and shortcut layout are all legible and consistent; a new user would understand the screen within a few seconds thanks to the Getting Started hint and the self-explanatory shortcuts modal.\n\n**One-line summary:** A polished backyard-designer UI with a strong shortcuts modal, but the bottom-center Sun slider looks glitched with a stray \"5 ft\" label, \"FPS: 1\" appears alarming, and the right rail's duplicate magnifier icons need differentiation.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "shortcuts_helplink_1280",
+  "label": "Shortcuts via help-modal link",
+  "verdict": "**Not clean \u2014 a few issues, mostly minor. No overlaps/clipping of interactive controls, but several \"broken-looking\" details:**\n\n1. **`FPS: 1` in the status bar (bottom-left)** \u2014 reads as a severe perf problem or a broken counter. Even if it's an idle-frame quirk, showing \"1\" looks broken to any user who glances at it. Highest-priority fix.\n\n2. **Bottom Sun slider looks malformed** (center-bottom, ~y 745): the \"\u2600 Sun\" chip sits *on top of* the slider track mid-span, and the fill is inconsistent \u2014 dark fill on the left, another fill segment after the chip, then a stray lighter segment before the \"5 ft\" label. It reads as two colliding sliders or a mis-rendered handle. Also, \"5 ft\" is ambiguous: status bar says \"Brush: 8 ft / Height: 0 ft,\" so nothing obviously maps to 5.\n\n3. **Modal has no dimmed backdrop**, so the tool panel fragments peeking out beneath it (the \"Measure\" / \"Atmosphere\" rows at bottom-left) look like accidentally sliced-off UI rather than intentional occlusion. A dim layer would make the modal read as intentional.\n\n4. **Clipped/cramped key chips**: in \"Arrows: move selected object (1 ft; Shift = fine 0.1 ft)\" the \u2191\u2193\u2190\u2192 chip cluster is squeezed and appears truncated; the gutter between the two shortcut columns is also very tight \u2014 the Del/\u232b chips nearly touch the right column's text.\n\n5. **Minor ambiguities**: the \"Daytime\" pill floating at the top of the canvas looks like a stale toast (and duplicates the Sun slider's job with no visual connection); the app opens with *two* onboarding surfaces (Getting Started card + Shortcuts modal) while the canvas itself is an empty dark field with no empty-state hint; starting in **Advanced** mode with the shortcuts list already in Advanced is a lot for a first-run user.\n\n**5-second comprehension:** borderline yes \u2014 \"Keyboard Shortcuts / Got It!\" is instantly clear \u2014 but the user sees nothing of the actual app (canvas fully hidden, empty behind the modal), so they can't tell what they're dismissing into.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "share_open_1280",
+  "label": "Share modal with QR",
+  "verdict": "**Not CLEAN \u2014 a few real issues:**\n\n**Broken / high severity**\n- **`FPS: 1` in the status bar** (bottom-left). Reads as a broken or frozen render \u2014 a strong red flag whether it's a real lag symptom or a display bug.\n- **Top toolbar last item clipped** at the right edge: only \"**Pe**\" is visible (presumably a \"Perspective\"/\"Print\" menu). It's cut mid-word with no affordance it continues.\n- **QR code rendering artifact**: a stray vertical black bar on the left side of the QR (next to the top-left finder square) \u2014 looks like a glitch, and could break scannability.\n\n**Confusing / medium**\n- **Share modal has no scrim**: the 3D scene, floating SCULPT panel, bottom tool row, and Sun slider all remain fully lit and interactive-looking behind the dialog. Nothing signals the background is blocked (or that it isn't).\n- **`localhost:8180` URL in the share box** \u2014 meaningless/unsharable for an end user; at minimum it will cause a \"is this broken?\" reaction.\n\n**Minor / polish**\n- Sidebar's last category item (\"**Patio**\") is clipped at the panel bottom \u2014 its description and remaining \"Patios & Paths\" items are cut off (OK if it scrolls, but there's no scroll hint).\n- Duplicated controls: \"Terrain\" and \"Analyze\" appear both in the floating SCULPT panel and the bottom button row \u2014 redundant given one is presumably mode-based and the other one-shot.\n- \"Card\" in the top toolbar is an ambiguous label next to Time-Lapse/Gallery.\n\n**5-second test:** the open modal makes the current task obvious (\"Share Your Design\" + QR + Copy Link/Close), so the primary intent reads fine \u2014 the noise is the glitchy FPS/QR/clip issues, not comprehension.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "templates_open_1280",
+  "label": "Templates modal",
+  "verdict": "Not CLEAN \u2014 a few minor issues:\n\n1. **Slight overlap/clipping:** The modal's right edge (x\u2248980) clips into the \"Analyze\" button behind it \u2014 its leading icon is cut off at the boundary (x\u2248985, y\u2248708). Cosmetic, but it reads as a broken button.\n2. **Dangling controls behind the modal footer:** Fragments of the Sun slider and a \"1 ft\" height control peek out below the modal's bottom edge (y\u2248745), and also partially behind the Close button row. This makes the bottom of the modal look messy/clipped rather than cleanly layered. Related: the Close button sits flush against the modal's bottom edge with essentially no bottom padding.\n3. **\"FPS: 1\" in the status bar (bottom-left, x\u2248283):** A raw dev/perf metric exposed in the user-facing bar reads as broken performance. Should be hidden, logged, or formatted (e.g., an FPS value only in a debug overlay).\n4. **Inconsistent modal dimming:** The top toolbar and 3D viewport are dimmed, but the right-side zoom/analysis buttons and Analyze/Innovate are not \u2014 minor, slightly confusing layering.\n\n**5-second comprehension:** Yes \u2014 the center modal with a clear title, one-line explanation (\"This will replace your current design\"), 6 labeled template cards with descriptions and tags, and a Close button is immediately understandable.\n\nFixing the modal's bottom/right edge overlap and removing or gating the FPS readout would bring this to CLEAN.",
+  "probe": [
+   {
+    "id": "templates-panel",
+    "scroll": true,
+    "scrollH": 715,
+    "clientH": 680,
+    "scrollW": 680,
+    "clientW": 680,
+    "x": 300,
+    "y": 60
+   }
+  ],
+  "clean": false
+ },
+ {
+  "surface": "gallery_open_1280",
+  "label": "Gallery modal",
+  "verdict": "Not clean \u2014 a few issues worth flagging:\n\n1. **Mismatched slider readout (bottom center):** The \"Sun\" pill sits on a time-of-day slider, but the readout to its right says \"5 ft\" \u2014 a feet value on a sun/time control is confusing (looks like the height readout is colliding with the sun slider).\n2. **FPS: 1 (bottom status bar):** Signals the renderer is stalled; a new user will think the app is frozen or broken.\n3. **Clipped sidebar item:** \"Patio\" (Patios & Paths) is half-cut by the bottom status bar \u2014 icon and missing subtitle make it look truncated rather than scrolled.\n4. **Modal over an empty, dark scene:** The Gallery modal itself is clear (good empty-state copy), but arriving on a blank green canvas with no context weakens the 5-second test.\n\nFix the slider label mismatch and clipping; the modal is otherwise well-formed.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "label_edit_open_1280",
+  "label": "Label edit modal",
+  "verdict": "**QA Review \u2014 3D Backyard Design App (1280\u00d7800)**\n\n**Issues found (ranked by severity):**\n\n1. **\ud83d\udd34 `FPS: 1` in status bar** \u2014 A frame rate of 1 is a critical performance failure. Either the app is genuinely frozen/stuttering or the FPS counter is broken; either way it signals \"broken-looking\" to any user who glances at it.\n2. **\ud83d\udfe0 Sun slider bar looks fragmented / ambiguous** \u2014 The slider at bottom-center is split into disconnected segments (dark/light/dark) with the \"\u2600 Sun\" button sitting *inside* the track at ~x650. It reads as overlapping elements rather than a slider-with-handle. Also, `5 ft` next to a sun control is confusing (sun position vs. height?), and it conflicts with `Height: 0 ft` in the status bar.\n3. **\ud83d\udfe0 \"Patio\" item clipped** \u2014 The last sidebar item under \"Patios & Paths\" is cut off mid-row by the bottom status bar (~y765). Presumably scrollable, but as rendered it looks truncated.\n4. **\ud83d\udfe1 Duplicate tool names** \u2014 \"Terrain\" and \"Analyze\" each appear twice (left floating SCULPT panel *and* bottom button row). Redundant entry points invite confusion about which does what.\n5. **\ud83d\udfe1 \"Innovate\" button** \u2014 In the bottom row (Tape Measure, Terrain, Excavate, Analyze\u2026), \"Innovate\" is semantically odd \u2014 likely a typo for \"Irrigate\" or a mislabeled action.\n6. **\ud83d\udfe2 Minor** \u2014 `Brush: 8 ft` shown while `Tool: Select` is active (brush size irrelevant to Select?) and the bottom button row + slider stack is quite tight vertically (~y695\u2013755), though not technically overlapping.\n\n**What's working:** The 5-second comprehension test passes \u2014 top toolbar, \"ADD TO YOUR YARD\" library with helpful Getting Started tip, active \"Label\" tool highlighted in the header, and a matching instructional toast (\"Click anywhere in the yard to place a label\") are all coherent. Compass and daytime pill are fine.\n\n**Verdict:** Issues found \u2014 fix the FPS indicator, the fragmented bottom slider bar, and the clipped Patio item before ship.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "cmd_palette_open_1280",
+  "label": "Command palette Ctrl+K",
+  "verdict": "**Not CLEAN** \u2014 a few real issues:\n\n**1. Overlapping / clipped UI**\n- Bottom-center toolbar row (y\u2248730\u2013755): there are **two slider tracks sharing one row**, split by the \"Sun\" button. The right track shows **two separate dark fill segments** (~x746\u2013830 and ~x838\u2013925) with a thin gap \u2014 looks like duplicated fill or two overlapping thumbs. Reads as a rendering glitch.\n- The open command palette occludes the left tool rail, truncating labels to \"Underg\u2026/Analyze\u2026\" (the occlusion itself is fine; there's just no hint those tools exist while the palette is open).\n- Search input has a **doubled green underline** (y\u2248170\u2013176) \u2014 looks like stacked focus border + divider.\n\n**2. 5-second comprehension \u2014 mostly yes, with caveats**\n- The palette (search box + labeled command list with shortcut keys) is self-explanatory, and the highlighted \"Switch to 3D View\" gives a clear default action.\n- But nothing identifies the app (no logo/title), and there's no visible close (\u00d7) or backdrop on the dialog \u2014 a new user may not know how to dismiss it (Esc-only is not discoverable).\n\n**3. Confusing / ambiguous / broken-looking**\n- **Unlabeled sliders**: neither track has a label; is it time-of-day, sun angle, or brush size? The \"5 ft\" readout also **contradicts the status bar** (\"Brush: 8 ft\", \"Height: 0 ft\") \u2014 data mismatch or missing label.\n- **\"FPS: 1\"** in the status bar signals severe lag \u2014 alarming and worth hiding behind a debug toggle.\n- The \"Label\" button (top right) shows a stuck selected/focus outline while a command palette is open with an unrelated command highlighted \u2014 inconsistent selection states.\n- Minor wording: \"Innovate\" next to \"Analyze/Excavate\" is vague for tool names.\n\n**Summary:** functional overall and mostly understandable, but the double-slider glitch, unlabeled conflicting values, missing dialog close affordance, and FPS: 1 need fixing before ship.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "cmd_palette_typed_1280",
+  "label": "Command palette query typed",
+  "verdict": "**Not clean \u2014 1 broken-looking state, 1 probable typo, a few nits.**\n\n**Bugs / broken-looking**\n1. **FPS: 1** in the status bar \u2014 the app reads as frozen or severely underperforming. Even if it's an intentional debug stat, it undermines confidence; hide it (or fix perf) in the shipped UI.\n2. **\"Innovate\"** button (bottom command bar, next to Excavate/Analyze) is likely a typo for **\"Irrigate\"** in a backyard-tool context. Verify.\n\n**Overlap / clipping**\n3. **\"Patio\" item** in the left sidebar is cut mid-item by the status bar \u2014 acceptable only if that list scrolls; otherwise it looks truncated.\n4. Leftmost **\"Cost\"** button sits flush against the window edge \u2014 check toolbar padding / possible horizontal overflow.\n5. No hard overlaps: the command palette, Daytime badge, compass, SCULPT panel, and zoom stack all clear each other. \u2705\n\n**Ambiguous / confusing**\n6. **Bottom slider strip**: two track segments flanking a \"Sun\" pill, ending in a bare **\"5 ft\"** readout \u2014 unclear which track does what or what \"5 ft\" refers to. Needs labels or grouping.\n7. **Doubled green underline** beneath the \"terrain\" input \u2014 looks like a duplicate border; verify it's one focus style.\n8. **Three parallel tool clusters** reach the same functions (floating SCULPT panel, bottom command bar, command palette) \u2014 works, but muddies which control is authoritative.\n\n**Q2 \u2014 5-second comprehension:** Mostly yes. \"ADD TO YOUR YARD\" + Getting Started + labeled thumbnails are instantly clear. But the open search dialog over an empty dark terrain, plus the FPS: 1 stat, make it read as a mid-task/debug state; a first-timer may take longer than 5s to orient.\n\nAlso worth verifying: compass needle points SW while the dial's N is up \u2014 confirm it's tracking camera heading, not stuck.",
+  "probe": [],
+  "clean": false
+ },
+ {
+  "surface": "print_preview_1280",
+  "label": "Print preview overlay",
+  "verdict": "**Not clean.** Issues found:\n\n1. **Bottom slider looks broken** \u2014 the bar next to the \"Sun\" toggle renders as fragmented dark/light segments (two overlapping tracks?) and ends in an ambiguous \"5 ft\" label. It's unclear if it's one slider or two, and what \"5 ft\" controls (sun elevation? time?).\n\n2. **\"FPS: 1\" in the status bar** \u2014 indicates a severe rendering/performance problem. This is corroborated by the visuals: the grass texture appears smeared/blurry with dark blotches, and there are stray white diagonal streak artifacts across the upper lawn.\n\n3. **Duplicate controls cause ambiguity** \u2014 \"Terrain\" and \"Analyze\" appear both in the floating Sculpt menu and in the bottom button row; \"Measure\" vs. \"Tape Measure\" similarly overlap. A new user can't tell which is active or why both exist.\n\n4. **\"Innovate\" button** \u2014 semantically odd among Terrain/Excavate/Analyze; reads like a typo (Irrigate? Elevate?) and would confuse users.\n\n5. **Minor:** the \"Patio\" item at the bottom of the left sidebar is clipped mid-item by the status bar (acceptable if scrollable, but looks cut off), and the vast empty green viewport gives a new user no immediate focal point beyond the \"Getting Started\" hint.\n\nCore layout is otherwise sound \u2014 no major overlapping panels, toolbar is readable, and the Getting Started copy does help 5-second comprehension \u2014 but the broken slider, FPS=1, and duplicate/mislabeled tools need fixing.",
+  "probe": [
+   {
+    "id": "print-view",
+    "x": 0,
+    "y": 800,
+    "w": 1280,
+    "h": 1248
+   }
+  ],
+  "clean": false
+ }
+]

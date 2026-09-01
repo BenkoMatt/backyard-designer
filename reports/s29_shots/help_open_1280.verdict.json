@@ -1,0 +1,7 @@
+{
+ "surface": "help_open_1280",
+ "label": "Help modal open (topbar)",
+ "verdict": "**CLEAN** \u2014 A well-organized help modal cleanly overlays a clearly labeled 3D design workspace; no overlaps, clipping, or broken-looking UI among the persistent chrome (top bar, left item palette, status bar, zoom/compass controls all render correctly).\n\nNon-blocking micro-observations (not defects):\n- \"Patio\" is partially cut at the bottom of the left palette \u2014 normal scroll-cutoff that signals the list scrolls.\n- The dimmed top-center hint bar and right-toolbar labels (\"SCULPT/BUILD/VIEW\") are occluded by the modal, which is expected overlay behavior, not a bug.",
+ "issue": "[{\"id\": \"help-panel\", \"scroll\": true, \"scrollH\": 2431, \"clientH\": 640, \"scrollW\": 600, \"clientW\": 600, \"x\": 340, \"y\": 80}]",
+ "ts": "22:28:30"
+}
