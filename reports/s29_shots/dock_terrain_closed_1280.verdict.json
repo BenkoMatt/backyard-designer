@@ -1,0 +1,10 @@
+{
+ "surface": "dock_terrain_closed_1280",
+ "label": "Terrain dock closed (tabs visible)",
+ "verdict": "Not CLEAN \u2014 a few issues, mostly minor but two worth flagging:\n\n**Issues found:**\n\n1. **Duplicate/conflicting controls (bottom-center canvas)** \u2014 The floating menu (SCULPT/VIEW) already offers \"Terrain,\" \"Measure,\" and \"Analyze,\" and the pill row directly next to it repeats \"Terrain\" and \"Analyze\" plus \"Tape Measure.\" Two different clusters with overlapping tools at the bottom of the canvas is confusing \u2014 a user won't know which is active or why both exist.\n\n2. **\"Innovate\" pill (bottom-right of pill row)** \u2014 Ambiguous label and an icon identical to \"Pro Tools\" (lightbulb). In a backyard app this reads like a typo (Irrigate?) or a placeholder. It looks broken/misplaced.\n\n3. **Left sidebar clipped mid-item** \u2014 \"Patios & Paths \u2192 Patio\" is cut off at the bottom edge with its description hidden. If this is a scrollable list it's tolerable, but as shown it looks clipped rather than clearly scrollable (no scroll affordance visible).\n\n4. **Odd terrain rendering** \u2014 The large checkered grid patch has hard, abrupt edges against the surrounding grass, and a dark blob near the bottom-left of the plot looks like a shadow/artifact. To a first-time user this could read as a rendering glitch rather than an editable terrain region.\n\n**What's fine:** Header nav, view toggles, sidebar content, status bar, compass, and the Getting Started callout all render cleanly with no overlaps, clipping, or truncation. The core purpose (\"add items to your yard, drag to position\") is understandable within ~5 seconds thanks to the explicit callout and categorized palette.\n\n**Summary:** Functional and mostly clear, but bottom-center tool duplication plus the odd \"Innovate\" button make the canvas controls feel disorganized \u2014 consolidate into one tool cluster and fix the label to resolve the main confusion.",
+ "dock_probe": [],
+ "res": [
+  1280,
+  800
+ ]
+}

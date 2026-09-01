@@ -1,0 +1,23 @@
+{
+ "surface": "dock_analyze_open_1280",
+ "label": "Analyze dock panel open",
+ "verdict": "**QA findings**\n\n**(1) Overlapping / clipped UI**\n1. **Overlap \u2014 scale bar vs. Sun button:** the \"10 ft\" scale bar (bottom-left of viewport) collides with the \"Sun\" toggle button by ~20\u201325px; the scale bar's right edge runs underneath the Sun button's left edge. Definite defect.\n2. Minor: last sidebar item (\"Patio\") is cut off at the viewport bottom \u2014 acceptable if the list scrolls, but worth verifying a scroll affordance exists.\n3. Everything else clears: the Terrain Analysis panel sits tightly (~9px) between the left SCULPT toolbar and the canvas, but does not clip; bottom-right zoom stack and bottom toolbar are clean.\n\n**(2) 5-second comprehension for a new user**\n- Mostly yes. Header clearly reads as a 3D yard editor, the Getting Started blurb explains the add-item workflow, and the Terrain Analysis modal has unusually clear, self-explanatory toggles with micro-copy. A new user would grasp \"this is a 3D yard design tool with terrain analysis\" in a few seconds.\n\n**(3) Confusing / ambiguous / misplaced / broken-looking**\n1. **\"Innovate\" button (bottom toolbar):** sits in a tool row of Tape Measure / Terrain / Excavate / Analyze \u2014 \"Innovate\" reads like a label bug (Irrigate?) and is ambiguous as a tool name.\n2. **Conflicting active-tool cues:** Tape Measure appears highlighted in the bottom toolbar, \"Analyze\" is highlighted green in the left SCULPT toolbar, yet the status bar says \"Tool: Select\" \u2014 three disagreeing signals about the current tool.\n3. **\"Measure\" under the VIEW group:** measuring is a tool, not a view (and duplicates \"Tape Measure\" in the bottom bar) \u2014 grouping feels misplaced.\n4. **FPS: 2** in the status bar \u2014 while possibly real telemetry, displaying a 2 FPS figure makes the app look broken to any observer.\n5. Redundancy: \"Analyze\" appears in both the left toolbar and the bottom toolbar \u2014 acceptable if intentional, but worth confirming one isn't stale.\n\n**Not CLEAN** \u2014 one hard overlap (scale bar \u00d7 Sun button) plus label/active-state inconsistencies to resolve.",
+ "dock_probe": [
+  {
+   "id": "dock-analyze",
+   "x": 445,
+   "y": 134,
+   "w": 340,
+   "h": 552,
+   "bottom": 686,
+   "bodyScrollH": 489,
+   "bodyClientH": 489,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

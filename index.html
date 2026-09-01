@@ -15397,12 +15397,14 @@ const Onboarding = (function() {
 
   function _overlaysOpen() {
     // Sprint 29 fix (S29-V01): the progressive hint must never float above an open
-    // modal/palette/print overlay or the welcome prompt (z 500 beat modal z 200 and
-    // it intercepted clicks on welcome-prompt buttons).
+    // modal/dock/palette/print overlay or the welcome prompt (z 500 beat modal z 200,
+    // it intercepted clicks on welcome-prompt buttons and dock controls).
     if (document.getElementById('welcome-prompt')?.classList.contains('visible')) return true;
     if (document.getElementById('cmd-palette-overlay')?.classList.contains('visible')) return true;
     if (document.getElementById('print-view')?.classList.contains('visible')) return true;
     if (document.getElementById('sculpt-restore-pill')?.classList.contains('visible')) return true;
+    if (document.querySelector('.dock-panel.visible')) return true;
+    if (document.querySelector('.dock-panel-container.visible')) return true;
     return ['help-modal','shortcuts-modal','share-modal','templates-modal','gallery-modal',
             'timelapse-modal','socialcard-modal','label-edit-modal']
       .some(id => document.getElementById(id)?.classList.contains('visible'));

@@ -1,0 +1,23 @@
+{
+ "surface": "dock_underground_open_1280",
+ "label": "Underground dock panel open",
+ "verdict": "**Not CLEAN** \u2014 a few minor issues, nothing broken.\n\n**1) Overlapping / clipped UI**\n- Left sidebar: the list is cut off mid-item at the bottom \u2014 the \"Patio\" row sits flush against the status bar with its subtitle clipped, and there's no visible scroll affordance, so it can read as broken rather than scrollable.\n- Bottom scale bar (\"10 ft\") and the \"\u2600 Sun\" button are nearly touching (~2px gap) \u2014 visually they read as one merged control.\n- No true overlaps; panels (Underground View, left rail, bottom toolbar, right zoom controls) all have clean separation. Compass, status bar, and floating controls are fully within bounds.\n\n**2) 5-second comprehension: mostly yes**\n- Title, 3D canvas, \"ADD TO YOUR YARD\" palette, and the Getting Started tip communicate the app's purpose quickly. \u2713\n- One small friction: the \"Underground View\" panel is open by default on an empty yard, which may slightly puzzle a first-time user (\"why am I looking underground?\"), though it's clearly labeled and closable.\n\n**3) Confusing / ambiguous / inconsistent**\n- **\"Innovate\"** in the bottom toolbar doesn't read as a tool action alongside Tape Measure / Terrain / Excavate / Analyze \u2014 ambiguous label; a new user won't know what it does.\n- **State inconsistency:** status bar says \"Tool: Select\" while \"Excavate\" is highlighted active (and \"Underground\" is active in the left rail). Three simultaneous active-tool indicators with two different highlight colors (green rail vs. purple bottom bar) is confusing.\n- **Duplication:** \"Terrain\" and \"Analyze\" appear in both the left rail and the bottom toolbar \u2014 not wrong, but potentially ambiguous about which is authoritative.\n- **Placeholders:** \"FPS: \u2014\" and disabled Redo are acceptable empty states, not bugs.\n\n**Suggested quick fixes:** clip the sidebar cleanly / show scrollbar, add padding between scale bar and Sun button, rename or icon-ify \"Innovate\", unify active-tool indication, and sync \"Tool:\" status with the active tool.",
+ "dock_probe": [
+  {
+   "id": "dock-underground",
+   "x": 445,
+   "y": 506,
+   "w": 279,
+   "h": 176,
+   "bottom": 682,
+   "bodyScrollH": 113,
+   "bodyClientH": 113,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}
