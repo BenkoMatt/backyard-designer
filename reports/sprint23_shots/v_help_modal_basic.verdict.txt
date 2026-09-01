@@ -1,18 +1,9 @@
-**Not CLEAN** — a few issues found:
+**Review of the screenshot:**
 
-**1. Overlapping / clipped (main defect)**
-- 🔴 **Modal text is clipped mid-sentence.** The last visible bullet reads *"Share opens the Share modal where you can export your design as JSON, generate a"* and cuts off at the bottom edge of the dialog. The content overflows the fixed-height modal with **no visible scrollbar**, and any content below (possibly a closing line or a "Got it / Close" button) is cut off. This is the most broken-looking thing on screen.
-- 🟡 The modal has **no visible close (×) button** in its top-right corner. Presumably clicking outside or Esc dismisses it, but there's no obvious affordance — combined with the clipped text, the user has no clear way out.
-- 🟢 The overlaps behind the modal (Excavate button reading "…cavate", the Sculpt/Build/View rail, the Daytime pill) are expected modal behavior, not defects.
-- 🟢 The bottom item in the left sidebar is cut off mid-item, but that's normal for a scrollable list.
+1. **Overlaps/clipping:** Nothing unintentional. The help modal correctly overlays the canvas, the Sun & Shadow panel, and the "Daytime" chip — that's standard modal behavior. Toolbar items, sidebar, compass, zoom controls, and status bar all fit their bounds with no collisions or cut-off text.
 
-**2. 5-second comprehension — mostly yes**
-- The sidebar hint ("Click any item below to add it to your yard. Then drag to position it.") plus the "Getting Started" bullets in the modal make the core loop clear quickly. However, the clipped/unescapable modal slightly undermines the first-run experience — a user may spend their first 5 seconds wondering how to close it.
+2. **First-5-seconds comprehension:** Yes. New users are greeted by an onboarding modal that explicitly walks them through the three core actions (click item in left panel → click to select → drag to place), plus a persistent "Getting Started" hint in the sidebar repeating the same instruction. Camera controls and save behavior are also explained up front.
 
-**3. Confusing / ambiguous (minor, mostly fine)**
-- **"Innovate"** (bottom-right button group: Excavate / Analyze / Innovate) is an odd, ambiguous label for a backyard tool — is it meant to be "Irrigate," or an AI feature? Worth double-checking.
-- **"FPS: —"** in the status bar suggests the renderer/metrics aren't reporting; harmless but looks slightly unfinished.
-- Undo/Redo/Load grayed out is correct for an empty scene.
-- Everything else (top bar, mode toggle, compass, zoom controls, scale bar, Take Tour) looks coherent and properly laid out.
+3. **Confusing/broken-looking elements:** None of significance. "FPS: —" is just a not-yet-measured stat (normal pre-render), and the partially visible "Sun & Shadow" slider/label are coherent once the modal is dismissed — nothing renders as broken, misaligned, or illegible.
 
-**Priority fix:** let the "How to Use" modal scroll (or auto-size) so the truncated bullet isn't cut, and add a visible × / close button.
+**CLEAN**

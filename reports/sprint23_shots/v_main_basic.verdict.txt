@@ -1,21 +1,16 @@
-## 1) Overlapping / clipped elements
+**1) Overlapping / clipping**
+- No true overlaps: the Take Tour button, compass, zoom stack, floating toolbars, and scale bar all clear each other and the viewport edges.
+- Minor: in the left sidebar, the last list row ("Patio") is cut off mid-row at the bottom of the panel with no scrollbar or fade cue — it reads as slightly clipped rather than "more content below."
 
-- **Clipped: "SCULPT / BUILD / VIEW" floating panel (bottom-left of canvas).** The panel runs off the bottom edge of the viewport — the **BUILD section header is visible with zero items under it**, and the panel is truncated by the status bar. Looks broken; the build tools appear inaccessible. *(Highest-severity issue)*
-- **Minor: Left sidebar's last item ("Patios & Deck…") is cut off** at the bottom of the panel. Fine if the list scrolls, but worth confirming it's not dead space.
-- No true element-on-element overlaps: the tip bubble, bottom tool row, scale bar, "Take Tour" button, and the right-side camera/zoom buttons all have clear separation (tip bubble and SCULPT panel are only ~10px apart — tight but clean).
+**2) 5-second comprehension**
+- Yes for the basics: the "Getting Started" callout explicitly says "Click any item below… drag to position it," and a prominent "Take Tour" backs it up. A new user would know to pick from the sidebar.
+- Less clear once in the scene: the bottom toolbar (Tape Measure / Terrain / Excavate / Analyze / Innovate) has no labels explaining modes vs. one-shot actions, and "Terrain" also appears in the floating bottom-left panel — two "Terrain" buttons is ambiguous (are they the same tool? different?).
 
-## 2) Would a new user understand within 5 seconds?
+**3) Confusing / broken-looking**
+- "Terrain" appears twice (floating panel + bottom toolbar) and sun-related controls also appear twice ("Sun & Shadow" panel vs. "Sun" pill) — redundant, could confuse.
+- Status bar shows "FPS: —", which looks like a broken/uninitialized readout.
+- "Innovate" is an unusual tool name (Irrigate? Innovate?) — ambiguous label.
+- Compass needle points SE while "N" is up; if the needle is meant to indicate north, it looks wrong (if it's the view direction, it's just unlabeled).
+- The gridded blue → ungridded blue transition around the lot reads as unfinished rather than intentional water/sky.
 
-**Yes.** Onboarding is well covered:
-- "Getting Started" callout explicitly says: *"Click any item below to add it to your yard. Then drag to position it."*
-- A follow-up tip bubble reinforces the same instruction in the canvas.
-- "Take Tour" offers a guided path.
-
-## 3) Confusing / ambiguous / broken-looking
-
-- **"Innovate" tool label (bottom toolbar)** — among Tape Measure / Terrain / Excavate / Analyze, "Innovate" reads as a mistake (with the lightbulb icon, did you mean **"Irrigate"** or **"Lighting"**?). *(Medium)*
-- **Empty "RECENTLY USED" section** — header with no items beneath it looks like a rendering gap rather than an intentional empty state. *(Minor)*
-- **Redundant sun controls** — three separate sun-related affordances ("Daytime" chip top-center, a "Sun" button, and "Sun & Shadow" in the panel) may confuse which one is primary. *(Minor)*
-- **"FPS: —" in the status bar** shows an unset placeholder value. *(Nitpick)*
-
-**Verdict: Not CLEAN** — the clipped SCULPT/BUILD panel is the one real defect; everything else is minor polish.
+Verdict: **close to clean, but not perfect** — the clipped "Patio" row and the duplicated "Terrain" control are the two things I'd fix before ship.

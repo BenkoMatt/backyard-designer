@@ -1,0 +1,125 @@
+{
+ "mode": "after",
+ "base_url": "http://localhost:8095/index.html",
+ "results": [
+  {
+   "overlay": "toast",
+   "trigger": "REALCLICK:lib-item",
+   "rect": {
+    "left": 491.5,
+    "top": 56,
+    "right": 788.5,
+    "bottom": 100,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "context-hint",
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-after-toast.png"
+  },
+  {
+   "overlay": "context-hint",
+   "trigger": "co-present",
+   "rect": {
+    "left": 635.2,
+    "top": 574,
+    "right": 924.8,
+    "bottom": 604,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "toast",
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-after-context-hint.png"
+  },
+  {
+   "overlay": "grid-level-badge",
+   "trigger": "REALCLICK:slider",
+   "rect": {
+    "left": 723.7,
+    "top": 64,
+    "right": 836.3,
+    "bottom": 90,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-after-grid-level-badge.png"
+  },
+  {
+   "overlay": "depth-gauge-overlay",
+   "trigger": "REALCLICK:#vc-underground",
+   "rect": {
+    "left": 1161.1,
+    "top": 68,
+    "right": 1264,
+    "bottom": 116,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "grid-level-badge",
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-after-depth-gauge-overlay.png"
+  },
+  {
+   "overlay": "atmosphere-badge",
+   "trigger": "co-present",
+   "rect": {
+    "left": 747.8,
+    "top": 94,
+    "right": 812.2,
+    "bottom": 114,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "grid-level-badge",
+    "depth-gauge-overlay"
+   ],
+   "shot": "reports/sprint23_shots/agent3-after-atmosphere-badge.png"
+  },
+  {
+   "overlay": "recovery-banner",
+   "trigger": "REALCLICK:recovery",
+   "rect": {
+    "left": 397.3,
+    "top": 64,
+    "right": 882.7,
+    "bottom": 118,
+    "visible": 1
+   },
+   "conflicts": [],
+   "co_present": [
+    "atmosphere-badge"
+   ],
+   "shot": "reports/sprint23_shots/agent3-after-recovery-banner.png"
+  },
+  {
+   "overlay": "toast+badge-stacked",
+   "rect": {
+    "left": 491.5,
+    "top": 110,
+    "right": 788.5,
+    "bottom": 154,
+    "visible": 1
+   },
+   "conflicts": [],
+   "badge_rect": {
+    "left": 563.7,
+    "top": 166,
+    "right": 676.3,
+    "bottom": 192,
+    "visible": 1
+   },
+   "shot": "reports/sprint23_shots/agent3-after-toast-badge-stack.png"
+  }
+ ]
+}

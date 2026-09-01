@@ -1,0 +1,20 @@
+**(1) Overlaps / clipping**
+- No hard overlaps found. Tight clearances only:
+  - Underground View modal sits ~9px above the bottom action row (Tape Measure/…/Innovate) — visually cramped, likely to collide on shorter viewports — *Low*
+  - Take Tour pill and the compass widget nearly touch in the top-right — *Low*
+  - Left sidebar is cut mid-item ("Patio" half-visible at the bottom); fine if it scrolls, but there's no visible scroll affordance — *Low*
+
+**(2) 5-second comprehension — mostly yes, with friction**
+- Positive: the "Getting Started" card states the core loop plainly ("Click any item below to add it to your yard. Then drag to position it.") — a new user knows what to do *Moderate strength, positive*
+- Hurts it: the app boots directly into **Underground / Excavate** mode (purple active button, status bar "Tool: Underground / Excavate") — a first-time user's opening view is an advanced excavation state instead of a neutral terrain view — *Moderate*
+- Three simultaneous onboarding signals compete: Take Tour pill, Getting Started card, and the dark active-tool toast — *Low*
+
+**(3) Confusing / ambiguous / broken-looking**
+- **"FPS: 2"** in the status bar — reads as a frozen/broken renderer, real or not — *Critical*
+- Duplicate tool names across competing toolbars: "Terrain" and "Analyze" appear in both the SCULPT rail and the bottom action row; "Measure" vs "Tape Measure"; "Sun & Shadow" vs "Sun" — unclear whether these are the same or different controls — *Moderate*
+- "Innovate" as a tool button label is vague; its function is not guessable from the name — *Moderate*
+- "Buried Objects **0**" rendered in red reads like an error/alarm when it's just a zero count with the benign caption "No objects buried" — *Low*
+- Undo/Redo are grayed out even though the tool state has just changed (Underground now active), so history appears unusable right after an action — *Low*
+- Minor: the Cutaway slider shows no numeric value while the Opacity slider shows "100%" — inconsistent readouts — *Low*
+
+**Verdict: not CLEAN** — primarily due to the FPS: 2 readout, the default Underground/Excavate boot state, and duplicated/ambiguous tool labels.

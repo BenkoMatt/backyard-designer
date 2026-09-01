@@ -1,20 +1,14 @@
-**Not CLEAN — several visible problems.**
+**1) Overlapping / clipped**
+- No significant overlaps. The floating panels, toast banner, bottom tool row, and scale bar all have clear separation.
+- The "Patio" item at the bottom of the left sidebar is cut mid-item by the viewport edge/status bar — this reads as normal scroll-list behavior, not a bug.
+- Minor: "Terrain," "Analyze," and "Measure/Tape Measure" appear in both the left floating panel and the bottom toolbar — redundant but not clipped.
 
-**(1) Overlapping / clipped:**
-- **Two duplicated "Underground View" panels are stacked on top of each other** (~x370–650, y578–790). A large windowed dialog (with − ×) sits behind a second, smaller "Underground View" panel — looks like a duplicated/misrendered dialog, a clear P1.
-- **Sculpt side-menu labels are clipped by those dialogs**: "Pro Tr…", "Sun &…", "Meas…", "Atmos…" are cut off mid-word.
-- **Broken-looking dark cover over text at bottom center** (~x595–655, y745): only "Undergroun…" is visible through a black overlay — reads as a rendering bug.
-- **Bottom toolbar overlaps the dialogs** (Tape Measure / Excavate / Analyze row collides with the dialog footers and "No objects buried" text).
-- **Left sidebar's last item ("Patio…") is clipped** by the status bar.
-- **Tooltip is truncated**: "— Cutaway/Opacity below reveal the layers" starts mid-sentence with a dash.
+**2) 5-second comprehension**
+- Yes. The "Getting Started" callout ("Click any item below to add it to your yard. Then drag to position it."), the "ADD TO YOUR YARD" sidebar, and the prominent "Take Tour" button make the primary action obvious immediately.
 
-**(2) 5-second comprehension:**
-Borderline-yes. The "Getting Started" hint ("Click any item below to add it… drag to position it") plus the "Take Tour" button do orient a new user, and the empty terrain makes the canvas the obvious focus. But the pile of open underground dialogs and truncated labels on first load makes the state confusing — a new user would wonder why these windows are open and what "Excavate"/"Underground" mode does.
+**3) Confusing / broken-looking**
+- **"Innovate"** button (bottom toolbar) — doesn't fit the surrounding tool set (Tape Measure, Terrain, Excavate, Analyze). Possibly meant to be "Irrigate"? Flag for verification.
+- **"FPS: —"** in the status bar looks stale/broken while the 3D scene is clearly rendering.
+- Everything else (toast banner, Underground View panel, undo/redo disabled states, compass) is coherent and consistent with the active "Underground / Excavate" tool shown in the status bar.
 
-**(3) Confusing / ambiguous / broken:**
-- The double "Underground View" window + black text cover are the worst offenders — they look outright broken (P1).
-- The truncated tooltip and clipped menu labels ("Pro Tr…") are ambiguous (P2).
-- "Innovate" (bottom toolbar) is an odd, unclear label next to Terrain/Excavate/Analyze (P3).
-- Minor: "RECENTLY USED" header with nothing under it; FPS reads "—".
-
-**Fix priority:** resolve the duplicated/overlapping underground dialogs (P1), fix the black text-cover and truncated tooltip (P1), un-clip the Sculpt menu and sidebar's last item (P2), and consider closing the underground tool by default so new users land on a clean canvas.
+**Verdict:** Near-clean — two small text-level issues worth fixing ("Innovate" label, stale FPS readout); no layout or overlap bugs.

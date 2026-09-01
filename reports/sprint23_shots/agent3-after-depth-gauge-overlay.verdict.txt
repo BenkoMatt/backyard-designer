@@ -1,0 +1,17 @@
+**Not clean.** Findings below:
+
+**(1) Overlapping / clipped**
+- **Compass dial (top right):** the red needle extends past the bottom edge of the white circular dial and spills onto the terrain beneath it — looks like the needle SVG/sprite is overflowing its container rather than staying inside the dial.
+- No other panel overlaps detected: the Terrain Sculpting panel, left SCULPT/PANEL, bottom tool pills, scale bar, and status bar all have clean separation.
+
+**(2) Transient notifications / badges**
+- **Toast (top center) is corrupted:** it reads "Gru2B06 Grid at Y=-4 ft" — the literal string `u2B06` (a failed Unicode escape for the ⬆ arrow emoji, U+2B06) is rendered as raw text and fused with the surrounding words. The toast isn't occluded (the "Daytime" badge sits below it, the "CAMERA DEPTH" badge is separate on the right), but it is **not legible as intended**.
+- "Daytime" badge, "CAMERA DEPTH 0.0 ft" badge, and "Take Tour" button are each fully legible and unstacked. ✓
+
+**(3) Confusing / broken-looking**
+- **Empty broken chip** immediately after the "Terrain Controls" header in the Terrain Sculpting panel — a tiny rounded rectangle with no content looks like a badge/button that failed to load its icon or label.
+- **Toast Unicode garbage** (as above) — should render as "⬆ Grid at Y=-4 ft" (or similar), not `u2B06`.
+- **FPS: 1** in the status bar — likely real telemetry rather than a rendering bug, but combined with the other glitches the app currently reads as degraded.
+- Status bar values are otherwise consistent with the panel state (Tool: Raise, Brush: 8 ft, Height: 0 ft = "Height at cursor: 0.0 ft"). ✓
+
+**Verdict: NOT CLEAN** — most critical fix is the corrupted toast (`u2B06` escape leaking into visible text), plus the empty chip next to "Terrain Controls" and the compass needle overflowing its dial.

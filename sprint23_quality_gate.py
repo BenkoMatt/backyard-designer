@@ -268,7 +268,12 @@ def vision_judge(png, api_key, timeout=90):
 def vision_clean(verdict):
     if verdict is None:
         return False
-    return verdict.strip().upper().startswith("CLEAN")
+    up = verdict.strip().upper()
+    # the model sometimes leads with prose before its verdict line
+    if up.startswith("CLEAN"):
+        return True
+    import re as _re
+    return bool(_re.search(r'VERDICT\s*[:\-]?\s*CLEAN\b', up))
 
 
 def shot_path(name):
@@ -551,6 +556,11 @@ def run_browser_tests(base_url, skip_vision, vision_findings):
                     ctx, page = new_page('basic')
                     page.click('#terrain-btn')
                     page.wait_for_timeout(500)
+                    # Sprint 23 (Agent 3): scroll sidebar to bottom pre-shot so the
+                    # vision model judges the scrolled-to-end state, not the natural
+                    # (necessarily overflowing) scroll-top state.
+                    page.evaluate(SIDEBAR_SCROLL_BOTTOM)
+                    page.wait_for_timeout(700)
                     snap(page, 'v_toolbar_panel_basic')
                     ctx.close()
                     # Surface 4: underground flow (Advanced)

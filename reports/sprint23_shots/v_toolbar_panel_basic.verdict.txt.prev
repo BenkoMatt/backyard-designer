@@ -1,0 +1,18 @@
+**1) Overlapping / clipped**
+- No hard overlaps or clipped elements found. Closest call: the **"Take Tour" button and the N/S compass sit nearly touching** in the top-right (~2px gap) — cramped but not overlapping.
+- The Terrain Sculpting modal clears the bottom toolbar and side panel comfortably.
+
+**2) 5-second comprehension — partially**
+- Helps: the hint "Pick a mode, then click + drag on the ground to sculpt," the prominent **Take Tour** button, and clearly labeled sidebar categories (Trees & Plants, Patios & Paths…) do communicate the basics.
+- Hurts:
+  - **"FPS: 2" in the status bar** — the app looks like it's frozen or badly broken. A new user will assume drag interactions won't work and may bail.
+  - The **Terrain Sculpting modal is open by default with no explanation**, while the app's apparent primary task (dragging plants/structures from the left rail into the yard) is never signaled — no "drag an item to place it" affordance.
+
+**3) Confusing / ambiguous / broken-looking**
+- **Three competing "Terrain" controls**: a green active "Terrain" button (bottom-left), a dark active-looking "Terrain" button in the center toolbar row, and the "Terrain Sculpting" modal — all visible at once. It's unclear what each does and why two appear simultaneously "on."
+- **Two sun controls**: "Sun & Shadow" (bottom-left) and a separate "Sun" button next to the scale bar — ambiguous which toggles what.
+- **"Strength: 0.05"** is meaningless to a new user — no unit, no % context (vs. "8 ft" on Brush Size, which is fine).
+- The mode button grid (Raise/Lower/Smooth/Erode centered over Flatten/Dig/Fill) reads as a ragged, misaligned wrap rather than intentional grouping.
+- The collapsed sections ("GRID LEVEL & DEPTH", "CARVING", "PRESETS & TOOLS") look like flat disabled buttons rather than expandable accordions.
+
+**Top fixes:** address the 2 FPS performance state, rename/merge the duplicate Terrain buttons, and add a first-run cue pointing to drag-and-drop placement.
