@@ -3,23 +3,23 @@
   "total": 55,
   "passed": 55,
   "failed": 0,
-  "index_html_bytes": 766972,
-  "index_html_lines": 16201,
+  "index_html_bytes": 767085,
+  "index_html_lines": 16202,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "766972 bytes"
+      "detail": "767085 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "766972 bytes"
+      "detail": "767085 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "16201 lines (info only)"
+      "detail": "16202 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
@@ -234,7 +234,7 @@
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=60157 vs flat=11808 (revealed delta=48349); clay=59 subsoil=250 topsoil=50096 bedrock=9752"
+      "detail": "geo pixels: pit=70933 vs flat=11819 (revealed delta=59114); clay=59 subsoil=250 topsoil=51669 bedrock=18955"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -274,7 +274,7 @@
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 0"
+      "detail": "|geo_restored - geo_flat| = 17"
     },
     {
       "name": "No console errors during the entire run",

@@ -4,12 +4,12 @@
   "total": 33,
   "passed": 33,
   "failed": 0,
-  "index_html_bytes": 766972,
+  "index_html_bytes": 767085,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "766972 bytes, headroom 1028",
+      "detail": "767085 bytes, headroom 915",
       "merge_locked": false
     },
     {
@@ -69,19 +69,19 @@
     {
       "name": "W01: toast rect intersects NO toolbar button (both rows)",
       "status": "PASS",
-      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64, 'right': 788.484375, 'bottom': 108} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.14288330078125, 'right': 788.484375, 'bottom': 108.14288330078125} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W01: toast band does not overlap toolbar container rect",
       "status": "PASS",
-      "detail": "toastRect={'left': 491.515625, 'top': 64, 'right': 788.484375, 'bottom': 108} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "toastRect={'left': 491.515625, 'top': 64.14288330078125, 'right': 788.484375, 'bottom': 108.14288330078125} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W02: with a panel open, toast intersects NO toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.34700775146484, 'right': 788.484375, 'bottom': 108.34700775146484}",
+      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.22610473632812, 'right': 788.484375, 'bottom': 108.22610473632812}",
       "merge_locked": false
     },
     {
@@ -183,13 +183,13 @@
     {
       "name": "W09: seeded recovery snapshot shows the recovery banner",
       "status": "PASS",
-      "detail": "bannerVisible=True bannerRect={'top': 64, 'bottom': 118, 'left': 394.5390625, 'right': 885.4609375}",
+      "detail": "bannerVisible=True bannerRect={'top': 64, 'bottom': 118, 'left': 394.953125, 'right': 885.046875}",
       "merge_locked": false
     },
     {
       "name": "W09: visible recovery banner + visible toast do not overlap",
       "status": "PASS",
-      "detail": "strict: bannerRect={'top': 64, 'bottom': 118, 'left': 394.5390625, 'right': 885.4609375} toastRect={'top': 118, 'bottom': 162, 'left': 491.515625, 'right': 788.484375} overlap=False (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band) \u2014 MERGE-",
+      "detail": "strict: bannerRect={'top': 64, 'bottom': 118, 'left': 394.953125, 'right': 885.046875} toastRect={'top': 118, 'bottom': 162, 'left': 491.515625, 'right': 788.484375} overlap=False (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band) \u2014 MERGE-LO",
       "merge_locked": true
     },
     {

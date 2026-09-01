@@ -1,0 +1,5 @@
+**1) Legibility:** Yes — the tip bubble has a solid dark (slate/purple) background with white text ("💡 Tip: Click an item in the left panel to add it to your yard"), which is clearly readable against the 3D scene.
+
+**2) Overlap/clipping:** No — it floats bottom-center above the toolbar row (Tape Measure, Terrain, Excavate, etc.) without covering any buttons, and it's fully opaque with no fading or edge clipping. The × close button is visible.
+
+**3) VERDICT: CLEAN** ✅

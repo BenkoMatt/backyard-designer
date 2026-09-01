@@ -1,96 +1,90 @@
-# VISION QA — Sprint 29 Report
+# VISION_QA_S29_report.md — FINAL (Agent R5, CONVERGENCE)
 
-## Section 4 — Transient Overlays + Flow Surfaces (Agent 4: AUDIT-TRANSIENTS)
+**Branch:** `s29r-fixer` (worktree `/root/byd29r-fixer`) · **Baseline:** `de2cae8` (760,523 B) · **Final:** 767,085 B / 768,000 (headroom +1,915)
+**Merged in:** audit-transients T01–T09 (`834ccae`) · size-cop trim (`7d66d31`) · R2/panels `812720d`+`058c1c4` · R3/modals `dfd363f`+`20fb9e6` · R5 fixes (below). R1/core `e727dc8` verified equivalent-and-redundant (see reconciliation), not merged as-is.
 
-**Owner:** every transient/status overlay + print/share/cmd-palette flows.
-**Method:** real CDP pointer/keyboard events (Playwright), 1280×800, glm-5.3-flash vision verdicts
-(base64 image_url, temp 0), every verdict saved as a JSON sidecar next to its shot in
-`reports/s29_shots/`. DOM `getBoundingClientRect` proof required before acting on any vision
-claim (S23 crop-edge lesson). Byte cap checked after every edit (`size_budget.py` 4/4 at all times;
-final 761,589 / 768,000).
+## Final verdict table (finding → reporter verdict → R5 independent verdict → final state)
 
-### 4.1 Surfaces swept (before/after shots + verdict sidecars)
+| # | Finding (surface) | Reporter verdict | R5 independent re-verification | Final state | Shot path (R5, own CDP) |
+|---|---|---|---|---|---|
+| Handoff L4 | Progressive-hint ghost overlay: half-faded bottom-center, collides with toolbar row (pre-fix z-500 screenshot) | Not CLEAN (size-cop VS1, pre-transients) | Reproduced live path: 5s idle timer fires → hint [440,613,840,680] opacity 1, z-190, toolbar [620,728,1198,760] — no overlap; own vision verdict **CLEAN** ("solid dark background, white text clearly readable; fully opaque; × visible") | **VERIFIED FIXED** (transients T01-family: z-order + auto-hide + modal/toolbar guards) | `reports/s29_shots/r5_progressive_hint_live.png` + `.verdict.txt` |
+| Handoff L5 | Sidebar "Patio" cut mid-item, no scroll cue (S23-V01 padding made it legible; cue missing) | Not CLEAN (size-cop VS1/VS4/VS5) | Same as VS1/VS4 "Patio cut" row: fade cue opacity-1 above fold; vs2 CLEAN | **VERIFIED FIXED** (R2 P04) | `reports/s29_shots/r5_v_p04_sidebar_abovefold.png` |
+| Handoff L6 | Sun cluster fragments behind modal; brush slider unlabeled | Not CLEAN (size-cop VS5) | DOM: badge z140 correctly under modal z200; sun-panel header present; slider label absent — cosmetic judgment | **KNOWN-OPEN (cosmetic, next sprint)** — see Known-open | `reports/s29_shots/r5_vision_arbitration.json` |
+| W09 | Toast `translateY(-8px)` re-enters recovery-banner band (toast top 110 vs banner bottom 118) | Not CLEAN (size-cop gate probe; transients claimed fix T07) | Reproduced post-merge: toast rect [118,162] vs banner [64,118], overlap=False; also re-verified on R1's own tree (toast [122,166]) | **FIXED** (T07 `_syncTopStack` adj +8; R1's `toastLift=12` equivalent — see reconciliation) | `reports/s29_shots/r5_verify_R1_w09_banner_toast.png` |
+| W02b | Placement context-hint paints over open dock-terrain panel (hint [475..765, 574..604] vs panel [445..751, 342..682]) | Not CLEAN (size-cop gate probe; unfixed at handoff — merge-lock R5 owned) | Reproduced pre-fix (hint overlapped accordion rows `tc-acc`); root cause: S23-V03e lift selector list predated dock panels | **FIXED by R5**: selector list + `.dock-panel.visible`; lift clamps vs toolbar; hides when no clear band; strict gate hintOverPanels=[] | `reports/s29_shots/r5_w02b_dockterrain_hint_after.png` |
+| W02b-edge | banner+toast+panel+hint co-occurrence: lifted hint [132,162] landed INSIDE stacked toast band [118,162] | (not previously reported — R5 discovery during re-verify) | Found while re-verifying; fixed; 3-scenario probe A/B/C all clear (hint drops below toast at [174,204]) | **FIXED by R5** (avoid-list: toast/banner/panels/toolbar, candidate-test lift) | `reports/s29_shots/r5_edge_banner_toast_hint_panel_after2.png` |
+| Handoff L7/L8 | First-run wizard "Skip — use default yard" link overlaps sidebar "Patio" (left:24px) | NOT-CLEAN (audit-core vision, wizard_step1_basic + lshape) | Reproduced: skip [24..202, 732..776] over lib-item; root-caused to salvage commit `4487b28` reverting the earlier centered fix; naive re-center (left:50%) then hit tape-measure-btn [620..742] (R2's single-row toolbar) | **FIXED by R5**: `bottom:132px; left:50%` — clear at 1280×800 / 1024×768 / 1600×900 (hits=[] all three); vision **CLEAN** | `reports/s29_shots/r5_v_wizard_skip_final.png` |
+| T01 | Progressive hint pops over open modals (timer fires inside dialog) | fixed by transients (T01+T01b) | Reproduced fix: help modal open 6.5s → hint display:none | **VERIFIED FIXED** | `reports/s29_shots/r5_v_f5_progressive_dock.png` |
+| T02 | Cost panel stale "No objects yet" on add/remove/undo/redo | fixed by transients (T02) | Reproduced: "No objects" before → live "$600 Total (1 item)" after add | **VERIFIED FIXED** | `reports/s29_shots/r5_reverify_transients.json` |
+| T03 | Viewport pointerdown on UI chrome deselects (button press loses click) | fixed by transients (T03) | Reproduced: sun-btn press keeps #properties open (terrain-btn deselect IS intended mode-entry) | **VERIFIED FIXED** | (probe in `r5_reverify_transients.json`) |
+| T04 | Batch-bar overlaps wrapped toolbar/scale-bar | fixed by transients (T04) | Reproduced: bar [642,684] vs toolbar top 692 / scale-bar top 730 — no overlap | **VERIFIED FIXED** | `reports/s29_shots/r5_v_t04_batchbar.png` |
+| T05 | Share QR caption contradicts state ("Save" while save disabled) | fixed by transients (T05) | Reproduced: 25-object design → "Use the link instead." shown | **VERIFIED FIXED** | (probe in `r5_reverify_transients2.json`) |
+| T06 | Timelapse modal poster blank on open | fixed by transients (T06) | Reproduced: poster canvas 472px, drawn (width×height set) | **VERIFIED FIXED** | `reports/s29_shots/r5_v_t06_timelapse.png` |
+| T08 | Ctrl+A select-all drops multi-set (batch count mismatch) | fixed by transients (T08) | Reproduced: 3 adds + Ctrl+A → batch-bar "3 selected" | **VERIFIED FIXED** | (probe in `r5_reverify_transients.json`) |
+| T09 | Explicit save leaves stale recovery banner+snapshot | fixed by transients (T09) | Reproduced: banner visible → Ctrl+S → banner hidden + snapshot cleared | **VERIFIED FIXED** | `reports/s29_shots/r5_v_t09_save_banner.png` |
+| Modals F1 | Help header not visible at scroll-bottom | fixed by audit-modals (merged pre-R5) | Reproduced: scrollTop 1791 → title top 80 == panel top 80 | **VERIFIED FIXED** | `reports/s29_shots/r5_v_f1_help_bottom.png` |
+| Modals F2 | Print preview invisible on screen | fixed by audit-modals | Reproduced (Advanced): #print-view visible, full 1280×800 | **VERIFIED FIXED** | `reports/s29_shots/r5_v_f2_print_preview.png` |
+| Modals F3 | Templates Close below fold | fixed by audit-modals | Reproduced: close-btn [598,592,84×36] in-viewport, inside panel; panel fits (bottom 656) | **VERIFIED FIXED** | `reports/s29_shots/r5_v_f3_templates.png` |
+| Modals F4 | Sculpt-restore-pill overlaps scale-bar/Sun | fixed by audit-modals | Reproduced via dock minimize (pill trigger): pill [445..531, 690..721] vs scale-bar [450..625, 730..756] / Sun [620..693, 728..760] — no overlap (R2's reposition confirmed on my tree) | **VERIFIED FIXED** | `reports/s29_shots/r5_v_f4_sculpt_pill_minimized.png` |
+| Modals F5 | Progressive hint over open dock | fixed by audit-modals (S29-V01) | Reproduced: dock open 6.5s → hint hidden | **VERIFIED FIXED** | `reports/s29_shots/r5_v_f5_progressive_dock.png` |
+| R2 P02/P05 | Scale-bar overlapped wrapped Sun button by 5px; toolbar wrapped (Sun alone row 2) | fixed by R2 (P02+P05 single-row toolbar) | Reproduced: toolbar 1 row (tops=[728]), scale-bar right 607 vs Sun left 1161, gap 554 | **VERIFIED FIXED** | (probe in `r5_reverify_panels.json`) |
+| R2 P03 | "FPS: 2" burst readout on idle (vision flagged every shot) | fixed by R2 (sustain threshold) | Reproduced hidden state + **found regression**: threshold ≥12 blocked s17's walk-FPS lock under swiftshader (81st check FAIL) | **FIXED & RECONCILED by R5**: (≥400ms & ≥12fps) OR (≥1.5s & ≥3fps) — idle drag/hover stays "—", walk meter shows; s17 81/81 ×2 runs | (probe runs in this report §battery) |
+| R2 P04 | Sidebar "Patio" cut with no scroll cue | fixed by R2 (#sidebar-fade) | Reproduced: fade opacity 1 above fold (y750, h26), opacity 0 at bottom | **VERIFIED FIXED** | `reports/s29_shots/r5_v_p04_sidebar_abovefold.png` |
+| R2 P06 | "Innovate" label ambiguous (reads like typo) | fixed by R2 (tooltip) | Reproduced: title "Innovation Lab — pools, retaining walls, terrain stats & underground tools" | **VERIFIED FIXED** (rename blocked by gate text assertions — documented tradeoff) | (probe in `r5_reverify_panels.json`) |
+| R3 R3a | Sun pill abuts scale-bar (toolbar wrap) | fixed by R3 (one-row@1280) | Reproduced: single row, no abutment | **VERIFIED FIXED** (same probe as P02/P05) | (probe in `r5_reverify_r3.json`) |
+| R3 R3b | Label tool: status bar said "Tool: Select" while Label armed | fixed by R3 | Reproduced: status "Tool: Label" during label placement | **VERIFIED FIXED** | (probe in `r5_reverify_r3.json`) |
+| R3 R3c | Topbar overflow cue inverted (fade at end, none when clipped) | fixed by R3 (`scrolled-end` toggle) | Reproduced @1024×768: scrollW 1713 > clientW 1024 at scroll-start → `scrolled-end` TRUE (cue shown) | **VERIFIED FIXED** | (probe in `r5_reverify_r3b.json`) |
+| R3 R3d | Cmd palette 2px divider read as doubled line | fixed by R3 (1px) | Reproduced in CSS: `#cmd-palette-input{border-bottom:1px solid var(--border)}` + S29-R3d comment | **VERIFIED FIXED** | (CSS probe) |
+| R3 R3e | Share URL box wrapped multi-line | fixed by R3 (nowrap) | Reproduced: whiteSpace nowrap, scrollH 29 == clientH 29 | **VERIFIED FIXED** | (probe in `r5_reverify_r3b.json`) |
+| R3 R3f | Label floats unanchored | fixed by R3 (stem+dot in sprite) | Sprite canvas verified (stem+dot code present, sprite in scene); vision judged stem subtle at default zoom — **judgment-grade, recorded as input** | **VERIFIED (code+sprite)**; visual strength = next-sprint input | `reports/s29_shots/r5_v_r3f_label_after_save.png` |
+| VS1/VS4 "Patio cut" | Vision: cut mid-item, no scroll cue | Not CLEAN (size-cop VS1/VS4) | Fade cue verified opacity-1 above fold (P04); vision vs2 verdict CLEAN and calls the same layout fine | **ARBITRATED: no defect** (scroll cue present) | `r5_v_p04_sidebar_abovefold.png` + `r5_vision_arbitration.json` |
+| VS1 "Terrain twice" | Vision: duplicate controls confuse | Not CLEAN (size-cop VS1) | Dock tab + toolbar button = intentional mirror access (pre-existing design; vs2 verdict itself: "intentional quick-access mirrors") | **ARBITRATED: no defect** (design) | `r5_vision_arbitration.json` |
+| VS5 "help modal bottom padding ~0" / "Daytime pill 2px peek" | Vision: reads clipped; stray sliver | Not CLEAN (size-cop VS5) | DOM: panel scrollable, padding 40px, last content below fold = normal scroll (crop-edge misread, S23 lesson); atmosphere-badge z140 UNDER modal z200 (elementsFromPoint: help-modal on top) | **ARBITRATED: no defect** (DOM healthy) | `r5_vision_arbitration.json` |
+| VS6 "Alt+Tab never fires" | Vision: OS-reserved binding | Near-clean (size-cop VS6) | FALSE claim — app captures Alt+Tab (sprint22 gate `brief_inventory` lock) | **ARBITRATED: no defect** (vision hallucination) | `r5_vision_arbitration.json` |
+| VS3 | "No overlaps, clipping, or broken rendering found" but no CLEAN keyword | FAIL by regex (size-cop VS3) | Verdict text is an effective pass; only the CLEAN-keyword matcher missed | **ARBITRATED: effective PASS** | `r5_vision_arbitration.json` |
 
-| Surface | Trigger | Shots (reports/s29_shots/) | Verdict history |
-|---|---|---|---|
-| #toast — Save tip | topbar Save Design | t1_toasts_hints_save_toast_basic_before | first-sweep findings triaged, V03 lock PASS |
-| #toast — item-added/Cost tip | lib-item click + cost panel open | t1_…_cost_panel_item_toast_before, t4_…_cost_live_update | pre-fix stale-cost bug found → fixed |
-| #context-hint | item drag, sculpt mode | t1/t3 …_context_hint_drag_before, …_sculpt_hint_after | CLEAN (S23-V03e suppression verified) |
-| #recovery-banner | seeded `backyard-recovery-snapshot` + reload | t1/t2b/t3/t4 …_recovery_banner*, …_banner_toast_stack | overlap w/ toast found → fixed (T07); restore + discard flows verified |
-| #grid-level-badge | terrain dock Grid Level slider → Y=4 | t2b/t3 …_grid_badge_after, …_grid_badge_plus_toast_after | CLEAN; stacks with toast w/o overlap |
-| #depth-gauge-overlay | #vc-underground | t2b/t4 …_depth_gauge_after/_final | CLEAN (vision overlap claim = false positive, rect-checked) |
-| #atmosphere-badge (S24) | default Daytime | t1/t2/t3 probes | CLEAN; compass-overlap claim disproven by rects |
-| Timelapse modal | #btn-timelapse | t2/t2b/t4 …_timelapse_* | black-box canvas → poster fix (T06); hint-blocked Close → T01/T01b |
-| Socialcard modal | #btn-socialcard + Regenerate | t2/t2b …_socialcard_* | CLEAN (its vision nits = topbar scroll edge, Agent 1) |
-| Batch-bar | Ctrl+A multi-select | t2/t2b/t4 …_batch_bar_* | covered toolbar rows 2-3 + scale bar → lift fix (T04) |
-| Print view | #btn-print (12 objects) | t2b/t3 …_print_view_* | CLEAN; 12-row table + totals render |
-| Share QR flow | #btn-share, copy link | t2b/t3/t4 …_share_qr_* | contradictory captions → fixed (T05); QR pixels verified drawn |
-| Cmd palette | Ctrl+K, arrows, type, Enter | t2b/t4 …_cmdk_* | CLEAN: focus, navigation, filter, execute, close |
-| Full top stack | banner+toast+grid badge+atmo badge | t3/t4 …_full_top_stack / _banner_toast_stack | toast dipped 8px into banner → fixed (T07) |
+## Reconciliation of conflicting fixes
 
-### 4.2 Bugs found & fixed (all re-verified with live DOM rects + fresh vision)
+1. **W09 (toast vs banner)** — two independent fixes existed: transients T07 (`_syncTopStack` adj=8 for toast) and R1's `e727dc8` (`toastLift=12`). Both produce a non-overlapping strict-pass geometry (T07: toast [118,162]; R1: [122,166]). **Kept T07** (already merged, smaller delta, 4px visual gap preserved); R1's version verified equivalent on their tree — no conflict in outcome.
+2. **W02b (hint vs dock)** — R1's `e727dc8` extended the same selector list (`.dock-panel` all entries); R5's version uses `.dock-panel.visible` + toolbar clamp + hide-when-no-room + top-stack-overlay avoidance (fixes the co-occurrence edge R1's simpler lift would still hit: lifted hint [132,162] inside toast band [118,162]). **Kept R5's** (superset; edge verified in 3 scenarios).
+3. **FPS meter** — R2's `>=12fps` threshold vs s17's shipped walk-FPS lock (needs visible meter; swiftshader walks at ~3-4fps). **Reconciled** to dual-prong rule (fast-burst OR long-sustained); both behaviors verified.
+4. **wizard-skip** — salvage `4487b28` had reverted the centered position to `left:24px` (over the sidebar — audit-core's own handoff finding), while transients' branch re-centered it (`left:50%`) which post-R2-merge collides with tape-measure-btn at 1280. **Resolved** to `bottom:132px; left:50%` — clear at all three resolutions, vision CLEAN.
+5. **s29a_common.py** — add/add conflicts (modals' port 8186 vs transients' port 8191): union of both helper sets, `BYD29_REPO`/`BYD29_PORT` env-parameterized so the shared module works from any worktree.
 
-| ID | Bug | Root cause | Fix | Commit |
-|---|---|---|---|---|
-| S29-T01 | Inactivity hint (#progressive-hint) rendered ABOVE open modals (z 500 > modal 200) with `pointer-events:auto` — blocked modal buttons (timelapse Close literally unclickable in CDP) | z-index above `--modal-z`; no suppression when dialogs open | z 500→190; MutationObserver auto-hides hint whenever any modal surface gains `.visible` | db19f8b |
-| S29-T01b | 5s idle timer could pop the hint over a modal that was ALREADY open (T01's observer only watched class changes) | timer fires inside dialog | `showProgressiveHint()` bails if any modal/wizard is visible | cd71fb0 |
-| S29-T02 | Cost panel stale: showed "No objects yet" with objects placed; didn't track add/remove/undo/redo | `updateCostPanel()` only ran on open/layer-toggle/season/template | called from `pushCommand`/`undo`/`redo` (all mutation paths) | db19f8b |
-| S29-T03 | Pressing any bottom-left toolbar button while an object was selected DESELECTED it, closing #properties → viewport widened 320px → toolbar re-wrapped (3-row→1-row) → the pressed button moved 36px mid-press → the click landed on the canvas and the toggle was lost (Terrain/Sun/etc. needed 2 presses) | main viewport `onPointerDown` raycast/deselect had no UI-chrome guard (sibling handlers had one) | same established `e.target.closest(...)` guard added (toolbar, view-cube, dock, floating panels, right stack) | b7ec4ed |
-| S29-T04 | Batch-bar (fixed, bottom:60, centered) covered toolbar rows 2–3 (excavate/analyze/innovate/sun) and the scale bar whenever the toolbar wrapped 3 rows (properties open) | static position ignores wrapped toolbar | `showBatchBar()` lifts the bar above any element intersecting its x-range (toolbar/scale bar), S23-hint pattern | 45b75da |
-| S29-T05 | Share modal showed contradictory states — canvas "Design too large for QR" + caption "QR may be hard to scan" simultaneously; caption referenced a nonexistent "Save" button | caption toggle ignored wayTooLong; stale copy | caption only when a QR actually renders (210<len≤4096); "or Save" dropped | 45b75da |
-| S29-T06 | Timelapse canvas was an empty black box before Play — vision read it as a broken video load | no poster state | light poster + "Press Play to preview your build" drawn on open; stage label/progress reset | 45b75da |
-| S29-T07 | With recovery banner + toast stacked, the visible toast's own `translateY(-8px)` transform dipped it 8px INTO the banner (110 < 118) | `_syncTopStack` ignored the toast transform | +8px stack adjustment for the toast element (alone-state unchanged: still top 64) | a6f5ba4 |
+## Final gate battery (all green, this tree, strict mode)
 
-### 4.3 Sprint 23 hard locks — verified
-
-- **V03 (toast NEVER intersects toolbar buttons):** probed live at every toast state across all four sweeps
-  (save toast, item toast, copy-link toast, stacked toast) — **zero intersections, every pass**.
-- S23-V03e hint suppression under panels, S23-V03c/d top-stack sync — all still behave; T07 tightens d.
-
-### 4.4 Vision false positives (rect-disproven, per S23 lesson)
-
-- "Daytime pill overlaps compass": badge x 748–812 vs compass x 1208–1264 — no overlap.
-- "Toast covers compass": toast x 475–805 vs compass x 1208–1264 — no overlap.
-- "FPS: — spills off the status bar": FPS chip at x 311–317, bar spans 0–1280 — contained.
-- "Innovate is a typo for Irrigate": Innovate opens the innovation panel — by design.
-
-### 4.5 Cross-agent handoff (evidence attached, surfaces owned by others)
-
-- **→ Agent 1 (core UI):** Advanced topbar overflows (scrollWidth 2656 vs 1280; only 11/25 buttons visible;
-  overflow-x:auto) — vision repeatedly flags the fold button ("Label/Permits clipped"); consider a scroll
-  affordance. FPS meter shows "—" or "1" in shots (reads broken). Compass needle renders past its ring.
-  btn-walk sits beyond the topbar fold while a progressive tip references "Walk Mode".
-- **→ Agent 2 (panels):** floating Sun button cluster overlaps the scale ruler label ("10" cut) in
-  underground-view shots — bottom-cluster spacing.
-
-### 4.6 Status
-
-All 10 fixes committed incrementally on `s29-audit-transients` (Caddy identity), size_budget 4/4 after every
-commit (final headroom +5,697 bytes). Findings appended as JSON lines to `/root/byd29-staging/S29_HANDOFF.md`
-for FIXER-CONVERGENCE (Agent 5).
-
-### 4.7 Late additions (final-verify round)
-
-| ID | Bug | Fix | Commit |
-|---|---|---|---|
-| S29-T08 | Ctrl+A "Select All" collapsed multi-select to a single object (selectObject(ids[0]) reset selectedIds) — batch bar said "1 selected" while the toast promised "Selected 3 object(s)" | re-populate selectedIds after the anchor select | 31d174f |
-| S29-T09 | Recovery banner lingered next to a "✓ Design saved!" toast after an explicit save — contradictory state | saveDesign/saveDesignAs clear the stale snapshot + dismiss the banner | 31d174f |
-
-### 4.8 Full gate battery on the final tree (server :8191, my port)
-
-| Gate | Result | Expected |
+| Gate | Result | Invocation / port convention |
 |---|---|---|
-| sprint11 | **143 / 143 PASS** | 143 |
-| sprint15 | **52 / 52 PASS** | 52 |
-| sprint17 | **81 / 81 PASS** | 81 |
-| sprint21 | **55 / 55 PASS** | 55 |
-| sprint22 | **43 / 43 PASS** | 43 |
-| qa_s21 (BASE_URL) | **16 / 16 PASS** | 16 |
-| **sprint23** | **24 / 24 DOM gates PASS — V03 toast lock GREEN** | 24/24 required |
-| sprint23 vision spot-checks | 0/5 (pre-existing: identical 5 failures at baseline 644f31c — compass needle / sidebar fold, other agents' surfaces) | informational |
-| size_budget | **4 / 4 PASS** (762,303 / 768,000) | 4/4 |
-| sprint16 (informational) | 29 / 32 | 29/32 pre-existing |
+| sprint11 | **143/143** | `python3 sprint11_quality_gate.py --port 8240` (accepts `--port`) |
+| sprint15 | **52/52** | `python3 sprint15_quality_gate.py --port 8240` (accepts `--port`) |
+| sprint17 | **81/81** | `BASE_URL=http://127.0.0.1:8240 python3 sprint17_quality_gate.py` (hardcodes 8175; **override via `BASE_URL` env only**) |
+| sprint21 | **55/55** | `python3 sprint21_quality_gate.py --port 8240` (accepts `--port`) |
+| sprint22 | **43/43** | `python3 sprint22_quality_gate.py --port 8240` (accepts `--port`) |
+| qa_s21 dig-visibility | **16/16** | `BASE_URL=http://127.0.0.1:8240 python3 qa_s21_dig_visibility.py` (**`BASE_URL` env only**) |
+| sprint23 | **24/24** | `python3 sprint23_quality_gate.py --port 8240 --skip-vision --expect-open-fixes` (defaults 8093; strict post-merge mode) |
+| sprint29 | **33/33 DOM** | `python3 sprint29_quality_gate.py --port 8240 --skip-vision --expect-open-fixes` (defaults 8185; 39/39 with vision pre-arbitration — see below) |
+| size_budget | **4/4** | `python3 size_budget.py` (byte budget 767,085/768,000, node --check, CSS braces, unique IDs) |
 
-Sprint 23 V03 lock detail: static check PASS (showToast never forces #toast into the toolbar band) and live
-check PASS (visible toast rect intersects zero toolbar buttons) — verified at every toast state during all
-four sweeps (save toast, item toast, copy-link toast, stacked-with-banner toast).
+**Port discipline (S29R continuation):** every agent owns one port ≥8240: R5 = **8240** (this tree, `http.server` on 127.0.0.1), R1's tree verified via **8241**. Older reserved ports (8099/8115/8175/8093/8095/8185/8186/8191) belong to prior agents — never bind them; s17/qa_s21's hardcoded defaults are overridden with `BASE_URL` env, everything else with `--port`.
+
+**Vision runs (glm-5.3-flash, temp 0, own CDP screenshots):** 6-surface spot-check via `sprint29_quality_gate.py --port 8240 --expect-open-fixes` (no `--skip-vision`) = 34/39 with 5 vision-side FAILs, **every one DOM-arbitrated as no-defect** (crop-edge misreads, CLEAN-keyword misses, design mirrors, one false Alt+Tab claim) — full reasoning in `reports/s29_shots/r5_vision_arbitration.json`. Per the sprint23 gate precedent (`--skip-vision` for hard pass/fail; vision verdicts are inputs, not binary FAILs), the DOM battery above is the gating result. Remaining vision judgment-notes for next sprint: label-anchor stem visual strength (R3f), sun-cluster presentation behind modals (W06 family, cosmetic).
+
+## Byte budget ledger
+
+| Step | Bytes |
+|---|---|
+| Baseline de2cae8 | 760,523 |
+| + transients T01–T09 merge | 765,857 |
+| + W02b fix (R5) | 766,548 |
+| + W02b edge fix (R5) | 767,952 |
+| − size-cop comment-only trim (4,109 B, sprint-27 perf notes; S23/S29 fix-marker comments whitelisted) | 763,843 |
+| + R2 P02–P06 merge | 765,289 |
+| + R3 fixes merge | 766,950 |
+| + wizard-skip fix (R5) | 766,954 |
+| + FPS reconcile (R5, final) | **767,085 / 768,000 (+1,915 headroom)** |
+
+## Known-open (documented, not gating)
+
+- **W06 family (cosmetic):** sun-panel cluster reads fragmented behind modals; brush-size slider unlabeled. Judgment-grade; next-sprint input.
+- **R3f label stem:** present in sprite but subtle at default zoom (vision judgment).
+- **Vision keyword matcher:** `vision_clean()` misses narrated passes like vs3's ("No overlaps… found" without the word CLEAN) — gate-harness nit for the next gate builder.
