@@ -1,7 +1,7 @@
 {
- "port": 8349,
- "passed": 23,
- "total": 23,
+ "port": 8301,
+ "passed": 25,
+ "total": 25,
  "results": [
   {
    "name": "window exports call-compatible (enterWalkMode/exitWalkMode)",
@@ -51,17 +51,17 @@
   {
    "name": "(b) W follows VIEW direction (180-degree reversal flips displacement)",
    "ok": true,
-   "detail": "v1=(2.72,-4.22) v2=(-2.45,3.64) dot=-22.03"
+   "detail": "v1=(2.79,-4.34) v2=(-2.51,3.72) dot=-23.18"
   },
   {
    "name": "(c) movement dt-normalized (3x-throttled traversal within 40% of normal)",
    "ok": true,
-   "detail": "dNormal=4.53ft dThrottled=4.54ft ratio=1.00"
+   "detail": "dNormal=4.52ft dThrottled=5.63ft ratio=1.25"
   },
   {
    "name": "(d) exit restores pre-walk camera exactly",
    "ok": true,
-   "detail": "posErr=5.18e-09 quatErr=0.00e+00"
+   "detail": "posErr=5.10e-09 quatErr=2.22e-16"
   },
   {
    "name": "(d-runtime) controls.target restored (next drag orbits the same view)",
@@ -89,14 +89,24 @@
    "detail": "yard=50x100 worstOverflow=0.000ft (margin 1.0)"
   },
   {
+   "name": "(f2a) L-yard: walk toward (+X,+Z) clamped INSIDE yard (never enters the no-floor notch)",
+   "ok": true,
+   "detail": "cell=4ft floorMap=207cells enter=(0.00,-0.00) final=(25.87,0.00) inNotch=False"
+  },
+  {
+   "name": "(f2b) L-yard (-X,-Z) rectangle REACHABLE: deep walk, no z=0 wall",
+   "ok": true,
+   "detail": "final=(-29.00,-29.00) (mirrored guard walled z at 0; reachable region extends to -29)"
+  },
+  {
    "name": "(g) cannot pass through shed footprint",
    "ok": true,
-   "detail": "start=(0.00,-0.00) finalZ=-7.82; wall+radius at z=-7.9"
+   "detail": "start=(0.00,-0.00) finalZ=-7.90; wall+radius at z=-7.9"
   },
   {
    "name": "(g2) lateral slide along wall works",
    "ok": true,
-   "detail": "x 0.00 -> 3.42 (z held at -7.83)"
+   "detail": "x 0.00 -> 3.42 (z held at -7.90)"
   },
   {
    "name": "(h1) sprint FOV nudge (> 51 after 1.6s sprint)",

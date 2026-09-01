@@ -7962,8 +7962,8 @@ if (!enter) enter = { x: _wt.x, z: _wt.z }; // never (0,0): clamp-orbit-target f
 const _hw = state.yard.width / 2 - 1, _hd = state.yard.depth / 2 - 1;
 enter.x = Math.max(-_hw, Math.min(_hw, enter.x));
 enter.z = Math.max(-_hd, Math.min(_hd, enter.z));
-if (state.yard.shape === 'L' && enter.x < 0 && enter.z < 0) {
-// L-yard notch (NW rectangle) — shift entry point out of it
+if (state.yard.shape === 'L' && enter.x > 0 && enter.z > 0) {
+// L-yard notch: world (x>0, z>0) rectangle has no floor (shape's lower-right maps there via +y->-z) — shift the entry point out of it
 enter.x = Math.min(_hw, Math.max(1, enter.x));
 }
 walkPos.set(enter.x, (getTerrainHeight ? getTerrainHeight(enter.x, enter.z) : 0) + WALK.eyeHeight, enter.z);
@@ -8092,11 +8092,11 @@ if (walkPos.x < -hw) { walkPos.x = -hw; walkVel.x = Math.max(0, walkVel.x); }
 if (walkPos.x > hw) { walkPos.x = hw; walkVel.x = Math.min(0, walkVel.x); }
 if (walkPos.z < -hd) { walkPos.z = -hd; walkVel.z = Math.max(0, walkVel.z); }
 if (walkPos.z > hd) { walkPos.z = hd; walkVel.z = Math.min(0, walkVel.z); }
-if (state.yard.shape === 'L' && walkPos.x < 0 && walkPos.z < 0) {
-// L-yard notch (NW rectangle) — slide out along the shallower axis
-const penX = -walkPos.x, penZ = -walkPos.z;
-if (penX < penZ) { walkPos.x = 0; walkVel.x = Math.max(0, walkVel.x); }
-else { walkPos.z = 0; walkVel.z = Math.max(0, walkVel.z); }
+if (state.yard.shape === 'L' && walkPos.x > 0 && walkPos.z > 0) {
+// L-yard notch: world (x>0, z>0) rectangle has no floor (shape's lower-right maps there via +y->-z) — slide out along the shallower axis
+const penX = walkPos.x, penZ = walkPos.z; // depth into the notch across its x=0 / z=0 edges
+if (penX < penZ) { walkPos.x = 0; walkVel.x = Math.min(0, walkVel.x); }
+else { walkPos.z = 0; walkVel.z = Math.min(0, walkVel.z); }
 }
 }
 walkPos.y = (getTerrainHeight ? getTerrainHeight(walkPos.x, walkPos.z) : 0) + WALK.eyeHeight;

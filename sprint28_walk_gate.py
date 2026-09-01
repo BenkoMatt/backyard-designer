@@ -55,6 +55,15 @@ def load(page):
     page.wait_for_timeout(1200)
     page.evaluate("() => { for (const id of ['wizard', 'welcome-prompt']) {"
                   " const el = document.getElementById(id); if (el) el.style.display = 'none'; } }")
+    # Suppress inactivity progressive hints for the whole session: under a loaded host the
+    # 5s wall-clock timer can pop the z-500 overlay mid-operation and EAT hovers/clicks
+    # (interception failure -> no synthetic mousemove -> the hint never hides). Marking all
+    # hint features used makes showProgressiveHint() a permanent no-op.
+    page.evaluate("""() => { const t = window._test;
+        if (t && typeof t.markFeatureUsed === 'function') {
+          ['library','terrain','command-palette','walk-mode','cost','save']
+            .forEach(f => { try { t.markFeatureUsed(f); } catch (e) {} });
+        } }""")
     page.wait_for_timeout(200)
 
 
@@ -236,8 +245,91 @@ def main():
         page.keyboard.press('Escape')
         page.wait_for_timeout(300)
 
+        # (f2) L-yard notch guard regression (Sprint 28 H1 fix): the walk-clamp map must
+        # match the LIVE yardMesh. The builder's _yo() maps shape +y -> world -z after
+        # rotateX(-PI/2), so the no-floor notch of the L lands in the WORLD (x>0, z>0)
+        # quadrant (verified against the mesh itself below). Probe: (1) sample the live
+        # mesh for per-cell triangle coverage (floor map); (2) real-key walk D+S from the
+        # center into (+X,+Z) -> must be clamped to the notch edge, never inside the
+        # notch; (3) real-key walk A+W from a fresh center spawn into (-X,-Z) -> deep
+        # inside the legal NN rectangle (the mirrored guard walled z at 0 there).
+        page.evaluate("""() => { const t = window._test;
+            t.state.yard.shape = 'L'; t.state.yard.width = 60; t.state.yard.depth = 60;
+            t.initWithYard({ shape: 'L', width: 60, depth: 60 });
+        }""")
+        page.wait_for_timeout(900)
+        floor = page.evaluate("""() => {
+          const m = window._test.yardMesh; const p = m.geometry.attributes.position;
+          const cells = {}; const CS = 4;
+          for (let i = 0; i < p.count; i += 3) {
+            const xs = [p.getX(i), p.getX(i+1), p.getX(i+2)];
+            const zs = [p.getZ(i), p.getZ(i+1), p.getZ(i+2)];
+            const c = cells[['t', Math.round(Math.min(...xs)/CS), Math.round(Math.max(...xs)/CS),
+                             Math.round(Math.min(...zs)/CS), Math.round(Math.max(...zs)/CS)].join('_')] =
+                    cells[['t', Math.round(Math.min(...xs)/CS), Math.round(Math.max(...xs)/CS),
+                           Math.round(Math.min(...zs)/CS), Math.round(Math.max(...zs)/CS)].join('_')] ||
+                    { a: (xs[1]-xs[0])*(zs[2]-zs[0]) - (xs[2]-xs[0])*(zs[1]-zs[0]),
+                      minx: Math.min(...xs), maxx: Math.max(...xs),
+                      minz: Math.min(...zs), maxz: Math.max(...zs) };
+          }
+          const out = {};
+          for (const k in cells) {
+            const t = cells[k]; if (Math.abs(t.a) < 1e-9) continue;
+            for (let cx = Math.floor(t.minx/CS); cx*CS <= t.maxx; cx++)
+              for (let cz = Math.floor(t.minz/CS); cz*CS <= t.maxz; cz++) {
+                const key = cx + '_' + cz;
+                out[key] = (out[key] || 0) + 1;
+              }
+          }
+          return out;
+        }""")
+        _t = page.evaluate("""() => { const t = window._test;
+            t.controls.target.set(0, 0, 0); t.activeCamera.position.set(20, 18, 20);
+            t.controls.update(); return t.state.yard.shape; }""")
+        page.wait_for_timeout(300)
+        page.keyboard.press('w')
+        page.wait_for_timeout(400)
+        enter_pos = read_state(page)['pos']
+        page.keyboard.down('d'); page.keyboard.down('s')  # D+S from center: view-relative wish (+x,+z)
+        page.wait_for_timeout(8000)
+        page.keyboard.up('d'); page.keyboard.up('s')
+        page.wait_for_timeout(500)
+        pp = read_state(page)['pos']
+        # "inside the notch" = >1.0ft beyond BOTH notch edges AND on a cell with no mesh
+        # floor. 1.0ft margin: one post-clamp frame of re-acceleration re-penetrates the
+        # x=0/z=0 edge by <= ~0.8ft (accel*dt*dt-blend at the 0.25s dt clamp), which is
+        # boundary contact, not notch entry. The mirrored build reached (16,17) instead.
+        in_notch = pp['x'] > 1.0 and pp['z'] > 1.0 and \
+            not (floor.get(str(int(math.floor(pp['x'] / 4))) + '_' +
+                           str(int(math.floor(pp['z'] / 4))), 0))
+        ok_all &= record("(f2a) L-yard: walk toward (+X,+Z) clamped INSIDE yard "
+                         "(never enters the no-floor notch)",
+                         (not in_notch) and math.hypot(pp['x'], pp['z']) > 0.5 and
+                         abs(pp['x']) <= 29.05 and abs(pp['z']) <= 29.05,
+                         f"cell=4ft floorMap={len(floor)}cells enter=({enter_pos['x']:.2f},{enter_pos['z']:.2f}) "
+                         f"final=({pp['x']:.2f},{pp['z']:.2f}) inNotch={in_notch}")
+        # (f2b) fresh center spawn, walk A+W into the (-X,-Z) rectangle of the L: it must
+        # be REACHABLE on foot (the mirrored guard walled the player at z=0 there).
+        page.keyboard.press('Escape')
+        page.wait_for_timeout(400)
+        page.keyboard.press('w')  # re-enter walk: target (0,0,0) still set -> spawn at yard center
+        page.wait_for_timeout(400)
+        page.keyboard.down('a'); page.keyboard.down('w')
+        page.wait_for_timeout(10000)
+        page.keyboard.up('a'); page.keyboard.up('w')
+        page.wait_for_timeout(500)
+        pn = read_state(page)['pos']
+        ok_all &= record("(f2b) L-yard (-X,-Z) rectangle REACHABLE: deep walk, no z=0 wall",
+                         pn['x'] < -12 and pn['z'] < -12,
+                         f"final=({pn['x']:.2f},{pn['z']:.2f}) (mirrored guard walled z at 0; "
+                         f"reachable region extends to -29)")
+        # restore the default 50x50 rectangular yard so the following gate sections (g)/(h)
+        # run against the stock fixture
+        page.evaluate("""() => { const t = window._test;
+            t.state.yard.shape = 'rect'; t.state.yard.width = 50; t.state.yard.depth = 50;
+            t.initWithYard({ width: 50, depth: 50 }); }""")
+        page.wait_for_timeout(700)
         # (g) collision: 10x10 shed at (0,-14); spawn a fresh page (objects cleared), place shed
-        # 10 ft ahead of the view, then approach and expect a wall stop at z=-14+5+1.1=-7.9
         page2, errors2 = None, []
         page.keyboard.press('Escape')
         page.wait_for_timeout(250)
