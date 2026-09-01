@@ -1,0 +1,32 @@
+[
+ {
+  "surface": "toast-save-tip",
+  "verdict": "DIRTY",
+  "issue": "**QA Review \u2014 not fully clean; a few minor issues found (no broken layout):**\n\n**(1) Overlapping / clipped UI**\n- No hard overlaps detected. The bottom-left cluster (Terrain/Sun & Shadow card, scale r",
+  "shot": "t1_toasts_hints_save_toast_basic_before.png"
+ },
+ {
+  "surface": "toast-cost-tip",
+  "verdict": "DIRTY",
+  "issue": "Not clean \u2014 a few real issues:\n\n**Broken / contradictory**\n1. **Cost Estimate logic bug (worst issue):** The panel says \"No objects yet. Add items to see estimated costs.\" while a Privacy Fence (Objec",
+  "shot": "t1_toasts_hints_cost_panel_item_toast_before.png"
+ },
+ {
+  "surface": "context-hint",
+  "verdict": "DIRTY",
+  "issue": "**QA Findings**\n\n**(1) Overlapping / clipping**\n- **Possible clipped control, top toolbar right edge** (~x 1245\u20131255, y 15\u201330): two tiny vertical marks sit flush against the viewport edge after \"Share",
+  "shot": "t1_toasts_hints_context_hint_drag_before.png"
+ },
+ {
+  "surface": "recovery-banner",
+  "verdict": "DIRTY",
+  "issue": "",
+  "shot": "t1_toasts_hints_recovery_banner_before.png"
+ },
+ {
+  "surface": "recovery-banner+toast-stack",
+  "verdict": "DIRTY",
+  "issue": "**Not quite clean \u2014 a few minor issues, no blockers.**\n\n1. **Bottom status bar looks broken/clipped** (Minor\u2013Moderate): `Tool: Select | Brush: 8 ft | Height: 0 ft` sits on a white footer strip, but **",
+  "shot": "t1_toasts_hints_recovery_banner_plus_toast_before.png"
+ }
+]

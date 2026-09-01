@@ -1,0 +1,42 @@
+[
+ {
+  "name": "save-toast: V03 no toolbar intersection",
+  "ok": true,
+  "detail": "[]"
+ },
+ {
+  "name": "save-toast: toast visible on Save click",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "cost-panel item toast: V03 no toolbar intersection",
+  "ok": true,
+  "detail": "[]"
+ },
+ {
+  "name": "context-hint: visible during drag",
+  "ok": false,
+  "detail": "{'visible': False, 'opacity': '0', 'bottom': '(css default)'}"
+ },
+ {
+  "name": "toast band clear of topbar",
+  "ok": true,
+  "detail": "toast={'left': 492, 'top': 64, 'right': 788, 'bottom': 108, 'w': 297, 'h': 44, 'display': 'flex', 'visible': True} topbar={'left': 0, 'top': 0, 'right': 1280, 'bottom': 52, 'w': 1280, 'h': 52, 'display': 'flex', 'visible': True}"
+ },
+ {
+  "name": "recovery-banner: visible after seeded snapshot reload",
+  "ok": false,
+  "detail": ""
+ },
+ {
+  "name": "banner+toast: V03 toolbar clear",
+  "ok": true,
+  "detail": "[]"
+ },
+ {
+  "name": "banner+toast: no mutual overlap",
+  "ok": true,
+  "detail": ""
+ }
+]

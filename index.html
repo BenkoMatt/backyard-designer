@@ -64,7 +64,7 @@ body.byd-advanced-mode .td-tab,body.byd-advanced-mode .tb-btn{display:flex;}
 #tour-overlay{position:fixed;inset:0;z-index:200;display:none;pointer-events:none;}#tour-overlay.visible{display:block;}#tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);pointer-events:auto;transition:opacity 0.3s;}#tour-spotlight{position:fixed;border:3px solid var(--primary);border-radius:var(--radius-sm);box-shadow:0 0 0 9999px rgba(0,0,0,0.6);transition:all 0.3s ease;pointer-events:none;z-index:200;}#tour-spotlight.no-target{display:none;}#tour-bubble{position:fixed;background:var(--surface);border-radius:var(--radius);padding:20px 24px;max-width:340px;box-shadow:var(--shadow-lg);z-index:200;pointer-events:auto;transition:all 0.3s ease;}.tour-bubble-step{font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}.tour-bubble-title{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text);}.tour-bubble-text{font-size:14px;color:var(--text-muted);line-height:1.5;margin-bottom:16px;}.tour-bubble-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}.tour-btn-primary{background:var(--primary);color:white;border:none;padding:8px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;min-height:36px;transition:background 0.2s;}.tour-btn-primary:hover{background:var(--primary-dark);}.tour-btn-secondary{background:none;color:var(--text-muted);border:1px solid var(--border);padding:8px 16px;border-radius:var(--radius-sm);font-size:14px;cursor:pointer;font-family:inherit;min-height:36px;}.tour-btn-secondary:hover{background:var(--hover-bg);}.tour-progress{display:flex;gap:4px;margin-top:12px;}.tour-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background 0.2s;}.tour-dot.active{background:var(--primary);}.tour-dot.done{background:var(--primary);opacity:0.4;}
 #ctx-tooltip{position:fixed;background:var(--text);color:white;padding:8px 14px;border-radius:8px;font-size:13px;z-index:200;display:none;pointer-events:none;max-width:280px;box-shadow:var(--shadow-lg);animation:ttSlide 0.2s ease;}#ctx-tooltip.visible{display:block;}#ctx-tooltip::after{content:'';position:absolute;border:6px solid transparent;}#ctx-tooltip.tt-bottom::after{top:-12px;left:50%;transform:translateX(-50%);border-bottom-color:var(--text);}#ctx-tooltip.tt-top::after{bottom:-12px;left:50%;transform:translateX(-50%);border-top-color:var(--text);}@keyframes ttSlide{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 .discovery-badge{position:absolute;top:-6px;right:-6px;background:var(--secondary);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;z-index:30;pointer-events:none;animation:badgePulse 2s ease infinite;box-shadow:0 2px 6px rgba(201,123,79,0.4);white-space:nowrap;}@keyframes badgePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
-#progressive-hint{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--carve));color:white;padding:14px 24px;border-radius:24px;font-size:14px;z-index:500;display:none;pointer-events:auto;cursor:pointer;box-shadow:0 6px 20px rgba(61,117,73,0.4);max-width:400px;text-align:center;line-height:1.4;animation:phSlideUp 0.4s ease;}#progressive-hint.visible{display:block;}@keyframes phSlideUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}#progressive-hint .ph-close{margin-left:10px;font-weight:bold;opacity:0.7;}#progressive-hint .ph-close:hover{opacity:1;}
+#progressive-hint{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--carve));color:white;padding:14px 24px;border-radius:24px;font-size:14px;z-index:190;display:none;pointer-events:auto;cursor:pointer;box-shadow:0 6px 20px rgba(61,117,73,0.4);max-width:400px;text-align:center;line-height:1.4;animation:phSlideUp 0.4s ease;}#progressive-hint.visible{display:block;}@keyframes phSlideUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}#progressive-hint .ph-close{margin-left:10px;font-weight:bold;opacity:0.7;}#progressive-hint .ph-close:hover{opacity:1;}
 #onboarding-restart-btn{position:fixed;top:60px;right:76px;z-index:100;background:var(--primary);color:white;border:none;padding:8px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit;display:none;box-shadow:var(--shadow-lg);min-height:36px;transition:all 0.2s;}#onboarding-restart-btn.visible{display:block;}#onboarding-restart-btn:hover{background:var(--primary-dark);transform:translateY(-1px);}
 
 
@@ -4088,6 +4088,10 @@ state.undoStack.push(cmd);
 state.redoStack = [];
 if (state.undoStack.length > 50) state.undoStack.shift();
 updateUndoRedoButtons();
+// Sprint 29 fix (S29-T02): keep the cost panel live on every object mutation
+// (add/delete/duplicate push through here) — it previously refreshed only on
+// open/layer-toggle, showing a stale "No objects yet" while objects existed.
+if (typeof updateCostPanel === 'function') updateCostPanel();
 debouncedAutosave();
 }
 function undo() {
@@ -4096,6 +4100,7 @@ const cmd = state.undoStack.pop();
 cmd.undo();
 state.redoStack.push(cmd);
 updateUndoRedoButtons();
+if (typeof updateCostPanel === 'function') updateCostPanel(); // S29-T02
 debouncedAutosave();
 requestRender();
 }
@@ -4105,6 +4110,7 @@ const cmd = state.redoStack.pop();
 cmd.redo();
 state.undoStack.push(cmd);
 updateUndoRedoButtons();
+if (typeof updateCostPanel === 'function') updateCostPanel(); // S29-T02
 debouncedAutosave();
 requestRender();
 }
@@ -15588,6 +15594,21 @@ if (typeof toastObserverInstalled === 'undefined') {
     if (el) _origToastObserver.observe(el, { attributes: true, attributeFilter: ['class'] });
   });
 }
+// Sprint 29 fix (S29-T01): the inactivity progressive hint (z-index below modals)
+// must never linger over an open modal — auto-hide it whenever any modal surface
+// becomes visible (share, timelapse, socialcard, gallery, templates, label-edit,
+// help, shortcuts, cmd palette, print view, confirm dialog).
+(function () {
+  const _phModalObs = new MutationObserver(() => {
+    if (window.Onboarding && window.Onboarding.hideProgressiveHint) window.Onboarding.hideProgressiveHint();
+  });
+  ['share-modal', 'timelapse-modal', 'socialcard-modal', 'gallery-modal', 'templates-modal',
+   'label-edit-modal', 'help-modal', 'shortcuts-modal', 'cmd-palette-overlay', 'print-view',
+   'confirm-dialog'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) _phModalObs.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
 
 function showConfirmDialog(title, message, opts) {
   opts = opts || {};

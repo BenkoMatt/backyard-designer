@@ -1,0 +1,42 @@
+[
+ {
+  "name": "A: atmosphere-badge rect",
+  "ok": true,
+  "detail": "{'left': 748, 'top': 64, 'right': 812, 'bottom': 84, 'w': 64, 'h': 20, 'display': 'block', 'visible': True}"
+ },
+ {
+  "name": "A: compass rect",
+  "ok": true,
+  "detail": "{'left': 1208, 'top': 68, 'right': 1264, 'bottom': 124, 'w': 56, 'h': 56, 'display': 'block', 'visible': True}"
+ },
+ {
+  "name": "A: atmosphere-badge intersects compass",
+  "ok": false,
+  "detail": "ab={'left': 748, 'top': 64, 'right': 812, 'bottom': 84, 'w': 64, 'h': 20, 'display': 'block', 'visible': True} ci={'left': 1208, 'top': 68, 'right': 1264, 'bottom': 124, 'w': 56, 'h': 56, 'display': 'block', 'visible': True}"
+ },
+ {
+  "name": "C: toast rect after save",
+  "ok": true,
+  "detail": "{'left': 475, 'top': 56, 'right': 805, 'bottom': 100, 'w': 330, 'h': 44, 'display': 'flex', 'visible': True}"
+ },
+ {
+  "name": "C: toast intersects compass",
+  "ok": false,
+  "detail": "t={'left': 475, 'top': 56, 'right': 805, 'bottom': 100, 'w': 330, 'h': 44, 'display': 'flex', 'visible': True} ci={'left': 1208, 'top': 68, 'right': 1264, 'bottom': 124, 'w': 56, 'h': 56, 'display': 'block', 'visible': True}"
+ },
+ {
+  "name": "B: status bar container",
+  "ok": true,
+  "detail": "{'left': 0, 'top': 776, 'right': 1280, 'bottom': 800, 'w': 1280, 'id': 'status-bar', 'cls': ''}"
+ },
+ {
+  "name": "B: fps item inside status bar bg",
+  "ok": true,
+  "detail": "fps={'left': 311, 'top': 783, 'right': 317, 'bottom': 795, 'w': 6, 'h': 12, 'display': 'block', 'visible': True} sbbar={'left': 0, 'top': 776, 'right': 1280, 'bottom': 800, 'w': 1280, 'id': 'status-bar', 'cls': ''}"
+ },
+ {
+  "name": "D: overlay states baseline",
+  "ok": true,
+  "detail": "{'grid': {'vis': False, 'display': 'none', 'top': 0, 'left': 0, 'right': 0, 'bottom': 0, 'h': 0}, 'depth': {'vis': False, 'display': 'none', 'top': 0, 'left': 0, 'right': 0, 'bottom': 0, 'h': 0}, 'atmo': {'vis': True, 'display': 'block', 'top': 112, 'left': 748, 'right': 812, 'bottom': 132, 'h': 20}, 'hint': {'vis': False, 'display': 'block', 'top': 588, 'left': 762, 'right': 798, 'bottom': 604, '"
+ }
+]
