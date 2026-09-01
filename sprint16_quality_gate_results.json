@@ -57,7 +57,7 @@
     {
       "name": "Z-index hierarchy is clean (no unexpected values)",
       "status": "FAIL",
-      "detail": "Unexpected z-index values: {'160', '49', '38', '39'}"
+      "detail": "Unexpected z-index values: {'149', '49', '38', '170', '39', '160', '190', '140'}"
     },
     {
       "name": "Keyboard shortcuts (1-6, [/], X) implemented",

@@ -1,0 +1,209 @@
+{
+  "sprint": 29,
+  "expect_open_fixes": true,
+  "total": 33,
+  "passed": 31,
+  "failed": 2,
+  "index_html_bytes": 760523,
+  "results": [
+    {
+      "name": "File size <= 768,000 bytes (hard limit)",
+      "status": "PASS",
+      "detail": "760523 bytes, headroom 7477",
+      "merge_locked": false
+    },
+    {
+      "name": "CSS brace balance",
+      "status": "PASS",
+      "detail": "971 open / 971 close",
+      "merge_locked": false
+    },
+    {
+      "name": "W11: S29-Vxx markers present in source (post-merge strict)",
+      "status": "PASS",
+      "detail": "found 8 S29-Vxx markers \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
+      "merge_locked": true
+    },
+    {
+      "name": "W03-static: #sidebar padding-bottom >= 24px (status-bar clearance)",
+      "status": "PASS",
+      "detail": "padding-bottom: 28.0px",
+      "merge_locked": false
+    },
+    {
+      "name": "W06-static: .sc-keys max-width:45% + flex-shrink:0",
+      "status": "PASS",
+      "detail": ".sc-keys{white-space:nowrap;display:flex;gap:3px;flex-shrink:0;max-width:45%;}",
+      "merge_locked": false
+    },
+    {
+      "name": "W05-static: openModal() resets panel scrollTop on open",
+      "status": "PASS",
+      "detail": "openModal must call panel.scrollTop = 0",
+      "merge_locked": false
+    },
+    {
+      "name": "W07-static: content-visibility:auto not on .help-panel/.sc-panel",
+      "status": "PASS",
+      "detail": "re-attaching it un-hooks scroll clipping (S23-V05 lock)",
+      "merge_locked": false
+    },
+    {
+      "name": "W04-static: #dock-underground shell has exactly one 'Underground View' title",
+      "status": "PASS",
+      "detail": "found 1 in shell",
+      "merge_locked": false
+    },
+    {
+      "name": "W01-static: showToast() does not force #toast bottom below 40px",
+      "status": "PASS",
+      "detail": "inline bottom<40px assignment would land on the toolbar",
+      "merge_locked": false
+    },
+    {
+      "name": "W01: toast visible after adding an item",
+      "status": "PASS",
+      "detail": "toastVisible=True (toast window ~414ms)",
+      "merge_locked": false
+    },
+    {
+      "name": "W01: toast rect intersects NO toolbar button (both rows)",
+      "status": "PASS",
+      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 56.225921630859375, 'right': 788.484375, 'bottom': 100.22592163085938} tbRect={'left': 620, 'top': 656, 'right': 900, 'bottom': 760}",
+      "merge_locked": false
+    },
+    {
+      "name": "W01: toast band does not overlap toolbar container rect",
+      "status": "PASS",
+      "detail": "toastRect={'left': 491.515625, 'top': 56.225921630859375, 'right': 788.484375, 'bottom': 100.22592163085938} vs tbRect={'left': 620, 'top': 656, 'right': 900, 'bottom': 760}",
+      "merge_locked": false
+    },
+    {
+      "name": "W02: with a panel open, toast intersects NO toolbar button",
+      "status": "PASS",
+      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 56.14275360107422, 'right': 788.484375, 'bottom': 100.14275360107422}",
+      "merge_locked": false
+    },
+    {
+      "name": "W02b: context-hint rect clear of open panels (placement hint)",
+      "status": "FAIL",
+      "detail": "strict: hintOverPanels=['dock-terrain'] hintVisible=True hintRect={'top': 574, 'bottom': 604, 'left': 475.171875, 'right': 764.828125} openPanels=2 \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
+      "merge_locked": true
+    },
+    {
+      "name": "W03 [basic]: sidebar computed padding-bottom >= 24px",
+      "status": "PASS",
+      "detail": "padding-bottom below 24px would let the status bar cover items",
+      "merge_locked": false
+    },
+    {
+      "name": "W03 [basic]: last .lib-item fully above #status-bar at full scroll",
+      "status": "PASS",
+      "detail": "lastBottom=770.203125 statusTop=776 overlap=False (atScrollBottom=True)",
+      "merge_locked": false
+    },
+    {
+      "name": "W03 [advanced]: sidebar computed padding-bottom >= 24px",
+      "status": "PASS",
+      "detail": "padding-bottom below 24px would let the status bar cover items",
+      "merge_locked": false
+    },
+    {
+      "name": "W03 [advanced]: last .lib-item fully above #status-bar at full scroll",
+      "status": "PASS",
+      "detail": "lastBottom=770.203125 statusTop=776 overlap=False (atScrollBottom=True)",
+      "merge_locked": false
+    },
+    {
+      "name": "W04: exactly ONE visible 'Underground View' header after opening",
+      "status": "PASS",
+      "detail": "headerCount=1 headers=[{'cls': 'title', 'rect': [460, 520, 137, 16]}]",
+      "merge_locked": false
+    },
+    {
+      "name": "W10 [underground open]: dock bottom clears status-bar top",
+      "status": "PASS",
+      "detail": "dockBottom=760 statusTop=776",
+      "merge_locked": false
+    },
+    {
+      "name": "W04: underground closes with Escape (no visible headers left)",
+      "status": "PASS",
+      "detail": "headerCount=0",
+      "merge_locked": false
+    },
+    {
+      "name": "W08: context-hint clear of open excavate/dock panels (Advanced)",
+      "status": "PASS",
+      "detail": "strict: hintOverPanels=[] hintVisible=True \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
+      "merge_locked": true
+    },
+    {
+      "name": "W05: help modal opens and is scrollable (scrollHeight > clientHeight)",
+      "status": "PASS",
+      "detail": "scrollH=2431 clientH=640",
+      "merge_locked": false
+    },
+    {
+      "name": "W05: help modal reopens at scrollTop=0 (S23-V04)",
+      "status": "PASS",
+      "detail": "scrollTop on reopen=0",
+      "merge_locked": false
+    },
+    {
+      "name": "W06: shortcuts guide opens with sc rows",
+      "status": "PASS",
+      "detail": "open=True rows=21",
+      "merge_locked": false
+    },
+    {
+      "name": "W06: no sc-row clips its .sc-keys badge",
+      "status": "PASS",
+      "detail": "clipped rows: []",
+      "merge_locked": false
+    },
+    {
+      "name": "W06: .sc-keys computed max-width = 45%",
+      "status": "PASS",
+      "detail": "max-width=45%",
+      "merge_locked": false
+    },
+    {
+      "name": "W07: .help-panel content-visibility is not 'auto' (S23-V05)",
+      "status": "PASS",
+      "detail": "content-visibility='visible'",
+      "merge_locked": false
+    },
+    {
+      "name": "W07: last help section fully visible when scrolled to bottom",
+      "status": "PASS",
+      "detail": "lastBottom=474.53125 panelBottom=720",
+      "merge_locked": false
+    },
+    {
+      "name": "W09: seeded recovery snapshot shows the recovery banner",
+      "status": "PASS",
+      "detail": "bannerVisible=True bannerRect={'top': 64, 'bottom': 118, 'left': 397.6015625, 'right': 882.3984375}",
+      "merge_locked": false
+    },
+    {
+      "name": "W09: visible recovery banner + visible toast do not overlap",
+      "status": "FAIL",
+      "detail": "strict: bannerRect={'top': 64, 'bottom': 118, 'left': 397.6015625, 'right': 882.3984375} toastRect={'top': 110, 'bottom': 154, 'left': 491.515625, 'right': 788.484375} overlap=True (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band) \u2014 MERGE-L",
+      "merge_locked": true
+    },
+    {
+      "name": "W10: dock bottom clears status-bar top across all dock tabs",
+      "status": "PASS",
+      "detail": "worst dockBottom=760 statusTop=776 (7 tabs probed)",
+      "merge_locked": false
+    },
+    {
+      "name": "No console errors during the entire run",
+      "status": "PASS",
+      "detail": "",
+      "merge_locked": false
+    }
+  ],
+  "vision_findings": {}
+}

@@ -1,0 +1,6 @@
+{
+ "surface": "t2b_advanced_flows_depth_gauge_after",
+ "verdict_raw": "VISION-ERROR: The read operation timed out",
+ "clean": false,
+ "ctx": "underground view + depth gauge overlay top-right"
+}

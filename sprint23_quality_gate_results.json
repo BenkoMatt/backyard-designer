@@ -4,12 +4,12 @@
   "total": 29,
   "passed": 24,
   "failed": 5,
-  "index_html_bytes": 746801,
+  "index_html_bytes": 762303,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "746801 bytes, headroom 21199"
+      "detail": "762303 bytes, headroom 5697"
     },
     {
       "name": "CSS brace balance",
@@ -84,7 +84,7 @@
     {
       "name": "V03 [live]: visible toast does not intersect any toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect=(491.515625,56,100) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
+      "detail": "overlapping=[] toastRect=(491.515625,64,108) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
     },
     {
       "name": "V04: help modal opens and is scrollable (scrollHeight > clientHeight)",
@@ -124,27 +124,27 @@
     {
       "name": "Vision [v_main_basic]: CLEAN or actionable verdict",
       "status": "FAIL",
-      "detail": "**1) Overlapping / clipping** - No true overlaps: the Take Tour button, compass, zoom stack, floating toolbars, and scal"
+      "detail": "**Not CLEAN** \u2014 a few issues, mostly minor:  **(1) Overlaps / clipping** - The compass needle (top-right) pokes out past"
     },
     {
       "name": "Vision [v_sidebar_advanced]: CLEAN or actionable verdict",
       "status": "FAIL",
-      "detail": "Not CLEAN \u2014 there's one visible collision at bottom center plus several redundant/ambiguous controls; the rest of the la"
+      "detail": "**1) Overlapping / clipped elements** - No hard overlaps or clipping found. Everything stays inside the 1280\u00d7800 frame, "
     },
     {
       "name": "Vision [v_toolbar_panel_basic]: CLEAN or actionable verdict",
       "status": "FAIL",
-      "detail": "## Review  ### (1) Overlapping / clipped elements - **Minor collision:** The compass rose (top-right) appears to nearly "
+      "detail": "**Review of 1280\u00d7800 screenshot \u2014 issues found (not CLEAN):**  **1) Overlapping / clipped** - **Compass overlaps \"Take T"
     },
     {
       "name": "Vision [v_underground_advanced]: CLEAN or actionable verdict",
       "status": "FAIL",
-      "detail": "**1) Overlapping / clipped** - No significant overlaps. The floating panels, toast banner, bottom tool row, and scale ba"
+      "detail": "**Not perfect \u2014 a few issues, though nothing is badly broken:**  **1) Overlapping / clipped** - **Minor:** \"Patio\" item "
     },
     {
       "name": "Vision [v_help_modal_basic]: CLEAN or actionable verdict",
       "status": "FAIL",
-      "detail": "**Review of the screenshot:**  1. **Overlaps/clipping:** Nothing unintentional. The help modal correctly overlays the ca"
+      "detail": "**Mostly clean \u2014 minor notes only:**  1. **Overlaps/clipping:** All occlusion is from the help modal covering the canvas"
     },
     {
       "name": "No console errors during the entire run",

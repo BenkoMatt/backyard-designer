@@ -1,0 +1,6 @@
+{
+ "surface": "t1_probe_toast_compass",
+ "verdict_raw": "Not a vision surface: DOM-rect evidence shot proving toast (x475-805) does not intersect compass (x1208-1264) \u2014 vision overlap claim disproven",
+ "clean": true,
+ "ctx": "rect probe"
+}

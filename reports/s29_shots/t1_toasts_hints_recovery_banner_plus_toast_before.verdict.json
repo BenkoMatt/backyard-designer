@@ -1,0 +1,6 @@
+{
+ "surface": "t1_toasts_hints_recovery_banner_plus_toast_before",
+ "verdict_raw": "**Not quite clean \u2014 a few minor issues, no blockers.**\n\n1. **Bottom status bar looks broken/clipped** (Minor\u2013Moderate): `Tool: Select | Brush: 8 ft | Height: 0 ft` sits on a white footer strip, but **\"FPS: \u2014\" spills past the sidebar edge and floats directly on the 3D terrain** with no background. Either the footer should span full width or FPS should move inside it.\n\n2. **Duplicate/ambiguous \"Terrain\" controls** (Minor): \"Terrain\" appears twice in the bottom bar (left cluster **and** center toolbar), plus both \"Sun & Shadow\" and a separate \"Sun\" button. Hard for a new user to know which does what \u2014 looks like redundancy or a leftover.\n\n3. **Compass needle overflows its ring** (Cosmetic): the red needle and \"S\" label extend visually past the white compass circle at top-right, reading as a rendering glitch rather than a design choice.\n\n**Otherwise good:** no overlapping panels, toast/badge/toolbar spacing is clean, sidebar list truncates gracefully at the fold, and a new user would grasp the app within ~5 seconds (clear name, \"Add to your yard\" checklist, obvious 3D canvas, visible Save/Capture).",
+ "clean": false,
+ "ctx": "recovery banner + save toast stacked top-center (S23 _syncTopStack)"
+}

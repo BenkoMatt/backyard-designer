@@ -1,0 +1,26 @@
+[
+ {
+  "surface": "top-stack-full",
+  "verdict": "DIRTY",
+  "issue": "[('recovery-banner', 'toast')]",
+  "shot": "t3_edge_states_full_top_stack_after.png"
+ },
+ {
+  "surface": "context-hint-sculpt",
+  "verdict": "CLEAN",
+  "issue": "",
+  "shot": "t3_edge_states_sculpt_hint_after.png"
+ },
+ {
+  "surface": "share-longurl",
+  "verdict": "DIRTY",
+  "issue": "Not clean \u2014 several issues:\n\n1. **Overlap:** The \"Restore unsaved changes?\" toast sits on top of the \"Privacy Fence / Position: 0.0, S\u2026\" object chip at the top-left of the canvas, clipping the chip's ",
+  "shot": "t3_edge_states_share_longurl_after.png"
+ },
+ {
+  "surface": "print-view-many",
+  "verdict": "DIRTY",
+  "issue": "Not CLEAN \u2014 several issues:\n\n1. **\"FPS: 1\" in the status bar** \u2014 reads as broken/frozen rendering. Even if real, showing a 1 FPS meter makes the app look severely broken to any user.\n2. **Restore-chan",
+  "shot": "t3_edge_states_print_many_objects_after.png"
+ }
+]

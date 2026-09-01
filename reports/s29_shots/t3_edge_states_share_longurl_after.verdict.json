@@ -1,0 +1,6 @@
+{
+ "surface": "t3_edge_states_share_longurl_after",
+ "verdict_raw": "Not clean \u2014 several issues:\n\n1. **Overlap:** The \"Restore unsaved changes?\" toast sits on top of the \"Privacy Fence / Position: 0.0, S\u2026\" object chip at the top-left of the canvas, clipping the chip's text.\n2. **Clipped UI:** The top toolbar's last item (\"Pe\u2026\") is cut off at the right viewport edge \u2014 the toolbar overflows at 1280px width.\n3. **Broken-looking share flow:** The QR area shows a red \"Design too large for QR\" error, and the \"share link\" is a `localhost:8191` URL \u2014 the modal's primary action appears non-functional/unshareable.\n4. **Competing overlays:** A restore toast, a share modal, and two info chips (\"Grid at Y=3 ft\", \"Daytime\") all fight for attention; a new user lands on a share dialog covering the editor instead of the editor itself, so the 5-second comprehension test fails.\n5. **Minor:** Status bar reads \"FPS: 1\" \u2014 likely a real performance problem, and \"Innovate\" is ambiguous as a tool label.\n\nSummary: clipped toolbar item, toast-over-chip overlap, and a share modal showing error state + localhost URL undermine an otherwise well-organized 3D editor UI.",
+ "clean": false,
+ "ctx": "share modal with long-URL caption visible + QR present"
+}

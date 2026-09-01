@@ -64,7 +64,7 @@ body.byd-advanced-mode .td-tab,body.byd-advanced-mode .tb-btn{display:flex;}
 #tour-overlay{position:fixed;inset:0;z-index:200;display:none;pointer-events:none;}#tour-overlay.visible{display:block;}#tour-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);pointer-events:auto;transition:opacity 0.3s;}#tour-spotlight{position:fixed;border:3px solid var(--primary);border-radius:var(--radius-sm);box-shadow:0 0 0 9999px rgba(0,0,0,0.6);transition:all 0.3s ease;pointer-events:none;z-index:200;}#tour-spotlight.no-target{display:none;}#tour-bubble{position:fixed;background:var(--surface);border-radius:var(--radius);padding:20px 24px;max-width:340px;box-shadow:var(--shadow-lg);z-index:200;pointer-events:auto;transition:all 0.3s ease;}.tour-bubble-step{font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;}.tour-bubble-title{font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text);}.tour-bubble-text{font-size:14px;color:var(--text-muted);line-height:1.5;margin-bottom:16px;}.tour-bubble-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}.tour-btn-primary{background:var(--primary);color:white;border:none;padding:8px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;min-height:36px;transition:background 0.2s;}.tour-btn-primary:hover{background:var(--primary-dark);}.tour-btn-secondary{background:none;color:var(--text-muted);border:1px solid var(--border);padding:8px 16px;border-radius:var(--radius-sm);font-size:14px;cursor:pointer;font-family:inherit;min-height:36px;}.tour-btn-secondary:hover{background:var(--hover-bg);}.tour-progress{display:flex;gap:4px;margin-top:12px;}.tour-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background 0.2s;}.tour-dot.active{background:var(--primary);}.tour-dot.done{background:var(--primary);opacity:0.4;}
 #ctx-tooltip{position:fixed;background:var(--text);color:white;padding:8px 14px;border-radius:8px;font-size:13px;z-index:200;display:none;pointer-events:none;max-width:280px;box-shadow:var(--shadow-lg);animation:ttSlide 0.2s ease;}#ctx-tooltip.visible{display:block;}#ctx-tooltip::after{content:'';position:absolute;border:6px solid transparent;}#ctx-tooltip.tt-bottom::after{top:-12px;left:50%;transform:translateX(-50%);border-bottom-color:var(--text);}#ctx-tooltip.tt-top::after{bottom:-12px;left:50%;transform:translateX(-50%);border-top-color:var(--text);}@keyframes ttSlide{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
 .discovery-badge{position:absolute;top:-6px;right:-6px;background:var(--secondary);color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;z-index:30;pointer-events:none;animation:badgePulse 2s ease infinite;box-shadow:0 2px 6px rgba(201,123,79,0.4);white-space:nowrap;}@keyframes badgePulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
-#progressive-hint{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--carve));color:white;padding:14px 24px;border-radius:24px;font-size:14px;z-index:500;display:none;pointer-events:auto;cursor:pointer;box-shadow:0 6px 20px rgba(61,117,73,0.4);max-width:400px;text-align:center;line-height:1.4;animation:phSlideUp 0.4s ease;}#progressive-hint.visible{display:block;}@keyframes phSlideUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}#progressive-hint .ph-close{margin-left:10px;font-weight:bold;opacity:0.7;}#progressive-hint .ph-close:hover{opacity:1;}
+#progressive-hint{position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--primary),var(--carve));color:white;padding:14px 24px;border-radius:24px;font-size:14px;z-index:190;display:none;pointer-events:auto;cursor:pointer;box-shadow:0 6px 20px rgba(61,117,73,0.4);max-width:400px;text-align:center;line-height:1.4;animation:phSlideUp 0.4s ease;}#progressive-hint.visible{display:block;}@keyframes phSlideUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}#progressive-hint .ph-close{margin-left:10px;font-weight:bold;opacity:0.7;}#progressive-hint .ph-close:hover{opacity:1;}
 #onboarding-restart-btn{position:fixed;top:60px;right:76px;z-index:100;background:var(--primary);color:white;border:none;padding:8px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit;display:none;box-shadow:var(--shadow-lg);min-height:36px;transition:all 0.2s;}#onboarding-restart-btn.visible{display:block;}#onboarding-restart-btn:hover{background:var(--primary-dark);transform:translateY(-1px);}
 
 
@@ -1235,7 +1235,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <h2 id="share-title">Share Your Design</h2>
 <p>Scan the QR code or copy the link to share your backyard design.</p>
 <canvas id="share-qr-canvas" width="200" height="200"></canvas>
-<div class="share-too-long" id="share-too-long">Design is large - QR may be hard to scan. Use the link or Save instead.</div>
+<div class="share-too-long" id="share-too-long">Design is large - QR may be hard to scan. Use the link instead.</div>
 <div id="share-url-box"></div>
 <div class="share-actions">
 <button id="share-copy-btn">Copy Link</button>
@@ -3650,6 +3650,14 @@ let pan2DStart = null;
 let pan2DCamStart = null;
 function onPointerDown(e) {
 if (!renderer || !scene || !raycaster || !mouse || !activeCamera) return;
+// Sprint 29 fix (S29-T03): pointerdowns on in-viewport UI (bottom-left toolbar,
+// view cube, compass, overlays, floating panels) must never raycast/deselect —
+// a press on a toolbar button used to deselect the object, closing #properties,
+// re-wrapping the toolbar, and moving the pressed button so its click was lost.
+if (e.target && e.target.closest && e.target.closest(
+'#bottom-left-toolbar,#view-controls,#compass-indicator,#tool-dock,#dock-panel-container,' +
+'#excavate-panel,#cross-section-panel,#terrain-controls,#sun-panel,#innovation-panel,' +
+'#terrain-analysis-panel,#cut-fill-panel,#ta-cross-section-overlay,#right-panel-stack')) return;
 if (state.viewMode === '2d' && e.button === 0) {
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
@@ -4088,6 +4096,10 @@ state.undoStack.push(cmd);
 state.redoStack = [];
 if (state.undoStack.length > 50) state.undoStack.shift();
 updateUndoRedoButtons();
+// Sprint 29 fix (S29-T02): keep the cost panel live on every object mutation
+// (add/delete/duplicate push through here) — it previously refreshed only on
+// open/layer-toggle, showing a stale "No objects yet" while objects existed.
+if (typeof updateCostPanel === 'function') updateCostPanel();
 debouncedAutosave();
 }
 function undo() {
@@ -4096,6 +4108,7 @@ const cmd = state.undoStack.pop();
 cmd.undo();
 state.redoStack.push(cmd);
 updateUndoRedoButtons();
+if (typeof updateCostPanel === 'function') updateCostPanel(); // S29-T02
 debouncedAutosave();
 requestRender();
 }
@@ -4105,6 +4118,7 @@ const cmd = state.redoStack.pop();
 cmd.redo();
 state.undoStack.push(cmd);
 updateUndoRedoButtons();
+if (typeof updateCostPanel === 'function') updateCostPanel(); // S29-T02
 debouncedAutosave();
 requestRender();
 }
@@ -4247,6 +4261,12 @@ a.click();
 document.body.removeChild(a);
 URL.revokeObjectURL(url);
 markExplicitSave();
+// Sprint 29 fix (S29-T09): an explicit save supersedes the recovery snapshot —
+// a lingering "Restore unsaved changes?" banner next to a "Design saved!" toast
+// contradicts itself. Clear the stale snapshot and dismiss the banner.
+try { localStorage.removeItem(RECOVERY_SNAPSHOT_KEY); } catch(e) {}
+_autosaveDirty = false;
+hideRecoveryBanner();
 showToast('Design saved! Check your downloads folder.', 'success');
 } catch(e) {
 showToast('Could not save design: ' + (e.message || 'unknown error'));
@@ -4761,6 +4781,10 @@ state.selectedIds.clear();
 ids.forEach(id => state.selectedIds.add(id));
 if (ids.length > 0) {
 selectObject(ids[0]);
+// Sprint 29 fix (S29-T08): selectObject() resets selectedIds to the single id —
+// re-populate the full set so the batch bar count/actions match the toast promise.
+state.selectedIds.clear();
+ids.forEach(id => state.selectedIds.add(id));
 updateMultiSelectHighlights();
 showBatchBar();
 }
@@ -4772,6 +4796,28 @@ if (!bar) return;
 const count = document.getElementById('batch-count');
 if (count) count.textContent = `${state.selectedIds.size} selected`;
 bar.classList.add('visible');
+// Sprint 29 fix (S29-T04): the wrapped bottom-left toolbar (up to 3 rows) and the
+// scale bar share the bottom band with the fixed centered batch bar — lift the bar
+// above whatever is tallest under its x-range instead of covering those controls.
+(function () {
+const tb = document.getElementById('bottom-left-toolbar');
+const sb = document.getElementById('scale-bar');
+let liftTo = 60;
+for (const el of [tb, sb]) {
+if (!el) continue;
+const cs = getComputedStyle(el);
+if (cs.display === 'none') continue;
+const r = el.getBoundingClientRect();
+if (r.width <= 0 || r.height <= 0) continue;
+const barW = bar.getBoundingClientRect().width || 200;
+const cx = window.innerWidth / 2;
+const barL = cx - barW / 2, barR = cx + barW / 2;
+if (r.right > barL && r.left < barR) {
+liftTo = Math.max(liftTo, Math.round(window.innerHeight - r.top + 8));
+}
+}
+bar.style.bottom = (liftTo > 60 ? liftTo : 60) + 'px';
+})();
 }
 function hideBatchBar() {
 const bar = document.getElementById('batch-bar');
@@ -5003,6 +5049,9 @@ a.click();
 document.body.removeChild(a);
 URL.revokeObjectURL(url);
 markExplicitSave();
+try { localStorage.removeItem(RECOVERY_SNAPSHOT_KEY); } catch(e) {} // S29-T09
+hideRecoveryBanner();
+_autosaveDirty = false;
 showToast('Design saved as: ' + name);
 }
 let wizardStep = 0;
@@ -7928,7 +7977,9 @@ const url = base + '#' + encoded;
 document.getElementById('share-url-box').textContent = url;
 const tooLong = url.length > 210;
 const wayTooLong = url.length > 4096;
-document.getElementById('share-too-long').classList.toggle('visible', tooLong);
+// Sprint 29 fix (S29-T05): when the QR cannot render at all, the "may be hard to
+// scan" caption contradicts the canvas message — show it only when a QR exists.
+document.getElementById('share-too-long').classList.toggle('visible', tooLong && !wayTooLong);
 const canvas = document.getElementById('share-qr-canvas');
 if (wayTooLong) {
 const ctx = canvas.getContext('2d');
@@ -13679,6 +13730,21 @@ showToast('GIF generation failed: ' + e.message);
 const btn = document.getElementById('btn-timelapse');
 if (btn) btn.addEventListener('click', () => {
 document.getElementById('timelapse-modal').classList.add('visible');
+// Sprint 29 fix (S29-T06): draw a poster state so the canvas never reads as a
+// broken/empty black box before the user presses Play.
+const cv = document.getElementById('timelapse-canvas');
+const c2 = cv.getContext('2d');
+c2.fillStyle = '#e8efe9';
+c2.fillRect(0, 0, cv.width, cv.height);
+c2.fillStyle = '#3d7549';
+c2.font = '600 20px sans-serif';
+c2.textAlign = 'center';
+c2.fillText('Press Play to preview your build', cv.width / 2, cv.height / 2 - 6);
+c2.font = '12px sans-serif';
+c2.fillStyle = '#5a5a5a';
+c2.fillText('5 stages — terrain, hardscape, then plants', cv.width / 2, cv.height / 2 + 18);
+document.getElementById('timelapse-stage-label').textContent = '';
+document.getElementById('timelapse-progress-bar').style.width = '0%';
 });
 document.getElementById('timelapse-close-btn').addEventListener('click', () => {
 if (window._timelapseStop) window._timelapseStop();
@@ -15446,6 +15512,14 @@ const Onboarding = (function() {
   }
   function showProgressiveHint() {
     if (tourActive || _overlaysOpen()) return;
+    // Sprint 29 fix (S29-T01b): never pop the inactivity hint over an open modal —
+    // the 5s timer can fire while the user is inside a dialog; the floating hint
+    // then covers and blocks the dialog's controls (seen on the timelapse modal).
+    const _modalOpen = ['help-modal','shortcuts-modal','share-modal','templates-modal',
+      'gallery-modal','timelapse-modal','socialcard-modal','label-edit-modal',
+      'cmd-palette-overlay','print-view','confirm-dialog','wizard']
+      .some(id => { const m = document.getElementById(id); return m && m.classList.contains('visible'); });
+    if (_modalOpen) return;
     const s = getState();
     const availableHints = progressiveHints.filter(h => !s.featuresUsed || !s.featuresUsed[h.feature]);
     if (availableHints.length === 0) return;
@@ -15622,7 +15696,9 @@ function _syncTopStack() {
     const el = it[0];
     const h = el.getBoundingClientRect().height || 24;
     if (it[2]) { el.style.top = it[2] + 'px'; y = Math.max(y, it[2] + h); }
-    else if (it[1] === 'fixed') { el.style.top = y + 'px'; y += h + 4; }
+    // Sprint 29 fix (S29-T07): the visible toast carries its own translateY(-8px)
+    // transform, which shifted it 8px up INTO the banner above it when stacked.
+    else if (it[1] === 'fixed') { const adj = el.id === 'toast' ? 8 : 0; el.style.top = (y + adj) + 'px'; y += h + 4 + adj; }
     else { el.style.top = Math.max(8, y - vpTop) + 'px'; y += h + 4; }
   }
   // Sprint 23 fix (S23-V03d): the selected-object info chip shares the top band;
@@ -15640,6 +15716,21 @@ if (typeof toastObserverInstalled === 'undefined') {
     if (el) _origToastObserver.observe(el, { attributes: true, attributeFilter: ['class'] });
   });
 }
+// Sprint 29 fix (S29-T01): the inactivity progressive hint (z-index below modals)
+// must never linger over an open modal — auto-hide it whenever any modal surface
+// becomes visible (share, timelapse, socialcard, gallery, templates, label-edit,
+// help, shortcuts, cmd palette, print view, confirm dialog).
+(function () {
+  const _phModalObs = new MutationObserver(() => {
+    if (window.Onboarding && window.Onboarding.hideProgressiveHint) window.Onboarding.hideProgressiveHint();
+  });
+  ['share-modal', 'timelapse-modal', 'socialcard-modal', 'gallery-modal', 'templates-modal',
+   'label-edit-modal', 'help-modal', 'shortcuts-modal', 'cmd-palette-overlay', 'print-view',
+   'confirm-dialog'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) _phModalObs.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
 
 function showConfirmDialog(title, message, opts) {
   opts = opts || {};

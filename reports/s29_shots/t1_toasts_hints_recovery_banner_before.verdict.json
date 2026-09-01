@@ -1,0 +1,6 @@
+{
+ "surface": "t1_toasts_hints_recovery_banner_before",
+ "verdict_raw": "**CLEAN** \u2014 No overlaps or clipping; toolbar, sidebar, canvas HUD, compass, floating tools, and status bar are all well-separated, and the \"ADD TO YOUR YARD\" header with the Getting Started tip makes the screen instantly self-explanatory.\n\nTwo ultra-minor, non-blocking nits (optional polish): the status bar shows \"FPS: \u2014\" (placeholder dash that can look unfinished), and the last sidebar item \"Patio\" sits at the scroll fold with its description cut off, which is normal scroll behavior but easy to misread as clipped.",
+ "clean": true,
+ "ctx": "recovery banner top-center with Restore/Discard buttons"
+}

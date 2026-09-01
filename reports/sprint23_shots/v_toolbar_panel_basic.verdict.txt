@@ -1,23 +1,16 @@
-## Review
+**Review of 1280×800 screenshot — issues found (not CLEAN):**
 
-### (1) Overlapping / clipped elements
-- **Minor collision:** The compass rose (top-right) appears to nearly touch / just kiss the right edge of the green "Take Tour" button (~2–4px). Not clearly broken, but visually cramped.
-- **No other clipping found.** The floating "Terrain Sculpting" panel, bottom toolbar row, left catalog, and status bar all clear each other (panel bottom ends just above and to the right of the "Terrain" tab, with no overlap).
-- The item list ends at "Grill" flush against the status bar — if more categories exist, there's no visible scroll affordance.
+**1) Overlapping / clipped**
+- **Compass overlaps "Take Tour" button (top-right):** the white compass circle's left edge sits on top of the green button's right end — sloppy collision between two always-visible chrome elements. Nudge the compass right/down or the tour button left.
+- No other overlaps detected: the Terrain Sculpting panel (443–750 × 343–680) clears the bottom toolbar (~694+) and status bar, sidebar clears the panel, zoom controls and scale bar fine.
 
-### (2) Would a new user know what to do in 5 seconds?
-**Mostly yes, with caveats:**
-- ✅ "Take Tour" affordance, the inline hint ("Pick a mode, then click + drag on the ground to sculpt"), and the clearly labeled object catalog (trees, patios, chairs) communicate the core idea quickly.
-- ⚠️ The large centered **Terrain Sculpting modal blocks the middle of the viewport on first load** — a new user's first impression is a settings dialog, not the yard they came to design.
-- ⚠️ There's no instruction for *placing* catalog items (drag? click? click-then-click?). Users can guess, but it's not stated.
+**2) 5-second comprehension — mostly yes, with caveats**
+- Good: the sculpting panel auto-opens with a plain-language hint ("Pick a mode, then click + drag on the ground to sculpt"), "Raise" is pre-selected, and there's a "Take Tour" affordance. Core interaction is discoverable.
+- Hurts it: the bottom toolbar offers five similarly weighted buttons (Tape Measure / Terrain / Excavate / Analyze / **Innovate**) plus a *second* green "Terrain" button bottom-left — a new user can't tell which "Terrain" does what. "Innovate" in particular is meaningless without a tooltip.
 
-### (3) Confusing / ambiguous / broken-looking
-- **"Innovate" button** — vague label; a new user has no idea what it does.
-- **"FPS: —"** in the status bar looks like broken/failed telemetry rather than "measuring."
-- **Redundant collapse controls**: the panel has both "−" in the title bar *and* a separate collapse icon next to "Terrain Controls" — two different minimize affordances.
-- **Inconsistent button styling:** "GRID LEVEL & DEPTH ∨ / CARVING ∨ / PRESETS & TOOLS ∨" pills look like a different component family than the mode buttons above them.
-- **Duplicate readouts:** "Height at cursor: 0.0 ft" in the panel and "Height: 0 ft" in the status bar say the same thing with different precision.
-- **"Strength 0.05"** — raw decimal is unintuitive next to the human-friendly "8 ft" brush size.
-- "Daytime" pill floating in the sky has no visible toggle partner (where's night?).
-
-**Verdict: Not CLEAN** — mostly polish-level issues, the biggest being the startup modal blocking the view and the vague "Innovate" label.
+**3) Confusing / ambiguous / broken-looking**
+- **"FPS: 1" in the status bar** — reads as a broken render or severe performance problem; either fix the perf or the metric. As shown, the app looks like it would be unusable to drag-sculpt.
+- **Two competing "Terrain" controls** (green panel tab, bottom-left vs. brown active tool button, bottom-center) — ambiguous duplication.
+- **"Strength: 0.05"** — no unit/scale (%? multiplier?); unclear whether higher is stronger.
+- **"Height at cursor: 0.0 ft"** shown while Precision Mode is Off — looks like a dead/disabled readout with no explanation of how to enable it.
+- Minor: the floating "Daytime" pill (top center) gives no affordance that it's a day/night toggle.
