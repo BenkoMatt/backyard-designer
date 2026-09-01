@@ -2578,6 +2578,7 @@ let crossSectionActive = false;   // Sprint 14: whether cross-section clipping i
 let autoDigClipPlane = null;
 let _autoDigPlaneInstance = null; // sprint 27: persistent Plane instance (arm = assign, disarm = null)
 let _lastYardClipMat = null, _lastYardClipSig = -1, _lastSeClipMat = null, _lastSeClipSig = -1;
+let _terrainClipPlaneInstance = null, _csClipPlaneInstance = null; // sprint 27 fix (t_52168e24): persistent Plane instances — handlers mutate in place
 function _yardClipSig() { return (terrainClipPlane ? 1 : 0) + (crossSectionClipPlane ? 2 : 0) + (autoDigClipPlane ? 4 : 0); }
 function _rebuildYardClipPlanes() {
 if (!yardMesh || !yardMesh.material) return;
@@ -2585,31 +2586,43 @@ const sig = _yardClipSig();
 // sprint 27: skip material churn when the plane SET is unchanged — mutating the
 // clippingPlanes array (or needsUpdate on every call) invalidated the cached
 // program and forced a full shader recompile on each dig-mode entry.
-if (yardMesh.material === _lastYardClipMat && sig === _lastYardClipSig &&
-yardMesh.material.clippingPlanes && yardMesh.material.clippingPlanes._bydClipSig === sig) return;
+// t_52168e24: the guard now also keys on plane identity+content, not presence
+// alone — handlers mutate persistent instances in place, so this matches; any
+// future fresh-instance assignment (new plane id/content) forces a rebuild.
+const sigWithPlanes = _lastYardClipMat === yardMesh.material ? sig + '|' + _yardClipPlaneStamp() : sig;
+if (yardMesh.material === _lastYardClipMat && sigWithPlanes === _lastYardClipSig &&
+yardMesh.material.clippingPlanes && yardMesh.material.clippingPlanes._bydClipSig === sigWithPlanes) return;
 const planes = [];
 if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) planes.push(terrainClipPlane);
 if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) planes.push(crossSectionClipPlane);
 if (autoDigClipPlane) planes.push(autoDigClipPlane);
-planes._bydClipSig = sig;
+planes._bydClipSig = sigWithPlanes;
 yardMesh.material.clippingPlanes = planes;
 yardMesh.material.needsUpdate = true;
 _lastYardClipMat = yardMesh.material;
-_lastYardClipSig = sig;
+_lastYardClipSig = sigWithPlanes;
+}
+function _yardClipPlaneStamp() {
+const parts = [];
+if (terrainClipPlane) parts.push('t' + terrainClipPlane.id + ':' + terrainClipPlane.normal.x.toFixed(6) + ',' + terrainClipPlane.normal.y.toFixed(6) + ',' + terrainClipPlane.normal.z.toFixed(6) + ':' + terrainClipPlane.constant.toFixed(6));
+if (crossSectionClipPlane) parts.push('c' + crossSectionClipPlane.id + ':' + crossSectionClipPlane.normal.x.toFixed(6) + ',' + crossSectionClipPlane.normal.y.toFixed(6) + ',' + crossSectionClipPlane.normal.z.toFixed(6) + ':' + crossSectionClipPlane.constant.toFixed(6));
+if (autoDigClipPlane) parts.push('a' + autoDigClipPlane.id + ':' + autoDigClipPlane.constant.toFixed(6));
+return parts.join(';');
 }
 function _rebuildSolidEarthClipPlanes() {
 if (!solidEarthMesh || !solidEarthMesh.material) return;
 const sig = (terrainClipPlane ? 1 : 0) + (crossSectionClipPlane ? 2 : 0);
-if (solidEarthMesh.material === _lastSeClipMat && sig === _lastSeClipSig &&
-solidEarthMesh.material.clippingPlanes && solidEarthMesh.material.clippingPlanes._bydClipSig === sig) return;
+const sigWithPlanes = _lastSeClipMat === solidEarthMesh.material ? sig + '|' + _yardClipPlaneStamp() : sig;
+if (solidEarthMesh.material === _lastSeClipMat && sigWithPlanes === _lastSeClipSig &&
+solidEarthMesh.material.clippingPlanes && solidEarthMesh.material.clippingPlanes._bydClipSig === sigWithPlanes) return;
 const planes = [];
 if (typeof terrainClipPlane !== 'undefined' && terrainClipPlane) planes.push(terrainClipPlane);
 if (typeof crossSectionClipPlane !== 'undefined' && crossSectionClipPlane) planes.push(crossSectionClipPlane);
-planes._bydClipSig = sig;
+planes._bydClipSig = sigWithPlanes;
 solidEarthMesh.material.clippingPlanes = planes;
 solidEarthMesh.material.needsUpdate = true;
 _lastSeClipMat = solidEarthMesh.material;
-_lastSeClipSig = sig;
+_lastSeClipSig = sigWithPlanes;
 }
 function updateGroundVisibility() {
 const wantDigClip = excavatePanelVisible || undergroundViewActive || terrainBrushMode === 'dig';
@@ -9343,7 +9356,12 @@ cutawayValEl.textContent = 'Full';
 const maxH = getMaxTerrainHeight();
 const minH = getMinTerrainHeight();
 const cutY = maxH + 0.5 - (val / 100) * (maxH - minH + 5.5);
-terrainClipPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
+// t_52168e24: mutate the persistent plane in place — a fresh THREE.Plane here
+// used to slip past the sprint-27 signature guard (presence bitmap unchanged),
+// freezing the previous constant on every slider move after the first.
+if (!_terrainClipPlaneInstance) _terrainClipPlaneInstance = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
+else { _terrainClipPlaneInstance.normal.set(0, -1, 0); _terrainClipPlaneInstance.constant = cutY; }
+terrainClipPlane = _terrainClipPlaneInstance;
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 if (val === 100) {
@@ -9485,11 +9503,11 @@ return;
 }
 const halfDim = crossSectionAxis === 'x' ? state.yard.width / 2 : state.yard.depth / 2;
 crossSectionPosition = (parseInt(csClipPosInput.value) / 100) * halfDim;
-if (crossSectionAxis === 'x') {
-crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectionPosition);
-} else {
-crossSectionClipPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), crossSectionPosition);
-}
+// t_52168e24: mutate the persistent plane in place (see cutaway handler) —
+// fresh instances froze the previous constant behind the sig guard.
+if (!_csClipPlaneInstance) _csClipPlaneInstance = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectionPosition);
+else { _csClipPlaneInstance.normal.set(crossSectionAxis === 'x' ? -1 : 0, 0, crossSectionAxis === 'x' ? 0 : -1); _csClipPlaneInstance.constant = crossSectionPosition; }
+crossSectionClipPlane = _csClipPlaneInstance;
 _rebuildYardClipPlanes();
 _rebuildSolidEarthClipPlanes();
 csClipPosVal.textContent = csClipPosInput.value + '%';

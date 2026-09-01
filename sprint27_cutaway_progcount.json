@@ -1,0 +1,49 @@
+{
+  "port": 8347,
+  "sweep": [
+    {
+      "val": 0,
+      "got": 0,
+      "compiles": 0,
+      "links": 0,
+      "programs": 10
+    },
+    {
+      "val": 40,
+      "got": 40,
+      "compiles": 2,
+      "links": 1,
+      "programs": 11
+    },
+    {
+      "val": 70,
+      "got": 70,
+      "compiles": 0,
+      "links": 0,
+      "programs": 11
+    },
+    {
+      "val": 30,
+      "got": 30,
+      "compiles": 0,
+      "links": 0,
+      "programs": 11
+    },
+    {
+      "val": 80,
+      "got": 80,
+      "compiles": 0,
+      "links": 0,
+      "programs": 11
+    },
+    {
+      "val": 65,
+      "got": 65,
+      "compiles": 0,
+      "links": 0,
+      "programs": 11
+    }
+  ],
+  "ts": "2026-08-31T20:22:55-0400",
+  "pageerrors": []
+}

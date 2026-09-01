@@ -1,0 +1,88 @@
+{
+  "port": 8347,
+  "passed": 16,
+  "total": 16,
+  "ts": "2026-08-31T20:18:59-0400",
+  "results": [
+    {
+      "check": "cutaway 0: no downward plane (disarmed)",
+      "ok": true,
+      "detail": "planes=[0]"
+    },
+    {
+      "check": "cutaway 40: slider input value == 40",
+      "ok": true,
+      "detail": "got 40"
+    },
+    {
+      "check": "cutaway 40: yard down-plane constant == cutY",
+      "ok": true,
+      "detail": "plane_c=-1.7 expected=-1.7 label=-1.7ft"
+    },
+    {
+      "check": "cutaway 70: slider input value == 70",
+      "ok": true,
+      "detail": "got 70"
+    },
+    {
+      "check": "cutaway 70: yard down-plane constant == cutY",
+      "ok": true,
+      "detail": "plane_c=-3.35 expected=-3.35 label=-3.3ft"
+    },
+    {
+      "check": "cutaway 30: slider input value == 30",
+      "ok": true,
+      "detail": "got 30"
+    },
+    {
+      "check": "cutaway 30: yard down-plane constant == cutY",
+      "ok": true,
+      "detail": "plane_c=-1.15 expected=-1.15 label=-1.1ft"
+    },
+    {
+      "check": "cutaway 80: slider input value == 80",
+      "ok": true,
+      "detail": "got 80"
+    },
+    {
+      "check": "cutaway 80: yard down-plane constant == cutY",
+      "ok": true,
+      "detail": "plane_c=-3.9 expected=-3.9 label=-3.9ft"
+    },
+    {
+      "check": "cutaway 0 (after sweep): input == 0 and plane removed",
+      "ok": true,
+      "detail": "got 0, down=[]"
+    },
+    {
+      "check": "cutaway re-arm 65: constant == cutY (not reusing stale 80-value)",
+      "ok": true,
+      "detail": "plane_c=-3.075 expected=-3.08"
+    },
+    {
+      "check": "cs-clip x@57: input == 57 and plane constant == position",
+      "ok": true,
+      "detail": "got 57, planes=[(-1, 0, 14.25)] expected_c=14.25"
+    },
+    {
+      "check": "cs-clip x@-34: input == -34 and plane constant == position",
+      "ok": true,
+      "detail": "got -34, planes=[(-1, 0, -8.5)] expected_c=-8.5"
+    },
+    {
+      "check": "cs-clip z@23: input == 23 and plane constant == position",
+      "ok": true,
+      "detail": "got 23, planes=[(0, -1, 11.5)] expected_c=11.5"
+    },
+    {
+      "check": "cs-clip disable: horizontal plane removed",
+      "ok": true,
+      "detail": "planes=[-3.075, 0]"
+    },
+    {
+      "check": "no pageerrors during probe",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
