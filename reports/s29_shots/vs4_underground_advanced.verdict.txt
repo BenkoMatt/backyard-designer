@@ -1,0 +1,9 @@
+**Not CLEAN** — no broken/overlapping elements, but a few minor issues:
+
+1. **[Minor — clipping] Left sidebar "Patio" item** is cut mid-row at the panel's bottom edge (~y765). Reads as a scroll cutoff so it's acceptable, but slightly untidy on first paint.
+2. **[Minor — placement/grouping] Bottom-right floating icon** (~x1243, y741) sits on the same row as the bottom toolbar, only ~15px from the "Sun" button, and its chart-style icon doesn't match the zoom stack above it (+ / − / reset). It looks detached and its grouping/function is ambiguous.
+3. **[Minor — first-run comprehension] Default state is "Underground / Excavate"** in Advanced mode — the canvas is a wireframe cutaway with "Buried Objects: 0", which may confuse a new user ("why does my yard look like a grid?"). The toast and Getting Started card do explain it, but defaulting to a normal 3D terrain view would land better.
+4. **[Nit] "Innovate" tool label** (bottom toolbar) is vague next to concrete neighbors like Tape Measure / Terrain / Analyze.
+5. **[Nit] "Take Tour" uses a wrench icon** — a play/compass icon would better signal "tour."
+
+**5-second comprehension: yes.** Clear title, an explicit instruction card ("Click any item… drag to position"), a Take Tour affordance, and labeled panels — a new user gets the core concept quickly; only the underground-mode default (item 3) causes a beat of confusion.

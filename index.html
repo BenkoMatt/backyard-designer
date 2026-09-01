@@ -15989,10 +15989,10 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
         if (burstFrames > 0 && burstMs > 60) {
           const fps = Math.round(burstFrames * 1000 / burstMs);
           // S29-R2: only surface a value from a sustained sample (>=0.4s) at a
-          // believable rate (>=12). Short 2-3 frame bursts under software
-          // rendering reported "FPS: 2" on idle screens — vision flagged the
-          // alarming stale-looking readout on every panel shot.
-          if (burstMs >= 400 && fps >= 12) {
+          // plausible rate (>=4 — kills the idle "FPS: 2" flashes vision flagged
+          // on every panel shot, while still reporting real continuous rendering
+          // like walk mode; s17's walk-FPS lock needs a visible meter).
+          if (burstMs >= 400 && fps >= 4) {
           const s = String(fps);
           if (sbFps && s !== _sbFpsShown) {
             sbFps.textContent = s; _sbFpsShown = s;
