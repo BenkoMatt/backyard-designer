@@ -1,0 +1,65 @@
+{
+ "F1_sticky_help_header": {
+  "found": true,
+  "titleTop": 80,
+  "panelTop": 80,
+  "scrollTop": 1791,
+  "scrollH": 2431,
+  "clientH": 640,
+  "text": "How to Use Backyard Designer 3"
+ },
+ "F2_print_preview_visible": {
+  "visible": true,
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "w": 1280,
+   "h": 800,
+   "display": "block",
+   "visibility": "visible"
+  }
+ },
+ "F3_templates_close_reachable": {
+  "found": true,
+  "display": "flex",
+  "visible": true,
+  "closeBtn": {
+   "x": 598,
+   "y": 592,
+   "w": 84,
+   "h": 36,
+   "inViewport": true
+  },
+  "cardCount": 0
+ },
+ "F4_sculpt_restore_pill": {
+  "pill": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "display": "none"
+  },
+  "scalebar": {
+   "x": 450,
+   "y": 730,
+   "w": 132,
+   "h": 26,
+   "display": "flex"
+  },
+  "sun": {
+   "x": 0,
+   "y": 0,
+   "w": 0,
+   "h": 0,
+   "display": "none"
+  }
+ },
+ "F5_progressive_hint_over_dock": {
+  "found": true,
+  "display": "none",
+  "visibility": "visible",
+  "op": "1",
+  "hidden": true
+ }
+}
