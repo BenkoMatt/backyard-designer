@@ -1,35 +1,37 @@
 {
-  "port": 8344,
-  "started": "2026-08-31T18:53:29-0400",
-  "load01_start": 1.78,
+  "port": 8349,
+  "started": "2026-08-31T22:33:23-0400",
+  "load01_start": 5.07,
   "mode_switch_first": {
-    "click_ms": 172.4,
+    "click_ms": 479.8,
     "longtasks": [
-      83
+      68,
+      174,
+      75
     ],
-    "max_longtask_ms": 83,
-    "raf_gap_ms": 90.6,
-    "progs_before": 14,
-    "progs_after": 14,
-    "compiles": 0,
-    "links": 0
+    "max_longtask_ms": 174,
+    "raf_gap_ms": 254.4,
+    "progs_before": 11,
+    "progs_after": 12,
+    "compiles": 2,
+    "links": 1
   },
   "mode_switch_reentry": {
-    "click_ms": 117.3,
+    "click_ms": 426.8,
     "compiles": 0,
     "links": 0,
-    "max_longtask_ms": 0,
-    "raf_gap_ms": 64.6
+    "max_longtask_ms": 193,
+    "raf_gap_ms": 337.7
   },
   "held_dig_stroke": {
-    "avg_fps": 11.32,
+    "avg_fps": 10.19,
     "worst_1s": 1,
-    "frames": 59,
-    "max_longtask_ms": 0,
-    "longtask_count": 0,
-    "max_raf_gap_ms": 2823.3,
-    "stroke_wall_ms": 5188.185214996338,
-    "load01_end": 2.42
+    "frames": 66,
+    "max_longtask_ms": 143,
+    "longtask_count": 22,
+    "max_raf_gap_ms": 1782.3,
+    "stroke_wall_ms": 6407.84478187561,
+    "load01_end": 5.79
   },
   "crater": {
     "minTerrain": -15,
@@ -46,23 +48,23 @@
   "results": [
     {
       "name": "modeswitch:no_longtask_over_150ms",
-      "ok": true,
-      "detail": "max longtask 83 ms, click 172.4 ms, rAF gap 90.6 ms"
+      "ok": false,
+      "detail": "max longtask 174 ms, click 479.8 ms, rAF gap 254.4 ms"
     },
     {
       "name": "modeswitch:zero_new_programs",
-      "ok": true,
-      "detail": "programs 14 -> 14"
+      "ok": false,
+      "detail": "programs 11 -> 12"
     },
     {
       "name": "reentry:zero_shader_compile_link",
       "ok": true,
-      "detail": "compiles=0 links=0 rAF gap 64.6 ms"
+      "detail": "compiles=0 links=0 rAF gap 337.7 ms"
     },
     {
       "name": "stroke:avg_fps_ge_45",
       "ok": false,
-      "detail": "avg 11.32 fps over 59 rAF ticks, max longtask 0 ms, max rAF gap 2823.3 ms (render ceiling note: SwiftShader flat-lawn ceiling measured ~8 fps)"
+      "detail": "avg 10.19 fps over 66 rAF ticks, max longtask 143 ms, max rAF gap 1782.3 ms (render ceiling note: SwiftShader flat-lawn ceiling measured ~8 fps)"
     },
     {
       "name": "stroke:worst_1s_ge_30",
@@ -72,12 +74,12 @@
     {
       "name": "stroke:fps_meets_box_render_ceiling",
       "ok": true,
-      "detail": "stroke avg 11.32 fps >= measured box ceiling (flat lawn idle ~7-8 fps on SwiftShader; dig-path CPU now ~5% of samples)"
+      "detail": "stroke avg 10.19 fps >= measured box ceiling (flat lawn idle ~7-8 fps on SwiftShader; dig-path CPU now ~5% of samples)"
     },
     {
       "name": "stroke:no_main_thread_blocks_over_150ms",
       "ok": true,
-      "detail": "max longtask 0 ms (brief stall bar; baseline: up to 14,042 ms, Hunter A)"
+      "detail": "max longtask 143 ms (brief stall bar; baseline: up to 14,042 ms, Hunter A)"
     },
     {
       "name": "crater:min_terrain_le_minus15",
@@ -102,7 +104,7 @@
     {
       "name": "programs:stable_across_dig_path",
       "ok": true,
-      "detail": "14 -> 12"
+      "detail": "11 -> 12"
     },
     {
       "name": "console:no_page_errors",
@@ -110,6 +112,6 @@
       "detail": ""
     }
   ],
-  "passed": 11,
+  "passed": 9,
   "total": 13
 }

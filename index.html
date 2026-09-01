@@ -1246,7 +1246,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 
 <div id="walk-controls" role="region" aria-label="Walk mode controls">
 <button id="walk-exit" aria-label="Exit walk mode">Exit Walk</button>
-<div id="walk-hint" role="status" aria-live="polite">WASD/Arrows to move - Drag to look - Esc to exit</div>
+<div id="walk-hint" role="status" aria-live="polite">WASD/Arrows move • Shift sprint • Drag to look (double-click = mouse-look) • Esc exits</div>
 <div id="walk-hint-mobile" style="display:none;">Joystick to move - Drag to look - Tap Exit to leave</div>
 <button id="walk-motion-btn" aria-label="Toggle motion look mode">Enable Motion Look</button>
 <div id="walk-joystick" role="group" aria-label="Movement joystick">
@@ -1472,7 +1472,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </ul>
 <h3>Advanced Features</h3>
 <ul>
-<li><strong>Walk Mode:</strong> Explore in first person — WASD or arrows to move (Shift = faster), mouse to look, Escape to exit</li>
+<li><strong>Walk Mode:</strong> Explore in first person — WASD or arrows to move (Shift = faster), mouse to look, Escape to exit. Enter at your current view's ground point; exit returns your exact previous view.</li>
 <li><strong>Cost Estimator:</strong> Click the Cost button to see a cost breakdown of all objects in your design. Estimates are based on typical material costs.</li>
 <li><strong>Templates:</strong> Open the Templates modal to browse pre-made garden designs. Click a template to load it into your yard as a starting point.</li>
 <li><strong>Layers:</strong> Click the Layers button to toggle visibility of different object categories. Hide plants, structures, or terrain elements independently.</li>
@@ -1517,7 +1517,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 <div class="sc-row"><span class="sc-desc"><kbd>[</kbd> / <kbd>]</kbd> Brush size down / up (1–30 ft)</span><span class="sc-keys"><kbd>[</kbd><kbd>]</kbd></span></div>
 <div class="sc-row"><span class="sc-desc"><kbd>B</kbd> Bird's-eye (2D) view</span><span class="sc-keys"><kbd>B</kbd></span></div>
 <div class="sc-row"><span class="sc-desc"><kbd>X</kbd> Toggle Terrain dock</span><span class="sc-keys"><kbd>X</kbd></span></div>
-<div class="sc-row"><span class="sc-desc"><kbd>W</kbd> Walk mode (<kbd>Esc</kbd> exits)</span><span class="sc-keys"><kbd>W</kbd></span></div>
+<div class="sc-row"><span class="sc-desc"><kbd>W</kbd> Walk mode (first-person; <kbd>Esc</kbd> exits; <kbd>Shift</kbd> = sprint)</span><span class="sc-keys"><kbd>W</kbd></span></div>
 <div class="sc-sec">Selection &amp; Edit</div>
 <div class="sc-row"><span class="sc-desc"><kbd>R</kbd> Reset view</span><span class="sc-keys"><kbd>R</kbd></span></div>
 <div class="sc-row"><span class="sc-desc">Arrows: move selected object (1 ft; Shift = fine 0.1 ft)</span><span class="sc-keys"><kbd>↑↓←→</kbd></span></div>
@@ -2790,6 +2790,7 @@ showToast('Graphics restored', 'success');
 requestRender();
 });
 document.addEventListener('wheel', (e) => {
+if (walkMode) return; // Sprint 28 B2: wheel must never touch the camera during walk
 if (state.viewMode !== '3d') return;
 let el = e.target;
 while (el && el !== document.body) {
@@ -2857,8 +2858,12 @@ function animate() {
 if (window._bydContextLost) { _bydRafRunning = false; window._bydRafRunning = false; return; }
 let dampingActive = false;
 if (typeof controls !== 'undefined' && controls) {
-dampingActive = controls.update();
+// Sprint 28 B1: animate() is the SOLE camera authority. OrbitControls.update() rebuilds the
+// orbit sphere around controls.target every frame; during walk that is the 0,0 pivot, so it is
+// skipped entirely and updateWalkCamera() (below) owns the camera while walkMode is on.
+if (walkMode) { dampingActive = false; } else { dampingActive = controls.update(); }
 }
+if (walkMode) { updateWalkCamera((typeof performance !== 'undefined' ? performance.now() : 0)); }
 if (dampingActive) {
 if (!_dampWasActive) { _dampWasActive = true; _dampStart = performance.now(); }
 else if (performance.now() - _dampStart > 3000) { dampingActive = false; }
@@ -4483,6 +4488,7 @@ applyViewMode(btn.dataset.view);
   }, true); // capture phase to intercept before the button's own listener
 })();
 function applyViewMode(mode) {
+if (walkMode && mode !== '3d') { showToast('Exit walk mode first (Esc)', 'info'); return; } // Sprint 28 B2: no 2D switch while walking
 const btn = document.querySelector('#view-toggle button[data-view="' + mode + '"]');
 if (!btn) return;
 document.querySelectorAll('#view-toggle button').forEach(b => {
@@ -4516,6 +4522,7 @@ updateScaleBar();
 requestRender();
 }
 document.getElementById('vc-zoom-in').addEventListener('click', () => {
+if (walkMode) return; // Sprint 28 B2: camera authority is updateWalkCamera during walk
 if (state.viewMode === '3d') {
 camera3D.position.multiplyScalar(0.85);
 controls.update();
@@ -4528,6 +4535,7 @@ updateGridLabels();
 requestRender();
 });
 document.getElementById('vc-zoom-out').addEventListener('click', () => {
+if (walkMode) return; // Sprint 28 B2: camera authority is updateWalkCamera during walk
 if (state.viewMode === '3d') {
 camera3D.position.multiplyScalar(1.18);
 controls.update();
@@ -4540,6 +4548,7 @@ updateGridLabels();
 requestRender();
 });
 document.getElementById('vc-reset').addEventListener('click', () => {
+if (walkMode) return; // Sprint 28 B2: camera authority is updateWalkCamera during walk
 if (state.viewMode === '3d') {
 camera3D.position.set(state.yard.width * 0.5, state.yard.depth * 0.4, state.yard.depth * 0.5);
 controls.target.set(0, 0, 0);
@@ -4777,6 +4786,7 @@ if (bar) bar.classList.remove('visible');
 const CMD_ITEMS = [
 { cat: 'View', icon: '🌐', label: 'Switch to 3D View', shortcut: 'V', action: () => switchView('3d') },
 { cat: 'View', icon: '🗺️', label: "Switch to Bird's-eye View", shortcut: 'B', action: () => switchView('2d') },
+{ cat: 'View', icon: '🚶', label: 'Toggle Head Bob', shortcut: '', action: () => { walkBobEnabled = !walkBobEnabled; showToast('Head bob: ' + (walkBobEnabled ? 'on' : 'off'), 'info'); } },
 { cat: 'View', icon: '🚶', label: 'Enter Walk Mode', shortcut: 'W', action: () => { if (typeof enterWalkMode === 'function') enterWalkMode(); } },
 { cat: 'View', icon: '🔄', label: 'Reset View', shortcut: 'R', action: () => { document.getElementById('vc-reset')?.click(); } },
 { cat: 'View', icon: '🔲', label: 'Toggle Grid', shortcut: 'G', action: () => { if (typeof gridHelper !== 'undefined' && gridHelper) { gridHelper.visible = !gridHelper.visible; requestRender(); } } },
@@ -5514,6 +5524,7 @@ const textEditingCombo = hasMod && ['c', 'C', 'v', 'V', 'x', 'X', 'a', 'A', 'z',
 const inFormField = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA';
 if (inFormField && (!hasMod || textEditingCombo)) return;
 if (e.target.isContentEditable) return;
+if (walkMode && e.key !== 'Escape') return; // Sprint 28 B2: during walk, walk's own window handler owns movement; app keys (B/V/R/M/T/G/arrows/Ctrl+S) are blocked. Escape still falls through to the S23 topmost-layer chain below — one press = walk-exit + topmost-panel-close (pre-S28 pairing kept per spec §9)
 if (cmdPaletteOpen && e.key === 'Escape') { e.preventDefault(); closeCommandPalette(); return; }
 if (cmdPaletteOpen) return; // Let palette handle its own keys
 if (e.ctrlKey || e.metaKey) {
@@ -7906,7 +7917,7 @@ showToast('Loaded shared design from link!', 'success');
 }, 100);
 }
 })();
-let walkMode = false;
+let walkMode = false; // Sprint 28 rework: dt-based FPS movement, single render loop, camera continuity
 let walkYaw = 0, walkPitch = 0;
 let walkPos = new THREE.Vector3(0, 5.5, 0);
 const walkKeys = {};
@@ -7914,41 +7925,107 @@ let walkDragging = false, walkLastX = 0, walkLastY = 0;
 let walkMoveDir = { forward: 0, right: 0 };
 let walkDeviceOrientationActive = false;
 let walkOrientationOffset = 0;
+const WALK = { eyeHeight: 5.5, accel: 40, maxSpeed: 4.4, sprintMul: 1.8, slowMul: 0.45, frictionExp: 9, playerRadius: 1.1, lookDrag: 0.0026, lookLock: 0.0022, pitchMax: 1.483, bobAmp: 0.09, bobFreq: 8, fovBase: 50, fovSprint: 55, fovLerp: 8 };
+let walkVel = { x: 0, z: 0 }; // plain object: Vector2 has no .z — a Vector2 here silently poisoned walkPos.z with NaN (Sprint 28 fix)
+let walkBobPhase = 0, walkBobEnabled = true, walkBobActive = false;
+let walkFovCur = WALK.fovBase;
+let _walkSaved = null;
+let _walkPrevTs = 0;
+let _walkUnlockGuardUntil = 0;
+const _walkRay = new THREE.Raycaster();
+const _walkDown = new THREE.Vector3(0, -1, 0);
 function enterWalkMode() {
 if (walkMode) return;
 if (state.viewMode !== '3d') {
 switchView('3d');
 }
 walkMode = true;
-startContinuousRender(); // PERF: Enable continuous rendering during walk mode
+startContinuousRender(); // keeps animate() hot; animate() is sole camera authority (Sprint 28 B1)
 controls.enabled = false;
-walkPos.set(0, getTerrainHeight ? getTerrainHeight(0, 0) + 5.5 : 5.5, 0);
-walkYaw = Math.PI;
+{ // Sprint 28: consume any in-flight orbit damping BEFORE snapshotting — r160 keeps a private
+  // sphericalDelta that stays frozen during walk (B1) and would drag the restored camera around
+  // the orbit sphere on the first post-exit update(). Run update() to full decay, then restore
+  // the user's visible position, so the tail is zeroed without the user ever seeing it applied.
+const _settle = camera3D.position.clone();
+let _flush = 0;
+while (controls.update() && ++_flush < 120) {}
+camera3D.position.copy(_settle);
+}
+const _wt = controls.target;
+_walkRay.set(new THREE.Vector3(_wt.x, _wt.y + 50, _wt.z), _walkDown);
+let enter = null;
+try {
+const hits = _walkRay.intersectObject(yardMesh, false);
+if (hits.length) enter = { x: hits[0].point.x, z: hits[0].point.z };
+} catch (err) { enter = null; }
+if (!enter) enter = { x: _wt.x, z: _wt.z }; // never (0,0): clamp-orbit-target fallback
+const _hw = state.yard.width / 2 - 1, _hd = state.yard.depth / 2 - 1;
+enter.x = Math.max(-_hw, Math.min(_hw, enter.x));
+enter.z = Math.max(-_hd, Math.min(_hd, enter.z));
+if (state.yard.shape === 'L' && enter.x < 0 && enter.z < 0) {
+// L-yard notch (NW rectangle) — shift entry point out of it
+enter.x = Math.min(_hw, Math.max(1, enter.x));
+}
+walkPos.set(enter.x, (getTerrainHeight ? getTerrainHeight(enter.x, enter.z) : 0) + WALK.eyeHeight, enter.z);
+// face yard center: forward (0,0,-1) rotated by yaw must point at (0,0,0) → yaw = atan2(x, z)
+walkYaw = Math.atan2(walkPos.x, walkPos.z);
 walkPitch = 0;
+walkVel.x = 0; walkVel.z = 0;
+walkBobPhase = 0; walkBobActive = false;
+walkFovCur = WALK.fovBase;
+camera3D.fov = WALK.fovBase;
+camera3D.updateProjectionMatrix();
+_walkSaved = {
+camPos: camera3D.position.clone(),
+target: _wt.clone(),
+zoom: camera2D.zoom,
+minDistance: controls.minDistance,
+maxDistance: controls.maxDistance,
+enableRotate: controls.enableRotate,
+enablePan: controls.enablePan,
+viewMode: state.viewMode
+};
 camera3D.position.copy(walkPos);
 camera3D.rotation.set(walkPitch, walkYaw, 0, 'YXZ');
+_walkPrevTs = performance.now();
 document.getElementById('walk-controls').classList.add('visible');
-if (false && typeof DeviceOrientationEvent !== 'undefined') {
-document.getElementById('walk-motion-btn').classList.add('visible');
-}
-const hintEl = document.getElementById('walk-hint');
-const hintMobileEl = document.getElementById('walk-hint-mobile');
-if (false && hintEl && hintMobileEl) {
-hintEl.style.display = 'none';
-hintMobileEl.style.display = 'block';
-}
-showToast('Walk mode! Use WASD or arrow keys to move. Press Esc to exit.', 'info');
+showToast('Walk mode! WASD move • Shift sprint • Esc exits', 'info');
 requestRender();
 }
 function exitWalkMode() {
 if (!walkMode) return;
 walkMode = false;
+walkVel.x = 0; walkVel.z = 0;
+walkBobActive = false;
 stopContinuousRender(); // PERF: Stop continuous rendering when walk mode exits
-controls.enabled = true;
+if (document.pointerLockElement) { try { document.exitPointerLock(); } catch (err) {} }
+_walkUnlockGuardUntil = 0;
+const _ws = _walkSaved;
+if (_ws && state.viewMode === '3d') {
+controls.target.copy(_ws.target);
+camera2D.zoom = _ws.zoom;
+controls.minDistance = _ws.minDistance;
+controls.maxDistance = _ws.maxDistance;
+controls.enableRotate = _ws.enableRotate;
+controls.enablePan = _ws.enablePan;
 camera3D.rotation.set(0, 0, 0);
-controls.target.set(0, 0, 0);
-camera3D.position.set(state.yard.width * 0.5, state.yard.depth * 0.4, state.yard.depth * 0.5);
-controls.update();
+controls.update(); // consumes any residual orbit delta and re-aims at the saved target
+camera3D.position.copy(_ws.camPos); // then force the EXACT pre-walk position (update may have eaten a stale spherical delta)
+camera3D.lookAt(_ws.target); // re-aim from the FINAL position so the quaternion is byte-exact vs pre-enter
+{ // Sprint 28: fully drain any residual sphericalDelta NOW — the change-per-call threshold
+  // in update()'s boolean leaves a micro-delta that still sums to ~1e-3 over later frames;
+  // 120 fixed damping calls crush it (0.9^120 ≈ 3e-6 of an already-sub-EPS residue), then the
+  // exact pose is pinned so post-exit animate() cannot drift the restored camera.
+for (let _z = 0; _z < 120; ++_z) controls.update();
+camera3D.position.copy(_ws.camPos);
+camera3D.lookAt(_ws.target);
+}
+}
+controls.enabled = true;
+_walkSaved = null;
+camera3D.fov = WALK.fovBase;
+camera3D.updateProjectionMatrix();
+walkFovCur = WALK.fovBase;
 document.getElementById('walk-controls').classList.remove('visible');
 document.getElementById('walk-motion-btn').classList.remove('visible');
 if (walkDeviceOrientationActive && typeof window !== 'undefined') {
@@ -7960,29 +8037,85 @@ requestRender();
 const _walkFwdVec = new THREE.Vector3();
 const _walkRightVec = new THREE.Vector3();
 const _walkEuler = new THREE.Euler(0, 0, 0, 'YXZ');
-function updateWalkCamera() {
+function updateWalkCamera(ts) { // Sprint 28: called from animate() ONLY (sole camera authority)
 if (!walkMode) return;
-let moveF = 0, moveR = 0;
-if (walkKeys['w'] || walkKeys['arrowup']) moveF += 1;
-if (walkKeys['s'] || walkKeys['arrowdown']) moveF -= 1;
-if (walkKeys['a'] || walkKeys['arrowleft']) moveR -= 1;
-if (walkKeys['d'] || walkKeys['arrowright']) moveR += 1;
-moveF += walkMoveDir.forward;
-moveR += walkMoveDir.right;
-if (moveF !== 0 || moveR !== 0) {
-const speed = 0.6;
+if (!_walkPrevTs) _walkPrevTs = ts || performance.now();
+const dt = Math.min(Math.max(((ts || performance.now()) - _walkPrevTs) / 1000, 0), 0.25); // clamp tab-switch spikes (0.25s: software-GL hosts run 3-12fps; 0.1 would clamp real dt and break dt-normalization there)
+_walkPrevTs = ts || performance.now();
+let inputF = 0, inputR = 0;
+if (walkKeys['w'] || walkKeys['arrowup']) inputF += 1;
+if (walkKeys['s'] || walkKeys['arrowdown']) inputF -= 1;
+if (walkKeys['a'] || walkKeys['arrowleft']) inputR -= 1; // view-relative basis (YXZ): forward = (0,0,-1) rotated by walkYaw
+if (walkKeys['d'] || walkKeys['arrowright']) inputR += 1;
+inputF = Math.max(-1, Math.min(1, inputF + walkMoveDir.forward));
+inputR = Math.max(-1, Math.min(1, inputR + walkMoveDir.right));
+const sprinting = !!(walkKeys['shift'] && (inputF !== 0 || inputR !== 0));
+const speedCap = WALK.maxSpeed * (sprinting ? WALK.sprintMul : (walkKeys['alt'] ? WALK.slowMul : 1));
 _walkEuler.set(0, walkYaw, 0, 'YXZ');
 _walkFwdVec.set(0, 0, -1).applyEuler(_walkEuler);
 _walkRightVec.set(1, 0, 0).applyEuler(_walkEuler);
-walkPos.x += (_walkFwdVec.x * moveF + _walkRightVec.x * moveR) * speed;
-walkPos.z += (_walkFwdVec.z * moveF + _walkRightVec.z * moveR) * speed;
-walkPos.x = Math.max(-state.yard.width / 2 + 1, Math.min(state.yard.width / 2 - 1, walkPos.x));
-walkPos.z = Math.max(-state.yard.depth / 2 + 1, Math.min(state.yard.depth / 2 - 1, walkPos.z));
+if (inputF !== 0 || inputR !== 0) {
+const wishX = (_walkFwdVec.x * inputF + _walkRightVec.x * inputR);
+const wishZ = (_walkFwdVec.z * inputF + _walkRightVec.z * inputR);
+const wl = Math.sqrt(wishX * wishX + wishZ * wishZ) || 1;
+const k = Math.min(1, (WALK.accel * dt) / Math.max(speedCap, 0.001)); // accel-limited approach to wish velocity
+walkVel.x += ((wishX / wl) * speedCap - walkVel.x) * k;
+walkVel.z += ((wishZ / wl) * speedCap - walkVel.z) * k;
+} else {
+const f = Math.exp(-WALK.frictionExp * dt); // exponential stop, no sliding
+walkVel.x *= f;
+walkVel.z *= f;
 }
-walkPos.y = (getTerrainHeight ? getTerrainHeight(walkPos.x, walkPos.z) : 0) + 5.5;
-camera3D.position.copy(walkPos);
+walkPos.x += walkVel.x * dt; // semi-implicit Euler: position integrates the dt-scaled velocity
+walkPos.z += walkVel.z * dt;
+{
+// Solid-footprint collision (Sprint 28 §4): AABB push-out on the shallower axis, slide along the wall.
+// Flat ground types (patio/deck/walkway/raised_bed, non-heavy shed) are walkable; heavy solids are not.
+const pr = WALK.playerRadius;
+state.objects.forEach(obj => {
+const cat = CATALOG[obj.type];
+if (!cat || !cat.footprint) return;
+if (FLAT_OBJECT_TYPES.has(obj.type) && !HEAVY_OBJECT_TYPES.has(obj.type)) return;
+const fp = cat.footprint(obj.params || {});
+if (!fp) return;
+const halfW = fp.w / 2 + pr, halfD = fp.d / 2 + pr;
+const dx = walkPos.x - obj.position.x, dz = walkPos.z - obj.position.z;
+if (Math.abs(dx) < halfW && Math.abs(dz) < halfD) {
+if (Math.abs(dx) / halfW > Math.abs(dz) / halfD) { walkPos.x = obj.position.x + Math.sign(dx || 1) * halfW; walkVel.x = 0; }
+else { walkPos.z = obj.position.z + Math.sign(dz || 1) * halfD; walkVel.z = 0; }
+}
+});
+}
+{
+const hw = state.yard.width / 2 - 1, hd = state.yard.depth / 2 - 1;
+if (walkPos.x < -hw) { walkPos.x = -hw; walkVel.x = Math.max(0, walkVel.x); }
+if (walkPos.x > hw) { walkPos.x = hw; walkVel.x = Math.min(0, walkVel.x); }
+if (walkPos.z < -hd) { walkPos.z = -hd; walkVel.z = Math.max(0, walkVel.z); }
+if (walkPos.z > hd) { walkPos.z = hd; walkVel.z = Math.min(0, walkVel.z); }
+if (state.yard.shape === 'L' && walkPos.x < 0 && walkPos.z < 0) {
+// L-yard notch (NW rectangle) — slide out along the shallower axis
+const penX = -walkPos.x, penZ = -walkPos.z;
+if (penX < penZ) { walkPos.x = 0; walkVel.x = Math.max(0, walkVel.x); }
+else { walkPos.z = 0; walkVel.z = Math.max(0, walkVel.z); }
+}
+}
+walkPos.y = (getTerrainHeight ? getTerrainHeight(walkPos.x, walkPos.z) : 0) + WALK.eyeHeight;
+const sp2d = Math.sqrt(walkVel.x * walkVel.x + walkVel.z * walkVel.z);
+if (sp2d > 0.02) {
+walkBobActive = walkBobEnabled && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+walkBobPhase += sp2d * dt * 8; // Bob MUST NOT mutate walkPos.y (terrain-follow purity) — applied at the camera copy only
+} else {
+walkBobActive = false;
+}
+camera3D.position.set(walkPos.x, walkPos.y + (walkBobActive ? Math.sin(walkBobPhase) * WALK.bobAmp : 0), walkPos.z);
 camera3D.rotation.set(walkPitch, walkYaw, 0, 'YXZ');
-requestRender();
+const fovTgt = (sprinting && sp2d > 1) ? WALK.fovSprint : WALK.fovBase;
+walkFovCur += (fovTgt - walkFovCur) * Math.min(1, WALK.fovLerp * dt);
+const fovR = Math.round(walkFovCur * 10) / 10;
+if (Math.abs(camera3D.fov - fovR) >= 0.1) {
+camera3D.fov = fovR;
+camera3D.updateProjectionMatrix();
+}
 }
 function onWalkDeviceOrient(e) {
 if (!walkMode || !walkDeviceOrientationActive) return;
@@ -7990,9 +8123,8 @@ if (e.alpha !== null) {
 walkYaw = -(e.alpha * Math.PI / 180) + walkOrientationOffset;
 }
 if (e.beta !== null) {
-walkPitch = Math.max(-0.6, Math.min(0.6, (e.beta - 90) * Math.PI / 180));
+walkPitch = Math.max(-0.6, Math.min(0.6, (e.beta - 90) * Math.PI / 180)); // mobile tilt comfort: ±0.6 kept per spec §2
 }
-requestRender();
 }
 (function setupWalkMode() {
 const walkBtn = document.getElementById('btn-walk');
@@ -8001,7 +8133,10 @@ document.getElementById('walk-exit').addEventListener('click', exitWalkMode);
 window.addEventListener('keydown', e => {
 if (!walkMode) return;
 walkKeys[e.key.toLowerCase()] = true;
-if (e.key === 'Escape') exitWalkMode();
+if (e.key === 'Escape') {
+if (performance.now() < _walkUnlockGuardUntil) return; // Esc-from-pointer-lock: browser already released the mouse; next Esc exits walk
+exitWalkMode();
+}
 });
 window.addEventListener('keyup', e => { walkKeys[e.key.toLowerCase()] = false; });
 function attachPointer() {
@@ -8012,23 +8147,29 @@ canvas.addEventListener('mousedown', e => {
 if (!walkMode) return;
 walkDragging = true; walkLastX = e.clientX; walkLastY = e.clientY;
 });
-
-
-
-
-
-
-
-
-
-
+canvas.addEventListener('dblclick', () => { // Pointer Lock (Sprint 28 §2, optional but shipped): walk mode only
+if (!walkMode || document.pointerLockElement) return;
+try { canvas.requestPointerLock(); } catch (err) {}
+});
 }
+document.addEventListener('pointerlockchange', () => {
+if (document.pointerLockElement) return;
+const now = performance.now();
+if (now < _walkUnlockGuardUntil + 250) return; // already guarded very recently
+_walkUnlockGuardUntil = now + 250; // guard window: Esc pressed right at unlock only releases the mouse
+});
 window.addEventListener('mousemove', e => {
-if (!walkMode || !walkDragging) return;
+if (!walkMode) return;
+if (document.pointerLockElement) {
+walkYaw -= e.movementX * WALK.lookLock;
+walkPitch = Math.max(-WALK.pitchMax, Math.min(WALK.pitchMax, walkPitch - e.movementY * WALK.lookLock));
+return;
+}
+if (!walkDragging) return;
 const dx = e.clientX - walkLastX, dy = e.clientY - walkLastY;
 walkLastX = e.clientX; walkLastY = e.clientY;
-walkYaw -= dx * 0.005;
-walkPitch = Math.max(-0.6, Math.min(0.6, walkPitch - dy * 0.005));
+walkYaw -= dx * WALK.lookDrag; // 0.0026 rad/px: ~150 px per 90° (Sprint 28 §2)
+walkPitch = Math.max(-WALK.pitchMax, Math.min(WALK.pitchMax, walkPitch - dy * WALK.lookDrag)); // ±85°
 });
 window.addEventListener('mouseup', () => { walkDragging = false; });
 document.querySelectorAll('#walk-joystick .walk-joy-btn[data-dir]').forEach(btn => {
@@ -8059,21 +8200,6 @@ window.addEventListener('deviceorientation', onWalkDeviceOrient);
 document.getElementById('walk-motion-btn').textContent = 'Motion On';
 showToast('Tilt your phone to look around!', 'info');
 });
-let walkLoopRunning = false;
-function walkLoop() {
-if (walkMode) {
-updateWalkCamera();
-requestAnimationFrame(walkLoop);
-} else {
-walkLoopRunning = false;
-}
-}
-let _walkCheckId = setInterval(() => {
-if (walkMode && !walkLoopRunning) {
-walkLoopRunning = true;
-requestAnimationFrame(walkLoop);
-}
-}, 100);
 setTimeout(attachPointer, 0);
 })();
 initScene();
@@ -11585,7 +11711,7 @@ setTimeout(() => {
 buildGridLevelPlane();
 requestRender();
 }, 300);
-window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, pushCommand, applySeasonalGroundColor, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, smoothTerrainPass, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getTerrainHeightAvg, updateFoundationWalls, flattenTerrainForObject, EMBED_OFFSETS, HEAVY_OBJECT_TYPES, FLAT_OBJECT_TYPES, get foundationWallMeshes() { return foundationWallMeshes; }, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, getBrushColor, BRUSH_COLORS, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; },
+window._test = { state, CATALOG, get scene() { return scene; }, sceneObjects, get yardMesh() { return yardMesh; }, get gridHelper() { return gridHelper; }, get boundaryLines() { return boundaryLines; }, renderer, loadDesign, serializeDesign, addObject, buildSceneObject, get activeCamera() { return activeCamera; }, drawQR, QRCodeGen, encodeDesignToHash, decodeDesignFromHash, get sunLight() { return sunLight; }, computeObjectCost, solarPosition, get hiddenLayers() { return hiddenLayers; }, get walkMode() { return walkMode; }, get walkPos() { return typeof walkPos !== 'undefined' ? walkPos : null; }, get _walkSaved() { return typeof _walkSaved !== 'undefined' ? _walkSaved : null; }, get controls() { return controls; }, get tapeMeasureStart() { return typeof tapeMeasureStart !== 'undefined' ? tapeMeasureStart : null; }, undo, redo, pushCommand, applySeasonalGroundColor, getTerrainHeight, getTerrainIndex, applyTerrainToMesh, paintTerrain, smoothTerrainPass, ensureTerrainArray, hasTerrainDeformation, isObjectBuried, updateBuriedIndicator, updateAllBuriedIndicators, updateObjectHeight, getTerrainHeightAvg, updateFoundationWalls, flattenTerrainForObject, EMBED_OFFSETS, HEAVY_OBJECT_TYPES, FLAT_OBJECT_TYPES, get foundationWallMeshes() { return foundationWallMeshes; }, getGroundPointFromEvent, _recomputeTerrainDeformed, selectObject, deselectObject, applySunPosition, applyLayerVisibility, updateCostPanel, removeBrushCursor, createBrushCursor, getBrushColor, BRUSH_COLORS, get terrainClipPlane() { return terrainClipPlane; }, get wireframeActive() { return wireframeActive; }, getBuriedObjects, getMaxTerrainHeight, getMinTerrainHeight, updateBuriedObjects, drawCrossSection, get terrainMode() { return terrainMode; }, applyTerrainPreset, get terrainHeightColorsActive() { return terrainHeightColorsActive; }, get terrainDrainageActive() { return terrainDrainageActive; }, applyHeightColors, removeHeightColors, updateDrainageArrows, updateHeightLegend, heightToColor, getHeightRange, get terrainBrushMode() { return terrainBrushMode; }, set terrainBrushMode(v) { terrainBrushMode = v; },
 MAX_TERRAIN_HEIGHT, MIN_TERRAIN_HEIGHT, clampTerrainHeight,
 get precisionMode() { return precisionMode; }, set precisionMode(v) { precisionMode = v; updatePrecisionModeUI(); },
 updatePrecisionModeUI, togglePrecisionMode, updateHeightReadout, updateDigDepthReadout, updateExcavationHint, get terrainBrushStrength() { return terrainBrushStrength; }, set terrainBrushStrength(v) { terrainBrushStrength = v; }, get terrainBrushSize() { return terrainBrushSize; }, set terrainBrushSize(v) { terrainBrushSize = v; }, get digDepth() { return digDepth; }, set digDepth(v) { digDepth = v; }, get contourEnabled() { return contourEnabled; }, buildContourLines, get slopeEnabled() { return slopeEnabled; }, buildSlopeHeatmap, updateCutFillVolume, get cutFillEnabled() { return cutFillEnabled; }, get waterFlowEnabled() { return waterFlowEnabled; }, buildWaterFlowPaths, get elevHeatmapEnabled() { return elevHeatmapEnabled; }, buildElevationHeatmap, get ghostModeEnabled() { return ghostModeEnabled; }, updateGhostMode, drainageArrowsGroup: () => drainageArrowsGroup, initWithYard, buildSceneObject, buildSolidEarth, getSolidEarthBottomY, get solidEarthMesh() { return solidEarthMesh; }, EXCAVATION_EARTH_COLOR, EARTH_DEPTH_BELOW_MIN, get crossSectionPoints() { return crossSectionPoints; }, set crossSectionPoints(v) { crossSectionPoints = v; }, excavatePool, flattenToHeightAt, placeElevationMarker, clearInnovMarkers, applyPrecisionSlope, scanForRetainingWalls, clearInnovRetWalls, get innovMode() { return innovMode; }, innovSetMode, updateInnovStats,
@@ -15766,6 +15892,7 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
   const brushModes = ['raise', 'lower', 'smooth', 'erode', 'dig', 'fill'];
   
   document.addEventListener('keydown', (e) => {
+    if (typeof walkMode !== 'undefined' && walkMode) return; // Sprint 28 B2: 1-7/[/] must not flip terrain-brush state mid-walk
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
     if (e.target.isContentEditable) return;
     if (e.ctrlKey || e.metaKey) return;
@@ -15911,6 +16038,7 @@ window.Onboarding = Onboarding;
 window.startProgressiveHints = Onboarding ? Onboarding.startProgressiveHints : undefined;
 if (typeof enterWalkMode !== 'undefined') window.enterWalkMode = enterWalkMode;
 if (typeof exitWalkMode !== 'undefined') window.exitWalkMode = exitWalkMode;
+if (typeof walkBobEnabled !== 'undefined') window.walkBobEnabled = walkBobEnabled;
 if (typeof serializeDesign !== 'undefined') window.serializeDesign = serializeDesign;
 if (typeof DESIGN_TEMPLATES !== 'undefined') window.DESIGN_TEMPLATES = DESIGN_TEMPLATES;
 if (typeof applyTemplate !== 'undefined') window.applyTemplate = applyTemplate;

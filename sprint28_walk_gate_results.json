@@ -1,0 +1,122 @@
+{
+ "port": 8349,
+ "passed": 23,
+ "total": 23,
+ "results": [
+  {
+   "name": "window exports call-compatible (enterWalkMode/exitWalkMode)",
+   "ok": true,
+   "detail": "{'enter': 'function', 'exit': 'function'}"
+  },
+  {
+   "name": "audit: walkLoop/_walkCheckId rAF chain deleted",
+   "ok": true,
+   "detail": "matches=0"
+  },
+  {
+   "name": "audit: animate() walk branch ( sole camera authority)",
+   "ok": true,
+   "detail": "matches=1"
+  },
+  {
+   "name": "audit: wheel walkMode guard",
+   "ok": true,
+   "detail": "matches=1"
+  },
+  {
+   "name": "audit: pointer-unlock Esc guard var",
+   "ok": true,
+   "detail": "matches=5"
+  },
+  {
+   "name": "audit: s22 literal w/W handler preserved",
+   "ok": true,
+   "detail": "matches=1"
+  },
+  {
+   "name": "(a-geom) canvas bounding box fallback (viewport probe failed)",
+   "ok": true,
+   "detail": "fallback center"
+  },
+  {
+   "name": "(a-setup) walk entered via real W key",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "(a) drag rotates view WITHOUT translating camera",
+   "ok": true,
+   "detail": "posDelta=0.0000ft"
+  },
+  {
+   "name": "(b) W follows VIEW direction (180-degree reversal flips displacement)",
+   "ok": true,
+   "detail": "v1=(2.72,-4.22) v2=(-2.45,3.64) dot=-22.03"
+  },
+  {
+   "name": "(c) movement dt-normalized (3x-throttled traversal within 40% of normal)",
+   "ok": true,
+   "detail": "dNormal=4.53ft dThrottled=4.54ft ratio=1.00"
+  },
+  {
+   "name": "(d) exit restores pre-walk camera exactly",
+   "ok": true,
+   "detail": "posErr=5.18e-09 quatErr=0.00e+00"
+  },
+  {
+   "name": "(d-runtime) controls.target restored (next drag orbits the same view)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "(e-setup) joystick forward button present",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "(e1) joystick forward moves player",
+   "ok": true,
+   "detail": "moved=2.33ft"
+  },
+  {
+   "name": "(e2) Esc exits walk mode",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "(f) cannot walk outside yard bounds",
+   "ok": true,
+   "detail": "yard=50x100 worstOverflow=0.000ft (margin 1.0)"
+  },
+  {
+   "name": "(g) cannot pass through shed footprint",
+   "ok": true,
+   "detail": "start=(0.00,-0.00) finalZ=-7.82; wall+radius at z=-7.9"
+  },
+  {
+   "name": "(g2) lateral slide along wall works",
+   "ok": true,
+   "detail": "x 0.00 -> 3.42 (z held at -7.83)"
+  },
+  {
+   "name": "(h1) sprint FOV nudge (> 51 after 1.6s sprint)",
+   "ok": true,
+   "detail": "fov=55.0"
+  },
+  {
+   "name": "(h2) palette lists 'Toggle Head Bob'",
+   "ok": true,
+   "detail": "rows=1"
+  },
+  {
+   "name": "(h2) palette click toggles head bob",
+   "ok": true,
+   "detail": "row activated"
+  },
+  {
+   "name": "zero console pageerrors during entire session",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}
