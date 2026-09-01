@@ -3650,6 +3650,14 @@ let pan2DStart = null;
 let pan2DCamStart = null;
 function onPointerDown(e) {
 if (!renderer || !scene || !raycaster || !mouse || !activeCamera) return;
+// Sprint 29 fix (S29-T03): pointerdowns on in-viewport UI (bottom-left toolbar,
+// view cube, compass, overlays, floating panels) must never raycast/deselect —
+// a press on a toolbar button used to deselect the object, closing #properties,
+// re-wrapping the toolbar, and moving the pressed button so its click was lost.
+if (e.target && e.target.closest && e.target.closest(
+'#bottom-left-toolbar,#view-controls,#compass-indicator,#tool-dock,#dock-panel-container,' +
+'#excavate-panel,#cross-section-panel,#terrain-controls,#sun-panel,#innovation-panel,' +
+'#terrain-analysis-panel,#cut-fill-panel,#ta-cross-section-overlay,#right-panel-stack')) return;
 if (state.viewMode === '2d' && e.button === 0) {
 const rect = renderer.domElement.getBoundingClientRect();
 mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
