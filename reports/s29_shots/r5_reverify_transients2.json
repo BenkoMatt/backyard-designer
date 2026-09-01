@@ -1,0 +1,24 @@
+{
+ "T01_hint_over_modal": {
+  "modalVisible": true,
+  "hintDisplay": "none",
+  "hintVisibleClass": false
+ },
+ "T04_batch_lift": {
+  "barVisible": true,
+  "barRect": [
+   642,
+   684
+  ],
+  "tbTop": 692,
+  "sbTop": 730,
+  "barOverToolbar": false,
+  "barOverScalebar": false,
+  "barBottom": "116px"
+ },
+ "T05_qr_caption": {
+  "modalVisible": true,
+  "tooLongVisible": true,
+  "text": "Design is large - QR may be hard to scan. Use the link instead."
+ }
+}
