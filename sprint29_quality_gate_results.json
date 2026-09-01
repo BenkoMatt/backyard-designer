@@ -1,15 +1,15 @@
 {
   "sprint": 29,
   "expect_open_fixes": true,
-  "total": 39,
-  "passed": 34,
-  "failed": 5,
+  "total": 33,
+  "passed": 33,
+  "failed": 0,
   "index_html_bytes": 766972,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "766954 bytes, headroom 1046",
+      "detail": "766972 bytes, headroom 1028",
       "merge_locked": false
     },
     {
@@ -69,19 +69,19 @@
     {
       "name": "W01: toast rect intersects NO toolbar button (both rows)",
       "status": "PASS",
-      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.04981994628906, 'right': 788.484375, 'bottom': 108.04981994628906} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64, 'right': 788.484375, 'bottom': 108} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W01: toast band does not overlap toolbar container rect",
       "status": "PASS",
-      "detail": "toastRect={'left': 491.515625, 'top': 64.04981994628906, 'right': 788.484375, 'bottom': 108.04981994628906} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "toastRect={'left': 491.515625, 'top': 64, 'right': 788.484375, 'bottom': 108} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W02: with a panel open, toast intersects NO toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.347412109375, 'right': 788.484375, 'bottom': 108.347412109375}",
+      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.34700775146484, 'right': 788.484375, 'bottom': 108.34700775146484}",
       "merge_locked": false
     },
     {
@@ -183,13 +183,13 @@
     {
       "name": "W09: seeded recovery snapshot shows the recovery banner",
       "status": "PASS",
-      "detail": "bannerVisible=True bannerRect={'top': 64, 'bottom': 118, 'left': 397.6015625, 'right': 882.3984375}",
+      "detail": "bannerVisible=True bannerRect={'top': 64, 'bottom': 118, 'left': 394.5390625, 'right': 885.4609375}",
       "merge_locked": false
     },
     {
       "name": "W09: visible recovery banner + visible toast do not overlap",
       "status": "PASS",
-      "detail": "strict: bannerRect={'top': 64, 'bottom': 118, 'left': 397.6015625, 'right': 882.3984375} toastRect={'top': 118, 'bottom': 162, 'left': 491.515625, 'right': 788.484375} overlap=False (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band) \u2014 MERGE-",
+      "detail": "strict: bannerRect={'top': 64, 'bottom': 118, 'left': 394.5390625, 'right': 885.4609375} toastRect={'top': 118, 'bottom': 162, 'left': 491.515625, 'right': 788.484375} overlap=False (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band) \u2014 MERGE-",
       "merge_locked": true
     },
     {
@@ -199,54 +199,11 @@
       "merge_locked": false
     },
     {
-      "name": "Vision [vs1_main_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**Not clean \u2014 a few issues found:**  1. **Duplicate/conflicting controls (most confusing issue):** \"Terrain\" appears twice \u2014 once in the floating bottom-left pa \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs2_sidebar_advanced]: CLEAN verdict (post-merge strict)",
-      "status": "PASS",
-      "detail": "CLEAN \u2014 A polished, self-explanatory 3D backyard designer: header controls, categorized asset palette, and onboarding tip are all clearly readable with no overl \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs3_toolbar_panel_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "## QA Review \u2014 Backyard Designer 3D  **Overall: No overlaps, clipping, or broken rendering found. A few minor clarity/consistency issues.**  ### (1) Overlapping \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs4_underground_advanced]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**Not CLEAN** \u2014 no broken/overlapping elements, but a few minor issues:  1. **[Minor \u2014 clipping] Left sidebar \"Patio\" item** is cut mid-row at the panel's botto \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs5_help_modal_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**Not CLEAN \u2014 a few minor issues, nothing severe.**  **(1) Overlapping / clipped UI** - **Help modal bottom padding is nearly zero.** The last bullet (\"Screensh \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs6_shortcuts_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**Verdict: Near-clean.** No overlapping or clipped UI, and yes \u2014 a new user would understand this in ~5 seconds (clear product name, \"ADD TO YOUR YARD\" sidebar  \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
       "name": "No console errors during the entire run",
       "status": "PASS",
       "detail": "",
       "merge_locked": false
     }
   ],
-  "vision_findings": {
-    "vs1_main_basic": "**Not clean \u2014 a few issues found:**\n\n1. **Duplicate/conflicting controls (most confusing issue):** \"Terrain\" appears twice \u2014 once in the floating bottom-left panel and again in the bottom toolbar. Similarly, \"Sun & Shadow\" (floating panel) vs. \"Sun\" (toolbar) look like redundant/duplicate functions. A new user can't tell if these do different things or are accidental duplicates.\n\n2. **\"Innovate\" button is ambiguous:** In a backyard design toolbar (Tape Measure, Excavate, Analyze\u2026), \"Innovate\" reads as a typo or misplaced label (Irrigate? Templates?). It doesn't communicate any function within the 5-second scan.\n\n3. **Left panel item clipped at bottom:** The \"Patio\" row under Patios & Paths is cut mid-height by the status bar. If it's a scroll region this is technically fine, but with no visible scroll affordance it looks like broken/clipped content.\n\n4. **Minor \u2014 tip toast close button:** The \"\u00d7\" sits inline at the end of the wrapped text (\"\u2026add it to your yard \u00d7\"), so it reads like a stray character rather than a dismiss control.\n\n**Otherwise solid:** No overlapping UI (Take Tour button and compass are properly spaced, bottom-left floating panel doesn't collide with the toolbar row, toast doesn't block controls), disabled Undo/Redo is expected on a fresh scene, status bar and header are clear, and the empty-terrain state with the onboarding tip communicates the workflow well.\n\n**Verdict:** Fix the duplicated Terrain/sun controls and clarify or rename \"Innovate\"; the rest is minor polish.",
-    "vs2_sidebar_advanced": "CLEAN \u2014 A polished, self-explanatory 3D backyard designer: header controls, categorized asset palette, and onboarding tip are all clearly readable with no overlapping, clipped, or broken UI.\n\nNon-blocking minor observations (not defects): \"Terrain\"/\"Analyze\"/\"Sun\" appear in both the floating menu and bottom toolbar (reads as intentional quick-access mirrors), the menu labels \"Underground\"/\"Pro Tools\" vs. toolbar \"Excavate\"/\"Innovate\" differ slightly in wording, and \"Brush: 8 ft\" shows while Tool is \"Select\" \u2014 all cosmetic consistency nits, nothing that would confuse a new user within 5 seconds.",
-    "vs3_toolbar_panel_basic": "## QA Review \u2014 Backyard Designer 3D\n\n**Overall: No overlaps, clipping, or broken rendering found. A few minor clarity/consistency issues.**\n\n### (1) Overlapping / clipped UI\n- \u2705 None detected. Top bar, sidebar, floating panels, bottom toolbar, and status bar all have clear separation. Compass, \"Take Tour,\" and \"Daytime\" pill don't collide. Dialog fits within canvas bounds; bottom toolbar buttons fit within the 1280px viewport.\n- \u26a0\ufe0f Very minor: in the compass (top-right), the red needle tip sits close to / may touch the \"S\" tick label \u2014 worth a quick visual check.\n\n### (2) 5-second comprehension for a new user\n- \u2705 Mostly yes: title, left asset palette, 3D viewport, sculpting panel with an explicit hint (\"Pick a mode, then click + drag on the ground to sculpt\"), and a \"Take Tour\" affordance make the purpose clear.\n- \u26a0\ufe0f **Duplicate \"Terrain\" active buttons**: the bottom-left panel shows a green active **Terrain** button, and the bottom toolbar shows a brown active **Terrain** button. A new user can't tell which one is the real control or why both are highlighted.\n- \u26a0\ufe0f **Inconsistent active-state color**: active items are green elsewhere (3D View, Terrain panel) but brown for the toolbar Terrain tool \u2014 reads as a different state, not \"active.\"\n\n### (3) Confusing / ambiguous / misplaced\n- **Orphan icon-only button** at the far right of the bottom toolbar (x\u22481240, chart/activity icon) \u2014 visually detached from the button group and its purpose is unclear. Verify it isn't a stray or clipped element.\n- **\"Innovate\"** tool label is ambiguous \u2014 doesn't hint at what it does (unlike Tape Measure/Excavate/Analyze).\n- **Tight slider spacing** in Terrain Sculpting: the Brush Size and Strength rows (label/slider/value) are ~15px apart; thumbs nearly touch between rows.\n- **Slightly ragged left alignment** inside the dialog: mode buttons start at x\u2248548, sliders at x\u2248521, labels at x\u2248458.\n\n### Verdict\nMinor polish issues only \u2014 no blocking defects. Primary fixes: disambiguate/rename the two \"Terrain\" buttons, unify active-state color, and clarify or group the orphan right-edge toolbar icon.",
-    "vs4_underground_advanced": "**Not CLEAN** \u2014 no broken/overlapping elements, but a few minor issues:\n\n1. **[Minor \u2014 clipping] Left sidebar \"Patio\" item** is cut mid-row at the panel's bottom edge (~y765). Reads as a scroll cutoff so it's acceptable, but slightly untidy on first paint.\n2. **[Minor \u2014 placement/grouping] Bottom-right floating icon** (~x1243, y741) sits on the same row as the bottom toolbar, only ~15px from the \"Sun\" button, and its chart-style icon doesn't match the zoom stack above it (+ / \u2212 / reset). It looks detached and its grouping/function is ambiguous.\n3. **[Minor \u2014 first-run comprehension] Default state is \"Underground / Excavate\"** in Advanced mode \u2014 the canvas is a wireframe cutaway with \"Buried Objects: 0\", which may confuse a new user (\"why does my yard look like a grid?\"). The toast and Getting Started card do explain it, but defaulting to a normal 3D terrain view would land better.\n4. **[Nit] \"Innovate\" tool label** (bottom toolbar) is vague next to concrete neighbors like Tape Measure / Terrain / Analyze.\n5. **[Nit] \"Take Tour\" uses a wrench icon** \u2014 a play/compass icon would better signal \"tour.\"\n\n**5-second comprehension: yes.** Clear title, an explicit instruction card (\"Click any item\u2026 drag to position\"), a Take Tour affordance, and labeled panels \u2014 a new user gets the core concept quickly; only the underground-mode default (item 3) causes a beat of confusion.",
-    "vs5_help_modal_basic": "**Not CLEAN \u2014 a few minor issues, nothing severe.**\n\n**(1) Overlapping / clipped UI**\n- **Help modal bottom padding is nearly zero.** The last bullet (\"Screenshot captures a PNG image\u2026\") sits ~8px from the modal's bottom edge vs. ~35px padding on the sides/top. It reads as clipped \u2014 and if there's a footer/CTA below (e.g., a \"Got it\" button), it's cut off with no visible scrollbar. Add bottom padding or confirm the content is complete.\n- **\"Daytime\" pill peeks out ~2px above the modal's top edge** (top center). A stray sliver of a hidden element looks like a rendering glitch \u2014 either fully cover it with the overlay or reposition it.\n- **Bottom-left floating panel is sliced by the modal** \u2014 only a lone mountain icon and the \"Sun & Shadow\" button show, making it look like a detached fragment. Correct z-order, but visually broken-looking while the modal is open.\n\n**(2) 5-second comprehension**\n- Mostly yes \u2014 the modal opens with a clear \"How to Use\" explainer and the left panel is labeled \"ADD TO YOUR YARD.\" A new user gets the gist. The main risk is the modal covering ~60% of the canvas, so the 3D view itself isn't visible on first glance.\n\n**(3) Confusing / ambiguous**\n- The **\"\u2715\" next to \"Getting Started\"** in the sidebar could be mistaken for closing the entire \"Add to Your Yard\" panel rather than dismissing that one item.\n- **\"FPS: \u2014\"** in the status bar looks like an unfinished placeholder.\n- The 3D scene is a mostly empty blue grid, so with the modal open it's unclear what the terrain/water actually is \u2014 but that's a content state, not a UI bug.\n\n**Summary:** Solid, well-organized first-run screen; fix the modal's cramped/clipped bottom edge, the peeking \"Daytime\" pill, and the sliced bottom-left panel and it's ship-shape.",
-    "vs6_shortcuts_basic": "**Verdict: Near-clean.** No overlapping or clipped UI, and yes \u2014 a new user would understand this in ~5 seconds (clear product name, \"ADD TO YOUR YARD\" sidebar with a Getting Started card, and an obvious \"Got it!\" dismissal on the modal). Three minor issues worth fixing:\n\n1. **Minor / functional \u2014 Shortcuts modal, \"Cycle placed objects: Alt+Tab\".** Alt+Tab is reserved by the operating system (window switching) and can't be captured inside a browser, so this binding will never fire in a web app. Swap it for something like `Alt+C` or `]`.\n\n2. **Minor / ambiguous \u2014 Duplicate \"Terrain\" labels.** The bottom-left stacked dock button labeled \"Terrain\" (with the chart icon) and the bottom toolbar \"Terrain\" button (mountain icon) are two different controls with identical names sitting near each other. Rename the dock toggle to \"Terrain Dock\" to match the shortcut guide (\"Toggle Terrain dock\").\n\n3. **Trivial \u2014 Status bar \"FPS: \u2014\"** shows an empty placeholder. Fine if it populates after the first rendered frame, but it reads as broken at first glance.\n\nNon-issues, for the record: the half-visible \"Patio\" row at the sidebar bottom is normal scroll position, the modal layout/columns/keycap alignment is consistent, Undo/Redo correctly appear disabled, and the \"Daytime\" pill / \"Take Tour\" / bottom-left dock staying bright above the dimmed backdrop looks intentional."
-  }
+  "vision_findings": {}
 }

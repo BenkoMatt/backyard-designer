@@ -382,7 +382,7 @@
     {
       "name": "FPS meter reports frames during continuous render",
       "status": "PASS",
-      "detail": "walkEntered=True framesRendered=13 meter='5'"
+      "detail": "walkEntered=True framesRendered=9 meter='3'"
     },
     {
       "name": "Command palette opens in basic mode",

@@ -15988,11 +15988,12 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
         const burstMs = (window._bydLastFrameTs || now) - (window._bydBurstStartTs || now);
         if (burstFrames > 0 && burstMs > 60) {
           const fps = Math.round(burstFrames * 1000 / burstMs);
-          // S29-R2: only surface a value from a sustained sample (>=0.4s) at a
-          // plausible rate (>=4 — kills the idle "FPS: 2" flashes vision flagged
-          // on every panel shot, while still reporting real continuous rendering
-          // like walk mode; s17's walk-FPS lock needs a visible meter).
-          if (burstMs >= 400 && fps >= 4) {
+          // S29-R2: surface either (a) a fast sample (>=12fps over >=0.4s) or
+          // (b) a LONG sustained render burst (>=1.5s at >=3fps — walk mode /
+          // slow camera work under software rendering). Idle hover "FPS: 1-2"
+          // flashes were short sub-second bursts and fail both prongs; s17's
+          // walk-FPS lock needs the meter visible under slow swiftshader too.
+          if ((burstMs >= 400 && fps >= 12) || (burstMs >= 1500 && fps >= 3)) {
           const s = String(fps);
           if (sbFps && s !== _sbFpsShown) {
             sbFps.textContent = s; _sbFpsShown = s;
