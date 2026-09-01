@@ -5518,13 +5518,38 @@ hint.classList.add('visible');
     const curB = parseFloat(getComputedStyle(hint).bottom) || 196;
     const curBottomWin = window.innerHeight - vpTop - curB + hintH;
     if (curBottomWin > window.innerHeight - lowest - 4) {
-      const liftB = Math.round(lowest - vpTop + 8);
-      const tbTop = document.getElementById('bottom-left-toolbar')
-        ? document.getElementById('bottom-left-toolbar').getBoundingClientRect().top : Infinity;
-      const hintT = window.innerHeight - liftB - hintH;
-      if (tbTop - vpTop - 8 > hintT) { hint.style.bottom = liftB + 'px'; return; }
-      hint.classList.remove('visible');
-      hint.style.bottom = '';
+      // Sprint 29 fix (S29-W02b): a visible dock panel (dock-terrain etc.) also
+      // owns this band — lift the hint clear above it, same rule as the other
+      // floating panels. The lifted hint must also clear the top-stack overlays
+      // (recovery banner / stacked toast): if above-the-panel would land inside
+      // the toast band, place the hint below the toast instead; if no clear
+      // spot exists, hide it rather than paint it over panel controls.
+      const hr0 = hint.getBoundingClientRect();
+      const hintL = hr0.left, hintR = hr0.right;
+      const avoid = [];
+      const tEl = document.getElementById('toast');
+      if (tEl && tEl.classList.contains('visible')) avoid.push(tEl.getBoundingClientRect());
+      const rbEl = document.getElementById('recovery-banner');
+      if (rbEl && rbEl.classList.contains('visible')) avoid.push(rbEl.getBoundingClientRect());
+      for (const s2 of sel) document.querySelectorAll(s2).forEach(pe => {
+        if (getComputedStyle(pe).display !== 'none') avoid.push(pe.getBoundingClientRect());
+      });
+      const tbEl = document.getElementById('bottom-left-toolbar');
+      if (tbEl) avoid.push(tbEl.getBoundingClientRect());
+      const hitsAt = b2 => {
+        const t2 = window.innerHeight - b2 - hintH, bo = window.innerHeight - b2;
+        return avoid.some(r => !(hintR <= r.left || hintL >= r.right || bo <= r.top || t2 >= r.bottom));
+      };
+      let liftB = Math.round(lowest - vpTop + 8);
+      if (hitsAt(liftB) && tEl && tEl.classList.contains('visible')) {
+        liftB = Math.round(window.innerHeight - tEl.getBoundingClientRect().bottom - hintH - 4);
+      }
+      if (liftB < 0 || hitsAt(liftB)) {
+        hint.classList.remove('visible');
+        hint.style.bottom = '';
+        return;
+      }
+      hint.style.bottom = liftB + 'px';
       return;
     }
   }
