@@ -15447,6 +15447,14 @@ const Onboarding = (function() {
 
   function showProgressiveHint() {
     if (tourActive) return;
+    // Sprint 29 fix (S29-T01b): never pop the inactivity hint over an open modal —
+    // the 5s timer can fire while the user is inside a dialog; the floating hint
+    // then covers and blocks the dialog's controls (seen on the timelapse modal).
+    const _modalOpen = ['help-modal','shortcuts-modal','share-modal','templates-modal',
+      'gallery-modal','timelapse-modal','socialcard-modal','label-edit-modal',
+      'cmd-palette-overlay','print-view','confirm-dialog','wizard']
+      .some(id => { const m = document.getElementById(id); return m && m.classList.contains('visible'); });
+    if (_modalOpen) return;
     const s = getState();
     const availableHints = progressiveHints.filter(h => !s.featuresUsed || !s.featuresUsed[h.feature]);
     if (availableHints.length === 0) return;
