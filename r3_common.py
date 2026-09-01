@@ -69,11 +69,13 @@ def is_clean(verdict):
     v = verdict.strip().upper()
     if "VISION_ERROR" in v:
         return False
-    if v.startswith("CLEAN"):
+    # strip leading markdown emphasis, e.g. "**CLEAN** — ..." / "**Not CLEAN** ..."
+    stripped = v.lstrip("*# ").lstrip()
+    if "NOT CLEAN" in stripped[:16] or "NOT QUITE CLEAN" in stripped[:20]:
+        return False
+    if stripped.startswith("CLEAN"):
         return True
-    if v.startswith("*") and "CLEAN" in v[:12]:
-        return True
-    if v.startswith("VERDICT: CLEAN"):
+    if stripped.startswith("VERDICT: CLEAN"):
         return True
     return False
 

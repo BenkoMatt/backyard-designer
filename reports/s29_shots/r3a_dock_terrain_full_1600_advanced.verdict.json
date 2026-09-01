@@ -1,0 +1,9 @@
+{
+ "surface": "r3a_dock_terrain_full_1600_advanced",
+ "label": "dock terrain 1600x900 advanced",
+ "verdict": "**Not clean \u2014 two minor issues found:**\n\n1. **Clipped UI \u2014 Top-right toolbar (Export button):** The \"Export\" button is cut off at the right edge of the window, showing only the icon and partial text (\"Exp\u2026\"). Needs margin/priority handling so the full label is visible at 1280\u00d7800. *Severity: minor-to-moderate (visible defect).*\n\n2. **Performance indicator \u2014 Status bar, bottom-left:** \"FPS: 2\" is displayed, indicating severe rendering lag. Not a layout bug, but a broken-feeling experience worth investigating before ship. *Severity: moderate (functional).*\n\n**Other checks (no issues):**\n- **Overlaps:** Terrain Sculpting panel, vertical tool rail, bottom toolbar, and floating zoom/reset buttons all coexist without collision. Toast (\"Advanced mode\u2026\") and \"Daytime\" pill sit cleanly over the viewport as intended. Compass clears other chrome.\n- **5-second comprehension:** Good. App name, Basic/Advanced mode, \"Add to your yard\" sidebar with a Getting Started hint, and a clearly titled \"Terrain Sculpting\" panel with the active tool (\"Raise\") highlighted communicate purpose quickly.\n- **Ambiguity:** Minor only \u2014 an empty yard opens directly into Terrain Sculpting mode, which a brand-new user might not expect, but the \"Pick a mode, then click + drag\u2026\" hint mitigates it. (Note: \"Innovate\" in the bottom toolbar reads oddly next to Tape Measure/Excavate/Analyze \u2014 verify it's not a typo for \"Irrigate.\")\n\n**Summary:** Solid, well-organized UI with one clipped Export button at the right edge and a concerning FPS: 2 readout as the only defects.",
+ "issue": "{\"scrollH\": 277, \"clientH\": 277, \"bodyOverflow\": false, \"deepestScroller\": 0, \"rect\": {\"x\": 445, \"y\": 442, \"w\": 306, \"h\": 340}, \"buried\": 0}",
+ "clean": false,
+ "ts": "09:19:55",
+ "agent": "R3"
+}

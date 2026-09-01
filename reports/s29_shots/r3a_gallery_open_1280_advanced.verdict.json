@@ -1,0 +1,10 @@
+{
+ "surface": "r3a_gallery_open_1280_advanced",
+ "label": "gallery modal advanced",
+ "verdict": "**Not clean \u2014 one visible defect, a couple of minor concerns.**\n\n**1. Clipped/overflowing UI**\n- **Top-right nav item \"Templates\" is clipped** at the 1280px edge \u2014 it renders as \"Templa\" with no ellipsis or wrap. The toolbar doesn't fit the viewport (no scroll/collapse behavior). This is the most obvious bug on screen.\n\n**2. Would a new user understand in 5 seconds?**\n- Mostly yes: the \"Community Design Gallery\" modal is self-explanatory (name input, category, Save Current, clear empty-state message), and the left panel \"ADD TO YOUR YARD\" + Getting Started hint communicates the core model. Minor friction: the busy background (toast, floating tool rows, side panel, scale bar) competes for attention, and the modal has **no visible backdrop dim**, so it's ambiguous whether the bright, fully-saturated background buttons (Tape Measure, Terrain, Excavate, etc.) are still active.\n\n**3. Confusing / suspicious items**\n- **\"FPS: 2\"** in the status bar \u2014 either a genuine severe perf problem or a stale/broken readout; either way it looks broken to a user.\n- **Redundant measure controls**: \"Measure\" in the left tool panel and a separate \"Tape Measure\" floating button at the bottom \u2014 unclear if they're the same tool.\n- **\"Innovate\"** button grouped with Terrain/Excavate/Analyze \u2014 ambiguous label for a tool row.\n- The left tool panel's header is half-hidden behind the modal (reads as a partial \"Tools\") \u2014 acceptable modal occlusion, but adds to the cluttered feel.\n\n**Summary:** Fix the \"Templates\" nav overflow at 1280px, investigate FPS: 2, and add a modal backdrop dim; everything else is minor polish.",
+ "issue": "",
+ "clean": false,
+ "ts": "09:14:24",
+ "agent": "R3",
+ "relabelled": true
+}

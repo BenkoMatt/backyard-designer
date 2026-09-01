@@ -1,0 +1,18 @@
+{
+ "surface": "r3a_cmd_exec_result",
+ "label": "cmd palette navigate+execute result (help open)",
+ "verdict": "## QA Review \u2014 Backyard Designer 3D\n\n**Overall: Not CLEAN \u2014 functional and understandable, but a few issues worth fixing.**\n\n### (1) Overlapping / clipped UI\n- **No true overlaps detected.** Header, sidebar, canvas overlays (compass, Daytime pill, zoom stack), and bottom toolbars all have clear separation.\n- The scale bar's right edge nearly touches the \"Sun\" button (~2px gap) \u2014 tight but not clipped.\n- Sidebar's last item (\"Patio\") is cut off mid-row at the bottom \u2014 this reads as normal scroll cutoff, acceptable.\n\n### (2) 5-second comprehension \u2014 mostly yes\n- Clear title, obvious 3D scene, item palette on the left, and the \"Getting Started\" hint (\"Click any item below\u2026 then drag to position it\") gets a new user productive immediately. \u2705\n\n### (3) Confusing / ambiguous / broken-looking\n1. **\u26a0\ufe0f Duplicate \"Terrain\" control (most confusing issue):** \"Terrain\" appears twice with the same mountain icon \u2014 once in the bottom-left mode card and again in the bottom-center toolbar. Same problem with \"Sun & Shadow\" (left card) vs. \"Sun\" (bottom pill). A user can't tell which does what, or if they're different modes. Rename or consolidate.\n2. **\u26a0\ufe0f \"FPS: 3\" in the status bar:** a 3 fps reading makes the app look broken/severely laggy, even if it's an intentional diagnostic. Either fix the perf or hide it from the default UI.\n3. **\"Innovate\" label is vague** \u2014 no icon/text hint at what it does (AI suggestions?). Consider a clearer label or tooltip.\n4. **Cluttered bottom toolbar:** three visual clusters (left white card, center pill row, detached \"Sun\" + scale bar) with two rows at slightly different heights \u2014 hierarchy is unclear. Grouping into one toolbar would help.\n5. **Minor:** \"Brush: 8 ft\" shown while Tool is \"Select\" \u2014 brush size is irrelevant to select mode and may confuse.\n\n### Verdict\nLayout integrity is fine; fix the duplicate Terrain/Sun controls, the FPS display, and tidy the bottom toolbar.",
+ "nav": {
+  "count": 23,
+  "selected": 0,
+  "firstText": "\ud83c\udf10\nSwitch to 3D View\nV",
+  "inputFocused": true,
+  "placeholder": "Type a command... (e.g. 'terrain', 'save', 'walk')"
+ },
+ "selected": "\ud83d\udd04\nReset View\nR",
+ "execd": {
+  "paletteClosed": true,
+  "opened": []
+ },
+ "clean": false
+}
