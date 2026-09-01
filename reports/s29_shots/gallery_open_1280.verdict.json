@@ -1,7 +1,7 @@
 {
  "surface": "gallery_open_1280",
  "label": "Gallery modal",
- "verdict": "Not clean \u2014 a few issues worth flagging:\n\n1. **Mismatched slider readout (bottom center):** The \"Sun\" pill sits on a time-of-day slider, but the readout to its right says \"5 ft\" \u2014 a feet value on a sun/time control is confusing (looks like the height readout is colliding with the sun slider).\n2. **FPS: 1 (bottom status bar):** Signals the renderer is stalled; a new user will think the app is frozen or broken.\n3. **Clipped sidebar item:** \"Patio\" (Patios & Paths) is half-cut by the bottom status bar \u2014 icon and missing subtitle make it look truncated rather than scrolled.\n4. **Modal over an empty, dark scene:** The Gallery modal itself is clear (good empty-state copy), but arriving on a blank green canvas with no context weakens the 5-second test.\n\nFix the slider label mismatch and clipping; the modal is otherwise well-formed.",
+ "verdict": "CLEAN \u2014 A well-organized \"Community Design Gallery\" modal (with save bar, filters, and a clear empty-state message) overlays the 3D backyard designer; all toolbar, sidebar, and status-bar elements are intact with no clipping, and the only partially hidden controls (tool panel, Sun slider) are behind the modal overlay, which is expected dialog behavior.",
  "issue": "",
- "ts": "22:36:17"
+ "ts": "23:11:52"
 }
