@@ -1,6 +1,7 @@
 {
  "surface": "wizard_step2_basic",
- "verdict": "**Not clean \u2014 2 issues found:**\n\n1. **Clipped/overlapping UI (bottom center):** The text \u201cSkip - use default yard\u201d (y\u2248740) collides with the scale bar (\u201c10 ft\u201d) and the \u201cSun\u201d toggle \u2014 the \u201cSun\u201d label is half-buried behind the skip text. The skip option also appears to belong inside the wizard modal, not floating over the bottom toolbar; it should sit next to \u201c\u2190 Back\u201d inside the modal.\n\n2. **Ambiguous label:** The bottom toolbar button \u201cInnovate\u201d is unclear \u2014 it doesn\u2019t match the tool verb pattern of its neighbors (Tape Measure, Terrain, Excavate, Analyze) and a new user won\u2019t guess what it does.\n\n**Minor/no-action:** The onboarding modal (Step 2 of 2) is legible and self-explanatory, so a new user would understand the screen in ~5 seconds despite background palette noise; the left palette, Getting Started card, compass, and zoom controls don\u2019t overlap anything; sidebar clipping of \u201cPatio\u201d at the fold is normal scroll behavior.",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
  "clean": false,
- "ts": "2026-08-31T22:36:13"
+ "note": "group1 wizard/welcome basic",
+ "ts": "2026-08-31T23:37:14"
 }

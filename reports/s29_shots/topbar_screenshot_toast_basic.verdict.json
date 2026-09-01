@@ -1,7 +1,7 @@
 {
  "surface": "topbar_screenshot_toast_basic",
- "verdict": "**Not CLEAN** \u2014 a few issues, mostly in the bottom control cluster.\n\n**Overlapping / clipped UI**\n- No hard element-on-element overlaps, but the bottom-left \"Terrain / Sun & Shadow\" flyout, the sun slider strip, and the Tape Measure/Terrain/Excavate toolbar stack into a visually colliding cluster \u2014 the flyout's shadow nearly touches the slider track and it reads as one messy panel.\n- The sun slider renders as disconnected black segments \u2014 looks like a rendering glitch rather than an intentional stepped control, and it has no labels (time of day? sun angle?).\n- \"Patio\" row in the left sidebar is cut mid-row at the bottom edge \u2014 fine if it's scrollable, but confirm.\n\n**5-second comprehension**\n- Core concept is clear (item palette + empty 3D lot + \"Getting Started\" hint). But a new user would struggle with the bottom cluster: it's unclear what's active or why the flyout is open (no visible trigger highlighted on the Terrain button).\n\n**Confusing / suspicious**\n- **Duplicate/conflicting controls:** \"Terrain\" appears both as a flyout item and a toolbar button; \"Sun & Shadow\" (flyout) vs \"Sun\" (button) \u2014 which does what?\n- **\"Innovate\"** is an oddball among tools (Tape Measure, Excavate, Analyze) \u2014 possibly mislabeled (\"Irrigate\"?).\n- **\"FPS: \u2014\"** placeholder in the status bar looks unimplemented.\n\n**Fine as-is:** toast placement, compass, Daytime pill, Basic/Advanced + view toggles, disabled Undo/Redo, sidebar clipping-by-design.",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
  "clean": false,
  "note": "group2 topbar",
- "ts": "2026-08-31T22:53:28"
+ "ts": "2026-08-31T23:46:06"
 }

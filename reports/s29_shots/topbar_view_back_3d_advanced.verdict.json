@@ -1,7 +1,7 @@
 {
  "surface": "topbar_view_back_3d_advanced",
- "verdict": "**Issues**\n\n1. **Bottom status bar \u2014 \"FPS: 3\"**: A real-time 3D app rendering at 3 FPS will feel frozen/broken to users. Visible at bottom-left of the status bar (next to \"Height: 0 ft\").\n2. **Bottom-right toolbar \u2014 \"Innovate\" button**: Sits in a group with \"Excavate\" and \"Analyze\" \u2014 this is almost certainly a mislabel (expected \"Irrigate\" for a yard-design toolset). Located at ~(1086, 708).\n3. **Welcome modal \u2014 no dimmed backdrop / skip ambiguity**: The modal floats over a fully bright, busy scene with no overlay dimming, so it doesn't visually take focus; it also lacks a close (\u00d7) affordance. Additionally, the last option pairs \"Remind me later\" with the subtitle \"Skip for now \u2014 tour available anytime,\" which is contradictory wording for the same action. Modal spans ~(380, 75)\u2013(900, 728).\n\nNon-issues checked: top nav, left catalog panel, right-side zoom/rotate buttons, compass, and the items clipped behind the modal (e.g., \"Daytime\" pill, \"Undergra\u2026/Pro Too\u2026\" rail labels) are normal modal-overlay behavior, not defects. Otherwise the screen reads instantly thanks to the clear onboarding prompt.",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
  "clean": false,
  "note": "group2 topbar",
- "ts": "2026-08-31T23:07:19"
+ "ts": "2026-08-31T23:51:16"
 }

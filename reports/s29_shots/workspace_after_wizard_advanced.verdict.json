@@ -1,0 +1,7 @@
+{
+ "surface": "workspace_after_wizard_advanced",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
+ "clean": false,
+ "note": "group1 advanced workspace post-wizard",
+ "ts": "2026-08-31T23:40:36"
+}

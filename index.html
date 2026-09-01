@@ -126,7 +126,7 @@ button.mi-loading{pointer-events:none;opacity:0.7;position:relative;}button.mi-l
   <div class="sb-sep"></div>
   <div class="sb-item"><span class="sb-label">Height:</span> <span class="sb-val" id="sb-height">0 ft</span></div>
   <div class="sb-sep"></div>
-  <div class="sb-item"><span class="sb-label">FPS:</span> <span class="sb-val" id="sb-fps">—</span></div>
+  <div class="sb-item" id="sb-fps-item" hidden><span class="sb-label">FPS:</span> <span class="sb-val" id="sb-fps">—</span></div>
 </div>
 
 <a href="#viewport" class="skip-link">Skip to 3D design canvas</a>
@@ -1261,7 +1261,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </div>
 <div id="wizard">
 <div class="wizard-panel" id="wizard-panel"></div>
-<button id="wizard-skip" style="position:absolute;bottom:24px;left:50%;margin-left:-89px;background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:12px 20px;min-height:44px;z-index:2;pointer-events:auto;" title="Skip setup and start with a default yard">Skip — use default yard</button>
+<button id="wizard-skip" style="position:absolute;bottom:24px;left:24px;margin-left:0;background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:12px 20px;min-height:44px;z-index:2;pointer-events:auto;" title="Skip setup and start with a default yard">Skip — use default yard</button>
 </div>
 <div id="welcome-prompt" role="dialog" aria-modal="true" aria-labelledby="wp-title">
   <div class="welcome-prompt-panel">
@@ -5289,7 +5289,16 @@ showWelcomeOnboarding();
 }
 function showWelcomeOnboarding() {
 const hint = document.getElementById('context-hint');
-if (hint) {
+// Sprint 29 fix (S29-V02): when the welcome prompt is about to appear
+// (wizardObserver fires it 600ms after the wizard hides), don't flash the
+// context-hint / welcome toast underneath it — vision saw both half-clipped
+// behind the modal (topbar_mode_toggled_advanced, welcome_prompt_basic).
+let welcomePending = false;
+try {
+  const os = (typeof Onboarding !== 'undefined' && Onboarding.getState) ? Onboarding.getState() : null;
+  if (os && !os.welcomeShown && !os.tourCompleted) welcomePending = true;
+} catch(e) {}
+if (hint && !welcomePending) {
 hint.textContent = '👋 Click an item from the left panel to add it to your yard';
 hint.classList.add('visible');
 hint.style.pointerEvents = 'auto';
@@ -5317,6 +5326,7 @@ hint.style.lineHeight = '';
 setTimeout(() => {
   const newWP = document.getElementById('welcome-prompt');
   if (newWP && newWP.classList.contains('visible')) return;
+  if (welcomePending) return; // S29-V02: welcome prompt will own the screen
   // Sprint 23 fix (S23-V19): never clobber a toast that is already showing.
   const toast = document.getElementById('toast');
   if (toast && toast.classList.contains('visible')) return;
@@ -14964,6 +14974,16 @@ const Onboarding = (function() {
     saveState(s);
     const wp = document.getElementById('welcome-prompt');
     if (!wp) return;
+    // Sprint 29 fix (S29-V01): the welcome modal is the focus — clear any
+    // toast / context-hint first so their half-clipped pills don't peek out
+    // from behind the dialog (vision verdicts: wizard_step1, welcome_prompt_*,
+    // topbar_idle_advanced, topbar_mode_toggled_advanced).
+    try {
+      const t = document.getElementById('toast');
+      if (t) { t.classList.remove('visible'); }
+      const h = document.getElementById('context-hint');
+      if (h) { h.classList.remove('visible'); }
+    } catch(e) {}
     wp.classList.add('visible');
     wp.setAttribute('aria-hidden', 'false');
     setTimeout(() => {
@@ -15829,7 +15849,13 @@ console.log('[Sprint 9] Micro-interaction framework loaded — toast variants, c
         if (burstFrames > 0 && burstMs > 60) {
           const fps = Math.round(burstFrames * 1000 / burstMs);
           const s = String(fps);
-          if (sbFps && s !== _sbFpsShown) { sbFps.textContent = s; _sbFpsShown = s; }
+          if (sbFps && s !== _sbFpsShown) {
+            sbFps.textContent = s; _sbFpsShown = s;
+            // Sprint 29 fix (S29-V03): hide the FPS readout until it has a
+            // real value — the em-dash placeholder read as broken (vision).
+            const item = document.getElementById('sb-fps-item');
+            if (item && item.hidden) item.hidden = false;
+          }
         }
       }
       fpsFrameCount = total;

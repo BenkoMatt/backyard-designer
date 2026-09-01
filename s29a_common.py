@@ -19,7 +19,7 @@ import urllib.request
 from playwright.sync_api import sync_playwright
 
 REPO = "/root/byd29-audit-core"
-PORT = 8180
+PORT = 8183
 URL = f"http://127.0.0.1:{PORT}/index.html"
 SHOTS = os.path.join(REPO, "reports", "s29_shots")
 
@@ -101,8 +101,17 @@ def load_app(page, fresh=True):
 
 
 def dismiss_overlays(page):
-    """SETUP only: hide wizard + welcome so we can audit the main workspace."""
+    """SETUP only: hide wizard + welcome so we can audit the main workspace.
+    The wizard MutationObserver re-shows the welcome prompt 600ms after the
+    wizard hides — so we pre-seed the onboarding state (test setup, per brief)
+    to keep it away, then also hard-hide both overlays."""
     page.evaluate("""() => {
+        try {
+            localStorage.setItem('backyard-onboarding-state',
+                JSON.stringify({completedSteps:[], tourCompleted:true,
+                                welcomeShown:true, dismissedAt:Date.now(),
+                                featuresUsed:{}}));
+        } catch(e) {}
         const w = document.getElementById('wizard');
         if (w) w.style.display = 'none';
         const wp = document.getElementById('welcome-prompt');
