@@ -1,0 +1,28 @@
+{
+ "surface": "tc-open",
+ "mode": "adv",
+ "label": "terrain-controls default (Advanced)",
+ "clean": false,
+ "verdict": "**Not CLEAN \u2014 a few minor issues, no blockers.**\n\n**Summary:** A clear, well-organized 3D backyard design UI with a solid top bar, catalog sidebar, and viewport, but it has redundant onboarding messaging, a duplicated \"Terrain\" control, and several small polish issues.\n\n**Findings:**\n\n1. **Duplicated \"Terrain\" control (confusing/ambiguous).** The floating card at bottom-left already contains a \"Terrain\" item, and a separate pill button labeled \"Terrain\" sits ~2 inches to its right in the tool row. Two adjacent controls with the same name and near-identical mountain icons will confuse users about which does what. Rename or merge one.\n\n2. **Triple-redundant onboarding copy.** The same instruction appears three times simultaneously: the dark welcome tooltip at top (\"Click items on the left to build your yard\"), the center toast (\"\ud83d\udc4b Click an item from the left panel\u2026\"), and the sidebar's Getting Started note. Pick one (the top tooltip is the best placed) and suppress the others.\n\n3. **Clipped sidebar item.** \"Patio\" under Patios & Paths is cut off mid-row at the bottom of the panel \u2014 its subtitle (which every other item has) is not visible. It reads as a scroll affordance, but the truncated row looks slightly broken; add bottom padding or a fade.\n\n4. **Compass \"S\" label hidden.** The compass rose shows N, W, and E, but the \"S\" label is obscured by the red needle arrow. Rotate the needle or offset the label.\n\n5. **Scale bar touches the Sun button.** The \"10 ft\" scale bar's right edge sits ~1px from the Sun pill's left edge \u2014 their borders nearly merge into one control. Add ~8\u201312px spacing (they're also on slightly different baselines).\n\n6. **\"FPS: \u2014\" in the status bar.** The em dash reads as uninitialized/broken. Show a measured value or hide the FPS readout until available.\n\nNothing overlaps in a way that hides content, no broken images or layout shifts, and a new user would grasp the screen within a few seconds \u2014 the issues above are polish-level.",
+ "probe": [
+  {
+   "sel": "#scale-bar",
+   "x": 450,
+   "y": 730,
+   "w": 175,
+   "h": 26,
+   "right": 625,
+   "bottom": 756
+  },
+  {
+   "sel": "#sun-btn",
+   "x": 620,
+   "y": 728,
+   "w": 73,
+   "h": 32,
+   "right": 693,
+   "bottom": 760
+  }
+ ],
+ "ts": "2026-09-01T08:59:35"
+}
