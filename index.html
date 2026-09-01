@@ -5552,7 +5552,22 @@ window.getCurrentMode = () => currentMode;
 
 
 function hideHint() {
-document.getElementById('context-hint').classList.remove('visible');
+const hint = document.getElementById('context-hint');
+hint.classList.remove('visible');
+// Sprint 29 fix (S29-P01): the empty-yard welcome hint sets inline pointer
+// events (click-to-dismiss). Any other hide path left an invisible
+// ~400x40px click-blocker over the dock panel area. Reset the hint styles
+// whenever it hides so only the CSS default (pointer-events:none) applies.
+hint.style.pointerEvents = 'none';
+hint.style.cursor = '';
+hint.style.fontSize = '';
+hint.style.padding = '';
+hint.style.maxWidth = '';
+hint.style.whiteSpace = '';
+hint.style.textAlign = '';
+hint.style.lineHeight = '';
+hint.title = '';
+hint.onclick = null;
 }
 document.addEventListener('keydown', e => {
 // Sprint 23 fix (S23-V05): fields keep native keys + text-editing combos (C/V/X/A/Z);
