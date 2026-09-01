@@ -1,15 +1,15 @@
 {
   "sprint": 23,
   "expect_open_fixes": false,
-  "total": 29,
+  "total": 24,
   "passed": 24,
-  "failed": 5,
-  "index_html_bytes": 746801,
+  "failed": 0,
+  "index_html_bytes": 752860,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "746801 bytes, headroom 21199"
+      "detail": "752860 bytes, headroom 15140"
     },
     {
       "name": "CSS brace balance",
@@ -120,31 +120,6 @@
       "name": "V06 [live]: .sc-keys computed max-width = 45%",
       "status": "PASS",
       "detail": "max-width=45%"
-    },
-    {
-      "name": "Vision [v_main_basic]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**1) Overlapping / clipping** - No true overlaps: the Take Tour button, compass, zoom stack, floating toolbars, and scal"
-    },
-    {
-      "name": "Vision [v_sidebar_advanced]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "Not CLEAN \u2014 there's one visible collision at bottom center plus several redundant/ambiguous controls; the rest of the la"
-    },
-    {
-      "name": "Vision [v_toolbar_panel_basic]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "## Review  ### (1) Overlapping / clipped elements - **Minor collision:** The compass rose (top-right) appears to nearly "
-    },
-    {
-      "name": "Vision [v_underground_advanced]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**1) Overlapping / clipped** - No significant overlaps. The floating panels, toast banner, bottom tool row, and scale ba"
-    },
-    {
-      "name": "Vision [v_help_modal_basic]: CLEAN or actionable verdict",
-      "status": "FAIL",
-      "detail": "**Review of the screenshot:**  1. **Overlaps/clipping:** Nothing unintentional. The help modal correctly overlays the ca"
     },
     {
       "name": "No console errors during the entire run",
