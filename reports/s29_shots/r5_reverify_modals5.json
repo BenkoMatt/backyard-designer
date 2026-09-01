@@ -1,0 +1,53 @@
+{
+ "probes": {
+  "F2_print_preview": {
+   "visible": true,
+   "display": "block",
+   "rect": [
+    0,
+    0,
+    1280,
+    800
+   ]
+  },
+  "F3_templates_close": {
+   "found": true,
+   "visible": true,
+   "closeBtn": null
+  },
+  "F4_sculpt_pill": {
+   "pillVisible": false,
+   "pillRect": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "scalebarRect": [
+    450,
+    730,
+    625,
+    756
+   ],
+   "sunRect": [
+    620,
+    728,
+    693,
+    760
+   ],
+   "pillOverScalebar": false,
+   "pillOverSun": false
+  },
+  "F5_progressive_hint_dock": {
+   "display": "none",
+   "visibleClass": false,
+   "hidden": true
+  }
+ },
+ "vision": {
+  "F2": "**Verdict: NOT CLEAN** \u2014 one significant visual bug in the 3D scene.\n\n## (1) Overlapping / clipped UI\n- **DOM layer is fine.** Header, title, timestamp, and both buttons are well-spaced with no collisions. The canvas bleeding past the bottom edge is expected for a scrollable report.\n- **In-scene overlap (the real problem):** A huge light-blue grid plane rises from behind the grass and fills the entire upper-left sky area, visibly intersecting the green ground plane. It reads as a mis-scaled and/or mis-rotated mesh (ground/water plane rotated wrong, or a grid helper with a runaway size), not intentional scenery.\n\n## (2) 5-second comprehension\n- Partially. The title (\"Project Report\") and Print/Close buttons are instantly clear, so the *page type* is understood.\n- But the *content* fails the test: there are zero design elements visible (no patio, plants, fence, furniture \u2014 just an empty grass grid). A new user would assume the design is missing or the render failed. The blue plane actively reinforces the \"something is broken\" impression.\n\n## (3) Confusing / ambiguous / broken-looking\n- **Blue sky-plane (high severity):** dominates the frame and looks like a rendering error. Likely fix: correct the plane's rotation (it appears tilted ~30\u201345\u00b0 instead of horizontal) or clamp its scale so it sits below the horizon.\n- **Stray wireframe lines** extend off the grass into the blue background with no clear purpose \u2014 adds to the \"unfinished\" look.\n- **Empty report:** if the project genuinely has no objects, the scene should say so (e.g., \"No items placed yet\") rather than showing a bare plane.\n- Minor polish: both header buttons are the same solid green \u2014 \"\u00d7 Close\" would read better as a secondary/ghost style; the scene also lacks any scale bar, compass, or axis hint.\n\n**Fix priority:** repair or remove the oversized blue grid plane and add at least the designed elements (or an empty-state message) \u2014 those two changes would resolve most of the confusion.",
+  "F3": "CLEAN \u2014 The Design Templates modal renders fully with clear messaging (\"This will replace your current design\"), no broken layout or clipped controls; the only occlusion is an open tool menu (Sun & Shadow/Measure/Atmosphere) peeking out from behind the modal, which is expected layering, and a new user would grasp the screen's purpose in under 5 seconds.",
+  "F4": "Not clean \u2014 several issues, mostly minor-to-moderate.\n\n**(1) Overlapping / clipped UI**\n- Stray vertical line at x\u22481249 running from the top edge down to y\u2248118, passing right through the compass widget's \"E\" label \u2014 looks like a clipped/overflowing element border. (Medium)\n- Compass \"S\" label is obscured by the red needle. (Low)\n- Sidebar \"Patio\" item is cut off at the bottom (y\u2248765) \u2014 presumably just scroll, acceptable. (Low)\n\n**(2) 5-second comprehension**\n- Mostly yes: clear app title, \"ADD TO YOUR YARD\" catalog, obvious 3D canvas, and a helpful hint in the sculpting panel. However, a new user will hesitate at the **duplicate \"Terrain\" controls**: a green \"Terrain\" button in the bottom-left stack (with \"Sun & Shadow\") *and* a brown \"Terrain\" button in the bottom-center toolbar. It's unclear which one activates sculpting. (Medium)\n\n**(3) Confusing / ambiguous / broken-looking**\n- Modal hint text \"Pick a mode, then click + drag on the ground\u2026\" (~455\u2013685, 425) shows a blue text-selection highlight \u2014 reads as an accidental selection artifact. (Medium)\n- Tiny blue rectangle to the right of the \"Terrain Controls\" heading (~729, 374) looks like a broken/placeholder image icon. (Medium)\n- \"Daytime\" pill floating at top center (~781, 74) has no visible control attached \u2014 looks like a stuck tooltip. (Medium)\n- Redundant pair: bottom-left \"Sun & Shadow\" vs. bottom-center \"Sun\" button \u2014 unclear if they're the same feature. (Medium)\n- \"Innovate\" button label is vague \u2014 no indication of what it does. (Low)\n- Status bar shows \"FPS: \u2014\" (no value), which can look like a stalled metric. (Low)\n\n**Summary:** Functional and generally readable, but fix the stray line/compass overlap, the selected-text artifact, the possible broken icon, the orphaned \"Daytime\" pill, and de-duplicate the Terrain/Sun buttons.",
+  "F5": "# QA Review: Backyard Designer 3D\n\n## (1) Overlapping or clipped UI\n\nNo hard overlaps found, but the bottom edge is **very tight** in three places \u2014 worth verifying at shorter viewports:\n\n- **\"Patio\" list item vs. status bar** \u2014 the last sidebar item sits flush against the \"Tool: Raise\u2026\" bar. It renders fully here, but any shorter viewport will clip it with no breathing room.\n- **\"Sun & Shadow\" button / scale bar / \"Sun\" toggle vs. status bar** \u2014 same crowding; they nearly touch the status strip.\n- **Right-edge chart button** (bottom of the zoom/reset stack) \u2014 also ends just above the status bar.\n\nEverything else is clean: the Terrain Sculpting panel clears the bottom toolbar row, Take Tour clears the compass, and the top toolbar items all fit with room to spare.\n\n## (2) 5-second comprehension\n\n**Mostly yes.** Logo, \"Getting Started\" tip, an item catalog with pictures, and a big 3D yard communicate the concept instantly. The weak spot is the **bottom command cluster**: two rows of buttons (Terrain/Sun & Shadow + Tape Measure/Terrain/Excavate/Analyze/Innovate) plus the floating panel is a lot of competing controls for a first-time viewer.\n\n## (3) Confusing / ambiguous / broken-looking\n\n- **\"FPS: 2\"** in the status bar \u2014 the most broken-looking thing on screen. Either the app is genuinely crawling (performance problem) or the counter is wrong. Either way it undermines confidence.\n- **\"Terrain\" appears three times** \u2014 panel title, green panel-toggle button (bottom-left), and brown active tool button (bottom-center) \u2014 with *two different active states*. Users can't tell what each one does or why both look \"on.\"\n- **\"Innovate\"** \u2014 vague label; no icon hint about what it does (AI suggestions? presets?).\n- **\"Strength: 0.05\"** \u2014 raw float with no unit or scale; compare to Brush Size's friendly \"8 ft.\"\n- **\"Daytime\" pill** floating at the top-center of the canvas has no visible affordance \u2014 is it a dropdown, a label, a button?\n- **Tiny unlabeled icon** at the right of the \"Terrain Controls\" header \u2014 purpose unclear.\n- **Blue wireframe** surrounding the green terrain may read as \"unfinished/broken\" to newcomers, though it's presumably the sculptable grid (likely intended).\n\n**Verdict: not CLEAN** \u2014 layout is fundamentally sound with no true overlaps, but the FPS: 2 reading, the triple \"Terrain\" labeling, and the cramped bottom edge need attention before ship."
+ }
+}

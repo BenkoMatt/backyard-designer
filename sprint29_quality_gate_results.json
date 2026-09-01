@@ -4,18 +4,18 @@
   "total": 33,
   "passed": 33,
   "failed": 0,
-  "index_html_bytes": 767952,
+  "index_html_bytes": 765289,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "767952 bytes, headroom 48",
+      "detail": "765289 bytes, headroom 2711",
       "merge_locked": false
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "971 open / 971 close",
+      "detail": "973 open / 973 close",
       "merge_locked": false
     },
     {
@@ -69,19 +69,19 @@
     {
       "name": "W01: toast rect intersects NO toolbar button (both rows)",
       "status": "PASS",
-      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.2258529663086, 'right': 788.484375, 'bottom': 108.2258529663086} tbRect={'left': 620, 'top': 656, 'right': 900, 'bottom': 760}",
+      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.08694458007812, 'right': 788.484375, 'bottom': 108.08694458007812} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W01: toast band does not overlap toolbar container rect",
       "status": "PASS",
-      "detail": "toastRect={'left': 491.515625, 'top': 64.2258529663086, 'right': 788.484375, 'bottom': 108.2258529663086} vs tbRect={'left': 620, 'top': 656, 'right': 900, 'bottom': 760}",
+      "detail": "toastRect={'left': 491.515625, 'top': 64.08694458007812, 'right': 788.484375, 'bottom': 108.08694458007812} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W02: with a panel open, toast intersects NO toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.34654998779297, 'right': 788.484375, 'bottom': 108.34654998779297}",
+      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.22541046142578, 'right': 788.484375, 'bottom': 108.22541046142578}",
       "merge_locked": false
     },
     {
