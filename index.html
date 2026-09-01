@@ -4261,6 +4261,12 @@ a.click();
 document.body.removeChild(a);
 URL.revokeObjectURL(url);
 markExplicitSave();
+// Sprint 29 fix (S29-T09): an explicit save supersedes the recovery snapshot —
+// a lingering "Restore unsaved changes?" banner next to a "Design saved!" toast
+// contradicts itself. Clear the stale snapshot and dismiss the banner.
+try { localStorage.removeItem(RECOVERY_SNAPSHOT_KEY); } catch(e) {}
+_autosaveDirty = false;
+hideRecoveryBanner();
 showToast('Design saved! Check your downloads folder.', 'success');
 } catch(e) {
 showToast('Could not save design: ' + (e.message || 'unknown error'));
@@ -4775,6 +4781,10 @@ state.selectedIds.clear();
 ids.forEach(id => state.selectedIds.add(id));
 if (ids.length > 0) {
 selectObject(ids[0]);
+// Sprint 29 fix (S29-T08): selectObject() resets selectedIds to the single id —
+// re-populate the full set so the batch bar count/actions match the toast promise.
+state.selectedIds.clear();
+ids.forEach(id => state.selectedIds.add(id));
 updateMultiSelectHighlights();
 showBatchBar();
 }
@@ -5038,6 +5048,9 @@ a.click();
 document.body.removeChild(a);
 URL.revokeObjectURL(url);
 markExplicitSave();
+try { localStorage.removeItem(RECOVERY_SNAPSHOT_KEY); } catch(e) {} // S29-T09
+hideRecoveryBanner();
+_autosaveDirty = false;
 showToast('Design saved as: ' + name);
 }
 let wizardStep = 0;

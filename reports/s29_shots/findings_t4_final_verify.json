@@ -1,0 +1,50 @@
+[
+ {
+  "surface": "recovery-banner+toast-stack",
+  "verdict": "DIRTY",
+  "issue": "**Not CLEAN** \u2014 functional overall, but a few real issues:\n\n1. **Conflicting stacked notifications (top center):** A \"Restore unsaved changes?\" prompt (implying unsaved work) is stacked directly above",
+  "shot": "t4_final_verify_banner_toast_stack.png"
+ },
+ {
+  "surface": "recovery-banner",
+  "verdict": "CLEAN",
+  "issue": "",
+  "shot": "t4_final_verify_banner_toast_stack.png"
+ },
+ {
+  "surface": "toast-cost-tip",
+  "verdict": "DIRTY",
+  "issue": "**Not clean.**\n\n**Clipping / overlap issues**\n1. **Top toolbar clipped on both ends** \u2014 at the far left there's a cut-off text fragment (\"\u2026eye\") bleeding off the screen edge, and at far right a trunca",
+  "shot": "t4_final_verify_cost_live_update.png"
+ },
+ {
+  "surface": "share-qr-flow",
+  "verdict": "DIRTY",
+  "issue": "**Not clean \u2014 5 issues found.**\n\n**Clipping / overlap:**\n1. **Top-left corner (High):** A broken fragment shows at (0,14\u201338) \u2014 a gray box with just the letters \"ye\" ending flush at x=0. The Home/logo ",
+  "shot": "t4_final_verify_share_qr_final.png"
+ },
+ {
+  "surface": "timelapse-modal",
+  "verdict": "DIRTY",
+  "issue": "Not clean \u2014 one real defect, plus a few minor items.\n\n**1. HIGH \u2014 Top toolbar is clipped at both edges.** At the far left (x\u22480, y\u224826) there's an orphaned label cut to \"...eye\" (likely \"Hotkeys\"/\"Surve",
+  "shot": "t4_final_verify_timelapse_poster.png"
+ },
+ {
+  "surface": "batch-bar",
+  "verdict": "DIRTY",
+  "issue": "**Not CLEAN \u2014 3 real defects found:**\n\n1. **Clipped toolbar items, both ends (Medium):** Top-left shows a fragment button reading only \"eye\" at (0\u201330, 15\u201342), cut off by the viewport edge. Top-right s",
+  "shot": "t4_final_verify_batch_bar_final.png"
+ },
+ {
+  "surface": "cmd-palette-flows",
+  "verdict": "DIRTY",
+  "issue": "**Not clean.** Core layout is solid and the screen is understandable (a backyard-design canvas with |**NOT CLEAN** \u2014 several issues found.\n\n## (1) Overlapping / clipped UI\n\n| # | Issue | Severity | Loc",
+  "shot": "t4_final_verify_cmdk_open_final.png"
+ },
+ {
+  "surface": "depth-gauge-overlay",
+  "verdict": "DIRTY",
+  "issue": "**Not CLEAN \u2014 2 issues found**\n\n**Overlaps / clipping**\n- \ud83d\udd34 **Broken overlap (bottom center):** The scale bar (segmented ruler, ~x455\u2013635) sits directly under the **\"Sun\" button**, which covers the sc",
+  "shot": "t4_final_verify_depth_gauge_final.png"
+ }
+]
