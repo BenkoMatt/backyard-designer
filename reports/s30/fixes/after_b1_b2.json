@@ -1,0 +1,14 @@
+{
+ "overlay": {
+  "wizardDisplay": "none",
+  "wpVisible": false,
+  "wpClass": ""
+ },
+ "dig_readout": {
+  "readoutLabel": "Dig target:",
+  "readoutVal": "-6.0 ft (6 ft deep)",
+  "hasCarveClass": true,
+  "hasNegative": false,
+  "sbHeight": "0 ft"
+ }
+}

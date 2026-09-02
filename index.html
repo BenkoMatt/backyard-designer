@@ -1634,7 +1634,6 @@ return;
 // Sprint 29 R3 fix (S29-R3c): show the right-edge fade when buttons are cut
 const atEnd = tb.scrollLeft + tb.clientWidth >= tb.scrollWidth - 2;
 tb.classList.toggle('scrolled-end', !atEnd);
-// S30-A-topbar: left-edge fade once scrolled right
 tb.classList.toggle('scrolled-start', tb.scrollLeft > 2);
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -5725,7 +5724,6 @@ if (open) { closer(); modalClosed = true; break; }
 if (!modalClosed) {
 if (typeof window._dockClosePanel === 'function' && window._dockActiveTab && window._dockActiveTab()) {
 window._dockClosePanel();
-// S30-A-cs-overlay: elevation-profile overlay must not survive the Esc that closes its dock
 const _taOv = document.getElementById('ta-cross-section-overlay');
 if (_taOv) _taOv.classList.remove('visible');
 modalClosed = true;
@@ -6082,8 +6080,6 @@ if (readoutEl && container) {
 const bottomY = surfY - digDepth;
 const labelEl = container.querySelector('.readout-label');
 if (labelEl) {
-// S30-B2: "Digging to" read like a progress/error next to the status-bar Height; a
-// neutral target label + carve color (not danger red) kills the false conflict
 labelEl.textContent = (terrainBrushMode === 'dig' ? 'Dig target:' : 'Fill target:') + '';
 }
 readoutEl.textContent = bottomY.toFixed(1) + ' ft (' + digDepth + ' ft deep)';
@@ -6409,8 +6405,6 @@ const h00 = terrainAt(ix, iz);
 const h10 = terrainAt(ix + 1, iz);
 const h01 = terrainAt(ix, iz + 1);
 // S30-A2 (t_0174b1d0 class): smooth multi-pass digs leave sub-threshold slopes with a
-// vertex below y=0 — no wall got built there and the y=0 auto-dig clip exposed sky through
-// the mesh. Any edge touching below-zero ground now seals to the floor.
 const _edgeBelow = (h00 < 0) !== (h10 < 0) || (h00 < 0 && h10 < 0);
 if (Math.abs(h00 - h10) > WALL_HEIGHT_THRESHOLD || _edgeBelow) {
 const x0 = (ix / segs) * state.yard.width - halfW;
@@ -12125,7 +12119,6 @@ const eb = document.getElementById('excavate-btn');
 if (eb) { eb.classList.remove('active'); eb.setAttribute('aria-pressed', 'false'); }
 if (typeof updateGroundVisibility === 'function') updateGroundVisibility();
 }
-// S30-A-cs-overlay: any dock close also dismisses the elevation-profile overlay
 const _taOvClose = document.getElementById('ta-cross-section-overlay');
 if (_taOvClose) _taOvClose.classList.remove('visible');
 dockPanelContainer.classList.remove('visible');
@@ -14865,14 +14858,18 @@ roundRect(ctx, bgX, bgY, bgW, bgH, 12);
 ctx.fill();
 // S29-R3f: anchor stem + dot — label previously floated unanchored beside
 ctx.strokeStyle = color || '#ffffff';
-ctx.lineWidth = 6;
+ctx.lineWidth = 10;
 ctx.beginPath();
 ctx.moveTo(canvas.width / 2, bgY + bgH);
-ctx.lineTo(canvas.width / 2, canvas.height - 10);
+ctx.lineTo(canvas.width / 2, canvas.height - 12);
 ctx.stroke();
 ctx.fillStyle = color || '#ffffff';
 ctx.beginPath();
-ctx.arc(canvas.width / 2, canvas.height - 10, 10, 0, Math.PI * 2);
+ctx.arc(canvas.width / 2, canvas.height - 12, 14, 0, Math.PI * 2);
+ctx.fill();
+ctx.fillStyle = 'rgba(0,0,0,0.55)';
+ctx.beginPath();
+ctx.arc(canvas.width / 2, canvas.height - 12, 6, 0, Math.PI * 2);
 ctx.fill();
 ctx.fillStyle = color || '#ffffff';
 ctx.textAlign = 'center';
@@ -15765,9 +15762,6 @@ const isHidden = wizard.style.display === 'none';
 if (isHidden) {
 const s = Onboarding.getState();
 if (!s.welcomeShown && !s.tourCompleted) {
-// S30-B3: the user just finished (or skipped) the 2-step wizard — a second
-// welcome screen read as "didn't I just do this?". Count the wizard as the
-// welcome, land them in the editor with the standard first-action toast.
 try { s.welcomeShown = true; localStorage.setItem('backyard-onboarding-state', JSON.stringify(s)); } catch (e2) {}
 try { markStepComplete('welcome-scratch'); } catch (e3) {}
 showToast('Your empty yard is ready! Click items on the left to add them.');
@@ -15852,7 +15846,6 @@ if (el) _origToastObserver.observe(el, { attributes: true, attributeFilter: ['cl
 // Sprint 29 fix (S29-T01): the inactivity progressive hint (z-index below modals)
 (function () {
 // S30-S2 (W06): top-center atmosphere badge read as stray fragments behind modal glass;
-// toggle a body flag whenever any overlay opens/closes so CSS can retire the badge
 const _syncModalFlag = () => {
 let open = false;
 document.querySelectorAll('#share-modal,#timelapse-modal,#socialcard-modal,#gallery-modal,#templates-modal,#label-edit-modal,#help-modal,#shortcuts-modal,#cmd-palette-overlay,#print-view,#confirm-dialog').forEach(m => {

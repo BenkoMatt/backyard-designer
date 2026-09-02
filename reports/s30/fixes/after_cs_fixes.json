@@ -1,0 +1,9 @@
+{
+ "cs_close_click": {
+  "visible": false
+ },
+ "esc_state": {
+  "taVisible": false,
+  "dockVisible": false
+ }
+}

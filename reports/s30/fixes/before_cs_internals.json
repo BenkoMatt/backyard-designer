@@ -1,0 +1,38 @@
+{
+ "padding": "14px",
+ "gap": "8px",
+ "display": "flex",
+ "header": [
+  859,
+  147,
+  390,
+  74.5625
+ ],
+ "btn": [
+  1230.484375,
+  170.28125,
+  18.515625,
+  21
+ ],
+ "instruction": [
+  859,
+  233.5625,
+  390,
+  24
+ ],
+ "canvas": [
+  845,
+  133,
+  418,
+  176
+ ],
+ "btnParent": "cs-header",
+ "cvsParent": "viewport-overlay visible",
+ "domOrder": [
+  "cs-header",
+  "cs-instruction",
+  "cross-section-canvas",
+  "cs-legend",
+  "cs-info"
+ ]
+}

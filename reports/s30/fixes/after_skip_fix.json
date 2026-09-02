@@ -1,0 +1,33 @@
+{
+ "step1": {
+  "inside": true,
+  "skipInsidePanel": true,
+  "skip": [
+   550.984375,
+   535,
+   178.03125,
+   44
+  ],
+  "panelBottom": 611
+ },
+ "step2": {
+  "inside": true,
+  "skipInsidePanel": true
+ },
+ "tip_no_overlap": {
+  "tipVisible": true,
+  "intersects": false,
+  "tip": [
+   593.3046875,
+   633.1961059570312,
+   93.390625,
+   47.59375
+  ],
+  "skip": [
+   550.984375,
+   585,
+   178.03125,
+   44
+  ]
+ }
+}
