@@ -91,3 +91,24 @@ Format: per fix — ID → root cause → change → probe evidence → gate imp
 - Change: #dock-terrain-content .terrain-row margin-bottom 7px; strength value now % (live Math.round(strength*100)%) with title tooltip "Strength: how deep each pass carves". Labels/aria untouched (gate-locked).
 - Probe evidence: s30_s3b.py — brushRow marginBottom 7px, label "Brush Size"; s30_s3.py — slider at 0.3 renders "30%", title set.
 - Gate impact: none.
+
+## S30-B-sidebar (this commit)
+- ID: B-sidebar last-row clip edge (DOM-confirmed variant; status-bar overlap refuted by Agent A — not touched)
+- Root cause: #sidebar padding-bottom 28px < one row + sticky-title offset, so the at-rest scroll left the last .lib-item straddling the overflow clip edge (bottom 787 vs viewport ~748).
+- Change: padding-bottom 28px -> 64px.
+- Probe evidence: s30_sidebar.py — sidebar scrolled to end: last .lib-item bottom 734.2 vs sidebar bottom 800 (inside=true), computed pad 64px.
+- Gate impact: none.
+
+## S30-C-A3 + C-A4 (this commit)
+- ID: C-A3 grid z-fight/moire (judgment, fixed) + C-A4 grid ignores light rig (judgment, fixed)
+- Root cause A3: GridHelper offset 0.01 over a vertex grid at the same pitch — coplanar shimmer/stripes at grazing/walk height. A4: LineBasicMaterial is unlit — full-bright white while the ground dims ~5x at dawn/dusk/night.
+- Change: all three y-offset sites (+ the newLevel setter) 0.01 -> 0.03; applySunPosition now modulates grid opacity 0.25..0.8 and color #5a6a7a..#cccccc with the same dayFactor as sun/ambient (vertexColors off so the modulation is visible).
+- Probe evidence: s30_grid.py via window._test.gridHelper — night: opacity 0.25 color #5a6a7a y 0.03; noon: opacity 0.8 color #cccccc y 0.03.
+- Gate impact: none (S23 grid-level tests still pass — re-verified in battery below).
+
+## S30-B-basic (final rework, 2 follow-up commits)
+- ID: B-basic underground dead-end (Agent B, DOM-confirmed index.html:22 display:none under body.byd-basic-mode)
+- Resolution: the S17 gate statically AND behaviorally asserts the underground dock tab is hidden in Basic (both a CSS-string check and a live getComputedStyle check). First attempt (re-show tab) broke s17 (2 FAILs). Final: tab stays hidden (gate green); the Basic dig story surfaces on #vc-underground — visible "Dig Down" text chip + accent outline in Basic mode (was icon-only, unlabeled per audit).
+- Probe evidence: s30_basic4.py — basic mode: underground tab display:none (S17 check satisfied), vc-underground width 96.7 with "Dig Down" chip; s17 final run: 81/81 PASS.
+- Gate impact: s17 79/81 → 80/81 → 81/81 after rework. Other gates unchanged.
+- Byte compensation: CSS comment shave + scanner trim across commits.

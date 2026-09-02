@@ -1,0 +1,37 @@
+{
+  "run": "sprint29 vision-enabled (glm-5.3-flash temp0 via ollama), --expect-open-fixes",
+  "tally": "34 passed / 5 failed / 39 total (5 FAILs all vision CLEAN-verdict checks)",
+  "arbitrations": [
+    {
+      "id": "vs1_main_basic",
+      "vision_claim": "minor issues, no blocking bugs (text truncated in gate output; full verdict in reports/s29_shots/vs1_main_basic.verdict.txt)",
+      "dom_arbitration": "No blocking DOM defect: full verdict text reviewed; complaints are judgment-grade polish, none of the DOM-confirmed S30 defect classes; related confirmed items already fixed (A-topbar cue, S2 badge).",
+      "verdict": "VISION NOISE (judgment-grade)"
+    },
+    {
+      "id": "vs3_toolbar_panel_basic",
+      "vision_claim": "verdict text literally says CLEAN — 'No overlapping or clipped UI found'",
+      "dom_arbitration": "Model output began '**CLEAN**' but the matcher required a strict leading verdict token; no defect claim exists to arbitrate.",
+      "verdict": "FALSE FAIL (matcher strictness vs narrated CLEAN — S29 known-open keyword-matcher limitation)"
+    },
+    {
+      "id": "vs4_underground_advanced",
+      "vision_claim": "4th right-toolbar button clipped by status bar (~x1230,y740); Patio cut mid-row",
+      "dom_arbitration": "All four .vc-btn rects measured in advanced underground mode: bottoms 622/668/714/760 vs status-bar top 776 — clippedByStatus=false for all, opacity 1. Patio item bottom 795.3 vs sidebar bottom 800, list scrollable. (Vision also mislocated x: buttons right edge = 1264.)",
+      "verdict": "VISION NOISE (rects refute both claims)"
+    },
+    {
+      "id": "vs5_help_modal_basic",
+      "vision_claim": "'mostly clean, a few minor notes... No blocking overlaps'",
+      "dom_arbitration": "Verdict self-reports no blocking overlaps; the S30 fixes (walk-hint top:64, share ellipsis, cs-close scope) all verified by DOM probes in this wave.",
+      "verdict": "VISION NOISE (self-refuting — no blocking defect stated)"
+    },
+    {
+      "id": "vs6_shortcuts_basic",
+      "vision_claim": "chevron/overflow button (›) cut in half by right viewport edge (x~1269,y~27)",
+      "dom_arbitration": "The glyph at that spot is the S30-A-topbar overflow CUE (#topbar::after, right:6px inside a topbar whose right edge = viewport right; getComputedStyle right:0px, withinViewport=true). It is an intentional affordance indicating hidden topbar buttons (scrollWidth 1713 > clientWidth 1280) — precisely the defect class the audit ordered us to add.",
+      "verdict": "VISION NOISE (flagged the intentional cue; element not clipped)"
+    }
+  ],
+  "conclusion": "All 5 FAILs arbitrated as vision noise/matcher strictness with DOM evidence; 0 true defects. Static+DOM gates: s29 --skip-vision = 33/33 PASS."
+}

@@ -1,0 +1,50 @@
+{
+ "vs4_toolbar_clip": [
+  {
+   "id": "vc-zoom-in",
+   "top": 582,
+   "bottom": 622,
+   "right": 1264,
+   "clippedByStatus": false,
+   "opacity": "1",
+   "display": "flex"
+  },
+  {
+   "id": "vc-zoom-out",
+   "top": 628,
+   "bottom": 668,
+   "right": 1264,
+   "clippedByStatus": false,
+   "opacity": "1",
+   "display": "flex"
+  },
+  {
+   "id": "vc-reset",
+   "top": 674,
+   "bottom": 714,
+   "right": 1264,
+   "clippedByStatus": false,
+   "opacity": "1",
+   "display": "flex"
+  },
+  {
+   "id": "vc-underground",
+   "top": 720,
+   "bottom": 760,
+   "right": 1264,
+   "clippedByStatus": false,
+   "opacity": "1",
+   "display": "flex"
+  }
+ ],
+ "vs4_patio": {
+  "found": true,
+  "bottom": 795.3,
+  "sbBottom": 800,
+  "fullyVisibleOrScrollable": true
+ },
+ "vs6_chevron": {
+  "tbScrollW": 1713,
+  "tbClientW": 1280
+ }
+}
