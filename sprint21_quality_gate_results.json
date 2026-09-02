@@ -3,28 +3,28 @@
   "total": 55,
   "passed": 55,
   "failed": 0,
-  "index_html_bytes": 763943,
-  "index_html_lines": 16279,
+  "index_html_bytes": 767954,
+  "index_html_lines": 16325,
   "results": [
     {
       "name": "index.html size <= 750KB (hard limit)",
       "status": "PASS",
-      "detail": "763943 bytes"
+      "detail": "767954 bytes"
     },
     {
       "name": "index.html size <= 768KB (safety margin)",
       "status": "PASS",
-      "detail": "763943 bytes"
+      "detail": "767954 bytes"
     },
     {
       "name": "index.html line count recorded",
       "status": "PASS",
-      "detail": "16279 lines (info only)"
+      "detail": "16325 lines (info only)"
     },
     {
       "name": "CSS <style> block braces balanced",
       "status": "PASS",
-      "detail": "974 opening vs 974 closing braces"
+      "detail": "981 opening vs 981 closing braces"
     },
     {
       "name": "Three.js v0.160.0 via importmap unchanged",
@@ -154,12 +154,12 @@
     {
       "name": "Dig button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "dig rect=(595, 474, 44, 21)"
+      "detail": "dig rect=(595, 453, 44, 21)"
     },
     {
       "name": "Fill button rect fully inside viewport (no scrolling needed)",
       "status": "PASS",
-      "detail": "fill rect=(643, 474, 44, 21)"
+      "detail": "fill rect=(643, 453, 44, 21)"
     },
     {
       "name": "ALL 7 terrain mode buttons rects fully visible at 1280x800",
@@ -234,7 +234,7 @@
     {
       "name": "MANDATE: excavate flow reveals geological layers in rendered pixels",
       "status": "PASS",
-      "detail": "geo pixels: pit=60165 vs flat=11810 (revealed delta=48355); clay=59 subsoil=250 topsoil=50101 bedrock=9755"
+      "detail": "geo pixels: pit=71703 vs flat=10830 (revealed delta=60873); clay=59 subsoil=250 topsoil=59866 bedrock=11528"
     },
     {
       "name": "Cutaway slider to 50: input value == 50",
@@ -269,12 +269,12 @@
     {
       "name": "MANDATE: after closing excavate + flattening, grass green returns",
       "status": "PASS",
-      "detail": "grass restored=138674 vs flat baseline=138674 (ratio 1.00)"
+      "detail": "grass restored=139370 vs flat baseline=139371 (ratio 1.00)"
     },
     {
       "name": "After restore: geological browns gone (back to flat baseline)",
       "status": "PASS",
-      "detail": "|geo_restored - geo_flat| = 0"
+      "detail": "|geo_restored - geo_flat| = 96"
     },
     {
       "name": "No console errors during the entire run",

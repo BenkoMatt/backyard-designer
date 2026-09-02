@@ -1,9 +1,13 @@
-**Verdict: Near-clean.** No overlapping or clipped UI, and yes — a new user would understand this in ~5 seconds (clear product name, "ADD TO YOUR YARD" sidebar with a Getting Started card, and an obvious "Got it!" dismissal on the modal). Three minor issues worth fixing:
+**QA findings — not quite CLEAN:**
 
-1. **Minor / functional — Shortcuts modal, "Cycle placed objects: Alt+Tab".** Alt+Tab is reserved by the operating system (window switching) and can't be captured inside a browser, so this binding will never fire in a web app. Swap it for something like `Alt+C` or `]`.
+1. **Clipped control, top-right header (x≈1269, y≈27):** a chevron/overflow button (›) is cut in half by the right viewport edge. Looks broken; either give it breathing room or widen the header container. *(Low severity, but it's the only visibly clipped element.)*
 
-2. **Minor / ambiguous — Duplicate "Terrain" labels.** The bottom-left stacked dock button labeled "Terrain" (with the chart icon) and the bottom toolbar "Terrain" button (mountain icon) are two different controls with identical names sitting near each other. Rename the dock toggle to "Terrain Dock" to match the shortcut guide ("Toggle Terrain dock").
+2. **Duplicate "Terrain" labels in bottom toolbars:** "Terrain" appears both as a dock toggle (bottom-left, behind the modal) and as a toolbar button mid-right. A new user can't tell if these are the same control. *(Minor ambiguity.)*
 
-3. **Trivial — Status bar "FPS: —"** shows an empty placeholder. Fine if it populates after the first rendered frame, but it reads as broken at first glance.
+3. **"Cycle placed objects → Alt+Tab":** Alt+Tab is hijacked by the OS (window switching on Windows/macOS), so this shortcut will feel broken in practice. Consider remapping (e.g., Tab or [ ]). *(Functional concern, not visual.)*
 
-Non-issues, for the record: the half-visible "Patio" row at the sidebar bottom is normal scroll position, the modal layout/columns/keycap alignment is consistent, Undo/Redo correctly appear disabled, and the "Daytime" pill / "Take Tour" / bottom-left dock staying bright above the dimmed backdrop looks intentional.
+**Non-issues (checked and fine):** the modal correctly overlays the Terrain/Sun & Shadow dock buttons; the left palette's clipped "Patio" row is normal scroll behavior; compass, Take Tour, zoom controls, scale bar, and status bar don't collide; modal content is well-organized with clear "Got it!" dismissal.
+
+**5-second comprehension:** Yes — the app identity, tool palette, and the fact that a shortcuts guide is open are all immediately clear.
+
+**Verdict:** Minor fixes needed — the clipped chevron is the only true visual defect.

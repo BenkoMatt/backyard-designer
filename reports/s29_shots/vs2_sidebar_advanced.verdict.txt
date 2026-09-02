@@ -1,3 +1,3 @@
-CLEAN — A polished, self-explanatory 3D backyard designer: header controls, categorized asset palette, and onboarding tip are all clearly readable with no overlapping, clipped, or broken UI.
+CLEAN — The editor reads instantly (brand + Basic/Advanced toggle top-left, item palette on the left, 3D canvas with floating Sculpt/Build/View panel, labeled action bar and status strip at the bottom), with no overlapping, clipped, or misaligned elements.
 
-Non-blocking minor observations (not defects): "Terrain"/"Analyze"/"Sun" appear in both the floating menu and bottom toolbar (reads as intentional quick-access mirrors), the menu labels "Underground"/"Pro Tools" vs. toolbar "Excavate"/"Innovate" differ slightly in wording, and "Brush: 8 ft" shows while Tool is "Select" — all cosmetic consistency nits, nothing that would confuse a new user within 5 seconds.
+Minor non-blocking nit only: the red compass needle at top-right slightly overhangs the dial edge (~1205,130) — reads as a stylistic pointer rather than a defect.

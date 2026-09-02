@@ -4,22 +4,22 @@
   "total": 24,
   "passed": 24,
   "failed": 0,
-  "index_html_bytes": 763943,
+  "index_html_bytes": 767954,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "763943 bytes, headroom 4057"
+      "detail": "767954 bytes, headroom 46"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "974 open / 974 close"
+      "detail": "981 open / 981 close"
     },
     {
       "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
       "status": "PASS",
-      "detail": "padding-bottom: 28.0px"
+      "detail": "padding-bottom: 64.0px"
     },
     {
       "name": "V02-static: #dock-underground shell has exactly one 'Underground View' title",
@@ -49,22 +49,22 @@
     {
       "name": "V01 [basic]: sidebar bottom padding covers status bar (>= 24px)",
       "status": "PASS",
-      "detail": "padding-bottom=28px (merge-lock owned by Agent 1; expected FAIL pre-merge)"
+      "detail": "padding-bottom=64px (merge-lock owned by Agent 1; expected FAIL pre-merge)"
     },
     {
       "name": "V01 [basic]: last .lib-item fully above #status-bar at full scroll",
       "status": "PASS",
-      "detail": "lastBottom=770.203125 statusTop=776 overlap=False (atScrollBottom=True)"
+      "detail": "lastBottom=734.203125 statusTop=776 overlap=False (atScrollBottom=True)"
     },
     {
       "name": "V01 [advanced]: sidebar bottom padding covers status bar (>= 24px)",
       "status": "PASS",
-      "detail": "padding-bottom=28px (merge-lock owned by Agent 1; expected FAIL pre-merge)"
+      "detail": "padding-bottom=64px (merge-lock owned by Agent 1; expected FAIL pre-merge)"
     },
     {
       "name": "V01 [advanced]: last .lib-item fully above #status-bar at full scroll",
       "status": "PASS",
-      "detail": "lastBottom=770.203125 statusTop=776 overlap=False (atScrollBottom=True)"
+      "detail": "lastBottom=734.203125 statusTop=776 overlap=False (atScrollBottom=True)"
     },
     {
       "name": "V02 [live]: exactly ONE visible 'Underground View' header after opening",

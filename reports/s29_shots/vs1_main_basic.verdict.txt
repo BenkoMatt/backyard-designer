@@ -1,13 +1,17 @@
-**Not clean — a few issues found:**
+**QA review — mostly clean, a few minor issues (no blocking bugs)**
 
-1. **Duplicate/conflicting controls (most confusing issue):** "Terrain" appears twice — once in the floating bottom-left panel and again in the bottom toolbar. Similarly, "Sun & Shadow" (floating panel) vs. "Sun" (toolbar) look like redundant/duplicate functions. A new user can't tell if these do different things or are accidental duplicates.
+**(1) Overlapping / clipped UI**
+- No true overlaps or clipping in the chrome. The right-side zoom/rotate stack clears the bottom toolbar by a small but adequate margin; "Dig Down" and the compass fit within the viewport.
+- Minor: the left sidebar's "Patios & Paths" list is cut mid-item ("Patio" and a sliver of the next item are clipped at the status bar). Normal scroll behavior, but ending on a half-rendered row looks slightly unfinished — a fade or padding would help.
 
-2. **"Innovate" button is ambiguous:** In a backyard design toolbar (Tape Measure, Excavate, Analyze…), "Innovate" reads as a typo or misplaced label (Irrigate? Templates?). It doesn't communicate any function within the 5-second scan.
+**(2) 5-second comprehension — yes**
+- Clear hierarchy: "ADD TO YOUR YARD" palette on the left, big 3D canvas in the middle, view modes up top, tools along the bottom. The "Getting Started" callout explicitly explains the add-then-drag model. A new user would get it.
 
-3. **Left panel item clipped at bottom:** The "Patio" row under Patios & Paths is cut mid-height by the status bar. If it's a scroll region this is technically fine, but with no visible scroll affordance it looks like broken/clipped content.
+**(3) Confusing / ambiguous items**
+- **"Innovate"** (bottom toolbar, pin icon) — reads like a typo, likely meant to be "Irrigate." A pin icon doesn't match "Innovate" either way. Most suspicious item on screen. *(medium)*
+- **Duplicate "Terrain" controls** — "Terrain" appears both in the floating bottom-left card and in the bottom toolbar with a different icon. Unclear whether they do the same thing. *(medium)*
+- **"Dig Down"** is the only icon-less button in the bottom row, set apart by a gap — reads as intentional grouping but looks slightly detached/unstyled next to its icon-labeled neighbors. *(low)*
+- The blue grid surrounding the green terrain reads as "water" at first glance — a new user may think the yard floats in a pool. A legend or different surrounding color would remove the ambiguity. *(low)*
+- "FPS: —" in the status bar is empty at startup; fine, but consider hiding until measured. *(nit)*
 
-4. **Minor — tip toast close button:** The "×" sits inline at the end of the wrapped text ("…add it to your yard ×"), so it reads like a stray character rather than a dismiss control.
-
-**Otherwise solid:** No overlapping UI (Take Tour button and compass are properly spaced, bottom-left floating panel doesn't collide with the toolbar row, toast doesn't block controls), disabled Undo/Redo is expected on a fresh scene, status bar and header are clear, and the empty-terrain state with the onboarding tip communicates the workflow well.
-
-**Verdict:** Fix the duplicated Terrain/sun controls and clarify or rename "Innovate"; the rest is minor polish.
+**Summary:** Solid, understandable layout with no layout bugs; fix the probable "Innovate"→"Irrigate" typo and clarify the duplicate Terrain controls before ship.

@@ -1,16 +1,16 @@
-**Not CLEAN — a few minor issues, nothing severe.**
+**QA Findings — mostly clean, a few minor notes**
 
-**(1) Overlapping / clipped UI**
-- **Help modal bottom padding is nearly zero.** The last bullet ("Screenshot captures a PNG image…") sits ~8px from the modal's bottom edge vs. ~35px padding on the sides/top. It reads as clipped — and if there's a footer/CTA below (e.g., a "Got it" button), it's cut off with no visible scrollbar. Add bottom padding or confirm the content is complete.
-- **"Daytime" pill peeks out ~2px above the modal's top edge** (top center). A stray sliver of a hidden element looks like a rendering glitch — either fully cover it with the overlay or reposition it.
-- **Bottom-left floating panel is sliced by the modal** — only a lone mountain icon and the "Sun & Shadow" button show, making it look like a detached fragment. Correct z-order, but visually broken-looking while the modal is open.
+**1) Overlapping / clipped UI**
+- No blocking overlaps. Modal, toolbar, zoom controls, compass, and top bar all have clear separation.
+- Minor: the "Patio" item at the bottom of the left sidebar is clipped mid-item. This looks like normal scroll behavior, but the tiny gray sliver of its icon below reads slightly broken at first glance.
 
-**(2) 5-second comprehension**
-- Mostly yes — the modal opens with a clear "How to Use" explainer and the left panel is labeled "ADD TO YOUR YARD." A new user gets the gist. The main risk is the modal covering ~60% of the canvas, so the 3D view itself isn't visible on first glance.
+**2) 5-second comprehension**
+- Yes. The onboarding modal states the core loop explicitly (click item → place → adjust), the left panel is labeled "ADD TO YOUR YARD," and the canvas is an obvious 3D grid. A new user would get it immediately.
 
-**(3) Confusing / ambiguous**
-- The **"✕" next to "Getting Started"** in the sidebar could be mistaken for closing the entire "Add to Your Yard" panel rather than dismissing that one item.
-- **"FPS: —"** in the status bar looks like an unfinished placeholder.
-- The 3D scene is a mostly empty blue grid, so with the modal open it's unclear what the terrain/water actually is — but that's a content state, not a UI bug.
+**3) Confusing / ambiguous / broken-looking**
+- **Content inconsistency (most notable):** The modal says Basic mode shows only "Terrain sculpting, Sun & Shadow, and core object placement," with excavation/analysis tools reserved for Advanced — yet the bottom toolbar in Basic mode shows **Excavate, Dig Down, Analyze, and Innovate**. Either those buttons should be hidden/dimmed in Basic, or the help text is inaccurate.
+- **Possible duplicate controls:** Both "Sun & Shadow" and "Sun" appear in the bottom toolbar — ambiguous whether they're the same feature or two different ones.
+- **Minor inconsistency:** "Load" in the top bar has no icon, while Save, Capture, Shortcuts, and Help all do.
+- Everything else (toggles, undo/redo, scale bar, status bar, "Take Tour") looks correct and consistent.
 
-**Summary:** Solid, well-organized first-run screen; fix the modal's cramped/clipped bottom edge, the peeking "Daytime" pill, and the sliced bottom-left panel and it's ship-shape.
+**Verdict:** Near-clean — no visual bugs or overlaps, but fix the Basic-mode toolbar vs. help-text contradiction and the Load icon for polish.
