@@ -2769,7 +2769,7 @@ raycaster = new THREE.Raycaster();
 mouse = new THREE.Vector2();
 groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -state.gridLevel);
 gridHelper = new THREE.GridHelper(Math.max(state.yard.width, state.yard.depth), Math.max(state.yard.width, state.yard.depth), 0x888888, 0xcccccc);
-gridHelper.position.y = state.gridLevel + 0.01;
+gridHelper.position.y = state.gridLevel + 0.03; /* S30-C-A3: 0.01 z-fought at grazing angles */
 scene.add(gridHelper);
 const boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(state.yard.width, 0.02, state.yard.depth));
 boundaryLines = new THREE.LineSegments(boundaryGeo, new THREE.LineBasicMaterial({ color: 0x333333 }));
@@ -5318,7 +5318,7 @@ yardMesh.material.clippingPlanes = existing.concat([crossSectionClipPlane]);
 if (typeof wireframeActive !== 'undefined' && wireframeActive) yardMesh.material.wireframe = true;
 applyTerrainVertexColors();
 gridHelper = new THREE.GridHelper(Math.max(data.width, data.depth), Math.max(data.width, data.depth), 0x888888, 0xcccccc);
-gridHelper.position.y = state.gridLevel + 0.01;
+gridHelper.position.y = state.gridLevel + 0.03; /* S30-C-A3: 0.01 z-fought at grazing angles */
 scene.add(gridHelper);
 boundaryLines.geometry.dispose();
 let boundaryGeo;
@@ -6548,7 +6548,7 @@ return minH - EARTH_DEPTH_BELOW_MIN;
 function setGridLevel(newLevel) {
 newLevel = Math.max(-15, Math.min(15, newLevel));
 state.gridLevel = newLevel;
-if (gridHelper) gridHelper.position.y = newLevel + 0.01;
+if (gridHelper) gridHelper.position.y = newLevel + 0.03; /* S30-C-A3 */
 if (groundPlane) groundPlane.constant = -newLevel;
 if (boundaryLines) boundaryLines.position.y = newLevel + 0.03;
 if (state.terrain) {
@@ -7695,6 +7695,19 @@ const dayFactor = Math.max(0, Math.min(1, pos.elevation / 30));
 if (sunAmbient) sunAmbient.intensity = 0.35 + 0.3 * dayFactor;
 if (sunHemi) sunHemi.intensity = 0.3 + 0.25 * dayFactor;
 sunLight.intensity = 0.2 + 0.7 * dayFactor;
+// S30-C-A4: grid is unlit LineBasicMaterial — full-bright while ground dims 5x at
+// dawn/dusk/night. Modulate grid color/opacity with the same dayFactor rig.
+if (gridHelper && gridHelper.material) {
+const gm = gridHelper.material;
+gm.transparent = true;
+gm.opacity = 0.25 + 0.55 * dayFactor;
+const gBase = new THREE.Color(0xcccccc);
+const gDim = new THREE.Color(0x5a6a7a);
+gBase.lerp(gDim, 1 - dayFactor);
+gm.vertexColors = false;
+gm.color.copy(gBase);
+gm.needsUpdate = true;
+}
 if (window._undergroundPoint) window._undergroundPoint.intensity = 0.20 + 0.15 * dayFactor;
 if (window._undergroundHemi) window._undergroundHemi.intensity = 0.25 + 0.15 * dayFactor;
 const warm = new THREE.Color(0xff8844);
@@ -10812,7 +10825,7 @@ const carvingLengthVal = document.getElementById('carving-length-val');
 function applyGridLevel(level) {
 state.gridLevel = Math.round(level);
 if (gridHelper) {
-gridHelper.position.y = state.gridLevel + 0.01;
+gridHelper.position.y = state.gridLevel + 0.03; /* S30-C-A3: 0.01 z-fought at grazing angles */
 }
 if (boundaryLines) {
 boundaryLines.position.y = state.gridLevel + 0.03;
