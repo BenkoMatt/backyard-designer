@@ -1262,7 +1262,7 @@ Checks: property setbacks, structure heights, fence heights, pool fence requirem
 </div>
 <div id="wizard">
 <div class="wizard-panel" id="wizard-panel"></div>
-<button id="wizard-skip" style="position:absolute;bottom:132px;left:50%;margin-left:-89px;background:none;border:none;color:rgba(255,255,255,0.7);font-size:13px;cursor:pointer;font-family:inherit;padding:12px 20px;min-height:44px;z-index:2;pointer-events:auto;" title="Skip setup and start with a default yard">Skip — use default yard</button>
+<button id="wizard-skip" style="display:block;margin:2px auto 0;background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;font-family:inherit;padding:10px 20px;min-height:44px;text-decoration:underline;" title="Skip setup and start with a default yard">Skip — use default yard</button>
 </div>
 <div id="welcome-prompt" role="dialog" aria-modal="true" aria-labelledby="wp-title">
   <div class="welcome-prompt-panel">
@@ -5071,6 +5071,7 @@ let wizardStep = 0;
 let wizardData = { shape: 'rectangle', width: 50, depth: 100 };
 function renderWizard() {
 const panel = document.getElementById('wizard-panel');
+const _skipBtn = document.getElementById('wizard-skip');
 if (wizardStep === 0) {
 panel.innerHTML = `
 <div class="wizard-step-num">Step 1 of 2</div>
@@ -5116,6 +5117,9 @@ panel.innerHTML = `
 <p style="font-size:12px;color:var(--text-muted);margin:14px 0 0;text-align:center;">Tip: open <strong>? Help</strong> (top bar) anytime — see Keyboard Shortcuts for terrain keys, view modes, and the underground workflow.</p>
 `;
 }
+// S30-B-skip: the Skip link lives INSIDE the panel (was absolutely positioned to
+// #wizard — floated half outside the box and collided with the progressive tip toast)
+if (_skipBtn && _skipBtn.parentElement !== panel) panel.appendChild(_skipBtn);
 attachWizardHandlers();
 }
 
