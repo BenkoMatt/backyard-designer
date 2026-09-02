@@ -112,3 +112,20 @@ Format: per fix — ID → root cause → change → probe evidence → gate imp
 - Probe evidence: s30_basic4.py — basic mode: underground tab display:none (S17 check satisfied), vc-underground width 96.7 with "Dig Down" chip; s17 final run: 81/81 PASS.
 - Gate impact: s17 79/81 → 80/81 → 81/81 after rework. Other gates unchanged.
 - Byte compensation: CSS comment shave + scanner trim across commits.
+
+## Final gate battery (port 8313, http.server background)
+- s11  --port 8313: 143/143 PASS
+- s15  --port 8313: PASS (100%)
+- s21  --port 8313: 55/55 PASS (bytes 767,954/768,000)
+- s22  --port 8313: 43/43 PASS
+- s17  BASE_URL=http://127.0.0.1:8313: 81/81 PASS (after B-basic rework; intermediate 79/81 during first attempt)
+- qa_s21 BASE_URL=...: 16/16 PASS
+- s23  --port 8313 --skip-vision --expect-open-fixes: 24/24 PASS
+- s29  --port 8313 --skip-vision --expect-open-fixes: 33/33 PASS
+- s29  VISION-ENABLED run (--expect-open-fixes): 34/39 — 5 vision FAILs, all DOM-arbitrated as vision noise/matcher strictness (see reports/s30/fixes/VISION_ARBITRATION_S30.json):
+  vs3 verdict literally begins "CLEAN" (matcher miss); vs4 toolbar-button + Patio claims refuted by rects (bottoms 622/668/714/760 vs status top 776; Patio 795.3 vs 800 scrollable); vs5 self-reports "No blocking overlaps"; vs6 flagged the NEW S30-A-topbar overflow cue glyph (intentional, withinViewport=true); vs1 judgment-grade only. 0 true defects.
+
+## Byte ledger
+- bfbe1fa baseline: 763,943 B
+- fixes added +5,742 B across 9 fix commits; compensating scanner trims -946 B and -221 B (identity-verified), manual CSS-comment shaves ~-568 B
+- final: 767,954 / 768,000 B (+46 headroom)
