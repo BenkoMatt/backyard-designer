@@ -1,0 +1,80 @@
+{
+ "grid_default": {
+  "n": 0,
+  "y": null,
+  "matOpacity": null,
+  "color": null,
+  "vertexColors": null,
+  "transparent": null
+ },
+ "sun_inputs": [
+  {
+   "id": "sun-time",
+   "aria": "Time of day in hours",
+   "min": "0",
+   "max": "24"
+  }
+ ],
+ "grid_by_time": {
+  "dawn": {
+   "y": null,
+   "opacity": null,
+   "color": null,
+   "dayFactor": null,
+   "timeLabel": "06:00"
+  },
+  "noon": {
+   "y": null,
+   "opacity": null,
+   "color": null,
+   "dayFactor": null,
+   "timeLabel": "12:00"
+  },
+  "dusk": {
+   "y": null,
+   "opacity": null,
+   "color": null,
+   "dayFactor": null,
+   "timeLabel": "18:30"
+  },
+  "night": {
+   "y": null,
+   "opacity": null,
+   "color": null,
+   "dayFactor": null,
+   "timeLabel": "22:00"
+  }
+ },
+ "grid_by_camera": {
+  "3d": {
+   "gridVisible": null,
+   "y": null,
+   "camType": null
+  },
+  "bird": {
+   "gridVisible": null,
+   "y": null,
+   "camType": null
+  },
+  "walk": {
+   "gridVisible": null,
+   "y": null,
+   "camType": null
+  }
+ },
+ "S2_badge": {
+  "before": {
+   "visible": true,
+   "flag": false
+  },
+  "modal_open": {
+   "badgeDisplay": "none",
+   "flag": true,
+   "modalOpen": true
+  },
+  "after_close": {
+   "badgeDisplay": "block",
+   "flag": false
+  }
+ }
+}

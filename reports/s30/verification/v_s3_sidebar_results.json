@@ -1,0 +1,69 @@
+{
+ "S3_sliders": {
+  "rows": {
+   "nRows": 10,
+   "margins": [
+    "7px",
+    "7px",
+    "2px",
+    "7px",
+    "2px",
+    "7px",
+    "7px",
+    "7px",
+    "7px",
+    "7px"
+   ],
+   "brushLabel": "Brush Size"
+  },
+  "strength": {
+   "strengthText": "30%",
+   "title": "Strength: how deep each pass carves"
+  }
+ },
+ "sidebar_1280": {
+  "rest": {
+   "pad": "64px",
+   "nItems": 21,
+   "lastBottom": 1287.2,
+   "sidebarBottom": 800,
+   "inside": false,
+   "atRestScroll": 0
+  },
+  "scrolled_end": {
+   "lastBottom": 734.2,
+   "sidebarBottom": 800,
+   "inside": true
+  }
+ },
+ "sidebar_1024": {
+  "rest": {
+   "pad": "64px",
+   "nItems": 21,
+   "lastBottom": 1287.2,
+   "sidebarBottom": 768,
+   "inside": false,
+   "atRestScroll": 0
+  },
+  "scrolled_end": {
+   "lastBottom": 702.2,
+   "sidebarBottom": 768,
+   "inside": true
+  }
+ },
+ "sidebar_1600": {
+  "rest": {
+   "pad": "64px",
+   "nItems": 21,
+   "lastBottom": 1287.2,
+   "sidebarBottom": 900,
+   "inside": false,
+   "atRestScroll": 0
+  },
+  "scrolled_end": {
+   "lastBottom": 834.2,
+   "sidebarBottom": 900,
+   "inside": true
+  }
+ }
+}

@@ -1,0 +1,37 @@
+{
+ "wizard_buttons": [
+  {
+   "id": "wizard-finish",
+   "cls": "wizard-btn",
+   "txt": "Start Designing! \u2192"
+  },
+  {
+   "id": "wizard-back",
+   "cls": "wizard-back",
+   "txt": "\u2190 Back"
+  },
+  {
+   "id": "wizard-skip",
+   "cls": "",
+   "txt": "Skip \u2014 use default yard"
+  }
+ ],
+ "B3_wizard_finish": {
+  "initial": {
+   "wizardVis": true
+  },
+  "at_plus_1s": {
+   "welcomeVisible": false,
+   "wpDisplay": "none",
+   "toastVisible": true,
+   "toastText": "\u2139Your empty yard is ready! Click items on the left to add them.",
+   "wizardDisplay": "none"
+  }
+ },
+ "ls_state": {
+  "ls": [
+   "backyard-onboarding-state={\"completedSteps\":[],\"tourCompleted\":false,\"welcomeShown\":tr",
+   "byd-design-mode=basic"
+  ]
+ }
+}

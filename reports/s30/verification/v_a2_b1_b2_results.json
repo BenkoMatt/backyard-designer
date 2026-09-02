@@ -1,0 +1,79 @@
+{
+ "A2_craters": {
+  "probes": [
+   {
+    "digMode": null,
+    "height": null
+   },
+   {
+    "ugActive": true
+   }
+  ],
+  "skylike_ortho": 517,
+  "skylike_underground": 515,
+  "samples": [
+   [
+    [
+     [
+      656,
+      440
+     ],
+     [
+      144,
+      192,
+      250
+     ]
+    ],
+    [
+     [
+      652,
+      442
+     ],
+     [
+      0,
+      117,
+      255
+     ]
+    ]
+   ],
+   [
+    [
+     [
+      656,
+      440
+     ],
+     [
+      145,
+      193,
+      251
+     ]
+    ],
+    [
+     [
+      652,
+      442
+     ],
+     [
+      0,
+      117,
+      255
+     ]
+    ]
+   ]
+  ]
+ },
+ "B2_dig_readout": {
+  "label": null,
+  "value": null,
+  "classes": null,
+  "hasNegative": null,
+  "hasCarve": null,
+  "statusText": "\n  Tool: Dig\n  \n  Brush: 8 ft\n  \n  Height: -11.1 ft\n  \n  FPS: \u2014\n"
+ },
+ "B1_raise": {
+  "state": {
+   "tool": null,
+   "sd": null
+  }
+ }
+}

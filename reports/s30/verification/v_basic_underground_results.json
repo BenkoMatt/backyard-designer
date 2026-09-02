@@ -1,0 +1,27 @@
+{
+ "basic": {
+  "before": {
+   "tabDisplay": "none",
+   "tabVisible": false,
+   "vcText": "",
+   "vcW": 96.71875,
+   "vcOutline": "none 3px",
+   "chips": []
+  },
+  "click_landed": true,
+  "after": {
+   "undergroundActive": true,
+   "toast": "\u2139Underground view active \u2014 orbit to explore carved spaces",
+   "toastVisible": true
+  }
+ },
+ "advanced": {
+  "tab": {
+   "tabDisplay": "flex",
+   "label": "Underground"
+  },
+  "after_click": {
+   "dockVisible": true
+  }
+ }
+}

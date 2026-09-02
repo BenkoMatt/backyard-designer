@@ -1,0 +1,42 @@
+{
+ "basic": {
+  "mode": "basic",
+  "dig": [
+   1167,
+   720,
+   97,
+   40
+  ],
+  "sun": [
+   1131,
+   728,
+   67,
+   32
+  ],
+  "parent": "view-controls",
+  "width": "96.7188px",
+  "intersect": true,
+  "digText": "",
+  "afterContent": "\"Dig Down\""
+ },
+ "advanced": {
+  "mode": "advanced",
+  "dig": [
+   1224,
+   720,
+   40,
+   40
+  ],
+  "sun": [
+   1131,
+   728,
+   67,
+   32
+  ],
+  "parent": "view-controls",
+  "width": "40px",
+  "intersect": false,
+  "digText": "",
+  "afterContent": "none"
+ }
+}

@@ -1,0 +1,66 @@
+{
+ "F1_walkhint": {
+  "hintVisible": true,
+  "top": "64px",
+  "hint": [
+   391,
+   64,
+   497,
+   30
+  ],
+  "tabRects": [
+   {
+    "label": "3D View",
+    "y": [
+     13,
+     38
+    ],
+    "x": [
+     621,
+     699
+    ]
+   },
+   {
+    "label": "Bird's-eye",
+    "y": [
+     13,
+     38
+    ],
+    "x": [
+     701,
+     786
+    ]
+   }
+  ],
+  "overlapPx2": 0
+ },
+ "F3_A1_panel": {
+  "open": {
+   "panelVisible": true,
+   "btn": [
+    1230,
+    170,
+    19,
+    21
+   ],
+   "canvas": [
+    859,
+    266,
+    390,
+    176
+   ],
+   "overlap": false,
+   "topHit": "cs-close",
+   "stack": "in-stack"
+  },
+  "click_landed": true,
+  "after_click": {
+   "visible": false
+  },
+  "ta_before": true,
+  "after_esc": {
+   "taVisible": false,
+   "dockVisible": false
+  }
+ }
+}

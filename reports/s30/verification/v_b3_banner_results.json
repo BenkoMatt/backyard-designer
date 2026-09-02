@@ -1,0 +1,60 @@
+{
+ "seam": {
+  "hasTest": true,
+  "keys": [
+   "state",
+   "CATALOG",
+   "scene",
+   "sceneObjects",
+   "yardMesh",
+   "gridHelper",
+   "boundaryLines",
+   "renderer",
+   "loadDesign",
+   "serializeDesign",
+   "addObject",
+   "buildSceneObject",
+   "activeCamera",
+   "drawQR",
+   "QRCodeGen",
+   "encodeDesignToHash",
+   "decodeDesignFromHash",
+   "sunLight",
+   "computeObjectCost",
+   "solarPosition",
+   "hiddenLayers",
+   "walkMode",
+   "walkPos",
+   "_walkSaved",
+   "controls",
+   "tapeMeasureStart",
+   "undo",
+   "redo",
+   "pushCommand",
+   "applySeasonalGroundColor",
+   "getTerrainHeight",
+   "getTerrainIndex",
+   "applyTerrainToMesh",
+   "paintTerrain",
+   "smoothTerrainPass",
+   "ensureTerrainArray",
+   "hasTerrainDeformation",
+   "isObjectBuried",
+   "updateBuriedIndicator",
+   "updateAllBuriedIndicators"
+  ]
+ },
+ "after_add": {
+  "undoEnabled": true,
+  "objects": null,
+  "hasTest": true
+ },
+ "banner_after_reload": {
+  "bannerVisible": true,
+  "bannerText": "Restore unsaved changes?Saved 6:33 PM \u2014 you can restore that work or start fresh.\nRestoreD"
+ },
+ "banner_after_ctrls": {
+  "bannerVisible": false,
+  "toast": "\u2713Design saved! Check your downloads folder."
+ }
+}

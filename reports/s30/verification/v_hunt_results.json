@@ -1,0 +1,77 @@
+{
+ "hunt_share_select": {
+  "found": true,
+  "tag": "DIV",
+  "len": 89,
+  "ellipsizedVisual": true,
+  "copyable": true
+ },
+ "hunt_vc_1024": {
+  "vc": [
+   911,
+   688,
+   97,
+   40
+  ],
+  "sbRect": [
+   450,
+   698,
+   157,
+   26
+  ],
+  "overlapScaleBar": false,
+  "overlapStatus": false,
+  "sunRect": 130,
+  "hitAtCenter": "bottom-left-toolbar"
+ },
+ "hunt_wizard_600h": {
+  "skip": [
+   423,
+   435,
+   178,
+   44
+  ],
+  "panel": [
+   242,
+   89,
+   540,
+   422
+  ],
+  "fullyInside": true,
+  "panelFitsViewport": true
+ },
+ "hunt_b3_skip_path": {
+  "welcomeVisible": false,
+  "wizardGone": true,
+  "toast": "\u2139Your empty yard is ready! Click items on the left to add them.",
+  "toastVisible": false
+ },
+ "hunt_topbar_start_fade": {
+  "cls": "scrolled-end",
+  "scrollLeft": 0,
+  "firstBtn": "Basic",
+  "firstRect": [
+   245,
+   13,
+   63,
+   25
+  ],
+  "hitAtFirstCenter": "BUTTON"
+ },
+ "hunt_walkhint_toast": {
+  "hint": [
+   391,
+   64,
+   497,
+   30
+  ],
+  "toast": [
+   466,
+   64,
+   348,
+   44
+  ],
+  "intersects": true,
+  "toastVisible": true
+ }
+}

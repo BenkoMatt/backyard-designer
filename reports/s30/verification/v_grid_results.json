@@ -1,0 +1,68 @@
+{
+ "grid_by_time": {
+  "midnight": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true,
+   "timeLabel": "00:00"
+  },
+  "dawn": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true,
+   "timeLabel": "06:00"
+  },
+  "noon": {
+   "opacity": 0.8,
+   "color": "#cccccc",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true,
+   "timeLabel": "12:00"
+  },
+  "dusk": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true,
+   "timeLabel": "18:30"
+  },
+  "night": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true,
+   "timeLabel": "22:00"
+  }
+ },
+ "grid_by_camera": {
+  "3d_v": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true
+  },
+  "bird_b": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true
+  },
+  "walk_w": {
+   "opacity": 0.25,
+   "color": "#5a6a7a",
+   "y": 0.03,
+   "vertexColors": false,
+   "visible": true
+  }
+ },
+ "closezoom_shot": true
+}

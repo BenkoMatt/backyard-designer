@@ -1,0 +1,18 @@
+{
+ "base_site1": {
+  "sky": 3290,
+  "magenta": 0
+ },
+ "fix_site1": {
+  "sky": 3238,
+  "magenta": 0
+ },
+ "base_site2": {
+  "sky": 1102,
+  "magenta": 0
+ },
+ "fix_site2": {
+  "sky": 1103,
+  "magenta": 0
+ }
+}

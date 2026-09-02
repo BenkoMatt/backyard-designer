@@ -1,0 +1,42 @@
+{
+ "F1_walkhint": {
+  "hintVisible": true,
+  "top": "64px",
+  "hint": [
+   391.34375,
+   64,
+   497.3125,
+   30
+  ],
+  "tabRects": [],
+  "overlapArea": null,
+  "walkActive": false
+ },
+ "F2_share": {
+  "found": true,
+  "clientW": 290,
+  "scrollW": 605,
+  "overflow": true,
+  "textOverflow": "ellipsis",
+  "whiteSpace": "nowrap",
+  "overflowX": "auto",
+  "rect": [
+   494,
+   515.5,
+   292,
+   31
+  ],
+  "modalVisible": true
+ },
+ "F3_cs_overlay": {
+  "before_esc": {
+   "dock": true,
+   "ov": ""
+  },
+  "after_esc": {
+   "dockVisible": false,
+   "taVisible": false,
+   "ovClass": ""
+  }
+ }
+}

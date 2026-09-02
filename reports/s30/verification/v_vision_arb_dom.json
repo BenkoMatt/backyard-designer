@@ -1,0 +1,33 @@
+{
+ "sun_vs_digdown": {
+  "sun": [
+   1131,
+   728,
+   67,
+   32
+  ],
+  "dig": [
+   1167,
+   720,
+   97,
+   40
+  ],
+  "intersect": true
+ },
+ "nightpill_vs_toast": {
+  "pill": [
+   755,
+   130,
+   50,
+   20
+  ],
+  "toastRect": [
+   440,
+   64,
+   400,
+   54
+  ],
+  "toastVisible": true,
+  "intersect": false
+ }
+}
