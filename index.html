@@ -5711,6 +5711,9 @@ if (open) { closer(); modalClosed = true; break; }
 if (!modalClosed) {
 if (typeof window._dockClosePanel === 'function' && window._dockActiveTab && window._dockActiveTab()) {
 window._dockClosePanel();
+// S30-A-cs-overlay: elevation-profile overlay must not survive the Esc that closes its dock
+const _taOv = document.getElementById('ta-cross-section-overlay');
+if (_taOv) _taOv.classList.remove('visible');
 modalClosed = true;
 }
 }
@@ -12100,6 +12103,9 @@ const eb = document.getElementById('excavate-btn');
 if (eb) { eb.classList.remove('active'); eb.setAttribute('aria-pressed', 'false'); }
 if (typeof updateGroundVisibility === 'function') updateGroundVisibility();
 }
+// S30-A-cs-overlay: any dock close also dismisses the elevation-profile overlay
+const _taOvClose = document.getElementById('ta-cross-section-overlay');
+if (_taOvClose) _taOvClose.classList.remove('visible');
 dockPanelContainer.classList.remove('visible');
 activeDockTab = null;
 if (typeof excavatePanelVisible !== 'undefined' && document.getElementById('excavate-panel').classList.contains('visible')) {
