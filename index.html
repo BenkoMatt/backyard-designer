@@ -6398,13 +6398,18 @@ for (let ix = 0; ix < segs; ix++) {
 const h00 = terrainAt(ix, iz);
 const h10 = terrainAt(ix + 1, iz);
 const h01 = terrainAt(ix, iz + 1);
-if (Math.abs(h00 - h10) > WALL_HEIGHT_THRESHOLD) {
+// S30-A2 (t_0174b1d0 class): smooth multi-pass digs leave sub-threshold slopes with a
+// vertex below y=0 — no wall got built there and the y=0 auto-dig clip exposed sky through
+// the mesh. Any edge touching below-zero ground now seals to the floor.
+const _edgeBelow = (h00 < 0) !== (h10 < 0) || (h00 < 0 && h10 < 0);
+if (Math.abs(h00 - h10) > WALL_HEIGHT_THRESHOLD || _edgeBelow) {
 const x0 = (ix / segs) * state.yard.width - halfW;
 const x1 = ((ix + 1) / segs) * state.yard.width - halfW;
 const z = (iz / segs) * state.yard.depth - halfD;
 addInteriorWall(x0, z, x1, z, h00, h10, bottomY, positions, indices, surfaceHeights);
 }
-if (Math.abs(h00 - h01) > WALL_HEIGHT_THRESHOLD) {
+const _edgeBelowZ = (h00 < 0) !== (h01 < 0) || (h00 < 0 && h01 < 0);
+if (Math.abs(h00 - h01) > WALL_HEIGHT_THRESHOLD || _edgeBelowZ) {
 const x = (ix / segs) * state.yard.width - halfW;
 const z0 = (iz / segs) * state.yard.depth - halfD;
 const z1 = ((iz + 1) / segs) * state.yard.depth - halfD;
