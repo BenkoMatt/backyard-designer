@@ -1,15 +1,16 @@
-**Not clean — issues found:**
+**Review of 1280×800 screenshot — issues found (not CLEAN):**
 
-**1. Overlapping / clipped:**
-- The **"Terrain Sculpting" modal overlaps the left-side tool dock** (SCULPT/BUILD/VIEW column): the "Terrain" button's right edge is covered, and the "Sun &…" item at the bottom is clipped mid-word.
-- The **"☀ Sun" button overlaps the dark hint tooltip**, cutting off the start of the text — it reads only "…on the ground to sculpt terrain" ("Drag" is hidden).
-- The modal's right edge sits on/under the **"Tape Measure"** button in the bottom toolbar — zero clearance, looks colliding.
-- After the label **"Terrain Controls"** there's a stray empty tooltip/caret stub (thin vertical box) — broken-looking artifact.
+**1) Overlapping / clipped**
+- **Compass overlaps "Take Tour" button (top-right):** the white compass circle's left edge sits on top of the green button's right end — sloppy collision between two always-visible chrome elements. Nudge the compass right/down or the tour button left.
+- No other overlaps detected: the Terrain Sculpting panel (443–750 × 343–680) clears the bottom toolbar (~694+) and status bar, sidebar clears the panel, zoom controls and scale bar fine.
 
-**2. 5-second comprehension: borderline.**
-The "Getting Started" note ("click an item to add it") is helpful, but a large terrain-sculpting modal is open dead-center on first load, blocking the yard, and it sits on top of duplicate sculpt tools — the user gets two competing first actions (add items vs. sculpt terrain) and an obscured workspace.
+**2) 5-second comprehension — mostly yes, with caveats**
+- Good: the sculpting panel auto-opens with a plain-language hint ("Pick a mode, then click + drag on the ground to sculpt"), "Raise" is pre-selected, and there's a "Take Tour" affordance. Core interaction is discoverable.
+- Hurts it: the bottom toolbar offers five similarly weighted buttons (Tape Measure / Terrain / Excavate / Analyze / **Innovate**) plus a *second* green "Terrain" button bottom-left — a new user can't tell which "Terrain" does what. "Innovate" in particular is meaningless without a tooltip.
 
-**3. Confusing / broken-looking:**
-- The clipped tooltip text (see #1) reads as a sentence fragment.
-- The duplicated "Terrain" / "Sun" controls (bottom toolbar + left dock + modal) create a disorganized, jumbled layout, worsened by the modal overlap.
-- Status bar shows "FPS: —" (no reading) — minor, but looks unfinished on first load.
+**3) Confusing / ambiguous / broken-looking**
+- **"FPS: 1" in the status bar** — reads as a broken render or severe performance problem; either fix the perf or the metric. As shown, the app looks like it would be unusable to drag-sculpt.
+- **Two competing "Terrain" controls** (green panel tab, bottom-left vs. brown active tool button, bottom-center) — ambiguous duplication.
+- **"Strength: 0.05"** — no unit/scale (%? multiplier?); unclear whether higher is stronger.
+- **"Height at cursor: 0.0 ft"** shown while Precision Mode is Off — looks like a dead/disabled readout with no explanation of how to enable it.
+- Minor: the floating "Daytime" pill (top center) gives no affordance that it's a day/night toggle.

@@ -1,0 +1,21 @@
+## QA Review — Backyard Designer 3D
+
+**Overall: No overlaps, clipping, or broken rendering found. A few minor clarity/consistency issues.**
+
+### (1) Overlapping / clipped UI
+- ✅ None detected. Top bar, sidebar, floating panels, bottom toolbar, and status bar all have clear separation. Compass, "Take Tour," and "Daytime" pill don't collide. Dialog fits within canvas bounds; bottom toolbar buttons fit within the 1280px viewport.
+- ⚠️ Very minor: in the compass (top-right), the red needle tip sits close to / may touch the "S" tick label — worth a quick visual check.
+
+### (2) 5-second comprehension for a new user
+- ✅ Mostly yes: title, left asset palette, 3D viewport, sculpting panel with an explicit hint ("Pick a mode, then click + drag on the ground to sculpt"), and a "Take Tour" affordance make the purpose clear.
+- ⚠️ **Duplicate "Terrain" active buttons**: the bottom-left panel shows a green active **Terrain** button, and the bottom toolbar shows a brown active **Terrain** button. A new user can't tell which one is the real control or why both are highlighted.
+- ⚠️ **Inconsistent active-state color**: active items are green elsewhere (3D View, Terrain panel) but brown for the toolbar Terrain tool — reads as a different state, not "active."
+
+### (3) Confusing / ambiguous / misplaced
+- **Orphan icon-only button** at the far right of the bottom toolbar (x≈1240, chart/activity icon) — visually detached from the button group and its purpose is unclear. Verify it isn't a stray or clipped element.
+- **"Innovate"** tool label is ambiguous — doesn't hint at what it does (unlike Tape Measure/Excavate/Analyze).
+- **Tight slider spacing** in Terrain Sculpting: the Brush Size and Strength rows (label/slider/value) are ~15px apart; thumbs nearly touch between rows.
+- **Slightly ragged left alignment** inside the dialog: mode buttons start at x≈548, sliders at x≈521, labels at x≈458.
+
+### Verdict
+Minor polish issues only — no blocking defects. Primary fixes: disambiguate/rename the two "Terrain" buttons, unify active-state color, and clarify or group the orphan right-edge toolbar icon.

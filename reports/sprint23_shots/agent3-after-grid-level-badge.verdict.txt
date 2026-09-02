@@ -1,0 +1,13 @@
+**Not CLEAN** — a few issues spotted:
+
+**(1) Overlapping / clipped**
+- **GRID LEVEL (GROUND PLANE) slider:** the value label **"3 ft" sits on top of the right end of the slider track** (and the green focus outline). Compare with the Brush Size / Strength rows, where the value ("8 ft", "0.05") sits beside the track, not over it.
+- **Take Tour button (bottom right):** appears to overlap/brush the top edge of the bottom status bar rather than clearing it (minor).
+- The sidebar's "Patios & Paths" group is cut off at the bottom — this looks like normal scroll cutoff, not a defect.
+
+**(2) Transient notifications / badges**
+- The purple **"Grid at Y=3 ft"** badge and the **"Daytime"** pill below it are both fully visible, not overlapped by any other element, and not clipped — legible. ✓ (The two toasts are stacked with each other, but with a clear gap.)
+
+**(3) Confusing / broken-looking**
+- The toast reads **"lu2B06 Grid at Y=3 ft"** — the **"lu2B06"** prefix looks like a leaked internal/random ID or debug string in a user-facing notification; it should presumably just say "Grid at Y=3 ft".
+- In the floating tool panel (bottom left of canvas), the **"BUILD" group is empty** — SCULPT has the Terrain button and VIEW has Sun & Shadow, but nothing appears under BUILD (header directly followed by the next header), which looks like missing/failed content.

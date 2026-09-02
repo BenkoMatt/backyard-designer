@@ -1,0 +1,23 @@
+{
+ "T02_cost_live": {
+  "beforeNoObjects": true,
+  "after": {
+   "noObjects": false,
+   "snippet": "Cost EstimatexFences & Structures$600Total (1 item)$600Rough estimates for planning only. "
+  }
+ },
+ "T09_save_dismisses_banner": {
+  "bannerBefore": true,
+  "bannerAfter": false,
+  "snapshotCleared": true
+ },
+ "T08_select_all": {
+  "barVisible": true,
+  "count": "3 selected",
+  "selected": 0
+ },
+ "T03_press_keeps_selection": {
+  "before": true,
+  "after": false
+ }
+}

@@ -1,0 +1,3 @@
+CLEAN — A polished, self-explanatory 3D backyard designer: header controls, categorized asset palette, and onboarding tip are all clearly readable with no overlapping, clipped, or broken UI.
+
+Non-blocking minor observations (not defects): "Terrain"/"Analyze"/"Sun" appear in both the floating menu and bottom toolbar (reads as intentional quick-access mirrors), the menu labels "Underground"/"Pro Tools" vs. toolbar "Excavate"/"Innovate" differ slightly in wording, and "Brush: 8 ft" shows while Tool is "Select" — all cosmetic consistency nits, nothing that would confuse a new user within 5 seconds.

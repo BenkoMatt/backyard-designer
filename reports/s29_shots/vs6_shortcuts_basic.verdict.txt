@@ -1,0 +1,9 @@
+**Verdict: Near-clean.** No overlapping or clipped UI, and yes — a new user would understand this in ~5 seconds (clear product name, "ADD TO YOUR YARD" sidebar with a Getting Started card, and an obvious "Got it!" dismissal on the modal). Three minor issues worth fixing:
+
+1. **Minor / functional — Shortcuts modal, "Cycle placed objects: Alt+Tab".** Alt+Tab is reserved by the operating system (window switching) and can't be captured inside a browser, so this binding will never fire in a web app. Swap it for something like `Alt+C` or `]`.
+
+2. **Minor / ambiguous — Duplicate "Terrain" labels.** The bottom-left stacked dock button labeled "Terrain" (with the chart icon) and the bottom toolbar "Terrain" button (mountain icon) are two different controls with identical names sitting near each other. Rename the dock toggle to "Terrain Dock" to match the shortcut guide ("Toggle Terrain dock").
+
+3. **Trivial — Status bar "FPS: —"** shows an empty placeholder. Fine if it populates after the first rendered frame, but it reads as broken at first glance.
+
+Non-issues, for the record: the half-visible "Patio" row at the sidebar bottom is normal scroll position, the modal layout/columns/keycap alignment is consistent, Undo/Redo correctly appear disabled, and the "Daytime" pill / "Take Tour" / bottom-left dock staying bright above the dimmed backdrop looks intentional.

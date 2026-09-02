@@ -1,0 +1,20 @@
+{
+ "R3a_toolbar_one_row": {
+  "rows": 1
+ },
+ "R3b_label_status": {
+  "statusText": " Tool: Label Brush: 8 ft Height: 0 ft FPS: \u2014 "
+ },
+ "R3c_topbar_cue": {
+  "cue": null,
+  "cueVisible": null
+ },
+ "R3d_cmd_divider": {
+  "open": true,
+  "divider": null
+ },
+ "R3e_share_url": {
+  "whiteSpace": "nowrap",
+  "height": 31
+ }
+}

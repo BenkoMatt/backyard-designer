@@ -1,0 +1,14 @@
+**1) Overlapping or clipped**
+- **Clipped:** The "Patios & Paths" section is cut off at the bottom of the sidebar — the "Patio" row is only half-visible behind the status bar. Needs scrolling or a shorter list.
+- **Very tight:** The green "Take Tour" button nearly touches the compass widget in the top-right corner (no actual overlap, but the spacing is ~2px and looks accidental).
+
+**2) New user comprehension in 5 seconds**
+Yes — good onboarding. The "Getting Started" callout explicitly says what to do ("Click any item below… then drag to position it"), the sidebar is labeled "ADD TO YOUR YARD," and there's a prominent "Take Tour" button. The empty green lot is an understandable starting state.
+
+**3) Confusing / ambiguous / broken-looking**
+- **Duplicate/conflicting controls:** There is both a floating "Terrain / Sun & Shadow" panel at bottom-left *and* "Terrain" / "Sun" buttons in the bottom toolbar. The floating panel isn't anchored to either button, so it looks like a stray detached popover rather than an intentional panel.
+- **Compass labels:** "E" appears to be hidden behind the compass needle; only N/W/S are readable.
+- **Minor:** "FPS: —" and disabled Undo/Redo are fine for an empty scene, but the dimmed Undo/Redo plus the em-dash may read as "broken" to a first-time user.
+- The blue wireframe regions bordering the lawn read ambiguously as either sky, water, or neighboring terrain — a subtle edge/label would disambiguate.
+
+**Verdict: ISSUES FOUND** — sidebar clipping of the "Patio" item (functional), plus the ambiguous detached Terrain panel and cramped Take Tour/compass spacing (cosmetic/UX).

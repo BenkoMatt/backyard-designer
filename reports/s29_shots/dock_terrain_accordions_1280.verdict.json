@@ -1,0 +1,23 @@
+{
+ "surface": "dock_terrain_accordions_1280",
+ "label": "Terrain dock all accordions expanded",
+ "verdict": "**QA Result: Issues found**\n\n**Major**\n\n1. **Clipped sidebar item (bottom-left, `~y=760-799`)** \u2014 The last item in \"Patios & Paths\" (\"Patio\" with its 8 ft \u00d7 10 ft concrete subtitle) is cut off by the bottom status bar. The subtitle is completely hidden and the icon is partially obscured, with no scroll indicator suggesting more content exists. **Fix:** Make the sidebar list independently scrollable with padding above the status bar, or add a visible scroll affordance/fade.\n\n**Minor**\n\n2. **Ambiguous button label (bottom center, `~x=1090,y=708`)** \u2014 \"Innovate\" doesn't fit the verb pattern of its neighbors (Tape Measure, Terrain, Excavate, Analyze). Reads like a typo or mislabel for a tool (Irrigate? Illuminate?). **Fix:** Rename to a concrete tool action.\n3. **\"FPS: 1\" in status bar (bottom-left, `~x=318,y=790`)** \u2014 A literal 1 fps reading makes the app look broken/frozen to any observant user, even if it's a live metric. **Fix:** Consider hiding FPS in production or only surfacing it in a debug mode.\n4. **\"Analyze\" appears twice (left toolbar `~x=358,y=502` and bottom bar `~x=990,y=705`)** \u2014 Duplicate entry points for the same tool invite confusion about whether they're the same feature. Acceptable, but worth verifying intentionally.\n\n**5-second comprehension:** Mostly pass. The \"Getting Started\" tip with the \u00d7 and the in-panel hint (\"Pick a mode, then click + drag on the ground to sculpt\") do a good job, and the active Terrain tool is clearly highlighted in the left toolbar. The screen is dense \u2014 a brand-new user may need more than 5 seconds to parse the toolbar/modal/bottom-bar layering \u2014 but nothing is actively misleading about what the app does.\n\n**Not issues:** The Terrain Sculpting panel sits adjacent to (not over) the left Sculpt/Build/View toolbar; status-bar values (Brush 8 ft, Height 0.1 ft) are consistent with panel settings; the 10 ft scale bar segment pattern is a legitimate map scale bar.",
+ "dock_probe": [
+  {
+   "id": "dock-terrain",
+   "x": 445,
+   "y": 153,
+   "w": 306,
+   "h": 529,
+   "bottom": 682,
+   "bodyScrollH": 466,
+   "bodyClientH": 466,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

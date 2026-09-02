@@ -1,0 +1,45 @@
+{
+ "P02_P05_toolbar_scalebar": {
+  "toolbarRows": 1,
+  "rowTops": [
+   728
+  ],
+  "scalebarRect": [
+   450,
+   730,
+   607,
+   756
+  ],
+  "sunRect": [
+   1161,
+   728,
+   1234,
+   760
+  ],
+  "scalebarOverSun": false,
+  "gap": 554
+ },
+ "P03_fps": {
+  "text": "\u2014",
+  "hidden": true,
+  "display": "flex"
+ },
+ "P04_fade_aboveFold": {
+  "aboveFold": true,
+  "hasAfter": false,
+  "afterBg": "rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box",
+  "fadeEl": "sidebar-fade",
+  "scrollTop": 0,
+  "scrollH": 1265,
+  "clientH": 748
+ },
+ "P04_fade_atBottom": {
+  "atBottom": true,
+  "hasAfter": false,
+  "fadeEl": "sidebar-fade display=block"
+ },
+ "P06_innovate_tooltip": {
+  "title": "Innovation Lab \u2014 pools, retaining walls, terrain stats & underground tools",
+  "ariaLabel": "Toggle innovation tools"
+ }
+}

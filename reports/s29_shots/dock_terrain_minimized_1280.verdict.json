@@ -1,0 +1,23 @@
+{
+ "surface": "dock_terrain_minimized_1280",
+ "label": "Terrain dock minimized",
+ "verdict": "**Not clean \u2014 4 issues found.**\n\n### Overlap / clipping\n1. **Sidebar collides with status bar (bottom-left).** The \"Patios & Paths\" section's first item (\"Patio\", ~y766) sits inside the full-width status bar zone (\"Tool: Raise | Brush: 8 ft\u2026\" at ~y760). The status bar spans from x=0, so the sidebar's last visible list item is clipped/overlapping the status-bar text. The sidebar's scroll area should end above the status bar.\n\n2. **Bottom-center control stack is cramped.** The \"Terrain Sculpting\" window (closes ~y678), the Sculpt \u25b6/command row (~y690\u2013724), and the scale bar + Sun button (~y727\u2013757) stack directly on each other; the Sun button appears to just touch the status-bar edge. Not literally overlapping, but zero breathing room and visually jumbled.\n\n### 5-second comprehension\n3. **Heavy duplicate controls.** Left floating rail has Terrain / Analyze / Measure / Sun & Shadow; the bottom row repeats Terrain / Analyze / Tape Measure / Sun. A new user can't tell which set is authoritative or active (status bar says \"Tool: Raise,\" but no visible control is labeled \"Raise\" \u2014 presumably buried in the Sculpt \u25b6 dropdown). Also, the header defaults to **Advanced**, the Getting Started tip only explains the drag-and-drop catalog, and nothing explains the sculpting toolset \u2014 two competing mental models (catalog app vs. terrain editor) with no onboarding for the latter.\n\n### Confusing / suspicious labels\n4. **\"Innovate\" (bottom-right button)** \u2014 almost certainly a typo for \"Irrigate\" in a backyard-yard context; as written it's meaningless here. (If it's intentional AI-suggest, the bulb icon doesn't resolve the ambiguity.)\n\n### Notably broken-looking\n5. **\"FPS: 1\"** in the status bar. Even if it's a live readout, displaying 1 FPS makes the app look stalled/broken; worth verifying the renderer isn't actually stuck, and masking the readout when it hasn't updated.\n\n### Minor polish\n- Redo is correctly disabled; header, sidebar catalog, compass, \"Daytime\" pill, and right-edge zoom buttons look fine.\n- \"Underground\" is cryptic as a top-level sculpt mode \u2014 consider \"Utilities\" or a tooltip.\n\n**Fix priority:** #1 (actual overlap) \u2192 #5 (looks broken) \u2192 #4 (label) \u2192 #3/#2 (comprehension/spacing).",
+ "dock_probe": [
+  {
+   "id": "dock-terrain",
+   "x": 445,
+   "y": 627,
+   "w": 260,
+   "h": 55,
+   "bottom": 682,
+   "bodyScrollH": 0,
+   "bodyClientH": 0,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

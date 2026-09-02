@@ -1,0 +1,67 @@
+[
+ {
+  "name": "T07: banner+toast no overlap",
+  "ok": true,
+  "detail": "rb={'left': 395, 'top': 64, 'right': 885, 'bottom': 118, 'w': 491, 'h': 54, 'display': 'flex', 'visible': True} t={'left': 475, 'top': 118, 'right': 805, 'bottom': 162, 'w': 330, 'h': 44, 'display': 'flex', 'visible': True}"
+ },
+ {
+  "name": "recovery restore works",
+  "ok": false,
+  "detail": "{'hidden': True, 'objects': 0}"
+ },
+ {
+  "name": "recovery discard works",
+  "ok": true,
+  "detail": "{'hidden': True, 'gone': True}"
+ },
+ {
+  "name": "T02: cost panel shows totals with objects",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "T02: undo keeps cost panel consistent",
+  "ok": true,
+  "detail": "{'open': True, 'text': 'Cost EstimatexFences & Structures$1,200Total (2 items)$1,200Rough estimates for planning only. Actual costs vary by regi'}"
+ },
+ {
+  "name": "share QR drawn (pixels)",
+  "ok": true,
+  "detail": "{'nonWhite': 9909, 'caption': False, 'urlLen': 177}"
+ },
+ {
+  "name": "T06: timelapse poster drawn",
+  "ok": true,
+  "detail": "{'r': 232, 'g': 239, 'b': 233, 'hintVis': False}"
+ },
+ {
+  "name": "timelapse closes cleanly",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "T04: batch-bar clear of toolbar",
+  "ok": true,
+  "detail": "[]"
+ },
+ {
+  "name": "cmd palette opens + focuses input",
+  "ok": true,
+  "detail": "{'vis': True, 'items': 29, 'focused': True}"
+ },
+ {
+  "name": "cmd palette filter narrows on 'save'",
+  "ok": true,
+  "detail": "filtered=2"
+ },
+ {
+  "name": "cmd palette Enter executes (save toast) + closes",
+  "ok": true,
+  "detail": "{'closed': True, 'toast': True}"
+ },
+ {
+  "name": "depth gauge visible underground",
+  "ok": true,
+  "detail": "{'vis': True, 'val': '0.0'}"
+ }
+]

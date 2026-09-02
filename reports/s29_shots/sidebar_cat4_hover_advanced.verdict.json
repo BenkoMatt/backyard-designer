@@ -1,0 +1,7 @@
+{
+ "surface": "sidebar_cat4_hover_advanced",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
+ "clean": false,
+ "note": "group3 sidebar",
+ "ts": "2026-09-01T00:04:37"
+}

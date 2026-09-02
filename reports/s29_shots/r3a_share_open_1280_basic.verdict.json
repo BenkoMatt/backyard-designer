@@ -1,0 +1,9 @@
+{
+ "surface": "r3a_share_open_1280_basic",
+ "label": "share modal via Ctrl+K execute",
+ "verdict": "**Not quite clean \u2014 a few minor issues, nothing severe:**\n\n1. **Clipped element, top-right toolbar (~x1270, y25):** a small grey dot sits flush against the right edge of the header, looking like a cut-off control (status indicator or notification badge). Give it margin or remove it.\n\n2. **\"Daytime\" chip (top-center of canvas, ~780, 73):** floats over the sky with no visible anchor, cursor, or parent control \u2014 reads as a stuck tooltip. If it's the lighting-mode indicator, anchor it next to the \"Sun\" button or the view toggle; if it's a tooltip, it's orphaned.\n\n3. **Sidebar bottom (~y765):** the \"Patio\" row is sliced in half by the status bar. It's presumably just scroll cutoff, but a half-rendered row looks broken \u2014 add bottom padding or a fade-out gradient.\n\n4. **Minor/functional:** the share URL reads `http://localhost:8230/...` \u2014 a dev artifact that will look broken to real users; and the share modal opens over an empty yard while the \"Getting Started\" tip (which it partially defeats) sits hidden behind it.\n\n**5-second comprehension:** mostly good \u2014 title, \"ADD TO YOUR YARD\" sidebar, and the self-explanatory share modal communicate clearly. The \"Daytime\" chip is the only element a new user can't immediately parse.\n\nEverything else (modal centering, bottom toolbar, scale bar, right-side zoom stack, view toggles) is well spaced with no overlaps.",
+ "issue": "{\"qrVisible\": true, \"urlText\": \"http://localhost:8230/index.html#eyJ2Ijo0LCJ5IjpbNTAsMTAwLCJ\", \"urlH\": 60}",
+ "clean": false,
+ "ts": "09:10:55",
+ "agent": "R3"
+}

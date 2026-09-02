@@ -1,0 +1,28 @@
+{
+ "surface": "tc-open",
+ "mode": "basic",
+ "label": "terrain-controls default",
+ "clean": false,
+ "verdict": "**Not CLEAN** \u2014 a few issues found:\n\n**Overlapping / clipped (Q1)**\n1. **High** \u2014 The dark onboarding tooltip \"Click any item to add it to your yard\" sits on top of the \"Getting Started\" card and clips/hides its body text (only fragments like \"Cho\u2026 d\u2026\" are visible on the left edge). The tooltip also has no arrow/anchor, so it reads as a misplaced popup rather than a coach mark.\n2. **Medium** \u2014 A stray dark pill labeled **\"Daytime\"** floats at the top-center of the 3D canvas, unanchored to anything. The Sun control it presumably describes is in the bottom toolbar \u2014 this looks like a tooltip rendering at the wrong position.\n3. **Low** \u2014 The \"Patio\" row at the bottom of the sidebar is clipped mid-icon. Probably just scroll cutoff, but worth verifying the list container isn't overflowing.\n\n**Confusing / questionable (Q2 & Q3)**\n4. **Medium** \u2014 **Duplicate Terrain controls**: \"Terrain\" appears in the bottom-left mode panel, again in the bottom-center toolbar, and terrain state in the status bar. A new user can't tell which is which or what each does.\n5. **Medium** \u2014 Toolbar button **\"Innovate\"** looks like a typo (presumably \"Irrigate\"?) \u2014 as written it's meaningless as a yard-design tool.\n6. **Low** \u2014 Status bar shows \"Brush: 8 ft\" while Tool is \"Select\"; brush size is irrelevant for the select tool and may confuse.\n7. Cosmetic \u2014 compass needle slightly overlaps the \"S\" label.\n\n**5-second comprehension:** The core concept (pick items on the left, build in the 3D yard) comes through, but the clipped tooltip, orphaned \"Daytime\" pill, and duplicated Terrain buttons make the UI feel buggy on first glance. Fix #1 and #2 before ship.",
+ "probe": [
+  {
+   "sel": "#scale-bar",
+   "x": 450,
+   "y": 730,
+   "w": 175,
+   "h": 26,
+   "right": 625,
+   "bottom": 756
+  },
+  {
+   "sel": "#sun-btn",
+   "x": 620,
+   "y": 728,
+   "w": 73,
+   "h": 32,
+   "right": 693,
+   "bottom": 760
+  }
+ ],
+ "ts": "2026-09-01T08:58:57"
+}

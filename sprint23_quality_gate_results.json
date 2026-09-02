@@ -2,19 +2,19 @@
   "sprint": 23,
   "expect_open_fixes": true,
   "total": 24,
-  "passed": 23,
-  "failed": 1,
-  "index_html_bytes": 740810,
+  "passed": 24,
+  "failed": 0,
+  "index_html_bytes": 763943,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "740810 bytes, headroom 27190"
+      "detail": "763943 bytes, headroom 4057"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "969 open / 969 close"
+      "detail": "974 open / 974 close"
     },
     {
       "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
@@ -83,13 +83,13 @@
     },
     {
       "name": "V03 [live]: visible toast does not intersect any toolbar button",
-      "status": "FAIL",
-      "detail": "overlapping=['terrain-btn', 'excavate-btn', 'terrain-analysis-btn', 'innovation-btn'] toastRect=(491.515625,678,722) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
+      "status": "PASS",
+      "detail": "overlapping=[] toastRect=(491.515625,64,108) \u2014 MERGE-LOCK: Agent 3 owns the toast-overlap fix (expected FAIL pre-merge)"
     },
     {
       "name": "V04: help modal opens and is scrollable (scrollHeight > clientHeight)",
       "status": "PASS",
-      "detail": "scrollH=2416 clientH=640 cv=visible"
+      "detail": "scrollH=2452 clientH=640 cv=visible"
     },
     {
       "name": "V04: help modal reopens at scrollTop=0 (header visible, not stale scroll)",
@@ -104,7 +104,7 @@
     {
       "name": "V05 [live]: last help section fully visible when scrolled to bottom",
       "status": "PASS",
-      "detail": "lastBottom=482.53125 panelBottom=720"
+      "detail": "lastBottom=474.328125 panelBottom=720"
     },
     {
       "name": "V06 [live]: shortcuts guide opens with sc rows",

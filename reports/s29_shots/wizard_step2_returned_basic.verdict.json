@@ -1,0 +1,7 @@
+{
+ "surface": "wizard_step2_returned_basic",
+ "verdict": "VISION_ERROR: HTTP Error 429: Too Many Requests",
+ "clean": false,
+ "note": "group1 wizard/welcome basic",
+ "ts": "2026-08-31T23:38:18"
+}

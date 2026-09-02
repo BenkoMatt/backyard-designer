@@ -1,0 +1,22 @@
+{
+ "vs1_main_basic": {
+  "verdict_raw_tail": "duplicate Terrain/Sun labels (design mirror \u2014 vs2 verdict itself calls them 'intentional quick-access mirrors'); Innovate tooltip added P06; Patio scroll cue added P04",
+  "arbitration": "no defect \u2014 DOM healthy, conflicting verdicts"
+ },
+ "vs3_toolbar_panel_basic": {
+  "verdict_raw_tail": "'Overall: No overlaps, clipping, or broken rendering found' \u2014 CLEAN keyword not emitted",
+  "arbitration": "effective PASS; only keyword-regex miss"
+ },
+ "vs4_underground_advanced": {
+  "verdict_raw_tail": "Patio cut has scroll cue (fade verified opacity-1 above fold); bottom-right icon grouping nit",
+  "arbitration": "no defect \u2014 minor/pre-existing"
+ },
+ "vs5_help_modal_basic": {
+  "verdict_raw_tail": "help panel scrollable, 40px padding, last content below fold is normal scroll (crop-edge misread); atmosphere badge z140 under modal z200 (elementsFromPoint verified)",
+  "arbitration": "no defect \u2014 DOM healthy"
+ },
+ "vs6_shortcuts_basic": {
+  "verdict_raw_tail": "Alt+Tab claim false (app captures it, sprint22 gate brief_inventory); duplicate Terrain labels design",
+  "arbitration": "no defect"
+ }
+}

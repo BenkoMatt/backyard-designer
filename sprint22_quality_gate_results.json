@@ -3,18 +3,18 @@
   "total": 43,
   "passed": 43,
   "failed": 0,
-  "index_html_bytes": 760362,
-  "index_html_lines": 16057,
+  "index_html_bytes": 763943,
+  "index_html_lines": 16279,
   "results": [
     {
       "name": "File size <= 768,000 bytes (Sprint 22 hard limit)",
       "status": "PASS",
-      "detail": "760362 bytes (742.5 KB), headroom 7638"
+      "detail": "763943 bytes (746.0 KB), headroom 4057"
     },
     {
       "name": "CSS brace balance",
       "status": "PASS",
-      "detail": "970 open / 970 close"
+      "detail": "974 open / 974 close"
     },
     {
       "name": "Topbar '?' button (#btn-help) exists",
@@ -189,7 +189,7 @@
     {
       "name": "Guide uses <kbd> key chips",
       "status": "PASS",
-      "detail": "kbd count=42"
+      "detail": "kbd count=40"
     },
     {
       "name": "Guide organized by category sections",

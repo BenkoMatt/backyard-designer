@@ -1,0 +1,9 @@
+**Quick pass through your three checks:**
+
+1. **Overlaps/clipping** – No real overlaps. The only "clipping" is the left sidebar's last list row being cut off at the bottom edge (e.g., the partially visible "Build…"/"Lav…" entries) — that's normal scroll-cutoff for an overlong list, not a rendering defect. The Restore banner, Sculpt panel, tool buttons, scale bar, and zoom stack all sit clear of each other.
+
+2. **Transient notification/badges** – The "Restore unsaved changes?" banner is fully legible with both buttons (Restore / Discard) visible and unobstructed. The "Daytime" badge sits just below the banner but is not covered or obscured, and its text is fully readable. The compass labels (N/W/E) are also clear.
+
+3. **Confusing/broken-looking** – Nothing broken. Minor nitpicks only: the "BUILD" section header in the Sculpt panel currently has no visible items beneath it, "Terrain" appears both in the Sculpt panel and as a quick tool button (redundant but intentional-looking), and FPS reads "—" (just a not-yet-measured placeholder). None of these read as a defect.
+
+**CLEAN**

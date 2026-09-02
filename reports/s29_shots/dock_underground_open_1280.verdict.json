@@ -1,0 +1,23 @@
+{
+ "surface": "dock_underground_open_1280",
+ "label": "Underground dock panel open",
+ "verdict": "## QA Review \u2014 Backyard Designer 3D (1280\u00d7800)\n\n**1) Overlapping / clipped UI**\n- No hard overlaps found. SCULPT panel, \"Underground View\" dialog, bottom toolbar, scale bar, and right-edge zoom controls all have clean separation.\n- Sidebar \"Patio\" item is cut off at the bottom edge of the scrollable list \u2014 appears to be normal scroll behavior, not a defect.\n- All top-bar controls (? Help at x\u22481189) fit within the 1280px width; no text truncation detected.\n\n**2) 5-second comprehension for a new user**\n- Marginal. The \"Getting Started\" hint and labeled tool groups help, but the app opens directly into **Underground/Wireframe mode** with an empty terrain grid \u2014 a first-time user may wonder why their yard looks like a wireframe mesh before adding anything. Defaulting to a normal (surfaced) view on first launch would be friendlier.\n\n**3) Confusing / ambiguous / broken-looking**\n- **State mismatch:** status bar reads \"Tool: Select\" while both \"Underground\" (green) and \"Excavate\" (purple) are visibly active tools.\n- **\"FPS: 1\"** in the status bar reads as a broken/stalled render \u2014 a strong red flag, even if it's a mock value.\n- **\"Buried Objects 0\"**: red label + green \"0\" badge mixes error-red with success-green semantics; counter shown in red when the value is normal (zero) looks like an error state.\n- **\"Innovate\"** button label is vague next to concrete siblings (Tape Measure, Terrain, Excavate, Analyze).\n- Minor: the \"Underground View\" dialog occupies canvas center while nothing is buried \u2014 could be dismissed/collapsed by default until relevant.\n\n**Not perfect** \u2014 issues: `Tool: Select` vs active Excavate/Underground state mismatch, FPS: 1, and red zero-counter styling.",
+ "dock_probe": [
+  {
+   "id": "dock-underground",
+   "x": 445,
+   "y": 506,
+   "w": 279,
+   "h": 176,
+   "bottom": 682,
+   "bodyScrollH": 113,
+   "bodyClientH": 113,
+   "scrollOverflow": 0,
+   "panelScrollOverflow": 0
+  }
+ ],
+ "res": [
+  1280,
+  800
+ ]
+}

@@ -1,0 +1,15 @@
+**1) Overlaps / clipping**
+- No hard overlaps or clipped controls found. One tight spot: the green **Take Tour** button (top-right) and the **compass rose** nearly touch (≈5px gap) — they read as one crowded cluster, but nothing is actually overlapped or cut off.
+
+**2) 5-second comprehension — borderline**
+- Helped by: prominent green **Take Tour** CTA, a clearly labeled item palette (Trees & Plants, Patios & Paths, etc.), and an obvious view toolbar.
+- Hurts: the canvas itself is a bare, tilted grid plane with **no empty-state hint** (e.g., "Pick an item, then click the lawn to place it"). A new user sees tools, not what to do with them. A one-line on-canvas prompt would fix this.
+
+**3) Confusing / ambiguous / broken-looking**
+- **"Innovate"** button (right end of the bottom quick-action row) looks like a mislabel — nothing else in the app is "Innovate," and sandwiched next to Tape Measure / Terrain / Excavate / Analyze it's plausibly a typo for "Irrigate." Confusing either way.
+- **Duplicate controls with no clear owner:** "Terrain" and "Analyze" appear both in the left floating SCULPT panel *and* the bottom quick bar; "Measure" vs. "Tape Measure"; "Sun & Shadow" vs. the "Sun" pill. Ambiguous which is authoritative or if they do different things.
+- **Scene looks glitchy:** the horizon/camera is diagonally rolled, the lawn plane has hard unwashed diagonal edges, and faint grid lines extend into the sky (upper-left) like rendering artifacts. As a first-run default scene it reads as "something's broken."
+- **Unlabeled blue planes** surrounding the green lawn on both sides — water? selection region? placeholder? Nothing indicates what they are.
+- Minor: status bar shows **"Brush: 8 ft"** while the active tool is "Select," and **"FPS: —"** suggests telemetry never initialized.
+
+Not CLEAN — no broken layout, but the "Innovate" label, duplicated tool entries, and the empty/tilted scene are worth fixing.

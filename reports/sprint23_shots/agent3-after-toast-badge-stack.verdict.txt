@@ -1,0 +1,18 @@
+## Issues Found
+
+**1. Overlapping / clipped elements**
+
+- **"Smooth Terrain" button clipped:** In the Terrain Sculpting panel, the "Smooth Terrai…" button at the bottom is cut off / covered by the floating brown "Terrain" toolbar button layered on top of it. The "Excavate" button also sits over the panel's bottom edge.
+- The floating radial toolbar cluster (Tape Measure / Terrain / Excavate / Analyze / Innovate / Sun) sits directly on top of the Terrain Sculpting panel's preset area, obscuring the "CARVING" hint text ("Select + Click empty space to dese…") behind it.
+
+**2. Notifications / badges**
+
+- **Garbled toast text:** The black toast reads **"\u2B06 Grid at Y=3 ft"** — a raw, unrendered escape sequence. It's legible but clearly broken; it should show an actual arrow glyph (⬆).
+- The "Privacy Fence added!" toast and the "Restore unsaved changes?" modal are stacked close together at the top and slightly crowd the "Privacy Fence / Position: -15.0…" panel underneath, but are not overlapping each other.
+
+**3. Confusing / broken-looking**
+
+- **Tofu (missing) glyph:** The "Terrain Controls" header renders as `Terrain Controls[]` — an unrendered icon/emoji showing as a replacement box.
+- The partially hidden tooltip behind the sculpt panel ("Select + Click empty space to dese…") looks like stray clipped text rather than an intentional tooltip.
+
+Everything else (sidebar, right properties panel, status bar, scale bar) looks correct. **Not CLEAN** due to the `\u2B06` escape text, the tofu glyph, and the clipped "Smooth Terrain" button.

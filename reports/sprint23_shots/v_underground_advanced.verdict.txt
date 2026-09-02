@@ -1,20 +1,19 @@
-**Not CLEAN — several visible problems.**
+**Not perfect — a few issues, though nothing is badly broken:**
 
-**(1) Overlapping / clipped:**
-- **Two duplicated "Underground View" panels are stacked on top of each other** (~x370–650, y578–790). A large windowed dialog (with − ×) sits behind a second, smaller "Underground View" panel — looks like a duplicated/misrendered dialog, a clear P1.
-- **Sculpt side-menu labels are clipped by those dialogs**: "Pro Tr…", "Sun &…", "Meas…", "Atmos…" are cut off mid-word.
-- **Broken-looking dark cover over text at bottom center** (~x595–655, y745): only "Undergroun…" is visible through a black overlay — reads as a rendering bug.
-- **Bottom toolbar overlaps the dialogs** (Tape Measure / Excavate / Analyze row collides with the dialog footers and "No objects buried" text).
-- **Left sidebar's last item ("Patio…") is clipped** by the status bar.
-- **Tooltip is truncated**: "— Cutaway/Opacity below reveal the layers" starts mid-sentence with a dash.
+**1) Overlapping / clipped**
+- **Minor:** "Patio" item at the bottom of the left sidebar is cut off mid-row by the status bar (understandable if scrollable, but it reads as clipped rather than hinting at scroll).
+- No hard overlaps found: the Underground View panel, the SCULPT rail, the bottom button row (Tape Measure…Innovate), the scale bar/Sun control, and the Take Tour button/compass all have clear gaps.
 
-**(2) 5-second comprehension:**
-Borderline-yes. The "Getting Started" hint ("Click any item below to add it… drag to position it") plus the "Take Tour" button do orient a new user, and the empty terrain makes the canvas the obvious focus. But the pile of open underground dialogs and truncated labels on first load makes the state confusing — a new user would wonder why these windows are open and what "Excavate"/"Underground" mode does.
+**2) 5-second comprehension — partially**
+- ✅ The "Getting Started" callout ("Click any item below to add it… drag to position") is clear and well-placed.
+- ❌ **State mismatch:** the app opens on an *empty yard* but in **Advanced mode with the Underground/Excavate tool active**, a buried-objects panel open, and an "underground view active" toast. A first-time user's guided action (add a fence/tree) conflicts with the dominant excavation UI. First run should default to Basic + Terrain + empty underground panel closed.
 
-**(3) Confusing / ambiguous / broken:**
-- The double "Underground View" window + black text cover are the worst offenders — they look outright broken (P1).
-- The truncated tooltip and clipped menu labels ("Pro Tr…") are ambiguous (P2).
-- "Innovate" (bottom toolbar) is an odd, unclear label next to Terrain/Excavate/Analyze (P3).
-- Minor: "RECENTLY USED" header with nothing under it; FPS reads "—".
+**3) Confusing / ambiguous / broken-looking**
+- **Duplicate controls:** "Terrain" and "Analyze" each appear **twice** (SCULPT rail *and* bottom toolbar), plus "Measure" in the rail vs. "Tape Measure" at the bottom — unclear whether they're the same action or different ones.
+- **"Innovate"** (lightbulb icon) reads like a typo — probably meant "Illuminate"? Ambiguous label.
+- The **wireframe mesh extending into the blue sky** looks visually broken at first glance; it's presumably the underground cutaway, but nothing labels it as such.
+- In the Underground View panel, **neither "Wireframe" nor "Cross-Section" appears selected** even though a state is clearly active.
+- **"FPS: —"** in the status bar suggests the readout isn't hooked up yet.
+- Toast phrasing "Cutaway/Opacity *below*" is ambiguous (below the toolbar? below ground?).
 
-**Fix priority:** resolve the duplicated/overlapping underground dialogs (P1), fix the black text-cover and truncated tooltip (P1), un-clip the Sculpt menu and sidebar's last item (P2), and consider closing the underground tool by default so new users land on a clean canvas.
+**Bottom line:** functional and mostly tidy, but fix the first-run default state, de-duplicate the Terrain/Analyze/Measure buttons, and correct/clarify "Innovate."

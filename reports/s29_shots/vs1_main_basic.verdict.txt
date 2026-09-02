@@ -1,0 +1,13 @@
+**Not clean — a few issues found:**
+
+1. **Duplicate/conflicting controls (most confusing issue):** "Terrain" appears twice — once in the floating bottom-left panel and again in the bottom toolbar. Similarly, "Sun & Shadow" (floating panel) vs. "Sun" (toolbar) look like redundant/duplicate functions. A new user can't tell if these do different things or are accidental duplicates.
+
+2. **"Innovate" button is ambiguous:** In a backyard design toolbar (Tape Measure, Excavate, Analyze…), "Innovate" reads as a typo or misplaced label (Irrigate? Templates?). It doesn't communicate any function within the 5-second scan.
+
+3. **Left panel item clipped at bottom:** The "Patio" row under Patios & Paths is cut mid-height by the status bar. If it's a scroll region this is technically fine, but with no visible scroll affordance it looks like broken/clipped content.
+
+4. **Minor — tip toast close button:** The "×" sits inline at the end of the wrapped text ("…add it to your yard ×"), so it reads like a stray character rather than a dismiss control.
+
+**Otherwise solid:** No overlapping UI (Take Tour button and compass are properly spaced, bottom-left floating panel doesn't collide with the toolbar row, toast doesn't block controls), disabled Undo/Redo is expected on a fresh scene, status bar and header are clear, and the empty-terrain state with the onboarding tip communicates the workflow well.
+
+**Verdict:** Fix the duplicated Terrain/sun controls and clarify or rename "Innovate"; the rest is minor polish.

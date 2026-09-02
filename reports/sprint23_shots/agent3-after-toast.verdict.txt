@@ -1,0 +1,7 @@
+Not CLEAN — two overlap issues found:
+
+1. **Toast covers the object info chip** — The transient toast "Privacy Fence added! Drag to reposition" is stacked on top of the selected-object chip, clipping its text to "Privacy Fence — 24.0 ft × 0.5…" (the dimension is cut off and the unit is unreadable). The toast should sit above both, or the chip should shift down while the toast is visible.
+
+2. **"Take Tour" button overlaps the status bar** — The green Take Tour button (bottom right, ~y 746–784) extends across the top edge of the full-width footer/status bar (starting ~y 775), so its bottom rounded corners sit on top of the bar instead of above it.
+
+Everything else looks fine: the toast itself is legible, the compass/toolbars/SCULPT panel don't collide, and the right-panel "ft"/"0°" labels, zoom controls, and scale bar all fit within the canvas without clipping.

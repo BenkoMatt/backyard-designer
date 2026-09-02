@@ -1,0 +1,10 @@
+{
+ "surface": "r3a_print_full_1280_advanced",
+ "label": "print preview full flow with objects",
+ "verdict": "**Not clean \u2014 2 issues:**\n\n1. **Ambiguous/misplaced \"My Patio\" label** \u2014 the badge floats against the right edge of the shed/house structure (slightly abutting its geometry) rather than over the gray patio slab. With no leader line, it reads as a label for the building, not the patio. It should anchor to the gray pad or include a callout line.\n\n2. **Minor rendering artifact** \u2014 faint diagonal wireframe seams are visible in the sky area (top-left and top-right), suggesting stray geometry edges or backface rendering behind the scene.\n\nOtherwise the layout is solid: header, title/date, and both buttons are well aligned with no clipping, and the report's purpose is instantly clear.",
+ "issue": "{\"visible\": true, \"imgW\": 1002, \"imgLoaded\": true, \"objRows\": 2, \"total\": \"Estimated Total: $4,804\", \"overflow\": {\"sh\": 1382, \"ch\": 800}}",
+ "clean": false,
+ "ts": "09:15:26",
+ "agent": "R3",
+ "relabelled": true
+}

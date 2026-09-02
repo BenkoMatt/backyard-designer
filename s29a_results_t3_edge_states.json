@@ -1,0 +1,22 @@
+[
+ {
+  "name": "full top-stack: no mutual overlaps",
+  "ok": false,
+  "detail": "[('recovery-banner', 'toast')]"
+ },
+ {
+  "name": "full top-stack: V03 toolbar clear",
+  "ok": true,
+  "detail": "[]"
+ },
+ {
+  "name": "share tooLong caption only when 210<len<=4096",
+  "ok": true,
+  "detail": "{'urlLen': 204397, 'tooLongVis': False, 'qrText': None}"
+ },
+ {
+  "name": "print view rows rendered",
+  "ok": true,
+  "detail": "rows=12"
+ }
+]
