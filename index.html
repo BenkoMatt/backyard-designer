@@ -15765,9 +15765,13 @@ const isHidden = wizard.style.display === 'none';
 if (isHidden) {
 const s = Onboarding.getState();
 if (!s.welcomeShown && !s.tourCompleted) {
-setTimeout(() => {
-Onboarding.showWelcomePrompt();
-}, 600);
+// S30-B3: the user just finished (or skipped) the 2-step wizard — a second
+// welcome screen read as "didn't I just do this?". Count the wizard as the
+// welcome, land them in the editor with the standard first-action toast.
+try { s.welcomeShown = true; localStorage.setItem('backyard-onboarding-state', JSON.stringify(s)); } catch (e2) {}
+try { markStepComplete('welcome-scratch'); } catch (e3) {}
+showToast('Your empty yard is ready! Click items on the left to add them.');
+startProgressiveHints();
 }
 }
 }
