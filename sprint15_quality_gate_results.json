@@ -214,7 +214,7 @@
     {
       "name": "transition:no_abrupt_jump_at_zero",
       "status": "pass",
-      "detail": "max jump=0.026"
+      "detail": "max jump=0.011"
     },
     {
       "name": "geo:four_layers_exist",
@@ -234,7 +234,7 @@
     {
       "name": "fps:painting_ops_per_sec",
       "status": "pass",
-      "detail": "4114 ops/s (8229 ops in 2000ms)"
+      "detail": "5183 ops/s (10366 ops in 2000ms)"
     },
     {
       "name": "fps:solid_earth_with_walls",

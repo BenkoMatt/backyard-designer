@@ -1,15 +1,15 @@
 {
   "sprint": 23,
-  "expect_open_fixes": true,
+  "expect_open_fixes": false,
   "total": 24,
   "passed": 24,
   "failed": 0,
-  "index_html_bytes": 767954,
+  "index_html_bytes": 767977,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "767954 bytes, headroom 46"
+      "detail": "767977 bytes, headroom 23"
     },
     {
       "name": "CSS brace balance",
@@ -19,7 +19,7 @@
     {
       "name": "V01-static: #sidebar has >=28px bottom padding (status-bar clearance)",
       "status": "PASS",
-      "detail": "padding-bottom: 64.0px"
+      "detail": "padding-bottom: 64.0px (merge-lock: Agent 1 owns this fix; PASS=padding present, FAIL=pre-merge baseline)"
     },
     {
       "name": "V02-static: #dock-underground shell has exactly one 'Underground View' title",

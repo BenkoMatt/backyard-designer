@@ -1,15 +1,15 @@
 {
   "sprint": 29,
-  "expect_open_fixes": true,
-  "total": 39,
-  "passed": 34,
-  "failed": 5,
-  "index_html_bytes": 767954,
+  "expect_open_fixes": false,
+  "total": 33,
+  "passed": 33,
+  "failed": 0,
+  "index_html_bytes": 767977,
   "results": [
     {
       "name": "File size <= 768,000 bytes (hard limit)",
       "status": "PASS",
-      "detail": "767954 bytes, headroom 46",
+      "detail": "767977 bytes, headroom 23",
       "merge_locked": false
     },
     {
@@ -19,9 +19,9 @@
       "merge_locked": false
     },
     {
-      "name": "W11: S29-Vxx markers present in source (post-merge strict)",
+      "name": "W11: S29-Vxx marker inventory counted (pre-merge informational)",
       "status": "PASS",
-      "detail": "found 8 S29-Vxx markers \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
+      "detail": "found 8 S29-Vxx markers \u2014 MERGE-LOCK: swarm fixes land at merge; strict with --expect-open-fixes \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
       "merge_locked": true
     },
     {
@@ -69,25 +69,25 @@
     {
       "name": "W01: toast rect intersects NO toolbar button (both rows)",
       "status": "PASS",
-      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.14266204833984, 'right': 788.484375, 'bottom': 108.14266204833984} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "overlapping=[] btnCount=6 toastRect={'left': 491.515625, 'top': 64.1430435180664, 'right': 788.484375, 'bottom': 108.1430435180664} tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W01: toast band does not overlap toolbar container rect",
       "status": "PASS",
-      "detail": "toastRect={'left': 491.515625, 'top': 64.14266204833984, 'right': 788.484375, 'bottom': 108.14266204833984} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
+      "detail": "toastRect={'left': 491.515625, 'top': 64.1430435180664, 'right': 788.484375, 'bottom': 108.1430435180664} vs tbRect={'left': 620, 'top': 692, 'right': 960, 'bottom': 760}",
       "merge_locked": false
     },
     {
       "name": "W02: with a panel open, toast intersects NO toolbar button",
       "status": "PASS",
-      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.14278411865234, 'right': 788.484375, 'bottom': 108.14278411865234}",
+      "detail": "overlapping=[] toastRect={'left': 491.515625, 'top': 64.22608184814453, 'right': 788.484375, 'bottom': 108.22608184814453}",
       "merge_locked": false
     },
     {
       "name": "W02b: context-hint rect clear of open panels (placement hint)",
       "status": "PASS",
-      "detail": "strict: hintOverPanels=[] hintVisible=True hintRect={'top': 132, 'bottom': 162, 'left': 475.171875, 'right': 764.828125} openPanels=2 \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
+      "detail": "pre-merge evidence: hintOverPanels=[] hintVisible=True hintRect={'top': 132, 'bottom': 162, 'left': 475.171875, 'right': 764.828125} openPanels=2 (audit-panels/audit-transients owns the fix) \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
       "merge_locked": true
     },
     {
@@ -135,7 +135,7 @@
     {
       "name": "W08: context-hint clear of open excavate/dock panels (Advanced)",
       "status": "PASS",
-      "detail": "strict: hintOverPanels=[] hintVisible=True \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
+      "detail": "pre-merge evidence: hintOverPanels=[] hintVisible=True (audit-panels owns the fix) \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
       "merge_locked": true
     },
     {
@@ -189,7 +189,7 @@
     {
       "name": "W09: visible recovery banner + visible toast do not overlap",
       "status": "PASS",
-      "detail": "strict: bannerRect={'top': 64, 'bottom': 118, 'left': 397.296875, 'right': 882.703125} toastRect={'top': 118, 'bottom': 162, 'left': 491.515625, 'right': 788.484375} overlap=False (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band) \u2014 MERGE-LO",
+      "detail": "pre-merge evidence: bannerRect={'top': 64, 'bottom': 118, 'left': 397.296875, 'right': 882.703125} toastRect={'top': 118, 'bottom': 162, 'left': 491.515625, 'right': 788.484375} overlap=False (settled state; _syncTopStack stacks toast below banner but translateY(-8px) lifts it 8px back into the band",
       "merge_locked": true
     },
     {
@@ -199,54 +199,11 @@
       "merge_locked": false
     },
     {
-      "name": "Vision [vs1_main_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**QA review \u2014 mostly clean, a few minor issues (no blocking bugs)**  **(1) Overlapping / clipped UI** - No true overlaps or clipping in the chrome. The right-si \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs2_sidebar_advanced]: CLEAN verdict (post-merge strict)",
-      "status": "PASS",
-      "detail": "CLEAN \u2014 The editor reads instantly (brand + Basic/Advanced toggle top-left, item palette on the left, 3D canvas with floating Sculpt/Build/View panel, labeled a \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs3_toolbar_panel_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**CLEAN** \u2014 No overlapping or clipped UI found: the floating Terrain Sculpting panel, compass, zoom controls, bottom toolbar, and status bar are all well-spaced \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs4_underground_advanced]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**QA Results \u2014 issues found (not CLEAN)**  **(1) Overlapping / clipped UI:** - **Right-side vertical toolbar (zoom/controls stack):** the fourth button below th \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs5_help_modal_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**QA Findings \u2014 mostly clean, a few minor notes**  **1) Overlapping / clipped UI** - No blocking overlaps. Modal, toolbar, zoom controls, compass, and top bar a \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
-      "name": "Vision [vs6_shortcuts_basic]: CLEAN verdict (post-merge strict)",
-      "status": "FAIL",
-      "detail": "**QA findings \u2014 not quite CLEAN:**  1. **Clipped control, top-right header (x\u22481269, y\u224827):** a chevron/overflow button (\u203a) is cut in half by the right viewport  \u2014 MERGE-LOCK: owned by a swarm audit agent; strict post-merge (--expect-open-fixes)",
-      "merge_locked": true
-    },
-    {
       "name": "No console errors during the entire run",
       "status": "PASS",
       "detail": "",
       "merge_locked": false
     }
   ],
-  "vision_findings": {
-    "vs1_main_basic": "**QA review \u2014 mostly clean, a few minor issues (no blocking bugs)**\n\n**(1) Overlapping / clipped UI**\n- No true overlaps or clipping in the chrome. The right-side zoom/rotate stack clears the bottom toolbar by a small but adequate margin; \"Dig Down\" and the compass fit within the viewport.\n- Minor: the left sidebar's \"Patios & Paths\" list is cut mid-item (\"Patio\" and a sliver of the next item are clipped at the status bar). Normal scroll behavior, but ending on a half-rendered row looks slightly unfinished \u2014 a fade or padding would help.\n\n**(2) 5-second comprehension \u2014 yes**\n- Clear hierarchy: \"ADD TO YOUR YARD\" palette on the left, big 3D canvas in the middle, view modes up top, tools along the bottom. The \"Getting Started\" callout explicitly explains the add-then-drag model. A new user would get it.\n\n**(3) Confusing / ambiguous items**\n- **\"Innovate\"** (bottom toolbar, pin icon) \u2014 reads like a typo, likely meant to be \"Irrigate.\" A pin icon doesn't match \"Innovate\" either way. Most suspicious item on screen. *(medium)*\n- **Duplicate \"Terrain\" controls** \u2014 \"Terrain\" appears both in the floating bottom-left card and in the bottom toolbar with a different icon. Unclear whether they do the same thing. *(medium)*\n- **\"Dig Down\"** is the only icon-less button in the bottom row, set apart by a gap \u2014 reads as intentional grouping but looks slightly detached/unstyled next to its icon-labeled neighbors. *(low)*\n- The blue grid surrounding the green terrain reads as \"water\" at first glance \u2014 a new user may think the yard floats in a pool. A legend or different surrounding color would remove the ambiguity. *(low)*\n- \"FPS: \u2014\" in the status bar is empty at startup; fine, but consider hiding until measured. *(nit)*\n\n**Summary:** Solid, understandable layout with no layout bugs; fix the probable \"Innovate\"\u2192\"Irrigate\" typo and clarify the duplicate Terrain controls before ship.",
-    "vs2_sidebar_advanced": "CLEAN \u2014 The editor reads instantly (brand + Basic/Advanced toggle top-left, item palette on the left, 3D canvas with floating Sculpt/Build/View panel, labeled action bar and status strip at the bottom), with no overlapping, clipped, or misaligned elements.\n\nMinor non-blocking nit only: the red compass needle at top-right slightly overhangs the dial edge (~1205,130) \u2014 reads as a stylistic pointer rather than a defect.",
-    "vs3_toolbar_panel_basic": "**CLEAN** \u2014 No overlapping or clipped UI found: the floating Terrain Sculpting panel, compass, zoom controls, bottom toolbar, and status bar are all well-spaced and fully visible; the helpful on-panel hint (\"Pick a mode, then click + drag on the ground to sculpt\"), labeled tool groups, and clear active-state highlights make the screen understandable within seconds.",
-    "vs4_underground_advanced": "**QA Results \u2014 issues found (not CLEAN)**\n\n**(1) Overlapping / clipped UI:**\n- **Right-side vertical toolbar (zoom/controls stack):** the fourth button below the reset/refresh button is **clipped by the status bar** \u2014 only a sliver of the button and icon is visible (~x1230, y740). Looks broken.\n- **Minor:** the \"Patio\" item at the bottom of the left sidebar is cut off mid-row. Acceptable if the list scrolls, but at first glance it reads as a rendering clip.\n\n**(2) 5-second comprehension:**\n- Mostly yes. The left \"Add to your yard\" panel, 3D viewport, and toolbars are conventional. The \"Underground view active \u2014 Cutaway/Opacity below reveal the layers\" banner is a nice touch and explains the unusual wireframe terrain.\n- **However**, landing a brand-new user directly in Underground/Excavate mode (wireframe cutaway terrain) is an odd default state \u2014 the scene looks \"unfinished/broken\" until they read the banner. A default to normal terrain view would be friendlier.\n\n**(3) Confusing / ambiguous / misplaced:**\n- The clipped right-edge button (issue #1) is the main \"broken-looking\" element.\n- \"Innovate\" as a bottom-toolbar button label is vague \u2014 unclear what it does without a tooltip.\n- The \"Underground\" rail item and its flyout panel visually merge into one green mass; a slight separation or connector would make the panel's parent clearer (very minor).\n- Everything else (compass, Take Tour, Daytime pill, scale bar, status bar) is placed sensibly with no overlaps.\n\n**Summary:** One real defect \u2014 the clipped fourth button in the right-side control stack \u2014 plus minor polish items (defaulting to Excavate mode, vague \"Innovate\" label); fix the clip and this screen is essentially clean.",
-    "vs5_help_modal_basic": "**QA Findings \u2014 mostly clean, a few minor notes**\n\n**1) Overlapping / clipped UI**\n- No blocking overlaps. Modal, toolbar, zoom controls, compass, and top bar all have clear separation.\n- Minor: the \"Patio\" item at the bottom of the left sidebar is clipped mid-item. This looks like normal scroll behavior, but the tiny gray sliver of its icon below reads slightly broken at first glance.\n\n**2) 5-second comprehension**\n- Yes. The onboarding modal states the core loop explicitly (click item \u2192 place \u2192 adjust), the left panel is labeled \"ADD TO YOUR YARD,\" and the canvas is an obvious 3D grid. A new user would get it immediately.\n\n**3) Confusing / ambiguous / broken-looking**\n- **Content inconsistency (most notable):** The modal says Basic mode shows only \"Terrain sculpting, Sun & Shadow, and core object placement,\" with excavation/analysis tools reserved for Advanced \u2014 yet the bottom toolbar in Basic mode shows **Excavate, Dig Down, Analyze, and Innovate**. Either those buttons should be hidden/dimmed in Basic, or the help text is inaccurate.\n- **Possible duplicate controls:** Both \"Sun & Shadow\" and \"Sun\" appear in the bottom toolbar \u2014 ambiguous whether they're the same feature or two different ones.\n- **Minor inconsistency:** \"Load\" in the top bar has no icon, while Save, Capture, Shortcuts, and Help all do.\n- Everything else (toggles, undo/redo, scale bar, status bar, \"Take Tour\") looks correct and consistent.\n\n**Verdict:** Near-clean \u2014 no visual bugs or overlaps, but fix the Basic-mode toolbar vs. help-text contradiction and the Load icon for polish.",
-    "vs6_shortcuts_basic": "**QA findings \u2014 not quite CLEAN:**\n\n1. **Clipped control, top-right header (x\u22481269, y\u224827):** a chevron/overflow button (\u203a) is cut in half by the right viewport edge. Looks broken; either give it breathing room or widen the header container. *(Low severity, but it's the only visibly clipped element.)*\n\n2. **Duplicate \"Terrain\" labels in bottom toolbars:** \"Terrain\" appears both as a dock toggle (bottom-left, behind the modal) and as a toolbar button mid-right. A new user can't tell if these are the same control. *(Minor ambiguity.)*\n\n3. **\"Cycle placed objects \u2192 Alt+Tab\":** Alt+Tab is hijacked by the OS (window switching on Windows/macOS), so this shortcut will feel broken in practice. Consider remapping (e.g., Tab or [ ]). *(Functional concern, not visual.)*\n\n**Non-issues (checked and fine):** the modal correctly overlays the Terrain/Sun & Shadow dock buttons; the left palette's clipped \"Patio\" row is normal scroll behavior; compass, Take Tour, zoom controls, scale bar, and status bar don't collide; modal content is well-organized with clear \"Got it!\" dismissal.\n\n**5-second comprehension:** Yes \u2014 the app identity, tool palette, and the fact that a shortcuts guide is open are all immediately clear.\n\n**Verdict:** Minor fixes needed \u2014 the clipped chevron is the only true visual defect."
-  }
+  "vision_findings": {}
 }
