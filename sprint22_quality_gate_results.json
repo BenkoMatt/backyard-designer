@@ -3,13 +3,13 @@
   "total": 43,
   "passed": 43,
   "failed": 0,
-  "index_html_bytes": 767977,
-  "index_html_lines": 16247,
+  "index_html_bytes": 767973,
+  "index_html_lines": 16248,
   "results": [
     {
       "name": "File size <= 768,000 bytes (Sprint 22 hard limit)",
       "status": "PASS",
-      "detail": "767977 bytes (750.0 KB), headroom 23"
+      "detail": "767973 bytes (750.0 KB), headroom 27"
     },
     {
       "name": "CSS brace balance",

@@ -159,7 +159,7 @@
     {
       "name": "transition:smooth_transitions",
       "status": "pass",
-      "detail": "max color jump=0.318 at depths [2, 3]"
+      "detail": "max color jump=0.267 at depths [10, 12]"
     },
     {
       "name": "transition:layers_have_different_colors",
@@ -169,7 +169,7 @@
     {
       "name": "transition:topsoil_is_brown",
       "status": "pass",
-      "detail": "topsoil r=0.290 g=0.188"
+      "detail": "topsoil r=0.361 g=0.247"
     },
     {
       "name": "transition:bedrock_is_gray",
@@ -234,7 +234,7 @@
     {
       "name": "fps:painting_ops_per_sec",
       "status": "pass",
-      "detail": "5183 ops/s (10366 ops in 2000ms)"
+      "detail": "4604 ops/s (9212 ops in 2001ms)"
     },
     {
       "name": "fps:solid_earth_with_walls",
