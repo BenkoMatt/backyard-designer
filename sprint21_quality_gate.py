@@ -241,7 +241,7 @@ def geo_pixel_counts(png_path, exclude_rects=()):
                 c["clay"] += 1
             elif abs(r - 225) <= 50 and abs(g - 177) <= 50 and abs(b - 115) <= 50:
                 c["subsoil"] += 1
-            elif abs(r - 107) <= 30 and abs(g - 70) <= 30 and abs(b - 44) <= 30:
+            elif abs(r - 133) <= 30 and abs(g - 91) <= 30 and abs(b - 58) <= 30:
                 c["topsoil"] += 1
             elif abs(r - 139) <= 35 and abs(g - 139) <= 35 and abs(b - 151) <= 35:
                 c["bedrock"] += 1
@@ -296,7 +296,7 @@ def run_static_tests():
 
     # --- Geological layers present with expected base colors ---
     block = re.search(r'const NAMED_GEO_LAYERS = \[(.*?)\];', html, re.DOTALL)
-    for lname, hexhint in [("topsoil", "0x4a"), ("subsoil", "0x9b"),
+    for lname, hexhint in [("topsoil", "0x5c"), ("subsoil", "0x9b"),
                            ("clay", "0xa0"), ("bedrock", "0x60")]:
         ok = bool(block) and lname in block.group(1) and hexhint in block.group(1)
         test(f"NAMED_GEO_LAYERS defines {lname} (base {hexhint}…)", ok)

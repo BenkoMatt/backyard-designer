@@ -2691,6 +2691,9 @@ mouse = new THREE.Vector2();
 groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -state.gridLevel);
 gridHelper = new THREE.GridHelper(Math.max(state.yard.width, state.yard.depth), Math.max(state.yard.width, state.yard.depth), 0x888888, 0xcccccc);
 gridHelper.position.y = state.gridLevel + 0.03; /* S30-C-A3 */
+gridHelper.material.transparent = true; /* S31.2: opaque grid = dark dashes on dig slopes */
+gridHelper.material.opacity = 0.5;
+gridHelper.material.depthWrite = false;
 scene.add(gridHelper);
 const boundaryGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(state.yard.width, 0.02, state.yard.depth));
 boundaryLines = new THREE.LineSegments(boundaryGeo, new THREE.LineBasicMaterial({ color: 0x333333 }));
@@ -2970,8 +2973,8 @@ const iHi = band ? Math.min(segs, band.maxIx + 1) : segs;
 const jLo = band ? Math.max(0, band.minIz - 1) : 0;
 const jHi = band ? Math.min(segs, band.maxIz + 1) : segs;
 
-const SLOPE_DIRT = 0.32;   /* S30-B1: gentler mounds stay grass — raised ground read as a dark stain before */
-const SLOPE_ROCK = 0.5236;    
+const SLOPE_DIRT = 0.42; /* S31.2: was 0.32 — collar hit full-dirt in a thin ring */
+const SLOPE_ROCK = 0.72;
 for (let i = 0; i < pos.count; i++) {
 const px = pos.getX(i);
 const pz = pos.getZ(i);
@@ -2984,24 +2987,23 @@ if (state.terrain && segs > 0) {
 slope = computeTerrainSlope(ix, iz, segs, cellW, cellD);
 }
 
-const tGrassDirt = Math.max(0, Math.min(1, slope / SLOPE_DIRT));
-const tDirtRock = Math.max(0, Math.min(1, (slope - SLOPE_DIRT) / (SLOPE_ROCK - SLOPE_DIRT)));
-if (slope < SLOPE_DIRT) {
-tmpSlope.lerpColors(grassColor, dirtColor, tGrassDirt);
+/* S31.2: continuous grass-dirt-rock ramp, no slope bands */
+const tFull = Math.max(0, Math.min(1, slope / SLOPE_ROCK));
+if (tFull < 0.5) {
+tmpSlope.lerpColors(grassColor, dirtColor, tFull * 2);
 } else {
-tmpSlope.lerpColors(dirtColor, rockColor, tDirtRock);
+tmpSlope.lerpColors(dirtColor, rockColor, (tFull - 0.5) * 2);
 }
 
-const TRANSITION_BAND = 2.5; // S31: widened from 1.5 — 1ft rows straddled the old band edge (black striping)
+const TRANSITION_BAND = 2.5; // S31: widened from 1.5 (black striping fix)
 let heightT = 0;
 if (py < -TRANSITION_BAND) {
 const depthBelowSurface = -py; // depth below 0 (positive)
-const geoColor = _getNamedGeoLayerColor(depthBelowSurface + 1.0); // S31: +1ft pre-blend, no snap at band edge
+const geoColor = _getNamedGeoLayerColor(depthBelowSurface + 1.0); // S31: pre-blend
 const boost = 1.45;
 let r = Math.min(1, geoColor.r * boost);
 let g = Math.min(1, geoColor.g * boost);
 let b = Math.min(1, geoColor.b * boost);
-/* S31: 2ft strata stripe removed — aliased to black hatch on 1ft vertex grid */
 tmpHeight.setRGB(
 Math.max(0, Math.min(1, r)),
 Math.max(0, Math.min(1, g)),
@@ -3035,7 +3037,6 @@ tmpHeight.b = Math.min(1, tmpHeight.b + lift);
 }
 }
 
-/* S31: speckle softened ±6%→±2.5% — old range read as black stipple at 1ft density */
 const noiseVar = 0.975 + ((i * 0.737) % 1) * 0.05;
 tmpFinal.copy(tmpHeight).multiplyScalar(noiseVar);
 colors.setXYZ(i,
@@ -6177,7 +6178,7 @@ const last = GEOLOGICAL_LAYERS[GEOLOGICAL_LAYERS.length - 1];
 return { r: last.color[0], g: last.color[1], b: last.color[2] };
 }
 const NAMED_GEO_LAYERS = [
-{ name: 'topsoil',  maxDepth: 2,  color: [0x4a/255, 0x30/255, 0x1e/255] },  
+{ name: 'topsoil',  maxDepth: 2,  color: [0x5c/255, 0x3f/255, 0x28/255] }, /* S31.2: was 0x4a301e — read as a near-black band at hole lips */  
 { name: 'subsoil',  maxDepth: 6,  color: [0x9b/255, 0x7a/255, 0x4f/255] },  
 { name: 'clay',     maxDepth: 12, color: [0xa0/255, 0x42/255, 0x24/255] },  
 { name: 'bedrock',  maxDepth: 15, color: [0x60/255, 0x60/255, 0x68/255] },  
@@ -7620,7 +7621,7 @@ sunLight.intensity = 0.2 + 0.7 * dayFactor;
 if (gridHelper && gridHelper.material) {
 const gm = gridHelper.material;
 gm.transparent = true;
-gm.opacity = 0.25 + 0.55 * dayFactor;
+gm.opacity = 0.18 + 0.17 * dayFactor; /* S31.2: capped — 0.8 at noon sliced dig slopes as dark dashes */
 const gBase = new THREE.Color(0xcccccc);
 const gDim = new THREE.Color(0x5a6a7a);
 gBase.lerp(gDim, 1 - dayFactor);
