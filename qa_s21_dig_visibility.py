@@ -315,6 +315,10 @@ def main():
                f"grass {frac(b5, 'grass'):.4f} vs before(canvas) {frac(before_canvas, 'grass'):.4f}")
 
         # -- 6. Terrain dock Dig brush regression ------------------------------
+        # S31 (Father Matt directive): Dig must look exactly like Lower — the dig
+        # brush no longer arms the y=0 auto clip (it blacked-out pre-existing holes
+        # and z-fought the surface). Assert the NEW contract: dig never arms;
+        # underground/excavate still arm (tested above).
         page.locator('.td-tab[data-dock="terrain"]').click()
         page.wait_for_timeout(400)
         dig_btn = page.locator('.terrain-mode-btn[data-tmode="dig"]')
@@ -322,13 +326,13 @@ def main():
             dig_btn.click()
             page.wait_for_timeout(500)
             d = diag(page)
-            record("digbrush:arms_clip", bool(d and d.get("autoDigClipActive")), f"diag={d}")
+            record("digbrush:no_clip_parity_with_lower", bool(d and not d.get("autoDigClipActive")), f"diag={d}")
             page.locator('.terrain-mode-btn[data-tmode="raise"]').click()
             page.wait_for_timeout(400)
             d = diag(page)
             record("digbrush:raise_disarms", bool(d and not d.get("autoDigClipActive")), f"diag={d}")
         else:
-            record("digbrush:arms_clip", False, "dig mode button not found")
+            record("digbrush:no_clip_parity_with_lower", False, "dig mode button not found")
 
         if errors:
             record("console:no_page_errors", False, "; ".join(errors[:3]))

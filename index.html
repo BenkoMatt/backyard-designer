@@ -486,7 +486,7 @@ Terrain
 <button class="terrain-mode-btn" data-tmode="smooth" aria-label="Smooth terrain mode" aria-pressed="false">Smooth</button>
 <button class="terrain-mode-btn" data-tmode="erode" aria-label="Erode terrain mode" aria-pressed="false">Erode</button>
 <button class="terrain-mode-btn" data-tmode="flatten" aria-label="Flatten terrain mode" aria-pressed="false">Flatten</button>
-<button class="terrain-mode-btn" data-tmode="dig" aria-label="Dig terrain mode (lower)" aria-pressed="false">Dig</button>
+<button class="terrain-mode-btn" data-tmode="dig" aria-label="Dig terrain mode (bulk removal of deep sections)" aria-pressed="false">Dig</button>
 <button class="terrain-mode-btn" data-tmode="fill" aria-label="Fill terrain mode (raise)" aria-pressed="false">Fill</button>
 </div>
 </div>
@@ -2553,7 +2553,8 @@ _lastSeClipMat = solidEarthMesh.material;
 _lastSeClipSig = sigWithPlanes;
 }
 function updateGroundVisibility() {
-const wantDigClip = excavatePanelVisible || undergroundViewActive || terrainBrushMode === 'dig';
+/* S31: dig brush never auto-clips at y=0 (hid pre-existing holes = black-out); bulk dig looks like Lower */
+const wantDigClip = excavatePanelVisible || undergroundViewActive;
 if (wantDigClip) {
 if (!autoDigClipPlane) {
 if (!_autoDigPlaneInstance) _autoDigPlaneInstance = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
@@ -2573,16 +2574,7 @@ function updateAutoDigClip() {
 let declared = false;
 try { declared = (typeof excavatePanelVisible !== 'undefined') && (typeof undergroundViewActive !== 'undefined'); } catch (e) { declared = false; }
 if (!declared) {
-if (terrainBrushMode === 'dig' && !autoDigClipPlane) {
-if (!_autoDigPlaneInstance) _autoDigPlaneInstance = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
-autoDigClipPlane = _autoDigPlaneInstance;
-_rebuildYardClipPlanes();
-requestRender();
-} else if (terrainBrushMode !== 'dig' && autoDigClipPlane) {
-autoDigClipPlane = null;
-_rebuildYardClipPlanes();
-requestRender();
-}
+/* S31: dig-brush auto-clip removed (see updateGroundVisibility note). */
 return;
 }
 updateGroundVisibility();
@@ -6006,7 +5998,7 @@ if (readoutEl && container) {
 const bottomY = surfY - digDepth;
 const labelEl = container.querySelector('.readout-label');
 if (labelEl) {
-labelEl.textContent = (terrainBrushMode === 'dig' ? 'Dig target:' : 'Fill target:') + '';
+labelEl.textContent = (terrainBrushMode === 'dig' ? 'Bulk dig target:' : 'Fill target:') + '';
 }
 readoutEl.textContent = bottomY.toFixed(1) + ' ft (' + digDepth + ' ft deep)';
 container.classList.toggle('negative', false);
@@ -6018,6 +6010,10 @@ const hintEl = document.getElementById('excavation-depth-hint');
 if (!hintEl) return;
 const show = terrainBrushMode === 'lower' || terrainBrushMode === 'dig';
 hintEl.style.display = show ? 'flex' : 'none';
+if (terrainBrushMode === 'dig') {
+const t = hintEl.querySelector('.depth-hint-text');
+if (t) t.textContent = 'Bulk dig: removes deep sections fast — terrain can go below 0 ft (down to -15 ft)';
+}
 }
 document.getElementById('terrain-flatten').addEventListener('click', async () => {
 if (!state.terrain && !state.terrainDeformed) { showToast('No terrain to flatten', 'info'); return; }
