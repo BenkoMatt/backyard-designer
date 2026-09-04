@@ -10,3 +10,31 @@ This crop shows a 3D editor viewport rather than any dropdown menu — there are
 Yes, the dropdown menu is fully visible and uncut. All four export options—STL (3D Printing), OBJ (3D Model), Heightmap PNG, and HD Screenshot (4x)—are displayed completely with their descriptions, and the menu closes cleanly with whitespace below the last item.
 --- [5] after_export_1280.png
 The Export dropdown lists four items: "STL (3D Printing)," "OBJ (3D Model)," "Heightmap PNG," and "HD Screenshot (4x)," each with a short description. The menu box is fully rendered, appearing below the toolbar with all items and text completely visible and no clipping.
+--- [6] p0_after_finish_modal.png
+**Yes** — the screenshot shows a welcome modal titled "What would you like to do?" with the subtitle "Welcome to Backyard Designer 3D — let's create your dream yard."
+
+The quick-start option labels visible are:
+
+1. **Start from scratch** — "Empty yard — add your own items"
+2. **Start with a template** — "Pre-made designs to customize"
+3. **Import a design** — "Load a previously saved file"
+4. **Take the guided tour** — "Learn the basics in 6 steps"
+5. **Remind me later** — "Skip for now — tour available anytime"
+
+Note: The labels differ slightly from your examples — it's "Start with a template" (not "Choose a Template") and "Take the guided tour" (not "Take the Tour"). The "Import a design" option appears highlighted with a green border, suggesting it may be selected or hovered.
+--- [7] p0_tour_step1.png
+**Yes.** The guided-tour overlay is visible, and the step label reads: **"STEP 1 OF 6"** (shown in green text above the "Welcome to Backyard Designer 3D!" title). The overlay also includes Skip/Next buttons and a dot progress indicator showing the first of six dots highlighted.
+--- [8] p0_tour_step6.png
+Yes
+--- [9] p0_tour_done_pill.png
+**Yes.** A green pill-shaped "Take Tour" button is visible near the top right of the canvas area, just below the main toolbar (to the left of the compass).
+--- [10] p0_after_skip_modal.png
+**Yes.** The screenshot shows a welcome modal titled "What would you like to do?" with the message "Welcome to Backyard Designer 3D — let's create your dream yard." It presents five quick-start options:
+
+1. **Start from scratch** — Empty yard — add your own items
+2. **Start with a template** — Pre-made designs to customize
+3. **Import a design** — Load a previously saved file
+4. **Take the guided tour** — Learn the basics in 6 steps
+5. **Remind me later** — Skip for now — tour available anytime
+
+The "Remind me later" skip option is consistent with this being shown after skipping a setup wizard, and the main app (3D view, item sidebar, toolbar) is visible and functional behind the modal.

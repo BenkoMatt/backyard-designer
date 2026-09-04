@@ -1560,7 +1560,6 @@ tb.classList.remove('scrolled-end');
 tb.classList.remove('scrolled-start');
 return;
 }
-// Sprint 29 R3 fix (S29-R3c): show the right-edge fade when buttons are cut
 const atEnd = tb.scrollLeft + tb.clientWidth >= tb.scrollWidth - 2;
 tb.classList.toggle('scrolled-end', !atEnd);
 tb.classList.toggle('scrolled-start', tb.scrollLeft > 2);
@@ -1600,7 +1599,6 @@ function sanitizeObjectParams(obj) {
 const cat = CATALOG[obj.type];
 if (!cat) return null;
 if (!obj.params || typeof obj.params !== 'object') return { ...cat.defaults };
-// Sprint 23 fix (S23-V08): keep non-catalog params (e.g. seasonColor) on load.
 const sanitized = {};
 for (const param of cat.params) {
 const val = obj.params[param.key];
@@ -3718,7 +3716,6 @@ return;
 if (isDragging && dragObject) {
 const newPos = { x: dragObject.position.x, z: dragObject.position.z };
 if (dragStartPos && (Math.abs(newPos.x - dragStartPos.x) > 0.1 || Math.abs(newPos.z - dragStartPos.z) > 0.1)) {
-// Sprint 23 fix (S23-V01): capture by value (module vars are nulled below).
 const movedObj = dragObject;
 const startPos = { x: dragStartPos.x, z: dragStartPos.z };
 const objId = movedObj.id;
@@ -3832,7 +3829,6 @@ showProperties(id);
 });
 const rotSlider = document.getElementById('rot-slider');
 if (rotSlider) {
-// Sprint 23 fix (S23-V06): one undo entry per slider session (commits on blur).
 let sessionStartRot = null;
 rotSlider.addEventListener('input', e => {
 const deg = parseInt(e.target.value);
@@ -4231,7 +4227,6 @@ data.yard.shape = 'rectangle';
 sceneObjects.forEach((_, id) => removeObject(id));
 state.objects.clear();
 state.yard = data.yard || state.yard;
-// Sprint 23 fix (S23-V14): nextId >= max loaded id + 1 (no replace on add)
 let maxLoadedId = 0;
 const seenIds = new Set(); // Sprint 23 fix (S23-V13): detect duplicate ids in the file
 let droppedDupes = 0;
@@ -4314,7 +4309,6 @@ updateUndoRedoButtons();
 markExplicitSave();
 updateAllBuriedIndicators();
 requestRender();
-// Sprint 23 fix (S23-V13): warn when dup-id objects were dropped
 if (droppedDupes > 0) {
 showToast(`Design loaded with ${droppedDupes} duplicate-id object${droppedDupes === 1 ? '' : 's'} skipped.`, 'warning');
 } else {
@@ -5315,7 +5309,6 @@ setTimeout(() => {
 const newWP = document.getElementById('welcome-prompt');
 if (newWP && newWP.classList.contains('visible')) return;
 if (welcomePending) return; // S29-V02: welcome prompt will own the screen
-// Sprint 23 fix (S23-V19): never clobber a toast that is already showing.
 const toast = document.getElementById('toast');
 if (toast && toast.classList.contains('visible')) return;
 showToast('Welcome! Click items on the left to build your yard. Click ? Help anytime.', 'info');
@@ -5607,7 +5600,6 @@ deleteAllSelected();
 deleteObjectWithCommand(state.selectedId);
 }
 } else if (e.key === 'Escape') {
-// Sprint 23 fix (S23-V04): Escape closes only the TOPMOST layer (stack first).
 let modalClosed = false;
 if (window._modalOpenStack && window._modalOpenStack.length) {
 for (let si = window._modalOpenStack.length - 1; si >= 0; si--) {
@@ -7681,7 +7673,6 @@ document.getElementById('sun-play').addEventListener('click', toggleSunPlay);
 document.getElementById('sun-reset').addEventListener('click', () => {
 if (sunPlaying) toggleSunPlay();
 document.getElementById('sun-time').value = 12;
-// Sprint 23 fix (S23-V09): reset drives light + clock via applySunPosition().
 applySunPosition();
 requestRender();
 });
@@ -9520,7 +9511,6 @@ if (ugTab && !ugOpen) ugTab.click();
 _setUndergroundReveal(true);
 updateBuriedObjects();
 if (typeof showHint === 'function') showHint('Underground view active — Cutaway/Opacity below reveal the layers');
-// Sprint 23 fix (S23-V05): status bar must reflect the active underground tool
 const sbToolUg = document.getElementById('sb-tool');
 if (sbToolUg) sbToolUg.textContent = 'Underground / Excavate';
 } else {
@@ -15674,6 +15664,15 @@ document.getElementById('onboarding-restart-btn')?.classList.add('visible');
 }
 
 if (!s.tourCompleted && !s.welcomeShown) {
+// S32-P0 (R32-D07): was an empty if-body — deep-link boots with no saved design get the
+// welcome prompt; the wizard path is owned by its style-observer.
+setTimeout(() => {
+const w = document.getElementById('wizard');
+if (w && w.style.display !== 'none') return;
+let hasSaved = false;
+try { hasSaved = !!JSON.parse(localStorage.getItem('backyard-design-autosave') || '{}').objects; } catch (e) {}
+if (!hasSaved) Onboarding.showWelcomePrompt();
+}, 600);
 }
 
 startProgressiveHints();
@@ -15708,9 +15707,15 @@ const isHidden = wizard.style.display === 'none';
 if (isHidden) {
 const s = Onboarding.getState();
 if (!s.welcomeShown && !s.tourCompleted) {
-try { s.welcomeShown = true; localStorage.setItem('backyard-onboarding-state', JSON.stringify(s)); } catch (e2) {}
+// S32-P0 (C32-A01/A02): first session (no saved design) gets the welcome modal; repeat sessions keep the toast.
+let hasSaved = false;
+try { hasSaved = !!JSON.parse(localStorage.getItem('backyard-design-autosave') || '{}').objects; } catch (e2) {}
+if (!hasSaved) {
+Onboarding.showWelcomePrompt();
+} else {
 try { markStepComplete('welcome-scratch'); } catch (e3) {}
 showToast('Your empty yard is ready! Click items on the left to add them.');
+}
 startProgressiveHints();
 }
 }

@@ -34,3 +34,29 @@ practically never on Chromium).
   (toast-success) on first click AND 3/3 repeats, zero pageerrors;
   vision (call 1): toast reads "Link copied to clipboard!" with green success checkmark.
   Evidence: `after_share_copy.py/.json/.png`, `vision_log.txt`
+---
+
+## S32-C2 — Export menu clipped by topbar overflow-y:hidden (D×E conflict arbitration)
+
+**Verdict on the conflict:** D is right for real users; E's "downloads worked" were
+artifacts — E never recorded a `#btn-export`/`#export-menu` click in evidence, and my
+repro on 75a9104 shows Playwright's `#export-stl` click (with its own scroll/force
+semantics) exported STL while a raw CDP mouse click at the item center hit CANVAS and
+timed out with no download (`diag_export_click.py`). REG-D01 confirmed: menu rect
+y=46..260 vs topbar bottom 52; elementFromPoint(item center)=CANVAS.
+
+**Fix:** `#export-menu` → `position:fixed`, re-parented to `document.body` at setup,
+re-positioned under the button on each open (follows topbar horizontal scroll).
+S30 overflow cue + topbar geometry untouched (s17 gate asserts `#btn-export`
+visibility only).
+
+- Files: `index.html` (menu markup + export setup block)
+- Commit: `7612360` `S32-C2: export menu portaled to body (was clipped by topbar overflow-y:hidden)`
+- Verification: `after_export_menu.json` — parent=BODY, centerHit=export-heightmap
+  (was CANVAS), itemHitIsItem=true at BOTH 1280×800 and 1024×768; raw mouse click at
+  item center → download `backyard-design.stl` (`after_export_rawclick.json`);
+  vision: 1280 "fully rendered … no clipping" (after 1 empty-response retry) and
+  1024 "fully visible and uncut, all four options". Before shot showed NO menu
+  (vision: "no dropdown menu visible"). Evidence: `diag_export_click.py`,
+  `after_export_menu.py/.json`, `after_export_rawclick.py/.json`,
+  `before_export_menu_1280.png`, `after_export_1280.png`, `after_export_1024.png`
