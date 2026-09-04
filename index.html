@@ -2671,7 +2671,7 @@ sun.shadow.camera.top = 60;
 sun.shadow.camera.bottom = -60;
 sun.shadow.camera.near = 0.5;
 sun.shadow.camera.far = 200;
-sun.shadow.bias = -0.0005;
+sun.shadow.bias=-0.0005;sun.shadow.normalBias=0.06;/*S33*/
 scene.add(sun);
 sunLight = sun;
 const groundMat = createTerrainMaterial(parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100);
@@ -2902,7 +2902,7 @@ const tex = createTerrainNoiseTexture();
 if (tex) {
 mat.map = tex;
 }
-} catch(e) { /* vertex colors vary */ }
+} catch(e) {}
 mat.userData = { seasonalGrass: 0x6b8a4a, isWinter: false };
 return mat;
 }
