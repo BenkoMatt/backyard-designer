@@ -1,0 +1,43 @@
+{
+ "A_boot_with_snapshot": {
+  "bannerVisible": false,
+  "bannerText": [],
+  "wizardVisible": true,
+  "continueBtn": false,
+  "bannerSub": "Your last session ended without saving. You can restore that work or start fresh."
+ },
+ "A_after_explicit_save_reload": {
+  "bannerVisible": false,
+  "wizardVisible": true,
+  "continueBtn": false
+ },
+ "A_pageerrors": [],
+ "B_typed_before": {
+  "sb": "10",
+  "fh": "4"
+ },
+ "B_after_region_switch_typed": {
+  "sb": "10",
+  "fh": "4"
+ },
+ "B_after_switch_untouched": {
+  "sb": "5",
+  "fh": "6"
+ },
+ "A2_boot_with_snapshot": {
+  "bannerVisible": true,
+  "bannerLabel": "Start Fresh",
+  "wizardVisible": true,
+  "continueBtn": false,
+  "note": "/tmp/p3A2.py"
+ },
+ "A2_after_start_fresh": {
+  "bannerVisible": false,
+  "snapGone": true
+ },
+ "A2_boot_after_discard": {
+  "bannerVisible": false,
+  "continueBtn": true
+ },
+ "A2_vision": "banner 'Restore unsaved changes?' with buttons Restore + Start Fresh; no wizard Continue while banner visible"
+}

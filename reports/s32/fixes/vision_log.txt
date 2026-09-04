@@ -188,3 +188,22 @@ No moon or any pale circular disc is visible anywhere in the scene. (The only ci
 - **Z-order issue:** the moon disc is drawn *over* (or tangled with) the HTML tooltip, so a scene object is rendering on top of UI.
 - The moon looks unusually large and is clipped at the top edge near the tooltip.
 - Faint diagonal wireframe lines are visible in the dark sky above the horizon (grid lines bleeding
+--- [1] p3_recovery_boot.png
+
+--- [2] p3_permit_preserved.png
+In the Permit Checker panel:
+
+- **Property setback (ft):** 5
+- **Max structure height (ft):** 12
+- **Max fence height (ft):** 6
+- **Region dropdown:** Yes, it's present and currently set to **"IRC Standard"**
+--- [1] p3_recovery_boot.png
+The banner near the top of the screenshot is a notification/dialog bar with a yellow accent edge on the left. Its details are:
+
+- **Heading text:** "Restore unsaved changes?" (in bold)
+- **Subtext:** "Saved 10:19 PM — you can restore that work or start fresh."
+- **Buttons:**
+  1. **"Restore"** — a green button with white text
+  2. **"Start Fresh"** — a light gray/white button with dark text
+
+This banner appears to let the user recover previously saved work from a prior session, or dismiss it and begin with a clean slate.
