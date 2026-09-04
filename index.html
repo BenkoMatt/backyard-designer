@@ -123,7 +123,7 @@ Walk
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
 Export ▾
 </button>
-<div id="export-menu" class="export-menu" style="display:none; position:absolute; top:100%; right:0; margin-top:4px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); box-shadow:var(--shadow-lg); z-index:200; min-width:240px; padding:6px;">
+<div id="export-menu" class="export-menu" style="display:none; position:fixed; top:52px; right:auto; margin-top:4px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); box-shadow:var(--shadow-lg); z-index:200; min-width:240px; padding:6px;">
 <button class="export-item" id="export-stl" style="display:block; width:100%; text-align:left; padding:10px 14px; border:none; background:none; cursor:pointer; font-size:13px; font-family:inherit; border-radius:var(--radius-sm); color:var(--text);" onmouseover="this.style.background='var(--hover-bg)'" onmouseout="this.style.background='none'">
 <strong>STL (3D Printing)</strong><br><small style="color:var(--text-muted)">Export terrain + objects as STL mesh</small>
 </button>
@@ -4530,7 +4530,6 @@ el.setAttribute('tabindex', '0');
 el.setAttribute('aria-label', `Add ${item.name} to yard`);
 el.innerHTML = `${item.icon}<div><span>${item.name}</span><small>${item.desc || ''}</small></div>`;
 el.addEventListener('click', () => {
-// Sprint 23 fix (S23-V17): no explicit position -> addObject's grid spread applies.
 const id = addObject(key);
 const obj = state.objects.get(id);
 
@@ -5323,7 +5322,6 @@ showToast('Welcome! Click items on the left to build your yard. Click ? Help any
 }, 500);
 }
 let _modalLastFocus = null;
-// Sprint 23 fix (S23-V20): Tab focus trap in open modal + focus restore on close.
 function _getModalFocusable(modal) {
 return Array.from(modal.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
 .filter(el => !el.disabled && el.offsetParent !== null);
@@ -5353,7 +5351,6 @@ _modalLastFocus = document.activeElement;
 modal.classList.add('visible');
 modal.setAttribute('aria-hidden', 'false');
 modal.querySelectorAll('.help-panel, .sc-panel, .templates-panel, .share-panel, .label-edit-panel').forEach(p => { p.scrollTop = 0; });
-// Sprint 23 fix (S23-V04): stack tracks open order; Escape closes topmost first.
 if (!window._modalOpenStack) window._modalOpenStack = [];
 if (!window._modalOpenStack.includes(modalId)) window._modalOpenStack.push(modalId);
 const focusable = modal.querySelector('button, a, input, select, textarea, [tabindex]');
@@ -5577,7 +5574,6 @@ hint.title = '';
 hint.onclick = null;
 }
 document.addEventListener('keydown', e => {
-// Sprint 23 fix (S23-V05): fields keep native keys + text-editing combos (C/V/X/A/Z);
 const tag = e.target.tagName;
 const hasMod = e.ctrlKey || e.metaKey;
 const textEditingCombo = hasMod && ['c', 'C', 'v', 'V', 'x', 'X', 'a', 'A', 'z', 'Z'].includes(e.key);
@@ -7933,7 +7929,6 @@ const url = base + '#' + encoded;
 document.getElementById('share-url-box').textContent = url;
 const tooLong = url.length > 210;
 const wayTooLong = url.length > 4096;
-// Sprint 29 fix (S29-T05): when the QR cannot render at all, the "may be hard to
 document.getElementById('share-too-long').classList.toggle('visible', tooLong && !wayTooLong);
 const canvas = document.getElementById('share-qr-canvas');
 if (wayTooLong) {
@@ -14246,10 +14241,19 @@ return false;
 }
 const btnExport = document.getElementById('btn-export');
 const exportMenu = document.getElementById('export-menu');
+// S32-C2 (REG-D01): menu was clipped by #topbar's overflow-y:hidden — now fixed to body.
+function _placeExportMenu() {
+const r = btnExport.getBoundingClientRect(), mw = exportMenu.offsetWidth;
+exportMenu.style.top = (r.bottom + 4) + 'px';
+exportMenu.style.left = Math.max(8, Math.min(r.right - mw, innerWidth - mw - 8)) + 'px';
+}
 if (btnExport && exportMenu) {
+exportMenu.parentElement.removeChild(exportMenu);
+document.body.appendChild(exportMenu);
 btnExport.addEventListener('click', (e) => {
 e.stopPropagation();
 const isOpen = exportMenu.style.display !== 'none';
+if (!isOpen) _placeExportMenu();
 exportMenu.style.display = isOpen ? 'none' : 'block';
 btnExport.setAttribute('aria-expanded', String(!isOpen));
 });

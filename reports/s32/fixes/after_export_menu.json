@@ -1,0 +1,48 @@
+{
+ "after_export_1280": {
+  "probe": {
+   "parent": "BODY",
+   "display": "block",
+   "rect": {
+    "x": 688,
+    "y": 50,
+    "w": 240,
+    "h": 214
+   },
+   "topbarBottom": 52,
+   "centerHit": [
+    "export-heightmap",
+    "export-menu",
+    "byd-advanced-mode",
+    "HTML"
+   ],
+   "itemHitIsItem": true,
+   "belowTopbarVisible": true
+  },
+  "stl_download": "backyard-design.stl",
+  "errors": []
+ },
+ "after_export_1024": {
+  "probe": {
+   "parent": "BODY",
+   "display": "block",
+   "rect": {
+    "x": 560,
+    "y": 50,
+    "w": 240,
+    "h": 214
+   },
+   "topbarBottom": 52,
+   "centerHit": [
+    "export-heightmap",
+    "export-menu",
+    "byd-advanced-mode",
+    "HTML"
+   ],
+   "itemHitIsItem": true,
+   "belowTopbarVisible": true
+  },
+  "stl_download": "backyard-design.stl",
+  "errors": []
+ }
+}

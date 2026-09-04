@@ -27,6 +27,10 @@ practically never on Chromium).
 **Fix:** secure path stays; on rejection fall through to textarea+`execCommand('copy')`
 (moved out of the `else`, made primary fallback); exec failure → honest error toast.
 
-- Files: `index.html` (share-copy handler)
-- Commit: (pending)
-- Verification: (pending)
+- Files: `index.html` (share-copy handler; 5 redundant S23 whole-line comments trimmed to
+  pay the byte bill — comment-stripped identity verified via size_budget js/css/id gates)
+- Commit: `e051241` `S32-C1: share-copy falls back to textarea+execCommand when writeText rejects`
+- Verification: after `after_share_copy.json` — toast `✓Link copied to clipboard!`
+  (toast-success) on first click AND 3/3 repeats, zero pageerrors;
+  vision (call 1): toast reads "Link copied to clipboard!" with green success checkmark.
+  Evidence: `after_share_copy.py/.json/.png`, `vision_log.txt`

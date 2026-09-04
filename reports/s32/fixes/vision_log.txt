@@ -1,2 +1,12 @@
 --- [1] after_share_copy.png
 The toast reads "Link copied to clipboard!" and it shows a green success checkmark.
+--- [1] crop_before.png
+This crop shows a 3D terrain visualization with a green landscape rendered in a wireframe/triangulated style, a blue area (likely sky or water) in the upper left, and a white grid mesh overlaying part of the terrain in the lower right. The primary UI element is a dark red toast/notification banner in the upper right corner reading "Copy failed - select the link" with an X (close) icon, indicating an error message. There is no dropdown menu visible in this crop—no items like STL, OBJ, or Heightmap appear anywhere; only a sliver of a gray toolbar or header bar is visible along the top edge.
+--- [2] crop_after.png
+This crop shows a 3D editor viewport rather than any dropdown menu — there are no STL, OBJ, or Heightmap menu items visible. The main elements are a dark rounded tooltip/notification banner near the top with an info "i" icon reading "Advanced mode: all tools available," and a small dark pill button labeled "Daytime" on the right edge. The viewport itself displays a green terrain with a blue region (sky or water) in the upper left and a white wireframe grid mesh in the lower right. A few things are clipped by the crop: the "Daytime" button is cut off at the right edge, a sliver of a light-colored toolbar is just barely visible along the very top, and the tooltip banner overlaps the 3D scene beneath it. The wireframe grid also appears to intersect the green terrain surface, which looks slightly odd, though it may just be a heightmap preview plane.
+--- [3] after_export_1280.png
+
+--- [4] after_export_1024.png
+Yes, the dropdown menu is fully visible and uncut. All four export options—STL (3D Printing), OBJ (3D Model), Heightmap PNG, and HD Screenshot (4x)—are displayed completely with their descriptions, and the menu closes cleanly with whitespace below the last item.
+--- [5] after_export_1280.png
+The Export dropdown lists four items: "STL (3D Printing)," "OBJ (3D Model)," "Heightmap PNG," and "HD Screenshot (4x)," each with a short description. The menu box is fully rendered, appearing below the toolbar with all items and text completely visible and no clipping.
