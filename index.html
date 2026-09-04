@@ -12395,11 +12395,11 @@ starField.material.uniforms.opacity.value = nightFactor * starIntensity;
 }
 if (moonEnabled && nightFactor > 0.05) {
 moonMesh.visible = true;
-moonMesh.position.set(-40, 50, -30);
+moonMesh.position.set(-40, 12, -30); /* S32-P2: was 50 — above viewport top at default cam, never visible */
 moonMesh.material.opacity = 0.9 * nightFactor;
 moonLight.intensity = 0.15 * nightFactor;
 moonLight.color.setHex(0x90a0c0);
-moonLight.position.set(-40, 50, -30);
+moonLight.position.set(-40, 12, -30);
 } else {
 moonMesh.visible = false;
 moonLight.intensity = 0;

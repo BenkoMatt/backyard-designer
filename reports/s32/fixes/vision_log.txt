@@ -129,3 +129,62 @@ Yes — a white sculpt/context menu is open in the center of the viewport, with 
 **Yes** — dark contour lines do trace concentric rings descending the pit walls toward its deepest point (with a spiral "tail" below), though they render as thin, near-black line rings rather than the broader brown ribbon-like bands described.
 --- [15] final_check.png
 **Yes** — dark contour lines are clearly visible, forming concentric rings across the pit's flat floor and continuing as a descending spiral down the funnel-shaped walls toward the deepest point.
+--- [1] label_edit_modal.png
+**1) 'Pond' label sprite in the 3D scene:** No — no label sprite reading 'Pond' is visible in the 3D scene. The scene shows only the terrain grid and toolbar; any label may be hidden behind the modal, but none is visible.
+
+**2) 'Edit Label' modal with 'Pond' text field:** Yes — an 'Edit Label' modal is open, and its text field contains "Pond".
+
+**3) Color control and Delete button:** Yes — the modal shows a "Color:" control with an orange swatch, and a red "Delete" button (alongside Cancel and Save).
+--- [2] label_edited.png
+No. There is no 'Koi Pond' label pill visible in the scene. The view is mostly covered by the "What would you like to do?" modal dialog, and no such labeled pill appears in the visible parts of the 3D yard, sidebar, or toolbars.
+--- [1] label_created.png
+**Yes.** In the 3D scene, near the center of the yard (roughly at the middle of the green wireframe terrain), there is a small dark pill-shaped label with yellow text reading **"Pond"**, with a tiny yellow map-pin marker attached beneath it.
+
+The yard center itself is an empty green terrain mesh covered in a white wireframe grid — no objects have been placed yet. The only other overlays in the scene are:
+- A dark tooltip reading *"Click anywhere in the yard to place a label"* slightly below the pill
+- A green "Label saved" toast notification at the top of the canvas
+- A "Daytime" pill in the upper area of the sky
+--- [2] label_edit_modal.png
+Yes — the 'Edit Label' modal is open, showing a text field containing "Pond", an orange color swatch next to "Color:", and a red Delete button (plus Cancel and Save).
+
+No — the "Pond" label is not visible in the 3D scene behind the modal. The yard shows only the terrain grid, a "Label saved" toast, and a "Click anywhere in the yard to place a label" hint, with no rendered label text.
+--- [3] label_edited.png
+Yes — a small dark pill label reading "Koi Pond" is visible in the 3D yard, attached to a pin marker on the grid, and a "Label saved" toast confirms it was just placed.
+--- [1] cutfill_panel_crop.png
+Yes — there is a volume panel visible, though its title reads **"EARTHWORK VOLUME"** rather than "Cut/Fill Volume." It displays the cut/fill data in cubic yards (yd³):
+
+- **Cut (remove):** 0.0 yd³
+- **Fill (add):** 121.0 yd³
+- **Net:** -121.0 yd³
+- Footnote: "Relative to flat grade at 0 ft elevation"
+
+Read aloud exactly, the **Fill value is: "121.0 yd³"** — shown in green text (121 point 0 cubic yards).
+--- [1] night_239_fixed.png
+**1) Is the sky dark (night-time)? — Yes.**
+The upper portion of the 3D viewport is a solid dark/black area, and the app explicitly displays a **"Night"** label pill near the top center of the scene. The terrain itself is also rendered in dim, darkened green tones, consistent with night-time lighting.
+
+**2) Do you see stars? — No.**
+I don't observe any small white dots (stars) in the sky region. The dark sky appears as a plain, flat dark area with no star specks or points of light. (The faint diagonal lines visible are wireframe/grid lines from the terrain edges, not stars.)
+
+**3) Do you see a moon? — No.**
+There is no pale circular disc or moon visible in the sky. Note: there *is* a circular white element in the top-right corner, but that is the **compass/navigation widget** (marked with N, W, E and a red arrow) — a UI control, not a moon in the 3D scene.
+
+**Summary:** Night mode is active (dark sky, darkened terrain, "Night" label), but the sky is empty — no stars and no moon are rendered.
+--- [1] night_239_fixed.png
+**1) Is the sky dark (night-time)? — Yes.**
+The app is clearly in night mode: there's a "Night" badge displayed at the top of the 3D viewport, and the visible sky/background area (mostly the upper-left corner of the scene) is a very dark, near-black color. The ground itself is rendered in dim, dark-green tones consistent with nighttime lighting.
+
+**2) Do you see stars (small white dots)? — No.**
+There are no small white dots in the dark sky area. The only light-colored marks against the dark background are faint thin triangular/diagonal lines, which appear to be the terrain's wireframe grid lines extending past the ground edge — not stars.
+
+**3) Do you see a moon (pale circular disc)? — No.**
+No moon or any pale circular disc is visible anywhere in the scene. (The only circular UI element is the compass widget in the top-right corner, which is part of the app's interface, not the sky.)
+--- [1] night_moon_after.png
+**1) Moon disc:** Yes — a large pale/cream circle is visible in the upper-left/center of the 3D viewport (roughly x≈530–660, y≈95–200), partially overlapping the dark "No problem! You can take the tour…" tooltip.
+
+**2) Stars:** No — the black night sky appears empty, with no star dots.
+
+**3) Glitches:**
+- **Z-order issue:** the moon disc is drawn *over* (or tangled with) the HTML tooltip, so a scene object is rendering on top of UI.
+- The moon looks unusually large and is clipped at the top edge near the tooltip.
+- Faint diagonal wireframe lines are visible in the dark sky above the horizon (grid lines bleeding

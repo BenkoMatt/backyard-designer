@@ -1,0 +1,28 @@
+{
+ "finding_stars": {
+  "conclusion": "ENVIRONMENTAL (SwiftShader rasterizes zero gl.POINTS in this build)",
+  "app_state_healthy": "starField in scene, visible:true at 23.9h, 800 verts, opacity 0.6 (uniform), renderOrder 0, depthWrite false, camera.far 1000 > dome 550",
+  "experiments": [
+   "shader constant 300->900 (bigger attenuated points): 0 star px",
+   "constant gl_PointSize=3.0 (screen-space, sizeAttenuation-equivalent): 0 star px",
+   "texture2D sampling removed, plain color fragment: 0 star px",
+   "bare control cloud: 30 red 8px points at z~10-30 from camera, no texture, plain shader: 0 px"
+  ],
+  "control_conclusion": "Even a trivial red 8px Points object near the camera paints 0 pixels \u2014 SwiftShader/Chromium headless rasterizes no Points at all. Code left as-is (correct for real GPUs).",
+  "evidence": [
+   "/tmp/star_probe.py",
+   "/tmp/star_control.py",
+   "/tmp/star_control.png"
+  ]
+ },
+ "finding_moon": {
+  "conclusion": "IN-APP BUG, FIXED",
+  "root_cause": "moonMesh.position.set(-40,50,-30) each night frame; at default camera (25,40,50) the moon projected to NDC y=1.88 \u2192 screen y=-278 (above viewport top). Mesh existed in scene (D's 'absent from traversal' wrong) but was never on screen.",
+  "fix": "position.set(-40,12,-30) for moonMesh + moonLight",
+  "verify": "NDC y 1.88->0.78, screen (597,134); 2100 moon-disc px at that region; vision reads 'large pale/cream circle visible in the upper-left/center'",
+  "evidence": [
+   "/tmp/night_moonsweep.py",
+   "night_moon_after.png"
+  ]
+ }
+}

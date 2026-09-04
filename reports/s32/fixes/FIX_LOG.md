@@ -185,4 +185,32 @@ reads Fill 121.0 yd³ — matches the DOM read at dig 3.
 Screenshot: cutfill_live_panel.png, cutfill_panel_crop.png.
 
 **Byte bill:** +182B. Budget 767,887/768,000 (+113).
-Commit: see git log (filled after commit).
+Commit: `e7619f6`.
+
+---
+
+## S32-P2 — Night-sky investigation (R32-D01 stars, R32-D02 moon)
+
+**Moon — IN-APP BUG, FIXED.** Live probe: moonMesh EXISTS in scene (visible:true,
+parented to Scene at (-40,50,-30) — D's "absent from traversal" was wrong), but
+at the default camera (25,40,50) it projected to NDC y=1.88 → screen y=-278,
+i.e. always above the viewport top. `updateSky` hard-set y=50 every frame.
+Fix: `position.set(-40,12,-30)` for moonMesh + moonLight (sweep of y=12..30
+showed y=12 lands at screen (597,134), upper sky). After: NDC y 0.78,
+2100 moon-disc px at that region; vision (1 call): "large pale/cream circle
+visible in the upper-left/center of the 3D viewport".
+Evidence: night_moon_after.png, night_investigation.json.
+
+**Stars — ENVIRONMENTAL (documented, code left correct).** App state is healthy
+at 23.9h: starField visible, 800 verts, opacity 0.6, camera.far 1000 > dome 550.
+Four live experiments, all zero star pixels:
+1. shader size constant 300->900 (larger attenuated points);
+2. constant gl_PointSize=3.0 (screen-space points);
+3. texture2D sampling removed, plain-color fragment;
+4. control: bare 30-point red 8px cloud at z~10-30 from camera, no texture —
+   still 0 pixels.
+Conclusion: this Chromium/SwiftShader rasterizes NO gl.POINTS at all — a hard
+environmental limit, not an app defect. Star code reverted to the original
+textured attenuated shader (correct on real GPUs); proof in
+night_investigation.json. Before-state evidence: before_night_23h.png,
+night_239_fixed.png (vision: no stars, no moon pre-fix).

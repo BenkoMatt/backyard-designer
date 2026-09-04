@@ -1,0 +1,59 @@
+{
+ "night_probe": {
+  "star": {
+   "visible": false,
+   "n": 2000,
+   "op": null,
+   "sz0": null
+  },
+  "moon": {
+   "visible": true,
+   "pos": [
+    -40,
+    50,
+    -30
+   ],
+   "parentType": "Scene"
+  },
+  "sceneChildren": 18
+ },
+ "pageerrors": [],
+ "night_probe2": {
+  "pointsObjects": [
+   {
+    "n": 800,
+    "visible": true,
+    "op": 0.6,
+    "type": "BufferGeometry",
+    "parent": "Scene"
+   },
+   {
+    "n": 3000,
+    "visible": false,
+    "op": 0.4,
+    "type": "BufferGeometry",
+    "parent": "Scene"
+   },
+   {
+    "n": 2000,
+    "visible": false,
+    "op": 0.45,
+    "type": "BufferGeometry",
+    "parent": "Scene"
+   }
+  ],
+  "moon": {
+   "visible": true,
+   "pos": [
+    -40,
+    50,
+    -30
+   ]
+  },
+  "cam": [
+   25.000000000000004,
+   40,
+   50.00000000000001
+  ]
+ }
+}
