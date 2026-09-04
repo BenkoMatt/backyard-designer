@@ -1089,6 +1089,7 @@ Sun
 <button class="sun-play-btn" id="sun-play" aria-label="Play sun day cycle animation">Play Day Cycle</button>
 <button class="tb-btn" id="sun-reset" style="border:1px solid var(--border);padding:6px 10px;" aria-label="Reset sun position to defaults">Reset</button>
 </div>
+<div class="sun-row"><label style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="shadow-toggle" checked aria-label="Enable shadows"> Shadows</label></div>
 </div>
 <!-- Sprint 23 fix (S23-V02): #properties docked inside #main as third flex child. -->
 <div id="properties" role="region" aria-label="Object properties panel">
@@ -2465,7 +2466,7 @@ const state = {
 yard: { width: 50, depth: 100, shape: 'rectangle' },
 objects: new Map(),
 selectedId: null,
-selectedIds: new Set(), // Expert: multi-select support
+selectedIds: new Set(),
 viewMode: '3d',
 undoStack: [],
 redoStack: [],
@@ -2503,9 +2504,9 @@ let activeCamera = camera3D;
 let sunLight = null, sunAmbient = null, sunHemi = null;
 let terrainClipPlane = null;
 let crossSectionClipPlane = null; // Sprint 14: X or Z axis clipping plane for cross-section view
-let crossSectionAxis = 'x';       // Sprint 14: 'x' or 'z' — which axis to cut along
-let crossSectionPosition = 0;     // Sprint 14: position of the clip plane along the axis
-let crossSectionActive = false;   // Sprint 14: whether cross-section clipping is on
+let crossSectionAxis = 'x';
+let crossSectionPosition = 0;
+let crossSectionActive = false;
 let autoDigClipPlane = null;
 let _autoDigPlaneInstance = null; // sprint 27: persistent Plane instance (arm = assign, disarm = null)
 let _lastYardClipMat = null, _lastYardClipSig = -1, _lastSeClipMat = null, _lastSeClipSig = -1;
@@ -2708,7 +2709,7 @@ showToast('Graphics restored', 'success');
 requestRender();
 });
 document.addEventListener('wheel', (e) => {
-if (walkMode) return; // Sprint 28 B2: wheel must never touch the camera during walk
+if (walkMode) return;
 const tx = e.target && e.target.closest ? e.target.closest('#topbar') : null;
 if (tx && tx.scrollWidth > tx.clientWidth + 1) {
 tx.scrollLeft += e.deltaY;
@@ -2723,7 +2724,7 @@ const canScroll = el.scrollHeight > el.clientHeight + 1 && (style.overflowY === 
 if (canScroll) {
 const canScrollUp = el.scrollTop > 0;
 const canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight - 1;
-if (e.deltaY < 0 && canScrollUp) return;   // wheel up + can scroll up → scroll
+if (e.deltaY < 0 && canScrollUp) return;
 if (e.deltaY > 0 && canScrollDown) return; // wheel down + can scroll down → scroll
 break;                                     // panel exhausted → zoom the camera
 }
@@ -3001,7 +3002,7 @@ tmpSlope.lerpColors(dirtColor, rockColor, (tFull - 0.5) * 2);
 const TRANSITION_BAND = 2.5; // S31: widened from 1.5 (black striping fix)
 let heightT = 0;
 if (py < -TRANSITION_BAND) {
-const depthBelowSurface = -py; // depth below 0 (positive)
+const depthBelowSurface = -py;
 const geoColor = _getNamedGeoLayerColor(depthBelowSurface + 1.0); // S31: pre-blend
 const boost = 1.45;
 let r = Math.min(1, geoColor.r * boost);
@@ -3019,7 +3020,7 @@ const boost = 1.45;
 const geoR = Math.min(1, geoColor.r * boost);
 const geoG = Math.min(1, geoColor.g * boost);
 const geoB = Math.min(1, geoColor.b * boost);
-const blendT = (-py) / TRANSITION_BAND; // 0 at y=0, 1 at y=-1.5
+const blendT = (-py) / TRANSITION_BAND;
 const sm = blendT * blendT * (3 - 2 * blendT);
 tmpHeight.setRGB(
 tmpSlope.r + (geoR - tmpSlope.r) * sm,
@@ -3027,7 +3028,7 @@ tmpSlope.g + (geoG - tmpSlope.g) * sm,
 tmpSlope.b + (geoB - tmpSlope.b) * sm
 );
 } else if (py > 20) {
-heightT = Math.max(0, Math.min(1, (py - 20) / 10)); // full rock at 30ft
+heightT = Math.max(0, Math.min(1, (py - 20) / 10));
 tmpHeight.lerpColors(tmpSlope, rockColor, heightT * 0.7);
 } else {
 tmpHeight.copy(tmpSlope);
@@ -3304,8 +3305,8 @@ if (child.material.emissive) child.material.emissive.setHex(child.userData.origE
 }
 }
 state.selectedId = null;
-state.selectedIds.clear(); // Expert: also clear multi-select
-hideBatchBar(); // Expert: hide batch bar
+state.selectedIds.clear();
+hideBatchBar();
 hideProperties();
 hideDimReadout();
 clearSafetyWarnings();
@@ -7677,6 +7678,7 @@ document.getElementById('sun-time').value = 12;
 applySunPosition();
 requestRender();
 });
+document.getElementById('shadow-toggle').addEventListener('change',e=>{state.shadowEnabled=e.target.checked;renderer.shadowMap.enabled=state.shadowEnabled;scene.traverse(o=>{if(o.material)o.material.needsUpdate=true});requestRender();});
 })();
 const QRCodeGen = (function() {
 const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
