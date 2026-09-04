@@ -2514,7 +2514,6 @@ function _yardClipSig() { return (terrainClipPlane ? 1 : 0) + (crossSectionClipP
 function _rebuildYardClipPlanes() {
 if (!yardMesh || !yardMesh.material) return;
 const sig = _yardClipSig();
-// t_52168e24: the guard now also keys on plane identity+content, not presence
 const sigWithPlanes = _lastYardClipMat === yardMesh.material ? sig + '|' + _yardClipPlaneStamp() : sig;
 if (yardMesh.material === _lastYardClipMat && sigWithPlanes === _lastYardClipSig &&
 yardMesh.material.clippingPlanes && yardMesh.material.clippingPlanes._bydClipSig === sigWithPlanes) return;
@@ -3026,7 +3025,6 @@ heightT = Math.max(0, Math.min(1, (py - 20) / 10)); // full rock at 30ft
 tmpHeight.lerpColors(tmpSlope, rockColor, heightT * 0.7);
 } else {
 tmpHeight.copy(tmpSlope);
-// S30-B1: raised ground reads as a hill, not a stain — gentle sunlit tint up to +4ft
 if (py > 0.5) {
 const lift = Math.min(1, (py - 0.5) / 3.5) * 0.14;
 tmpHeight.r = Math.min(1, tmpHeight.r + lift);
@@ -3747,7 +3745,6 @@ if (!cat) return;
 const headerEl = propsHeader;
 const bodyEl = propsBody;
 propsEl.classList.add('visible');
-// Sprint 23 fix (S23-V02): refit canvas for the docked panel
 if (typeof onResize === 'function') onResize();
 headerEl.innerHTML = `${cat.icon}<div><div class="name">${escHtml(cat.name)}</div><div class="type">Object #${id}</div></div>`;
 let html = '';
@@ -3901,7 +3898,6 @@ checkSafetyWarnings(obj);
 }
 function hideProperties() {
 propsEl.classList.remove('visible');
-// Sprint 23 fix (S23-V02): refit canvas when the panel closes
 if (typeof onResize === 'function') onResize();
 propsHeader.innerHTML = '';
 propsBody.innerHTML = '';
@@ -5417,7 +5413,6 @@ function showHint(msg) {
 const hint = document.getElementById('context-hint');
 hint.textContent = msg;
 hint.classList.add('visible');
-// Sprint 23 fix (S23-V03e): the hint must never sit under a floating panel —
 (function () {
 const sel = ['.dock-panel.visible', '#dock-underground', '#excavate-panel', '#terrain-controls',
 '#terrain-analysis-panel', '#innovation-panel', '#sun-panel'];
@@ -5434,7 +5429,6 @@ const hintH = hint.getBoundingClientRect().height || 30;
 const vpTop = document.getElementById('topbar')
 ? document.getElementById('topbar').getBoundingClientRect().bottom : 52;
 if (lowest > 0) {
-// Sprint 29 fix (S29-W02b): a visible dock panel (dock-terrain etc.) also
 const curB = parseFloat(getComputedStyle(hint).bottom) || 196;
 const curBottomWin = window.innerHeight - vpTop - curB + hintH;
 if (curBottomWin > window.innerHeight - lowest - 4) {
@@ -8691,40 +8685,40 @@ const levels = [];
 for (let lvl = startLevel; lvl <= maxH; lvl += interval) {
 levels.push(Math.round(lvl * 1000) / 1000);
 }
+// S32-P0: SwiftShader draws ~0 px for LineSegments (see reports diag) — build contours
+// as flat quad ribbons (Mesh + vertexColors, like the proven slope heatmap) instead.
 const allPoints = [];
-const levelVertexCounts = [];
+const indexFlags = [];
 for (const level of levels) {
 const segPoints = marchContourLevel(level, segs, cellW, cellD, halfW, halfD);
-const numVerts = segPoints.length / 3;
-levelVertexCounts.push(numVerts);
-for (const p of segPoints) allPoints.push(p);
+const isIdx = (levels.indexOf(level) % 5 === 0);
+for (const p of segPoints) { allPoints.push(p); }
+for (let k = 0; k < segPoints.length / 3; k++) indexFlags.push(isIdx);
 }
 if (allPoints.length < 6) return;
+const pos = [], col = [];
+const w = 0.18, lift = 0.08;
+for (let i = 0; i + 5 < allPoints.length; i += 6) {
+const ax = allPoints[i], ay = allPoints[i+1], az = allPoints[i+2];
+const bx = allPoints[i+3], by = allPoints[i+4], bz = allPoints[i+5];
+const dx = bx - ax, dz = bz - az;
+const len = Math.max(1e-6, Math.hypot(dx, dz));
+const nx = -dz / len * w, nz = dx / len * w;
+const y = (ay + by) / 2 + lift;
+const dark = indexFlags[i / 6];
+const r = dark ? 0.16 : 0.30, g = dark ? 0.10 : 0.21, bb = dark ? 0.05 : 0.09;
+pos.push(ax-nx, y, az-nz, ax+nx, y, az+nz, bx-nx, y, bz-nz);
+pos.push(ax+nx, y, az+nz, bx+nx, y, bz+nz, bx-nx, y, bz-nz);
+for (let k = 0; k < 6; k++) col.push(r, g, bb);
+}
 const geo = new THREE.BufferGeometry();
-const positions = new Float32Array(allPoints);
-geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-const colors = new Float32Array(allPoints.length);
-let segIdx = 0;
-for (let i = 0; i < levels.length; i++) {
-const isIndex = (i % 5 === 0);
-const r = isIndex ? 0.15 : 0.25;
-const g = isIndex ? 0.10 : 0.18;
-const b = isIndex ? 0.05 : 0.08;
-const numVerts = levelVertexCounts[i];
-for (let j = 0; j < numVerts; j++) {
-colors[(segIdx + j) * 3] = r;
-colors[(segIdx + j) * 3 + 1] = g;
-colors[(segIdx + j) * 3 + 2] = b;
-}
-segIdx += numVerts;
-}
-geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-const mat = new THREE.LineBasicMaterial({ vertexColors: true, linewidth: 2 });
-contourOverlay = new THREE.LineSegments(geo, mat);
+geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));
+geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(col), 3));
+// S32-P0 diag: MeshBasicMaterial rasterizes 0 px under SwiftShader (see reports) — MeshLambert paints.
+const mat = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide, depthTest: false, depthWrite: false, emissive: 0xffffff });
+contourOverlay = new THREE.Mesh(geo, mat);
 contourOverlay.renderOrder = 999;
-contourOverlay.material.depthTest = true;
-contourOverlay.material.polygonOffset = true;
-contourOverlay.material.polygonOffsetFactor = -2;
+contourOverlay.userData.isContourOverlay = true;
 scene.add(contourOverlay);
 requestRender();
 }
@@ -8769,19 +8763,21 @@ points.push(...valid[1], ...valid[2]);
 return points;
 }
 function removeContourLines() {
-if (contourOverlay) {
-scene.remove(contourOverlay);
-contourOverlay.geometry.dispose();
-contourOverlay.material.dispose();
+const kill = [];
+window.scene.traverse(o => { if (o.userData && o.userData.isContourOverlay) kill.push(o); });
+for (const o of kill) { scene.remove(o); o.geometry.dispose(); o.material.dispose(); }
 contourOverlay = null;
-}
 }
 taContourToggle.addEventListener('click', () => {
 contourEnabled = !contourEnabled;
 taContourToggle.classList.toggle('on', contourEnabled);
 if (contourEnabled) {
 buildContourLines();
-showToast('Contour lines enabled', 'success');
+// S32-P0: honest toast — flat terrain at this interval produces no lines.
+let drew = false;
+window.scene.traverse(o => { if (o.userData && o.userData.isContourOverlay) drew = true; });
+if (drew) showToast('Contour lines enabled', 'success');
+else showToast('No contour lines drawn — terrain is too flat for this interval', 'info');
 } else {
 removeContourLines();
 showToast('Contour lines disabled', 'info');
@@ -9545,7 +9541,6 @@ cutawayValEl.textContent = 'Full';
 const maxH = getMaxTerrainHeight();
 const minH = getMinTerrainHeight();
 const cutY = maxH + 0.5 - (val / 100) * (maxH - minH + 5.5);
-// t_52168e24: mutate the persistent plane in place — a fresh THREE.Plane here
 if (!_terrainClipPlaneInstance) _terrainClipPlaneInstance = new THREE.Plane(new THREE.Vector3(0, -1, 0), cutY);
 else { _terrainClipPlaneInstance.normal.set(0, -1, 0); _terrainClipPlaneInstance.constant = cutY; }
 terrainClipPlane = _terrainClipPlaneInstance;
@@ -9690,7 +9685,6 @@ return;
 }
 const halfDim = crossSectionAxis === 'x' ? state.yard.width / 2 : state.yard.depth / 2;
 crossSectionPosition = (parseInt(csClipPosInput.value) / 100) * halfDim;
-// t_52168e24: mutate the persistent plane in place (see cutaway handler) —
 if (!_csClipPlaneInstance) _csClipPlaneInstance = new THREE.Plane(new THREE.Vector3(-1, 0, 0), crossSectionPosition);
 else { _csClipPlaneInstance.normal.set(crossSectionAxis === 'x' ? -1 : 0, 0, crossSectionAxis === 'x' ? 0 : -1); _csClipPlaneInstance.constant = crossSectionPosition; }
 crossSectionClipPlane = _csClipPlaneInstance;
@@ -14792,7 +14786,6 @@ const bgY = (canvas.height - bgH) / 2;
 ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
 roundRect(ctx, bgX, bgY, bgW, bgH, 12);
 ctx.fill();
-// S29-R3f: anchor stem + dot — label previously floated unanchored beside
 ctx.strokeStyle = color || '#ffffff';
 ctx.lineWidth = 10;
 ctx.beginPath();
@@ -14920,7 +14913,6 @@ document.getElementById('btn-label')?.addEventListener('click', () => {
 labelMode = true;
 showHint('Click anywhere in the yard to place a label');
 setTimeout(hideHint, 4000);
-// Sprint 29 R3 fix (S29-R3b): status bar must reflect the armed Label tool
 const sbToolL = document.getElementById('sb-tool');
 if (sbToolL) sbToolL.textContent = 'Label';
 });
@@ -15133,7 +15125,6 @@ s.welcomeShown = true;
 saveState(s);
 const wp = document.getElementById('welcome-prompt');
 if (!wp) return;
-// Sprint 29 fix (S29-V01): the welcome modal is the focus — clear any
 try {
 const t = document.getElementById('toast');
 if (t) { t.classList.remove('visible'); }
@@ -15569,7 +15560,6 @@ const progressiveHints = [
 ];
 
 function _overlaysOpen() {
-// Sprint 29 fix (S29-V01): the progressive hint must never float above an open
 if (document.getElementById('welcome-prompt')?.classList.contains('visible')) return true;
 if (document.getElementById('cmd-palette-overlay')?.classList.contains('visible')) return true;
 if (document.getElementById('print-view')?.classList.contains('visible')) return true;

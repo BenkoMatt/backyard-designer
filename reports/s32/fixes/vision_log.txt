@@ -38,3 +38,94 @@ Yes
 5. **Remind me later** — Skip for now — tour available anytime
 
 The "Remind me later" skip option is consistent with this being shown after skipping a setup wizard, and the main app (3D view, item sidebar, toolbar) is visible and functional behind the modal.
+--- [11] contour_crop.png
+I don't see brown topographic-style contour lines following the terrain's elevation — the visible surface is mostly a plain dark green. However, there is a thin regular grid/mesh pattern (straight intersecting lines) visible across the lower portion of the terrain, which looks more like a wireframe grid overlay than contour lines.
+--- [12] lifted_crop.png
+**No** — the terrain shows a regular light-colored square grid pattern on the dark green surface, not irregular brown topographic contour lines.
+--- [13] cc.png
+No. The terrain on the right shows a regular square grid pattern (light uniform lines for layout/planning), not irregular curved contour lines.
+--- [14] c1280_contourcrop.png
+**No.** The terrain visible on the left edge shows only light gray wireframe grid/mesh lines (a triangulated mesh and square sculpting grid), not dark-brown curved topographic contour lines.
+--- [15] upperband.png
+It appears to be a **toast/notification**—specifically a dark green, rounded-corner snackbar-style banner positioned at the bottom of the UI, rather than a dropdown or part of a 3D scene.
+--- [16] lowerband.png
+UI elements — the crop shows a dark "Analyze" button with a peaks icon, partial "Underg…" menu text, and a "BUILD" label from a game interface, not terrain features.
+--- [17] redcrop.png
+**No.** The image shows a small 2D interface card with a red alarm clock icon and "Reminder/Skip" text — there's no 3D terrain or contour-style line tracing visible.
+--- [18] redzoom.png
+**No.** I don't see any red pixels forming thin lines on the terrain surface.
+
+The visible terrain strip (bottom of the image) is rendered in dark green tones with lighter gray-green polygonal patches — a low-poly style map — but there are no red line features tracing across it. The only red elements in this crop belong to the **alarm clock icon (
+--- [19] redzoom2.png
+**No.**
+
+There are no thin red curved contour lines on the terrain in this crop. The red elements present are all part of the **compass widget**, not the terrain:
+
+- The red **"N"** label at the top of the compass circle
+- The **red lower half of the compass needle** (pointing south/southeast)
+
+The terrain itself consists of a flat blue area (water/surface) meeting a dark green area (land) along a fairly straight, thin diagonal boundary — but that edge line is dark, not red, and it's straight rather than curved. No elevation contour styling is visible.
+--- [20] ribboncrop.png
+**No.** The only red element visible is the compass needle; the terrain behind it appears as flat blue and olive-green areas with no discernible red ribbon-like contour lines tracing the surface.
+--- [21] diag_contour_ribbon.png
+The dug pit appears as an oval brownish excavation roughly at the center of the 3D viewport, slightly right of and just above the middle of the screen (around the grid area between the "Sculpt" menu and the compass). No, red is not visible anywhere else — the only red is the needle/arrow in the top-right compass. Everything else uses greens, grays, browns, and blue sky tones.
+--- [22] ribbon2.png
+**No.** The red lines form a stack of concentric rings arranged in a funnel/vortex (tornado-like) cone shape on the flat grid, rather than contour lines that follow the elevation of the terrain in topographic style.
+--- [23] on_view.png
+No, there are no red/orange contour ribbons visible on the terrain in this crop. The only line pattern present is the straight white grid overlay, with the only curved feature being the soft, irregular edge of the brownish patch in the upper-left area.
+--- [24] frozen_a.png
+1) Yes — there's a brownish excavated pit/depression visible in the terrain on the right-center of the yard (around the 10 ft scale bar's upper area), partially hidden behind the Terrain Analysis panel, where the green wireframe grid dips and the surface shows exposed dirt coloring.
+
+2) No — although the "Show Contours" toggle is switched
+--- [25] rebuild2.png
+**No.** Despite the "Contour lines enabled" toast and the toggle being switched on, I don't see any dark-brown thick contour ribbons or topographic elevation lines on the terrain.
+
+What I actually see on the terrain instead:
+
+- **A light-colored square grid mesh** — thin, pale gray/white lines forming a uniform wireframe grid across the green terrain on the right side.
+--- [1] blueapp.png
+**No** — I don't see any BLUE contour lines/ribbons on the terrain.
+
+**What IS visible on the terrain:**
+- **White/light-gray straight lines** forming a uniform rectangular **grid mesh** across the green surface — these look like the 3D wireframe/grid overlay, not contour lines
+- A **brownish-tan patch** right-of-center (looks like a pit/indent or exposed dirt area), but there are **no rings** around it
+
+**Notable mismatch:** In the Terrain Analysis panel, **"Show Contours" is toggled ON** (green) with a **1.0 ft interval** — but the terrain itself doesn't show blue topographic contour lines, rings, or elevation ribbons. Since the terrain appears mostly flat (
+--- [2] ribbonzoom.png
+**Yes.**
+
+The red lines form a **tornado/vortex-like funnel pattern** on the left side of the terrain:
+
+- **Top:** Nested, concentric horseshoe/U-shaped arcs (like closed contour loops) opening toward the lower-right, sitting over a gray shaded plateau region.
+- **Bottom:** The arcs tighten and twist into a **spiraling cone** that descends and narrows to a single point, like a whirlpool or tornado spout touching the ground.
+
+Overall it reads as contour rings converging into a swirling funnel — a classic vortex/funnel visualization overlaid on the wireframe grid.
+--- [3] cleanred.png
+**No** — the terrain shows only a green surface with white grid lines; the red/purple colors appear only in the slope heatmap legend, not as contours on the terrain.
+--- [4] pitzoom.png
+**No.**
+
+The contour bands visible on the pit walls and rim are **brown/tan/golden** colored, not red. They appear as concentric tan-brown ribbon rings descending into the pit, consistent with an elevation heatmap coloring (brown = high elevation, as mentioned in the panel settings), rather than red contour lines.
+--- [5] solozoom.png
+It's a UI legend swatch — the red color chip indicating 15–25% (steep) slope in the heatmap legend.
+--- [6] solo_view.png
+The screenshot shows a welcome modal for "Backyard Designer 3D" asking "What would you like to do?" with options like starting from scratch, using a template, importing, taking a tour, or being reminded later — with the app's toolbar, compass, and scale bar visible behind it. The canvas itself is essentially an empty, sky-colored teal expanse with no terrain or 3D yard content yet, since the user hasn't chosen a starting option.
+--- [7] minzoom.png
+**No** — only red element is the compass needle; terrain is solid green/blue with no contour lines.
+--- [8] box_above.png
+No, there is no red surface visible inside the pit.
+The pit interior shows only dark brown/near-black terrain with white contour rings.
+--- [9] boxcrop2.png
+The pit itself is marked with dark, concentric curved contour rings that trace its bowl shape, while the surrounding terrain is overlaid with straight white grid lines. So both line types appear in the crop, though the curved rings are dark rather than white.
+--- [10] box_small.png
+The frame is dominated by a large "Terrain Analysis" settings panel open in the center of the screen, floating over a green, gridded 3D terrain (with the app's left sidebar of fences, pools, trees, and patios visible), and a dark excavated pit can be seen on the right side of the terrain.
+--- [11] final_small.png
+Yes — a white sculpt/context menu is open in the center of the viewport, with "Terrain" highlighted (plus Underground,
+--- [12] final_view.png
+1) Yes — the left SCULPT/BUILD/VIEW menu panel overlaps the left edge of the terrain, and cut-off buttons line the bottom edge. 2) The dug pit sits near the center of the gridded lawn, shaped like a funnel descending to a point. 3) Yes, its walls display concentric dark brown/black contour ribbons.
+--- [13] ribcrop.png
+**Yes.** The dark brown/black contour bands are clearly visible as concentric, nested rings stepping down the funnel walls toward the bottom apex — they're crisp against the tan pit floor near the rim, though they tighten and blur slightly where the rings converge at the narrow base.
+--- [14] ribcrop_real.png
+**Yes** — dark contour lines do trace concentric rings descending the pit walls toward its deepest point (with a spiral "tail" below), though they render as thin, near-black line rings rather than the broader brown ribbon-like bands described.
+--- [15] final_check.png
+**Yes** — dark contour lines are clearly visible, forming concentric rings across the pit's flat floor and continuing as a descending spiral down the funnel-shaped walls toward the deepest point.
