@@ -116,4 +116,46 @@ objects; the toggle toasts honestly when flat terrain yields no lines at the int
   descending spiral down the funnel-shaped walls".
 - Honest flat-terrain toast verified earlier (after_contours2 run).
 
-**Commit:** 7bb5734. Byte bill paid in-file; budget 767,759/768,000 (+241 headroom).
+**Commit:** aeeca48. Byte bill paid in-file; budget 767,943/768,000 (+57 headroom).
+
+---
+
+## S32-P1 (1/3) — Topbar vertical wheel dead (R32-D04)
+
+Root cause: document-level wheel handler only respected `overflowY: auto/scroll`;
+#topbar is `overflow-x: auto, overflow-y: hidden` so wheel over it fell through to
+preventDefault + camera zoom (evidence: 900px viewport, sw=1713/cw=900, wheel →
+scrollLeft stayed 0, camera (25,40,50) → (31,50,63)).
+
+Fix: wheel handler now checks `closest('#topbar')` first; overflowing topbar
+consumes `deltaY` as `scrollLeft` and returns. Verify: scrollLeft 0 → 240,
+camera unchanged. Commit: `4a57fa8`.
+
+---
+
+## S32-P1 (2/3) — Label edit/delete dead code (C32-E-01)
+
+Root cause: `showLabelEditModal` had exactly one live caller — the label-creation
+click (`labelId=null`); no handler ever opened the modal for an existing label
+sprite, so Edit/recolor/Delete were unreachable UI.
+
+**Fix (index.html, after the label-creation click handler):** `#viewport`
+`dblclick` listener raycasts the label sprites (`raycaster.intersectObjects`
+over `labels.values().map(l=>l.mesh)`) and calls `showLabelEditModal(hit.
+userData.labelId)` — populating text+color, Delete button visible. Creation
+path untouched.
+
+**Verify (/tmp/label_full2.py -> after_label_edit.json):**
+- Creation flow intact: btn-label -> click -> modal open, saved 'Pond'/#ff8800.
+- dblclick at sprite screen-projected point -> modal opens 'Edit Label' with
+  text 'Pond', color '#ff8800', Delete visible.
+- Edit: text 'Koi Pond' + '#33ccff' -> labels map updated (n=1).
+- Delete: modal Delete btn -> labels.size 0.
+- Vision (3 calls): created pill 'Pond' visible at yard center; Edit modal
+  shows field/color/Delete; after edit the pill reads 'Koi Pond'.
+- pageerrors: none. Screenshots: label_created.png, label_edit_modal.png,
+  label_edited.png, label_deleted.png.
+
+**Byte bill:** +609B fix paid by trimming 14 stale S29/S30/S31 in-file
+comments to short markers (-837B). Budget 767,705/768,000 (+295).
+Commit: see git log (filled after commit).

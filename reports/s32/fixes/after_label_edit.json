@@ -1,0 +1,32 @@
+{
+ "create_modal_open": true,
+ "created": {
+  "n": 1,
+  "text": "Pond",
+  "color": "#ff8800"
+ },
+ "sprite_screen": {
+  "x": 780,
+  "y": 376.457777446773
+ },
+ "dblclick_modal": {
+  "open": true,
+  "title": "Edit Label",
+  "text": "Pond",
+  "color": "#ff8800",
+  "delVisible": true
+ },
+ "edited": {
+  "n": 1,
+  "text": "Koi Pond",
+  "color": "#33ccff"
+ },
+ "delete_flow": {
+  "open": true,
+  "deleted": true
+ },
+ "after_delete": {
+  "n": 0
+ },
+ "pageerrors": []
+}
