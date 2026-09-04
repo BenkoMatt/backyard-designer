@@ -245,4 +245,4 @@ p3_permit_preserved.png.
 
 **Byte bill:** +302B fixes, -274B comment trims (incl. retiring the long
 S29-R3e comment). Budget 767,987/768,000 (+13).
-Commit: see git log (filled after commit).
+Commit: `e0e8eef`.
