@@ -1,0 +1,15 @@
+{
+ "build1": {
+  "exists": true,
+  "posCount": 27348,
+  "norCount": 27348,
+  "colCount": 27348
+ },
+ "build2": {
+  "exists": true,
+  "posCount": 83361,
+  "norCount": 83361,
+  "colCount": 83361
+ },
+ "fix_verified": true
+}

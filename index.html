@@ -6392,6 +6392,7 @@ floorVertexGlobalIndices.push(floorBaseIndex + i);
 const geo = _seGeo || (_seGeo = new THREE.BufferGeometry());
 geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
 geo.setIndex(indices);
+geo.deleteAttribute('normal');/*S33-normfix*/
 geo.computeVertexNormals();
 
 const UNDERGROUND_BRIGHTNESS_BOOST = 0.45; 
@@ -8782,7 +8783,6 @@ contourEnabled = !contourEnabled;
 taContourToggle.classList.toggle('on', contourEnabled);
 if (contourEnabled) {
 buildContourLines();
-// S32-P0: honest toast — flat terrain at this interval produces no lines.
 let drew = false;
 window.scene.traverse(o => { if (o.userData && o.userData.isContourOverlay) drew = true; });
 if (drew) showToast('Contour lines enabled', 'success');

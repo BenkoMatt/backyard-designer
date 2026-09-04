@@ -1,0 +1,14 @@
+{
+ "build1": {
+  "posCount": 27348,
+  "norCount": 23045,
+  "colCount": 27348
+ },
+ "build2": {
+  "posCount": 83361,
+  "norCount": 23045,
+  "colCount": 83361
+ },
+ "mismatch": true,
+ "note": "three.js r160 computeVertexNormals reuses existing normal attribute without count check; buildSolidEarth caches _seGeo and grows position attribute; normals frozen at first-build size"
+}
