@@ -2709,6 +2709,12 @@ requestRender();
 });
 document.addEventListener('wheel', (e) => {
 if (walkMode) return; // Sprint 28 B2: wheel must never touch the camera during walk
+const tx = e.target && e.target.closest ? e.target.closest('#topbar') : null;
+if (tx && tx.scrollWidth > tx.clientWidth + 1) {
+tx.scrollLeft += e.deltaY;
+e.preventDefault();
+return;
+}
 if (state.viewMode !== '3d') return;
 let el = e.target;
 while (el && el !== document.body) {
