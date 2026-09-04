@@ -2671,7 +2671,7 @@ sun.shadow.camera.top = 60;
 sun.shadow.camera.bottom = -60;
 sun.shadow.camera.near = 0.5;
 sun.shadow.camera.far = 200;
-sun.shadow.bias=-0.0005;sun.shadow.normalBias=0.06;/*S33*/
+sun.shadow.bias=-0.0005;sun.shadow.normalBias=0.06;
 scene.add(sun);
 sunLight = sun;
 const groundMat = createTerrainMaterial(parseFloat(document.getElementById('terrain-opacity')?.value || 100) / 100);
@@ -2687,7 +2687,7 @@ raycaster = new THREE.Raycaster();
 mouse = new THREE.Vector2();
 groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -state.gridLevel);
 gridHelper = new THREE.GridHelper(Math.max(state.yard.width, state.yard.depth), Math.max(state.yard.width, state.yard.depth), 0x888888, 0xcccccc);
-gridHelper.position.y = state.gridLevel + 0.03; /* S30-C-A3 */
+gridHelper.position.y = state.gridLevel + 0.03;
 gridHelper.material.transparent = true; /* S31.2a */
 gridHelper.material.opacity = 0.5;
 gridHelper.material.depthWrite = false;
@@ -6251,10 +6251,10 @@ for (let i = 0; i < count; i++) {
 const cur = getXZ(i);
 const nxt = getXZ(i + 1);
 const ti0 = positions.length / 3;
-positions.push(cur.x, cur.h, cur.z);
+positions.push(cur.x, cur.h - 0.02, cur.z);
 surfaceHeights.push(cur.h);
 const ti1 = positions.length / 3;
-positions.push(nxt.x, nxt.h, nxt.z);
+positions.push(nxt.x, nxt.h - 0.02, nxt.z);
 surfaceHeights.push(nxt.h);
 const bi0 = positions.length / 3;
 positions.push(cur.x, bottomY, cur.z);
@@ -6292,9 +6292,9 @@ const higherH = Math.max(ah, bh);
 const lowerH = Math.min(ah, bh);
 if (higherH >= 0 && lowerH >= 0) return;
 const t0 = positions.length / 3;
-positions.push(ax, higherH, az); surfaceHeights.push(higherH);
+positions.push(ax, higherH - 0.02, az); surfaceHeights.push(higherH);
 const t1 = positions.length / 3;
-positions.push(bx, higherH, bz); surfaceHeights.push(higherH);
+positions.push(bx, higherH - 0.02, bz); surfaceHeights.push(higherH);
 const m0 = positions.length / 3;
 positions.push(ax, lowerH, az); surfaceHeights.push(higherH);
 const m1 = positions.length / 3;
