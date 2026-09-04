@@ -3263,7 +3263,6 @@ requestRender();
 }
 function selectObject(id) {
 state.selectedId = id;
-// Sprint 23 fix (S23-V16): plain clicks register in selectedIds for shift-click multi-select.
 state.selectedIds.clear();
 state.selectedIds.add(id);
 const obj = state.objects.get(id);
@@ -5409,7 +5408,6 @@ document.getElementById('shortcuts-close-btn')?.addEventListener('click', () => 
 document.getElementById('shortcuts-got-btn')?.addEventListener('click', () => closeModal('shortcuts-modal'));
 document.getElementById('shortcuts-modal').addEventListener('click', e => { if (e.target.id === 'shortcuts-modal') closeModal('shortcuts-modal'); });
 document.addEventListener('keydown', e => {
-// Sprint 23 fix (S23-V03): don't open the guide while the user is typing in a form field
 const tag = e.target.tagName;
 if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
 if (e.key === 'F1') { e.preventDefault(); openShortcuts(); }
@@ -7674,7 +7672,6 @@ const sunBtn = document.getElementById('sun-btn');
 const sunPanel = document.getElementById('sun-panel');
 if (!sunBtn || !sunPanel) return;
 sunBtn.addEventListener('click', () => {
-// Sprint 23 fix (S23-V10): drive the sun dock tab (legacy panel is force-hidden).
 const tab = document.querySelector('.td-tab[data-dock="sun"]');
 if (tab) { tab.click(); return; }
 const open = sunPanel.classList.toggle('visible');
@@ -7969,17 +7966,30 @@ if (e.target.id === 'share-modal') closeModal('share-modal');
 });
 document.getElementById('share-copy-btn').addEventListener('click', async () => {
 const url = document.getElementById('share-url-box').textContent;
+// S32-C1: writeText can REJECT even where navigator.clipboard exists (A vs B toasts
+// were both real) — fall through to textarea+execCommand on rejection.
+const _execCopy = () => {
+const ta = document.createElement('textarea');
+ta.value = url; ta.style.cssText = 'position:fixed;opacity:0';
+document.body.appendChild(ta); ta.select();
+let ok = false;
+try { ok = document.execCommand('copy'); } catch (e2) {}
+document.body.removeChild(ta);
+return ok;
+};
+let copied = false;
 try {
 if (navigator.clipboard && navigator.clipboard.writeText) {
 await navigator.clipboard.writeText(url);
+copied = true;
+}
+} catch (e) {}
+if (!copied) copied = _execCopy();
+if (copied) {
 showToast('Link copied to clipboard!', 'success');
 } else {
-const ta = document.createElement('textarea');
-ta.value = url; document.body.appendChild(ta); ta.select();
-document.execCommand('copy'); document.body.removeChild(ta);
-showToast('Link copied!', 'success');
+showToast('Copy failed - select the link manually', 'error');
 }
-} catch (e) { showToast('Copy failed - select the link manually', 'error'); }
 });
 const shared = decodeDesignFromHash();
 if (shared && shared.objects) {
@@ -8655,7 +8665,6 @@ const cfCutVal = document.getElementById('cf-cut-val');
 const cfFillVal = document.getElementById('cf-fill-val');
 const cfNetVal = document.getElementById('cf-net-val');
 terrainAnalysisBtn.addEventListener('click', () => {
-// Sprint 23 fix (S23-V11): drive the analyze dock tab (legacy panel is force-hidden).
 const tab = document.querySelector('.td-tab[data-dock="analyze"]');
 if (tab) { tab.click(); return; }
 const visible = terrainAnalysisPanel.classList.toggle('visible');
@@ -10111,7 +10120,6 @@ const innovRetWallThreshVal = document.getElementById('innov-retwall-thresh-val'
 const innovRetWallScanBtn = document.getElementById('innov-retwall-scan');
 const innovRetWallClearBtn = document.getElementById('innov-retwall-clear');
 innovBtn.addEventListener('click', () => {
-// Sprint 23 fix (S23-V12): drive the innovate dock tab (legacy panel is force-hidden).
 const tab = document.querySelector('.td-tab[data-dock="innovate"]');
 if (tab) { tab.click(); return; }
 innovPanelVisible = !innovPanelVisible;

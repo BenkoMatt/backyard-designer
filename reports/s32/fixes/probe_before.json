@@ -1,0 +1,117 @@
+{
+ "share_copy": {
+  "probe": {
+   "hasNavClip": true,
+   "isSecure": true,
+   "urlLen": 43
+  },
+  "toast_after_click": "\u2715Copy failed - select the link manually",
+  "exec_fallback": {
+   "execOk": true,
+   "qcs": true
+  },
+  "errors": []
+ },
+ "export_menu_fresh": {
+  "display": "block",
+  "rect": {
+   "x": 354.875,
+   "y": 45.5,
+   "w": 240,
+   "h": 214
+  },
+  "topbarBottom": 52,
+  "hit": [
+   "CANVAS",
+   "viewport",
+   "main",
+   "byd-advanced-mode",
+   "HTML"
+  ],
+  "visible": true
+ },
+ "export_stl_click": true,
+ "topbar_wheel": {
+  "state": {
+   "sw": 2656,
+   "cw": 1280,
+   "sl": 1047
+  },
+  "after_vwheel": 1047,
+  "after_shiftwheel": 1047,
+  "after_prog": 1347
+ },
+ "contour": {
+  "terrain": {
+   "n": 40401,
+   "min": -15,
+   "max": 0
+  },
+  "toggles": [
+   {
+    "inDock": true,
+    "visible": true,
+    "parentChain": [
+     "ta-contour-toggle",
+     "ta-toggle-row",
+     "dock-analyze-content",
+     "dock-analyze",
+     "dock-panel-container"
+    ]
+   }
+  ],
+  "sceneBefore": 21,
+  "after": {
+   "sceneNow": 22,
+   "lineseg": {
+    "type": "LineSegments",
+    "visible": true,
+    "verts": 640
+   },
+   "contourEnabled": null,
+   "overlayExists": null,
+   "overlayVisible": null,
+   "overlayVerts": null
+  },
+  "toast": "\u2713Contour lines enabled"
+ },
+ "cutfill": {
+  "on_open": {
+   "cut": "0.0 yd\u00b3",
+   "fill": "77.2 yd\u00b3"
+  },
+  "after_dig_while_open": {
+   "cut": "0.0 yd\u00b3",
+   "fill": "77.2 yd\u00b3"
+  },
+  "terrain_min": {
+   "min": -15
+  }
+ },
+ "label": {
+  "created_modal": true,
+  "n_labels": 1,
+  "dblclick_edit": {
+   "open": false,
+   "title": "Add Label"
+  }
+ },
+ "night": {
+  "starField": {
+   "visible": true,
+   "count": 800,
+   "opacity": 1
+  },
+  "moonMesh": {
+   "visible": true,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  "moonLight": {
+   "intensity": 0.15
+  }
+ }
+}

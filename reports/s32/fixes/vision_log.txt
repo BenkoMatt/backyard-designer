@@ -1,0 +1,2 @@
+--- [1] after_share_copy.png
+The toast reads "Link copied to clipboard!" and it shows a green success checkmark.
