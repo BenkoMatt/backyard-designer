@@ -6570,6 +6570,7 @@ if (region) {
 _bandVertexNormals(segs, minIx, maxIx, minIz, maxIz, 2);
 applyTerrainVertexColors({minIx, maxIx, minIz, maxIz});
 if (typeof updateTerrainSnowOverlay === 'function') updateTerrainSnowOverlay({minIx, maxIx, minIz, maxIz});
+if (typeof cutFillEnabled !== 'undefined' && cutFillEnabled && typeof updateCutFillVolume === 'function') updateCutFillVolume(); /* S32-P1: live-refresh on region digs (C32-E-02) */
 buildSolidEarth();
 } else {
 geo.computeVertexNormals();

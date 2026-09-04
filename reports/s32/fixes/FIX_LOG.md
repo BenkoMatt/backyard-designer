@@ -158,4 +158,31 @@ path untouched.
 
 **Byte bill:** +609B fix paid by trimming 14 stale S29/S30/S31 in-file
 comments to short markers (-837B). Budget 767,705/768,000 (+295).
+Commit: `343281c`.
+
+---
+
+## S32-P1 (3/3) — Cut/fill panel stale while open across digs (C32-E-02)
+
+Root cause (live repro on 75a9104+/fixes, /tmp/e2_repro3.py): with the panel
+enabled BEFORE digging, mid-stroke terrain updates flow through the debounce
+timer -> `applyTerrainFull(region)` — the REGION branch of applyTerrainFull
+never called `updateCutFillVolume` (only the full-rebuild else-branch did), so
+the panel stayed at 0 yd³ while terrainMin hit -15.00. The pointer-up flush
+path (`_flushTerrainFull` -> `applyTerrainFull(null)`) does hit the else-branch,
+which is why OFF->ON or enable-after-dig showed exact values (matches E's
+J32-E-01 note).
+
+**Fix (index.html, applyTerrainFull region branch):** add the same guarded
+`updateCutFillVolume()` call the full-rebuild branch has. Arithmetic untouched.
+
+**Verify (/tmp/cutfill_verify.py -> after_cutfill_refresh.json):** panel
+enabled BEFORE any dig; 3 consecutive digs with NO toggle:
+0 yd³ -> 43.2 -> 77.8 -> 121.0 yd³ fill (terrainMin -14.27/-14.27/-14.66),
+each read live while the panel stayed open. pageerrors: none.
+Vision (1 call) on cutfill_panel_crop.png: panel (titled "Earthwork Volume")
+reads Fill 121.0 yd³ — matches the DOM read at dig 3.
+Screenshot: cutfill_live_panel.png, cutfill_panel_crop.png.
+
+**Byte bill:** +182B. Budget 767,887/768,000 (+113).
 Commit: see git log (filled after commit).

@@ -1,0 +1,25 @@
+{
+ "panel_before_any_dig": {
+  "cut": "0 yd\u00b3",
+  "fill": "0 yd\u00b3",
+  "vis": true
+ },
+ "panel_after_each_dig_no_toggle": [
+  {
+   "cut": "0.0 yd\u00b3",
+   "fill": "43.2 yd\u00b3",
+   "terrainMin": "-14.27"
+  },
+  {
+   "cut": "0.0 yd\u00b3",
+   "fill": "77.8 yd\u00b3",
+   "terrainMin": "-14.27"
+  },
+  {
+   "cut": "0.0 yd\u00b3",
+   "fill": "121.0 yd\u00b3",
+   "terrainMin": "-14.66"
+  }
+ ],
+ "pageerrors": []
+}
