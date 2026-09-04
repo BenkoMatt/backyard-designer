@@ -6441,7 +6441,7 @@ flatShading: false,
 if (solidEarthMesh) { scene.remove(solidEarthMesh); solidEarthMesh = null; }
 solidEarthMesh = new THREE.Mesh(geo, mat);
 solidEarthMesh.receiveShadow = true;
-solidEarthMesh.castShadow = true;
+solidEarthMesh.castShadow = false;
 scene.add(solidEarthMesh);
 _rebuildSolidEarthClipPlanes();
 }
