@@ -1,0 +1,22 @@
+{
+ "count": 2,
+ "objs": [
+  {
+   "verts": 1396,
+   "visible": true,
+   "color": "403414",
+   "depthTest": true,
+   "renderOrder": 999
+  },
+  {
+   "verts": 540,
+   "visible": true,
+   "color": "261a0d",
+   "depthTest": true,
+   "renderOrder": 999
+  }
+ ],
+ "contourEnabled": true,
+ "rendererLines": 1502,
+ "frame": 7
+}

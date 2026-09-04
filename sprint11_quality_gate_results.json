@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-03T15:19:56.223178",
+  "timestamp": "2026-09-03T22:21:14.686202",
   "total_tests": 143,
   "total_passed": 143,
   "total_failed": 0,
@@ -10,1001 +10,1001 @@
       "category": "panels",
       "passed": true,
       "details": "Button #btn-cost exists",
-      "timestamp": "2026-09-03T15:19:10.441741"
+      "timestamp": "2026-09-03T22:20:32.068395"
     },
     {
       "name": "panel:btn-cost_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #btn-cost visible=True",
-      "timestamp": "2026-09-03T15:19:10.447020"
+      "timestamp": "2026-09-03T22:20:32.073327"
     },
     {
       "name": "panel:cost-panel_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #cost-panel exists",
-      "timestamp": "2026-09-03T15:19:10.453977"
+      "timestamp": "2026-09-03T22:20:32.078499"
     },
     {
       "name": "panel:cost-panel_opens",
       "category": "panels",
       "passed": true,
       "details": "Cost Estimator: visible after click=True",
-      "timestamp": "2026-09-03T15:19:11.315296"
+      "timestamp": "2026-09-03T22:20:32.878038"
     },
     {
       "name": "panel:cost-panel_closes_on_toggle",
       "category": "panels",
       "passed": true,
       "details": "Cost Estimator: hidden after toggle=True",
-      "timestamp": "2026-09-03T15:19:11.857263"
+      "timestamp": "2026-09-03T22:20:33.396574"
     },
     {
       "name": "panel:cost-panel_closes_via_close_btn",
       "category": "panels",
       "passed": true,
       "details": "Cost Estimator: close button works=True",
-      "timestamp": "2026-09-03T15:19:12.919282"
+      "timestamp": "2026-09-03T22:20:34.443793"
     },
     {
       "name": "panel:btn-layers_button_exists",
       "category": "panels",
       "passed": true,
       "details": "Button #btn-layers exists",
-      "timestamp": "2026-09-03T15:19:12.924389"
+      "timestamp": "2026-09-03T22:20:34.448838"
     },
     {
       "name": "panel:btn-layers_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #btn-layers visible=True",
-      "timestamp": "2026-09-03T15:19:12.930378"
+      "timestamp": "2026-09-03T22:20:34.453993"
     },
     {
       "name": "panel:layer-panel_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #layer-panel exists",
-      "timestamp": "2026-09-03T15:19:12.934826"
+      "timestamp": "2026-09-03T22:20:34.459798"
     },
     {
       "name": "panel:layer-panel_opens",
       "category": "panels",
       "passed": true,
       "details": "Layer Management: visible after click=True",
-      "timestamp": "2026-09-03T15:19:13.692736"
+      "timestamp": "2026-09-03T22:20:35.196719"
     },
     {
       "name": "panel:layer-panel_closes_on_toggle",
       "category": "panels",
       "passed": true,
       "details": "Layer Management: hidden after toggle=True",
-      "timestamp": "2026-09-03T15:19:14.231100"
+      "timestamp": "2026-09-03T22:20:35.719460"
     },
     {
       "name": "panel:layer-panel_closes_via_close_btn",
       "category": "panels",
       "passed": true,
       "details": "Layer Management: close button works=True",
-      "timestamp": "2026-09-03T15:19:15.306961"
+      "timestamp": "2026-09-03T22:20:36.770963"
     },
     {
       "name": "panel:terrain-btn_button_exists",
       "category": "panels",
       "passed": true,
       "details": "Button #terrain-btn exists",
-      "timestamp": "2026-09-03T15:19:15.313071"
+      "timestamp": "2026-09-03T22:20:36.774231"
     },
     {
       "name": "panel:terrain-btn_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #terrain-btn visible=True (dock-replaced, hidden expected)",
-      "timestamp": "2026-09-03T15:19:15.319082"
+      "timestamp": "2026-09-03T22:20:36.776972"
     },
     {
       "name": "panel:terrain-controls_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #terrain-controls exists",
-      "timestamp": "2026-09-03T15:19:15.324629"
+      "timestamp": "2026-09-03T22:20:36.779490"
     },
     {
       "name": "panel:dock-terrain_has_content",
       "category": "panels",
       "passed": true,
       "details": "Terrain Controls: dock panel #dock-terrain has content=True",
-      "timestamp": "2026-09-03T15:19:15.329139"
+      "timestamp": "2026-09-03T22:20:36.783993"
     },
     {
       "name": "panel:dock-terrain_opens_via_tab",
       "category": "panels",
       "passed": true,
       "details": "Terrain Controls: dock panel opens via tab=True",
-      "timestamp": "2026-09-03T15:19:15.935183"
+      "timestamp": "2026-09-03T22:20:37.320949"
     },
     {
       "name": "panel:sun-btn_button_exists",
       "category": "panels",
       "passed": true,
       "details": "Button #sun-btn exists",
-      "timestamp": "2026-09-03T15:19:16.544955"
+      "timestamp": "2026-09-03T22:20:37.848157"
     },
     {
       "name": "panel:sun-btn_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #sun-btn visible=True (dock-replaced, hidden expected)",
-      "timestamp": "2026-09-03T15:19:16.550417"
+      "timestamp": "2026-09-03T22:20:37.852054"
     },
     {
       "name": "panel:sun-panel_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #sun-panel exists",
-      "timestamp": "2026-09-03T15:19:16.557057"
+      "timestamp": "2026-09-03T22:20:37.855023"
     },
     {
       "name": "panel:dock-sun_has_content",
       "category": "panels",
       "passed": true,
       "details": "Sun & Shadow: dock panel #dock-sun has content=True",
-      "timestamp": "2026-09-03T15:19:16.563067"
+      "timestamp": "2026-09-03T22:20:37.863841"
     },
     {
       "name": "panel:dock-sun_opens_via_tab",
       "category": "panels",
       "passed": true,
       "details": "Sun & Shadow: dock panel opens via tab=True",
-      "timestamp": "2026-09-03T15:19:17.216133"
+      "timestamp": "2026-09-03T22:20:38.382967"
     },
     {
       "name": "panel:excavate-btn_button_exists",
       "category": "panels",
       "passed": true,
       "details": "Button #excavate-btn exists",
-      "timestamp": "2026-09-03T15:19:17.846118"
+      "timestamp": "2026-09-03T22:20:38.861432"
     },
     {
       "name": "panel:excavate-btn_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #excavate-btn visible=True (dock-replaced, hidden expected)",
-      "timestamp": "2026-09-03T15:19:17.853172"
+      "timestamp": "2026-09-03T22:20:38.865342"
     },
     {
       "name": "panel:excavate-panel_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #excavate-panel exists",
-      "timestamp": "2026-09-03T15:19:17.857426"
+      "timestamp": "2026-09-03T22:20:38.867695"
     },
     {
       "name": "panel:dock-underground_has_content",
       "category": "panels",
       "passed": true,
       "details": "Excavate: dock panel #dock-underground has content=True",
-      "timestamp": "2026-09-03T15:19:17.862654"
+      "timestamp": "2026-09-03T22:20:38.870240"
     },
     {
       "name": "panel:dock-underground_opens_via_tab",
       "category": "panels",
       "passed": true,
       "details": "Excavate: dock panel opens via tab=True",
-      "timestamp": "2026-09-03T15:19:18.778792"
+      "timestamp": "2026-09-03T22:20:39.549912"
     },
     {
       "name": "panel:terrain-analysis-btn_button_exists",
       "category": "panels",
       "passed": true,
       "details": "Button #terrain-analysis-btn exists",
-      "timestamp": "2026-09-03T15:19:19.393794"
+      "timestamp": "2026-09-03T22:20:40.070183"
     },
     {
       "name": "panel:terrain-analysis-btn_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #terrain-analysis-btn visible=True (dock-replaced, hidden expected)",
-      "timestamp": "2026-09-03T15:19:19.404592"
+      "timestamp": "2026-09-03T22:20:40.075945"
     },
     {
       "name": "panel:terrain-analysis-panel_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #terrain-analysis-panel exists",
-      "timestamp": "2026-09-03T15:19:19.418017"
+      "timestamp": "2026-09-03T22:20:40.080101"
     },
     {
       "name": "panel:dock-analyze_has_content",
       "category": "panels",
       "passed": true,
       "details": "Terrain Analysis: dock panel #dock-analyze has content=True",
-      "timestamp": "2026-09-03T15:19:19.424508"
+      "timestamp": "2026-09-03T22:20:40.084567"
     },
     {
       "name": "panel:dock-analyze_opens_via_tab",
       "category": "panels",
       "passed": true,
       "details": "Terrain Analysis: dock panel opens via tab=True",
-      "timestamp": "2026-09-03T15:19:19.971921"
+      "timestamp": "2026-09-03T22:20:40.617936"
     },
     {
       "name": "panel:innovation-btn_button_exists",
       "category": "panels",
       "passed": true,
       "details": "Button #innovation-btn exists",
-      "timestamp": "2026-09-03T15:19:20.761804"
+      "timestamp": "2026-09-03T22:20:41.143689"
     },
     {
       "name": "panel:innovation-btn_button_visible",
       "category": "panels",
       "passed": true,
       "details": "Button #innovation-btn visible=True (dock-replaced, hidden expected)",
-      "timestamp": "2026-09-03T15:19:20.773030"
+      "timestamp": "2026-09-03T22:20:41.148164"
     },
     {
       "name": "panel:innovation-panel_element_exists",
       "category": "panels",
       "passed": true,
       "details": "Panel #innovation-panel exists",
-      "timestamp": "2026-09-03T15:19:20.778548"
+      "timestamp": "2026-09-03T22:20:41.151263"
     },
     {
       "name": "panel:dock-innovate_has_content",
       "category": "panels",
       "passed": true,
       "details": "Innovation: dock panel #dock-innovate has content=True",
-      "timestamp": "2026-09-03T15:19:20.789156"
+      "timestamp": "2026-09-03T22:20:41.156550"
     },
     {
       "name": "panel:dock-innovate_opens_via_tab",
       "category": "panels",
       "passed": true,
       "details": "Innovation: dock panel opens via tab=True",
-      "timestamp": "2026-09-03T15:19:21.491300"
+      "timestamp": "2026-09-03T22:20:41.676039"
     },
     {
       "name": "panel:tape-measure-btn_exists",
       "category": "panels",
       "passed": true,
       "details": "Button exists (toggle mode)",
-      "timestamp": "2026-09-03T15:19:21.827844"
+      "timestamp": "2026-09-03T22:20:41.992132"
     },
     {
       "name": "tab:terrain_exists",
       "category": "tabs",
       "passed": true,
       "details": "Tab data-dock='terrain' exists",
-      "timestamp": "2026-09-03T15:19:22.723637"
+      "timestamp": "2026-09-03T22:20:42.656022"
     },
     {
       "name": "tab:terrain_becomes_active",
       "category": "tabs",
       "passed": true,
       "details": "Tab 'terrain' active after click=True",
-      "timestamp": "2026-09-03T15:19:23.265480"
+      "timestamp": "2026-09-03T22:20:43.183938"
     },
     {
       "name": "tab:terrain_panel_visible",
       "category": "tabs",
       "passed": true,
       "details": "Dock panel 'dock-terrain' visible=True",
-      "timestamp": "2026-09-03T15:19:23.270626"
+      "timestamp": "2026-09-03T22:20:43.190787"
     },
     {
       "name": "tab:underground_exists",
       "category": "tabs",
       "passed": true,
       "details": "Tab data-dock='underground' exists",
-      "timestamp": "2026-09-03T15:19:23.274198"
+      "timestamp": "2026-09-03T22:20:43.196772"
     },
     {
       "name": "tab:underground_becomes_active",
       "category": "tabs",
       "passed": true,
       "details": "Tab 'underground' active after click=True",
-      "timestamp": "2026-09-03T15:19:23.888794"
+      "timestamp": "2026-09-03T22:20:43.715034"
     },
     {
       "name": "tab:underground_panel_visible",
       "category": "tabs",
       "passed": true,
       "details": "Dock panel 'dock-underground' visible=True",
-      "timestamp": "2026-09-03T15:19:23.896127"
+      "timestamp": "2026-09-03T22:20:43.718707"
     },
     {
       "name": "tab:analyze_exists",
       "category": "tabs",
       "passed": true,
       "details": "Tab data-dock='analyze' exists",
-      "timestamp": "2026-09-03T15:19:23.905921"
+      "timestamp": "2026-09-03T22:20:43.721600"
     },
     {
       "name": "tab:analyze_becomes_active",
       "category": "tabs",
       "passed": true,
       "details": "Tab 'analyze' active after click=True",
-      "timestamp": "2026-09-03T15:19:24.458261"
+      "timestamp": "2026-09-03T22:20:44.238838"
     },
     {
       "name": "tab:analyze_panel_visible",
       "category": "tabs",
       "passed": true,
       "details": "Dock panel 'dock-analyze' visible=True",
-      "timestamp": "2026-09-03T15:19:24.464135"
+      "timestamp": "2026-09-03T22:20:44.244022"
     },
     {
       "name": "tab:innovate_exists",
       "category": "tabs",
       "passed": true,
       "details": "Tab data-dock='innovate' exists",
-      "timestamp": "2026-09-03T15:19:24.469029"
+      "timestamp": "2026-09-03T22:20:44.250603"
     },
     {
       "name": "tab:innovate_becomes_active",
       "category": "tabs",
       "passed": true,
       "details": "Tab 'innovate' active after click=True",
-      "timestamp": "2026-09-03T15:19:25.128859"
+      "timestamp": "2026-09-03T22:20:44.790962"
     },
     {
       "name": "tab:innovate_panel_visible",
       "category": "tabs",
       "passed": true,
       "details": "Dock panel 'dock-innovate' visible=True",
-      "timestamp": "2026-09-03T15:19:25.137542"
+      "timestamp": "2026-09-03T22:20:44.796883"
     },
     {
       "name": "tab:sun_exists",
       "category": "tabs",
       "passed": true,
       "details": "Tab data-dock='sun' exists",
-      "timestamp": "2026-09-03T15:19:25.145114"
+      "timestamp": "2026-09-03T22:20:44.801983"
     },
     {
       "name": "tab:sun_becomes_active",
       "category": "tabs",
       "passed": true,
       "details": "Tab 'sun' active after click=True",
-      "timestamp": "2026-09-03T15:19:25.701586"
+      "timestamp": "2026-09-03T22:20:45.452412"
     },
     {
       "name": "tab:sun_panel_visible",
       "category": "tabs",
       "passed": true,
       "details": "Dock panel 'dock-sun' visible=True",
-      "timestamp": "2026-09-03T15:19:25.707954"
+      "timestamp": "2026-09-03T22:20:45.467443"
     },
     {
       "name": "tab:measure_exists",
       "category": "tabs",
       "passed": true,
       "details": "Tab data-dock='measure' exists",
-      "timestamp": "2026-09-03T15:19:25.716330"
+      "timestamp": "2026-09-03T22:20:45.474900"
     },
     {
       "name": "tab:measure_becomes_active",
       "category": "tabs",
       "passed": true,
       "details": "Tab 'measure' active after click=True",
-      "timestamp": "2026-09-03T15:19:26.253652"
+      "timestamp": "2026-09-03T22:20:46.012923"
     },
     {
       "name": "tab:measure_panel_visible",
       "category": "tabs",
       "passed": true,
       "details": "Dock panel 'dock-measure' visible=True",
-      "timestamp": "2026-09-03T15:19:26.259919"
+      "timestamp": "2026-09-03T22:20:46.017358"
     },
     {
       "name": "tab:mutual_exclusivity",
       "category": "tabs",
       "passed": true,
       "details": "Tab1 still active=False, Tab2 active=True",
-      "timestamp": "2026-09-03T15:19:27.430555"
+      "timestamp": "2026-09-03T22:20:47.026372"
     },
     {
       "name": "tab:view_3d_exists",
       "category": "tabs",
       "passed": true,
       "details": "3D View tab exists",
-      "timestamp": "2026-09-03T15:19:27.441716"
+      "timestamp": "2026-09-03T22:20:47.035749"
     },
     {
       "name": "tab:view_2d_exists",
       "category": "tabs",
       "passed": true,
       "details": "2D View tab exists",
-      "timestamp": "2026-09-03T15:19:27.441748"
+      "timestamp": "2026-09-03T22:20:47.035780"
     },
     {
       "name": "tab:view_2d_activates",
       "category": "tabs",
       "passed": true,
       "details": "2D View becomes active",
-      "timestamp": "2026-09-03T15:19:27.992062"
+      "timestamp": "2026-09-03T22:20:47.574353"
     },
     {
       "name": "tab:view_3d_activates",
       "category": "tabs",
       "passed": true,
       "details": "3D View becomes active",
-      "timestamp": "2026-09-03T15:19:28.594492"
+      "timestamp": "2026-09-03T22:20:48.143430"
     },
     {
       "name": "modal:help-modal_exists",
       "category": "modals",
       "passed": true,
       "details": "Help Modal: element exists",
-      "timestamp": "2026-09-03T15:19:28.600496"
+      "timestamp": "2026-09-03T22:20:48.147960"
     },
     {
       "name": "modal:help-modal_trigger_exists",
       "category": "modals",
       "passed": true,
       "details": "Help Modal: trigger button #btn-help exists",
-      "timestamp": "2026-09-03T15:19:28.920970"
+      "timestamp": "2026-09-03T22:20:48.459660"
     },
     {
       "name": "modal:help-modal_opens",
       "category": "modals",
       "passed": true,
       "details": "Help Modal: visible after trigger=True",
-      "timestamp": "2026-09-03T15:19:29.474355"
+      "timestamp": "2026-09-03T22:20:49.005542"
     },
     {
       "name": "modal:help-modal_closes_on_escape",
       "category": "modals",
       "passed": true,
       "details": "Help Modal: hidden after Escape=True",
-      "timestamp": "2026-09-03T15:19:30.013557"
+      "timestamp": "2026-09-03T22:20:49.534459"
     },
     {
       "name": "modal:help-modal_aria_attributes",
       "category": "modals",
       "passed": true,
       "details": "Help Modal: has aria-modal or role=dialog",
-      "timestamp": "2026-09-03T15:19:30.020867"
+      "timestamp": "2026-09-03T22:20:49.538280"
     },
     {
       "name": "modal:share-modal_exists",
       "category": "modals",
       "passed": true,
       "details": "Share Modal: element exists",
-      "timestamp": "2026-09-03T15:19:30.028464"
+      "timestamp": "2026-09-03T22:20:49.541899"
     },
     {
       "name": "modal:share-modal_trigger_exists",
       "category": "modals",
       "passed": true,
       "details": "Share Modal: trigger button #btn-share exists",
-      "timestamp": "2026-09-03T15:19:30.349162"
+      "timestamp": "2026-09-03T22:20:49.854799"
     },
     {
       "name": "modal:share-modal_opens",
       "category": "modals",
       "passed": true,
       "details": "Share Modal: visible after trigger=True",
-      "timestamp": "2026-09-03T15:19:30.913605"
+      "timestamp": "2026-09-03T22:20:50.388935"
     },
     {
       "name": "modal:share-modal_closes_on_escape",
       "category": "modals",
       "passed": true,
       "details": "Share Modal: hidden after Escape=True",
-      "timestamp": "2026-09-03T15:19:31.436312"
+      "timestamp": "2026-09-03T22:20:50.904835"
     },
     {
       "name": "modal:share-modal_aria_attributes",
       "category": "modals",
       "passed": true,
       "details": "Share Modal: has aria-modal or role=dialog",
-      "timestamp": "2026-09-03T15:19:31.441832"
+      "timestamp": "2026-09-03T22:20:50.908511"
     },
     {
       "name": "modal:confirm-dialog_exists",
       "category": "modals",
       "passed": true,
       "details": "Confirm Dialog: element exists",
-      "timestamp": "2026-09-03T15:19:31.446074"
+      "timestamp": "2026-09-03T22:20:50.912676"
     },
     {
       "name": "modal:confirm-dialog_opens_programmatic",
       "category": "modals",
       "passed": true,
       "details": "Confirm Dialog: opens programmatically=True",
-      "timestamp": "2026-09-03T15:19:32.296589"
+      "timestamp": "2026-09-03T22:20:51.743287"
     },
     {
       "name": "modal:confirm-dialog_aria_attributes",
       "category": "modals",
       "passed": true,
       "details": "Confirm Dialog: has aria-modal or role=dialog",
-      "timestamp": "2026-09-03T15:19:32.308012"
+      "timestamp": "2026-09-03T22:20:51.750415"
     },
     {
       "name": "toast:element_exists",
       "category": "toast",
       "passed": true,
       "details": "Toast element exists in DOM",
-      "timestamp": "2026-09-03T15:19:32.312623"
+      "timestamp": "2026-09-03T22:20:51.752701"
     },
     {
       "name": "toast:initially_hidden",
       "category": "toast",
       "passed": true,
       "details": "Toast initially hidden",
-      "timestamp": "2026-09-03T15:19:32.317315"
+      "timestamp": "2026-09-03T22:20:51.755302"
     },
     {
       "name": "toast:appears_on_trigger",
       "category": "toast",
       "passed": true,
       "details": "Toast appears when showToast called",
-      "timestamp": "2026-09-03T15:19:32.632591"
+      "timestamp": "2026-09-03T22:20:52.064876"
     },
     {
       "name": "toast:shows_message",
       "category": "toast",
       "passed": true,
       "details": "Toast displays the message text",
-      "timestamp": "2026-09-03T15:19:32.640729"
+      "timestamp": "2026-09-03T22:20:52.067948"
     },
     {
       "name": "toast:auto_hides",
       "category": "toast",
       "passed": true,
       "details": "Toast auto-hides after timeout",
-      "timestamp": "2026-09-03T15:19:36.153428"
+      "timestamp": "2026-09-03T22:20:55.581186"
     },
     {
       "name": "toast:aria_live",
       "category": "toast",
       "passed": true,
       "details": "Toast has aria-live='polite'",
-      "timestamp": "2026-09-03T15:19:36.160973"
+      "timestamp": "2026-09-03T22:20:55.586556"
     },
     {
       "name": "toast:z_index_adequate",
       "category": "toast",
       "passed": true,
       "details": "Toast z-index=150 (should be >= 100)",
-      "timestamp": "2026-09-03T15:19:36.165842"
+      "timestamp": "2026-09-03T22:20:55.596828"
     },
     {
       "name": "keyboard:ctrl_k_opens_palette",
       "category": "keyboard",
       "passed": true,
       "details": "Ctrl+K opens command palette",
-      "timestamp": "2026-09-03T15:19:37.241536"
+      "timestamp": "2026-09-03T22:20:56.663307"
     },
     {
       "name": "keyboard:escape_closes_palette",
       "category": "keyboard",
       "passed": true,
       "details": "Escape closes command palette",
-      "timestamp": "2026-09-03T15:19:37.562985"
+      "timestamp": "2026-09-03T22:20:56.978278"
     },
     {
       "name": "keyboard:v_switches_3d",
       "category": "keyboard",
       "passed": true,
       "details": "'v' key switches to 3D view",
-      "timestamp": "2026-09-03T15:19:38.620029"
+      "timestamp": "2026-09-03T22:20:57.969609"
     },
     {
       "name": "keyboard:b_switches_2d",
       "category": "keyboard",
       "passed": true,
       "details": "'b' key switches to 2D view",
-      "timestamp": "2026-09-03T15:19:39.696521"
+      "timestamp": "2026-09-03T22:20:58.961363"
     },
     {
       "name": "keyboard:g_toggles_grid",
       "category": "keyboard",
       "passed": true,
       "details": "Grid before=True, after=False",
-      "timestamp": "2026-09-03T15:19:41.096316"
+      "timestamp": "2026-09-03T22:21:00.270590"
     },
     {
       "name": "keyboard:r_resets_view",
       "category": "keyboard",
       "passed": true,
       "details": "'r' key triggers view reset (no crash)",
-      "timestamp": "2026-09-03T15:19:42.149723"
+      "timestamp": "2026-09-03T22:21:01.277275"
     },
     {
       "name": "keyboard:t_opens_terrain",
       "category": "keyboard",
       "passed": true,
       "details": "'t' key opens terrain dock tab",
-      "timestamp": "2026-09-03T15:19:43.131366"
+      "timestamp": "2026-09-03T22:21:02.294154"
     },
     {
       "name": "keyboard:escape_works",
       "category": "keyboard",
       "passed": true,
       "details": "Escape key works without crash",
-      "timestamp": "2026-09-03T15:19:43.956242"
+      "timestamp": "2026-09-03T22:21:03.072571"
     },
     {
       "name": "keyboard:ctrl_s_save",
       "category": "keyboard",
       "passed": true,
       "details": "Ctrl+S triggers save (no crash)",
-      "timestamp": "2026-09-03T15:19:44.491887"
+      "timestamp": "2026-09-03T22:21:03.599997"
     },
     {
       "name": "keyboard:delete_no_crash",
       "category": "keyboard",
       "passed": true,
       "details": "Delete key with no selection (no crash)",
-      "timestamp": "2026-09-03T15:19:44.810863"
+      "timestamp": "2026-09-03T22:21:03.910527"
     },
     {
       "name": "keyboard:arrows_no_crash",
       "category": "keyboard",
       "passed": true,
       "details": "Arrow keys with no selection (no crash)",
-      "timestamp": "2026-09-03T15:19:45.665169"
+      "timestamp": "2026-09-03T22:21:04.747921"
     },
     {
       "name": "zindex:topbar_above_panels",
       "category": "zindex",
       "passed": true,
       "details": "Topbar z-index=100 (should be >= 50)",
-      "timestamp": "2026-09-03T15:19:45.673005"
+      "timestamp": "2026-09-03T22:21:04.754298"
     },
     {
       "name": "zindex:modals_above_panels",
       "category": "zindex",
       "passed": true,
       "details": "Min modal z=200 > max panel z=39",
-      "timestamp": "2026-09-03T15:19:45.673050"
+      "timestamp": "2026-09-03T22:21:04.754341"
     },
     {
       "name": "zindex:toast_above_panels",
       "category": "zindex",
       "passed": true,
       "details": "Toast z=150 > max panel z=39",
-      "timestamp": "2026-09-03T15:19:45.673056"
+      "timestamp": "2026-09-03T22:21:04.754346"
     },
     {
       "name": "zindex:cmd_palette_top",
       "category": "zindex",
       "passed": true,
       "details": "Command palette z=200 (should be >= 200)",
-      "timestamp": "2026-09-03T15:19:45.673062"
+      "timestamp": "2026-09-03T22:21:04.754351"
     },
     {
       "name": "zindex:right_panels_no_dupes",
       "category": "zindex",
       "passed": true,
       "details": "Right panel z-indices: {'cost-panel': 38, 'layer-panel': 39, 'cross-section-panel': 50, 'cut-fill-panel': 49}",
-      "timestamp": "2026-09-03T15:19:45.673088"
+      "timestamp": "2026-09-03T22:21:04.754377"
     },
     {
       "name": "zindex:walk_controls_high",
       "category": "zindex",
       "passed": true,
       "details": "Walk controls z=150 (should be >= 100)",
-      "timestamp": "2026-09-03T15:19:45.673094"
+      "timestamp": "2026-09-03T22:21:04.754383"
     },
     {
       "name": "zindex:topbar_valid",
       "category": "zindex",
       "passed": true,
       "details": "topbar z-index=100",
-      "timestamp": "2026-09-03T15:19:45.673113"
+      "timestamp": "2026-09-03T22:21:04.754389"
     },
     {
       "name": "zindex:toast_valid",
       "category": "zindex",
       "passed": true,
       "details": "toast z-index=150",
-      "timestamp": "2026-09-03T15:19:45.673118"
+      "timestamp": "2026-09-03T22:21:04.754393"
     },
     {
       "name": "zindex:help-modal_valid",
       "category": "zindex",
       "passed": true,
       "details": "help-modal z-index=200",
-      "timestamp": "2026-09-03T15:19:45.673122"
+      "timestamp": "2026-09-03T22:21:04.754397"
     },
     {
       "name": "zindex:share-modal_valid",
       "category": "zindex",
       "passed": true,
       "details": "share-modal z-index=200",
-      "timestamp": "2026-09-03T15:19:45.673127"
+      "timestamp": "2026-09-03T22:21:04.754401"
     },
     {
       "name": "zindex:wizard_valid",
       "category": "zindex",
       "passed": true,
       "details": "wizard z-index=200",
-      "timestamp": "2026-09-03T15:19:45.673131"
+      "timestamp": "2026-09-03T22:21:04.754406"
     },
     {
       "name": "zindex:walk-controls_valid",
       "category": "zindex",
       "passed": true,
       "details": "walk-controls z-index=150",
-      "timestamp": "2026-09-03T15:19:45.673135"
+      "timestamp": "2026-09-03T22:21:04.754410"
     },
     {
       "name": "zindex:cmd-palette-overlay_valid",
       "category": "zindex",
       "passed": true,
       "details": "cmd-palette-overlay z-index=200",
-      "timestamp": "2026-09-03T15:19:45.673139"
+      "timestamp": "2026-09-03T22:21:04.754414"
     },
     {
       "name": "zindex:confirm-dialog_valid",
       "category": "zindex",
       "passed": true,
       "details": "confirm-dialog z-index=200",
-      "timestamp": "2026-09-03T15:19:45.673148"
+      "timestamp": "2026-09-03T22:21:04.754423"
     },
     {
       "name": "zindex:cost-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "cost-panel z-index=38",
-      "timestamp": "2026-09-03T15:19:45.673152"
+      "timestamp": "2026-09-03T22:21:04.754427"
     },
     {
       "name": "zindex:layer-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "layer-panel z-index=39",
-      "timestamp": "2026-09-03T15:19:45.673156"
+      "timestamp": "2026-09-03T22:21:04.754431"
     },
     {
       "name": "zindex:terrain-controls_valid",
       "category": "zindex",
       "passed": true,
       "details": "terrain-controls z-index=30",
-      "timestamp": "2026-09-03T15:19:45.673261"
+      "timestamp": "2026-09-03T22:21:04.754507"
     },
     {
       "name": "zindex:sun-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "sun-panel z-index=30",
-      "timestamp": "2026-09-03T15:19:45.673269"
+      "timestamp": "2026-09-03T22:21:04.754512"
     },
     {
       "name": "zindex:excavate-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "excavate-panel z-index=30",
-      "timestamp": "2026-09-03T15:19:45.673273"
+      "timestamp": "2026-09-03T22:21:04.754516"
     },
     {
       "name": "zindex:innovation-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "innovation-panel z-index=30",
-      "timestamp": "2026-09-03T15:19:45.673276"
+      "timestamp": "2026-09-03T22:21:04.754520"
     },
     {
       "name": "zindex:terrain-analysis-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "terrain-analysis-panel z-index=30",
-      "timestamp": "2026-09-03T15:19:45.673280"
+      "timestamp": "2026-09-03T22:21:04.754523"
     },
     {
       "name": "zindex:cross-section-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "cross-section-panel z-index=50",
-      "timestamp": "2026-09-03T15:19:45.673283"
+      "timestamp": "2026-09-03T22:21:04.754527"
     },
     {
       "name": "zindex:cut-fill-panel_valid",
       "category": "zindex",
       "passed": true,
       "details": "cut-fill-panel z-index=49",
-      "timestamp": "2026-09-03T15:19:45.673287"
+      "timestamp": "2026-09-03T22:21:04.754531"
     },
     {
       "name": "buttons:consistent_radius",
       "category": "buttons",
       "passed": true,
       "details": "tb-btn border-radius values: {'6px'} (should be <= 2)",
-      "timestamp": "2026-09-03T15:19:45.692453"
+      "timestamp": "2026-09-03T22:21:04.767083"
     },
     {
       "name": "buttons:consistent_font",
       "category": "buttons",
       "passed": true,
       "details": "tb-btn font-family values: 1 (should be <= 2)",
-      "timestamp": "2026-09-03T15:19:45.692491"
+      "timestamp": "2026-09-03T22:21:04.767118"
     },
     {
       "name": "buttons:consistent_cursor",
       "category": "buttons",
       "passed": true,
-      "details": "tb-btn cursor values: {'default', 'pointer'}",
-      "timestamp": "2026-09-03T15:19:45.692504"
+      "details": "tb-btn cursor values: {'pointer', 'default'}",
+      "timestamp": "2026-09-03T22:21:04.767131"
     },
     {
       "name": "buttons:dock_tab_consistent_radius",
       "category": "buttons",
       "passed": true,
       "details": "Dock tab border-radius values: {'6px'}",
-      "timestamp": "2026-09-03T15:19:45.709675"
+      "timestamp": "2026-09-03T22:21:04.773330"
     },
     {
       "name": "buttons:dock_tab_consistent_height",
       "category": "buttons",
       "passed": true,
-      "details": "Dock tab min-height values: {'auto', '0px'}",
-      "timestamp": "2026-09-03T15:19:45.709709"
+      "details": "Dock tab min-height values: {'0px', 'auto'}",
+      "timestamp": "2026-09-03T22:21:04.773365"
     },
     {
       "name": "buttons:close_btn_consistent_size",
       "category": "buttons",
       "passed": true,
       "details": "Close button font-size values: {'18px'}",
-      "timestamp": "2026-09-03T15:19:45.717445"
+      "timestamp": "2026-09-03T22:21:04.780054"
     },
     {
       "name": "buttons:toggles_consistent_size",
       "category": "buttons",
       "passed": true,
       "details": "Toggle switch sizes: {('36px', '20px')} (should be <= 2)",
-      "timestamp": "2026-09-03T15:19:45.725290"
+      "timestamp": "2026-09-03T22:21:04.786058"
     },
     {
       "name": "buttons:accessible_labels",
       "category": "buttons",
       "passed": true,
       "details": "Buttons with labels: 190, without: 1",
-      "timestamp": "2026-09-03T15:19:45.737530"
+      "timestamp": "2026-09-03T22:21:04.791272"
     },
     {
       "name": "css:root_vars_defined",
       "category": "css",
       "passed": true,
       "details": "Root CSS vars: 15/15 defined",
-      "timestamp": "2026-09-03T15:19:45.746565"
+      "timestamp": "2026-09-03T22:21:04.795287"
     },
     {
       "name": "css:hardcoded_hex_colors",
       "category": "css",
       "passed": true,
       "details": "Hardcoded hex colors in CSS: 0 (should be < 50)",
-      "timestamp": "2026-09-03T15:19:45.772039"
+      "timestamp": "2026-09-03T22:21:04.817632"
     },
     {
       "name": "css:buttons_have_colors",
       "category": "css",
       "passed": true,
       "details": "Buttons with colors: 1/23",
-      "timestamp": "2026-09-03T15:19:45.777470"
+      "timestamp": "2026-09-03T22:21:04.822131"
     },
     {
       "name": "css:var_references_count",
       "category": "css",
       "passed": true,
       "details": "CSS var() references: 887 (should be > 100)",
-      "timestamp": "2026-09-03T15:19:45.792673"
+      "timestamp": "2026-09-03T22:21:04.834452"
     },
     {
       "name": "css:inline_style_colors",
       "category": "css",
       "passed": true,
       "details": "Elements with inline style hex colors: 2 (should be < 20)",
-      "timestamp": "2026-09-03T15:19:45.800017"
+      "timestamp": "2026-09-03T22:21:04.838741"
     },
     {
       "name": "mobile:375_body_class",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): body has mobile class=True",
-      "timestamp": "2026-09-03T15:19:49.184016"
+      "timestamp": "2026-09-03T22:21:08.149378"
     },
     {
       "name": "mobile:375_no_major_overflow",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): scrollW=375 vs clientW=375",
-      "timestamp": "2026-09-03T15:19:49.190326"
+      "timestamp": "2026-09-03T22:21:08.155526"
     },
     {
       "name": "mobile:375_topbar_visible",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): topbar width=375",
-      "timestamp": "2026-09-03T15:19:49.198068"
+      "timestamp": "2026-09-03T22:21:08.161725"
     },
     {
       "name": "mobile:375_canvas_visible",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): viewport exists (95x615), canvas may not init in headless",
-      "timestamp": "2026-09-03T15:19:49.207411"
+      "timestamp": "2026-09-03T22:21:08.166120"
     },
     {
       "name": "mobile:375_touch_targets",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): 0/27 buttons too small",
-      "timestamp": "2026-09-03T15:19:49.214844"
+      "timestamp": "2026-09-03T22:21:08.170535"
     },
     {
       "name": "mobile:375_no_js_errors",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): 0 console errors",
-      "timestamp": "2026-09-03T15:19:49.725259"
+      "timestamp": "2026-09-03T22:21:08.677638"
     },
     {
       "name": "mobile:375_dock_exists",
       "category": "mobile",
       "passed": true,
       "details": "iPhone SE (375px): dock container exists=True",
-      "timestamp": "2026-09-03T15:19:49.734379"
+      "timestamp": "2026-09-03T22:21:08.682594"
     },
     {
       "name": "mobile:768_layout_adapts",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): layout adapts at 768px (mobile class=True)",
-      "timestamp": "2026-09-03T15:19:53.485975"
+      "timestamp": "2026-09-03T22:21:12.009115"
     },
     {
       "name": "mobile:768_no_major_overflow",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): scrollW=768 vs clientW=768",
-      "timestamp": "2026-09-03T15:19:53.490959"
+      "timestamp": "2026-09-03T22:21:12.014600"
     },
     {
       "name": "mobile:768_topbar_visible",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): topbar width=768",
-      "timestamp": "2026-09-03T15:19:53.496472"
+      "timestamp": "2026-09-03T22:21:12.018638"
     },
     {
       "name": "mobile:768_canvas_visible",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): viewport exists (488x972), canvas may not init in headless",
-      "timestamp": "2026-09-03T15:19:53.501645"
+      "timestamp": "2026-09-03T22:21:12.023731"
     },
     {
       "name": "mobile:768_touch_targets",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): 0/27 buttons too small",
-      "timestamp": "2026-09-03T15:19:53.508466"
+      "timestamp": "2026-09-03T22:21:12.028826"
     },
     {
       "name": "mobile:768_no_js_errors",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): 0 console errors",
-      "timestamp": "2026-09-03T15:19:54.018356"
+      "timestamp": "2026-09-03T22:21:12.536295"
     },
     {
       "name": "mobile:768_dock_exists",
       "category": "mobile",
       "passed": true,
       "details": "iPad Mini (768px): dock container exists=True",
-      "timestamp": "2026-09-03T15:19:54.030081"
+      "timestamp": "2026-09-03T22:21:12.541528"
     },
     {
       "name": "console:no_errors",
       "category": "console",
       "passed": true,
       "details": "Console errors during UI flow tests: 0",
-      "timestamp": "2026-09-03T15:19:56.058927"
+      "timestamp": "2026-09-03T22:21:14.555381"
     }
   ],
   "discovery_entries": []

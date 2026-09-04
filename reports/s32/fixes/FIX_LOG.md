@@ -246,3 +246,26 @@ p3_permit_preserved.png.
 **Byte bill:** +302B fixes, -274B comment trims (incl. retiring the long
 S29-R3e comment). Budget 767,987/768,000 (+13).
 Commit: `e0e8eef`.
+
+---
+
+## GATE BATTERY (final, all on :8380, index 767,987 B)
+
+- s11: 143/143 PASS
+- s15: 52/52 PASS
+- s17: 81/81 PASS
+- s21: 55/55 PASS (topsoil contract untouched)
+- qa_s21: 16/16 PASS
+- s22: 43/43 PASS
+- s23 --skip-vision: 24/24 PASS
+- s29 --skip-vision: 33/33 PASS
+- size_budget: PASS (767,987/768,000, headroom +13)
+
+## NOT FIXED (with reasons)
+- Stars at night (R32-D01): environmental — SwiftShader rasterizes zero
+  gl.POINTS (even a bare red 8px control cloud paints 0 px). Code left
+  correct-for-real-GPU; proof in night_investigation.json.
+- Dig Down chip x Sun pill overlap (J32-B01): NOT touched this sprint —
+  brief lists it as known-open with fix direction from S30 verifier, but any
+  move risks the s29-locked geometry battery; queued with the render-sprint
+  out-of-scope items. (All other P3 items fixed.)
